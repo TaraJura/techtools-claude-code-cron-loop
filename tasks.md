@@ -25,6 +25,20 @@ Tasks follow this format:
 - **Description**: Create a script that displays basic system information (hostname, date, uptime)
 - **Notes**: Should be a bash script
 
+### TASK-003: Create a disk space monitor script
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a script that checks disk usage and warns if any partition exceeds 80% capacity
+- **Notes**: Should output current usage for all mounted filesystems and highlight any that are running low on space. Useful for preventing disk-full issues.
+
+### TASK-004: Create a log cleanup utility
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a script that removes log files older than 7 days from the actors/*/logs/ directories
+- **Notes**: Prevents log accumulation over time. Should show what would be deleted (dry-run mode) and have a flag to actually perform deletion.
+
 ---
 
 ## In Progress
@@ -46,4 +60,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 17:13 (tester run)*
+*Last updated: 2026-01-19 (idea-maker run)*
