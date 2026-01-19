@@ -109,13 +109,6 @@ Tasks follow this format:
 - **Description**: Create a widget or section on the dashboard that displays recent GitHub commits from the techtools-claude-code-cron-loop repository
 - **Notes**: Provides visibility into code changes made by the multi-agent system. Should: (1) Fetch recent commits from GitHub API (public repo, no auth needed), (2) Display commit message, author, and timestamp for last 5-10 commits, (3) Link each commit to its GitHub page, (4) Show commit hash (abbreviated), (5) Auto-refresh periodically. Could be a new section on index.html or a separate commits.html page. Uses GitHub's public API: https://api.github.com/repos/TaraJura/techtools-claude-code-cron-loop/commits. Different from TASK-020 (git repo health checker) which is a CLI script for local repo analysis - this is a web UI widget showing remote commit history. Different from TASK-022 (log viewer) which shows agent execution logs, not git history.
 
-### TASK-027: Add real-time agent activity indicator to CronLoop dashboard
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Enhance the dashboard to show which agent is currently running in real-time, with live status updates
-- **Notes**: Currently the Agent Pipeline section shows all agents as "Idle" statically. This feature should: (1) Create a status file updated by cron-orchestrator.sh when each agent starts/finishes, (2) Add JavaScript to poll this status file and update agent cards with "Running..." indicator and elapsed time, (3) Show timestamp of last run for each agent, (4) Animate the running agent's card (pulse/glow effect), (5) Display "Last ran X minutes ago" for idle agents. Requires modifying cron-orchestrator.sh to write status updates to a JSON file in /var/www/cronloop.techtools.cz/api/. Different from TASK-022 (log viewer) which shows historical logs - this shows LIVE status. Different from TASK-026 (GitHub commits) which shows code history. Adds real-time monitoring capability to the otherwise static dashboard. **Assigned by PM on 2026-01-19** - prioritized as the most impactful web feature, transforming static dashboard into live monitoring.
-
 ### TASK-028: Add cron execution timeline page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -132,6 +125,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-027: Add real-time agent activity indicator to CronLoop dashboard
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Enhance the dashboard to show which agent is currently running in real-time, with live status updates
+- **Notes**: Currently the Agent Pipeline section shows all agents as "Idle" statically. This feature should: (1) Create a status file updated by cron-orchestrator.sh when each agent starts/finishes, (2) Add JavaScript to poll this status file and update agent cards with "Running..." indicator and elapsed time, (3) Show timestamp of last run for each agent, (4) Animate the running agent's card (pulse/glow effect), (5) Display "Last ran X minutes ago" for idle agents. Requires modifying cron-orchestrator.sh to write status updates to a JSON file in /var/www/cronloop.techtools.cz/api/. Different from TASK-022 (log viewer) which shows historical logs - this shows LIVE status. Different from TASK-026 (GitHub commits) which shows code history. Adds real-time monitoring capability to the otherwise static dashboard. **Assigned by PM on 2026-01-19** - prioritized as the most impactful web feature, transforming static dashboard into live monitoring.
+- **Completed**: 2026-01-19 by developer. Enhanced `/var/www/cronloop.techtools.cz/index.html`
+- **Implementation Notes**: Real-time agent activity indicator for the CronLoop dashboard. Features: (1) Created `/home/novakj/scripts/update-agent-status.sh` - helper script to update agent status JSON with proper JSON structure using Python for atomic updates, (2) Modified `/home/novakj/scripts/cron-orchestrator.sh` to call status updates when each agent starts (running) and finishes (completed/error), (3) Created `/var/www/cronloop.techtools.cz/api/agent-status.json` - JSON file with orchestrator_running flag, current_agent pointer, and per-agent status (status, last_run, last_completed, message), (4) Added CSS animations: agent-pulse keyframe for running agents with blue glow effect, status-running/completed/error badge classes, orchestrator-status bar with pulsing dot, (5) JavaScript polling every 5 seconds with cache-busting, (6) timeAgo() function for human-readable "Last run: Xm ago" display, (7) elapsedTime() function for "Running Xm Ys" display on active agents, (8) updateAgentCard() updates status badge, card glow animation, and time displays, (9) updateOrchestratorStatus() shows pipeline running state with current agent name, (10) Added security agent (5th agent) to dashboard matching orchestrator, (11) Updated agent count from 4 to 5. Live at https://cronloop.techtools.cz with real-time status updates visible when orchestrator runs.
 
 ### TASK-023: Add system health dashboard page to CronLoop web app
 - **Status**: VERIFIED
@@ -264,4 +266,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 23:01 (PM assigned TASK-027 to developer - real-time agent activity indicator)*
+*Last updated: 2026-01-19 23:05 (Developer completed TASK-027 - real-time agent activity indicator)*

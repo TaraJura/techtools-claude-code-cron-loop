@@ -7,6 +7,45 @@ set -e
 HOME_DIR="/home/novakj"
 SCRIPTS_DIR="$HOME_DIR/scripts"
 LOCK_FILE="/tmp/agent-orchestrator.lock"
+STATUS_SCRIPT="$SCRIPTS_DIR/update-agent-status.sh"
+
+# Helper function to update agent status
+update_status() {
+    local agent="$1"
+    local status="$2"
+    local message="${3:-}"
+    "$STATUS_SCRIPT" "$agent" "$status" "$message" 2>/dev/null || true
+}
+
+# Helper function to mark orchestrator start/end
+update_orchestrator_status() {
+    local running="$1"
+    local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    local status_file="/var/www/cronloop.techtools.cz/api/agent-status.json"
+
+    if [ -f "$status_file" ]; then
+        python3 << PYTHON
+import json
+try:
+    with open("$status_file", "r") as f:
+        data = json.load(f)
+    data["orchestrator_running"] = $running
+    data["timestamp"] = "$timestamp"
+    if $running:
+        data["orchestrator_started"] = "$timestamp"
+    else:
+        # Mark all agents as idle when orchestrator finishes
+        for agent in data.get("agents", {}):
+            if data["agents"][agent]["status"] == "running":
+                data["agents"][agent]["status"] = "idle"
+        data["current_agent"] = None
+    with open("$status_file", "w") as f:
+        json.dump(data, f, indent=2)
+except Exception as e:
+    print(f"Error: {e}")
+PYTHON
+    fi
+}
 
 # Prevent concurrent runs
 if [ -f "$LOCK_FILE" ]; then
@@ -18,11 +57,14 @@ if [ -f "$LOCK_FILE" ]; then
 fi
 
 echo $$ > "$LOCK_FILE"
-trap "rm -f $LOCK_FILE" EXIT
+trap "rm -f $LOCK_FILE; update_orchestrator_status false" EXIT
 
 cd "$HOME_DIR"
 
 echo "=== Agent Orchestrator Started: $(date) ==="
+
+# Mark orchestrator as running
+update_orchestrator_status true
 
 # Pull latest changes first
 echo "Pulling latest changes..."
@@ -31,7 +73,8 @@ git pull --rebase || true
 # Run Idea Maker first (generates new ideas for backlog)
 echo ""
 echo ">>> Running Idea Maker Agent..."
-"$SCRIPTS_DIR/run-actor.sh" idea-maker || true
+update_status "idea-maker" "running" "Generating feature ideas"
+"$SCRIPTS_DIR/run-actor.sh" idea-maker && update_status "idea-maker" "completed" || update_status "idea-maker" "error" "Agent failed"
 
 # Wait a bit to avoid conflicts
 sleep 5
@@ -39,7 +82,8 @@ sleep 5
 # Run Project Manager (assigns tasks from backlog)
 echo ""
 echo ">>> Running Project Manager Agent..."
-"$SCRIPTS_DIR/run-actor.sh" project-manager || true
+update_status "project-manager" "running" "Assigning tasks"
+"$SCRIPTS_DIR/run-actor.sh" project-manager && update_status "project-manager" "completed" || update_status "project-manager" "error" "Agent failed"
 
 # Wait a bit to avoid conflicts
 sleep 5
@@ -47,7 +91,8 @@ sleep 5
 # Then run Developer (implements tasks)
 echo ""
 echo ">>> Running Developer Agent..."
-"$SCRIPTS_DIR/run-actor.sh" developer || true
+update_status "developer" "running" "Implementing tasks"
+"$SCRIPTS_DIR/run-actor.sh" developer && update_status "developer" "completed" || update_status "developer" "error" "Agent failed"
 
 # Wait a bit to avoid conflicts
 sleep 5
@@ -55,7 +100,8 @@ sleep 5
 # Finally run Tester (tests completed work and gives feedback)
 echo ""
 echo ">>> Running Tester Agent..."
-"$SCRIPTS_DIR/run-actor.sh" tester || true
+update_status "tester" "running" "Verifying work"
+"$SCRIPTS_DIR/run-actor.sh" tester && update_status "tester" "completed" || update_status "tester" "error" "Agent failed"
 
 # Wait a bit to avoid conflicts
 sleep 5
@@ -63,7 +109,8 @@ sleep 5
 # Last: run Security (reviews for vulnerabilities)
 echo ""
 echo ">>> Running Security Agent..."
-"$SCRIPTS_DIR/run-actor.sh" security || true
+update_status "security" "running" "Security review"
+"$SCRIPTS_DIR/run-actor.sh" security && update_status "security" "completed" || update_status "security" "error" "Agent failed"
 
 echo ""
 echo "=== Agent Orchestrator Completed: $(date) ==="

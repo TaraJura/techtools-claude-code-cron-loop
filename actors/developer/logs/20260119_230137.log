@@ -1,0 +1,43 @@
+========================================
+Actor: developer
+Started: Mon Jan 19 23:01:37 UTC 2026
+========================================
+
+Running developer agent...
+## Summary
+
+I've completed **TASK-027: Add real-time agent activity indicator to CronLoop dashboard**.
+
+### What was implemented:
+
+1. **Created `/home/novakj/scripts/update-agent-status.sh`** - A helper script that updates agent status in JSON format using Python for atomic updates
+
+2. **Modified `/home/novakj/scripts/cron-orchestrator.sh`** - Added calls to update agent status when each agent starts (running) and finishes (completed/error), plus orchestrator start/end tracking
+
+3. **Created `/var/www/cronloop.techtools.cz/api/agent-status.json`** - JSON file structure with:
+   - `orchestrator_running` flag
+   - `orchestrator_started` timestamp  
+   - `current_agent` pointer
+   - Per-agent status (status, last_run, last_completed, message)
+
+4. **Enhanced `/var/www/cronloop.techtools.cz/index.html`** with:
+   - CSS animations: `agent-pulse` keyframe for running agents with blue glow effect
+   - Status badge classes: `status-running`, `status-completed`, `status-error`
+   - Orchestrator status bar with pulsing dot indicator
+   - JavaScript polling every 5 seconds with cache-busting
+   - `timeAgo()` function for "Last run: Xm ago" display
+   - `elapsedTime()` function for "Running Xm Ys" on active agents
+   - Added Security agent (5th agent) to dashboard
+   - Updated agent count from 4 to 5
+
+### Live at:
+- Dashboard: https://cronloop.techtools.cz
+- Agent status API: https://cronloop.techtools.cz/api/agent-status.json
+
+When the cron orchestrator runs, users will see real-time updates showing which agent is currently running with elapsed time, and "Last ran X minutes ago" for idle agents.
+
+========================================
+Completed: Mon Jan 19 23:05:51 UTC 2026
+========================================
+
+Committing changes to git...
