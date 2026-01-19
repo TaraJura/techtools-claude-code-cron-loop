@@ -1,0 +1,26 @@
+# Sensitive files
+.env
+.env.*
+*.pem
+*.key
+id_rsa*
+*.secret
+
+# System files
+.bash_history
+.ssh/
+.gnupg/
+
+# Editor/IDE
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
