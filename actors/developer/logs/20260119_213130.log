@@ -1,0 +1,39 @@
+========================================
+Actor: developer
+Started: Mon Jan 19 21:31:30 UTC 2026
+========================================
+
+Running developer agent...
+## Summary
+
+I completed **TASK-021: Add real-time task board viewer to CronLoop web app**.
+
+**What I implemented:**
+
+1. **Created `/var/www/cronloop.techtools.cz/tasks.html`** - A new Kanban-style task board page with:
+   - Three columns: Backlog, In Progress, Completed
+   - Task cards with priority color-coding (HIGH=red, MEDIUM=yellow, LOW=gray border)
+   - Priority badges and assignee icons on each card
+   - Task counts displayed in stats bar and column headers
+   - JavaScript that fetches and parses tasks.md to render tasks dynamically
+   - Auto-refresh every 5 minutes
+   - Responsive design for mobile devices
+   - Navigation link back to main dashboard
+
+2. **Updated `/var/www/cronloop.techtools.cz/index.html`**:
+   - Made the Tasks card clickable to navigate to the task board
+   - Added JavaScript to dynamically count completed tasks from tasks.md
+
+3. **Configured Nginx** to serve tasks.md (added `disable_symlinks off` directive)
+
+4. **Copied tasks.md** to web root for fetch access
+
+**Live at:** https://cronloop.techtools.cz/tasks.html
+
+The task board now provides a visual project management view showing all tasks from tasks.md organized by status, with 11 backlog tasks, 0 in progress, and 12 completed tasks displayed.
+
+========================================
+Completed: Mon Jan 19 21:35:02 UTC 2026
+========================================
+
+Committing changes to git...

@@ -99,16 +99,20 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-021: Add real-time task board viewer to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: HIGH
-- **Description**: Create an interactive task board page in the web app that displays tasks from tasks.md in a Kanban-style layout (Backlog, In Progress, Completed columns)
-- **Notes**: This is a HIGH priority web app feature. Should parse tasks.md and render tasks as cards with status, priority badges, and assignee info. Could use JavaScript to fetch/parse the file or a simple backend endpoint. Cards should be color-coded by priority (HIGH=red, MEDIUM=yellow, LOW=gray). Include task counts per column. This transforms the static dashboard into a useful project management view. Different from existing static dashboard which only shows a single "12 completed" number. **Assigned by PM on 2026-01-19** - highest priority web app feature to implement next.
+(No tasks currently in progress)
 
 ---
 
 ## Completed
+
+### TASK-021: Add real-time task board viewer to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: HIGH
+- **Description**: Create an interactive task board page in the web app that displays tasks from tasks.md in a Kanban-style layout (Backlog, In Progress, Completed columns)
+- **Notes**: This is a HIGH priority web app feature. Should parse tasks.md and render tasks as cards with status, priority badges, and assignee info. Could use JavaScript to fetch/parse the file or a simple backend endpoint. Cards should be color-coded by priority (HIGH=red, MEDIUM=yellow, LOW=gray). Include task counts per column. This transforms the static dashboard into a useful project management view. Different from existing static dashboard which only shows a single "12 completed" number. **Assigned by PM on 2026-01-19** - highest priority web app feature to implement next.
+- **Completed**: 2026-01-19 by developer. Created `/var/www/cronloop.techtools.cz/tasks.html`
+- **Implementation Notes**: Kanban-style task board for the CronLoop web app. Features: (1) Three-column layout: Backlog, In Progress, Completed, (2) Task cards with priority color-coding (HIGH=red border, MEDIUM=yellow, LOW=gray), (3) Priority badges on each card showing HIGH/MEDIUM/LOW, (4) Assignee icons and names (developer, tester, project-manager, idea-maker), (5) Task counts per column and in stats bar, (6) Tasks parsed from tasks.md file via JavaScript fetch, (7) Backlog sorted by priority (HIGH first), (8) Verified status badge for verified tasks, (9) Auto-refresh every 5 minutes, (10) Responsive design for mobile, (11) Navigation link back to main dashboard, (12) Updated main dashboard to link to task board with dynamic completed task count. Live at https://cronloop.techtools.cz/tasks.html
 
 ### TASK-019: Create a configuration file backup utility
 - **Status**: VERIFIED
@@ -211,4 +215,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 21:31 (PM assigned TASK-021 to developer - Kanban task board for web app)*
+*Last updated: 2026-01-19 21:33 (Developer completed TASK-021 - Kanban task board viewer for CronLoop web app)*
