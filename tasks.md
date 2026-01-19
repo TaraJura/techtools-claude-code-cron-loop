@@ -116,6 +116,20 @@ Tasks follow this format:
 - **Description**: Create a visual timeline page showing historical cron orchestrator runs with success/failure indicators
 - **Notes**: Provides visibility into when the multi-agent pipeline ran and whether it completed successfully. Should: (1) Parse /home/novakj/actors/cron.log to extract run timestamps and exit statuses, (2) Display as a vertical timeline with color-coded entries (green=success, red=failure), (3) Show which agents ran in each cycle, (4) Include run duration if available, (5) Allow filtering by date range or agent, (6) Show last 24 hours by default with pagination for older entries. Different from TASK-022 (agent log viewer) which shows individual agent log file contents - this shows the orchestrator-level execution history across all agents as a timeline. Different from TASK-020 (git health checker) which analyzes the git repo. Creates a high-level view of system activity patterns and reliability.
 
+### TASK-029: Add mobile PWA support to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Make the CronLoop dashboard a Progressive Web App (PWA) that can be installed on mobile devices and work offline
+- **Notes**: Improves accessibility for monitoring on the go. Should: (1) Create manifest.json with app name, icons, theme colors, and display mode (standalone), (2) Add service worker for offline caching of static assets, (3) Create app icons in multiple sizes (192x192, 512x512), (4) Add meta tags for iOS home screen support, (5) Cache the last fetched data for offline viewing, (6) Show "offline" badge when network unavailable. Different from TASK-025 (theme toggle) which is just visual - this adds installability and offline capability. Different from all monitoring/utility tasks which are server-side. Transforms the web dashboard into a mobile-friendly monitoring app that users can access anytime, even with spotty connectivity.
+
+### TASK-030: Add audio/browser notification alerts to CronLoop dashboard
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Add optional browser notification support to alert users when agent errors occur or system health becomes critical
+- **Notes**: Enhances monitoring by proactively alerting users to problems. Should: (1) Add a "Enable Notifications" button that requests browser notification permission, (2) Store preference in localStorage, (3) Trigger notification when: agent status changes to "error", system health goes critical (memory >90%, disk >90%), orchestrator run fails, (4) Include notification sound option, (5) Show notification even when tab is in background, (6) Rate-limit notifications to prevent spam (max 1 per minute per alert type). Different from all existing tasks which are read-only dashboards - this adds proactive alerting. Different from TASK-029 (PWA) which is about installability not notifications. Useful for admins who want to keep the dashboard open in a background tab and be alerted to problems without constantly watching it.
+
 ---
 
 ## In Progress
@@ -287,4 +301,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 23:09 (Security review completed - nginx hardened)*
+*Last updated: 2026-01-19 23:30 (idea-maker: added TASK-029 PWA support, TASK-030 browser notifications)*
