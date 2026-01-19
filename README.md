@@ -5,27 +5,28 @@ An autonomous multi-agent system powered by Claude Code running on a cron schedu
 ## Architecture
 
 ```
-┌─────────────────────┐     ┌─────────────────────┐     ┌─────────────────────┐
-│   PROJECT MANAGER   │ --> │     DEVELOPER       │ --> │       TESTER        │
-│                     │     │                     │     │                     │
-│ • Assigns tasks     │     │ • Implements code   │     │ • Runs tests        │
-│ • Sets priorities   │     │ • Updates status    │     │ • Verifies work     │
-│                     │     │   to DONE           │     │ • Adds feedback     │
-│                     │     │                     │     │ • VERIFIED or FAILED│
-└─────────────────────┘     └─────────────────────┘     └─────────────────────┘
-         │                           │                           │
-         └───────────────────────────┴───────────────────────────┘
-                                     │
-                              ┌──────▼──────┐
-                              │  tasks.md   │
-                              │ (shared)    │
-                              └─────────────┘
+┌─────────────────┐   ┌─────────────────┐   ┌─────────────────┐   ┌─────────────────┐
+│   IDEA MAKER    │-->│ PROJECT MANAGER │-->│    DEVELOPER    │-->│     TESTER      │
+│                 │   │                 │   │                 │   │                 │
+│ • Checks exist- │   │ • Assigns tasks │   │ • Implements    │   │ • Runs tests    │
+│   ing features  │   │ • Sets priority │   │   code          │   │ • Verifies work │
+│ • Creates new   │   │ • Manages       │   │ • Updates to    │   │ • VERIFIED or   │
+│   ideas         │   │   backlog       │   │   DONE          │   │   FAILED        │
+└─────────────────┘   └─────────────────┘   └─────────────────┘   └─────────────────┘
+         │                     │                     │                     │
+         └─────────────────────┴─────────────────────┴─────────────────────┘
+                                           │
+                                    ┌──────▼──────┐
+                                    │  tasks.md   │
+                                    │  (shared)   │
+                                    └─────────────┘
 ```
 
 ## Agents
 
 | Agent | Role | Prompt |
 |-------|------|--------|
+| **idea-maker** | Generates new feature ideas, checks for duplicates | [prompt.md](actors/idea-maker/prompt.md) |
 | **project-manager** | Assigns tasks, manages priorities, reviews backlog | [prompt.md](actors/project-manager/prompt.md) |
 | **developer** | Implements assigned tasks, writes code | [prompt.md](actors/developer/prompt.md) |
 | **tester** | Tests completed work, provides feedback | [prompt.md](actors/tester/prompt.md) |
@@ -48,6 +49,9 @@ An autonomous multi-agent system powered by Claude Code running on a cron schedu
 ├── README.md              # This file
 ├── tasks.md               # Shared task board
 ├── actors/
+│   ├── idea-maker/
+│   │   ├── prompt.md      # Idea maker instructions
+│   │   └── logs/          # Execution logs
 │   ├── project-manager/
 │   │   ├── prompt.md      # PM instructions
 │   │   └── logs/          # Execution logs
@@ -68,7 +72,7 @@ An autonomous multi-agent system powered by Claude Code running on a cron schedu
 ## Execution Schedule
 
 - **Cron**: Every 30 minutes (`*/30 * * * *`)
-- **Order**: project-manager → developer → tester (5s delay between each)
+- **Order**: idea-maker → project-manager → developer → tester (5s delay between each)
 - **Auto-commit**: All changes pushed to GitHub after each agent runs
 
 ## Quick Commands
@@ -78,6 +82,7 @@ An autonomous multi-agent system powered by Claude Code running on a cron schedu
 ./scripts/cron-orchestrator.sh
 
 # Run a single agent
+./scripts/run-actor.sh idea-maker
 ./scripts/run-actor.sh project-manager
 ./scripts/run-actor.sh developer
 ./scripts/run-actor.sh tester
@@ -92,11 +97,12 @@ crontab -l
 ## How It Works
 
 1. **Cron triggers** `cron-orchestrator.sh` every 30 minutes
-2. **Project Manager** reads `tasks.md`, assigns tasks from backlog
-3. **Developer** picks up assigned tasks, implements them in `/projects`
-4. **Tester** verifies completed work, adds feedback
-5. **Auto-commit** after each agent: changes pushed to GitHub
-6. **Logs** saved to `actors/*/logs/` with timestamps
+2. **Idea Maker** checks existing features, adds new ideas to backlog
+3. **Project Manager** reads `tasks.md`, assigns tasks from backlog
+4. **Developer** picks up assigned tasks, implements them in `/projects`
+5. **Tester** verifies completed work, adds feedback
+6. **Auto-commit** after each agent: changes pushed to GitHub
+7. **Logs** saved to `actors/*/logs/` with timestamps
 
 ## Configuration
 
@@ -111,6 +117,7 @@ Each agent has its own prompt file defining:
 ## Logs
 
 Each agent creates timestamped logs:
+- `actors/idea-maker/logs/YYYYMMDD_HHMMSS.log`
 - `actors/project-manager/logs/YYYYMMDD_HHMMSS.log`
 - `actors/developer/logs/YYYYMMDD_HHMMSS.log`
 - `actors/tester/logs/YYYYMMDD_HHMMSS.log`

@@ -63,11 +63,12 @@ The server runs an automated multi-agent system using Claude Code in headless mo
 **Actors:**
 | Actor | Path | Role |
 |-------|------|------|
+| idea-maker | `/home/novakj/actors/idea-maker` | Generates new feature ideas for backlog |
 | project-manager | `/home/novakj/actors/project-manager` | Assigns tasks, manages priorities |
 | developer | `/home/novakj/actors/developer` | Implements assigned tasks |
 | tester | `/home/novakj/actors/tester` | Tests completed work, gives feedback |
 
-**Execution Order:** project-manager → developer → tester (sequential, 5s delay between each)
+**Execution Order:** idea-maker → project-manager → developer → tester (sequential, 5s delay between each)
 
 **Key Files:**
 - `tasks.md` - Shared task board
@@ -172,6 +173,8 @@ Document any global environment variables set on the server:
 All changes to this server must be logged here in reverse chronological order.
 
 ### 2026-01-19
+- **[AGENTS]** Added idea-maker actor to generate new feature ideas
+- **[AGENTS]** Updated execution order: idea-maker → PM → developer → tester
 - **[DOCS]** Created README.md for GitHub repository
 - **[DOCS]** Updated critical rules to require README.md updates alongside CLAUDE.md
 - **[AGENTS]** Added tester actor to verify developer's work and provide feedback

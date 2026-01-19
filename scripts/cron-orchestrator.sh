@@ -28,7 +28,15 @@ echo "=== Agent Orchestrator Started: $(date) ==="
 echo "Pulling latest changes..."
 git pull --rebase || true
 
-# Run Project Manager first (assigns tasks)
+# Run Idea Maker first (generates new ideas for backlog)
+echo ""
+echo ">>> Running Idea Maker Agent..."
+"$SCRIPTS_DIR/run-actor.sh" idea-maker || true
+
+# Wait a bit to avoid conflicts
+sleep 5
+
+# Run Project Manager (assigns tasks from backlog)
 echo ""
 echo ">>> Running Project Manager Agent..."
 "$SCRIPTS_DIR/run-actor.sh" project-manager || true
