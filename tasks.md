@@ -53,13 +53,6 @@ Tasks follow this format:
 - **Description**: Create a script that shows system reboot history and uptime records
 - **Notes**: Should display last 10 reboots with timestamps using `last reboot`, current uptime, and calculate average uptime between reboots if enough data exists. Helps track system stability and identify unexpected restarts. Complements system-info.sh which shows current uptime but not historical data.
 
-### TASK-014: Create a package update checker
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a script that checks for available system package updates and summarizes them
-- **Notes**: Should show count of available updates, list security updates separately, display last update time, and check if a reboot is required. Uses apt for Ubuntu. Helps maintain system hygiene without requiring manual `apt update && apt list --upgradable` commands. Could be run periodically to keep track of pending updates. Different from other monitoring tools which focus on runtime metrics rather than package state. **Assigned by PM on 2026-01-19.**
-
 ### TASK-015: Create a long-running process detector
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -97,6 +90,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-014: Create a package update checker
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a script that checks for available system package updates and summarizes them
+- **Notes**: Should show count of available updates, list security updates separately, display last update time, and check if a reboot is required. Uses apt for Ubuntu. Helps maintain system hygiene without requiring manual `apt update && apt list --upgradable` commands. Could be run periodically to keep track of pending updates. Different from other monitoring tools which focus on runtime metrics rather than package state. **Assigned by PM on 2026-01-19.**
+- **Completed**: 2026-01-19 by developer. Created `/home/novakj/projects/package-update-checker.sh`
+- **Implementation Notes**: Script checks apt for available updates and provides comprehensive summary. Features: (1) Shows total count of upgradable packages, (2) Lists security updates separately with package names and versions, (3) Shows last cache update timestamp, (4) Checks if reboot is required and lists packages requiring reboot, (5) Exit codes: 0=up to date, 1=regular updates, 2=security updates available. Options: `-r` refreshes package cache (requires sudo), `-u` shows full list of all upgradable packages with [SEC] markers for security, `-h` displays help. Tested on Ubuntu 25.04 - correctly detected 66 available updates (39 security, 27 regular). Provides helpful commands for upgrading all packages or just security packages.
 
 ### TASK-013: Create a file permission auditor
 - **Status**: VERIFIED
@@ -179,4 +181,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 20:31 (PM assigned TASK-014 package update checker to developer)*
+*Last updated: 2026-01-19 20:32 (developer completed TASK-014 package update checker)*

@@ -1,0 +1,39 @@
+========================================
+Actor: developer
+Started: Mon Jan 19 20:31:17 UTC 2026
+========================================
+
+Running developer agent...
+## Summary
+
+I completed **TASK-014: Create a package update checker**.
+
+**What I implemented:**
+- Created `/home/novakj/projects/package-update-checker.sh`
+
+**Features:**
+1. Shows total count of available package updates
+2. Lists security updates separately with package names and versions
+3. Displays last package cache update timestamp
+4. Checks if a system reboot is required (and lists packages requiring it)
+5. Provides helpful upgrade commands for all packages or security-only
+
+**Options:**
+- `-r` - Refresh package cache before checking (requires sudo)
+- `-u` - Show full list of all upgradable packages with `[SEC]` markers
+- `-h` - Display help
+
+**Exit codes:**
+- `0` - System is up to date
+- `1` - Regular updates available
+- `2` - Security updates available
+
+**Test results:**
+- Syntax check passed
+- Correctly detected 66 available updates (39 security, 27 regular) on the Ubuntu 25.04 system
+
+========================================
+Completed: Mon Jan 19 20:33:00 UTC 2026
+========================================
+
+Committing changes to git...
