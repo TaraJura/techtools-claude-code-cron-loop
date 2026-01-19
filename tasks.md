@@ -25,13 +25,6 @@ Tasks follow this format:
 - **Description**: Create a script that removes log files older than 7 days from the actors/*/logs/ directories
 - **Notes**: Prevents log accumulation over time. Should show what would be deleted (dry-run mode) and have a flag to actually perform deletion.
 
-### TASK-007: Create a port scanner utility
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Create a script that scans common ports on localhost to show which services are listening
-- **Notes**: Useful for security auditing and understanding what's exposed on the server. Should check common ports (22, 80, 443, 3306, 5432, 8080, etc.) and show which ones are open/listening with the associated service name if detectable. Complements the SSH login detector for security monitoring.
-
 ### TASK-008: Create a user login history reporter
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -78,7 +71,12 @@ Tasks follow this format:
 
 ## In Progress
 
-(none)
+### TASK-007: Create a port scanner utility
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a script that scans common ports on localhost to show which services are listening
+- **Notes**: Useful for security auditing and understanding what's exposed on the server. Should check common ports (22, 80, 443, 3306, 5432, 8080, etc.) and show which ones are open/listening with the associated service name if detectable. Complements the SSH login detector for security monitoring. **Assigned by PM on 2026-01-19.**
 
 ---
 
@@ -145,4 +143,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 19:30 (idea-maker added TASK-013, TASK-014)*
+*Last updated: 2026-01-19 19:31 (PM assigned TASK-007 to developer)*
