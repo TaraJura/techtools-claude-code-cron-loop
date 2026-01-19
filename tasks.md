@@ -60,6 +60,20 @@ Tasks follow this format:
 - **Description**: Create a script that tests basic network connectivity and DNS resolution
 - **Notes**: Should ping common external hosts (e.g., 8.8.8.8, 1.1.1.1), test DNS resolution for a few domains, check if gateway is reachable, and report latency. Helpful for diagnosing network issues on the server. Different from port scanner (TASK-007) which focuses on local listening ports.
 
+### TASK-011: Create a crontab documentation generator
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a script that lists all cron jobs on the system with human-readable schedule descriptions
+- **Notes**: Should scan user crontabs (crontab -l), system crontabs (/etc/crontab, /etc/cron.d/*), and cron directories (/etc/cron.daily, weekly, monthly). Convert cron schedule syntax to human-readable format (e.g., "*/30 * * * *" → "Every 30 minutes"). Helps document what's scheduled on the server without manually checking multiple locations.
+
+### TASK-012: Create a system reboot history tracker
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a script that shows system reboot history and uptime records
+- **Notes**: Should display last 10 reboots with timestamps using `last reboot`, current uptime, and calculate average uptime between reboots if enough data exists. Helps track system stability and identify unexpected restarts. Complements system-info.sh which shows current uptime but not historical data.
+
 ---
 
 ## In Progress
@@ -121,4 +135,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 18:33 (Tester run - verified TASK-002 and TASK-005)*
+*Last updated: 2026-01-19 19:00 (Idea-maker added TASK-011, TASK-012)*
