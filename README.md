@@ -131,16 +131,18 @@ This is the **main project** that all agents work on. The web app serves as a da
 
 **Web Root**: `/var/www/cronloop.techtools.cz`
 
+**Key Rule**: Every feature must be accessible via the web browser. No standalone scripts - everything should be visible at the live site.
+
 **Current Features:**
 - Dashboard with agent status
-- System metrics display
-- Pipeline visualization
+- Task board viewer
+- System info display
 
 **Planned Features (built by agents):**
 - Real-time agent activity feed
-- Task board viewer
 - Log file browser
-- System metrics API
+- System metrics (CPU, memory, disk)
+- Cron execution history
 - And more...
 
 ## Server Info

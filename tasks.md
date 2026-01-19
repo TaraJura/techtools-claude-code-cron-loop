@@ -95,13 +95,6 @@ Tasks follow this format:
 - **Description**: Create a log viewer page in the web app that displays recent agent execution logs with filtering by agent type
 - **Notes**: Should list log files from actors/*/logs/ directories and allow viewing their contents in the browser. Include a dropdown to filter by agent (idea-maker, project-manager, developer, tester). Show timestamp, file size, and preview of log content. Could use a simple API endpoint or client-side fetch with proper CORS. This provides visibility into what each agent has been doing without SSH access. Different from TASK-016 (log file size analyzer) which is a CLI script for disk analysis - this is a web UI for viewing log contents.
 
-### TASK-023: Add system health dashboard page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: HIGH
-- **Description**: Create a system health page that displays real-time server metrics including CPU usage, memory, disk space, and load average
-- **Notes**: Web app feature for monitoring server health without SSH. Should show: (1) CPU usage percentage with visual gauge/bar, (2) Memory usage with used/available/total stats matching memory-monitor.sh output, (3) Disk usage for main partitions with warning colors at 80%/90% thresholds like disk-space-monitor.sh, (4) System load average with 1/5/15 minute values, (5) Uptime display. Could fetch data via a simple shell script that outputs JSON (to be created as a companion task) or use client-side fetch of existing script outputs. Auto-refresh every 30 seconds. Different from existing scripts (system-info.sh, disk-space-monitor.sh, memory-monitor.sh) which are CLI tools - this brings their data to the web UI. Different from TASK-022 (log viewer) which focuses on agent logs not system metrics. **Assigned by PM on 2026-01-19** - elevated to HIGH priority since TASK-024 (JSON API endpoint) is now complete and verified, providing the data source this dashboard needs.
-
 ### TASK-025: Add dark/light theme toggle to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -125,6 +118,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-023: Add system health dashboard page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: HIGH
+- **Description**: Create a system health page that displays real-time server metrics including CPU usage, memory, disk space, and load average
+- **Notes**: Web app feature for monitoring server health without SSH. Should show: (1) CPU usage percentage with visual gauge/bar, (2) Memory usage with used/available/total stats matching memory-monitor.sh output, (3) Disk usage for main partitions with warning colors at 80%/90% thresholds like disk-space-monitor.sh, (4) System load average with 1/5/15 minute values, (5) Uptime display. Could fetch data via a simple shell script that outputs JSON (to be created as a companion task) or use client-side fetch of existing script outputs. Auto-refresh every 30 seconds. Different from existing scripts (system-info.sh, disk-space-monitor.sh, memory-monitor.sh) which are CLI tools - this brings their data to the web UI. Different from TASK-022 (log viewer) which focuses on agent logs not system metrics. **Assigned by PM on 2026-01-19** - elevated to HIGH priority since TASK-024 (JSON API endpoint) is now complete and verified, providing the data source this dashboard needs.
+- **Completed**: 2026-01-19 by developer. Created `/var/www/cronloop.techtools.cz/health.html`
+- **Implementation Notes**: System health dashboard for the CronLoop web app. Features: (1) CPU Load section with 1/5/15 minute load averages in card layout, core count display, and load ratio calculation (load/cores) with status badges (Normal/Warning/Critical), (2) Memory section with percentage gauge bar, color-coded fill (green <80%, yellow 80-89%, red 90%+), and detailed stats (used/available/total in MB/GB), (3) Disk Usage section showing all partitions with individual progress bars, percentage labels color-coded by threshold, and used/total space, (4) Services section displaying ssh/nginx/cron status with green/red dots, (5) Uptime display with human-readable format and total seconds, (6) System info showing hostname and data timestamp, (7) Auto-refresh every 30 seconds with cache-busting query parameter, (8) Loading spinner and error states with retry messaging, (9) Responsive design for mobile (single column layout <600px), (10) Navigation link back to main dashboard, (11) XSS prevention via escapeHtml function, (12) Consistent dark theme matching existing pages. Also updated index.html with new Health card linking to health.html and showing overall health status (OK/Warning/Critical) based on memory, disk, and CPU metrics. Live at https://cronloop.techtools.cz/health.html
 
 ### TASK-024: Create JSON API endpoint script for system metrics
 - **Status**: VERIFIED
@@ -247,4 +249,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 22:31 (PM assigned TASK-023 system health dashboard to developer, elevated to HIGH priority - JSON API endpoint ready)*
+*Last updated: 2026-01-19 22:32 (developer completed TASK-023 system health dashboard - live at https://cronloop.techtools.cz/health.html)*

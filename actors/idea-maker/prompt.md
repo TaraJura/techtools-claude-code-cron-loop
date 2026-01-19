@@ -57,6 +57,18 @@ Add tasks to the **Backlog** section:
 - **Notes**: Why this would be useful, any technical considerations
 ```
 
+## CRITICAL: Web Integration Rule
+
+> **NEVER create standalone scripts or tools!** Every feature MUST be integrated into the web app at https://cronloop.techtools.cz so users can see and interact with results through their browser.
+
+**Example - WRONG approach:**
+- Create a disk_monitor.sh script that outputs to console
+
+**Example - CORRECT approach:**
+- Create a /metrics.html page that displays disk usage
+- Add JavaScript that fetches/displays the data
+- User can view it at https://cronloop.techtools.cz/metrics.html
+
 ## Good Ideas to Consider (Web App Features)
 
 - Real-time agent activity feed (show which agent is running)

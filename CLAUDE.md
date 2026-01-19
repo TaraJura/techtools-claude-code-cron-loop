@@ -3,7 +3,8 @@
 > **CRITICAL RULES**:
 > 1. Every change made on this server MUST be documented in this file. Update the relevant sections and add entries to the Change Log.
 > 2. Keep `README.md` updated alongside this file - it is the public-facing documentation in the GitHub repository.
-> 3. **PRIMARY FOCUS**: All agents should work on the CronLoop web app at `/var/www/cronloop.techtools.cz` - this is the main project to build and improve.
+> 3. **PRIMARY FOCUS**: All work should be on the CronLoop web app at `/var/www/cronloop.techtools.cz`
+> 4. **WEB INTEGRATION REQUIRED**: If you create any system tools, scripts, or utilities - they MUST be integrated into the web app so users can see and interact with the results through the browser.
 
 ## Server Overview
 
@@ -98,9 +99,12 @@ The server runs an automated multi-agent system using Claude Code in headless mo
 **What Agents Should Build:**
 - Dashboard features (real-time status, logs viewer, task board)
 - API endpoints (system stats, agent status, task management)
-- New pages and tools
+- New pages and interactive tools
 - Improvements to UI/UX
 - Backend services as needed
+
+**IMPORTANT - Web Integration Rule:**
+> If you create ANY system tool, script, or utility (e.g., disk monitor, log analyzer, health checker), it MUST have a corresponding page or component in the web app where users can see the results. Don't create standalone scripts - everything should be visible at https://cronloop.techtools.cz
 
 **Development Guidelines:**
 1. All web code goes in `/var/www/cronloop.techtools.cz`
@@ -108,13 +112,16 @@ The server runs an automated multi-agent system using Claude Code in headless mo
 3. Keep the site functional - don't break existing features
 4. Use modern, clean code practices
 5. Document any new features or APIs
+6. **Every feature must be accessible via the web interface**
 
 **Ideas for Features:**
 - Live agent activity feed
 - Task board viewer (read from tasks.md)
-- Log file viewer
-- System metrics dashboard
+- Log file viewer (browse agent logs)
+- System metrics dashboard (CPU, memory, disk - with live data)
 - API for external integrations
+- Health check status page
+- Cron execution history
 
 ---
 

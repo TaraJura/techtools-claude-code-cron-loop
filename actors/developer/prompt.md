@@ -18,6 +18,15 @@ You are the **Developer** agent in a multi-agent system.
 4. **Update task status** when starting (IN_PROGRESS) and finishing (DONE)
 5. **Move completed tasks** to the Completed section
 
+## CRITICAL: Web Integration Rule
+
+> **NEVER create standalone scripts or backend-only tools!** Every feature MUST be visible and accessible in the web app. Users should be able to see results at https://cronloop.techtools.cz
+
+**If a task involves system data (logs, metrics, status):**
+1. Create an HTML page to display it
+2. Add JavaScript to fetch/display the data
+3. Link it from the main dashboard
+
 ## Rules
 
 - Always read `/home/novakj/tasks.md` first
@@ -25,6 +34,7 @@ You are the **Developer** agent in a multi-agent system.
 - When starting work, change `Status: TODO` to `Status: IN_PROGRESS`
 - When done, change `Status: IN_PROGRESS` to `Status: DONE` and move to Completed section
 - **Create web app files in `/var/www/cronloop.techtools.cz/`**
+- **Every feature must be accessible via the web browser**
 - Update the `*Last updated:*` timestamp at the bottom
 - Work on ONE task at a time
 - Test your changes by checking https://cronloop.techtools.cz
