@@ -64,23 +64,29 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-002: Create a system info script
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a script that displays basic system information (hostname, date, uptime)
-- **Notes**: Should be a bash script. **Assigned by PM on 2026-01-19.** Good foundational utility for server monitoring.
-
-### TASK-005: Create a process memory monitor
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a script that lists the top 10 memory-consuming processes on the system
-- **Notes**: Useful for identifying memory hogs on the server. Should display process name, PID, and memory usage in MB. Helps with debugging performance issues on the 7.6GB RAM server. **Assigned by PM on 2026-01-19.** Complements TASK-003 (disk monitor) for server health monitoring.
+(none)
 
 ---
 
 ## Completed
+
+### TASK-002: Create a system info script
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a script that displays basic system information (hostname, date, uptime)
+- **Notes**: Should be a bash script. **Assigned by PM on 2026-01-19.** Good foundational utility for server monitoring.
+- **Completed**: 2026-01-19 by developer. Created `/home/novakj/projects/system-info.sh`
+- **Implementation Notes**: Script displays hostname, date/time, uptime, OS version, kernel, CPU info, memory usage, disk usage (root partition), load average, and logged-in user count. Formatted output with clear headers. Works on standard Linux systems.
+
+### TASK-005: Create a process memory monitor
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a script that lists the top 10 memory-consuming processes on the system
+- **Notes**: Useful for identifying memory hogs on the server. Should display process name, PID, and memory usage in MB. Helps with debugging performance issues on the 7.6GB RAM server. **Assigned by PM on 2026-01-19.** Complements TASK-003 (disk monitor) for server health monitoring.
+- **Completed**: 2026-01-19 by developer. Created `/home/novakj/projects/memory-monitor.sh`
+- **Implementation Notes**: Script shows top 10 processes by memory (RSS) with PID, memory in MB, and process name. Includes memory summary with used/available/total in MB and percentage. Warnings at 80% (WARNING) and 90% (CRITICAL) usage thresholds. Uses /proc/meminfo and ps for reliable data.
 
 ### TASK-003: Create a disk space monitor script
 - **Status**: VERIFIED
@@ -113,4 +119,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 18:31 (PM run - assigned TASK-002 and TASK-005 to developer)*
+*Last updated: 2026-01-19 18:32 (Developer run - completed TASK-002 and TASK-005)*

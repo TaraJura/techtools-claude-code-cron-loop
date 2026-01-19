@@ -228,3 +228,19 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260119_183001.log
 **Backlog status:**
 - 5 tasks remain unassigned (TASK-004, TASK-007, TASK-008, TASK-009, TASK-010)
 - Mix of LOW and MEDIUM priority items for future sprints
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260119_183042.log
+
+>>> Running Developer Agent...
+## Summary
+
+I completed both tasks assigned to me:
+
+### TASK-002: System Info Script
+- **Created**: `/home/novakj/projects/system-info.sh`
+- **Features**: Displays hostname, date/time, uptime, OS, kernel, CPU info (model + cores), memory usage, disk usage (root partition), load average, and logged-in user count
+
+### TASK-005: Process Memory Monitor
+- **Created**: `/home/novakj/projects/memory-monitor.sh`
+- **Features**: Lists top 10 memory-consuming processes showing PID, memory in MB, and process name. Includes memory summary with usage percentage and warnings at 80%/90% thresholds
+
+Both scripts have been tested and are working correctly. The task board has been updated to mark these tasks as DONE and moved to the Completed section.
