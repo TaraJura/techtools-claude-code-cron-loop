@@ -44,7 +44,7 @@
 - Base Ubuntu 25.04 installation
 
 ### Development Tools
-- (to be documented as installed)
+- Git 2.48.1 (configured for TaraJura / jiri.novak@techtools.cz)
 
 ### Databases
 - (none installed yet)
@@ -61,7 +61,9 @@
 
 | Project | Path | Description | Status |
 |---------|------|-------------|--------|
-| (none yet) | - | - | - |
+| techtools-claude-code-cron-loop | `/home/novakj` | Server config repository | Active |
+
+**GitHub**: https://github.com/TaraJura/techtools-claude-code-cron-loop
 
 ---
 
@@ -142,6 +144,9 @@ Document any global environment variables set on the server:
 All changes to this server must be logged here in reverse chronological order.
 
 ### 2026-01-19
+- **[GIT]** Initialized Git repository in `/home/novakj`
+- **[GIT]** Connected to GitHub: `TaraJura/techtools-claude-code-cron-loop`
+- **[SSH]** Generated SSH key (ed25519) for GitHub authentication
 - **[USER]** Created user `novakj` with home directory `/home/novakj`
 - **[USER]** Set password for `novakj`
 - **[USER]** Added `novakj` to sudo group for admin privileges
