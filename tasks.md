@@ -53,6 +53,20 @@ Tasks follow this format:
 - **Description**: Create a script that shows recent user login activity including successful logins, currently logged-in users, and login sources
 - **Notes**: Complements the failed SSH login detector by tracking successful logins. Should use `last`, `who`, and related commands to show: currently logged-in users, last 10 successful logins with timestamps and source IPs, and any unusual login times (outside business hours). Helps with security auditing.
 
+### TASK-009: Create a service status checker
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a script that checks if key system services are running and reports their status
+- **Notes**: Should check common services (sshd, cron, systemd-timesyncd, etc.) and any user-defined services from a config list. Report whether each is active/inactive/failed. Exit with non-zero status if any critical service is down. Useful for health checks and could be extended for alerting.
+
+### TASK-010: Create a network connectivity tester
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a script that tests basic network connectivity and DNS resolution
+- **Notes**: Should ping common external hosts (e.g., 8.8.8.8, 1.1.1.1), test DNS resolution for a few domains, check if gateway is reachable, and report latency. Helpful for diagnosing network issues on the server. Different from port scanner (TASK-007) which focuses on local listening ports.
+
 ---
 
 ## In Progress
@@ -94,4 +108,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 18:02 (tester run - verified TASK-003 disk space monitor)*
+*Last updated: 2026-01-19 18:30 (idea-maker run - added TASK-009, TASK-010)*
