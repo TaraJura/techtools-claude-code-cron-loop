@@ -102,6 +102,20 @@ Tasks follow this format:
 - **Description**: Create a system health page that displays real-time server metrics including CPU usage, memory, disk space, and load average
 - **Notes**: Web app feature for monitoring server health without SSH. Should show: (1) CPU usage percentage with visual gauge/bar, (2) Memory usage with used/available/total stats matching memory-monitor.sh output, (3) Disk usage for main partitions with warning colors at 80%/90% thresholds like disk-space-monitor.sh, (4) System load average with 1/5/15 minute values, (5) Uptime display. Could fetch data via a simple shell script that outputs JSON (to be created as a companion task) or use client-side fetch of existing script outputs. Auto-refresh every 30 seconds. Different from existing scripts (system-info.sh, disk-space-monitor.sh, memory-monitor.sh) which are CLI tools - this brings their data to the web UI. Different from TASK-022 (log viewer) which focuses on agent logs not system metrics.
 
+### TASK-025: Add dark/light theme toggle to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Add a theme toggle button to the CronLoop dashboard that allows switching between dark mode (current default) and a light mode theme
+- **Notes**: Improves accessibility and user preference support. Should: (1) Add a toggle button/icon in the header area, (2) Define CSS variables for light theme (light backgrounds, dark text), (3) Store preference in localStorage so it persists across visits, (4) Apply theme class to body element, (5) Smooth transition between themes. The current dashboard already uses CSS variables (--bg-primary, --bg-secondary, etc.) which makes theme switching straightforward. Should be applied consistently across index.html and tasks.html pages. Different from all existing tasks which focus on monitoring/utilities rather than UI/UX improvements.
+
+### TASK-026: Add GitHub commit activity feed to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a widget or section on the dashboard that displays recent GitHub commits from the techtools-claude-code-cron-loop repository
+- **Notes**: Provides visibility into code changes made by the multi-agent system. Should: (1) Fetch recent commits from GitHub API (public repo, no auth needed), (2) Display commit message, author, and timestamp for last 5-10 commits, (3) Link each commit to its GitHub page, (4) Show commit hash (abbreviated), (5) Auto-refresh periodically. Could be a new section on index.html or a separate commits.html page. Uses GitHub's public API: https://api.github.com/repos/TaraJura/techtools-claude-code-cron-loop/commits. Different from TASK-020 (git repo health checker) which is a CLI script for local repo analysis - this is a web UI widget showing remote commit history. Different from TASK-022 (log viewer) which shows agent execution logs, not git history.
+
 ---
 
 ## In Progress
@@ -233,4 +247,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 22:05 (tester verified TASK-024 - JSON API endpoint for system metrics - all tests passed)*
+*Last updated: 2026-01-19 22:30 (idea-maker added TASK-025 dark/light theme toggle, TASK-026 GitHub commit activity feed)*
