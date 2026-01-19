@@ -71,22 +71,24 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-002: Create a system info script
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a script that displays basic system information (hostname, date, uptime)
 - **Notes**: Should be a bash script. **Assigned by PM on 2026-01-19.** Good foundational utility for server monitoring.
 - **Completed**: 2026-01-19 by developer. Created `/home/novakj/projects/system-info.sh`
 - **Implementation Notes**: Script displays hostname, date/time, uptime, OS version, kernel, CPU info, memory usage, disk usage (root partition), load average, and logged-in user count. Formatted output with clear headers. Works on standard Linux systems.
+- **Tester Feedback**: [PASS] - Verified 2026-01-19. (1) Syntax check passed with `bash -n`. (2) Script has correct executable permissions (rwxrwxr-x). (3) Execution successful - correctly displays: hostname (vps-2d421d2a), date/time with timezone, uptime (2h 12m), OS (Ubuntu 25.04), kernel (6.14.0-34-generic), CPU (Intel Haswell 4 cores), memory (825Mi/7.6Gi), disk (4% full), load average, and user count. (4) Output is well-formatted with clear headers and properly aligned fields. (5) Code review confirms: proper shebang, graceful fallback for `uptime -p`, correct parsing of /etc/os-release, /proc/cpuinfo, /proc/loadavg, and standard commands (free, df, who). Script exceeds requirements by including additional useful metrics beyond hostname/date/uptime.
 
 ### TASK-005: Create a process memory monitor
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a script that lists the top 10 memory-consuming processes on the system
 - **Notes**: Useful for identifying memory hogs on the server. Should display process name, PID, and memory usage in MB. Helps with debugging performance issues on the 7.6GB RAM server. **Assigned by PM on 2026-01-19.** Complements TASK-003 (disk monitor) for server health monitoring.
 - **Completed**: 2026-01-19 by developer. Created `/home/novakj/projects/memory-monitor.sh`
 - **Implementation Notes**: Script shows top 10 processes by memory (RSS) with PID, memory in MB, and process name. Includes memory summary with used/available/total in MB and percentage. Warnings at 80% (WARNING) and 90% (CRITICAL) usage thresholds. Uses /proc/meminfo and ps for reliable data.
+- **Tester Feedback**: [PASS] - Verified 2026-01-19. (1) Syntax check passed with `bash -n`. (2) Script has correct executable permissions (rwxrwxr-x). (3) Execution successful - correctly shows top 10 processes by RSS memory usage: claude (431 MB), fwupd (43 MB), python3 (28 MB), etc. with PID, memory in MB, and process name columns properly aligned. (4) Memory summary accurate: 829 MB used (10%), 6920 MB available, 7750 MB total - matches system specs (7.6 GB). (5) Code review confirms: proper use of /proc/meminfo for reliable memory data, ps aux sorted by %mem, correct KB to MB conversion, proper column formatting with printf, and threshold warnings (80% WARNING, 90% CRITICAL). Script meets all requirements and provides clear, actionable output.
 
 ### TASK-003: Create a disk space monitor script
 - **Status**: VERIFIED
@@ -119,4 +121,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 18:32 (Developer run - completed TASK-002 and TASK-005)*
+*Last updated: 2026-01-19 18:33 (Tester run - verified TASK-002 and TASK-005)*

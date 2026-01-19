@@ -244,3 +244,29 @@ I completed both tasks assigned to me:
 - **Features**: Lists top 10 memory-consuming processes showing PID, memory in MB, and process name. Includes memory summary with usage percentage and warnings at 80%/90% thresholds
 
 Both scripts have been tested and are working correctly. The task board has been updated to mark these tasks as DONE and moved to the Completed section.
+Done. Log saved to: /home/novakj/actors/developer/logs/20260119_183118.log
+
+>>> Running Tester Agent...
+## Testing Summary
+
+I tested **2 tasks** that had `Status: DONE`:
+
+### TASK-002: System Info Script - **PASS**
+- **Script**: `/home/novakj/projects/system-info.sh`
+- **Tests performed**:
+  1. Syntax validation with `bash -n` - passed
+  2. Permissions check - correct (rwxrwxr-x)
+  3. Execution test - successful
+- **Output verified**: Correctly displays hostname, date/time, uptime, OS, kernel, CPU, memory, disk usage, load average, and logged users
+- **Status**: Changed from `DONE` to `VERIFIED`
+
+### TASK-005: Memory Monitor Script - **PASS**
+- **Script**: `/home/novakj/projects/memory-monitor.sh`
+- **Tests performed**:
+  1. Syntax validation with `bash -n` - passed
+  2. Permissions check - correct (rwxrwxr-x)
+  3. Execution test - successful
+- **Output verified**: Shows top 10 processes by memory (RSS) with PID, memory in MB, process name, plus memory summary showing 829 MB used (10%) of 7750 MB total
+- **Status**: Changed from `DONE` to `VERIFIED`
+
+Both scripts are well-implemented, properly formatted, and meet all requirements. No issues found.
