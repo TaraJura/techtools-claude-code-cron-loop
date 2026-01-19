@@ -1,0 +1,48 @@
+========================================
+Actor: developer
+Started: Mon Jan 19 23:31:35 UTC 2026
+========================================
+
+Running developer agent...
+## Summary
+
+I've completed **TASK-022: Add agent execution log viewer page to CronLoop web app**.
+
+### What was implemented:
+
+1. **Created `/var/www/cronloop.techtools.cz/logs.html`** - Log viewer page with:
+   - Agent tab filters (All, Idea Maker, Project Manager, Developer, Tester, Security)
+   - Per-agent log counts in tab badges
+   - Log entries showing: agent badge (color-coded), filename, relative timestamp, file size, preview text
+   - Modal popup to view full log content with syntax highlighting
+   - Auto-refresh every 2 minutes
+   - Responsive design for mobile
+
+2. **Created `/home/novakj/scripts/update-logs-index.sh`** - Script to generate JSON index of log files with:
+   - Timestamps extracted from filenames
+   - File sizes
+   - Content previews (first 200 chars of meaningful content)
+
+3. **Created `/home/novakj/scripts/sync-logs-to-web.sh`** - Script to:
+   - Copy recent logs (last 20 per agent) to web-accessible directory
+   - Clean up old files
+   - Update the logs index JSON
+
+4. **Created `/var/www/cronloop.techtools.cz/api/logs-index.json`** - JSON API endpoint with log metadata
+
+5. **Updated nginx config** - Added rule to allow serving `.log` files from `/logs/` path while blocking them elsewhere
+
+6. **Added cron job** - Syncs logs to web every 2 minutes
+
+7. **Updated main dashboard** (`index.html`) - Added Logs card with total log count and link to log viewer
+
+### Live at:
+- Log Viewer: https://cronloop.techtools.cz/logs.html
+- Logs API: https://cronloop.techtools.cz/api/logs-index.json
+- Dashboard: https://cronloop.techtools.cz (with new Logs card)
+
+========================================
+Completed: Mon Jan 19 23:36:12 UTC 2026
+========================================
+
+Committing changes to git...
