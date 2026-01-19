@@ -27,7 +27,7 @@
 
 - **Status**: Operational
 - **Environment**: Production
-- **Services Running**: (none configured yet)
+- **Services Running**: Nginx (port 80)
 
 ---
 
@@ -52,7 +52,9 @@
 - (none installed yet)
 
 ### Web Servers
-- (none installed yet)
+- Nginx 1.26.3
+  - Site: `cronloop.techtools.cz` → `/var/www/cronloop.techtools.cz`
+  - Config: `/etc/nginx/sites-available/cronloop.techtools.cz`
 
 ### Other Services
 - Claude Code 2.1.12 (AI coding assistant CLI)

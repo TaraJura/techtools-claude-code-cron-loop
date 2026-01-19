@@ -74,6 +74,20 @@ Tasks follow this format:
 - **Description**: Create a script that analyzes log files across the system and reports on their sizes and growth rates
 - **Notes**: Should scan common log locations (/var/log, /home/*/logs, actors/*/logs) and report: largest log files (top 10 by size), total log disk usage, files that haven't been rotated (very large single files), and optionally estimate growth rate by comparing modification times and sizes. Different from disk-space-monitor.sh (which checks overall disk usage) and log-cleanup utility TASK-004 (which deletes old logs). This focuses on analysis and visibility rather than cleanup. Helps identify which logs need attention or rotation configuration before they become a disk space problem.
 
+### TASK-017: Create a systemd timer analyzer
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a script that lists all systemd timers with their schedules, last run times, and next scheduled runs
+- **Notes**: Complements TASK-011 (crontab documentation generator) which only covers traditional cron jobs. Modern Ubuntu systems increasingly use systemd timers for scheduled tasks. Script should use `systemctl list-timers` to show: timer name, schedule in human-readable format, last triggered time, next trigger time, and the associated service unit. Include both system-wide and user timers. Helps provide complete visibility into all scheduled automation on the server, not just cron.
+
+### TASK-018: Create a swap usage analyzer
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a script that monitors swap usage and identifies which processes are using swap memory
+- **Notes**: Different from memory-monitor.sh which focuses on RAM (RSS) usage. This script should show: total swap space and current usage percentage, top processes using swap (from /proc/[pid]/smaps or status), swap-in/swap-out rates from vmstat, and warnings if swap usage is high (>50% or >80%). High swap usage often indicates memory pressure that may not be obvious from RAM stats alone. Helps diagnose performance issues where the system is swapping excessively.
+
 ---
 
 ## In Progress
@@ -165,4 +179,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 20:04 (Tester verified TASK-013 - file permission auditor)*
+*Last updated: 2026-01-19 20:30 (Idea Maker added TASK-017 systemd timer analyzer, TASK-018 swap usage analyzer)*
