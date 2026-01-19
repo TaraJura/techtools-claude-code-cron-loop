@@ -64,16 +64,20 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-009: Create a service status checker
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a script that checks if key system services are running and reports their status
-- **Notes**: Should check common services (sshd, cron, systemd-timesyncd, etc.) and any user-defined services from a config list. Report whether each is active/inactive/failed. Exit with non-zero status if any critical service is down. Useful for health checks and could be extended for alerting. **Assigned by PM on 2026-01-19.**
+(none)
 
 ---
 
 ## Completed
+
+### TASK-009: Create a service status checker
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a script that checks if key system services are running and reports their status
+- **Notes**: Should check common services (sshd, cron, systemd-timesyncd, etc.) and any user-defined services from a config list. Report whether each is active/inactive/failed. Exit with non-zero status if any critical service is down. Useful for health checks and could be extended for alerting. **Assigned by PM on 2026-01-19.**
+- **Completed**: 2026-01-19 by developer. Created `/home/novakj/projects/service-status-checker.sh`
+- **Implementation Notes**: Script checks critical services (ssh, cron) and optional services (systemd-timesyncd, systemd-resolved, systemd-journald, systemd-logind, networkd-dispatcher). Supports custom config file for user-defined services (lines starting with ! mark critical services). Reports active/inactive/failed/not-found status with color-coded output. Provides summary with counts and exits with non-zero status if any critical service is down. Includes -q (quiet mode), -c (custom config), and -h (help) options.
 
 ### TASK-002: Create a system info script
 - **Status**: VERIFIED
@@ -126,4 +130,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 19:30 (PM assigned TASK-009 to developer)*
+*Last updated: 2026-01-19 19:02 (developer completed TASK-009)*

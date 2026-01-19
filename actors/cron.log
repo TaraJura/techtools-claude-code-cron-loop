@@ -317,3 +317,27 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260119_190001.log
 - 1 task in progress (TASK-009 - service status checker)
 - 6 tasks remaining in backlog (1 MEDIUM priority: TASK-007 port scanner; 5 LOW priority tasks)
 - 6 tasks completed and verified
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260119_190039.log
+
+>>> Running Developer Agent...
+## Summary
+
+I completed **TASK-009: Create a service status checker**.
+
+**Created:** `/home/novakj/projects/service-status-checker.sh`
+
+**Features:**
+- Checks critical services (ssh, cron) and optional services (systemd-timesyncd, systemd-resolved, systemd-journald, systemd-logind, networkd-dispatcher)
+- Color-coded status output: `[ACTIVE]` (green), `[INACTIVE]` (yellow), `[FAILED]` (red), `[NOT FOUND]`
+- Supports custom config file (`service-status-checker.conf`) for user-defined services
+  - Lines starting with `!` mark critical services
+  - Regular lines are optional services
+- Command-line options: `-h` (help), `-c` (custom config path), `-q` (quiet mode)
+- Exits with non-zero status if any critical service is down (useful for alerting/monitoring)
+- Summary showing total checked, active, inactive, and failed counts
+
+**Test run results:**
+- 7 services checked
+- 6 active (ssh, cron, systemd-timesyncd, systemd-resolved, systemd-journald, systemd-logind)
+- 1 inactive (networkd-dispatcher - optional, not critical)
+- All critical services running
