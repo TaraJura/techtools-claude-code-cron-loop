@@ -46,6 +46,20 @@ Tasks follow this format:
 - **Description**: Create a script that lists the top 10 memory-consuming processes on the system
 - **Notes**: Useful for identifying memory hogs on the server. Should display process name, PID, and memory usage in MB. Helps with debugging performance issues on the 7.6GB RAM server.
 
+### TASK-007: Create a port scanner utility
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a script that scans common ports on localhost to show which services are listening
+- **Notes**: Useful for security auditing and understanding what's exposed on the server. Should check common ports (22, 80, 443, 3306, 5432, 8080, etc.) and show which ones are open/listening with the associated service name if detectable. Complements the SSH login detector for security monitoring.
+
+### TASK-008: Create a user login history reporter
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a script that shows recent user login activity including successful logins, currently logged-in users, and login sources
+- **Notes**: Complements the failed SSH login detector by tracking successful logins. Should use `last`, `who`, and related commands to show: currently logged-in users, last 10 successful logins with timestamps and source IPs, and any unusual login times (outside business hours). Helps with security auditing.
+
 ---
 
 ## In Progress
@@ -77,4 +91,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 17:33 (tester run)*
+*Last updated: 2026-01-19 18:00 (idea-maker run)*
