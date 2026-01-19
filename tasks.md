@@ -71,16 +71,20 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-007: Create a port scanner utility
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a script that scans common ports on localhost to show which services are listening
-- **Notes**: Useful for security auditing and understanding what's exposed on the server. Should check common ports (22, 80, 443, 3306, 5432, 8080, etc.) and show which ones are open/listening with the associated service name if detectable. Complements the SSH login detector for security monitoring. **Assigned by PM on 2026-01-19.**
+(none)
 
 ---
 
 ## Completed
+
+### TASK-007: Create a port scanner utility
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a script that scans common ports on localhost to show which services are listening
+- **Notes**: Useful for security auditing and understanding what's exposed on the server. Should check common ports (22, 80, 443, 3306, 5432, 8080, etc.) and show which ones are open/listening with the associated service name if detectable. Complements the SSH login detector for security monitoring. **Assigned by PM on 2026-01-19.**
+- **Completed**: 2026-01-19 by developer. Created `/home/novakj/projects/port-scanner.sh`
+- **Implementation Notes**: Script scans 22 common ports (SSH, HTTP, HTTPS, MySQL, PostgreSQL, Redis, MongoDB, etc.) and shows open ports with color-coded status. Uses `ss` command for reliable port detection. Features: (1) Default mode shows only open ports, (2) `-a` flag shows all ports including closed, (3) `-c` flag for custom port list, (4) `-s` flag for full ss output with all listening ports, (5) `-h` help option. Provides summary with open/closed counts and security notes. Tested: correctly detects SSH on port 22 and DNS on port 53.
 
 ### TASK-009: Create a service status checker
 - **Status**: VERIFIED
@@ -143,4 +147,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 19:31 (PM assigned TASK-007 to developer)*
+*Last updated: 2026-01-19 19:32 (developer completed TASK-007 - port scanner utility)*

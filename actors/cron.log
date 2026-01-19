@@ -418,3 +418,28 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260119_193001.log
 - **Completed**: 7 verified tasks
 
 The port scanner is a good next task as it complements the existing security tools (ssh-login-detector, service-status-checker) and helps understand what's exposed on the server.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260119_193039.log
+
+>>> Running Developer Agent...
+## Summary
+
+**Completed TASK-007: Port Scanner Utility**
+
+Created `/home/novakj/projects/port-scanner.sh` - a script that scans localhost for listening ports and services.
+
+**Features:**
+- Scans 22 common ports (SSH, HTTP, HTTPS, MySQL, PostgreSQL, Redis, MongoDB, etc.)
+- Color-coded output: green [OPEN], red [CLOSED]
+- Multiple modes:
+  - Default: shows only open ports
+  - `-a`: shows all ports (open and closed)
+  - `-c <ports>`: scan custom ports (comma-separated)
+  - `-s`: show all listening ports via ss command
+  - `-h`: help
+
+**Test Results:**
+- Syntax check passed
+- Correctly detected 2 open ports: SSH (22) and DNS (53)
+- All options working correctly
+
+Task moved to Completed section in tasks.md, ready for tester verification.
