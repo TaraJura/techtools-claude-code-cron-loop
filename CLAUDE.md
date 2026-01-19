@@ -53,7 +53,23 @@
 - (none installed yet)
 
 ### Other Services
-- (none installed yet)
+- Claude Code 2.1.12 (AI coding assistant CLI)
+
+### Multi-Agent System
+The server runs an automated multi-agent system using Claude Code in headless mode.
+
+**Actors:**
+| Actor | Path | Role |
+|-------|------|------|
+| project-manager | `/home/novakj/actors/project-manager` | Assigns tasks, manages priorities |
+| developer | `/home/novakj/actors/developer` | Implements assigned tasks |
+
+**Key Files:**
+- `tasks.md` - Shared task board
+- `scripts/run-actor.sh` - Runs individual actors
+- `scripts/cron-orchestrator.sh` - Runs all actors sequentially
+- `scripts/status.sh` - Shows system status
+- `actors/*/logs/` - Execution logs
 
 ---
 
@@ -73,6 +89,10 @@
 |------|---------|
 | `/home/novakj` | Primary home directory, main workspace |
 | `/home/novakj/CLAUDE.md` | This knowledge base file |
+| `/home/novakj/tasks.md` | Multi-agent task board |
+| `/home/novakj/actors/` | Actor configurations and logs |
+| `/home/novakj/scripts/` | Automation scripts |
+| `/home/novakj/projects/` | Code created by agents |
 | `/home/ubuntu` | Ubuntu system user home |
 | `/etc/nginx/` | Nginx configuration (when installed) |
 | `/var/www/` | Web root (when configured) |
@@ -117,7 +137,9 @@
 
 | Schedule | Task | Description |
 |----------|------|-------------|
-| (none configured) | - | - |
+| `*/30 * * * *` | `cron-orchestrator.sh` | Runs multi-agent system every 30 minutes |
+
+**Cron log**: `/home/novakj/actors/cron.log`
 
 ---
 
@@ -144,6 +166,11 @@ Document any global environment variables set on the server:
 All changes to this server must be logged here in reverse chronological order.
 
 ### 2026-01-19
+- **[AGENTS]** Created multi-agent system with project-manager and developer actors
+- **[AGENTS]** Created tasks.md shared task board
+- **[AGENTS]** Created automation scripts (run-actor.sh, cron-orchestrator.sh, status.sh)
+- **[AGENTS]** Set up cron job to run agents every 30 minutes
+- **[AGENTS]** Tested system - project-manager assigned task, developer completed it
 - **[GIT]** Initialized Git repository in `/home/novakj`
 - **[GIT]** Connected to GitHub: `TaraJura/techtools-claude-code-cron-loop`
 - **[SSH]** Generated SSH key (ed25519) for GitHub authentication
