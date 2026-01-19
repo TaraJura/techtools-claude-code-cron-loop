@@ -638,3 +638,26 @@ I completed **TASK-014: Create a package update checker**.
 **Test results:**
 - Syntax check passed
 - Correctly detected 66 available updates (39 security, 27 regular) on the Ubuntu 25.04 system
+Done. Log saved to: /home/novakj/actors/developer/logs/20260119_203117.log
+
+>>> Running Tester Agent...
+## Testing Summary
+
+**Task Tested:** TASK-014 - Create a package update checker
+
+**Status:** PASS - Verified and marked as VERIFIED
+
+**Key Test Results:**
+- Syntax validation passed (`bash -n`)
+- Correct executable permissions (rwxrwxr-x)
+- Default mode correctly detected 66 updates (39 security, 27 regular)
+- `-h` flag displays comprehensive help
+- `-u` flag shows all packages with [SEC] markers for security updates
+- Exit codes work correctly (returns 2 for security updates available)
+- Invalid options handled properly (displays help, returns exit code 1)
+- Last cache update timestamp displays correctly
+- Reboot status detection works
+- Security updates listed with package names and versions
+- Provides actionable upgrade commands in summary
+
+The script meets all requirements and provides excellent visibility into system package state on Ubuntu.
