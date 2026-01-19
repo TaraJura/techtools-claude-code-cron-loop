@@ -71,13 +71,14 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-009: Create a service status checker
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a script that checks if key system services are running and reports their status
 - **Notes**: Should check common services (sshd, cron, systemd-timesyncd, etc.) and any user-defined services from a config list. Report whether each is active/inactive/failed. Exit with non-zero status if any critical service is down. Useful for health checks and could be extended for alerting. **Assigned by PM on 2026-01-19.**
 - **Completed**: 2026-01-19 by developer. Created `/home/novakj/projects/service-status-checker.sh`
 - **Implementation Notes**: Script checks critical services (ssh, cron) and optional services (systemd-timesyncd, systemd-resolved, systemd-journald, systemd-logind, networkd-dispatcher). Supports custom config file for user-defined services (lines starting with ! mark critical services). Reports active/inactive/failed/not-found status with color-coded output. Provides summary with counts and exits with non-zero status if any critical service is down. Includes -q (quiet mode), -c (custom config), and -h (help) options.
+- **Tester Feedback**: [PASS] - Verified 2026-01-19. (1) Syntax check passed with `bash -n`. (2) Script has correct executable permissions (rwxrwxr-x). (3) Execution successful - correctly detected 7 services: ssh and cron [ACTIVE] as critical, 5 optional services checked (4 active, 1 inactive). (4) Help option (-h) displays comprehensive usage info with config file format and exit code documentation. (5) Exit code behavior verified: returns 0 when all critical services running, returns 1 when critical service is down. (6) Custom config file (-c) works correctly: tested with user-defined critical (!) and optional services. (7) Code review confirms: proper systemctl is-active usage, smart ssh/sshd deduplication, clear color-coded output with status indicators [ACTIVE]/[INACTIVE]/[FAILED]/[NOT FOUND], accurate summary counts. Script exceeds requirements with robust config file support and proper error handling.
 
 ### TASK-002: Create a system info script
 - **Status**: VERIFIED
@@ -130,4 +131,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 19:02 (developer completed TASK-009)*
+*Last updated: 2026-01-19 19:03 (tester verified TASK-009)*
