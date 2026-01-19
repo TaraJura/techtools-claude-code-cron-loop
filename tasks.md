@@ -46,18 +46,16 @@ Tasks follow this format:
 - **Description**: Create a script that lists the top 10 memory-consuming processes on the system
 - **Notes**: Useful for identifying memory hogs on the server. Should display process name, PID, and memory usage in MB. Helps with debugging performance issues on the 7.6GB RAM server.
 
-### TASK-006: Create a failed SSH login detector
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: HIGH
-- **Description**: Create a script that scans auth logs for failed SSH login attempts and summarizes them by IP address
-- **Notes**: Important security utility. Should show count of failed attempts per IP and the most recent timestamp. Helps identify potential brute-force attacks. Output should be sorted by number of attempts descending.
-
 ---
 
 ## In Progress
 
-(No tasks currently in progress)
+### TASK-006: Create a failed SSH login detector
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: HIGH
+- **Description**: Create a script that scans auth logs for failed SSH login attempts and summarizes them by IP address
+- **Notes**: Important security utility. Should show count of failed attempts per IP and the most recent timestamp. Helps identify potential brute-force attacks. Output should be sorted by number of attempts descending. **Assigned by PM on 2026-01-19.**
 
 ---
 
@@ -74,4 +72,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 17:35 (idea-maker run)*
+*Last updated: 2026-01-19 17:30 (project-manager run)*
