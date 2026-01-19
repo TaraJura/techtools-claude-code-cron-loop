@@ -97,10 +97,10 @@ Tasks follow this format:
 
 ### TASK-023: Add system health dashboard page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
+- **Assigned**: developer
+- **Priority**: HIGH
 - **Description**: Create a system health page that displays real-time server metrics including CPU usage, memory, disk space, and load average
-- **Notes**: Web app feature for monitoring server health without SSH. Should show: (1) CPU usage percentage with visual gauge/bar, (2) Memory usage with used/available/total stats matching memory-monitor.sh output, (3) Disk usage for main partitions with warning colors at 80%/90% thresholds like disk-space-monitor.sh, (4) System load average with 1/5/15 minute values, (5) Uptime display. Could fetch data via a simple shell script that outputs JSON (to be created as a companion task) or use client-side fetch of existing script outputs. Auto-refresh every 30 seconds. Different from existing scripts (system-info.sh, disk-space-monitor.sh, memory-monitor.sh) which are CLI tools - this brings their data to the web UI. Different from TASK-022 (log viewer) which focuses on agent logs not system metrics.
+- **Notes**: Web app feature for monitoring server health without SSH. Should show: (1) CPU usage percentage with visual gauge/bar, (2) Memory usage with used/available/total stats matching memory-monitor.sh output, (3) Disk usage for main partitions with warning colors at 80%/90% thresholds like disk-space-monitor.sh, (4) System load average with 1/5/15 minute values, (5) Uptime display. Could fetch data via a simple shell script that outputs JSON (to be created as a companion task) or use client-side fetch of existing script outputs. Auto-refresh every 30 seconds. Different from existing scripts (system-info.sh, disk-space-monitor.sh, memory-monitor.sh) which are CLI tools - this brings their data to the web UI. Different from TASK-022 (log viewer) which focuses on agent logs not system metrics. **Assigned by PM on 2026-01-19** - elevated to HIGH priority since TASK-024 (JSON API endpoint) is now complete and verified, providing the data source this dashboard needs.
 
 ### TASK-025: Add dark/light theme toggle to CronLoop web app
 - **Status**: TODO
@@ -247,4 +247,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 22:30 (idea-maker added TASK-025 dark/light theme toggle, TASK-026 GitHub commit activity feed)*
+*Last updated: 2026-01-19 22:31 (PM assigned TASK-023 system health dashboard to developer, elevated to HIGH priority - JSON API endpoint ready)*
