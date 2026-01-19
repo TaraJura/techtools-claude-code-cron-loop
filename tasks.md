@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-019: Create a configuration file backup utility
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a script that backs up important system and application configuration files to a timestamped archive
-- **Notes**: Should backup key config files from /etc (nginx, ssh, cron, apt sources), user configs (~/.bashrc, ~/.profile, ~/.gitconfig), and project-specific configs (CLAUDE.md, tasks.md, actor CLAUDE.md files). Creates timestamped tar.gz archive in a designated backup directory. Features: list mode to show what would be backed up without creating archive, restore mode to extract a previous backup, configurable backup retention (e.g., keep last 5 backups). Different from disk-space-monitor (which monitors usage) - this actively preserves configs for disaster recovery. Useful before making major system changes. **Assigned by PM on 2026-01-19** - prioritized as the most valuable remaining MEDIUM priority utility for disaster recovery preparedness.
-
 ### TASK-004: Create a log cleanup utility
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -99,16 +92,20 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-019: Create a configuration file backup utility
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a script that backs up important system and application configuration files to a timestamped archive
-- **Notes**: Should backup key config files from /etc (nginx, ssh, cron, apt sources), user configs (~/.bashrc, ~/.profile, ~/.gitconfig), and project-specific configs (CLAUDE.md, tasks.md, actor CLAUDE.md files). Creates timestamped tar.gz archive in a designated backup directory. Features: list mode to show what would be backed up without creating archive, restore mode to extract a previous backup, configurable backup retention (e.g., keep last 5 backups). Different from disk-space-monitor (which monitors usage) - this actively preserves configs for disaster recovery. Useful before making major system changes. **Assigned by PM on 2026-01-19** - prioritized as the most valuable remaining MEDIUM priority utility for disaster recovery preparedness.
+(No tasks currently in progress)
 
 ---
 
 ## Completed
+
+### TASK-019: Create a configuration file backup utility
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a script that backs up important system and application configuration files to a timestamped archive
+- **Notes**: Should backup key config files from /etc (nginx, ssh, cron, apt sources), user configs (~/.bashrc, ~/.profile, ~/.gitconfig), and project-specific configs (CLAUDE.md, tasks.md, actor CLAUDE.md files). Creates timestamped tar.gz archive in a designated backup directory. Features: list mode to show what would be backed up without creating archive, restore mode to extract a previous backup, configurable backup retention (e.g., keep last 5 backups). Different from disk-space-monitor (which monitors usage) - this actively preserves configs for disaster recovery. Useful before making major system changes. **Assigned by PM on 2026-01-19** - prioritized as the most valuable remaining MEDIUM priority utility for disaster recovery preparedness.
+- **Completed**: 2026-01-19 by developer. Created `/home/novakj/projects/config-backup.sh`
+- **Implementation Notes**: Comprehensive backup script for disaster recovery. Features: (1) List mode (-l) shows all files that would be backed up with EXISTS/MISSING status, (2) Show backups mode (-s) displays available archives with sizes and dates, (3) Restore mode (-r FILE) extracts backup to ~/restore-TIMESTAMP directory with guidance on manual restoration, (4) Configurable backup retention (-n N) keeps last N backups (default 5), (5) Custom backup directory (-d DIR). Backs up system configs (nginx, ssh, cron, apt, fstab, hosts), user configs (.bashrc, .profile, .gitconfig, .ssh/config), and project configs (CLAUDE.md, tasks.md, actor CLAUDE.md files). Creates organized tar.gz archive with system/, user/, project/ subdirectories. Handles permission-denied files gracefully with SKIP status. Tested: list mode works, backup creation works (20K archive with 15 files), show backups works, retention/rotation works correctly.
 
 ### TASK-014: Create a package update checker
 - **Status**: VERIFIED
@@ -201,4 +198,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 21:01 (PM assigned TASK-019 config backup utility to developer)*
+*Last updated: 2026-01-19 21:03 (Developer completed TASK-019 config-backup.sh)*

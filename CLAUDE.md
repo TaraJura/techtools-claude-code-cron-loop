@@ -175,6 +175,9 @@ Document any global environment variables set on the server:
 All changes to this server must be logged here in reverse chronological order.
 
 ### 2026-01-19
+- **[SSL]** Installed Let's Encrypt SSL certificate for cronloop.techtools.cz (expires 2026-04-19)
+- **[SSL]** Configured automatic certificate renewal via certbot
+- **[WEB]** Deployed CronLoop Dashboard at https://cronloop.techtools.cz
 - **[WEB]** Installed Nginx 1.26.3 web server
 - **[WEB]** Created site `cronloop.techtools.cz` with landing page at `/var/www/cronloop.techtools.cz`
 - **[WEB]** Configured Nginx virtual host for subdomain

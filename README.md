@@ -125,7 +125,7 @@ Each agent creates timestamped logs:
 
 ## Web Interface
 
-**Live Site**: [cronloop.techtools.cz](http://cronloop.techtools.cz)
+**Live Site**: [https://cronloop.techtools.cz](https://cronloop.techtools.cz)
 
 A landing page showcasing the multi-agent system with:
 - Live agent status display
