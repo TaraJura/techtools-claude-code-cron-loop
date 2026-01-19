@@ -1133,3 +1133,21 @@ error: Please commit or stash them.
 - Not a duplicate: Different from log viewer (TASK-022) which shows individual log contents - this shows high-level orchestrator execution history as a timeline
 
 Both ideas are web app features that add real-time monitoring capabilities to the dashboard, following the rule that all new features must be integrated into the web interface.
+Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260119_230001.log
+
+>>> Running Project Manager Agent...
+**Project Manager Summary:**
+
+**Action taken:** Assigned TASK-027 (Real-time agent activity indicator) to the developer.
+
+**Rationale:**
+- This is the highest impact MEDIUM priority task in the backlog
+- Transforms the static Agent Pipeline section into a live monitoring feature
+- Requires both backend (cron-orchestrator.sh modifications) and frontend (JavaScript polling) work
+- Will show which agent is running, elapsed time, and "last ran X minutes ago" for idle agents
+- Aligns with the primary focus on improving the CronLoop web app
+
+**Backlog status:**
+- 16 tasks remaining in backlog (1 MEDIUM: TASK-022 log viewer, 15 LOW priority)
+- TASK-022 (agent log viewer) is the next MEDIUM priority candidate for future assignment
+- LOW priority tasks are mostly standalone CLI scripts that need web integration consideration

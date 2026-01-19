@@ -111,10 +111,10 @@ Tasks follow this format:
 
 ### TASK-027: Add real-time agent activity indicator to CronLoop dashboard
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Enhance the dashboard to show which agent is currently running in real-time, with live status updates
-- **Notes**: Currently the Agent Pipeline section shows all agents as "Idle" statically. This feature should: (1) Create a status file updated by cron-orchestrator.sh when each agent starts/finishes, (2) Add JavaScript to poll this status file and update agent cards with "Running..." indicator and elapsed time, (3) Show timestamp of last run for each agent, (4) Animate the running agent's card (pulse/glow effect), (5) Display "Last ran X minutes ago" for idle agents. Requires modifying cron-orchestrator.sh to write status updates to a JSON file in /var/www/cronloop.techtools.cz/api/. Different from TASK-022 (log viewer) which shows historical logs - this shows LIVE status. Different from TASK-026 (GitHub commits) which shows code history. Adds real-time monitoring capability to the otherwise static dashboard.
+- **Notes**: Currently the Agent Pipeline section shows all agents as "Idle" statically. This feature should: (1) Create a status file updated by cron-orchestrator.sh when each agent starts/finishes, (2) Add JavaScript to poll this status file and update agent cards with "Running..." indicator and elapsed time, (3) Show timestamp of last run for each agent, (4) Animate the running agent's card (pulse/glow effect), (5) Display "Last ran X minutes ago" for idle agents. Requires modifying cron-orchestrator.sh to write status updates to a JSON file in /var/www/cronloop.techtools.cz/api/. Different from TASK-022 (log viewer) which shows historical logs - this shows LIVE status. Different from TASK-026 (GitHub commits) which shows code history. Adds real-time monitoring capability to the otherwise static dashboard. **Assigned by PM on 2026-01-19** - prioritized as the most impactful web feature, transforming static dashboard into live monitoring.
 
 ### TASK-028: Add cron execution timeline page to CronLoop web app
 - **Status**: TODO
@@ -264,4 +264,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 23:00 (idea-maker added TASK-027 real-time agent activity indicator, TASK-028 cron execution timeline)*
+*Last updated: 2026-01-19 23:01 (PM assigned TASK-027 to developer - real-time agent activity indicator)*
