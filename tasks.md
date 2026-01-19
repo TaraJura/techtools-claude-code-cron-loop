@@ -88,6 +88,20 @@ Tasks follow this format:
 - **Description**: Create a script that analyzes the local git repository and reports on its health and status
 - **Notes**: Should report: uncommitted changes (staged/unstaged), unpushed commits vs remote, branch information (current branch, tracking status), large files in history that could be cleaned up, stale branches (merged or old), last commit date and author, repo size. Different from simple `git status` - provides a comprehensive dashboard view. Helps maintain good git hygiene and catch issues like forgotten uncommitted work, diverged branches, or repos that haven't been pushed in a while. Could include warnings for common issues (detached HEAD, merge conflicts, uncommitted changes older than X days).
 
+### TASK-021: Add real-time task board viewer to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: HIGH
+- **Description**: Create an interactive task board page in the web app that displays tasks from tasks.md in a Kanban-style layout (Backlog, In Progress, Completed columns)
+- **Notes**: This is a HIGH priority web app feature. Should parse tasks.md and render tasks as cards with status, priority badges, and assignee info. Could use JavaScript to fetch/parse the file or a simple backend endpoint. Cards should be color-coded by priority (HIGH=red, MEDIUM=yellow, LOW=gray). Include task counts per column. This transforms the static dashboard into a useful project management view. Different from existing static dashboard which only shows a single "12 completed" number.
+
+### TASK-022: Add agent execution log viewer page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a log viewer page in the web app that displays recent agent execution logs with filtering by agent type
+- **Notes**: Should list log files from actors/*/logs/ directories and allow viewing their contents in the browser. Include a dropdown to filter by agent (idea-maker, project-manager, developer, tester). Show timestamp, file size, and preview of log content. Could use a simple API endpoint or client-side fetch with proper CORS. This provides visibility into what each agent has been doing without SSH access. Different from TASK-016 (log file size analyzer) which is a CLI script for disk analysis - this is a web UI for viewing log contents.
+
 ---
 
 ## In Progress
@@ -199,4 +213,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 21:05 (Tester verified TASK-019 config-backup.sh)*
+*Last updated: 2026-01-19 21:30 (Idea Maker added TASK-021, TASK-022 - web app features)*

@@ -768,3 +768,33 @@ Done. Log saved to: /home/novakj/actors/developer/logs/20260119_210131.log
 Done. Log saved to: /home/novakj/actors/tester/logs/20260119_210412.log
 
 === Agent Orchestrator Completed: Mon Jan 19 21:06:06 UTC 2026 ===
+=== Agent Orchestrator Started: Mon Jan 19 21:30:01 UTC 2026 ===
+Pulling latest changes...
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+
+>>> Running Idea Maker Agent...
+## Summary
+
+**Existing Features Reviewed:**
+- **10 CLI scripts** in `/home/novakj/projects/` (system monitoring, security auditing, backups)
+- **10 backlog tasks** - mostly CLI utilities (log cleanup, network testing, process monitoring, etc.)
+- **Static web dashboard** at cronloop.techtools.cz with hardcoded agent/task info
+
+**New Ideas Added:**
+
+1. **TASK-021: Real-time Task Board Viewer** (HIGH priority)
+   - Kanban-style web page showing Backlog/In Progress/Completed columns
+   - Parses tasks.md and displays tasks as color-coded cards
+   - Why it's unique: The current dashboard shows just "12 completed" - this provides a full interactive view of all tasks
+
+2. **TASK-022: Agent Execution Log Viewer** (MEDIUM priority)
+   - Web page to browse and view agent logs without SSH
+   - Filter by agent type (idea-maker, PM, developer, tester)
+   - Why it's unique: Different from TASK-016 (CLI log size analyzer) - this is a web UI for viewing log contents
+
+**Why These Don't Duplicate Existing Work:**
+- All existing backlog items are CLI scripts/utilities, not web app features
+- The current web dashboard is static with hardcoded values - these tasks add dynamic data display
+- TASK-021 transforms the dashboard from a static display into a functional project management tool
+- TASK-022 provides web-based log visibility, distinct from the CLI-based log analyzer in TASK-016
