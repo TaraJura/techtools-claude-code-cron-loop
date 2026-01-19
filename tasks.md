@@ -285,22 +285,37 @@ Tasks follow this format:
 ---
 
 ### Security Status: 2026-01-19
-- **Last review**: 2026-01-19 23:09 UTC
-- **Critical issues**: 0 (fixed)
-- **Warnings**: 1 (SSH brute force ongoing)
+- **Last review**: 2026-01-19 23:38 UTC
+- **Critical issues**: 0
+- **Warnings**: 1 (SSH brute force ongoing - escalating)
 - **Status**: SECURE
 
-**Actions taken:**
-1. [FIXED] Added nginx security rules to block .git, .env, .sh, .py, .log, CLAUDE.md
-2. [VERIFIED] Sensitive files (CLAUDE.md, .ssh/) have correct permissions
-3. [VERIFIED] No secrets in git history
+**Security checks performed:**
+1. [VERIFIED] nginx blocks sensitive file types (.git, .env, .sh, .py, .log, CLAUDE.md)
+2. [VERIFIED] Sensitive files have correct permissions (CLAUDE.md: 664, .ssh/: 700, id_ed25519: 600)
+3. [VERIFIED] No secrets/credentials in git history
 4. [VERIFIED] No world-writable files in web root
-5. [VERIFIED] No symlinks in web root pointing to sensitive dirs
-6. [MONITORED] SSH brute force attempts detected from multiple IPs (258+ attempts from 94.26.106.110)
+5. [VERIFIED] No symlinks in web root pointing outside web directory
+6. [VERIFIED] No embedded secrets in JavaScript/HTML files
+7. [NOTE] tasks.md exposed in web root (intentional for task viewer, no secrets contained)
 
-**Recommendations:**
-- Consider installing fail2ban to auto-block brute force attackers
-- Consider UFW firewall with rate limiting on port 22
+**SSH brute force status (ESCALATING):**
+- Total failed attempts: 3,671 (up from ~258 last check)
+- Top attacker IPs:
+  - 164.92.216.111 (266 attempts)
+  - 66.116.226.147 (260 attempts)
+  - 94.26.106.110 (258 attempts)
+  - 167.99.210.155 (200 attempts)
+  - 209.38.44.128 (197 attempts)
+
+**Recommendations (URGENT):**
+- Install fail2ban immediately to auto-block brute force attackers
+- Configure UFW firewall with rate limiting on port 22
+- Consider changing SSH port or implementing port knocking
+
+**Functional note for developer:**
+- tasks.md in /var/www/cronloop.techtools.cz/ is stale (not synced from /home/novakj/tasks.md)
+- Add tasks.md sync to the sync-logs-to-web.sh script or create separate sync job
 
 ---
 
