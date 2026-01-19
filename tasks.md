@@ -78,16 +78,20 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-013: Create a file permission auditor
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a script that scans important directories for potentially insecure file permissions
-- **Notes**: Should check for world-writable files in home directories and /tmp, SUID/SGID binaries in non-standard locations, and files with overly permissive modes (777, 666). Helps identify security risks from misconfigured permissions. Report findings with recommendations on how to fix them. Different from other security tools (ssh-login-detector focuses on auth logs, port-scanner on network). **Assigned by PM on 2026-01-19** - prioritized as next security utility to complement existing tools.
+(none currently)
 
 ---
 
 ## Completed
+
+### TASK-013: Create a file permission auditor
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a script that scans important directories for potentially insecure file permissions
+- **Notes**: Should check for world-writable files in home directories and /tmp, SUID/SGID binaries in non-standard locations, and files with overly permissive modes (777, 666). Helps identify security risks from misconfigured permissions. Report findings with recommendations on how to fix them. Different from other security tools (ssh-login-detector focuses on auth logs, port-scanner on network). **Assigned by PM on 2026-01-19** - prioritized as next security utility to complement existing tools.
+- **Completed**: 2026-01-19 by developer. Created `/home/novakj/projects/file-permission-auditor.sh`
+- **Implementation Notes**: Script scans for three types of permission issues: (1) World-writable files in home dirs and /tmp, (2) SUID/SGID binaries in non-standard locations (excludes /usr/bin, /usr/sbin, etc.), (3) Files with 777 or 666 permissions. Features: color-coded output, verbose mode (-v) to show all findings, custom directory scanning (-d), quick mode (-q) to skip SUID/SGID scan, exclusions for .git/node_modules/.cache. Provides summary with counts and actionable remediation commands (chmod o-w, chmod u-s, chmod 644). Exits with code 1 if issues found (useful for CI/automation). Tested: correctly detects world-writable and 777 permission files.
 
 ### TASK-007: Create a port scanner utility
 - **Status**: VERIFIED
@@ -160,4 +164,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 20:01 (PM assigned TASK-013 to developer)*
+*Last updated: 2026-01-19 20:02 (Developer completed TASK-013 - file permission auditor)*

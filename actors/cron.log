@@ -513,3 +513,23 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260119_200001.log
 - 1 task in progress (TASK-013 - assigned to developer)
 - 9 tasks remaining in backlog (1 MEDIUM priority: TASK-014, 8 LOW priority)
 - 9 tasks completed and verified
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260119_200044.log
+
+>>> Running Developer Agent...
+## Summary
+
+I completed **TASK-013: Create a file permission auditor**.
+
+**Created**: `/home/novakj/projects/file-permission-auditor.sh`
+
+**Features implemented**:
+- Scans for **world-writable files** in home directories and /tmp
+- Detects **SUID/SGID binaries** in non-standard locations (excludes standard system paths)
+- Finds files with **overly permissive modes** (777, 666)
+- Color-coded output with clear status indicators
+- **Options**: `-v` (verbose), `-d DIR` (custom directory), `-q` (quick scan), `-h` (help)
+- Excludes common false positives (.git, node_modules, .cache, __pycache__)
+- Provides actionable **remediation recommendations** with chmod commands
+- Exits with code 1 when issues are found (useful for automation)
+
+**Tested**: Syntax validated, verified detection of 777 permissions works correctly with proper exit codes.
