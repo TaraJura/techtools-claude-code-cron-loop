@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-001: Create a hello world script
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: HIGH
-- **Description**: Create a simple hello.py script that prints "Hello from the AI agent system!"
-- **Notes**: This is our first test task
-
 ### TASK-002: Create a system info script
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -36,7 +29,12 @@ Tasks follow this format:
 
 ## In Progress
 
-(Tasks currently being worked on)
+### TASK-001: Create a hello world script
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: HIGH
+- **Description**: Create a simple hello.py script that prints "Hello from the AI agent system!"
+- **Notes**: This is our first test task. Assigned by PM on 2026-01-19.
 
 ---
 
@@ -46,4 +44,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19*
+*Last updated: 2026-01-19 (PM run)*
