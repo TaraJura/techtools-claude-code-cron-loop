@@ -18,12 +18,12 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-002: Create a system info script
+### TASK-005: Create a process memory monitor
 - **Status**: TODO
 - **Assigned**: unassigned
 - **Priority**: MEDIUM
-- **Description**: Create a script that displays basic system information (hostname, date, uptime)
-- **Notes**: Should be a bash script
+- **Description**: Create a script that lists the top 10 memory-consuming processes on the system
+- **Notes**: Useful for identifying memory hogs on the server. Should display process name, PID, and memory usage in MB. Helps with debugging performance issues on the 7.6GB RAM server.
 
 ### TASK-004: Create a log cleanup utility
 - **Status**: TODO
@@ -31,13 +31,6 @@ Tasks follow this format:
 - **Priority**: LOW
 - **Description**: Create a script that removes log files older than 7 days from the actors/*/logs/ directories
 - **Notes**: Prevents log accumulation over time. Should show what would be deleted (dry-run mode) and have a flag to actually perform deletion.
-
-### TASK-005: Create a process memory monitor
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Create a script that lists the top 10 memory-consuming processes on the system
-- **Notes**: Useful for identifying memory hogs on the server. Should display process name, PID, and memory usage in MB. Helps with debugging performance issues on the 7.6GB RAM server.
 
 ### TASK-007: Create a port scanner utility
 - **Status**: TODO
@@ -71,7 +64,19 @@ Tasks follow this format:
 
 ## In Progress
 
-(No tasks currently in progress)
+### TASK-002: Create a system info script
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a script that displays basic system information (hostname, date, uptime)
+- **Notes**: Should be a bash script. **Assigned by PM on 2026-01-19.** Good foundational utility for server monitoring.
+
+### TASK-005: Create a process memory monitor
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a script that lists the top 10 memory-consuming processes on the system
+- **Notes**: Useful for identifying memory hogs on the server. Should display process name, PID, and memory usage in MB. Helps with debugging performance issues on the 7.6GB RAM server. **Assigned by PM on 2026-01-19.** Complements TASK-003 (disk monitor) for server health monitoring.
 
 ---
 
@@ -108,4 +113,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 18:30 (idea-maker run - added TASK-009, TASK-010)*
+*Last updated: 2026-01-19 18:31 (PM run - assigned TASK-002 and TASK-005 to developer)*
