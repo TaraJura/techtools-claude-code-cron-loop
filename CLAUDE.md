@@ -588,6 +588,10 @@ Document any global environment variables set on the server:
 All changes to this server must be logged here in reverse chronological order.
 
 ### 2026-01-19
+- **[SECURITY]** Hardened nginx config with rules to block .git, .env, .sh, .py, .log, CLAUDE.md file types
+- **[SECURITY]** Verified no secrets exposed in git history
+- **[SECURITY]** Verified sensitive files have correct permissions (CLAUDE.md, .ssh/)
+- **[SECURITY]** Detected ongoing SSH brute force activity - recommend fail2ban installation
 - **[ENGINE]** Implemented Self-Sustaining Engine with self-healing, self-extension, and survival mechanisms
 - **[ENGINE]** Added Core Protected Files documentation (DNA of the system)
 - **[ENGINE]** Added Self-Healing Protocol with DETECT → DIAGNOSE → RECOVER → VERIFY → LOG sequence
