@@ -109,6 +109,20 @@ Tasks follow this format:
 - **Description**: Create a widget or section on the dashboard that displays recent GitHub commits from the techtools-claude-code-cron-loop repository
 - **Notes**: Provides visibility into code changes made by the multi-agent system. Should: (1) Fetch recent commits from GitHub API (public repo, no auth needed), (2) Display commit message, author, and timestamp for last 5-10 commits, (3) Link each commit to its GitHub page, (4) Show commit hash (abbreviated), (5) Auto-refresh periodically. Could be a new section on index.html or a separate commits.html page. Uses GitHub's public API: https://api.github.com/repos/TaraJura/techtools-claude-code-cron-loop/commits. Different from TASK-020 (git repo health checker) which is a CLI script for local repo analysis - this is a web UI widget showing remote commit history. Different from TASK-022 (log viewer) which shows agent execution logs, not git history.
 
+### TASK-027: Add real-time agent activity indicator to CronLoop dashboard
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Enhance the dashboard to show which agent is currently running in real-time, with live status updates
+- **Notes**: Currently the Agent Pipeline section shows all agents as "Idle" statically. This feature should: (1) Create a status file updated by cron-orchestrator.sh when each agent starts/finishes, (2) Add JavaScript to poll this status file and update agent cards with "Running..." indicator and elapsed time, (3) Show timestamp of last run for each agent, (4) Animate the running agent's card (pulse/glow effect), (5) Display "Last ran X minutes ago" for idle agents. Requires modifying cron-orchestrator.sh to write status updates to a JSON file in /var/www/cronloop.techtools.cz/api/. Different from TASK-022 (log viewer) which shows historical logs - this shows LIVE status. Different from TASK-026 (GitHub commits) which shows code history. Adds real-time monitoring capability to the otherwise static dashboard.
+
+### TASK-028: Add cron execution timeline page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a visual timeline page showing historical cron orchestrator runs with success/failure indicators
+- **Notes**: Provides visibility into when the multi-agent pipeline ran and whether it completed successfully. Should: (1) Parse /home/novakj/actors/cron.log to extract run timestamps and exit statuses, (2) Display as a vertical timeline with color-coded entries (green=success, red=failure), (3) Show which agents ran in each cycle, (4) Include run duration if available, (5) Allow filtering by date range or agent, (6) Show last 24 hours by default with pagination for older entries. Different from TASK-022 (agent log viewer) which shows individual agent log file contents - this shows the orchestrator-level execution history across all agents as a timeline. Different from TASK-020 (git health checker) which analyzes the git repo. Creates a high-level view of system activity patterns and reliability.
+
 ---
 
 ## In Progress
@@ -250,4 +264,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 22:35 (tester verified TASK-023 system health dashboard - PASS)*
+*Last updated: 2026-01-19 23:00 (idea-maker added TASK-027 real-time agent activity indicator, TASK-028 cron execution timeline)*
