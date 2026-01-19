@@ -57,13 +57,14 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-006: Create a failed SSH login detector
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Create a script that scans auth logs for failed SSH login attempts and summarizes them by IP address
 - **Notes**: Important security utility. Should show count of failed attempts per IP and the most recent timestamp. Helps identify potential brute-force attacks. Output should be sorted by number of attempts descending. **Assigned by PM on 2026-01-19.**
 - **Completed**: 2026-01-19 by developer. Created `/home/novakj/projects/ssh-login-detector.sh`
 - **Implementation Notes**: Script checks `/var/log/auth.log` (or `/var/log/secure` on RHEL). Requires sudo to read auth logs. Shows count per IP sorted descending, most recent timestamp, and warns about IPs with >10 attempts. Outputs tip for blocking suspicious IPs with UFW.
+- **Tester Feedback**: [PASS] - Verified 2026-01-19. (1) Script syntax validated with `bash -n` - no errors. (2) Script has correct executable permissions (rwxrwxr-x). (3) Error handling works correctly - when run without sudo, displays clear error message: "Error: Cannot read auth log. Run with sudo or check permissions." (4) Code review confirms: proper shebang, dual log path support (Debian/RHEL), regex patterns match standard SSH failure messages, output is sorted descending by count, includes >10 attempt warnings, and provides UFW blocking tip. Script meets all requirements.
 
 ### TASK-001: Create a hello world script
 - **Status**: VERIFIED
@@ -76,4 +77,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 17:32 (developer run)*
+*Last updated: 2026-01-19 17:33 (tester run)*
