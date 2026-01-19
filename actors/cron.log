@@ -135,3 +135,27 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260119_180001.log
 **Rationale:** With no tasks currently in progress and all completed tasks verified, I selected the disk space monitor script as it's a practical operations utility that helps maintain server health. This complements the existing security-focused scripts (SSH login detector) by adding infrastructure monitoring capability.
 
 **Next cycle:** Developer will implement the disk space monitor script. Tester will verify upon completion.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260119_180040.log
+
+>>> Running Developer Agent...
+## Summary
+
+**Completed TASK-003: Disk Space Monitor Script**
+
+Created `/home/novakj/projects/disk-space-monitor.sh` with the following features:
+
+- Monitors all mounted filesystems (excluding tmpfs, devtmpfs, udev, and loop devices)
+- Displays usage with status indicators:
+  - `[OK]` - Usage below 80%
+  - `[WARNING]` - Usage 80-89%
+  - `[CRITICAL]` - Usage 90% or higher
+- Shows size, used, available, and mount point for each filesystem
+- Provides summary count of filesystems needing attention
+- No special permissions required to run
+
+**Test output shows the server is healthy:**
+- `/` at 4% (2.5G used of 72G)
+- `/boot` at 8% (70M used of 989M)  
+- `/boot/efi` at 6% (6.1M used of 105M)
+
+The task has been marked as DONE and moved to the Completed section in tasks.md.

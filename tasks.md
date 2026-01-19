@@ -57,16 +57,20 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-003: Create a disk space monitor script
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: HIGH
-- **Description**: Create a script that checks disk usage and warns if any partition exceeds 80% capacity
-- **Notes**: Should output current usage for all mounted filesystems and highlight any that are running low on space. Useful for preventing disk-full issues. **Prioritized by PM** - important for server health monitoring. **Assigned to developer on 2026-01-19.**
+(No tasks currently in progress)
 
 ---
 
 ## Completed
+
+### TASK-003: Create a disk space monitor script
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: HIGH
+- **Description**: Create a script that checks disk usage and warns if any partition exceeds 80% capacity
+- **Notes**: Should output current usage for all mounted filesystems and highlight any that are running low on space. Useful for preventing disk-full issues. **Prioritized by PM** - important for server health monitoring. **Assigned to developer on 2026-01-19.**
+- **Completed**: 2026-01-19 by developer. Created `/home/novakj/projects/disk-space-monitor.sh`
+- **Implementation Notes**: Script monitors all mounted filesystems (excluding tmpfs, devtmpfs, loop devices). Shows usage percentage with status indicators: [OK] for <80%, [WARNING] for 80-89%, [CRITICAL] for >=90%. Provides summary count of warning/critical filesystems. No special permissions required.
 
 ### TASK-006: Create a failed SSH login detector
 - **Status**: VERIFIED
@@ -89,4 +93,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 18:00 (project-manager run - assigned TASK-003 to developer)*
+*Last updated: 2026-01-19 18:01 (developer run - completed TASK-003 disk space monitor)*
