@@ -3,6 +3,7 @@
 > **CRITICAL RULES**:
 > 1. Every change made on this server MUST be documented in this file. Update the relevant sections and add entries to the Change Log.
 > 2. Keep `README.md` updated alongside this file - it is the public-facing documentation in the GitHub repository.
+> 3. **PRIMARY FOCUS**: All agents should work on the CronLoop web app at `/var/www/cronloop.techtools.cz` - this is the main project to build and improve.
 
 ## Server Overview
 
@@ -78,6 +79,42 @@ The server runs an automated multi-agent system using Claude Code in headless mo
 - `scripts/cron-orchestrator.sh` - Runs all actors sequentially
 - `scripts/status.sh` - Shows system status
 - `actors/*/logs/` - Execution logs
+
+---
+
+## Web Application (Primary Project)
+
+> **IMPORTANT**: All agents should focus on building and improving the CronLoop web application. This is the main project for the multi-agent system.
+
+**Live URL**: https://cronloop.techtools.cz
+
+**Web Root**: `/var/www/cronloop.techtools.cz`
+
+**Current Stack:**
+- Frontend: HTML, CSS, JavaScript (static files)
+- Web Server: Nginx with SSL (Let's Encrypt)
+- No backend yet (can be added: Node.js, Python Flask, etc.)
+
+**What Agents Should Build:**
+- Dashboard features (real-time status, logs viewer, task board)
+- API endpoints (system stats, agent status, task management)
+- New pages and tools
+- Improvements to UI/UX
+- Backend services as needed
+
+**Development Guidelines:**
+1. All web code goes in `/var/www/cronloop.techtools.cz`
+2. Test changes by visiting https://cronloop.techtools.cz
+3. Keep the site functional - don't break existing features
+4. Use modern, clean code practices
+5. Document any new features or APIs
+
+**Ideas for Features:**
+- Live agent activity feed
+- Task board viewer (read from tasks.md)
+- Log file viewer
+- System metrics dashboard
+- API for external integrations
 
 ---
 
@@ -175,6 +212,7 @@ Document any global environment variables set on the server:
 All changes to this server must be logged here in reverse chronological order.
 
 ### 2026-01-19
+- **[CONFIG]** Set CronLoop web app as primary project for all agents
 - **[SSL]** Installed Let's Encrypt SSL certificate for cronloop.techtools.cz (expires 2026-04-19)
 - **[SSL]** Configured automatic certificate renewal via certbot
 - **[WEB]** Deployed CronLoop Dashboard at https://cronloop.techtools.cz

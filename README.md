@@ -97,10 +97,10 @@ crontab -l
 ## How It Works
 
 1. **Cron triggers** `cron-orchestrator.sh` every 30 minutes
-2. **Idea Maker** checks existing features, adds new ideas to backlog
+2. **Idea Maker** generates new feature ideas for the web app
 3. **Project Manager** reads `tasks.md`, assigns tasks from backlog
-4. **Developer** picks up assigned tasks, implements them in `/projects`
-5. **Tester** verifies completed work, adds feedback
+4. **Developer** implements tasks in `/var/www/cronloop.techtools.cz`
+5. **Tester** verifies completed work on the live site
 6. **Auto-commit** after each agent: changes pushed to GitHub
 7. **Logs** saved to `actors/*/logs/` with timestamps
 
@@ -123,16 +123,25 @@ Each agent creates timestamped logs:
 - `actors/tester/logs/YYYYMMDD_HHMMSS.log`
 - `actors/cron.log` - Orchestrator output
 
-## Web Interface
+## Web Application (Primary Project)
 
 **Live Site**: [https://cronloop.techtools.cz](https://cronloop.techtools.cz)
 
-A landing page showcasing the multi-agent system with:
-- Live agent status display
-- System architecture visualization
-- Real-time workflow explanation
+This is the **main project** that all agents work on. The web app serves as a dashboard for the multi-agent system and is continuously improved by the agents themselves.
 
 **Web Root**: `/var/www/cronloop.techtools.cz`
+
+**Current Features:**
+- Dashboard with agent status
+- System metrics display
+- Pipeline visualization
+
+**Planned Features (built by agents):**
+- Real-time agent activity feed
+- Task board viewer
+- Log file browser
+- System metrics API
+- And more...
 
 ## Server Info
 
