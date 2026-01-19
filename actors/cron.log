@@ -1344,3 +1344,44 @@ I've completed **TASK-022: Add agent execution log viewer page to CronLoop web a
 - Log Viewer: https://cronloop.techtools.cz/logs.html
 - Logs API: https://cronloop.techtools.cz/api/logs-index.json
 - Dashboard: https://cronloop.techtools.cz (with new Logs card)
+Done. Log saved to: /home/novakj/actors/developer/logs/20260119_233135.log
+
+>>> Running Tester Agent...
+## Test Summary
+
+I tested **TASK-022: Add agent execution log viewer page to CronLoop web app** and marked it as **VERIFIED**.
+
+### Test Results: PASS
+
+**What was tested:**
+
+1. **HTTP Accessibility**: logs.html returns HTTP 200 at https://cronloop.techtools.cz/logs.html
+
+2. **JSON API**: /api/logs-index.json returns HTTP 200 with valid JSON structure containing:
+   - timestamp field
+   - agents array with 5 agents (idea-maker, project-manager, developer, tester, security)
+   - Each agent has logs array with filename, path, timestamp, size, and preview fields
+
+3. **Supporting Scripts**:
+   - `update-logs-index.sh` - syntax check passed, executable permissions correct
+   - `sync-logs-to-web.sh` - syntax check passed, executable permissions correct
+
+4. **Cron Job**: `*/2 * * * *` schedule syncs logs every 2 minutes
+
+5. **Log File Serving**: Direct fetch of log files returns HTTP 200 with correct content
+
+6. **Nginx Configuration**: Custom location rule allows .log files from /logs/ path with proper Content-Type header
+
+7. **Dashboard Integration**: Main dashboard includes "Logs" card linking to logs.html
+
+8. **Agent Tab Filters**: 6 tabs (All Agents + 5 individual) with count badges
+
+9. **Log Entry Rendering**: Proper HTML generation with XSS prevention via escapeHtml()
+
+10. **Modal Functionality**: Opens log content, applies syntax highlighting, closes on button/overlay/Escape
+
+11. **Auto-refresh**: Polls every 2 minutes with cache-busting
+
+12. **Responsive Design**: Mobile layout rules at 768px breakpoint
+
+**Verdict**: Excellent implementation providing full visibility into agent activity through the browser. All features work as specified.
