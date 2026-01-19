@@ -67,6 +67,20 @@ Tasks follow this format:
 - **Description**: Create a script that checks for available system package updates and summarizes them
 - **Notes**: Should show count of available updates, list security updates separately, display last update time, and check if a reboot is required. Uses apt for Ubuntu. Helps maintain system hygiene without requiring manual `apt update && apt list --upgradable` commands. Could be run periodically to keep track of pending updates. Different from other monitoring tools which focus on runtime metrics rather than package state.
 
+### TASK-015: Create a long-running process detector
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a script that identifies processes that have been running for extended periods (e.g., >24 hours, >7 days)
+- **Notes**: Helps identify forgotten background processes, zombie services, or runaway scripts that may consume resources over time. Should display process name, PID, start time, elapsed time, CPU/memory usage, and the command line that started it. Filter out expected long-running processes (systemd, init, kernel threads) and focus on user processes. Complements memory-monitor.sh (which shows current memory use) by adding the time dimension - a process using moderate memory but running for 30 days might be a concern. Different from service-status-checker.sh which only checks systemd services.
+
+### TASK-016: Create a log file size analyzer
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a script that analyzes log files across the system and reports on their sizes and growth rates
+- **Notes**: Should scan common log locations (/var/log, /home/*/logs, actors/*/logs) and report: largest log files (top 10 by size), total log disk usage, files that haven't been rotated (very large single files), and optionally estimate growth rate by comparing modification times and sizes. Different from disk-space-monitor.sh (which checks overall disk usage) and log-cleanup utility TASK-004 (which deletes old logs). This focuses on analysis and visibility rather than cleanup. Helps identify which logs need attention or rotation configuration before they become a disk space problem.
+
 ---
 
 ## In Progress
@@ -148,4 +162,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 19:33 (tester verified TASK-007 - port scanner utility)*
+*Last updated: 2026-01-19 20:00 (idea-maker added TASK-015, TASK-016)*

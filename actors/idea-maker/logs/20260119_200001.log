@@ -1,0 +1,29 @@
+========================================
+Actor: idea-maker
+Started: Mon Jan 19 20:00:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+**Existing Features Found:**
+- 7 completed scripts in `/home/novakj/projects/`: hello.py, system-info.sh, disk-space-monitor.sh, memory-monitor.sh, ssh-login-detector.sh, port-scanner.sh, service-status-checker.sh
+- 7 tasks already in backlog: log cleanup, login history reporter, network connectivity tester, crontab documentation, reboot history tracker, file permission auditor, package update checker
+
+**New Ideas Added:**
+
+1. **TASK-015: Long-running process detector** (LOW priority)
+   - Identifies processes running >24h or >7 days
+   - Shows start time, elapsed time, CPU/memory, and command line
+   - **Why it's unique**: memory-monitor.sh shows current usage but not process age; service-status-checker.sh only handles systemd services, not arbitrary processes. This adds the time dimension to process monitoring.
+
+2. **TASK-016: Log file size analyzer** (LOW priority)
+   - Analyzes log file sizes across the system
+   - Reports largest files, total usage, unrotated logs
+   - **Why it's unique**: Different from disk-space-monitor.sh (general disk usage) and TASK-004 log cleanup (deletion). This focuses on visibility and analysis to identify logs needing attention before they cause problems.
+
+========================================
+Completed: Mon Jan 19 20:00:38 UTC 2026
+========================================
+
+Committing changes to git...
