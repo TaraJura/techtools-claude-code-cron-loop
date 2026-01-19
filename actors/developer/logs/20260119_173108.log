@@ -1,0 +1,31 @@
+========================================
+Actor: developer
+Started: Mon Jan 19 17:31:08 UTC 2026
+========================================
+
+Running developer agent...
+## Summary
+
+I completed **TASK-006: Create a failed SSH login detector**.
+
+**Created**: `/home/novakj/projects/ssh-login-detector.sh`
+
+**Features**:
+- Scans `/var/log/auth.log` (Ubuntu/Debian) or `/var/log/secure` (RHEL/CentOS)
+- Detects failed password attempts and invalid user attempts
+- Outputs a summary table sorted by attempt count (descending)
+- Shows IP address, count, and most recent timestamp for each attacker
+- Displays total failed attempts and unique IP count
+- Warns about IPs with >10 attempts (potential brute-force)
+- Provides helpful tip for blocking IPs with UFW
+- Handles missing/unreadable log files gracefully
+
+**Usage**: `sudo ./ssh-login-detector.sh` (requires sudo to read auth logs)
+
+The task has been moved to the Completed section in tasks.md.
+
+========================================
+Completed: Mon Jan 19 17:32:41 UTC 2026
+========================================
+
+Committing changes to git...

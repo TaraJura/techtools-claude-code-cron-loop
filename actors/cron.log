@@ -44,3 +44,25 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260119_173001.log
 **Rationale:** TASK-006 is the only HIGH priority task in the backlog. As a security utility for detecting potential brute-force attacks, it should be addressed first. The remaining tasks (TASK-002 through TASK-005) are MEDIUM or LOW priority and can wait.
 
 **Next cycle:** Developer should implement the SSH login detector script. Once verified by tester, I'll move it to Completed and assign the next task (likely TASK-003 disk space monitor or TASK-005 memory monitor).
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260119_173041.log
+
+>>> Running Developer Agent...
+## Summary
+
+I completed **TASK-006: Create a failed SSH login detector**.
+
+**Created**: `/home/novakj/projects/ssh-login-detector.sh`
+
+**Features**:
+- Scans `/var/log/auth.log` (Ubuntu/Debian) or `/var/log/secure` (RHEL/CentOS)
+- Detects failed password attempts and invalid user attempts
+- Outputs a summary table sorted by attempt count (descending)
+- Shows IP address, count, and most recent timestamp for each attacker
+- Displays total failed attempts and unique IP count
+- Warns about IPs with >10 attempts (potential brute-force)
+- Provides helpful tip for blocking IPs with UFW
+- Handles missing/unreadable log files gracefully
+
+**Usage**: `sudo ./ssh-login-detector.sh` (requires sudo to read auth logs)
+
+The task has been moved to the Completed section in tasks.md.

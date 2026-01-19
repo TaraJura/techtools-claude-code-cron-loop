@@ -50,16 +50,20 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-006: Create a failed SSH login detector
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: HIGH
-- **Description**: Create a script that scans auth logs for failed SSH login attempts and summarizes them by IP address
-- **Notes**: Important security utility. Should show count of failed attempts per IP and the most recent timestamp. Helps identify potential brute-force attacks. Output should be sorted by number of attempts descending. **Assigned by PM on 2026-01-19.**
+(none)
 
 ---
 
 ## Completed
+
+### TASK-006: Create a failed SSH login detector
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: HIGH
+- **Description**: Create a script that scans auth logs for failed SSH login attempts and summarizes them by IP address
+- **Notes**: Important security utility. Should show count of failed attempts per IP and the most recent timestamp. Helps identify potential brute-force attacks. Output should be sorted by number of attempts descending. **Assigned by PM on 2026-01-19.**
+- **Completed**: 2026-01-19 by developer. Created `/home/novakj/projects/ssh-login-detector.sh`
+- **Implementation Notes**: Script checks `/var/log/auth.log` (or `/var/log/secure` on RHEL). Requires sudo to read auth logs. Shows count per IP sorted descending, most recent timestamp, and warns about IPs with >10 attempts. Outputs tip for blocking suspicious IPs with UFW.
 
 ### TASK-001: Create a hello world script
 - **Status**: VERIFIED
@@ -72,4 +76,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 17:30 (project-manager run)*
+*Last updated: 2026-01-19 17:32 (developer run)*
