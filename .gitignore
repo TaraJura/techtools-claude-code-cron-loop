@@ -8,8 +8,20 @@ id_rsa*
 
 # System files
 .bash_history
+.bash_logout
+.bashrc
+.profile
 .ssh/
 .gnupg/
+.sudo_as_admin_successful
+.viminfo
+
+# Claude Code internal
+.claude/
+.claude.json
+.claude.json.backup
+.local/
+.cache/
 
 # Editor/IDE
 *.swp
@@ -22,5 +34,5 @@ id_rsa*
 .DS_Store
 Thumbs.db
 
-# Logs
-*.log
+# Lock files
+*.lock
