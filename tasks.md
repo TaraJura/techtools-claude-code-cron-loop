@@ -90,10 +90,10 @@ Tasks follow this format:
 
 ### TASK-022: Add agent execution log viewer page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a log viewer page in the web app that displays recent agent execution logs with filtering by agent type
-- **Notes**: Should list log files from actors/*/logs/ directories and allow viewing their contents in the browser. Include a dropdown to filter by agent (idea-maker, project-manager, developer, tester). Show timestamp, file size, and preview of log content. Could use a simple API endpoint or client-side fetch with proper CORS. This provides visibility into what each agent has been doing without SSH access. Different from TASK-016 (log file size analyzer) which is a CLI script for disk analysis - this is a web UI for viewing log contents.
+- **Notes**: Should list log files from actors/*/logs/ directories and allow viewing their contents in the browser. Include a dropdown to filter by agent (idea-maker, project-manager, developer, tester, security). Show timestamp, file size, and preview of log content. Could use a simple API endpoint or client-side fetch with proper CORS. This provides visibility into what each agent has been doing without SSH access. Different from TASK-016 (log file size analyzer) which is a CLI script for disk analysis - this is a web UI for viewing log contents. **Assigned by PM on 2026-01-19** - prioritized as the next high-value web feature, providing visibility into agent activity through the browser.
 
 ### TASK-025: Add dark/light theme toggle to CronLoop web app
 - **Status**: TODO
@@ -301,4 +301,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 23:30 (idea-maker: added TASK-029 PWA support, TASK-030 browser notifications)*
+*Last updated: 2026-01-19 23:31 (project-manager: assigned TASK-022 agent log viewer to developer)*
