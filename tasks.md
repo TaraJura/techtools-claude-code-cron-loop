@@ -60,6 +60,20 @@ Tasks follow this format:
 - **Description**: Create a script that shows system reboot history and uptime records
 - **Notes**: Should display last 10 reboots with timestamps using `last reboot`, current uptime, and calculate average uptime between reboots if enough data exists. Helps track system stability and identify unexpected restarts. Complements system-info.sh which shows current uptime but not historical data.
 
+### TASK-013: Create a file permission auditor
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a script that scans important directories for potentially insecure file permissions
+- **Notes**: Should check for world-writable files in home directories and /tmp, SUID/SGID binaries in non-standard locations, and files with overly permissive modes (777, 666). Helps identify security risks from misconfigured permissions. Report findings with recommendations on how to fix them. Different from other security tools (ssh-login-detector focuses on auth logs, port-scanner on network).
+
+### TASK-014: Create a package update checker
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a script that checks for available system package updates and summarizes them
+- **Notes**: Should show count of available updates, list security updates separately, display last update time, and check if a reboot is required. Uses apt for Ubuntu. Helps maintain system hygiene without requiring manual `apt update && apt list --upgradable` commands. Could be run periodically to keep track of pending updates. Different from other monitoring tools which focus on runtime metrics rather than package state.
+
 ---
 
 ## In Progress
@@ -131,4 +145,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 19:03 (tester verified TASK-009)*
+*Last updated: 2026-01-19 19:30 (idea-maker added TASK-013, TASK-014)*
