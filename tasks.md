@@ -95,6 +95,20 @@ Tasks follow this format:
 - **Description**: Create a log viewer page in the web app that displays recent agent execution logs with filtering by agent type
 - **Notes**: Should list log files from actors/*/logs/ directories and allow viewing their contents in the browser. Include a dropdown to filter by agent (idea-maker, project-manager, developer, tester). Show timestamp, file size, and preview of log content. Could use a simple API endpoint or client-side fetch with proper CORS. This provides visibility into what each agent has been doing without SSH access. Different from TASK-016 (log file size analyzer) which is a CLI script for disk analysis - this is a web UI for viewing log contents.
 
+### TASK-023: Add system health dashboard page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a system health page that displays real-time server metrics including CPU usage, memory, disk space, and load average
+- **Notes**: Web app feature for monitoring server health without SSH. Should show: (1) CPU usage percentage with visual gauge/bar, (2) Memory usage with used/available/total stats matching memory-monitor.sh output, (3) Disk usage for main partitions with warning colors at 80%/90% thresholds like disk-space-monitor.sh, (4) System load average with 1/5/15 minute values, (5) Uptime display. Could fetch data via a simple shell script that outputs JSON (to be created as a companion task) or use client-side fetch of existing script outputs. Auto-refresh every 30 seconds. Different from existing scripts (system-info.sh, disk-space-monitor.sh, memory-monitor.sh) which are CLI tools - this brings their data to the web UI. Different from TASK-022 (log viewer) which focuses on agent logs not system metrics.
+
+### TASK-024: Create JSON API endpoint script for system metrics
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a shell script that outputs system metrics in JSON format for use by web dashboard pages
+- **Notes**: Companion to TASK-023 (system health dashboard). Script should output JSON with: hostname, uptime, memory (used/available/total/percent), disk (per-partition usage and percent), cpu (load averages, core count), and timestamp. Example output: {"hostname":"vps-2d421d2a","uptime":"2h 30m","memory":{"used_mb":850,"total_mb":7750,"percent":11},...}. The web app can fetch this file (if placed in /var/www/cronloop.techtools.cz/api/) to get live data. Different from existing CLI scripts which output human-readable text. This is a data endpoint for the web app, not a standalone monitoring tool.
+
 ---
 
 ## In Progress
@@ -216,4 +230,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 21:35 (Tester verified TASK-021 - Kanban task board viewer for CronLoop web app)*
+*Last updated: 2026-01-19 22:00 (Idea Maker added TASK-023 and TASK-024 - system health dashboard and JSON API for web app)*
