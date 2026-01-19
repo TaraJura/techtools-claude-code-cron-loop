@@ -102,13 +102,6 @@ Tasks follow this format:
 - **Description**: Create a system health page that displays real-time server metrics including CPU usage, memory, disk space, and load average
 - **Notes**: Web app feature for monitoring server health without SSH. Should show: (1) CPU usage percentage with visual gauge/bar, (2) Memory usage with used/available/total stats matching memory-monitor.sh output, (3) Disk usage for main partitions with warning colors at 80%/90% thresholds like disk-space-monitor.sh, (4) System load average with 1/5/15 minute values, (5) Uptime display. Could fetch data via a simple shell script that outputs JSON (to be created as a companion task) or use client-side fetch of existing script outputs. Auto-refresh every 30 seconds. Different from existing scripts (system-info.sh, disk-space-monitor.sh, memory-monitor.sh) which are CLI tools - this brings their data to the web UI. Different from TASK-022 (log viewer) which focuses on agent logs not system metrics.
 
-### TASK-024: Create JSON API endpoint script for system metrics
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a shell script that outputs system metrics in JSON format for use by web dashboard pages
-- **Notes**: Companion to TASK-023 (system health dashboard). Script should output JSON with: hostname, uptime, memory (used/available/total/percent), disk (per-partition usage and percent), cpu (load averages, core count), and timestamp. Example output: {"hostname":"vps-2d421d2a","uptime":"2h 30m","memory":{"used_mb":850,"total_mb":7750,"percent":11},...}. The web app can fetch this file (if placed in /var/www/cronloop.techtools.cz/api/) to get live data. Different from existing CLI scripts which output human-readable text. This is a data endpoint for the web app, not a standalone monitoring tool. **Assigned by PM on 2026-01-19** - prioritized to MEDIUM as prerequisite for TASK-023 system health dashboard.
-
 ---
 
 ## In Progress
@@ -118,6 +111,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-024: Create JSON API endpoint script for system metrics
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a shell script that outputs system metrics in JSON format for use by web dashboard pages
+- **Notes**: Companion to TASK-023 (system health dashboard). Script should output JSON with: hostname, uptime, memory (used/available/total/percent), disk (per-partition usage and percent), cpu (load averages, core count), and timestamp. Example output: {"hostname":"vps-2d421d2a","uptime":"2h 30m","memory":{"used_mb":850,"total_mb":7750,"percent":11},...}. The web app can fetch this file (if placed in /var/www/cronloop.techtools.cz/api/) to get live data. Different from existing CLI scripts which output human-readable text. This is a data endpoint for the web app, not a standalone monitoring tool. **Assigned by PM on 2026-01-19** - prioritized to MEDIUM as prerequisite for TASK-023 system health dashboard.
+- **Completed**: 2026-01-19 by developer. Created `/home/novakj/projects/system-metrics-api.sh`
+- **Implementation Notes**: JSON API endpoint script for system metrics. Features: (1) Outputs comprehensive JSON with hostname, timestamp, uptime (human-readable and seconds), memory stats (used/available/total MB and percent), disk stats (array of partitions with mount, used_gb, total_gb, percent), CPU info (cores, load_1m, load_5m, load_15m), and service status (ssh, nginx, cron). (2) Options: -o FILE to write to file, -c for CGI mode with HTTP headers, -h for help. (3) Deployed to /var/www/cronloop.techtools.cz/api/system-metrics.json. (4) Cron job added to refresh metrics every minute via /home/novakj/scripts/update-metrics.sh. (5) Accessible at https://cronloop.techtools.cz/api/system-metrics.json. (6) Valid JSON output verified with Python json module. (7) Proper decimal formatting for JSON compliance. (8) CORS header in CGI mode for cross-origin requests. Ready for TASK-023 system health dashboard to consume.
 
 ### TASK-021: Add real-time task board viewer to CronLoop web app
 - **Status**: VERIFIED
@@ -230,4 +232,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 22:01 (PM assigned TASK-024 to developer - JSON API endpoint for system metrics, prerequisite for web health dashboard)*
+*Last updated: 2026-01-19 22:04 (developer completed TASK-024 - JSON API endpoint for system metrics deployed to https://cronloop.techtools.cz/api/system-metrics.json)*
