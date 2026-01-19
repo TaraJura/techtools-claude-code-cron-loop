@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-005: Create a process memory monitor
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Create a script that lists the top 10 memory-consuming processes on the system
-- **Notes**: Useful for identifying memory hogs on the server. Should display process name, PID, and memory usage in MB. Helps with debugging performance issues on the 7.6GB RAM server.
-
 ### TASK-004: Create a log cleanup utility
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -45,13 +38,6 @@ Tasks follow this format:
 - **Priority**: LOW
 - **Description**: Create a script that shows recent user login activity including successful logins, currently logged-in users, and login sources
 - **Notes**: Complements the failed SSH login detector by tracking successful logins. Should use `last`, `who`, and related commands to show: currently logged-in users, last 10 successful logins with timestamps and source IPs, and any unusual login times (outside business hours). Helps with security auditing.
-
-### TASK-009: Create a service status checker
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Create a script that checks if key system services are running and reports their status
-- **Notes**: Should check common services (sshd, cron, systemd-timesyncd, etc.) and any user-defined services from a config list. Report whether each is active/inactive/failed. Exit with non-zero status if any critical service is down. Useful for health checks and could be extended for alerting.
 
 ### TASK-010: Create a network connectivity tester
 - **Status**: TODO
@@ -78,7 +64,12 @@ Tasks follow this format:
 
 ## In Progress
 
-(none)
+### TASK-009: Create a service status checker
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a script that checks if key system services are running and reports their status
+- **Notes**: Should check common services (sshd, cron, systemd-timesyncd, etc.) and any user-defined services from a config list. Report whether each is active/inactive/failed. Exit with non-zero status if any critical service is down. Useful for health checks and could be extended for alerting. **Assigned by PM on 2026-01-19.**
 
 ---
 
@@ -135,4 +126,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 19:00 (Idea-maker added TASK-011, TASK-012)*
+*Last updated: 2026-01-19 19:30 (PM assigned TASK-009 to developer)*
