@@ -15,7 +15,7 @@ grep -E "^### TASK-|Status:|Assigned:" "$HOME_DIR/tasks.md" 2>/dev/null | head -
 echo ""
 
 # Show recent logs for each actor
-for actor in project-manager developer; do
+for actor in project-manager developer tester; do
     ACTOR_DIR="$HOME_DIR/actors/$actor"
     LOG_DIR="$ACTOR_DIR/logs"
 

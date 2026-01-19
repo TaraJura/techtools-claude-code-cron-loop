@@ -41,5 +41,13 @@ echo ""
 echo ">>> Running Developer Agent..."
 "$SCRIPTS_DIR/run-actor.sh" developer || true
 
+# Wait a bit to avoid conflicts
+sleep 5
+
+# Finally run Tester (tests completed work and gives feedback)
+echo ""
+echo ">>> Running Tester Agent..."
+"$SCRIPTS_DIR/run-actor.sh" tester || true
+
 echo ""
 echo "=== Agent Orchestrator Completed: $(date) ==="

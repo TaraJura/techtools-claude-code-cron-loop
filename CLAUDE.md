@@ -63,6 +63,9 @@ The server runs an automated multi-agent system using Claude Code in headless mo
 |-------|------|------|
 | project-manager | `/home/novakj/actors/project-manager` | Assigns tasks, manages priorities |
 | developer | `/home/novakj/actors/developer` | Implements assigned tasks |
+| tester | `/home/novakj/actors/tester` | Tests completed work, gives feedback |
+
+**Execution Order:** project-manager → developer → tester (sequential, 5s delay between each)
 
 **Key Files:**
 - `tasks.md` - Shared task board
@@ -166,6 +169,7 @@ Document any global environment variables set on the server:
 All changes to this server must be logged here in reverse chronological order.
 
 ### 2026-01-19
+- **[AGENTS]** Added tester actor to verify developer's work and provide feedback
 - **[AGENTS]** Created multi-agent system with project-manager and developer actors
 - **[AGENTS]** Created tasks.md shared task board
 - **[AGENTS]** Created automation scripts (run-actor.sh, cron-orchestrator.sh, status.sh)
