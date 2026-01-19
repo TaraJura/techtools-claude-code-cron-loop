@@ -57,5 +57,13 @@ echo ""
 echo ">>> Running Tester Agent..."
 "$SCRIPTS_DIR/run-actor.sh" tester || true
 
+# Wait a bit to avoid conflicts
+sleep 5
+
+# Last: run Security (reviews for vulnerabilities)
+echo ""
+echo ">>> Running Security Agent..."
+"$SCRIPTS_DIR/run-actor.sh" security || true
+
 echo ""
 echo "=== Agent Orchestrator Completed: $(date) ==="
