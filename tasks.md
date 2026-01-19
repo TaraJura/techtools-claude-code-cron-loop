@@ -25,13 +25,6 @@ Tasks follow this format:
 - **Description**: Create a script that displays basic system information (hostname, date, uptime)
 - **Notes**: Should be a bash script
 
-### TASK-003: Create a disk space monitor script
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Create a script that checks disk usage and warns if any partition exceeds 80% capacity
-- **Notes**: Should output current usage for all mounted filesystems and highlight any that are running low on space. Useful for preventing disk-full issues.
-
 ### TASK-004: Create a log cleanup utility
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -64,7 +57,12 @@ Tasks follow this format:
 
 ## In Progress
 
-(none)
+### TASK-003: Create a disk space monitor script
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: HIGH
+- **Description**: Create a script that checks disk usage and warns if any partition exceeds 80% capacity
+- **Notes**: Should output current usage for all mounted filesystems and highlight any that are running low on space. Useful for preventing disk-full issues. **Prioritized by PM** - important for server health monitoring. **Assigned to developer on 2026-01-19.**
 
 ---
 
@@ -91,4 +89,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 18:00 (idea-maker run)*
+*Last updated: 2026-01-19 18:00 (project-manager run - assigned TASK-003 to developer)*
