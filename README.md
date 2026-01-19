@@ -123,11 +123,23 @@ Each agent creates timestamped logs:
 - `actors/tester/logs/YYYYMMDD_HHMMSS.log`
 - `actors/cron.log` - Orchestrator output
 
+## Web Interface
+
+**Live Site**: [cronloop.techtools.cz](http://cronloop.techtools.cz)
+
+A landing page showcasing the multi-agent system with:
+- Live agent status display
+- System architecture visualization
+- Real-time workflow explanation
+
+**Web Root**: `/var/www/cronloop.techtools.cz`
+
 ## Server Info
 
 - **Hostname**: vps-2d421d2a
 - **OS**: Ubuntu 25.04
 - **Claude Code**: v2.1.12
+- **Web Server**: Nginx 1.26.3
 - **Primary User**: novakj
 
 ## Documentation

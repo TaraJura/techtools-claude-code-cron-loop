@@ -104,7 +104,7 @@ The server runs an automated multi-agent system using Claude Code in headless mo
 | `/home/novakj/projects/` | Code created by agents |
 | `/home/ubuntu` | Ubuntu system user home |
 | `/etc/nginx/` | Nginx configuration (when installed) |
-| `/var/www/` | Web root (when configured) |
+| `/var/www/cronloop.techtools.cz` | Web app for cronloop subdomain |
 | `/var/log/` | System logs |
 
 ---
@@ -175,6 +175,10 @@ Document any global environment variables set on the server:
 All changes to this server must be logged here in reverse chronological order.
 
 ### 2026-01-19
+- **[WEB]** Installed Nginx 1.26.3 web server
+- **[WEB]** Created site `cronloop.techtools.cz` with landing page at `/var/www/cronloop.techtools.cz`
+- **[WEB]** Configured Nginx virtual host for subdomain
+- **[SUDO]** Enabled passwordless sudo for novakj user
 - **[AGENTS]** Added idea-maker actor to generate new feature ideas
 - **[AGENTS]** Updated execution order: idea-maker → PM → developer → tester
 - **[DOCS]** Created README.md for GitHub repository

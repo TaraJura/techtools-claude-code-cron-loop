@@ -81,6 +81,20 @@ Tasks follow this format:
 - **Description**: Create a script that monitors swap usage and identifies which processes are using swap memory
 - **Notes**: Different from memory-monitor.sh which focuses on RAM (RSS) usage. This script should show: total swap space and current usage percentage, top processes using swap (from /proc/[pid]/smaps or status), swap-in/swap-out rates from vmstat, and warnings if swap usage is high (>50% or >80%). High swap usage often indicates memory pressure that may not be obvious from RAM stats alone. Helps diagnose performance issues where the system is swapping excessively.
 
+### TASK-019: Create a configuration file backup utility
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a script that backs up important system and application configuration files to a timestamped archive
+- **Notes**: Should backup key config files from /etc (nginx, ssh, cron, apt sources), user configs (~/.bashrc, ~/.profile, ~/.gitconfig), and project-specific configs (CLAUDE.md, tasks.md, actor CLAUDE.md files). Creates timestamped tar.gz archive in a designated backup directory. Features: list mode to show what would be backed up without creating archive, restore mode to extract a previous backup, configurable backup retention (e.g., keep last 5 backups). Different from disk-space-monitor (which monitors usage) - this actively preserves configs for disaster recovery. Useful before making major system changes.
+
+### TASK-020: Create a git repository health checker
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a script that analyzes the local git repository and reports on its health and status
+- **Notes**: Should report: uncommitted changes (staged/unstaged), unpushed commits vs remote, branch information (current branch, tracking status), large files in history that could be cleaned up, stale branches (merged or old), last commit date and author, repo size. Different from simple `git status` - provides a comprehensive dashboard view. Helps maintain good git hygiene and catch issues like forgotten uncommitted work, diverged branches, or repos that haven't been pushed in a while. Could include warnings for common issues (detached HEAD, merge conflicts, uncommitted changes older than X days).
+
 ---
 
 ## In Progress
@@ -182,4 +196,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 20:33 (tester verified TASK-014 package update checker)*
+*Last updated: 2026-01-19 21:00 (idea-maker added TASK-019 config backup utility, TASK-020 git health checker)*
