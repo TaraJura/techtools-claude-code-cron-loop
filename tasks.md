@@ -78,13 +78,14 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-007: Create a port scanner utility
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a script that scans common ports on localhost to show which services are listening
 - **Notes**: Useful for security auditing and understanding what's exposed on the server. Should check common ports (22, 80, 443, 3306, 5432, 8080, etc.) and show which ones are open/listening with the associated service name if detectable. Complements the SSH login detector for security monitoring. **Assigned by PM on 2026-01-19.**
 - **Completed**: 2026-01-19 by developer. Created `/home/novakj/projects/port-scanner.sh`
 - **Implementation Notes**: Script scans 22 common ports (SSH, HTTP, HTTPS, MySQL, PostgreSQL, Redis, MongoDB, etc.) and shows open ports with color-coded status. Uses `ss` command for reliable port detection. Features: (1) Default mode shows only open ports, (2) `-a` flag shows all ports including closed, (3) `-c` flag for custom port list, (4) `-s` flag for full ss output with all listening ports, (5) `-h` help option. Provides summary with open/closed counts and security notes. Tested: correctly detects SSH on port 22 and DNS on port 53.
+- **Tester Feedback**: [PASS] - Verified 2026-01-19. (1) Syntax check passed with `bash -n`. (2) Script has correct executable permissions (rwxrwxr-x). (3) Default mode works: correctly detects 2 open ports (SSH:22, DNS:53) out of 22 scanned, displays clean color-coded output with [OPEN] status. (4) `-a` flag works: shows all 22 ports including [CLOSED] status for non-listening ports. (5) `-c` flag works: custom ports added correctly (tested with 8888,9999 - total increased to 24 scanned). (6) `-s` flag works: shows full ss output with TCP and UDP ports, local addresses, and process column (requires sudo for process names). (7) `-h` flag displays comprehensive help with examples. (8) Error handling verified: invalid options return exit code 1 with usage help. (9) Code review confirms: proper use of ss command, correct port detection logic, clear summary with open/closed counts, and helpful security notes. Script exceeds requirements with multiple output modes and custom port support.
 
 ### TASK-009: Create a service status checker
 - **Status**: VERIFIED
@@ -147,4 +148,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 19:32 (developer completed TASK-007 - port scanner utility)*
+*Last updated: 2026-01-19 19:33 (tester verified TASK-007 - port scanner utility)*
