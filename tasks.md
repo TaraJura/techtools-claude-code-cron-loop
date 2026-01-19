@@ -18,6 +18,13 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-019: Create a configuration file backup utility
+- **Status**: TODO
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a script that backs up important system and application configuration files to a timestamped archive
+- **Notes**: Should backup key config files from /etc (nginx, ssh, cron, apt sources), user configs (~/.bashrc, ~/.profile, ~/.gitconfig), and project-specific configs (CLAUDE.md, tasks.md, actor CLAUDE.md files). Creates timestamped tar.gz archive in a designated backup directory. Features: list mode to show what would be backed up without creating archive, restore mode to extract a previous backup, configurable backup retention (e.g., keep last 5 backups). Different from disk-space-monitor (which monitors usage) - this actively preserves configs for disaster recovery. Useful before making major system changes. **Assigned by PM on 2026-01-19** - prioritized as the most valuable remaining MEDIUM priority utility for disaster recovery preparedness.
+
 ### TASK-004: Create a log cleanup utility
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -81,13 +88,6 @@ Tasks follow this format:
 - **Description**: Create a script that monitors swap usage and identifies which processes are using swap memory
 - **Notes**: Different from memory-monitor.sh which focuses on RAM (RSS) usage. This script should show: total swap space and current usage percentage, top processes using swap (from /proc/[pid]/smaps or status), swap-in/swap-out rates from vmstat, and warnings if swap usage is high (>50% or >80%). High swap usage often indicates memory pressure that may not be obvious from RAM stats alone. Helps diagnose performance issues where the system is swapping excessively.
 
-### TASK-019: Create a configuration file backup utility
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Create a script that backs up important system and application configuration files to a timestamped archive
-- **Notes**: Should backup key config files from /etc (nginx, ssh, cron, apt sources), user configs (~/.bashrc, ~/.profile, ~/.gitconfig), and project-specific configs (CLAUDE.md, tasks.md, actor CLAUDE.md files). Creates timestamped tar.gz archive in a designated backup directory. Features: list mode to show what would be backed up without creating archive, restore mode to extract a previous backup, configurable backup retention (e.g., keep last 5 backups). Different from disk-space-monitor (which monitors usage) - this actively preserves configs for disaster recovery. Useful before making major system changes.
-
 ### TASK-020: Create a git repository health checker
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -99,7 +99,12 @@ Tasks follow this format:
 
 ## In Progress
 
-(none currently)
+### TASK-019: Create a configuration file backup utility
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a script that backs up important system and application configuration files to a timestamped archive
+- **Notes**: Should backup key config files from /etc (nginx, ssh, cron, apt sources), user configs (~/.bashrc, ~/.profile, ~/.gitconfig), and project-specific configs (CLAUDE.md, tasks.md, actor CLAUDE.md files). Creates timestamped tar.gz archive in a designated backup directory. Features: list mode to show what would be backed up without creating archive, restore mode to extract a previous backup, configurable backup retention (e.g., keep last 5 backups). Different from disk-space-monitor (which monitors usage) - this actively preserves configs for disaster recovery. Useful before making major system changes. **Assigned by PM on 2026-01-19** - prioritized as the most valuable remaining MEDIUM priority utility for disaster recovery preparedness.
 
 ---
 
@@ -196,4 +201,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 21:00 (idea-maker added TASK-019 config backup utility, TASK-020 git health checker)*
+*Last updated: 2026-01-19 21:01 (PM assigned TASK-019 config backup utility to developer)*
