@@ -1,6 +1,8 @@
 # CLAUDE.md - Server Knowledge Base
 
-> **CRITICAL RULE**: Every change made on this server MUST be documented in this file. Update the relevant sections and add entries to the Change Log.
+> **CRITICAL RULES**:
+> 1. Every change made on this server MUST be documented in this file. Update the relevant sections and add entries to the Change Log.
+> 2. Keep `README.md` updated alongside this file - it is the public-facing documentation in the GitHub repository.
 
 ## Server Overview
 
@@ -91,7 +93,8 @@ The server runs an automated multi-agent system using Claude Code in headless mo
 | Path | Purpose |
 |------|---------|
 | `/home/novakj` | Primary home directory, main workspace |
-| `/home/novakj/CLAUDE.md` | This knowledge base file |
+| `/home/novakj/CLAUDE.md` | This knowledge base file (internal) |
+| `/home/novakj/README.md` | Public documentation (GitHub) |
 | `/home/novakj/tasks.md` | Multi-agent task board |
 | `/home/novakj/actors/` | Actor configurations and logs |
 | `/home/novakj/scripts/` | Automation scripts |
@@ -169,6 +172,8 @@ Document any global environment variables set on the server:
 All changes to this server must be logged here in reverse chronological order.
 
 ### 2026-01-19
+- **[DOCS]** Created README.md for GitHub repository
+- **[DOCS]** Updated critical rules to require README.md updates alongside CLAUDE.md
 - **[AGENTS]** Added tester actor to verify developer's work and provide feedback
 - **[AGENTS]** Created multi-agent system with project-manager and developer actors
 - **[AGENTS]** Created tasks.md shared task board
