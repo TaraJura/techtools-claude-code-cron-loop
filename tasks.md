@@ -53,13 +53,6 @@ Tasks follow this format:
 - **Description**: Create a script that shows system reboot history and uptime records
 - **Notes**: Should display last 10 reboots with timestamps using `last reboot`, current uptime, and calculate average uptime between reboots if enough data exists. Helps track system stability and identify unexpected restarts. Complements system-info.sh which shows current uptime but not historical data.
 
-### TASK-013: Create a file permission auditor
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Create a script that scans important directories for potentially insecure file permissions
-- **Notes**: Should check for world-writable files in home directories and /tmp, SUID/SGID binaries in non-standard locations, and files with overly permissive modes (777, 666). Helps identify security risks from misconfigured permissions. Report findings with recommendations on how to fix them. Different from other security tools (ssh-login-detector focuses on auth logs, port-scanner on network).
-
 ### TASK-014: Create a package update checker
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -85,7 +78,12 @@ Tasks follow this format:
 
 ## In Progress
 
-(none)
+### TASK-013: Create a file permission auditor
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a script that scans important directories for potentially insecure file permissions
+- **Notes**: Should check for world-writable files in home directories and /tmp, SUID/SGID binaries in non-standard locations, and files with overly permissive modes (777, 666). Helps identify security risks from misconfigured permissions. Report findings with recommendations on how to fix them. Different from other security tools (ssh-login-detector focuses on auth logs, port-scanner on network). **Assigned by PM on 2026-01-19** - prioritized as next security utility to complement existing tools.
 
 ---
 
@@ -162,4 +160,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 20:00 (idea-maker added TASK-015, TASK-016)*
+*Last updated: 2026-01-19 20:01 (PM assigned TASK-013 to developer)*
