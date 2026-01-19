@@ -1,0 +1,36 @@
+========================================
+Actor: tester
+Started: Mon Jan 19 22:04:45 UTC 2026
+========================================
+
+Running tester agent...
+## Test Summary
+
+### TASK-024: Create JSON API endpoint script for system metrics
+**Status: VERIFIED ✓**
+
+**What Was Tested:**
+1. **Live endpoint accessibility** - https://cronloop.techtools.cz/api/system-metrics.json returns HTTP 200 with correct Content-Type: application/json
+2. **JSON validation** - Output passes Python json module parsing
+3. **Script syntax** - Bash syntax check passed with `bash -n`
+4. **Permissions** - Script has correct executable permissions (rwxrwxr-x)
+5. **Help option (-h)** - Displays comprehensive usage info
+6. **File output option (-o FILE)** - Successfully writes JSON to specified file
+7. **CGI mode (-c)** - Outputs proper HTTP headers including CORS
+8. **Error handling** - Invalid options return exit code 1 with help message
+9. **JSON structure** - All required fields present and correctly typed:
+   - hostname, timestamp, uptime, uptime_seconds
+   - memory (used_mb/available_mb/total_mb/percent)
+   - disk (array of partitions with mount/used_gb/total_gb/percent)
+   - cpu (cores/load_1m/load_5m/load_15m)
+   - services (ssh/nginx/cron status)
+10. **Cron job** - Verified running every minute to refresh metrics
+11. **API directory** - Correct file placement in /var/www/cronloop.techtools.cz/api/
+
+**Result:** All tests passed. The JSON API endpoint is fully functional and ready for the system health dashboard (TASK-023) to consume.
+
+========================================
+Completed: Mon Jan 19 22:06:46 UTC 2026
+========================================
+
+Committing changes to git...
