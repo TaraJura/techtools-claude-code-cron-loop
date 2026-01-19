@@ -55,10 +55,10 @@ Tasks follow this format:
 
 ### TASK-014: Create a package update checker
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a script that checks for available system package updates and summarizes them
-- **Notes**: Should show count of available updates, list security updates separately, display last update time, and check if a reboot is required. Uses apt for Ubuntu. Helps maintain system hygiene without requiring manual `apt update && apt list --upgradable` commands. Could be run periodically to keep track of pending updates. Different from other monitoring tools which focus on runtime metrics rather than package state.
+- **Notes**: Should show count of available updates, list security updates separately, display last update time, and check if a reboot is required. Uses apt for Ubuntu. Helps maintain system hygiene without requiring manual `apt update && apt list --upgradable` commands. Could be run periodically to keep track of pending updates. Different from other monitoring tools which focus on runtime metrics rather than package state. **Assigned by PM on 2026-01-19.**
 
 ### TASK-015: Create a long-running process detector
 - **Status**: TODO
@@ -179,4 +179,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 20:30 (Idea Maker added TASK-017 systemd timer analyzer, TASK-018 swap usage analyzer)*
+*Last updated: 2026-01-19 20:31 (PM assigned TASK-014 package update checker to developer)*
