@@ -104,10 +104,10 @@ Tasks follow this format:
 
 ### TASK-024: Create JSON API endpoint script for system metrics
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
+- **Assigned**: developer
+- **Priority**: MEDIUM
 - **Description**: Create a shell script that outputs system metrics in JSON format for use by web dashboard pages
-- **Notes**: Companion to TASK-023 (system health dashboard). Script should output JSON with: hostname, uptime, memory (used/available/total/percent), disk (per-partition usage and percent), cpu (load averages, core count), and timestamp. Example output: {"hostname":"vps-2d421d2a","uptime":"2h 30m","memory":{"used_mb":850,"total_mb":7750,"percent":11},...}. The web app can fetch this file (if placed in /var/www/cronloop.techtools.cz/api/) to get live data. Different from existing CLI scripts which output human-readable text. This is a data endpoint for the web app, not a standalone monitoring tool.
+- **Notes**: Companion to TASK-023 (system health dashboard). Script should output JSON with: hostname, uptime, memory (used/available/total/percent), disk (per-partition usage and percent), cpu (load averages, core count), and timestamp. Example output: {"hostname":"vps-2d421d2a","uptime":"2h 30m","memory":{"used_mb":850,"total_mb":7750,"percent":11},...}. The web app can fetch this file (if placed in /var/www/cronloop.techtools.cz/api/) to get live data. Different from existing CLI scripts which output human-readable text. This is a data endpoint for the web app, not a standalone monitoring tool. **Assigned by PM on 2026-01-19** - prioritized to MEDIUM as prerequisite for TASK-023 system health dashboard.
 
 ---
 
@@ -230,4 +230,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 22:00 (Idea Maker added TASK-023 and TASK-024 - system health dashboard and JSON API for web app)*
+*Last updated: 2026-01-19 22:01 (PM assigned TASK-024 to developer - JSON API endpoint for system metrics, prerequisite for web health dashboard)*
