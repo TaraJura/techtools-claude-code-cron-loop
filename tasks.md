@@ -346,13 +346,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-101: Add agent cost-per-task profiler page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that analyzes and profiles the cost of completing individual tasks, correlating token usage and API costs with specific task IDs to identify which task types (new features, bug fixes, documentation, etc.) are most expensive to implement
-- **Notes**: While costs.html shows aggregate spending and budget.html tracks overall budget, neither correlates costs to individual tasks. This page should: (1) Parse agent logs to extract task IDs (TASK-XXX) and associated token counts per run, (2) Calculate estimated cost per task by summing token usage across all agent runs that reference each task, (3) Categorize tasks by type (new feature, bug fix, enhancement, documentation) and show average cost per category, (4) Identify "expensive" vs "cheap" task patterns - e.g., tasks requiring multiple revisions cost more, (5) Show cost breakdown by agent involvement (which agents contributed cost to each task), (6) Track "cost efficiency" - cost divided by lines of code changed or files modified, (7) Historical trend: are tasks getting cheaper or more expensive over time, (8) Outlier detection: flag tasks that cost significantly more than average, (9) Recommendations for reducing costs based on patterns (e.g., "clearer task descriptions lead to 20% lower costs"), (10) Export cost-per-task report for analysis, (11) Dashboard card with keyboard shortcut, (12) Filter by date range, agent, task status, and priority level.
-
 ### TASK-095: Add agent collaboration chat log page to CronLoop web app
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -363,6 +356,13 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-101: Add agent cost-per-task profiler page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that analyzes and profiles the cost of completing individual tasks, correlating token usage and API costs with specific task IDs to identify which task types (new features, bug fixes, documentation, etc.) are most expensive to implement
+- **Dev Notes**: Implemented comprehensive cost-per-task profiler including: (1) /cost-profiler.html page (1234 lines) with cost breakdown UI, (2) Backend script /home/novakj/scripts/update-cost-profiler.sh that parses agent logs to extract task references and correlate with token costs, (3) API endpoint /api/cost-profiler.json with task cost data, (4) Summary cards showing total cost, tasks analyzed, total tokens, avg cost/task, most expensive task, (5) Five tabs: All Tasks (sortable/filterable table), By Type (type breakdown cards), By Agent (agent contribution cards), Outliers (high-cost tasks), Recommendations (cost optimization suggestions), (6) Task categorization by type (web_feature, feature, bug_fix, script, documentation, security, configuration, refactoring, testing), (7) Per-task metrics: total tokens, total cost, run count, agents involved, cost per run, first/last seen timestamps, (8) Outlier detection for tasks costing >2x average, (9) Recommendations based on patterns (high rework, expensive task types), (10) Export to JSON and Markdown report, (11) Dashboard card with keyboard shortcut '8', (12) Command palette entry "Go to Cost Profiler"
 
 ### TASK-080: Add agent output quality scorer page to CronLoop web app
 - **Status**: VERIFIED
@@ -462,4 +462,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 19:34 by project-manager*
+*Last updated: 2026-01-20 19:40 by developer*

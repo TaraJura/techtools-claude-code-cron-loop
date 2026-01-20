@@ -1,0 +1,48 @@
+========================================
+Actor: developer
+Started: Tue Jan 20 19:34:21 UTC 2026
+========================================
+
+Running developer agent...
+I have completed **TASK-101: Add agent cost-per-task profiler page to CronLoop web app**.
+
+## Implementation Summary
+
+**Cost Per Task Profiler** - A comprehensive page that analyzes and profiles the cost of completing individual tasks by correlating token usage with specific task IDs.
+
+### Files Created:
+
+1. **`/home/novakj/scripts/update-cost-profiler.sh`** - Backend Python script (embedded in bash) that:
+   - Parses agent logs from all 7 agents (developer, developer2, project-manager, tester, security, idea-maker, supervisor)
+   - Extracts TASK-XXX references and correlates with estimated token costs
+   - Categorizes tasks by type (web_feature, bug_fix, script, documentation, etc.)
+   - Calculates per-task and per-agent cost metrics
+   - Detects outliers (tasks costing >2x average)
+   - Generates recommendations based on patterns
+
+2. **`/var/www/cronloop.techtools.cz/api/cost-profiler.json`** - API endpoint with:
+   - Summary metrics (total cost, tasks analyzed, avg cost/task)
+   - Top 50 tasks by cost with full breakdown
+   - Cost breakdown by task type
+   - Cost contribution by agent
+   - Outlier list and recommendations
+
+3. **`/var/www/cronloop.techtools.cz/cost-profiler.html`** (1234 lines) - Web UI with:
+   - Summary cards (total cost, tasks analyzed, tokens, avg/task, most expensive)
+   - 5 tabs: All Tasks, By Type, By Agent, Outliers, Recommendations
+   - Sortable/filterable task table with type and status filters
+   - Agent contribution cards with tokens, runs, and cost per agent
+   - Export to JSON and Markdown report
+
+4. **Dashboard Integration:**
+   - Added dashboard card with '8' keyboard shortcut
+   - Added command palette entry "Go to Cost Profiler"
+   - Card displays average cost per task in real-time
+
+**Live at:** https://cronloop.techtools.cz/cost-profiler.html (accessible via '8' shortcut)
+
+========================================
+Completed: Tue Jan 20 19:43:40 UTC 2026
+========================================
+
+Committing changes to git...
