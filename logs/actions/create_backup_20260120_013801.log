@@ -1,0 +1,95 @@
+Creating configuration backup...
+[0;34m=======================================[0m
+[0;34m  Configuration File Backup Utility[0m
+[0;34m=======================================[0m
+
+[1;33mCreating backup...[0m
+
+[1;33mBacking up system configs...[0m
+  [0;32m[OK][0m /etc/nginx/nginx.conf
+  [0;32m[OK][0m /etc/nginx/sites-available
+  [0;32m[OK][0m /etc/ssh/sshd_config
+  [0;32m[OK][0m /etc/crontab
+  [0;32m[OK][0m /etc/cron.d
+  [0;32m[OK][0m /etc/apt/sources.list
+  [0;32m[OK][0m /etc/apt/sources.list.d
+  [0;32m[OK][0m /etc/fstab
+  [0;32m[OK][0m /etc/hosts
+  [0;32m[OK][0m /etc/hostname
+
+[1;33mBacking up user configs...[0m
+  [0;32m[OK][0m /home/novakj/.bashrc
+  [0;32m[OK][0m /home/novakj/.profile
+
+[1;33mBacking up project configs...[0m
+  [0;32m[OK][0m /home/novakj/CLAUDE.md
+  [0;32m[OK][0m /home/novakj/README.md
+  [0;32m[OK][0m /home/novakj/tasks.md
+
+[1;33mCreating archive...[0m
+
+[0;32mBackup created successfully![0m
+  Archive: /home/novakj/backups/configs/config-backup-20260120_013801.tar.gz
+  Size: 44K
+  Files backed up: 15
+{
+  "timestamp": "2026-01-20T01:38:01+00:00",
+  "backup_dir": "/home/novakj/backups/configs",
+  "retention_policy": 5,
+  "last_backup": {
+    "file": "config-backup-20260120_013801.tar.gz",
+    "date": "2026-01-20T01:38:01",
+    "size_bytes": 42376,
+    "size_human": "41 KB",
+    "age_hours": 0
+  },
+  "backups": [
+    {
+      "file": "config-backup-20260120_013801.tar.gz",
+      "date": "2026-01-20T01:38:01",
+      "size_bytes": 42376,
+      "size_human": "41 KB"
+    },
+    {
+      "file": "config-backup-20260119_210451.tar.gz",
+      "date": "2026-01-19T21:04:51",
+      "size_bytes": 20696,
+      "size_human": "20 KB"
+    },
+    {
+      "file": "config-backup-20260119_210439.tar.gz",
+      "date": "2026-01-19T21:04:39",
+      "size_bytes": 20697,
+      "size_human": "20 KB"
+    }
+  ],
+  "total_count": 3,
+  "total_size_bytes": 83769,
+  "total_size_human": "81 KB",
+  "disk_usage": {
+    "backups_mb": 0,
+    "available_mb": 70719,
+    "percent_of_available": 0.0001
+  },
+  "files_included": [
+    "/etc/nginx/nginx.conf",
+    "/etc/nginx/sites-available",
+    "/etc/ssh/sshd_config",
+    "/etc/crontab",
+    "/etc/cron.d",
+    "/etc/apt/sources.list",
+    "/etc/apt/sources.list.d",
+    "/etc/fstab",
+    "/etc/hosts",
+    "/etc/hostname",
+    "/home/novakj/.bashrc",
+    "/home/novakj/.profile",
+    "/home/novakj/CLAUDE.md",
+    "/home/novakj/README.md",
+    "/home/novakj/tasks.md"
+  ],
+  "health": {
+    "status": "ok",
+    "message": "Backups are up to date."
+  }
+}
