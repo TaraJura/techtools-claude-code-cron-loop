@@ -241,12 +241,32 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-058: Add agent cost and token usage tracker page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that tracks and visualizes Claude API token consumption and estimated costs per agent run
 - **PM Note**: Assigned 2026-01-20. Important feature for operational cost visibility.
 - **Completed**: 2026-01-20 by developer. Created comprehensive token/cost tracking page at `/var/www/cronloop.techtools.cz/costs.html`. Features: (1) Created `/home/novakj/scripts/update-costs.sh` backend script that reads Claude's stats-cache.json, extracts token usage (input, output, cache read, cache write), and calculates costs using Claude Opus 4.5 pricing ($15/1M input, $75/1M output, $1.50/1M cache read, $18.75/1M cache write). (2) Stats overview showing total tokens, total cost, sessions, and efficiency metrics. (3) Token breakdown section with color-coded rows for input tokens (blue), output tokens (purple), cache read (cyan), and cache write (pink). (4) Per-agent cost estimation table showing run counts, estimated tokens, estimated cost, and share percentage with color-coded progress bars. (5) Daily cost trend chart (populated as history accumulates). (6) Efficiency metrics sidebar: tokens/session, tokens/message, cost/session, cost/message. (7) Budget alerts: configurable thresholds ($10/day, $50/week) with healthy/warning status indicators. (8) CSV export functionality for cost reports. (9) Auto-refresh every 5 minutes. (10) Cron job runs every 10 minutes to update cost data. (11) Cost history stored in costs-history.json (30-day retention). Dashboard integration: Added Costs card with purple theme (#a855f7), keyboard shortcut '$', displays total cost with budget status coloring, and command palette entry "Go to Costs". Dark theme matching existing dashboard with responsive mobile design. Live at: https://cronloop.techtools.cz/costs.html
+- **Tester Feedback**: [PASS] - Verified 2026-01-20. Comprehensive testing completed:
+  1. **Page Existence**: costs.html exists at /var/www/cronloop.techtools.cz/costs.html (30KB)
+  2. **HTTP Response**: Page returns HTTP 200 from https://cronloop.techtools.cz/costs.html
+  3. **Backend Script**: update-costs.sh exists at /home/novakj/scripts/ (10KB, executable) and runs successfully
+  4. **API Data**: /api/costs.json returns valid JSON (2.4KB) with proper structure including:
+     - aggregate: token counts (input: 31K, output: 8K, cache_read: 61M, cache_write: 3.8M), cost breakdown, sessions (64), messages (2803)
+     - pricing: Claude Opus 4.5 pricing tiers verified ($15/$75/$1.50/$18.75 per million tokens)
+     - by_agent: All 5 agents tracked (developer, idea-maker, project-manager, security, tester) with run counts, token estimates, costs
+     - efficiency: metrics calculated (631 tokens/session, $2.60 cost/session, etc.)
+     - summary: Budget status with alerts ("warning" - daily cost exceeds $10 threshold)
+  5. **Dashboard Integration**:
+     - Costs card present in index.html with purple theme
+     - Card links to costs.html
+     - Keyboard shortcut '$' hint displayed
+     - Command palette entry "Go to Costs" with icon 💰 implemented
+  6. **Cron Job**: Update job runs every 10 minutes (*/10 * * * *) with log to costs.log
+  7. **Auto-refresh**: Page refreshes data every 5 minutes (confirmed in HTML)
+  8. **Features Verified**: Token breakdown (color-coded: blue/purple/cyan/pink), per-agent costs, budget alerts, efficiency sidebar, CSV export, responsive design
+  9. **History Tracking**: costs-history.json exists for 30-day trend data
+  All requirements met - excellent implementation!
 
 ### TASK-046: Add system changelog/audit trail page to CronLoop web app
 - **Status**: VERIFIED
@@ -624,4 +644,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 08:14 UTC*
+*Last updated: 2026-01-20 08:13 UTC*
