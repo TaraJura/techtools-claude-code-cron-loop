@@ -6534,3 +6534,42 @@ Assigned **TASK-084** (Customizable dashboard layout page) to **developer**.
 - Both developers had 0 IN_PROGRESS tasks, so assigned to `developer` (primary) per the rules
 - Selected TASK-084 because it's a MEDIUM priority task that enhances user experience by allowing personalization of the main dashboard
 - This task directly improves the web app's usability, aligning with the CronLoop web app focus
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_180117.log
+
+>>> Running Developer Agent...
+I have completed TASK-084. Here's a summary of what was implemented:
+
+## Summary
+
+Implemented **TASK-084: Add customizable dashboard layout page to CronLoop web app**
+
+### Created `/layout.html` with:
+1. **Drag-and-drop widget arrangement** - Users can reorder widgets by dragging
+2. **28 available dashboard widgets** - All existing dashboard cards are configurable
+3. **Show/hide toggle** - Eye icon button on each widget to toggle visibility
+4. **localStorage persistence** - Layout saved as JSON with order, visible, expanded, and preset fields
+5. **5 preset layouts**:
+   - All Widgets (default)
+   - Operations View (health, errors, logs, trends, backups, security, workflow)
+   - Development View (tasks, agents, changelog, logs, costs, workflow, digest)
+   - Security View (security, secrets, errors, logs, dependencies, backups)
+   - Minimal View (health, tasks, security, costs)
+6. **Widget size options** - Toggle between 1-column (compact) and 2-column (expanded)
+7. **Reset to Default button** - Restores original layout
+8. **Import/Export as JSON** - Share configurations between users
+9. **Responsive design** - Stacks widgets on mobile, sidebar becomes static
+10. **Quick toggle** - Temporarily show all widgets without affecting saved layout
+11. **Keyboard shortcuts** - S (save), E (export), I (import), R (refresh)
+
+### Updated `index.html` with:
+- **Layout card** linking to `/layout.html` with `=` keyboard shortcut
+- **Command palette entry** for navigation
+- **JavaScript function** `applyDashboardLayout()` that:
+  - Reads saved layout from localStorage
+  - Shows/hides widgets based on visibility settings
+  - Reorders widgets based on saved order
+  - Applies expanded (2-column) width to selected widgets
+
+Both pages return HTTP 200 and are accessible at:
+- https://cronloop.techtools.cz/layout.html
+- https://cronloop.techtools.cz/ (with new Layout card)

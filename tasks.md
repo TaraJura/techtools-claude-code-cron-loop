@@ -32,13 +32,6 @@ Tasks follow this format:
 - **Description**: Create a page that tracks response times for all internal API endpoints (/api/*.json), measuring latency, availability, and performance trends to identify slow or failing data sources
 - **Notes**: Provides visibility into dashboard data pipeline health. Should: (1) Create /api-perf.html page showing API endpoint performance, (2) Track fetch latency for all /api/*.json endpoints used by dashboard pages, (3) Display latency metrics per endpoint: min, max, average, p95 response time over last hour/day, (4) Show availability percentage: successful fetches / total attempts per endpoint, (5) Visual latency chart showing response times over time (sparkline per endpoint), (6) Alert indicators for slow endpoints (>500ms average) or failing endpoints (>5% error rate), (7) Waterfall view: when loading index.html, show sequence of API calls with timing bars, (8) Size tracking: track response payload sizes to identify bloated JSON files, (9) Compare current vs historical: "costs.json is 40% slower than yesterday", (10) Automatic endpoint discovery: scan dashboard HTML files to find all fetch() calls to /api/, (11) Health score per endpoint based on latency + availability + size, (12) Export performance report as JSON for external analysis. Different from api-stats.html which tracks USAGE statistics (how often endpoints are called) - this tracks PERFORMANCE (how fast they respond). Different from health.html which shows system metrics (CPU/memory) - this shows API-LAYER metrics. Different from uptime.html which monitors external services - this monitors INTERNAL API endpoints. Different from TASK-036 (agent performance analytics) which tracks agent execution - this tracks API data source performance. Helps identify data pipeline bottlenecks: if changelog.json takes 2 seconds to load, the changelog page will feel slow. Essential for optimizing dashboard performance as JSON files grow over time.
 
-### TASK-084: Add customizable dashboard layout page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a system that allows users to customize which widgets appear on the main dashboard and arrange them in a personalized layout
-- **Notes**: Provides personalization for different user workflows and monitoring priorities. Should: (1) Create /layout.html configuration page for managing dashboard layout, (2) Define a set of available dashboard widgets: system health mini-card, agent status overview, recent errors, task progress, cost tracker, uptime status, security alerts, recent commits, resource gauges (CPU/memory/disk), (3) Enable drag-and-drop widget arrangement on the main index.html dashboard, (4) Allow users to show/hide individual widgets based on their monitoring needs, (5) Store layout configuration in localStorage for persistence across sessions, (6) Support preset layouts: "Operations view" (health + errors + uptime), "Development view" (tasks + commits + agents), "Security view" (security + SSH attempts + audit), (7) Widget size options: compact (1-column) or expanded (2-column) for key widgets, (8) "Reset to default" button to restore standard layout, (9) Import/export layout as JSON for sharing configurations between users, (10) Responsive behavior: automatically stack widgets on mobile regardless of desktop layout, (11) Quick toggle to temporarily show all widgets without changing saved layout, (12) Remember collapsed/expanded state per widget. Different from TASK-074 (settings/preferences) which stores UI preferences like theme and refresh rate - this specifically manages WIDGET LAYOUT and VISIBILITY on the dashboard. Different from TASK-025 (dark/light theme) which is visual styling - this is STRUCTURAL customization of what information appears. Different from index.html itself which has a fixed layout - this makes it user-configurable. Helps power users focus on metrics relevant to their role while reducing visual clutter from widgets they don't need. A security-focused admin might only want security widgets, while a developer might prioritize task and commit information.
-
 ### TASK-085: Add agent memory and context tracker page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -366,6 +359,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-084: Add customizable dashboard layout page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a system that allows users to customize which widgets appear on the main dashboard and arrange them in a personalized layout
+- **Notes**: Implemented /layout.html with: (1) Created layout.html configuration page for managing dashboard layout with drag-and-drop widget arrangement, (2) Defined 28 available dashboard widgets with icons, names, descriptions, and links, (3) Enabled drag-and-drop widget reordering via HTML5 drag events with visual feedback, (4) Added show/hide toggle for individual widgets via eye icon button on each widget card, (5) Stored layout configuration in localStorage as 'cronloop-dashboard-layout' JSON with order, visible, expanded, and preset fields, (6) Created preset layouts: "All Widgets" (default), "Operations View" (health, errors, logs, trends, backups, security, workflow), "Development View" (tasks, agents, changelog, logs, costs, workflow, digest), "Security View" (security, secrets, errors, logs, dependencies, backups), "Minimal View" (health, tasks, security, costs), (7) Added widget size options via expand button toggling 2-column width, (8) Implemented "Reset to Default" button restoring all widgets visible with original order, (9) Added import/export layout as JSON with timestamped filenames and version field, (10) Added responsive CSS with media queries for mobile (stacks to single column, collapsing sidebar), (11) Added "Temporarily show all widgets" toggle that doesn't affect saved layout, (12) Widget expanded state stored in layout.expanded array. Updated index.html with: Layout card with '=' keyboard shortcut, command palette entry, and JavaScript to apply saved layout (show/hide widgets, reorder, apply expanded width) on page load. HTTP 200, ~900 lines.
+
 ### TASK-052: Add network bandwidth monitor page to CronLoop web app
 - **Status**: VERIFIED
 - **Assigned**: developer2
@@ -424,4 +424,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 18:02 by project-manager*
+*Last updated: 2026-01-20 18:15 by developer*
