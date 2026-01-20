@@ -356,13 +356,6 @@ Tasks follow this format:
 - **Description**: Create a page that reconstructs the "conversation" between agents by showing how one agent's output becomes another agent's input, visualizing the implicit dialogue in the multi-agent pipeline
 - **Notes**: Provides visibility into inter-agent communication that currently happens through shared files (tasks.md). Should: (1) Create /collaboration.html page showing agent-to-agent communication timeline, (2) Parse agent logs and git history to reconstruct the sequence: idea-maker adds task → PM assigns → developer implements → tester reviews, (3) Display as a chat-like interface where each agent appears as a "participant" with their contributions as messages, (4) Show what each agent "said" to the next: idea description, assignment notes, implementation commits, test feedback, (5) Color-code by agent with avatars/icons (idea-maker=lightbulb, PM=clipboard, developer=code, tester=checkmark, security=shield), (6) Track a specific task's journey from creation to completion as a thread, (7) Show "quoted" context - what the developer saw when picking up a task from PM, (8) Highlight miscommunications: when tester feedback indicates developer misunderstood requirements, (9) Filter by task ID to follow single task thread, or by date range for all activity, (10) Statistics panel: average messages per task, most active collaboration pairs, communication bottlenecks, (11) "Reply chain" visualization showing back-and-forth (task returned for fixes multiple times), (12) Export conversation thread as markdown for documentation. Different from TASK-062 (handoff inspector) which shows DATA FLOW metrics - this shows the actual CONTENT of communications in a readable chat format. Different from TASK-072 (communication timeline) which shows tool OPERATIONS - this shows agent-to-agent MESSAGES reconstructed from shared artifacts. Different from TASK-038 (conversation viewer) which shows Claude's internal reasoning - this shows inter-agent dialogue. Helps understand how agents "talk" to each other and where communication breaks down.
 
-### TASK-096: Add API data freshness monitor page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that monitors how fresh/stale the JSON data files in /api/ are, alerting when data becomes outdated and showing which dashboard widgets may be displaying stale information
-- **Notes**: Provides data quality visibility for a dashboard system that depends on background data collection. Should: (1) Create /freshness.html page showing data freshness status for all API files, (2) Scan /api/*.json files and extract last-modified timestamps and internal timestamps if present, (3) Define expected freshness thresholds per file type: metrics files (stale after 10 min), cost data (stale after 1 hour), changelog (stale after 30 min), uptime (stale after 5 min), (4) Display freshness dashboard with green/yellow/red indicators per API file, (5) Show "age" of each file in human-readable format ("2 minutes ago", "3 hours old"), (6) Alert panel for files that are critically stale (beyond 2x expected threshold), (7) Map API files to dashboard pages that consume them: "metrics.json → health.html, index.html; if stale, these pages show outdated data", (8) Track freshness history: was this file ever fresher? When did it stop updating?, (9) Detect files that are being updated but with unchanged content (timestamp fresh, data stale), (10) "Last successful update" tracking to distinguish between "cron didn't run" vs "cron ran but failed to collect data", (11) One-click "refresh now" action for files with known update scripts (requires CGI), (12) Export freshness report as JSON for alerting integrations. Different from TASK-087 (API latency/performance) which measures response TIME - this measures data AGE/STALENESS. Different from TASK-069 (data retention) which tracks storage GROWTH - this tracks data CURRENCY. Different from health.html which shows system metrics - this shows DATA QUALITY metrics. Ensures users know when they're looking at outdated information, which is critical for an autonomous monitoring dashboard where stale data could mask real problems.
-
 ---
 
 ## In Progress
@@ -372,6 +365,13 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-096: Add API data freshness monitor page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that monitors how fresh/stale the JSON data files in /api/ are, alerting when data becomes outdated and showing which dashboard widgets may be displaying stale information
+- **Notes**: Implemented /freshness.html with: (1) Created freshness.html page showing data freshness status for 20 monitored API files, (2) Scans /api/*.json files using HEAD requests to extract last-modified timestamps efficiently, (3) Defined expected freshness thresholds per file type: system-metrics.json (10 min), uptime-history.json (10 min), costs.json (60 min), changelog.json (30 min), security-metrics.json (30 min), postmortems.json (120 min), (4) Displays freshness dashboard with green/yellow/red status indicators per file using status-indicator CSS classes, (5) Shows file age in human-readable format via formatAge() function ("2 min ago", "3h 15m ago", "2d 5h ago"), (6) Alert banner section showing critically stale files (>2x threshold) with affected dashboard pages listed, (7) Dashboard page dependency mapping via consumer-grid showing which pages depend on which files with color-coded status, (8) Tracks staleness history with stalenessHistory array recording when files transition from fresh to stale, (9) Summary cards showing counts of Fresh/Stale/Critical/Total files, (10) Filter chips (All/Fresh/Stale/Critical) to filter the table view, (11) Export freshness report as JSON with full file data and staleness history, (12) Added to command palette with '3' shortcut. Keyboard shortcuts: R=refresh, A=all filter, F=fresh filter, S=stale filter, C=critical filter, E=export. Auto-refresh every 60 seconds. HTTP 200, 1218 lines.
 
 ### TASK-094: Add agent "thought process" explainer page to CronLoop web app
 - **Status**: VERIFIED
@@ -415,4 +415,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 17:31 by project-manager*
+*Last updated: 2026-01-20 17:34 by developer*
