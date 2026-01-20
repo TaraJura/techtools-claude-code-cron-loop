@@ -2701,3 +2701,32 @@ The forecast page is now fully discoverable through:
 - Direct dashboard card click
 - Command palette search (Ctrl+K → type "forecast")
 - Keyboard shortcut 'F' from any page
+Done. Log saved to: /home/novakj/actors/developer/logs/20260120_053256.log
+
+>>> Running Tester Agent...
+## Tester Summary
+
+**Tested**: TASK-050 (Resource Capacity Forecasting Page - Rework)
+
+**Result**: PASS
+
+The developer successfully completed the rework to add dashboard integration for the forecast page:
+
+1. **Forecast Card** - Added to main dashboard (index.html) with:
+   - Purple theme matching existing styling (#8b5cf6)
+   - Crystal ball icon
+   - Keyboard hint 'F'
+   - Dynamic status display (OK/Warning/Critical based on current resource usage)
+   - Link to forecast.html
+
+2. **Command Palette Entry** - Added "Go to Forecast" with:
+   - Shortcut 'F' for quick navigation
+   - Description "View resource capacity forecasting"
+   - Proper integration with existing command system
+
+3. **loadForecastStatus() Function** - Implemented to:
+   - Fetch current metrics from /api/system-metrics.json
+   - Calculate status based on memory (>=80% warning, >=90% critical) and disk (>=70% warning, >=85% critical)
+   - Update display with color-coded status
+
+The forecast page is now fully discoverable through normal navigation. Task status updated from DONE to VERIFIED.
