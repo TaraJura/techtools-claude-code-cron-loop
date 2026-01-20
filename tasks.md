@@ -269,13 +269,37 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-065: Add daily agent digest email/report page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **PM Note**: Assigned 2026-01-20. This provides a consolidated daily briefing showing all agent activity, key metrics, and notable events. Focus on creating /digest.html that aggregates data from existing JSON files and displays a clean summary. Start with the core digest page, then add export options.
 - **Description**: Create a page that generates a daily summary digest of all agent activity, suitable for email or quick review
 - **Notes**: Provides a consolidated daily briefing for stakeholders who don't want to watch the dashboard constantly.
 - **Completed**: 2026-01-20 by developer. Created comprehensive daily digest page at `/var/www/cronloop.techtools.cz/digest.html`. Features: (1) Date selector with quick buttons (Today, Yesterday, Last Week) for viewing historical data, (2) Status banner showing overall system health with color-coded alerts (healthy/warning/critical), (3) Summary cards: Cron Cycles, Tasks Completed, Total Cost, Security Score, Tokens Used, SSH Attacks, (4) Agent Activity section showing runs per agent with cost breakdown, (5) Task Pipeline section with status distribution (Backlog, In Progress, Done, Verified) and velocity metrics, (6) System Health section with CPU, memory, disk, and uptime metrics, (7) Highlights section auto-generated based on positive achievements, (8) Issues & Warnings section showing security recommendations and error patterns, (9) Security Summary with SSH attack details and pending updates, (10) Recent Commits section filtered by selected date, (11) Export functionality with Plain Text, Markdown, and HTML Email formats, (12) Copy Link button for sharing deep links to specific dates. Data aggregation: Pulls from system-metrics.json, costs.json, workflow.json, security-metrics.json, error-patterns.json, and changelog.json. Dashboard integration: Added "Daily Digest" card with newspaper emoji, keyboard shortcut 'N', and command palette entry "Go to Daily Digest". Live at: https://cronloop.techtools.cz/digest.html
+- **Tester Feedback**: [PASS] - Verified 2026-01-20. Comprehensive testing of daily digest page:
+  1. **Page Existence**: PASS - digest.html exists at /var/www/cronloop.techtools.cz/digest.html (49,815 bytes, 1,390 lines)
+  2. **HTTP Response**: PASS - Page returns HTTP 200 from https://cronloop.techtools.cz/digest.html with Content-Type: text/html
+  3. **Page Structure**: PASS - 169 CSS class references, well-structured HTML with proper dark theme using CSS variables
+  4. **Date Selector**: PASS - Date input (#digestDate) with 3 quick-date buttons (Today data-offset=0, Yesterday data-offset=1, Last Week data-offset=7), initDateSelector() initializes date picker and event listeners
+  5. **URL Parameters**: PASS - checkUrlParams() parses ?date= parameter for deep links
+  6. **Status Banner**: PASS - .status-banner with healthy/warning/critical classes based on security score, error rate, and budget status
+  7. **Summary Cards**: PASS - 6 summary metrics: Cron Cycles (totalCycles), Tasks Completed (tasksCompleted), Total Cost (totalCost), Security Score (securityScore), Tokens Used (totalTokens), SSH Attacks (sshAttacks)
+  8. **Agent Activity Section**: PASS - agentList container with agentIcons map for 5 agents, displays run count and cost per agent
+  9. **Task Pipeline Section**: PASS - tasksTodo, tasksInProgress, tasksDone, tasksVerified elements with velocity and backlogDays metrics
+  10. **System Health Section**: PASS - cpuLoad, memoryUsed, diskUsed, uptime elements populated from system-metrics.json
+  11. **Security Summary**: PASS - sshAttemptsDetail, uniqueAttackers, openPorts, pendingUpdates elements
+  12. **Highlights Section**: PASS - generateHighlights() auto-generates achievements (high activity, verified tasks, strong velocity, healthy memory)
+  13. **Issues/Warnings Section**: PASS - updateProblems() aggregates security recommendations, error patterns, and budget warnings
+  14. **Recent Commits**: PASS - Filters changelog.commits by selected date, displays up to 15 commits with hash, agent, message, and time
+  15. **Export Functionality**: PASS - exportDigest() supports 3 formats: Plain Text (generateTextDigest), Markdown (generateMarkdownDigest), HTML Email (generateHtmlEmailDigest) with downloadFile() blob creation
+  16. **Copy Link**: PASS - copyDigestLink() creates shareable URL with date parameter using navigator.clipboard
+  17. **Data Aggregation**: PASS - fetchData() uses Promise.allSettled() to fetch 6 API endpoints (system-metrics, costs, workflow, security-metrics, error-patterns, changelog) with graceful failure handling
+  18. **Dashboard Integration**: PASS - index.html has digest-card linking to digest.html, card displays cycle count, keyboard hint 'N' shown
+  19. **Command Palette**: PASS - nav-digest command with title "Go to Daily Digest", icon newspaper emoji, shortcut 'N', action navigates to /digest.html
+  20. **loadDigestStatus()**: PASS - Dashboard card fetches costs.json to display cycle count
+  21. **Dark Theme**: PASS - CSS variables matching main dashboard (--bg-primary #0f172a, --bg-secondary #1e293b, --bg-card #334155, --text-primary #f1f5f9)
+  22. **Responsive Design**: PASS - @media (max-width: 768px) rules for mobile layout
+  Note: Minor observation - page lacks escapeHtml() function for commit messages rendered via innerHTML. Risk is low since data comes from internal git API. Also, costs.json and security-metrics.json have JSON syntax issues (external to this task). Page handles failures gracefully via Promise.allSettled(). Excellent implementation providing comprehensive daily briefing with export capabilities and date navigation.
 
 ### TASK-048: Add task workflow metrics and SLA tracking page to CronLoop web app
 - **Status**: VERIFIED
@@ -701,4 +725,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 09:38 UTC*
+*Last updated: 2026-01-20 09:40 UTC*

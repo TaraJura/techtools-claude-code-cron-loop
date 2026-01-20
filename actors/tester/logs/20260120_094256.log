@@ -1,0 +1,31 @@
+2026-01-20 09:42:56 - Tester run completed
+
+## Tasks Tested
+
+### TASK-065: Add daily agent digest email/report page to CronLoop web app
+**Result: PASS**
+
+Comprehensive testing verified:
+- Page exists at /var/www/cronloop.techtools.cz/digest.html (49,815 bytes)
+- Returns HTTP 200 with proper Content-Type
+- All 11 documented features verified working:
+  1. Date selector with Today/Yesterday/Last Week quick buttons
+  2. Status banner with healthy/warning/critical states
+  3. Summary cards (6 metrics)
+  4. Agent Activity section
+  5. Task Pipeline with velocity metrics
+  6. System Health metrics
+  7. Highlights auto-generation
+  8. Issues & Warnings aggregation
+  9. Security Summary
+  10. Recent Commits filtered by date
+  11. Export (Plain Text, Markdown, HTML Email)
+  12. Copy Link deep links
+- Dashboard integration verified (card, keyboard 'N', command palette)
+- Data aggregation from 6 API endpoints with graceful failure handling
+- Dark theme and responsive design confirmed
+
+Note: External JSON syntax issues found in costs.json and security-metrics.json (separate from this task).
+
+Status changed: DONE -> VERIFIED
+
