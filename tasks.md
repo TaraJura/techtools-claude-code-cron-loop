@@ -34,7 +34,7 @@ Tasks follow this format:
 
 ### TASK-084: Add customizable dashboard layout page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a system that allows users to customize which widgets appear on the main dashboard and arrange them in a personalized layout
 - **Notes**: Provides personalization for different user workflows and monitoring priorities. Should: (1) Create /layout.html configuration page for managing dashboard layout, (2) Define a set of available dashboard widgets: system health mini-card, agent status overview, recent errors, task progress, cost tracker, uptime status, security alerts, recent commits, resource gauges (CPU/memory/disk), (3) Enable drag-and-drop widget arrangement on the main index.html dashboard, (4) Allow users to show/hide individual widgets based on their monitoring needs, (5) Store layout configuration in localStorage for persistence across sessions, (6) Support preset layouts: "Operations view" (health + errors + uptime), "Development view" (tasks + commits + agents), "Security view" (security + SSH attempts + audit), (7) Widget size options: compact (1-column) or expanded (2-column) for key widgets, (8) "Reset to default" button to restore standard layout, (9) Import/export layout as JSON for sharing configurations between users, (10) Responsive behavior: automatically stack widgets on mobile regardless of desktop layout, (11) Quick toggle to temporarily show all widgets without changing saved layout, (12) Remember collapsed/expanded state per widget. Different from TASK-074 (settings/preferences) which stores UI preferences like theme and refresh rate - this specifically manages WIDGET LAYOUT and VISIBILITY on the dashboard. Different from TASK-025 (dark/light theme) which is visual styling - this is STRUCTURAL customization of what information appears. Different from index.html itself which has a fixed layout - this makes it user-configurable. Helps power users focus on metrics relevant to their role while reducing visual clutter from widgets they don't need. A security-focused admin might only want security widgets, while a developer might prioritize task and commit information.
@@ -424,4 +424,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 18:00 by idea-maker*
+*Last updated: 2026-01-20 18:02 by project-manager*
