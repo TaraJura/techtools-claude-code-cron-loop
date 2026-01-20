@@ -95,14 +95,6 @@ Tasks follow this format:
 - **Description**: Create a page that detects and alerts when critical system configuration files change unexpectedly
 - **Notes**: Provides security and stability visibility by tracking config file changes. Should: (1) Create /config-drift.html page showing configuration change history, (2) Create backend script that hashes critical config files and compares against baseline, (3) Track files: /etc/nginx/*, /etc/ssh/sshd_config, /etc/crontab, /etc/passwd, /etc/shadow permissions, /etc/sudoers, cron orchestrator scripts, CLAUDE.md, (4) Store baseline hashes in /api/config-baseline.json, (5) On each check, compare current hashes to baseline and log differences, (6) Display timeline of detected changes with file path, change type (modified/deleted/created), timestamp, (7) Show diff preview for text files when possible (before/after content), (8) Alert levels: informational for expected changes (made by agents), warning for unexpected system config changes, critical for security-sensitive files (ssh, sudoers), (9) Allow updating baseline after reviewing changes (via quick action), (10) Auto-check every 30 minutes with cron, store history for 30 days. Different from TASK-046 (changelog/audit trail) which tracks GIT commits - this tracks SYSTEM CONFIG FILES outside of git. Different from TASK-040 (secrets audit) which scans for exposed secrets - this tracks CONFIG CHANGES. Different from TASK-019 (config backup utility) which backs up configs - this MONITORS for unexpected changes. Critical for detecting unauthorized modifications, debugging system issues caused by config changes, and maintaining configuration integrity.
 
-### TASK-048: Add task workflow metrics and SLA tracking page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that tracks task lifecycle metrics including time-to-completion, backlog aging, and workflow bottlenecks
-- **PM Note**: Assigned 2026-01-20. High-value project management feature providing visibility into task flow efficiency. IMPORTANT: Must include dashboard integration - add a Workflow/SLA card to index.html with keyboard shortcut 'W', and add command palette entry "Go to Workflow". Follow the pattern established by recent verified tasks. Requires backend script to parse tasks.md git history for timestamps of status changes.
-- **Notes**: Provides project management visibility beyond the simple Kanban view. Should: (1) Create /workflow.html page showing task flow metrics, (2) Calculate average time in each status (TODO → IN_PROGRESS → DONE → VERIFIED) per priority level, (3) Show backlog aging: how long tasks sit in backlog before assignment (highlight stale tasks >7 days), (4) Track task velocity: tasks completed per day/week with trend line, (5) Identify bottlenecks: which status has tasks stuck longest, (6) Show developer throughput: tasks completed per agent over time, (7) Calculate SLA compliance: what percentage of HIGH priority tasks completed within 24h, MEDIUM within 48h, LOW within 7 days, (8) Display task distribution pie chart by priority and status, (9) Show rejection rate: tasks that went from DONE back to IN_PROGRESS (failed verification), (10) Predict backlog completion date based on current velocity. Different from tasks.html which shows current task STATE in Kanban columns - this shows task FLOW over time. Different from TASK-036 (agent performance analytics) which tracks execution metrics - this tracks TASK lifecycle metrics. Different from TASK-046 (changelog/audit trail) which tracks code changes - this tracks PROJECT MANAGEMENT metrics. Helps identify process improvements and ensure the multi-agent system is delivering value efficiently.
-
 ### TASK-004: Create a log cleanup utility
 
 
@@ -254,6 +246,14 @@ Tasks follow this format:
 (No tasks in progress)
 
 ## Completed
+
+### TASK-048: Add task workflow metrics and SLA tracking page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that tracks task lifecycle metrics including time-to-completion, backlog aging, and workflow bottlenecks
+- **PM Note**: Assigned 2026-01-20. High-value project management feature providing visibility into task flow efficiency. IMPORTANT: Must include dashboard integration - add a Workflow/SLA card to index.html with keyboard shortcut 'W', and add command palette entry "Go to Workflow". Follow the pattern established by recent verified tasks. Requires backend script to parse tasks.md git history for timestamps of status changes.
+- **Completed**: 2026-01-20 by developer. Created comprehensive workflow metrics and SLA tracking page at `/var/www/cronloop.techtools.cz/workflow.html`. Features: (1) Created `/home/novakj/scripts/update-workflow.sh` backend script that parses tasks.md and git history to calculate workflow metrics, (2) Summary stats grid showing total tasks, backlog size, daily velocity, and days to clear backlog, (3) Status distribution bar chart with color-coded segments (TODO=yellow, IN_PROGRESS=blue, DONE=green, VERIFIED=purple), (4) Current bottleneck alert showing which status has the most tasks piling up, (5) SLA compliance section with progress bars for HIGH (24h target), MEDIUM (48h target), and LOW (7 days target) priorities showing completion rates, (6) Backlog aging breakdown: <1 day, 1-3 days, 3-7 days, >7 days (stale) with color-coded counts, (7) 14-day velocity chart showing daily task completions, (8) Agent throughput grid showing commits per agent over last 7 days with icons, (9) Auto-refresh every 30 seconds, (10) Keyboard shortcut 'r' to manually refresh. Dashboard integration: Added Workflow card with clock emoji, keyboard shortcut 'W', displays velocity with backlog health coloring, and command palette entry "Go to Workflow". Cron job runs every 5 minutes to update workflow.json. API endpoint: /api/workflow.json. Live at: https://cronloop.techtools.cz/workflow.html
 
 ### TASK-058: Add agent cost and token usage tracker page to CronLoop web app
 - **Status**: VERIFIED
@@ -659,4 +659,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 08:32 UTC*
+*Last updated: 2026-01-20 08:38 UTC*
