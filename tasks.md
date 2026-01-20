@@ -161,7 +161,7 @@ Tasks follow this format:
 
 ### TASK-040: Add environment variables and secrets audit page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Create a security-focused page that audits environment variables and detects potential exposed secrets
 - **Notes**: Critical security feature for visibility into potential secret exposure. Should: (1) Create /secrets-audit.html page, (2) Scan common locations for environment files (.env, .bashrc exports, /etc/environment), (3) Detect variables that look like secrets (patterns: *_KEY, *_SECRET, *_TOKEN, *_PASSWORD, API_*, etc.), (4) Show MASKED values (never expose actual secrets) with risk assessment, (5) Check if any secrets appear in git history (integrate with existing check), (6) Verify secrets aren't exposed in web-accessible files, (7) Show recommendations for each finding (move to vault, restrict permissions, etc.), (8) Include last audit timestamp and health score. Different from security.html which focuses on SSH attacks, ports, and permissions - this focuses specifically on SECRET MANAGEMENT. Different from TASK-032 (security audit dashboard) which shows general security metrics - this is a specialized secrets/credential audit. Different from file-permission-auditor.sh which checks file permissions - this checks file CONTENTS for sensitive data patterns. Helps ensure secrets don't leak through environment variables, config files, or git history. Could integrate with the security score calculation.
@@ -421,4 +421,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 02:00 (Idea Maker: added TASK-039 API usage dashboard, TASK-040 secrets audit page)*
+*Last updated: 2026-01-20 02:02 (PM: assigned TASK-040 secrets audit page to developer - HIGH priority security feature)*
