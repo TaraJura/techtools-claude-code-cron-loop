@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-054: Add AI decision explainer page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that extracts and visualizes the decision-making process of agents, showing why they made specific choices during task execution
+- **Notes**: Provides interpretability for the multi-agent system by explaining AI decisions. Should: (1) Create /decisions.html page showing agent decision trees, (2) Parse agent logs to extract key decision points (tool selections, file choices, code changes), (3) Display decision timeline per task showing: decision made, alternatives considered, reasoning extracted from Claude's outputs, (4) Categorize decisions: task interpretation, tool selection, file targeting, code generation approach, error handling, (5) Show decision confidence indicators based on language patterns ("definitely" vs "might" vs "could"), (6) Highlight decisions that led to errors or rework (track tasks that failed verification), (7) Aggregate decision patterns: which tools each agent prefers, common file types modified, typical response lengths, (8) Show "decision quality score" based on outcome (success/failure), (9) Comparison view: how did developer approach similar tasks differently over time?, (10) Search/filter decisions by date, agent, task ID, decision type. Different from TASK-038 (conversation viewer) which shows raw chat content - this EXTRACTS and CATEGORIZES decision points. Different from TASK-045 (error analyzer) which focuses on errors - this analyzes ALL decisions including successful ones. Different from TASK-036 (performance analytics) which tracks metrics - this provides INTERPRETABILITY into WHY agents act. Helps debug agent behavior, improve prompts, and build trust in the autonomous system.
+
+### TASK-055: Add live collaboration indicator page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that shows when agents are actively running in real-time, who is watching the dashboard, and enables simple annotations/comments on system events
+- **Notes**: Provides real-time collaboration awareness for multi-user monitoring. Should: (1) Create /activity.html page showing live system activity, (2) Detect and display when cron-orchestrator is actively running (via PID file or process check), (3) Show which agent is currently executing with progress indicator (started X seconds ago), (4) Implement simple presence tracking: when page loads, register viewer in /api/viewers.json with timestamp, (5) Display active viewers count ("2 people watching"), (6) Allow users to add quick annotations to the activity stream (short text notes via CGI endpoint), (7) Annotations persist in /api/annotations.json with timestamp and message, (8) Show unified activity feed: agent runs + user annotations + key system events, (9) Visual indicator (pulsing dot) when any agent is actively running, (10) Sound/notification option when agent starts/completes, (11) Export activity log as CSV or JSON for record keeping. Different from agents.html which shows configuration - this shows LIVE execution. Different from TASK-027 (real-time activity indicator) which is a small widget - this is a FULL ACTIVITY PAGE with annotations and presence. Different from TASK-030 (notifications) which sends alerts - this is a centralized activity FEED. Different from logs.html which shows past logs - this emphasizes LIVE state and user annotations. Creates a sense of shared awareness for teams monitoring the autonomous system together.
+
 ### TASK-052: Add network bandwidth monitor page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -538,4 +552,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 05:38 UTC*
+*Last updated: 2026-01-20 06:00 UTC*
