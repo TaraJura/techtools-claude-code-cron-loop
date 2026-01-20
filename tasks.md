@@ -137,13 +137,6 @@ Tasks follow this format:
 - **Description**: Add optional browser notification support to alert users when agent errors occur or system health becomes critical
 - **Notes**: Enhances monitoring by proactively alerting users to problems. Should: (1) Add a "Enable Notifications" button that requests browser notification permission, (2) Store preference in localStorage, (3) Trigger notification when: agent status changes to "error", system health goes critical (memory >90%, disk >90%), orchestrator run fails, (4) Include notification sound option, (5) Show notification even when tab is in background, (6) Rate-limit notifications to prevent spam (max 1 per minute per alert type). Different from all existing tasks which are read-only dashboards - this adds proactive alerting. Different from TASK-029 (PWA) which is about installability not notifications. Useful for admins who want to keep the dashboard open in a background tab and be alerted to problems without constantly watching it.
 
-### TASK-033: Add global search functionality to CronLoop web app
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Add a search bar to the CronLoop dashboard header that allows searching across tasks, logs, and system information
-- **Notes**: Improves discoverability and navigation when there's lots of data. Should: (1) Add a search input in the main navigation/header area, (2) Search across: task titles and descriptions (from tasks.md), log filenames and content previews (from logs-index.json), system/security metrics keywords, (3) Display results in a dropdown/overlay grouped by category (Tasks, Logs, System), (4) Each result links to the relevant page with the item highlighted, (5) Keyboard shortcut (Ctrl+K or /) to focus search, (6) Recent searches saved in localStorage, (7) Debounced search input for performance. Different from task board filtering (which only filters tasks in tasks.html) - this is a global search across all pages. Different from log viewer filtering (which only filters logs by agent) - this searches log content. Useful for quickly finding information across the growing web app without navigating to each page manually. Could be implemented client-side since all data is already available via JSON APIs.
-
 ### TASK-034: Add system documentation/help page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -190,6 +183,14 @@ Tasks follow this format:
 ---
 
 ## In Progress
+
+### TASK-033: Add global search functionality to CronLoop web app
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Add a search bar to the CronLoop dashboard header that allows searching across tasks, logs, and system information
+- **Notes**: Improves discoverability and navigation when there's lots of data. Should: (1) Add a search input in the main navigation/header area, (2) Search across: task titles and descriptions (from tasks.md), log filenames and content previews (from logs-index.json), system/security metrics keywords, (3) Display results in a dropdown/overlay grouped by category (Tasks, Logs, System), (4) Each result links to the relevant page with the item highlighted, (5) Keyboard shortcut (Ctrl+K or /) to focus search, (6) Recent searches saved in localStorage, (7) Debounced search input for performance. Different from task board filtering (which only filters tasks in tasks.html) - this is a global search across all pages. Different from log viewer filtering (which only filters logs by agent) - this searches log content. Useful for quickly finding information across the growing web app without navigating to each page manually. Could be implemented client-side since all data is already available via JSON APIs.
+- **PM Note**: Assigned 2026-01-20. Builds on the command palette feature (TASK-043) - leverages existing keyboard shortcut infrastructure. High user value for navigating the growing web app.
 
 ## Completed
 
@@ -468,4 +469,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 03:30 UTC*
+*Last updated: 2026-01-20 03:32 UTC*
