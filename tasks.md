@@ -41,8 +41,9 @@ Tasks follow this format:
 
 ### TASK-065: Add daily agent digest email/report page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
+- **PM Note**: Assigned 2026-01-20. This provides a consolidated daily briefing showing all agent activity, key metrics, and notable events. Focus on creating /digest.html that aggregates data from existing JSON files and displays a clean summary. Start with the core digest page, then add export options.
 - **Description**: Create a page that generates a daily summary digest of all agent activity, suitable for email or quick review
 - **Notes**: Provides a consolidated daily briefing for stakeholders who don't want to watch the dashboard constantly. Should: (1) Create /digest.html page that shows today's summary and generates shareable reports, (2) Create backend script that aggregates daily metrics from all data sources (agent runs, task changes, security events, costs), (3) Summary sections: Tasks Created (by idea-maker), Tasks Assigned (by PM), Tasks Completed (by developer), Tests Run/Failed (by tester), Security Issues Found (by security), (4) Key metrics: total cron cycles today, total cost today, disk/memory/cpu averages, SSH attack count, (5) Highlights section: notable events like "Developer completed 5 tasks (highest ever)" or "Security found 2 new vulnerabilities", (6) Problems section: any errors, failed tests, or concerning trends, (7) Comparison to yesterday/last week: are metrics improving or declining?, (8) One-click export as: plain text email, HTML email, markdown, PDF, (9) Historical digests: view digests from previous days (stored as /api/digest-YYYY-MM-DD.json), (10) Optional auto-email: cron job to send digest at end of day (if email is configured), (11) Configurable sections: let users hide metrics they don't care about. Different from TASK-056 (webhooks) which sends real-time alerts - this is a DAILY SUMMARY, not event-driven. Different from TASK-055 (activity page) which shows live activity feed - this is a CURATED DIGEST with analysis. Different from trends.html which shows charts - this is a TEXT-BASED briefing suitable for email. Different from TASK-060 (learning tracker) which analyzes improvement over time - this summarizes A SINGLE DAY. Helps stakeholders stay informed with minimal effort - "5 minute morning briefing" on what the system did overnight.
 
@@ -699,4 +700,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 09:31 UTC*
+*Last updated: 2026-01-20 09:33 UTC*
