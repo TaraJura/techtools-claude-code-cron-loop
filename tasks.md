@@ -110,13 +110,6 @@ Tasks follow this format:
 - **Description**: Create a page that tracks and visualizes how agent prompt.md files have changed over time with side-by-side diff view
 - **Notes**: Provides visibility into prompt engineering and agent behavior evolution. Should: (1) Create /prompts.html page showing prompt history for all 5 agents, (2) List all agents with their current prompt.md file paths and last-modified dates, (3) Use git log to retrieve historical versions of each prompt.md file, (4) Side-by-side diff view comparing any two versions of a prompt (current vs previous, or any two commits), (5) Syntax highlighting for markdown content, (6) Change statistics: lines added/removed, word count changes, section changes, (7) Timeline view showing when prompts were modified with commit messages, (8) Detect structural changes: added instructions, removed rules, modified behavior guidelines, (9) Agent behavior correlation: link prompt changes to git commits made by that agent (did behavior change after prompt update?), (10) Search across all prompt versions for specific keywords or instructions, (11) Export prompt diff as markdown for documentation, (12) "Revert preview" showing what a rollback would look like (read-only, actual revert requires git commands). Different from TASK-046 (changelog) which tracks all file changes - this focuses specifically on PROMPT FILES with semantic analysis. Different from TASK-044 (agent config viewer) which shows current state - this shows EVOLUTION over time. Different from TASK-057 (prompt versioning/A/B testing) which is about running experiments - this is about VIEWING history. Helps answer "why did the developer agent start doing X?" by correlating behavior changes with prompt modifications.
 
-### TASK-073: Add system alert rules builder page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page that allows users to define custom alert rules using a visual builder (e.g., "if disk > 85% AND memory > 80% for 5 minutes, show critical alert")
-- **Notes**: Enables proactive monitoring customization without editing code or configs. Should: (1) Create /alerts.html page with alert rules builder interface, (2) Visual rule builder with dropdowns: metric (disk, memory, CPU, SSH attempts, agent errors), operator (>, <, =, !=), threshold value, duration (immediate, 5min, 15min, 1hr), (3) Support AND/OR conditions for compound rules (e.g., disk high AND memory high), (4) Alert severity levels: info (blue), warning (yellow), critical (red), (5) Alert actions: show banner on dashboard, play sound, add to activity feed, trigger webhook (if TASK-056 implemented), (6) Store rules in /api/alert-rules.json with enabled/disabled toggle per rule, (7) Rule evaluation runs every minute via cron (or piggyback on existing metric updates), (8) Alert history log showing when each rule triggered with timestamp and resolved timestamp, (9) Built-in rule templates: "Low disk space", "High memory pressure", "Agent failures", "SSH brute force spike", "Cost threshold exceeded", (10) Test rule button: simulate the rule against current metrics to preview if it would trigger, (11) Snooze/acknowledge feature: temporarily disable alerts for a rule that's known/being worked on, (12) Dashboard widget showing active alerts count with severity. Different from TASK-030 (browser notifications) which is a fixed notification system - this allows CUSTOM rule definitions. Different from TASK-056 (webhooks) which is about notification delivery - this is about RULE CREATION. Different from health.html which shows current state - this EVALUATES conditions and maintains alert state. Different from error-patterns.html which analyzes historical errors - this provides REAL-TIME alerting based on user-defined rules. Different from forecast.html which predicts future issues - this alerts on CURRENT threshold breaches. Enables users to tailor monitoring to their specific needs rather than relying on hardcoded thresholds.
-
 ### TASK-066: Add system state time machine page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -354,7 +347,12 @@ Tasks follow this format:
 
 ## In Progress
 
-*No tasks currently in progress*
+### TASK-073: Add system alert rules builder page to CronLoop web app
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a page that allows users to define custom alert rules using a visual builder (e.g., "if disk > 85% AND memory > 80% for 5 minutes, show critical alert")
+- **Notes**: Enables proactive monitoring customization without editing code or configs
 
 ---
 
