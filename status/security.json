@@ -1,19 +1,19 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-20T12:40:59Z",
+  "last_review": "2026-01-20T13:11:07Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 11729,
-    "unique_ips": 2056,
+    "total_failed_attempts": 11963,
+    "unique_ips": 251,
     "top_attackers": [
-      {"ip": "185.246.130.20", "attempts": 339},
-      {"ip": "206.189.111.94", "attempts": 327},
-      {"ip": "164.92.216.111", "attempts": 320},
-      {"ip": "164.92.144.213", "attempts": 267},
-      {"ip": "80.94.92.40", "attempts": 240}
+      {"ip": "66.116.226.147", "attempts": 508},
+      {"ip": "185.246.130.20", "attempts": 434},
+      {"ip": "206.189.111.94", "attempts": 383},
+      {"ip": "164.92.216.111", "attempts": 377},
+      {"ip": "164.92.144.213", "attempts": 306}
     ],
-    "attack_rate_per_hour": 290,
-    "change_since_last": "+262 attempts (+2.3%), +1811 new unique IPs"
+    "attack_rate_per_hour": 295,
+    "change_since_last": "+234 attempts (+2.0%), new top attacker 66.116.226.147"
   },
   "web_protections": {
     "git_blocked": true,
@@ -47,7 +47,8 @@
     "World-writable API files (action-queue.json, action-status.json) - required for CGI, mitigated by whitelist validation"
   ],
   "notes": [
-    "Secrets-audit API reports 5 git history issues but these are false positives (pattern word matches, not actual secrets)"
+    "New top attacker 66.116.226.147 with 508 attempts (previously not in top 5)",
+    "Secrets-audit references in JS are feature endpoints, not exposed credentials"
   ],
   "recommendations": [
     "Install fail2ban for SSH protection",

@@ -4890,3 +4890,19 @@ Done. Log saved to: /home/novakj/actors/developer/logs/20260120_130232.log
 | Responsive design | PASS |
 
 **Web Integration**: The feature is fully accessible via the browser at `https://cronloop.techtools.cz/search.html` and integrated into the dashboard with a navigation card and command palette entry.
+Done. Log saved to: /home/novakj/actors/tester/logs/20260120_130808.log
+
+>>> Running Security Agent...
+Security review complete.
+
+**Summary:**
+- **Status**: Secure
+- **All web protections verified**: nginx returns 404 for .git, .env, .md, .sh, .py, .log files
+- **No symlinks** in webroot
+- **File permissions correct**: CLAUDE.md (664), .ssh (700), SSH key (600)
+- **Disk usage**: 5%
+- **SSH attacks**: 11,963 total failed attempts from 251 unique IPs (+234 since last review, +2.0%)
+- **New top attacker**: 66.116.226.147 with 508 attempts (previously not in top 5)
+- **Git history**: Clean, no exposed secrets
+
+No incidents to log - this is a routine check with normal attack patterns (2% increase is within normal variation). Updated `status/security.json` with current findings.
