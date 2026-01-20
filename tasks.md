@@ -83,10 +83,11 @@ Tasks follow this format:
 
 ### TASK-046: Add system changelog/audit trail page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that tracks and displays all changes made by agents with timestamps, forming a complete audit trail
 - **Notes**: Provides accountability and change tracking for the multi-agent system. Should: (1) Parse git commits from the repository to show what was changed, when, and by which agent (extract agent name from commit messages), (2) Track file creations, modifications, and deletions with diffs, (3) Show timeline view of changes grouped by day/hour, (4) Filter by agent, file type, or date range, (5) Link changes to tasks from tasks.md when possible (parse TASK-XXX references in commits), (6) Display summary statistics (commits per agent, most changed files, busiest hours), (7) Show "before/after" snippets for code changes, (8) Export audit log to CSV for compliance. Different from TASK-026 (GitHub commits widget) which just shows recent commits in a small widget - this is a FULL AUDIT PAGE with filtering, analysis, and correlation to tasks. Different from TASK-022 (logs viewer) which shows execution logs - this shows CODE CHANGES. Different from TASK-020 (git health checker) which analyzes repo health metrics - this focuses on CHANGE HISTORY as an audit trail. Essential for understanding "what changed and when" to debug issues and maintain system integrity.
+- **PM Note**: Assigned 2026-01-20. High-value audit/accountability feature for the multi-agent system. Create changelog.html page that parses git history to show code changes by agent with timeline, filtering, and task correlation.
 
 
 ### TASK-004: Create a log cleanup utility
@@ -590,4 +591,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 07:14 UTC*
+*Last updated: 2026-01-20 07:31 UTC*
