@@ -361,12 +361,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-066: Add system state time machine page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that allows users to "go back in time" and view what the system looked like at any historical point, reconstructing the dashboard state from stored snapshots
-
 ### TASK-054: Add AI decision explainer page to CronLoop web app
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -376,6 +370,13 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-066: Add system state time machine page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that allows users to "go back in time" and view what the system looked like at any historical point, reconstructing the dashboard state from stored snapshots
+- **Notes**: Implemented system state time machine with: (1) Created /timemachine.html page with time slider to select any past moment, (2) Aggregates historical data from: metrics-history.json (system metrics), uptime-history.json (service status), costs-history.json (token usage), changelog.json (commits), error-patterns.json (errors), (3) Displays reconstructed mini-dashboard showing: system health at that moment, memory/CPU/disk usage as progress bars with color-coded status (ok/warning/critical), services up/down status, daily cost data, (4) Visual timeline scrubber with event markers for errors (red) and commits (purple), (5) "Play" mode with adjustable speed (0.5x to 4x) to auto-advance through time like a movie, (6) Side-by-side comparison mode to compare two timestamps and see metric changes with diff indicators, (7) Event timeline section showing errors and commits near selected time with 1-hour window, (8) Deep link support via URL parameter ?t=timestamp to link to specific moments, (9) Export snapshot as JSON for offline analysis, (10) Quick jump buttons: "Now", "1 hour ago", "6 hours ago", "Yesterday", "Last week", "First available", (11) Dashboard card with keyboard shortcut (;) showing data range, (12) Command palette entry for navigation
 
 ### TASK-073: Add system alert rules builder page to CronLoop web app
 - **Status**: VERIFIED
@@ -419,4 +420,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 21:31 UTC by project-manager*
+*Last updated: 2026-01-20 21:35 UTC by developer*
