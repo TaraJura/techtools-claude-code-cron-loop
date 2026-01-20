@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-043: Add keyboard shortcuts and command palette to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Add a VS Code/GitHub-style command palette (Ctrl+K or Cmd+K) that allows users to quickly navigate between pages, run quick actions, and search across the app
+- **Notes**: Power users expect keyboard shortcuts for efficient navigation. The palette should include: page navigation (go to Dashboard, Tasks, Health, Logs, Security, Trends, Backups, Secrets Audit), quick actions (refresh data, toggle theme), and fuzzy search. Should also add single-key shortcuts like 'd' for dashboard, 't' for tasks, 'h' for health, 'l' for logs, 's' for security. Show keyboard shortcut hints in the UI.
+
+### TASK-044: Add agent configuration viewer page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that displays all agent configurations (prompt.md files) in a formatted, easy-to-read view
+- **Notes**: Should read each actor's prompt.md file from /home/novakj/actors/*/prompt.md and display them in a tabbed or accordion interface. Shows the "brain" of each agent (idea-maker, project-manager, developer, tester, security). Helps users understand what each agent does and how they're configured. Read-only display with syntax highlighting for markdown. Could include a comparison view between different agent prompts.
+
 ### TASK-004: Create a log cleanup utility
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -437,4 +451,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 02:35:56 UTC*
+*Last updated: 2026-01-20 03:00:02 UTC*
