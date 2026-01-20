@@ -195,13 +195,6 @@ Tasks follow this format:
 - **Description**: Create a page that displays the actual Claude conversation outputs from agent runs in a chat-like format
 - **Notes**: Enhances visibility into what agents are actually doing beyond just log metadata. Should: (1) Create /conversations.html page, (2) Parse agent log files to extract Claude's reasoning and actions, (3) Display in a chat-bubble/conversation format with clear sections for thinking vs actions, (4) Show which tools were called (Read, Edit, Bash, etc.) with their arguments, (5) Highlight errors and important decisions, (6) Filter by agent and date, (7) Searchable conversation content, (8) Show time taken for each interaction. Different from TASK-022 (logs.html) which shows raw log files in a text viewer - this PARSES the logs and presents them as readable conversations. Different from TASK-036 (analytics) which shows aggregated statistics - this shows the actual conversation flow. Helps understand agent decision-making and debug unexpected behaviors by seeing exactly what Claude thought and did during each run.
 
-### TASK-039: Add API rate limiting and usage dashboard to CronLoop web app
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Create a page that tracks and displays API/CGI endpoint usage statistics with rate limiting visibility
-- **Notes**: Provides visibility into system API usage patterns and rate limiting status. Should: (1) Create /api-stats.html page showing endpoint usage, (2) Track calls to /cgi-bin/action.cgi and other endpoints, (3) Display request counts per endpoint over time (hourly/daily), (4) Show rate limit status for each action type (current cooldown remaining), (5) Display peak usage times and patterns, (6) Show failed requests (rate limited, errors) vs successful, (7) Include response time metrics if feasible, (8) Auto-refresh with live counter updates. Different from TASK-036 (agent performance analytics) which tracks agent execution - this tracks WEB API usage. Different from TASK-027 (real-time agent activity) which shows agent status - this shows API request patterns. Different from TASK-031 (quick actions) which provides the UI - this provides ANALYTICS on how those actions are being used. Useful for understanding dashboard usage patterns, identifying abuse, and tuning rate limits. Could integrate with action-status.json history to build usage graphs.
-
 ### TASK-041: Add SSH attack geolocation map to CronLoop security page
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -227,7 +220,13 @@ Tasks follow this format:
 
 ## In Progress
 
-(No tasks currently in progress)
+### TASK-039: Add API rate limiting and usage dashboard to CronLoop web app
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that tracks and displays API/CGI endpoint usage statistics with rate limiting visibility
+- **Notes**: Provides visibility into system API usage patterns and rate limiting status. Should: (1) Create /api-stats.html page showing endpoint usage, (2) Track calls to /cgi-bin/action.cgi and other endpoints, (3) Display request counts per endpoint over time (hourly/daily), (4) Show rate limit status for each action type (current cooldown remaining), (5) Display peak usage times and patterns, (6) Show failed requests (rate limited, errors) vs successful, (7) Include response time metrics if feasible, (8) Auto-refresh with live counter updates.
+- **PM Note**: Assigned 2026-01-20. High-value analytics feature providing visibility into Quick Actions API usage. Builds on existing infrastructure (action-status.json, action.cgi). Helps identify abuse patterns and optimize rate limits.
 
 ## Completed
 
@@ -552,4 +551,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 06:00 UTC*
+*Last updated: 2026-01-20 06:31 UTC*
