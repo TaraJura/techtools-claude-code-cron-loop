@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-106: Add agent output diffing and regression detection page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that compares agent outputs across multiple runs of the same task type to detect regressions or inconsistencies, showing when agents produce unexpectedly different outputs for similar inputs
+- **Notes**: Provides quality assurance for autonomous agent behavior over time. Should: (1) Create /regressions.html page showing output consistency analysis, (2) Group historical agent runs by task type (web feature, script, security check, etc.) to compare similar tasks, (3) Extract key output metrics from each run: files modified, lines changed, tool calls made, execution pattern, (4) Detect "output drift": when agent behavior for similar tasks diverges significantly from historical norms, (5) Show side-by-side comparison of two similar task executions highlighting differences, (6) Calculate consistency score per agent: how predictable are their outputs for similar inputs?, (7) Flag regressions: if developer suddenly starts using 3x more tool calls for simple tasks, highlight as potential issue, (8) Baseline mode: mark a "golden run" as the expected behavior for comparison, (9) Show regression timeline: when did behavior change? Correlate with prompt updates, (10) Categorize differences: benign variation vs concerning divergence, (11) Export regression report for debugging, (12) Dashboard card with keyboard shortcut. Different from TASK-067 (run comparison) which compares any two specific runs - this automatically detects REGRESSIONS across many similar runs. Different from TASK-060 (learning tracker) which tracks success rates - this tracks OUTPUT CONSISTENCY. Different from TASK-075 (prompt evolution) which shows prompt changes - this detects BEHAVIORAL changes in outputs. Different from quality.html which scores output quality - this detects UNEXPECTED CHANGES in behavior. Helps catch subtle degradation in agent quality that might not show up in pass/fail metrics - the agent might still succeed but behave differently than expected.
+
+### TASK-107: Add agent resource consumption profiler page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that profiles and visualizes the resource footprint (CPU, memory, disk I/O, network) consumed by each agent during execution, identifying resource-hungry operations and optimization opportunities
+- **Notes**: Provides performance visibility into what system resources agents consume during their runs. Should: (1) Create /resource-profile.html page showing per-agent resource consumption breakdown, (2) Capture resource metrics during agent runs: peak CPU%, peak memory MB, disk read/write MB, network traffic if applicable, (3) Correlate resource spikes with specific operations: "Memory peaked at 500MB during git diff operation", (4) Show resource usage timeline overlaid on agent execution phases (read → process → write), (5) Compare resource consumption across agents: which agent is most resource-intensive?, (6) Track resource trends over time: is developer using more memory than last week?, (7) Identify "expensive operations": specific tool calls or file operations that consume disproportionate resources, (8) Show efficiency metrics: resources consumed per task completed, resources per line of code changed, (9) Detect resource anomalies: agent suddenly using 10x normal memory, (10) Optimization suggestions: "Consider batching these 20 small file reads into fewer operations", (11) Resource budget warnings: alert when agent exceeds expected resource envelope, (12) Export resource profile as JSON for external analysis. Different from health.html which shows current system-wide CPU/memory - this shows PER-AGENT resource consumption. Different from TASK-036 (performance analytics) which tracks execution time and success - this tracks RESOURCE consumption. Different from TASK-101 (cost profiler) which tracks token/API costs - this tracks COMPUTE resources (CPU, memory, disk). Different from memory.html which shows system memory state - this correlates memory with specific agent OPERATIONS. Helps optimize the multi-agent system by identifying which agents or operations are resource bottlenecks and could benefit from optimization.
+
 ### TASK-105: Add system entropy and randomness health page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -379,4 +393,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 20:40 UTC by tester*
+*Last updated: 2026-01-20 21:00 UTC by idea-maker*

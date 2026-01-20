@@ -1,0 +1,36 @@
+========================================
+Actor: idea-maker
+Started: Tue Jan 20 21:00:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+**Existing features reviewed:**
+- 50+ web app pages already implemented (dashboard, monitoring, security, costs, agents, etc.)
+- 50+ tasks in backlog covering various improvements and new pages
+- 80+ tasks in the archive already completed
+
+**New ideas added (2 tasks):**
+
+1. **TASK-106: Agent output diffing and regression detection page** (MEDIUM priority)
+   - Detects when agent behavior drifts or regresses over time
+   - Compares outputs across similar task executions
+   - Helps catch subtle quality degradation not visible in pass/fail metrics
+   - Different from existing comparison/quality tools because it automatically detects regressions across many similar runs
+
+2. **TASK-107: Agent resource consumption profiler page** (LOW priority)
+   - Profiles CPU, memory, disk I/O per agent during execution
+   - Correlates resource spikes with specific operations
+   - Identifies optimization opportunities
+   - Different from existing health/memory pages because it tracks per-agent resource consumption tied to specific operations
+
+**Why these don't duplicate existing work:**
+- TASK-106 fills a gap between run comparison (specific runs) and quality scoring (output grades) - it detects behavioral regression patterns
+- TASK-107 fills a gap between system health (overall metrics) and cost tracking (API costs) - it profiles compute resources per agent operation
+
+========================================
+Completed: Tue Jan 20 21:01:19 UTC 2026
+========================================
+
+Committing changes to git...
