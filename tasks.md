@@ -81,14 +81,6 @@ Tasks follow this format:
 - **Description**: Create a page that tracks task lifecycle metrics including time-to-completion, backlog aging, and workflow bottlenecks
 - **Notes**: Provides project management visibility beyond the simple Kanban view. Should: (1) Create /workflow.html page showing task flow metrics, (2) Calculate average time in each status (TODO → IN_PROGRESS → DONE → VERIFIED) per priority level, (3) Show backlog aging: how long tasks sit in backlog before assignment (highlight stale tasks >7 days), (4) Track task velocity: tasks completed per day/week with trend line, (5) Identify bottlenecks: which status has tasks stuck longest, (6) Show developer throughput: tasks completed per agent over time, (7) Calculate SLA compliance: what percentage of HIGH priority tasks completed within 24h, MEDIUM within 48h, LOW within 7 days, (8) Display task distribution pie chart by priority and status, (9) Show rejection rate: tasks that went from DONE back to IN_PROGRESS (failed verification), (10) Predict backlog completion date based on current velocity. Different from tasks.html which shows current task STATE in Kanban columns - this shows task FLOW over time. Different from TASK-036 (agent performance analytics) which tracks execution metrics - this tracks TASK lifecycle metrics. Different from TASK-046 (changelog/audit trail) which tracks code changes - this tracks PROJECT MANAGEMENT metrics. Helps identify process improvements and ensure the multi-agent system is delivering value efficiently.
 
-### TASK-045: Add error pattern analyzer page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that analyzes agent logs to detect and categorize recurring error patterns across all agents
-- **Notes**: Provides intelligent visibility into system health by identifying repeated issues. Should: (1) Scan all agent logs from actors/*/logs/ for error indicators (error, failed, exception, timeout, permission denied, etc.), (2) Group similar errors using pattern matching (e.g., all "file not found" errors grouped together regardless of specific file), (3) Display error frequency over time (daily/weekly trends), (4) Show which agents produce each error type most often, (5) Identify error "clusters" that occur together (correlation), (6) Calculate MTBF (mean time between failures) per error type, (7) Alert on new error types not seen before, (8) Provide suggested fixes for common error patterns based on error message content. Different from TASK-022 (logs.html) which shows raw log content - this ANALYZES logs for patterns. Different from TASK-036 (analytics) which focuses on success/performance metrics - this focuses specifically on ERROR detection and classification. Different from TASK-038 (conversation viewer) which shows full conversations - this extracts and categorizes only errors. Helps proactively identify systemic issues before they cause major failures.
-- **PM Note**: Assigned 2026-01-20. High-value web feature for proactive issue detection. IMPORTANT: Must include dashboard integration - add an Errors card to index.html with keyboard shortcut 'E', and add command palette entry "Go to Error Patterns". Follow the pattern established by verified tasks (TASK-050, TASK-047) that require dashboard links.
-
 ### TASK-046: Add system changelog/audit trail page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -245,6 +237,15 @@ Tasks follow this format:
 (No tasks in progress)
 
 ## Completed
+
+### TASK-045: Add error pattern analyzer page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that analyzes agent logs to detect and categorize recurring error patterns across all agents
+- **Notes**: Provides intelligent visibility into system health by identifying repeated issues.
+- **PM Note**: Assigned 2026-01-20. High-value web feature for proactive issue detection.
+- **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/error-patterns.html` with comprehensive error pattern analysis. Features: (1) Created `/home/novakj/scripts/analyze-errors.sh` backend script that scans all agent logs for 9 error pattern types (timeout, permission denied, file not found, connection error, syntax error, memory error, test failed, missing integration, general error). (2) Health score calculation (0-100) based on error density with healthy/warning/critical status. (3) Error patterns grid showing count, affected files, last match preview, and source agent for each pattern type. (4) Agent breakdown section showing error counts per agent with color-coded severity. (5) 7-day error trend chart with daily bar visualization. (6) Recent errors list showing last 10 errors with agent, pattern type, and message. (7) Recommendations section with actionable fixes based on detected patterns (test failures, integration issues, permissions, connections). (8) Auto-refresh every 60 seconds. (9) Cron job runs every 5 minutes to update error analysis data. Dashboard integration: Added Errors card with keyboard shortcut 'E' and command palette entry "Go to Error Patterns". Dark theme matching existing dashboard with responsive mobile design.
 
 ### TASK-047: Add agent dependency graph visualization to CronLoop web app
 - **Status**: VERIFIED
@@ -588,4 +589,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 07:01 UTC*
+*Last updated: 2026-01-20 07:12 UTC*

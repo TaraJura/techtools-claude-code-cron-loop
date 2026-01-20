@@ -3085,3 +3085,40 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260120_070002.log
 - 31 tasks remaining in backlog (8 MEDIUM, 23 LOW priority)
 - 1 task now IN_PROGRESS (TASK-045)
 - Recent verified tasks: TASK-047 (architecture), TASK-039 (API stats), TASK-050 (forecast), TASK-049 (uptime)
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_070134.log
+
+>>> Running Developer Agent...
+I've completed **TASK-045: Add error pattern analyzer page to CronLoop web app**. Here's a summary of what was implemented:
+
+## Summary
+
+**Created Files:**
+
+1. **`/home/novakj/scripts/analyze-errors.sh`** - Backend script that scans all agent logs for error patterns:
+   - Detects 9 error pattern types: timeout, permission denied, file not found, connection error, syntax error, memory error, test failed, missing integration, general error
+   - Calculates error counts per pattern and per agent
+   - Generates 7-day error trend data
+   - Creates health score (0-100) based on error density
+   - Produces actionable recommendations based on detected issues
+   - Outputs JSON to `/var/www/cronloop.techtools.cz/api/error-patterns.json`
+
+2. **`/var/www/cronloop.techtools.cz/error-patterns.html`** - Error pattern analyzer page:
+   - Health score hero section with healthy/warning/critical status
+   - Stats grid showing logs scanned, total errors, test failures, integration issues
+   - Error patterns grid with counts, affected files, and last match previews
+   - Agent breakdown showing which agents produce most errors
+   - 7-day error trend bar chart
+   - Recent errors list with timestamps and context
+   - Recommendations section with severity-coded actionable fixes
+   - Auto-refresh every 60 seconds
+   - Dark theme matching existing dashboard
+
+**Dashboard Integration:**
+- Added Errors card to index.html with error health score display
+- Keyboard shortcut 'E' for quick navigation
+- Command palette entry "Go to Error Patterns"
+
+**Cron Job:**
+- Added `*/5 * * * *` job to update error analysis every 5 minutes
+
+**Live at:** https://cronloop.techtools.cz/error-patterns.html
