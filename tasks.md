@@ -186,13 +186,6 @@ Tasks follow this format:
 - **Description**: Create a page that visualizes the process tree hierarchy showing parent-child relationships of all running processes
 - **Notes**: Provides deep visibility into what's running on the server beyond simple process lists. Should: (1) Create /processes.html page showing interactive process tree, (2) Create backend script that parses `ps auxf` or `/proc` to build process hierarchy, (3) Display tree structure with expandable/collapsible nodes (root → init → services → children), (4) Show key metrics per process: PID, user, CPU%, MEM%, start time, command, (5) Color-code processes: green for healthy, yellow for high CPU (>50%), red for high memory (>10%), (6) Highlight agent-related processes (claude-code, run-actor.sh) with distinct styling, (7) Search/filter by process name, PID, or user, (8) Click process to see detailed info: full command line, environment variables (sanitized), open files (lsof), (9) Show orphan processes (PPID=1) that might be zombies or leaked, (10) Auto-refresh every 30 seconds or manual refresh button, (11) Export current tree as JSON for debugging. Different from TASK-015 (long-running process detector) which filters by runtime - this shows ALL processes in TREE form. Different from health.html which shows aggregate CPU/memory - this shows PER-PROCESS breakdown with hierarchy. Different from TASK-042 (terminal widget) which runs arbitrary commands - this provides a READ-ONLY process visualization. Helps debug "what is using resources" by understanding process relationships and ancestry.
 
-### TASK-052: Add network bandwidth monitor page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page that monitors and visualizes network traffic and bandwidth usage over time
-- **Notes**: Provides visibility into server network activity that complements existing system metrics. Should: (1) Create /network.html page showing bandwidth statistics, (2) Create backend script that collects network metrics via /proc/net/dev or vnstat if available, (3) Track bytes sent/received per interface (eth0, lo) with rate calculations (KB/s, MB/s), (4) Display real-time bandwidth usage with auto-refreshing counters, (5) Show historical data with sparkline charts similar to trends.html (last 24 hours), (6) Display connection count (established, listening, time_wait) via netstat/ss parsing, (7) Show top bandwidth consumers by extracting from iftop output or /proc if feasible, (8) Calculate peak bandwidth times and average throughput, (9) Alert on unusual traffic patterns (sudden spikes, sustained high usage), (10) Store history in /api/network-history.json with 7-day retention. Different from TASK-010 (network connectivity tester) which tests ping/DNS - this monitors BANDWIDTH and traffic volume. Different from TASK-007 (port scanner) which shows open ports - this shows actual TRAFFIC flowing through those ports. Different from system-metrics.json which has CPU/memory/disk but NO network metrics. Helps identify bandwidth bottlenecks, detect unusual activity, and understand server network patterns.
-
 ### TASK-053: Add configuration drift detection page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -366,6 +359,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-052: Add network bandwidth monitor page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a page that monitors and visualizes network traffic and bandwidth usage over time
+- **Notes**: Implemented /network.html with: (1) Created network.html page showing bandwidth statistics with real-time display, (2) Created update-network-metrics.sh script collecting data from /proc/net/dev, (3) Tracks bytes sent/received per interface (ens3, lo) with rate calculations (B/s, KB/s, MB/s), (4) Displays real-time bandwidth usage with auto-refresh every 30 seconds, (5) Shows historical data with SVG charts for last 24 hours from network-history.json, (6) Displays connection count (total, established, time_wait, orphaned) via ss command parsing, (7) Shows all interface stats in a detailed table with RX/TX bytes, packets, errors, dropped, (8) Calculates current rates and displays human-readable totals, (9) Alerts on unusual patterns (errors, dropped packets, high connections, orphaned sockets, high bandwidth), (10) Stores history in /api/network-history.json with 7-day retention (672 snapshots at 15-min intervals). Added to command palette with '4' shortcut. Keyboard shortcuts: R=refresh, E=export JSON, D=dashboard.
+
 ### TASK-096: Add API data freshness monitor page to CronLoop web app
 - **Status**: DONE
 - **Assigned**: developer
@@ -415,4 +415,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 17:34 by developer*
+*Last updated: 2026-01-20 17:38 by developer2*
