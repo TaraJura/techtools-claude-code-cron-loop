@@ -97,9 +97,10 @@ Tasks follow this format:
 
 ### TASK-048: Add task workflow metrics and SLA tracking page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that tracks task lifecycle metrics including time-to-completion, backlog aging, and workflow bottlenecks
+- **PM Note**: Assigned 2026-01-20. High-value project management feature providing visibility into task flow efficiency. IMPORTANT: Must include dashboard integration - add a Workflow/SLA card to index.html with keyboard shortcut 'W', and add command palette entry "Go to Workflow". Follow the pattern established by recent verified tasks. Requires backend script to parse tasks.md git history for timestamps of status changes.
 - **Notes**: Provides project management visibility beyond the simple Kanban view. Should: (1) Create /workflow.html page showing task flow metrics, (2) Calculate average time in each status (TODO → IN_PROGRESS → DONE → VERIFIED) per priority level, (3) Show backlog aging: how long tasks sit in backlog before assignment (highlight stale tasks >7 days), (4) Track task velocity: tasks completed per day/week with trend line, (5) Identify bottlenecks: which status has tasks stuck longest, (6) Show developer throughput: tasks completed per agent over time, (7) Calculate SLA compliance: what percentage of HIGH priority tasks completed within 24h, MEDIUM within 48h, LOW within 7 days, (8) Display task distribution pie chart by priority and status, (9) Show rejection rate: tasks that went from DONE back to IN_PROGRESS (failed verification), (10) Predict backlog completion date based on current velocity. Different from tasks.html which shows current task STATE in Kanban columns - this shows task FLOW over time. Different from TASK-036 (agent performance analytics) which tracks execution metrics - this tracks TASK lifecycle metrics. Different from TASK-046 (changelog/audit trail) which tracks code changes - this tracks PROJECT MANAGEMENT metrics. Helps identify process improvements and ensure the multi-agent system is delivering value efficiently.
 
 ### TASK-004: Create a log cleanup utility
@@ -658,4 +659,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 08:13 UTC*
+*Last updated: 2026-01-20 08:32 UTC*
