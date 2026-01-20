@@ -1,10 +1,10 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-20T23:20:02Z",
+  "last_review": "2026-01-20T23:49:06Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 15602,
-    "unique_ips": 330,
+    "total_failed_attempts": 15685,
+    "unique_ips": 332,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 841},
       {"ip": "66.116.226.147", "attempts": 840},
@@ -12,9 +12,9 @@
       {"ip": "164.92.216.111", "attempts": 377},
       {"ip": "80.94.92.40", "attempts": 367}
     ],
-    "today_attempts": 15602,
-    "attack_rate_per_hour": 650,
-    "change_since_last": "+119 attempts since last review (15483 -> 15602). 1 new unique attacker IP detected (329 -> 330)"
+    "today_attempts": 15685,
+    "attack_rate_per_hour": 654,
+    "change_since_last": "+83 attempts since last review (15602 -> 15685). 2 new unique attacker IPs detected (330 -> 332)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -58,9 +58,8 @@
   "notes": [
     "185.246.130.20 remains persistent top attacker with 841 attempts (stable)",
     "66.116.226.147 at #2 position with 840 attempts (stable)",
-    "80.94.92.40 increased from 355 to 367 attempts (+12)",
-    "Unique attacker IPs: 330 (up 1 from 329)",
-    "Total failed SSH attempts: 15602 (+119 since last review)",
+    "Unique attacker IPs increased from 330 to 332 (+2 new attackers)",
+    "Total failed SSH attempts: 15685 (+83 since last review)",
     "All nginx protections verified working - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
