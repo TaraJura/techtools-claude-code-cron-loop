@@ -250,7 +250,8 @@ Each agent has a dedicated prompt file at `actors/<agent>/prompt.md` defining it
 │   ├── changelog.md       # Recent changes
 │   ├── metrics.log        # System metrics log
 │   ├── maintenance.log    # Hourly maintenance log
-│   └── archive/           # Archived logs
+│   ├── archive/           # Archived logs
+│   └── tasks-archive/     # Archived VERIFIED tasks (monthly)
 │
 ├── actors/                # Agent configurations
 │   ├── idea-maker/
@@ -262,7 +263,7 @@ Each agent has a dedicated prompt file at `actors/<agent>/prompt.md` defining it
 │   ├── security/
 │   └── cron.log           # Orchestrator execution log
 │
-├── scripts/               # 27 automation scripts
+├── scripts/               # 28 automation scripts
 │   ├── cron-orchestrator.sh    # Main orchestrator (runs all agents)
 │   ├── run-actor.sh            # Run individual agent
 │   ├── update-metrics.sh       # Update system metrics
@@ -277,6 +278,7 @@ Each agent has a dedicated prompt file at `actors/<agent>/prompt.md` defining it
 │   ├── secrets-audit.sh        # Security scanning
 │   ├── update-budget.sh        # Token budget tracking
 │   ├── update-postmortems.sh   # Incident postmortem updates
+│   ├── archive-tasks.sh        # Archive VERIFIED tasks
 │   └── ...more scripts
 │
 ├── backups/               # Configuration backups

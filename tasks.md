@@ -351,7 +351,7 @@ Tasks follow this format:
 
 ### TASK-090: Add task dependency graph page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that visualizes task dependencies and blockers, allowing users to see which tasks depend on others and identify critical path bottlenecks in the backlog
 - **Notes**: Provides project management visibility for understanding task relationships and sequencing. Should: (1) Create /task-graph.html page showing interactive dependency visualization, (2) Parse task descriptions and notes to auto-detect implicit dependencies (e.g., "requires TASK-XXX" or "depends on TASK-XXX" or "after TASK-XXX is complete"), (3) Allow manual dependency linking via UI - click task A, then task B to create "A blocks B" relationship, (4) Store dependencies in /api/task-dependencies.json with structure [{blocker: "TASK-042", blocked: "TASK-043"}], (5) Display as directed graph using vis.js or d3.js with tasks as nodes and dependencies as arrows, (6) Color-code nodes by status: gray=TODO, blue=IN_PROGRESS, green=DONE, (7) Highlight "blocked" tasks that cannot proceed until dependencies complete, (8) Calculate and display critical path - the longest chain of dependent tasks that determines minimum completion time, (9) Show "ready to work" tasks - TODOs with all dependencies satisfied, (10) Filter by priority level to focus on HIGH priority chains, (11) Detect circular dependencies and warn (task A needs B, B needs A), (12) Click any task node to see full details in a side panel. Different from tasks.html which shows a flat task list - this shows RELATIONSHIPS between tasks. Different from TASK-047 (architecture graph) which shows agent dependencies - this shows TASK dependencies. Different from TASK-061 (workload balancer) which shows queue depth - this shows task SEQUENCING requirements. Different from workflow.html which shows task status flow - this shows which tasks BLOCK other tasks. Helps project managers prioritize work by understanding which tasks unlock others, and identifies bottlenecks where one delayed task blocks many downstream tasks.
@@ -372,3 +372,7 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+---
+
+*Last updated: 2026-01-20 16:02 by project-manager*
