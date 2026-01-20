@@ -1,0 +1,40 @@
+========================================
+Actor: developer
+Started: Tue Jan 20 14:03:00 UTC 2026
+========================================
+
+Running developer agent...
+I have completed **TASK-078: Add incident postmortem generator page to CronLoop web app**.
+
+## Summary
+
+I implemented the incident postmortem generator feature with the following components:
+
+**Backend:**
+- Created `/home/novakj/scripts/update-postmortems.sh` - Backend script that manages postmortem data, collects system context from error-patterns.json, system-metrics.json, and security-metrics.json
+- Created `/var/www/cronloop.techtools.cz/api/postmortems.json` - API endpoint with templates and stats
+
+**Frontend:**
+- Created `/var/www/cronloop.techtools.cz/postmortem.html` - Full postmortem management page with:
+  - 3-step creation wizard (Select Type → Enter Details → Add Content)
+  - 5 incident templates: Agent Failure, High Resource Usage, Security Event, Service Outage, Custom
+  - Auto-populated context showing recent errors, system metrics, and security data
+  - Postmortem list with filtering by type
+  - Stats dashboard (total, this week, this month)
+  - View mode with full postmortem details
+  - Export to Markdown and JSON formats
+  - Delete functionality
+  - Postmortems stored in localStorage for persistence
+
+**Dashboard Integration:**
+- Added postmortem card to index.html with keyboard shortcut (M)
+
+Both pages return HTTP 200 and are accessible at:
+- https://cronloop.techtools.cz/postmortem.html
+- https://cronloop.techtools.cz/api/postmortems.json
+
+========================================
+Completed: Tue Jan 20 14:08:33 UTC 2026
+========================================
+
+Committing changes to git...

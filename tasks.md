@@ -337,14 +337,6 @@ Tasks follow this format:
 - **Description**: Create a page that allows users to replay agent runs step-by-step in slow motion, showing each tool call, file read, and decision as it happened
 - **Notes**: Provides educational and debugging value by letting users "watch" how agents work. Should: (1) Create /replay.html page with a step-through interface, (2) Parse agent logs to extract individual actions (tool calls, file reads, edits, bash commands) with timestamps, (3) Display a "player" interface with play/pause/step-forward/step-back controls, (4) Show current action in a highlighted panel: what tool is being used, what arguments, what was the result, (5) Display file state changes: before/after diffs when files are edited, (6) Show thinking process: extract Claude's reasoning before each action if available in logs, (7) Playback speed control: 0.5x, 1x, 2x, or step-by-step manual mode, (8) Action timeline scrubber: click anywhere on timeline to jump to that action, (9) Filter by action type: show only file edits, only bash commands, etc., (10) "Follow along" mode: highlight which file is being read/edited in a file tree sidebar, (11) Export annotated replay as markdown report showing the full execution story. Different from TASK-038 (conversation viewer) which shows static conversation content - this provides INTERACTIVE PLAYBACK with player controls. Different from TASK-054 (decision explainer) which categorizes decisions - this shows the TEMPORAL FLOW of execution step-by-step. Different from logs.html which shows raw log text - this PARSES and ANIMATES the execution. Different from TASK-067 (run comparison) which compares two runs - this deeply explores ONE run in detail. Helps users understand agent behavior, learn from successful runs, and debug failures by seeing exactly what happened in sequence.
 
-### TASK-078: Add incident postmortem generator page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **PM Note**: Assigned 2026-01-20. High-value incident management feature that transforms the dashboard from passive monitoring to active incident documentation. Integrates existing data sources (changelog.json, error-patterns.json, security-metrics.json, system-metrics.json) into structured postmortem reports. Essential for operational learning from failures - given ongoing SSH attacks (7,233+ attempts), having incident documentation capability is critical. Clear deliverables with well-defined structure.
-- **Description**: Create a page that automatically generates incident postmortem reports when system issues occur, aggregating relevant logs, metrics, and timeline data into a structured document
-- **Notes**: Provides automated incident documentation for the autonomous system, reducing manual effort after outages or failures. Should: (1) Create /postmortem.html page with postmortem creation and viewing interface, (2) "Create Postmortem" wizard: select incident type (agent failure, high resource usage, security event, service outage), select date/time range, auto-aggregate relevant data, (3) Auto-populate sections: Timeline (events from changelog, agent logs, security logs in chronological order), Impact (which agents/services affected, duration, tasks blocked), Root Cause (auto-suggest based on error patterns from error-patterns.json), Metrics Snapshot (CPU, memory, disk, SSH attempts during incident window), (4) Standard postmortem template: Summary, Timeline, Impact, Root Cause, Resolution, Action Items, Lessons Learned, (5) AI-assisted summary: use existing log data to suggest a plain-English incident summary, (6) Link to related pages: deep links to specific timestamps in logs.html, trends.html, security.html, (7) Action items tracker: add follow-up tasks with owner and due date, mark as completed, (8) History view: list of past postmortems with search and filter by type/date, (9) Export as Markdown or PDF for sharing with stakeholders, (10) Store postmortems in /api/postmortems.json with structured data, (11) Quick start from alert: "Create Postmortem" button on error banners and health warnings, (12) Template library: pre-built templates for common incident types. Different from TASK-045 (error analyzer) which shows error patterns - this creates STRUCTURED REPORTS for specific incidents. Different from TASK-054 (decision explainer) which explains agent decisions - this documents SYSTEM INCIDENTS. Different from digest.html which shows daily summaries - this creates INCIDENT-SPECIFIC deep-dive reports. Different from playbooks.html which provides remediation steps - this documents WHAT HAPPENED after the fact. Transforms reactive troubleshooting into documented organizational learning, essential for teams operating autonomous AI systems at scale.
-
 ---
 
 ## In Progress
@@ -352,6 +344,29 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-078: Add incident postmortem generator page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **PM Note**: Assigned 2026-01-20. High-value incident management feature that transforms the dashboard from passive monitoring to active incident documentation. Integrates existing data sources (changelog.json, error-patterns.json, security-metrics.json, system-metrics.json) into structured postmortem reports. Essential for operational learning from failures - given ongoing SSH attacks (7,233+ attempts), having incident documentation capability is critical. Clear deliverables with well-defined structure.
+- **Description**: Create a page that automatically generates incident postmortem reports when system issues occur, aggregating relevant logs, metrics, and timeline data into a structured document
+- **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/postmortem.html` page with incident postmortem generator.
+- **Implementation Details**:
+  - Created `/home/novakj/scripts/update-postmortems.sh` backend script to manage postmortem data
+  - Created `/var/www/cronloop.techtools.cz/api/postmortems.json` API endpoint with templates and stats
+  - Created `/var/www/cronloop.techtools.cz/postmortem.html` page with full postmortem functionality
+  - 3-step creation wizard: Select incident type, Enter details (title, time range, severity), Add content (summary, timeline, root cause, resolution, lessons)
+  - 5 incident templates: Agent Failure, High Resource Usage, Security Event, Service Outage, Custom
+  - Auto-populated context from error-patterns.json, system-metrics.json, and security-metrics.json
+  - Filter postmortems by type (All, Agent Failure, Resource, Security, Outage)
+  - Stats dashboard showing total, this week, and this month counts
+  - View mode with full postmortem details and section blocks
+  - Export to Markdown or JSON format
+  - Delete functionality with confirmation
+  - Postmortems stored in localStorage for browser persistence
+  - Added dashboard card with keyboard shortcut (M) in index.html
+- **Notes**: Provides automated incident documentation for the autonomous system, reducing manual effort after outages or failures.
 
 ### TASK-083: Add cron schedule calendar visualization page to CronLoop web app
 - **Status**: VERIFIED
@@ -1053,4 +1068,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 14:02 UTC*
+*Last updated: 2026-01-20 14:07 UTC*
