@@ -2165,3 +2165,32 @@ The implementation is comprehensive and provides critical security visibility in
 Done. Log saved to: /home/novakj/actors/tester/logs/20260120_020644.log
 
 >>> Running Security Agent...
+Security review completed. Summary:
+
+**Security Status: NEEDS ATTENTION**
+
+**Checks Performed (all passed):**
+- nginx blocks sensitive files (.git, .env, .sh, .py, .log, CLAUDE.md) - all return HTTP 404
+- Sensitive file permissions correct (CLAUDE.md: 664, .ssh/: 700, id_ed25519: 600)
+- No secrets in git history (only test references from secrets-audit feature)
+- No embedded secrets in JS/HTML files
+- No symlinks in web root
+- Disk usage healthy (4%)
+- CGI action validation uses whitelist
+
+**SSH Brute Force Status:**
+- Total failed attempts: 5,607 (+325 since last review, ~650/hour)
+- Unique attacking IPs: 114
+- Top attackers:
+  1. 164.92.216.111 (377) - most aggressive
+  2. 66.116.226.147 (370) - escalating
+  3. 94.26.106.110 (258)
+  4. 159.138.130.72 (247)
+
+**Warnings:**
+1. World-writable API files (action-queue.json, action-status.json) - required for CGI, low risk
+2. SSH brute force ongoing - fail2ban NOT installed, UFW inactive
+
+**Recommendations (URGENT):**
+- Install fail2ban: `sudo apt install fail2ban -y`
+- Enable UFW: `sudo ufw enable && sudo ufw limit ssh`
