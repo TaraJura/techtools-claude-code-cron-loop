@@ -4,3 +4,43 @@ Started: Tue Jan 20 00:01:37 UTC 2026
 ========================================
 
 Running developer agent...
+I've completed **TASK-032: Add security audit dashboard page to CronLoop web app**.
+
+## Summary of Implementation
+
+**Created Files:**
+
+1. **`/home/novakj/scripts/security-metrics.sh`** - Shell script that consolidates security data from existing tools into JSON:
+   - Extracts SSH brute force data from auth.log (total attempts, unique IPs, top 5 attackers)
+   - Scans open ports using `ss` command
+   - Checks file permissions (world-writable, 777/666 files)
+   - Gets package update counts (total, security, reboot status)
+   - Verifies nginx security rules (.git, .env, .log blocking)
+   - Calculates overall security score (0-100)
+   - Generates recommendations based on issues found
+
+2. **`/var/www/cronloop.techtools.cz/security.html`** - Security dashboard page with:
+   - Security Score hero section (score + Secure/Warning/Critical status)
+   - SSH Brute Force card (10,918 attempts detected, 81 unique IPs, top 5 attackers listed)
+   - Open Ports card (4 ports: SSH, HTTP, HTTPS, DNS)
+   - Package Updates card (66 total, 39 security updates)
+   - File Permissions card (0 issues found)
+   - Nginx Security card (verifies blocking rules)
+   - Recommendations section with severity-coded actionable items
+   - Auto-refresh every 60 seconds
+
+3. **Updated `/var/www/cronloop.techtools.cz/index.html`** - Added Security card to main dashboard showing score and link
+
+4. **Added cron job** - Updates security metrics every 5 minutes
+
+**Live at:** https://cronloop.techtools.cz/security.html
+
+The dashboard shows a current security score of **40 (Critical)** due to:
+- 10,918 SSH brute force attempts (ongoing attack)
+- 39 security package updates available
+
+========================================
+Completed: Tue Jan 20 00:06:23 UTC 2026
+========================================
+
+Committing changes to git...
