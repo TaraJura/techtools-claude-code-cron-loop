@@ -42,6 +42,95 @@ An autonomous multi-agent system powered by **Claude Code** running on a cron sc
 └─────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+## How Data Flows (No Traditional Backend!)
+
+This system has **no API server, no database, no Node.js/PHP/Python backend**. It uses a simple but effective architecture:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                              DATA FLOW ARCHITECTURE                             │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│   ┌─────────────┐                                                               │
+│   │    CRON     │  Runs scripts every 1-30 minutes                              │
+│   └──────┬──────┘                                                               │
+│          │                                                                      │
+│          ▼                                                                      │
+│   ┌─────────────────────────────────────────┐                                   │
+│   │     SHELL SCRIPTS (Bash + Python)       │                                   │
+│   │     /home/novakj/scripts/               │                                   │
+│   │                                         │                                   │
+│   │  • update-metrics.sh    (every 1 min)   │                                   │
+│   │  • update-costs.sh      (every 10 min)  │                                   │
+│   │  • analyze-errors.sh    (every 5 min)   │                                   │
+│   │  • cron-orchestrator.sh (every 30 min)  │                                   │
+│   └──────┬──────────────────────────────────┘                                   │
+│          │                                                                      │
+│          │  Write JSON directly to web directory                                │
+│          ▼                                                                      │
+│   ┌─────────────────────────────────────────┐                                   │
+│   │     STATIC JSON FILES                   │                                   │
+│   │     /var/www/cronloop.techtools.cz/api/ │                                   │
+│   │                                         │                                   │
+│   │  • system-metrics.json                  │                                   │
+│   │  • agent-status.json                    │                                   │
+│   │  • costs.json                           │                                   │
+│   │  • changelog.json                       │                                   │
+│   │  • ...22 more JSON files                │                                   │
+│   └──────┬──────────────────────────────────┘                                   │
+│          │                                                                      │
+│          │  Nginx serves as static files                                        │
+│          ▼                                                                      │
+│   ┌─────────────────────────────────────────┐                                   │
+│   │     NGINX WEB SERVER                    │                                   │
+│   │     (serves static HTML/CSS/JS/JSON)    │                                   │
+│   └──────┬──────────────────────────────────┘                                   │
+│          │                                                                      │
+│          │  HTTP/HTTPS                                                          │
+│          ▼                                                                      │
+│   ┌─────────────────────────────────────────┐                                   │
+│   │     BROWSER                             │                                   │
+│   │                                         │                                   │
+│   │  1. Load index.html (static)            │                                   │
+│   │  2. JavaScript fetches /api/*.json      │                                   │
+│   │  3. Render data in the UI               │                                   │
+│   │  4. Auto-refresh every few seconds      │                                   │
+│   └─────────────────────────────────────────┘                                   │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Tech Stack Summary
+
+| Layer | Technology | Description |
+|-------|------------|-------------|
+| **Scheduler** | Cron | Runs scripts on schedule (every 1-30 min) |
+| **Data Generation** | Bash + Python | Shell scripts with embedded Python for JSON |
+| **Data Storage** | JSON Files | Static `.json` files in `/var/www/.../api/` |
+| **Web Server** | Nginx | Serves static files, handles SSL, routes CGI |
+| **Frontend** | HTML/CSS/JS | PWA with vanilla JavaScript, fetches JSON |
+| **Interactive** | CGI (Bash) | `/cgi-bin/*.cgi` for actions like health checks |
+
+### Why No Traditional Backend?
+
+1. **Zero complexity** - No database, no app server, no deployment pipeline
+2. **Extremely resilient** - Static files survive crashes, no state to corrupt
+3. **Full observability** - All data is in readable JSON files
+4. **Git-native** - Everything is text files, perfect for version control
+5. **Self-sufficient** - Only depends on Nginx, cron, and bash
+
+### Example Data Flow
+
+When you see CPU metrics on the dashboard:
+
+```
+1. Cron runs update-metrics.sh every minute
+2. Script collects CPU/memory/disk data
+3. Python (in bash) writes to /var/www/.../api/system-metrics.json
+4. Browser's JavaScript fetches /api/system-metrics.json
+5. Dashboard displays the metrics
+```
+
 ## Agents
 
 | Agent | Role | Description |
