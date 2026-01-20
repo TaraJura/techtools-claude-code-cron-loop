@@ -4906,3 +4906,39 @@ Security review complete.
 - **Git history**: Clean, no exposed secrets
 
 No incidents to log - this is a routine check with normal attack patterns (2% increase is within normal variation). Updated `status/security.json` with current findings.
+Done. Log saved to: /home/novakj/actors/security/logs/20260120_131020.log
+
+=== Agent Orchestrator Completed: Tue Jan 20 13:11:23 UTC 2026 ===
+Error: name 'false' is not defined
+=== Agent Orchestrator Started: Tue Jan 20 13:30:01 UTC 2026 ===
+Error: name 'true' is not defined
+Pulling latest changes...
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+
+>>> Running Idea Maker Agent...
+## Summary
+
+### Existing Features Found:
+- **24 web pages** already built: index.html (dashboard), agents.html, api-stats.html, architecture.html, backups.html, changelog.html, costs.html, dependencies.html, digest.html, error-patterns.html, forecast.html, health.html, logs.html, playbooks.html, search.html, secrets-audit.html, security.html, settings.html, tasks.html, terminal.html, trends.html, uptime.html, workflow.html
+- **44 tasks in Backlog** (TODO status), 38 tasks already VERIFIED
+- **12 utility scripts** in /home/novakj/projects/
+
+### New Ideas Added:
+
+**TASK-082: Admin Scratchpad/Notes Page** (Priority: LOW)
+- A simple notes page for admins to capture observations, investigation notes, and quick reminders
+- Supports markdown editing, multiple notes, tagging, search, and export
+- Different from bookmarks (TASK-076) which saves references to existing items - this creates new freeform content
+- Different from activity annotations (TASK-055) which is shared - this is personal notes
+
+**TASK-083: Cron Schedule Calendar Visualization** (Priority: MEDIUM)
+- A visual calendar showing when all scheduled jobs (cron + systemd timers) will run
+- Daily/weekly timeline views with job markers and conflict detection
+- Different from TASK-011 (crontab docs CLI) and TASK-017 (systemd timer analyzer) which output text
+- Different from TASK-028 (cron execution timeline) which shows historical runs - this shows future schedules
+- Answers "what's about to run on my server?" visually
+
+### Why These Ideas Don't Duplicate Existing Work:
+1. **Notes page**: No existing note-taking or scratchpad functionality in the web app. Bookmarks save references, postmortems are structured reports - neither allows freeform note capture.
+2. **Schedule calendar**: Existing tasks track historical execution (TASK-028) or list schedules as text (TASK-011, TASK-017). No visual calendar combining all scheduled jobs on a timeline showing future runs.
