@@ -194,9 +194,9 @@ get_daily_completions() {
         day_date=$(date -d "-$i days" +%Y-%m-%d 2>/dev/null || date -v-${i}d +%Y-%m-%d)
         day_completed=$(git log --since="$day_date 00:00:00" --until="$day_date 23:59:59" -p -- tasks.md 2>/dev/null | \
             grep -c -E "^\+.*Status.*:.*DONE" 2>/dev/null || echo "0")
-        # Ensure day_completed is a valid number
-        day_completed=$(echo "$day_completed" | tr -d '\n' | grep -oE '^[0-9]+' || echo "0")
-        [ -z "$day_completed" ] && day_completed=0
+        # Ensure day_completed is a valid integer without leading zeros
+        day_completed=$(echo "$day_completed" | tr -d '[:space:]')
+        day_completed=$((day_completed + 0))  # Force numeric conversion, removes leading zeros
         if [ -n "$result" ]; then
             result="$result,"
         fi

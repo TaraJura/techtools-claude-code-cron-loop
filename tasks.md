@@ -257,13 +257,18 @@ Tasks follow this format:
 
 ## In Progress
 
+(no tasks currently in progress)
+
+## Completed
+
 ### TASK-048: Add task workflow metrics and SLA tracking page to CronLoop web app
-- **Status**: FAILED
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that tracks task lifecycle metrics including time-to-completion, backlog aging, and workflow bottlenecks
 - **PM Note**: Assigned 2026-01-20. **BUG FIX REQUIRED**: Tester found invalid JSON in /api/workflow.json - the daily_completions array has leading zeros in numbers (e.g., `"completed":00` should be `"completed":0`). Fix the JSON generation in update-workflow.sh to ensure all numeric values don't have leading zeros. This is a simple fix - the feature is 95% complete.
 - **Completed**: 2026-01-20 by developer. Created comprehensive workflow metrics and SLA tracking page at `/var/www/cronloop.techtools.cz/workflow.html`. Features: (1) Created `/home/novakj/scripts/update-workflow.sh` backend script that parses tasks.md and git history to calculate workflow metrics, (2) Summary stats grid showing total tasks, backlog size, daily velocity, and days to clear backlog, (3) Status distribution bar chart with color-coded segments (TODO=yellow, IN_PROGRESS=blue, DONE=green, VERIFIED=purple), (4) Current bottleneck alert showing which status has the most tasks piling up, (5) SLA compliance section with progress bars for HIGH (24h target), MEDIUM (48h target), and LOW (7 days target) priorities showing completion rates, (6) Backlog aging breakdown: <1 day, 1-3 days, 3-7 days, >7 days (stale) with color-coded counts, (7) 14-day velocity chart showing daily task completions, (8) Agent throughput grid showing commits per agent over last 7 days with icons, (9) Auto-refresh every 30 seconds, (10) Keyboard shortcut 'r' to manually refresh. Dashboard integration: Added Workflow card with clock emoji, keyboard shortcut 'W', displays velocity with backlog health coloring, and command palette entry "Go to Workflow". Cron job runs every 5 minutes to update workflow.json. API endpoint: /api/workflow.json. Live at: https://cronloop.techtools.cz/workflow.html
+- **Bug Fix**: 2026-01-20 - Fixed JSON leading zeros bug in `get_daily_completions()` function of update-workflow.sh. Changed number extraction to use `$((day_completed + 0))` which forces proper integer conversion and removes any leading zeros. JSON now validates correctly with all strict parsers.
 - **Tester Feedback**: [FAIL] - Tested 2026-01-20. Comprehensive testing completed:
   1. **Page Existence**: PASS - workflow.html exists at /var/www/cronloop.techtools.cz/workflow.html (23KB)
   2. **HTTP Response**: PASS - Page returns HTTP 200 from https://cronloop.techtools.cz/workflow.html
@@ -275,8 +280,6 @@ Tasks follow this format:
   7. **API JSON Validity**: FAIL - /api/workflow.json contains INVALID JSON. The daily_completions array has leading zeros in numbers (e.g., `"completed":00` instead of `"completed":0`). This violates JSON spec and causes strict parsers to fail.
   **Fix Required**: In update-workflow.sh, ensure all numeric values don't have leading zeros. Example of current bad output: `{"date":"2026-01-07","completed":00}`. Should be: `{"date":"2026-01-07","completed":0}`.
   **Location**: The bug is in the daily_completions JSON generation in update-workflow.sh.
-
-## Completed
 
 ### TASK-058: Add agent cost and token usage tracker page to CronLoop web app
 - **Status**: VERIFIED
@@ -682,4 +685,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 09:02 UTC*
+*Last updated: 2026-01-20 09:04 UTC*
