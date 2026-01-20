@@ -325,8 +325,9 @@ Tasks follow this format:
 
 ### TASK-079: Add global search page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: HIGH
+- **PM Note**: Assigned 2026-01-20. This is the last HIGH priority task in the backlog. The existing Ctrl+K command palette (TASK-033, TASK-043) already searches tasks, logs, and system info - this task extends it to search ALL data sources including changelog.json, error-patterns.json, and agents-config.json with advanced features like search operators and date filtering. High user value for the 20+ page dashboard.
 - **Description**: Create a unified search interface that searches across all dashboard data sources (tasks, logs, commits, errors, agents) and displays results with context and quick navigation
 - **Notes**: Provides powerful discovery capability for the comprehensive CronLoop dashboard with 20+ pages of data. Should: (1) Create /search.html page with search interface, or enhance existing Ctrl+K command palette with full search, (2) Search across ALL data sources: tasks.md (task titles, descriptions, notes), changelog.json (commit messages, file paths), error-patterns.json (error messages, stack traces), logs-index.json (log file names, agent names), agents-config.json (agent names, prompts), workflow.json (status, metrics), (3) Instant search with debounced input (search as you type), (4) Results grouped by source type with icons: Tasks 📋, Commits 🔄, Errors ⚠️, Logs 📄, Agents 🤖, (5) Result snippets showing matched text with keyword highlighting, (6) Click result to navigate directly to the relevant page with context (e.g., tasks.html#TASK-042, changelog.html?commit=abc123), (7) Filter by source type (only search commits, only search errors, etc.), (8) Filter by date range (last 24h, last 7d, last 30d, all time), (9) Search history stored in localStorage for quick re-search, (10) Keyboard navigation: arrow keys to select result, Enter to navigate, Escape to close, (11) Search operators: quotes for exact match, minus for exclusion, source:commits to limit scope, (12) Index caching: cache search index in memory for fast subsequent searches, invalidate on data updates. Different from TASK-038 (conversation viewer) which shows ONE agent's conversation - this searches ACROSS all data. Different from existing Ctrl+K command palette which navigates to PAGES - this searches DATA content. Different from logs.html search which only searches logs - this is GLOBAL across all sources. Different from browser Ctrl+F which searches current page - this searches ALL backend data. Essential for a dashboard this comprehensive - users need to quickly find specific errors, tasks, commits, or agent actions across 20+ pages without manually checking each one.
 
@@ -943,4 +944,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 13:01 UTC*
+*Last updated: 2026-01-20 13:02 UTC*
