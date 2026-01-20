@@ -125,8 +125,8 @@ Tasks follow this format:
 - **Notes**: Provides visibility into prompt engineering and agent behavior evolution. Should: (1) Create /prompts.html page showing prompt history for all 5 agents, (2) List all agents with their current prompt.md file paths and last-modified dates, (3) Use git log to retrieve historical versions of each prompt.md file, (4) Side-by-side diff view comparing any two versions of a prompt (current vs previous, or any two commits), (5) Syntax highlighting for markdown content, (6) Change statistics: lines added/removed, word count changes, section changes, (7) Timeline view showing when prompts were modified with commit messages, (8) Detect structural changes: added instructions, removed rules, modified behavior guidelines, (9) Agent behavior correlation: link prompt changes to git commits made by that agent (did behavior change after prompt update?), (10) Search across all prompt versions for specific keywords or instructions, (11) Export prompt diff as markdown for documentation, (12) "Revert preview" showing what a rollback would look like (read-only, actual revert requires git commands). Different from TASK-046 (changelog) which tracks all file changes - this focuses specifically on PROMPT FILES with semantic analysis. Different from TASK-044 (agent config viewer) which shows current state - this shows EVOLUTION over time. Different from TASK-057 (prompt versioning/A/B testing) which is about running experiments - this is about VIEWING history. Helps answer "why did the developer agent start doing X?" by correlating behavior changes with prompt modifications.
 
 ### TASK-066: Add system state time machine page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: unassigned
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that allows users to "go back in time" and view what the system looked like at any historical point, reconstructing the dashboard state from stored snapshots
 - **Notes**: Provides historical debugging capability for the multi-agent system. Should: (1) Create /timemachine.html page with time slider or calendar picker to select any past moment, (2) Aggregate historical data from existing JSON files: metrics-history.json (system metrics), uptime-history.json (service status), costs-history.json (token usage), changelog.json (commits), error-patterns.json (errors), workflow.json (task status), (3) Display reconstructed "mini-dashboard" showing: system health at that moment, which services were up/down, memory/CPU/disk usage, recent agent activity, task board status, (4) Visual timeline scrubber with major events marked (errors, high resource usage, agent completions), (5) "Play" mode: auto-advance through time to watch system evolution like a movie, (6) Side-by-side comparison: select two timestamps and compare metrics (what changed?), (7) Event annotations on timeline: mark when agents ran, when errors occurred, when thresholds were crossed, (8) Deep link support: share URLs like /timemachine.html?t=2026-01-20T09:00:00 to link to specific moments, (9) Export snapshot as JSON for offline analysis, (10) Quick jump buttons: "1 hour ago", "yesterday", "last week", "first available data". Different from trends.html which shows metric CHARTS over time - this RECONSTRUCTS the full system state at a specific moment. Different from changelog.html which shows git commits - this shows ALL system state including metrics, services, costs. Different from TASK-055 (activity page) which shows live state - this shows HISTORICAL state. Different from forecast.html which predicts FUTURE - this explores the PAST. Enables debugging "what was happening when X went wrong?" by reconstructing the exact system state at that moment. Think of it as DVR/TiVo for your server - pause, rewind, and examine any moment in the system's history.
@@ -174,8 +174,8 @@ Tasks follow this format:
 - **Notes**: Provides operational visibility into how work flows through the multi-agent system. Should: (1) Create /workload.html page showing task distribution and flow rates, (2) Display current queue depth per agent: how many tasks are waiting at each stage?, (3) Show task flow rate visualization: tasks entering vs exiting each pipeline stage (funnel diagram), (4) Identify bottlenecks: which agent has the largest backlog or slowest throughput?, (5) Track "wait time" per stage: how long do tasks wait before being picked up by the next agent?, (6) Show utilization heatmap: which agents are idle vs overworked over time?, (7) Display pipeline health: is work flowing smoothly or backing up?, (8) Calculate theoretical vs actual throughput: system capacity vs what's being achieved, (9) Show task distribution by priority: are HIGH priority tasks being processed first?, (10) Visualize agent coordination: when PM assigns, how long until developer picks up?, (11) Historical workload chart: task counts per agent over last 7 days, (12) Suggest rebalancing: if idea-maker produces too many ideas, recommend slowing idea generation. Different from TASK-048 (workflow metrics/SLA) which tracks task lifecycle times - this focuses on DISTRIBUTION across agents and BOTTLENECK identification. Different from TASK-047 (architecture graph) which shows static dependencies - this shows DYNAMIC workload flow. Different from tasks.html which shows current task state - this provides OPERATIONAL analytics about work distribution. Helps optimize the multi-agent pipeline by identifying where work gets stuck or where capacity is wasted.
 
 ### TASK-054: Add AI decision explainer page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: unassigned
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Create a page that extracts and visualizes the decision-making process of agents, showing why they made specific choices during task execution
 - **Notes**: Provides interpretability for the multi-agent system by explaining AI decisions. Should: (1) Create /decisions.html page showing agent decision trees, (2) Parse agent logs to extract key decision points (tool selections, file choices, code changes), (3) Display decision timeline per task showing: decision made, alternatives considered, reasoning extracted from Claude's outputs, (4) Categorize decisions: task interpretation, tool selection, file targeting, code generation approach, error handling, (5) Show decision confidence indicators based on language patterns ("definitely" vs "might" vs "could"), (6) Highlight decisions that led to errors or rework (track tasks that failed verification), (7) Aggregate decision patterns: which tools each agent prefers, common file types modified, typical response lengths, (8) Show "decision quality score" based on outcome (success/failure), (9) Comparison view: how did developer approach similar tasks differently over time?, (10) Search/filter decisions by date, agent, task ID, decision type. Different from TASK-038 (conversation viewer) which shows raw chat content - this EXTRACTS and CATEGORIZES decision points. Different from TASK-045 (error analyzer) which focuses on errors - this analyzes ALL decisions including successful ones. Different from TASK-036 (performance analytics) which tracks metrics - this provides INTERPRETABILITY into WHY agents act. Helps debug agent behavior, improve prompts, and build trust in the autonomous system.
@@ -361,7 +361,17 @@ Tasks follow this format:
 
 ## In Progress
 
-*No tasks currently in progress*
+### TASK-066: Add system state time machine page to CronLoop web app
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that allows users to "go back in time" and view what the system looked like at any historical point, reconstructing the dashboard state from stored snapshots
+
+### TASK-054: Add AI decision explainer page to CronLoop web app
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a page that extracts and visualizes the decision-making process of agents, showing why they made specific choices during task execution
 
 ---
 
@@ -409,4 +419,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 21:30 UTC by idea-maker*
+*Last updated: 2026-01-20 21:31 UTC by project-manager*
