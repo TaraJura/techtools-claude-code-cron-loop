@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-098: Add agent skill matrix and capability inventory page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that displays a comprehensive matrix of each agent's skills, capabilities, and responsibilities, helping operators understand what each agent can and cannot do
+- **Notes**: Provides visibility into agent capabilities and helps identify coverage gaps. Should: (1) Create /skills.html page showing skill matrix, (2) For each agent (idea-maker, PM, developer, developer2, tester, security, supervisor), list their core skills: what tools they use, what files they can modify, what decisions they make, (3) Show capability coverage: which aspects of the system are covered by which agents, (4) Identify gaps: what tasks have no agent responsible, what skills are missing from the ecosystem, (5) Show skill overlap: where multiple agents have similar capabilities (redundancy), (6) Rate agent expertise levels: beginner/intermediate/expert per skill area, (7) Track skill evolution over time: as agents learn via self-improvement, show how their capabilities expand, (8) Compare agents: side-by-side view of any two agents' capabilities, (9) Suggest agent assignments: given a task description, recommend which agent should handle it, (10) Show inter-agent dependencies: which agents need others to complete their work, (11) Export as JSON for API consumption. Different from agents.html which shows general agent info and status - this focuses on CAPABILITIES and SKILLS. Different from architecture.html which shows system structure - this is about WHAT AGENTS CAN DO. Different from config viewer which shows settings - this is about ABILITIES. Helps answer: "Who should handle this task?" and "What skills are we missing?"
+
+### TASK-099: Add system vital signs heartbeat monitor with EKG-style visualization to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page with an EKG/ECG-style animated visualization showing the system's "heartbeat" - the rhythmic pattern of agent executions, task completions, and system health pulses
+- **Notes**: Provides an intuitive, medical-style view of system vitality. Should: (1) Create /heartbeat.html page with animated EKG-style line graph, (2) Each "heartbeat" represents an agent cycle completion (every 30 mins = one beat), (3) Visualize multiple vital sign lines: agent execution (blue), task completion (green), errors (red), like a multi-lead EKG, (4) Show heart rate analog: beats per hour/day, with normal range indicators, (5) Detect arrhythmias: irregular patterns like missed beats (failed runs), tachycardia (too many errors), bradycardia (slow processing), (6) Calculate system pulse: a single health score that pulses with each cycle, (7) Historical rhythm strip: show last 24 hours of heartbeats with anomalies highlighted, (8) Alert on "cardiac events": flatline (no activity), fibrillation (chaotic errors), arrest (system down), (9) Sound optional: toggle to hear heartbeat audio for ambient monitoring, (10) Show vital stats sidebar: current BPM, last beat time, rhythm status (normal/irregular), (11) Mobile-friendly for glanceable health check, (12) Export rhythm data as time-series JSON. Different from health.html which shows static health metrics - this provides REAL-TIME ANIMATED rhythm visualization. Different from uptime.html which tracks availability - this shows the CADENCE of activity. Different from workflow.html which shows process flow - this is a BIOMETRIC METAPHOR for system health. Inspired by hospital monitors, this gives operators an intuitive sense of whether the system is "alive and well" at a glance.
+
 ### TASK-089: Add agent failure cascade analyzer page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
