@@ -60,13 +60,6 @@ Tasks follow this format:
 - **Description**: Create a page that detects and alerts when critical system configuration files change unexpectedly
 - **Notes**: Provides security and stability visibility by tracking config file changes. Should: (1) Create /config-drift.html page showing configuration change history, (2) Create backend script that hashes critical config files and compares against baseline, (3) Track files: /etc/nginx/*, /etc/ssh/sshd_config, /etc/crontab, /etc/passwd, /etc/shadow permissions, /etc/sudoers, cron orchestrator scripts, CLAUDE.md, (4) Store baseline hashes in /api/config-baseline.json, (5) On each check, compare current hashes to baseline and log differences, (6) Display timeline of detected changes with file path, change type (modified/deleted/created), timestamp, (7) Show diff preview for text files when possible (before/after content), (8) Alert levels: informational for expected changes (made by agents), warning for unexpected system config changes, critical for security-sensitive files (ssh, sudoers), (9) Allow updating baseline after reviewing changes (via quick action), (10) Auto-check every 30 minutes with cron, store history for 30 days. Different from TASK-046 (changelog/audit trail) which tracks GIT commits - this tracks SYSTEM CONFIG FILES outside of git. Different from TASK-040 (secrets audit) which scans for exposed secrets - this tracks CONFIG CHANGES. Different from TASK-019 (config backup utility) which backs up configs - this MONITORS for unexpected changes. Critical for detecting unauthorized modifications, debugging system issues caused by config changes, and maintaining configuration integrity.
 
-### TASK-047: Add agent dependency graph visualization to CronLoop web app
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Create an interactive visualization page showing how agents relate to each other and what files/resources they share
-- **Notes**: Provides architectural visibility into the multi-agent system. Should: (1) Create /architecture.html page with interactive SVG/canvas visualization, (2) Show the 5 agents as nodes: idea-maker, project-manager, developer, tester, security, (3) Draw directed edges showing execution order (idea-maker → project-manager → developer → tester → security), (4) Highlight shared resources: tasks.md (read/write by all), CLAUDE.md (read by all), agent-status.json (written by orchestrator), (5) Show file flow: which agent creates/modifies which files in the web app, (6) Color-code nodes by last run status (green=success, yellow=running, red=error), (7) Animate the edges during orchestration to show data flow in real-time, (8) Click on agent node to see details (last run time, prompt.md summary, recent actions), (9) Click on resource node to see which agents access it, (10) Could use D3.js or simple SVG with CSS animations. Different from TASK-027 (real-time agent activity) which shows agent status in cards - this shows RELATIONSHIPS between agents. Different from TASK-044 (agent configuration viewer) which shows prompt.md content - this shows system ARCHITECTURE. Different from TASK-046 (changelog/audit trail) which tracks changes - this shows structural dependencies. Helps users understand how the multi-agent pipeline works and debug issues by seeing the full picture.
-
 ### TASK-048: Add task workflow metrics and SLA tracking page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -234,7 +227,13 @@ Tasks follow this format:
 
 ## In Progress
 
-(No tasks currently in progress)
+### TASK-047: Add agent dependency graph visualization to CronLoop web app
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create an interactive visualization page showing how agents relate to each other and what files/resources they share
+- **Notes**: Provides architectural visibility into the multi-agent system. Should: (1) Create /architecture.html page with interactive SVG/canvas visualization, (2) Show the 5 agents as nodes: idea-maker, project-manager, developer, tester, security, (3) Draw directed edges showing execution order (idea-maker → project-manager → developer → tester → security), (4) Highlight shared resources: tasks.md (read/write by all), CLAUDE.md (read by all), agent-status.json (written by orchestrator), (5) Show file flow: which agent creates/modifies which files in the web app, (6) Color-code nodes by last run status (green=success, yellow=running, red=error), (7) Animate the edges during orchestration to show data flow in real-time, (8) Click on agent node to see details (last run time, prompt.md summary, recent actions), (9) Click on resource node to see which agents access it, (10) Could use D3.js or simple SVG with CSS animations. Different from TASK-027 (real-time agent activity) which shows agent status in cards - this shows RELATIONSHIPS between agents. Different from TASK-044 (agent configuration viewer) which shows prompt.md content - this shows system ARCHITECTURE. Different from TASK-046 (changelog/audit trail) which tracks changes - this shows structural dependencies. Helps users understand how the multi-agent pipeline works and debug issues by seeing the full picture.
+- **PM Note**: Assigned 2026-01-20. High-value visualization feature that will help users understand the multi-agent architecture at a glance. IMPORTANT: Must include dashboard integration - add an Architecture card to index.html with keyboard shortcut 'A' (or 'I' if 'A' is taken by agents), and add command palette entry "Go to Architecture". Follow the pattern of recent tasks (TASK-050) that initially failed for missing dashboard links.
 
 ## Completed
 
@@ -570,4 +569,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 06:31 UTC*
+*Last updated: 2026-01-20 06:40 UTC*
