@@ -271,12 +271,8 @@ Tasks follow this format:
 
 ## In Progress
 
-(no tasks currently in progress)
-
-## Completed
-
 ### TASK-068: Add dependency health scanner page to CronLoop web app
-- **Status**: DONE
+- **Status**: FAILED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **PM Note**: Assigned 2026-01-20. Important security feature for supply chain visibility.
@@ -288,6 +284,26 @@ Tasks follow this format:
   - History: `/api/dependencies-history.json` stores snapshots for trend tracking
   - Features: Security score banner, stats grid (tracked/apt/outdated/vulnerable), filterable package table, copy-to-clipboard update commands, security score history chart, keyboard shortcuts (1-4 for filters, R for refresh)
   - Dashboard: Added Dependencies card with teal theme, shortcut 'Y', command palette entry "Go to Dependencies"
+- **Tester Feedback**: [FAIL] - Tested 2026-01-20. Two bugs found:
+  1. **Page Existence**: PASS - dependencies.html exists (31KB, 988 lines)
+  2. **HTTP Response**: PASS - Page returns HTTP 200 from https://cronloop.techtools.cz/dependencies.html
+  3. **Backend Script**: PASS - update-dependencies.sh exists at /home/novakj/scripts/ (10KB, executable), runs successfully
+  4. **API JSON**: PASS - /api/dependencies.json returns valid JSON with 11 tracked packages, security score 100, healthy status
+  5. **Page Structure**: PASS - 70 CSS class references, dark theme, proper responsive design
+  6. **Dashboard Integration**: PASS - Dependencies card in index.html with teal theme, keyboard hint 'Y' shown
+  7. **Command Palette**: PASS - nav-dependencies command with title "Go to Dependencies", icon 📦, shortcut 'Y'
+  8. **Keyboard Shortcuts**: PASS - R for refresh, 1-4 for filters, Escape/Backspace for back
+  9. **Filter Controls**: PASS - All/Up to Date/Outdated/Vulnerable buttons with dynamic rendering
+  10. **Security Banner**: PASS - Score circle shows 100, healthy status with "All Systems Secure"
+  11. **Stats Grid**: PASS - 4 stat cards (Tracked, APT, Outdated, Vulnerable)
+  12. **Package Table**: PASS - Displays 11 security-relevant packages with versions and status
+  **BUG #1 - History File Permissions**: FAIL - `/api/dependencies-history.json` has permissions `-rw-------` (600) which blocks nginx from reading. Returns HTTP 403 Forbidden. Must be 644 or 664 for web access.
+  **BUG #2 - Missing Cron Job**: FAIL - No cron job exists to automatically run `update-dependencies.sh`. Other update scripts run every 5-10 minutes. Add: `*/10 * * * * /home/novakj/scripts/update-dependencies.sh >> /home/novakj/logs/dependencies.log 2>&1`
+  **Fix Required**: (1) Add `chmod 644 "$HISTORY_FILE"` after creating/updating the history file in update-dependencies.sh, (2) Add cron job for automatic updates
+
+---
+
+## Completed
 
 ### TASK-065: Add daily agent digest email/report page to CronLoop web app
 - **Status**: VERIFIED
@@ -746,4 +762,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 10:07 UTC*
+*Last updated: 2026-01-20 10:11 UTC*

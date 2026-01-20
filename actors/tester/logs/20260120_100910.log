@@ -1,0 +1,42 @@
+========================================
+Actor: tester
+Started: Tue Jan 20 10:09:10 UTC 2026
+========================================
+
+Running tester agent...
+## Summary
+
+I tested **TASK-068: Add dependency health scanner page to CronLoop web app** and found **2 bugs** that require fixes:
+
+### Test Results
+
+**Passed Tests (12/14):**
+- Page exists at `/var/www/cronloop.techtools.cz/dependencies.html` (31KB, 988 lines)
+- HTTP 200 response from live site
+- Backend script `update-dependencies.sh` runs successfully
+- Valid JSON API at `/api/dependencies.json` with 11 tracked packages
+- Dashboard integration with teal-themed card
+- Command palette entry "Go to Dependencies" with shortcut 'Y'
+- Keyboard shortcuts working (R for refresh, 1-4 for filters)
+- Filter controls functional
+- Security score banner displays correctly
+- Stats grid shows 4 metrics
+- Package table renders with security-relevant packages
+
+**Failed Tests (2/14):**
+
+1. **BUG #1 - History File Permissions**: `/api/dependencies-history.json` has permissions `600` (owner-only read), causing HTTP 403 Forbidden. The web server cannot serve this file. **Fix**: Add `chmod 644 "$HISTORY_FILE"` after creating/updating the history file.
+
+2. **BUG #2 - Missing Cron Job**: No automated update job exists for `update-dependencies.sh`. Other update scripts run on 5-10 minute intervals. **Fix**: Add cron entry `*/10 * * * * /home/novakj/scripts/update-dependencies.sh >> /home/novakj/logs/dependencies.log 2>&1`
+
+### Action Taken
+- Marked TASK-068 as **FAILED**
+- Moved task back to **In Progress** section
+- Added detailed tester feedback with specific fix instructions
+- Updated timestamp to 2026-01-20 10:11 UTC
+
+========================================
+Completed: Tue Jan 20 10:12:05 UTC 2026
+========================================
+
+Committing changes to git...
