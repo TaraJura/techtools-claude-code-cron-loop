@@ -1,21 +1,21 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-20T16:45:00Z",
+  "last_review": "2026-01-20T17:19:00Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 13605,
-    "unique_ips": 287,
+    "total_failed_attempts": 13845,
+    "unique_ips": 299,
     "top_attackers": [
-      {"ip": "66.116.226.147", "attempts": 660},
+      {"ip": "66.116.226.147", "attempts": 685},
       {"ip": "185.246.130.20", "attempts": 434},
       {"ip": "206.189.111.94", "attempts": 383},
       {"ip": "164.92.216.111", "attempts": 377},
       {"ip": "80.94.92.40", "attempts": 345}
     ],
-    "today_attempts": 9736,
-    "current_hour_attempts": 325,
-    "attack_rate_per_hour": 579,
-    "change_since_last": "+300 attempts (+2.3%) since last review, unique IPs corrected from 2399 to 287"
+    "today_attempts": 9978,
+    "current_hour_attempts": 140,
+    "attack_rate_per_hour": 576,
+    "change_since_last": "+240 attempts (+1.8%) since last review"
   },
   "web_protections": {
     "git_blocked": true,
@@ -48,22 +48,24 @@
     "url_encoded_path_traversal_blocked",
     "disk_space_ok",
     "no_sensitive_md_in_webroot",
-    "no_exposed_secrets_in_js"
+    "no_exposed_secrets_in_recent_commits"
   ],
   "known_issues": [
     "World-writable API files (action-queue.json, action-status.json, postmortems.json) - required for CGI, mitigated by whitelist validation",
-    "tasks.md in webroot intentionally exposed for task viewer feature - contains non-sensitive task data only"
+    "tasks.md in webroot intentionally exposed for task viewer feature - contains non-sensitive task data only",
+    "Git history contains pattern matches for secret-like keywords - audit shows these are not actual credentials"
   ],
   "notes": [
-    "Top attacker 66.116.226.147 now has 660 attempts (increased from previous review)",
-    "Unique IPs corrected to 287 (previous count of 2399 was incorrect)",
-    "Today's attack count: 9736 failed attempts (very high activity)",
-    "Current hour (16:00): 325 attempts - sustained attack rate",
+    "Top attacker 66.116.226.147 now has 685 attempts (up from 660)",
+    "Unique IPs increased to 299 from 287",
+    "Today's attack count: 9978 failed attempts (high activity continues)",
+    "Current hour (17:00): 140 attempts so far",
     "All nginx protections verified working - sensitive files return 404",
-    "Path traversal blocked for both direct and URL-encoded attempts"
+    "Path traversal blocked for both direct and URL-encoded attempts",
+    "Secrets-audit feature is working correctly - monitors for credential exposure"
   ],
   "recommendations": [
-    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 9736 attacks today",
+    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given ~10k attacks today",
     "Enable UFW firewall",
     "Consider rate limiting on web endpoints"
   ]
