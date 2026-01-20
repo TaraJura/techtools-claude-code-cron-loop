@@ -168,6 +168,15 @@ process_action() {
             fi
             ;;
 
+        update_decisions)
+            echo "Updating AI decision analysis..." > "$log_file"
+            if /home/novakj/scripts/update-decisions.sh >> "$log_file" 2>&1; then
+                update_status "$action_id" "completed" "Decision analysis completed"
+            else
+                update_status "$action_id" "error" "Decision analysis failed"
+            fi
+            ;;
+
         git_status)
             echo "Checking git status..." > "$log_file"
             cd /home/novakj

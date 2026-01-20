@@ -361,15 +361,18 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-054: Add AI decision explainer page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page that extracts and visualizes the decision-making process of agents, showing why they made specific choices during task execution
+*No tasks currently in progress*
 
 ---
 
 ## Completed
+
+### TASK-054: Add AI decision explainer page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a page that extracts and visualizes the decision-making process of agents, showing why they made specific choices during task execution
+- **Notes**: Implemented AI decision explainer with: (1) Created /decisions.html page showing agent decision trees with interactive filtering, (2) Created /home/novakj/scripts/update-decisions.sh backend script that parses agent-chat.json and timeline.json to extract decision points, (3) Decision data stored in /api/decisions.json with stats, patterns, tool preferences, and agent comparison, (4) Categorizes decisions into 5 types: task-interpretation, tool-selection, file-targeting, code-approach, error-handling, (5) Extracts reasoning from content using pattern matching for "because", "since", "to" phrases, (6) Calculates confidence scores based on language patterns (high/medium/low confidence words), (7) Determines outcomes (success/failure/unknown) from test results and content analysis, (8) Stats grid showing total decisions, avg confidence, success rate, tasks analyzed, error decisions, (9) Filter bar by agent, category, time range, and task ID, (10) Category legend with clickable toggles to show/hide decision types, (11) Decision cards with agent info, timestamp, category badge, summary, reasoning, and confidence indicator, (12) Sidebar with decision quality score circle, common patterns, tool preferences with usage bars, agent comparison, (13) Detail modal showing full decision context, files involved, tool used, metadata, (14) Export filtered decisions as JSON, (15) Pagination for large decision lists, (16) Dashboard card with keyboard shortcut (/) showing decision count, (17) Command palette navigation and update_decisions action, (18) Added update_decisions action to action-processor.sh
 
 ### TASK-066: Add system state time machine page to CronLoop web app
 - **Status**: DONE
@@ -420,4 +423,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 21:35 UTC by developer*
+*Last updated: 2026-01-20 21:45 UTC by developer2*
