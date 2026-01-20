@@ -39,13 +39,6 @@ Tasks follow this format:
 - **Description**: Create a page that visualizes the sequence of tool calls and file operations each agent makes during a run as an interactive timeline diagram
 - **Notes**: Provides execution-level visibility into what agents actually DO during their runs. Should: (1) Create /timeline.html page showing agent execution as a visual timeline, (2) Parse agent logs to extract tool calls (Read, Edit, Write, Bash, Grep, Glob) with timestamps and arguments, (3) Display as a horizontal or vertical timeline with nodes for each operation, (4) Color-code by tool type: blue for Read, green for Edit/Write, orange for Bash, purple for Grep/Glob, (5) Show file paths as hoverable tooltips on timeline nodes, (6) Click node to expand details: full arguments, result snippet, duration, (7) Filter by tool type (show only Bash commands, only file operations, etc.), (8) Filter by agent and date range, (9) Show parallel operations when agents run concurrently (if orchestrator runs multiple agents), (10) Aggregate statistics: total tool calls, most-read files, most-edited files, avg operation time, (11) Detect patterns like "read-edit-read-edit" cycles that indicate iterative debugging, (12) Export timeline as JSON or SVG for documentation. Different from TASK-038 (conversation viewer) which shows Claude's thinking/text - this shows TOOL OPERATIONS as a timeline. Different from TASK-070 (replay simulator) which plays back step-by-step - this shows the FULL timeline at once as a visualization. Different from TASK-028 (cron execution timeline) which shows orchestrator runs - this shows TOOL-LEVEL operations within a single run. Different from architecture.html which shows static agent relationships - this shows DYNAMIC execution patterns. Helps answer "what files did the developer touch?" and "how much time was spent reading vs writing?" by visualizing the execution trace.
 
-### TASK-074: Add dashboard settings and preferences page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a settings page that allows users to customize their dashboard experience with persistent preferences stored in localStorage
-- **Notes**: Provides personalization and better UX for power users. Should: (1) Create /settings.html page with organized settings categories, (2) Dashboard Layout settings: choose which cards to show/hide on index.html, reorder cards with drag-and-drop, set default view (compact/expanded), (3) Notification preferences: enable/disable browser notifications for alerts, choose which events trigger notifications (errors, task completions, security alerts), set quiet hours, (4) Theme preferences: select accent color from palette (current cyan, or green/purple/orange alternatives), adjust font size (small/medium/large), toggle high-contrast mode for accessibility, (5) Auto-refresh settings: configure global refresh interval (10s/30s/60s/off), per-page refresh overrides, (6) Data preferences: default date range for charts (24h/7d/30d), number format (1000 vs 1,000), timezone display preference (UTC vs local), (7) Quick Actions config: enable/disable rate limit warnings, set custom keyboard shortcuts for favorite actions, (8) Export/Import settings as JSON for backup or sharing between browsers, (9) Reset to defaults button with confirmation, (10) Settings summary on dashboard showing active customizations, (11) Store all preferences in localStorage with 'cronloop_settings_' prefix, (12) Apply settings immediately without page reload where possible. Different from TASK-029 (PWA) which handles offline caching - this handles USER PREFERENCES. Different from TASK-025 (dark/light theme) which is a single toggle - this provides COMPREHENSIVE customization. Improves user experience by letting each user tailor the dashboard to their workflow and preferences.
-
 ### TASK-075: Add agent prompt evolution viewer page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -330,6 +323,29 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-074: Add dashboard settings and preferences page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a settings page that allows users to customize their dashboard experience with persistent preferences stored in localStorage
+- **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/settings.html` page with comprehensive settings functionality.
+- **Implementation Details**:
+  - 7 settings categories: Theme, Dashboard Layout, Notifications, Auto-Refresh, Data Preferences, Keyboard Shortcuts, Backup & Restore
+  - Theme preferences: 6 accent colors (blue/cyan/green/purple/orange/pink), 3 font sizes (small/medium/large), high-contrast mode toggle
+  - Dashboard Layout: Toggle visibility for 19 dashboard cards, default view selection (expanded/compact)
+  - Notification preferences: Browser notifications toggle with permission request, 4 notification event types (errors, tasks, security, health), quiet hours with time range
+  - Auto-refresh settings: Global refresh interval (10s/30s/60s/off), rate limit warnings toggle
+  - Data preferences: Default date range (24h/7d/30d), number format (comma/plain/space), timezone display (local/UTC)
+  - Keyboard shortcuts reference page showing all navigation shortcuts
+  - Backup & Restore: Export settings as JSON file, copy to clipboard, import from JSON, reset to defaults with confirmation
+  - Settings summary showing active customizations
+  - All preferences stored in localStorage with 'cronloop_settings_' prefix
+  - Settings applied immediately without page reload
+  - Dark theme matching main dashboard with responsive mobile design
+  - Dashboard card added with gear icon, keyboard shortcut '.'
+  - Command palette entry "Go to Settings" with shortcut '.'
+- **Notes**: Provides personalization and better UX for power users. Different from TASK-029 (PWA) which handles offline caching - this handles USER PREFERENCES. Different from TASK-025 (dark/light theme) which is a single toggle - this provides COMPREHENSIVE customization.
 
 ### TASK-071: Add system recovery playbook page to CronLoop web app
 - **Status**: VERIFIED
@@ -895,4 +911,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 12:32 UTC*
+*Last updated: 2026-01-20 12:37 UTC*
