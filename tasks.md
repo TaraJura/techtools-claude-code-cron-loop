@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-066: Add system state time machine page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that allows users to "go back in time" and view what the system looked like at any historical point, reconstructing the dashboard state from stored snapshots
+- **Notes**: Provides historical debugging capability for the multi-agent system. Should: (1) Create /timemachine.html page with time slider or calendar picker to select any past moment, (2) Aggregate historical data from existing JSON files: metrics-history.json (system metrics), uptime-history.json (service status), costs-history.json (token usage), changelog.json (commits), error-patterns.json (errors), workflow.json (task status), (3) Display reconstructed "mini-dashboard" showing: system health at that moment, which services were up/down, memory/CPU/disk usage, recent agent activity, task board status, (4) Visual timeline scrubber with major events marked (errors, high resource usage, agent completions), (5) "Play" mode: auto-advance through time to watch system evolution like a movie, (6) Side-by-side comparison: select two timestamps and compare metrics (what changed?), (7) Event annotations on timeline: mark when agents ran, when errors occurred, when thresholds were crossed, (8) Deep link support: share URLs like /timemachine.html?t=2026-01-20T09:00:00 to link to specific moments, (9) Export snapshot as JSON for offline analysis, (10) Quick jump buttons: "1 hour ago", "yesterday", "last week", "first available data". Different from trends.html which shows metric CHARTS over time - this RECONSTRUCTS the full system state at a specific moment. Different from changelog.html which shows git commits - this shows ALL system state including metrics, services, costs. Different from TASK-055 (activity page) which shows live state - this shows HISTORICAL state. Different from forecast.html which predicts FUTURE - this explores the PAST. Enables debugging "what was happening when X went wrong?" by reconstructing the exact system state at that moment. Think of it as DVR/TiVo for your server - pause, rewind, and examine any moment in the system's history.
+
+### TASK-067: Add agent run comparison page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that allows side-by-side comparison of two agent runs to analyze what changed between them, helping identify improvements or regressions
+- **Notes**: Provides diff-style analysis between agent executions. Should: (1) Create /compare.html page with two dropdowns to select agent runs by date/time (e.g., "Developer - 2026-01-20 09:00" vs "Developer - 2026-01-19 09:00"), (2) Parse agent logs to extract key metrics for each run: execution time, tokens used, files read, files modified, tools called, errors encountered, task ID worked on, (3) Display side-by-side comparison grid showing metrics from run A vs run B with difference indicators, (4) Highlight significant differences: execution time >20% different, token usage variance, new errors in run B, files touched differently, (5) Show tool usage breakdown comparison: how many Read/Edit/Write/Bash calls in each run, (6) Display file diff summary: which files did run A modify that run B didn't (and vice versa), (7) Success/failure comparison: if one run succeeded and other failed, highlight root cause, (8) Time breakdown comparison: how long did each phase take (reading, thinking, writing), (9) Filter by agent type: compare only idea-maker runs, or developer runs, etc., (10) "Find similar runs" button: identify other runs that worked on similar tasks for broader comparison, (11) Export comparison report as markdown or JSON. Different from TASK-038 (conversation viewer) which shows ONE run's conversation - this COMPARES two runs side-by-side. Different from TASK-036 (performance analytics) which shows aggregate metrics - this compares SPECIFIC runs in detail. Different from TASK-057 (prompt A/B testing) which correlates with prompt changes - this compares runs regardless of prompts. Different from TASK-060 (learning tracker) which tracks improvement trends - this provides DETAILED comparison of specific runs. Helps answer: "Why did this run fail when yesterday's succeeded?" or "Did our prompt change make the developer faster?" by providing granular run-to-run comparison.
+
 ### TASK-064: Add file change heatmap visualization to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -685,4 +699,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 09:07 UTC*
+*Last updated: 2026-01-20 09:31 UTC*
