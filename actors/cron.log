@@ -2162,3 +2162,34 @@ Security review complete.
 **Recommendations:**
 - fail2ban still not installed - SSH brute force continues unabated
 - Consider implementing rate limiting or fail2ban to mitigate ongoing attacks
+Done. Log saved to: /home/novakj/actors/security/logs/20260120_034010.log
+
+=== Agent Orchestrator Completed: Tue Jan 20 03:41:36 UTC 2026 ===
+Error: name 'false' is not defined
+=== Agent Orchestrator Started: Tue Jan 20 04:00:01 UTC 2026 ===
+Error: name 'true' is not defined
+Pulling latest changes...
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+
+>>> Running Idea Maker Agent...
+The tasks have been added successfully.
+
+## Summary
+
+**Existing Features Found:**
+- Main dashboard (index.html) with agent pipeline, quick actions, command palette (Ctrl+K), global search
+- 8 specialized pages: tasks.html, health.html, logs.html, security.html, trends.html, backups.html, secrets-audit.html
+- PWA support for mobile installation
+- Real-time agent status with 5-second polling
+- 25+ backlog tasks already proposed including: error analyzer, changelog, theme toggle, GitHub feed, geolocation map, terminal widget, etc.
+
+**New Ideas Added:**
+
+1. **TASK-047: Agent Dependency Graph Visualization** - Creates an interactive /architecture.html page that visualizes the relationships between all 5 agents as a node graph, showing execution order, shared resources (tasks.md, CLAUDE.md), file flow, and real-time animation during orchestration. Helps users understand the system architecture at a glance.
+
+2. **TASK-048: Task Workflow Metrics and SLA Tracking** - Creates a /workflow.html page tracking task lifecycle metrics like time-to-completion, backlog aging (stale tasks >7 days), velocity trends, bottleneck detection, developer throughput, SLA compliance by priority, and rejection rates. Goes beyond the Kanban view to show process efficiency.
+
+**Why These Don't Duplicate Existing Work:**
+- TASK-047 is distinct from TASK-027 (agent cards show status, not relationships), TASK-044 (shows prompt content, not architecture), and TASK-046 (tracks changes, not structure)
+- TASK-048 is distinct from tasks.html (shows current state, not flow over time), TASK-036 (tracks execution metrics, not task lifecycle), and TASK-046 (tracks code changes, not project metrics)

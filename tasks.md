@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-047: Add agent dependency graph visualization to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create an interactive visualization page showing how agents relate to each other and what files/resources they share
+- **Notes**: Provides architectural visibility into the multi-agent system. Should: (1) Create /architecture.html page with interactive SVG/canvas visualization, (2) Show the 5 agents as nodes: idea-maker, project-manager, developer, tester, security, (3) Draw directed edges showing execution order (idea-maker → project-manager → developer → tester → security), (4) Highlight shared resources: tasks.md (read/write by all), CLAUDE.md (read by all), agent-status.json (written by orchestrator), (5) Show file flow: which agent creates/modifies which files in the web app, (6) Color-code nodes by last run status (green=success, yellow=running, red=error), (7) Animate the edges during orchestration to show data flow in real-time, (8) Click on agent node to see details (last run time, prompt.md summary, recent actions), (9) Click on resource node to see which agents access it, (10) Could use D3.js or simple SVG with CSS animations. Different from TASK-027 (real-time agent activity) which shows agent status in cards - this shows RELATIONSHIPS between agents. Different from TASK-044 (agent configuration viewer) which shows prompt.md content - this shows system ARCHITECTURE. Different from TASK-046 (changelog/audit trail) which tracks changes - this shows structural dependencies. Helps users understand how the multi-agent pipeline works and debug issues by seeing the full picture.
+
+### TASK-048: Add task workflow metrics and SLA tracking page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that tracks task lifecycle metrics including time-to-completion, backlog aging, and workflow bottlenecks
+- **Notes**: Provides project management visibility beyond the simple Kanban view. Should: (1) Create /workflow.html page showing task flow metrics, (2) Calculate average time in each status (TODO → IN_PROGRESS → DONE → VERIFIED) per priority level, (3) Show backlog aging: how long tasks sit in backlog before assignment (highlight stale tasks >7 days), (4) Track task velocity: tasks completed per day/week with trend line, (5) Identify bottlenecks: which status has tasks stuck longest, (6) Show developer throughput: tasks completed per agent over time, (7) Calculate SLA compliance: what percentage of HIGH priority tasks completed within 24h, MEDIUM within 48h, LOW within 7 days, (8) Display task distribution pie chart by priority and status, (9) Show rejection rate: tasks that went from DONE back to IN_PROGRESS (failed verification), (10) Predict backlog completion date based on current velocity. Different from tasks.html which shows current task STATE in Kanban columns - this shows task FLOW over time. Different from TASK-036 (agent performance analytics) which tracks execution metrics - this tracks TASK lifecycle metrics. Different from TASK-046 (changelog/audit trail) which tracks code changes - this tracks PROJECT MANAGEMENT metrics. Helps identify process improvements and ensure the multi-agent system is delivering value efficiently.
+
 ### TASK-045: Add error pattern analyzer page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -474,4 +488,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 03:39 UTC*
+*Last updated: 2026-01-20 04:01 UTC*
