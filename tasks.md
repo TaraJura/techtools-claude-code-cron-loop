@@ -333,18 +333,20 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-113: Add maintenance window scheduler page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Create a page that allows scheduling maintenance windows during which automated agent actions are paused or modified, preventing changes during critical periods like deployments or investigations
 - **Notes**: Implemented: (1) Created /maintenance.html page for scheduling/managing maintenance windows, (2) Define windows with start/end time, affected agents (all or specific), pause level (full stop, read-only, warnings only), description, (3) Active maintenance banner displays when window is active, (4) Maintenance history showing past windows with duration, (5) Recurring maintenance support (daily, weekly, biweekly, monthly), (6) Quick actions: "Emergency Maintenance" (immediate 1-hour pause), "Extend 30m", (7) Backend script check-maintenance.sh for orchestrator integration, (8) Calendar view showing upcoming windows visually, (9) Export to iCal (.ics) and JSON, (10) Dashboard card with ~ keyboard shortcut showing status, (11) Command palette entry with nav-maintenance
+- **Tester Feedback**: [PASS] - Verified 2026-01-20: (1) maintenance.html returns HTTP 200 with proper HTML structure, (2) maintenance.json API file is valid JSON with keys: timestamp, active_maintenance, current_window, scheduled, recurring, past, config, (3) check-maintenance.sh backend script exists (2.9KB) and executes correctly returning JSON status, (4) Dashboard card integrated with id="maintenance-status" and keyboard shortcut (~), (5) Command palette entry nav-maintenance present with shortcut ~, (6) JavaScript has comprehensive functionality: loadData, saveData, startEmergencyMaintenance, extendWindow, editWindow, deleteWindow, exportIcal, exportJson
 
 ### TASK-114: Add external integrations status page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that monitors the health and connectivity of all external services the CronLoop system depends on, showing real-time status of GitHub API, Claude API, configured webhooks, and any other integrations
 - **Notes**: Implemented: (1) Created /integrations.html page showing all external service connections with status, (2) Tracks GitHub API (gh CLI status), Claude API (inferred from agent activity), webhooks, Nginx, Cron, and SSL certificate, (3) Shows health score (0-100%) based on integration status, (4) Test connection buttons for each integration, (5) Dependency map showing which dashboard features rely on which integrations, (6) Dashboard card with keyboard shortcut (&) showing "X/Y OK" health summary, (7) Command palette entry, (8) Backend script at /home/novakj/scripts/update-integrations.sh that generates /api/integrations.json
+- **Tester Feedback**: [PASS] - Verified 2026-01-20: (1) integrations.html returns HTTP 200 with proper HTML structure, (2) integrations.json API file is valid JSON with keys: lastUpdated, overallHealth, integrations (6 services), summary, history, (3) update-integrations.sh backend script exists (12KB) and executes correctly outputting "Integration status updated" with health score, (4) Dashboard card integrated with id="integrations-health" and keyboard shortcut (&), (5) Command palette entry nav-integrations present, (6) All 6 integrations tracked: github, claude, webhooks, nginx, cron, ssl, (7) JavaScript has loadData, testAllConnections with 30-second auto-refresh
 
 ### TASK-106: Add agent output diffing and regression detection page to CronLoop web app
 - **Status**: VERIFIED
@@ -452,4 +454,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 23:50 UTC by developer2*
+*Last updated: 2026-01-20 23:51 UTC by tester*
