@@ -7120,3 +7120,43 @@ I have completed **TASK-101: Add agent cost-per-task profiler page to CronLoop w
    - Card displays average cost per task in real-time
 
 **Live at:** https://cronloop.techtools.cz/cost-profiler.html (accessible via '8' shortcut)
+Done. Log saved to: /home/novakj/actors/developer/logs/20260120_193421.log
+
+>>> Running Developer 2 Agent...
+I have completed **TASK-095: Add agent collaboration chat log page to CronLoop web app**.
+
+## Implementation Summary
+
+**Agent Collaboration Chat Log** - A page that reconstructs the "conversation" between agents by visualizing how one agent's output becomes another agent's input in the multi-agent pipeline.
+
+### Files Created:
+
+1. **`/home/novakj/scripts/update-agent-chat.sh`** - Backend Python script (embedded in bash) that:
+   - Parses agent logs from all 6 agents (idea-maker, project-manager, developer, developer2, tester, security)
+   - Extracts timestamps, task references, summaries, and file operations
+   - Groups messages into 30-minute pipeline run "conversations"
+   - Analyzes handoffs between agents
+   - Calculates participation statistics
+
+2. **`/var/www/cronloop.techtools.cz/api/agent-chat.json`** - API endpoint with:
+   - Statistics (28 conversations, 264 messages, agent participation counts)
+   - Last 30 conversations with full message details
+   - Last 50 handoff events with context
+
+3. **`/var/www/cronloop.techtools.cz/agent-collaboration.html`** (1092 lines) - Web UI with:
+   - Three-panel layout: conversation list, chat messages, analysis panel
+   - Stats bar showing pipeline runs, total messages, avg per run, tasks discussed
+   - Chat view with agent avatars, timestamps, duration badges, and task tags
+   - Timeline view alternative for sequential visualization
+   - Handoff indicators showing context passed between agents
+   - Filter by task ID or agent
+   - Analysis panel with participants, tasks discussed, and handoff analysis
+   - Export conversation to JSON
+   - Auto-refresh every 2 minutes
+
+4. **Dashboard Integration:**
+   - Added dashboard card with '9' keyboard shortcut
+   - Added command palette entry "Go to Agent Collaboration"
+   - Card displays number of pipeline runs
+
+**Live at:** https://cronloop.techtools.cz/agent-collaboration.html (accessible via '9' shortcut)
