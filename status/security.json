@@ -1,20 +1,20 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-20T22:47:52Z",
+  "last_review": "2026-01-20T23:20:02Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 15483,
-    "unique_ips": 329,
+    "total_failed_attempts": 15602,
+    "unique_ips": 330,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 841},
       {"ip": "66.116.226.147", "attempts": 840},
       {"ip": "206.189.111.94", "attempts": 383},
       {"ip": "164.92.216.111", "attempts": 377},
-      {"ip": "80.94.92.40", "attempts": 355}
+      {"ip": "80.94.92.40", "attempts": 367}
     ],
-    "today_attempts": 15483,
-    "attack_rate_per_hour": 680,
-    "change_since_last": "+182 attempts since last review (15301 -> 15483). 9 new unique attacker IPs detected (320 -> 329)"
+    "today_attempts": 15602,
+    "attack_rate_per_hour": 650,
+    "change_since_last": "+119 attempts since last review (15483 -> 15602). 1 new unique attacker IP detected (329 -> 330)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -56,15 +56,15 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials"
   ],
   "notes": [
-    "185.246.130.20 remains persistent top attacker with 841 attempts",
-    "66.116.226.147 at #2 position with 840 attempts (stable since last review)",
-    "80.94.92.40 increased from 345 to 355 attempts",
-    "Unique attacker IPs: 329 (up 9 from 320)",
-    "Total failed SSH attempts: 15483 (+182 since last review)",
+    "185.246.130.20 remains persistent top attacker with 841 attempts (stable)",
+    "66.116.226.147 at #2 position with 840 attempts (stable)",
+    "80.94.92.40 increased from 355 to 367 attempts (+12)",
+    "Unique attacker IPs: 330 (up 1 from 329)",
+    "Total failed SSH attempts: 15602 (+119 since last review)",
     "All nginx protections verified working - all sensitive file types return 404",
-    "Path traversal blocked (both direct and URL-encoded)",
+    "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
-    "No actual secrets found in git commits - pattern matches are from audit scripts"
+    "No actual secrets found in recent git commits"
   ],
   "recommendations": [
     "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 15k+ attacks",
