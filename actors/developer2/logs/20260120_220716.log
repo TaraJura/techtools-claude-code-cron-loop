@@ -1,0 +1,44 @@
+========================================
+Actor: developer2
+Started: Tue Jan 20 22:07:16 UTC 2026
+========================================
+
+Running developer2 agent...
+I have completed **TASK-060: Add agent learning/improvement tracker page to CronLoop web app**.
+
+## Summary
+
+I implemented the Agent Learning Tracker feature with the following components:
+
+**Backend:**
+- Created `/home/novakj/scripts/update-learning.sh` - parses tasks.md and archives to extract task outcomes
+- Generates `/var/www/cronloop.techtools.cz/api/learning.json` with per-agent metrics
+- Tracks history in `/api/learning-history.json` for trend analysis
+- Added `update_learning` action to action-processor.sh
+
+**Frontend - /learning.html:**
+- System status hero showing overall learning status (improving/stable/declining)
+- Stats grid: tasks passed, failed, rework rate, active agents
+- Per-agent cards showing:
+  - Overall success rate with progress bar
+  - Per-type breakdown (web-feature, script, security, docs, config, other)
+  - Strengths and struggles tags
+  - 7-day improvement velocity indicator
+- Weekly trend chart visualizing success rates
+- Improvement opportunities sidebar
+- Agent comparison table
+- Filters by task type and sort options
+- Export report as JSON
+
+**Dashboard Integration:**
+- Added learning card with keyboard shortcut `+` showing success rate and improvement velocity
+- Added command palette navigation (`nav-learning`) and action (`action-update-learning`)
+- Added CSS styling and loadLearningStatus() function to index.html
+
+The page is now live at https://cronloop.techtools.cz/learning.html and can be accessed via keyboard shortcut `+` or the command palette.
+
+========================================
+Completed: Tue Jan 20 22:14:13 UTC 2026
+========================================
+
+Committing changes to git...

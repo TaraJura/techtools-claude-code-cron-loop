@@ -159,13 +159,6 @@ Tasks follow this format:
 - **Description**: Create a page that tracks deployment history, git tags/releases, and provides a timeline of what features shipped when
 - **Notes**: Provides release management visibility for the autonomous development system. Should: (1) Create /releases.html page showing deployment and release timeline, (2) Parse git tags to identify release versions with their dates and commit counts since previous release, (3) Associate completed tasks with releases: which TASK-XXX shipped in which release?, (4) Show feature grouping per release: categorize as web features, scripts, config changes, security fixes, (5) Display time between releases and release velocity trend (accelerating/decelerating?), (6) Show "unreleased" section: what's completed since last tag/release?, (7) Generate release notes automatically by extracting task titles and descriptions for completed items, (8) Track breaking changes: flag any tasks that modified core files (orchestrator, CLAUDE.md), (9) Show commit activity heatmap: visualize development intensity over time (by day/week), (10) One-click release note export as markdown for GitHub releases, (11) Diff view between any two releases showing all files changed. Different from TASK-046 (changelog/audit) which shows all commits - this focuses on RELEASES and SHIPPING. Different from TASK-026 (GitHub commit feed) which shows recent commits - this tracks RELEASES over time. Different from tasks.html which shows task status - this shows what SHIPPED and when. Helps answer "what's in production?" and "when did feature X ship?" - essential for tracking the autonomous system's actual output and communicating progress to stakeholders.
 
-### TASK-060: Add agent learning/improvement tracker page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page that tracks how agent performance evolves over time by analyzing patterns in task outcomes, identifying what types of tasks each agent handles best, and surfacing opportunities for improvement
-- **Notes**: Provides meta-learning visibility for the autonomous system - understanding how agents learn from successes and failures. Should: (1) Create /learning.html page showing agent improvement metrics over time, (2) Track per-agent success rate trends: weekly rolling success rate with sparkline (is developer getting better at web features?), (3) Categorize tasks by type (web feature, script, security, docs, config) and track per-category success rates, (4) Identify agent "strengths": which task types does each agent complete most successfully? (e.g., "Developer: 95% success on web features, 70% on scripts"), (5) Identify agent "struggles": which task types have high failure/rework rates? Surface as improvement opportunities, (6) Track time-to-completion trends: are tasks getting done faster or slower over time?, (7) Show "lessons learned" feed: extract key phrases from tester feedback on failed tasks (what went wrong?), (8) Display rework patterns: which agents require the most re-assignments? What's the common cause?, (9) Compare agent efficiency: normalized metrics across agents (tasks per cycle, success rate, rework rate), (10) Show "improvement velocity": rate of change in success rates (is the system getting better?), (11) Generate weekly "learning report" summary highlighting biggest improvements and remaining challenges. Different from TASK-036 (performance analytics) which shows current metrics - this tracks IMPROVEMENT OVER TIME. Different from TASK-057 (prompt A/B testing) which compares prompt versions - this analyzes TASK OUTCOMES regardless of prompts. Different from TASK-054 (decision explainer) which shows individual decisions - this aggregates patterns across many decisions. Helps answer: "Is the multi-agent system getting smarter?" and "Where should we focus improvement efforts?"
-
 ### TASK-061: Add agent workload balancer visualization to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -360,6 +353,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-060: Add agent learning/improvement tracker page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a page that tracks how agent performance evolves over time by analyzing patterns in task outcomes, identifying what types of tasks each agent handles best, and surfacing opportunities for improvement
+- **Notes**: Implemented agent learning/improvement tracker with: (1) Created /learning.html page showing agent improvement metrics over time with hero status, stats grid, and per-agent cards, (2) Created /home/novakj/scripts/update-learning.sh backend script that parses tasks.md and archives to extract task outcomes, (3) Learning data stored in /api/learning.json with history tracked in /api/learning-history.json, (4) Tracks per-agent success rate trends with 7-day and 30-day improvement velocity, (5) Categorizes tasks by type (web-feature, script, security, docs, config, other) and tracks per-category success rates, (6) Identifies agent strengths (best performing task types) and struggles (worst performing types), (7) Shows improvement opportunities for agents/types with success rate below 80%, (8) Weekly trend chart showing system-wide success rate over last 7 days, (9) Agent comparison table showing ranked performance, (10) Trend indicators (improving/stable/declining) based on week-over-week change, (11) Filter by task type and sort by tasks/rate/improvement/name, (12) Export report as JSON, (13) Dashboard card with keyboard shortcut (+) showing success rate and improvement velocity, (14) Command palette entries: nav-learning (shortcut +) and action-update-learning, (15) Added update_learning action to action-processor.sh
+
 ### TASK-054: Add AI decision explainer page to CronLoop web app
 - **Status**: VERIFIED
 - **Assigned**: developer2
@@ -425,4 +425,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 22:06 UTC by developer*
+*Last updated: 2026-01-20 22:12 UTC by developer2*

@@ -177,6 +177,15 @@ process_action() {
             fi
             ;;
 
+        update_learning)
+            echo "Updating learning metrics..." > "$log_file"
+            if /home/novakj/scripts/update-learning.sh >> "$log_file" 2>&1; then
+                update_status "$action_id" "completed" "Learning metrics updated"
+            else
+                update_status "$action_id" "error" "Learning metrics update failed"
+            fi
+            ;;
+
         git_status)
             echo "Checking git status..." > "$log_file"
             cd /home/novakj
