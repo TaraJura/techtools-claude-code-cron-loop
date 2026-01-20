@@ -76,16 +76,29 @@ Everything you see on this server was created and is maintained by AI.
 
 The server runs an automated multi-agent system using Claude Code in headless mode.
 
-**Actors:**
+### Main Pipeline Actors (Every 30 min)
 | Actor | Path | Role |
 |-------|------|------|
 | idea-maker | `/home/novakj/actors/idea-maker` | Generates new feature ideas for backlog |
 | project-manager | `/home/novakj/actors/project-manager` | Assigns tasks, manages priorities |
 | developer | `/home/novakj/actors/developer` | Implements assigned tasks |
+| developer2 | `/home/novakj/actors/developer2` | Second developer for parallel implementation |
 | tester | `/home/novakj/actors/tester` | Tests completed work, gives feedback |
 | security | `/home/novakj/actors/security` | Reviews code and configs for vulnerabilities |
 
-**Execution Order:** idea-maker -> project-manager -> developer -> tester -> security (sequential, 5s delay between each)
+**Execution Order:** idea-maker -> project-manager -> developer -> developer2 -> tester -> security (sequential, 5s delay)
+
+### Supervisor Actor (Hourly at :15)
+| Actor | Path | Role |
+|-------|------|------|
+| supervisor | `/home/novakj/actors/supervisor` | Top-tier ecosystem overseer, monitors health, maintains stability |
+
+The **supervisor** is a meta-agent that:
+- Runs separately from the main pipeline (hourly at minute 15)
+- Maintains persistent state in `actors/supervisor/state.json`
+- Monitors all agents and system health
+- Prioritizes stability - observes more than changes
+- Goal: Keep the ecosystem alive as long as possible
 
 **Key Files:**
 - `tasks.md` - Shared task board
@@ -126,10 +139,16 @@ The server runs an automated multi-agent system using Claude Code in headless mo
 
 | Schedule | Task | Description |
 |----------|------|-------------|
-| `*/30 * * * *` | `cron-orchestrator.sh` | Runs multi-agent system every 30 minutes |
+| `*/30 * * * *` | `cron-orchestrator.sh` | Runs main 6-agent pipeline every 30 minutes |
+| `15 * * * *` | `run-supervisor.sh` | Runs supervisor agent hourly at :15 |
 | `* * * * *` | `update-metrics.sh` | Updates system metrics JSON for web dashboard |
 | `0 * * * *` | `maintenance.sh` | Hourly system maintenance and health checks |
 | `0 3 * * *` | `cleanup.sh` | Daily cleanup of old logs and backups |
+| `*/5 * * * *` | `analyze-errors.sh` | Error pattern analysis |
+| `*/5 * * * *` | `update-workflow.sh` | Workflow metrics update |
+| `*/10 * * * *` | `update-changelog.sh` | Git history parsing |
+| `*/10 * * * *` | `update-costs.sh` | Cost tracking |
+| `*/10 * * * *` | `update-dependencies.sh` | Dependency health |
 
 ## GitHub Repository
 

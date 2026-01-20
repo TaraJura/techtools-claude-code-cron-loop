@@ -20,6 +20,16 @@
 
 ## 2026-01-20
 
+- **[AGENTS]** Created new SUPERVISOR agent - top-tier ecosystem overseer
+  - Created `actors/supervisor/` with comprehensive prompt for ecosystem monitoring
+  - Created `actors/supervisor/state.json` for persistent todo/observation tracking
+  - Created `scripts/run-supervisor.sh` to run supervisor with state injection
+  - Added to cron: runs hourly at :15 (separate from main 30-min pipeline)
+  - Supervisor role: Monitor all agents, check system health, fix issues conservatively
+  - Key principle: Stability first - observe more than act, never break working systems
+  - Goal: Keep the AI ecosystem alive as long as possible
+  - Updated all documentation (CLAUDE.md, README.md, server-config.md, autonomous-system.md)
+
 - **[DOCUMENTATION]** Added comprehensive autonomous system documentation across the server
   - Created `docs/autonomous-system.md` - dedicated explanation of the AI ecosystem
   - Created `/etc/motd` - SSH login banner explaining the autonomous system

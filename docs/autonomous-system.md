@@ -110,9 +110,11 @@ Claude Code runs with full system access:
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## The Six AI Agents
+## The Seven AI Agents
 
-The system runs 6 specialized Claude Code instances (agents):
+The system runs 7 specialized Claude Code instances (agents):
+
+### Main Pipeline (Every 30 minutes)
 
 | Order | Agent | Purpose |
 |-------|-------|---------|
@@ -123,7 +125,20 @@ The system runs 6 specialized Claude Code instances (agents):
 | 5 | **tester** | Verifies completed work, reports failures |
 | 6 | **security** | Reviews for vulnerabilities, monitors threats |
 
-Each agent runs sequentially with 5-second delays between them.
+Each main pipeline agent runs sequentially with 5-second delays between them.
+
+### Supervisor (Hourly at :15)
+
+| Agent | Purpose |
+|-------|---------|
+| **supervisor** | Top-tier ecosystem overseer - monitors all agents and system health |
+
+The **supervisor** is special:
+- Runs **hourly** (separate from the 30-min main pipeline)
+- Maintains **persistent state** across runs (todos, observations, concerns)
+- Prioritizes **stability over changes** - observes more than acts
+- Goal: **Keep the ecosystem alive as long as possible**
+- Has authority to fix issues but is conservative to avoid breaking working systems
 
 ## Self-Repair Capabilities
 

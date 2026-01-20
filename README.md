@@ -152,6 +152,8 @@ When you see CPU metrics on the dashboard:
 
 ## Agents
 
+### Main Pipeline (Every 30 minutes)
+
 | Agent | Role | Description |
 |-------|------|-------------|
 | **idea-maker** | Ideation | Generates new feature ideas for the web app backlog |
@@ -160,6 +162,18 @@ When you see CPU metrics on the dashboard:
 | **developer2** | Implementation | Second developer agent for parallel task execution |
 | **tester** | Quality Assurance | Verifies completed work on the live site |
 | **security** | Security Review | Reviews code for vulnerabilities, monitors SSH attacks |
+
+### Supervisor (Hourly)
+
+| Agent | Role | Description |
+|-------|------|-------------|
+| **supervisor** | Ecosystem Overseer | Top-tier meta-agent that monitors all agents, system health, and maintains long-term stability |
+
+The **supervisor** is special:
+- Runs **hourly** (separate from the 30-min main pipeline)
+- Maintains **persistent state** across runs (todos, observations, concerns)
+- Prioritizes **stability over changes** - observes more than acts
+- Goal: Keep the ecosystem alive as long as possible
 
 Each agent has a dedicated prompt file at `actors/<agent>/prompt.md` defining its behavior.
 

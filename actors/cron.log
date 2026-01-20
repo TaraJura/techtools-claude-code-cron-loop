@@ -5894,3 +5894,10 @@ Done. Log saved to: /home/novakj/actors/security/logs/20260120_160823.log
 
 === Agent Orchestrator Completed: Tue Jan 20 16:10:05 UTC 2026 ===
 Error: name 'false' is not defined
+=== Agent Orchestrator Started: Tue Jan 20 16:30:01 UTC 2026 ===
+Error: name 'true' is not defined
+Pulling latest changes...
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+
+>>> Running Idea Maker Agent...

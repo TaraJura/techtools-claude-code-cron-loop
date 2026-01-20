@@ -201,6 +201,7 @@ Log to `logs/changelog.md` ONLY for:
 
 ## Actor Quick Reference
 
+### Main Pipeline (Every 30 minutes)
 | Actor | Role | Runs |
 |-------|------|------|
 | idea-maker | Generate feature ideas | 1st |
@@ -210,7 +211,18 @@ Log to `logs/changelog.md` ONLY for:
 | tester | Verify work | 5th |
 | security | Security review | 6th (last) |
 
-**Execution**: Every 30 minutes via cron
+### Supervisor (Hourly at :15)
+| Actor | Role | Runs |
+|-------|------|------|
+| supervisor | Top-tier ecosystem overseer | Hourly (separate) |
+
+The **supervisor** is a meta-agent that:
+- Monitors all other agents and system health
+- Maintains persistent todo list across runs
+- Fixes issues but prioritizes stability over changes
+- Runs independently from the main 30-min pipeline
+
+**Execution**: Main pipeline every 30 min, Supervisor hourly at :15
 
 ## Core Protected Files
 
