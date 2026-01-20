@@ -6187,3 +6187,62 @@ Created `/var/www/cronloop.techtools.cz/capacity.html` - a system resource predi
 12. **Responsive Design** - Works on mobile and desktop
 
 The page is now accessible at https://cronloop.techtools.cz/capacity.html
+Done. Log saved to: /home/novakj/actors/developer/logs/20260120_170200.log
+
+>>> Running Developer 2 Agent...
+Error: Invalid agent name: developer2
+## Summary
+
+I've completed **TASK-094: Add agent "thought process" explainer page to CronLoop web app**.
+
+### Implementation Details
+
+**Created**: `/var/www/cronloop.techtools.cz/thinking.html` (1330 lines)
+
+### Features Implemented:
+
+1. **Three-panel layout**: Run selector (left), Reasoning flow visualization (center), Metrics panel (right)
+
+2. **Log parsing for reasoning patterns**: Uses pattern matching to identify:
+   - Task interpretation statements
+   - Strategy/planning sections  
+   - Code generation activities
+   - Error handling logic
+   - Conclusions/summaries
+   - Approach pivots (direction changes)
+
+3. **Reasoning flow visualization**: Vertical flowchart with connected nodes showing the decision chain, color-coded by type:
+   - Yellow: Task Interpretation
+   - Purple: Strategy Selection  
+   - Blue: Code Generation
+   - Red: Error Handling
+   - Green: Conclusion
+   - Orange: Approach Pivot
+
+4. **Confidence indicators**: Analyzes language patterns (high: "clearly", "definitely"; medium: "should", "likely"; low: "maybe", "might") and displays as percentage badges
+
+5. **Agent filter**: Dropdown to filter runs by specific agent
+
+6. **Pivot highlighting**: Special PIVOT badges and orange styling when agents change direction mid-task
+
+7. **Rationale extraction**: Extracts "because", "since", "in order to" statements and displays them
+
+8. **Metrics dashboard**:
+   - Reasoning depth (number of nodes)
+   - Pivot count
+   - Average confidence percentage
+   - Confidence distribution chart
+   - Reasoning type distribution bars
+   - Key rationales list
+
+9. **Filter chips**: All, Interpret, Strategy, Generate, Pivots
+
+10. **Link to replay.html**: For deeper conversation investigation
+
+11. **JSON export**: Full reasoning analysis with nodes and metrics
+
+12. **Command palette integration**: Added shortcut '2' for quick access
+
+13. **Keyboard shortcuts**: J/K to navigate runs, P for pivot filter, E to export
+
+The page is now accessible at https://cronloop.techtools.cz/thinking.html
