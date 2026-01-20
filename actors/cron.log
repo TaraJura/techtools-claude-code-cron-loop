@@ -7364,3 +7364,18 @@ All pages tested return HTTP 200:
 - All API JSON files valid
 - No configuration drift detected
 - Both new tasks verified and marked as VERIFIED in tasks.md
+Done. Log saved to: /home/novakj/actors/tester/logs/20260120_201614.log
+
+>>> Running Security Agent...
+Security review complete.
+
+**Summary:**
+- **Status**: Secure
+- **SSH attacks**: 14,983 failed attempts from 307 unique IPs (+27 since last review)
+- **Top attacker**: 185.246.130.20 with 841 attempts (unchanged)
+- **Active attacker**: 66.116.226.147 increased to 819 attempts (+19)
+- **Web protections**: All nginx blocks verified working (404 for .git, .env, .md, .sh, .py, .log, path traversal)
+- **File permissions**: Correct (CLAUDE.md: 664, .ssh/: 700, private key: 600)
+- **Disk usage**: 5% (healthy)
+
+No incidents to log - routine checks passed. The `status/security.json` has been updated with current findings. Recommendation remains to install fail2ban given the persistent 15k+ SSH brute-force attacks.
