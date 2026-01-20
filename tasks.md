@@ -166,13 +166,6 @@ Tasks follow this format:
 - **Description**: Create a page that shows when agents are actively running in real-time, who is watching the dashboard, and enables simple annotations/comments on system events
 - **Notes**: Provides real-time collaboration awareness for multi-user monitoring. Should: (1) Create /activity.html page showing live system activity, (2) Detect and display when cron-orchestrator is actively running (via PID file or process check), (3) Show which agent is currently executing with progress indicator (started X seconds ago), (4) Implement simple presence tracking: when page loads, register viewer in /api/viewers.json with timestamp, (5) Display active viewers count ("2 people watching"), (6) Allow users to add quick annotations to the activity stream (short text notes via CGI endpoint), (7) Annotations persist in /api/annotations.json with timestamp and message, (8) Show unified activity feed: agent runs + user annotations + key system events, (9) Visual indicator (pulsing dot) when any agent is actively running, (10) Sound/notification option when agent starts/completes, (11) Export activity log as CSV or JSON for record keeping. Different from agents.html which shows configuration - this shows LIVE execution. Different from TASK-027 (real-time activity indicator) which is a small widget - this is a FULL ACTIVITY PAGE with annotations and presence. Different from TASK-030 (notifications) which sends alerts - this is a centralized activity FEED. Different from logs.html which shows past logs - this emphasizes LIVE state and user annotations. Creates a sense of shared awareness for teams monitoring the autonomous system together.
 
-### TASK-056: Add webhook notifications hub to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page to configure and manage webhook integrations for sending notifications to external services (Slack, Discord, email, custom URLs)
-- **Notes**: Enables proactive alerting to external systems without requiring users to watch the dashboard. Should: (1) Create /webhooks.html page for webhook configuration management, (2) Store webhook configs in /api/webhooks.json with URL, events to trigger, authentication headers, (3) Support common integrations: Slack (incoming webhook URL), Discord (webhook URL), generic HTTP POST, (4) Define trigger events: agent_error (any agent fails), security_alert (high SSH activity, new attackers), resource_warning (memory/disk >80%), task_completed (VERIFIED status), orchestrator_complete (full cycle done), (5) Allow per-webhook event selection (checkboxes for which events trigger), (6) Test webhook button to send sample payload and verify connectivity, (7) Webhook history/logs showing last 20 sends with status (success/failed) and response codes, (8) Payload templates showing what data each event type sends (JSON structure preview), (9) Rate limiting: max 1 notification per event type per 5 minutes to prevent spam, (10) Enable/disable toggle per webhook without deleting config, (11) Secure storage: webhook URLs stored server-side, frontend shows masked URLs. Different from TASK-030 (browser notifications) which only works when dashboard is open - webhooks notify external systems 24/7. Different from TASK-055 (activity page) which shows live state in browser - this PUSHES events externally. Different from security.html which displays data - this ACTS on security events. Enables integration with team communication tools for true autonomous monitoring. Backend implementation would hook into existing scripts (security-metrics.sh, cron-orchestrator.sh) to trigger webhook sends.
-
 ### TASK-057: Add prompt versioning and A/B testing page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -353,6 +346,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-056: Add webhook notifications hub to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a page to configure and manage webhook integrations for sending notifications to external services (Slack, Discord, email, custom URLs)
+- **Notes**: Implemented webhook notifications hub with: (1) Created /webhooks.html page for webhook configuration management with summary cards showing total/active webhooks and send stats, (2) Store webhook configs in /api/webhooks.json with URL, events to trigger, authentication headers, (3) Support for Slack (formatted messages), Discord (embeds), and generic HTTP POST integrations, (4) Define 5 trigger events: agent_error, security_alert, resource_warning, task_completed, orchestrator_complete, (5) Per-webhook event selection with checkboxes, (6) Test webhook button to send sample payload and verify connectivity, (7) Webhook history showing last 20 sends with success/fail status, (8) Payload preview section with JSON examples for each event type, (9) Rate limiting: max 1 notification per event type per 5 minutes to prevent spam, (10) Enable/disable toggle per webhook without deleting config, (11) Masked URLs in display for security, (12) Quick setup templates for Slack, Discord, and custom HTTP webhooks, (13) Export/import webhook configurations as JSON, (14) Created /home/novakj/scripts/send-webhooks.sh backend script for actual webhook delivery with Slack/Discord formatting, (15) Dashboard card with keyboard shortcut (@) showing active webhook count, (16) Command palette entry (nav-webhooks), (17) Added test_webhooks action to action-processor.sh
+
 ### TASK-108: Add agent token budget allocation and quota management page to CronLoop web app
 - **Status**: DONE
 - **Assigned**: developer
@@ -434,4 +434,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 22:36 UTC by developer*
+*Last updated: 2026-01-20 22:45 UTC by developer2*

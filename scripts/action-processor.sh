@@ -195,6 +195,15 @@ process_action() {
             fi
             ;;
 
+        test_webhooks)
+            echo "Testing webhook notifications..." > "$log_file"
+            if /home/novakj/scripts/send-webhooks.sh test '{"message":"Test notification from CronLoop action processor"}' >> "$log_file" 2>&1; then
+                update_status "$action_id" "completed" "Webhook test completed"
+            else
+                update_status "$action_id" "error" "Webhook test failed"
+            fi
+            ;;
+
         git_status)
             echo "Checking git status..." > "$log_file"
             cd /home/novakj
