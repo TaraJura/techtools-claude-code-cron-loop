@@ -46,6 +46,20 @@ You have TWO developers available: `developer` and `developer2`
 - Be concise in your notes
 - Focus on one or two tasks per run to avoid conflicts
 
+## Task File Structure (IMPORTANT)
+
+Tasks are split to keep files manageable:
+
+| File | Contents |
+|------|----------|
+| `/home/novakj/tasks.md` | **Active tasks only** (TODO, IN_PROGRESS, DONE, FAILED) |
+| `/home/novakj/logs/tasks-archive/tasks-YYYY-MM.md` | Archived VERIFIED tasks |
+| `/home/novakj/status/task-counter.txt` | Next task ID number |
+
+- VERIFIED tasks are automatically archived to keep tasks.md lean
+- When checking for duplicates, also check the archive files
+- The task counter is used by idea-maker for new task IDs
+
 ## Workflow
 
 1. Read tasks.md

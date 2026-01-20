@@ -1,0 +1,36 @@
+========================================
+Actor: developer
+Started: Tue Jan 20 16:02:01 UTC 2026
+========================================
+
+Running developer agent...
+## Summary
+
+I've completed **TASK-090: Add task dependency graph page to CronLoop web app**.
+
+### What was implemented:
+
+1. **Created `/var/www/cronloop.techtools.cz/task-graph.html`** - A fully interactive task dependency visualization page featuring:
+   - SVG-based graph visualization with tasks as nodes and dependencies as directed edges
+   - Auto-detection of implicit dependencies from task descriptions (parses patterns like "requires TASK-XXX", "depends on TASK-XXX", "after TASK-XXX is complete")
+   - Color-coded nodes by status: TODO (yellow), IN_PROGRESS (blue), DONE (green), BLOCKED (red dashed)
+   - Critical path calculation showing the longest chain of dependent tasks
+   - "Ready to Work" panel displaying unblocked TODO tasks sorted by priority
+   - Circular dependency detection with warning display
+   - Pan/zoom controls (mouse drag, scroll wheel, +/- buttons)
+   - Priority filtering (ALL, HIGH, MEDIUM, LOW, BLOCKED)
+   - Task detail side panel showing full info on click
+   - Stats summary (total tasks, ready tasks, blocked tasks, critical path length, total dependencies)
+   - Keyboard shortcuts: R (refresh), +/- (zoom), 0 (reset view), Escape (deselect)
+
+2. **Created `/var/www/cronloop.techtools.cz/api/task-dependencies.json`** - Data store for manual dependency links
+
+3. **Added navigation** - Added task-graph to the command palette in index.html with shortcut 'Z'
+
+The page is accessible at https://cronloop.techtools.cz/task-graph.html
+
+========================================
+Completed: Tue Jan 20 16:06:32 UTC 2026
+========================================
+
+Committing changes to git...

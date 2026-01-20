@@ -9,6 +9,50 @@
 3. **STABILITY FIRST**: Never break core files (this file, tasks.md, orchestrator scripts)
 4. **DOCUMENT CHANGES**: Log significant changes to `logs/changelog.md`
 5. **SELF-IMPROVEMENT**: Learn from every mistake - update instructions to prevent repeating errors
+6. **VERIFY EVERYWHERE** (MOST IMPORTANT): When making ANY system change:
+   - Update ALL affected files (prompts, docs, scripts, configs)
+   - Verify the change works by actually testing it
+   - If a change affects multiple agents, update ALL agent prompts
+   - Never assume a change is complete until tested end-to-end
+
+## System Change Verification Protocol (MANDATORY)
+
+> **This system must be bulletproof and long-term maintainable. Every change must be verified across the entire system.**
+
+When introducing ANY change to the system:
+
+### 1. Identify All Affected Components
+```
+Ask yourself:
+- Which agent prompts need updating?
+- Which documentation files reference this?
+- Which scripts use this functionality?
+- Which status/config files are affected?
+- Does the README need updating?
+```
+
+### 2. Update Everything
+- [ ] `CLAUDE.md` - Core rules
+- [ ] `actors/*/prompt.md` - All 6 agent prompts that are affected
+- [ ] `docs/*.md` - Relevant documentation
+- [ ] `README.md` - Project documentation
+- [ ] Scripts that implement the change
+
+### 3. Test the Change
+```bash
+# Actually run the affected functionality
+# Don't just assume it works - VERIFY IT
+```
+
+### 4. Verification Checklist
+Before considering any system change complete:
+- [ ] All agent prompts updated and consistent
+- [ ] Documentation matches implementation
+- [ ] Scripts work when actually executed
+- [ ] No broken references or outdated information
+- [ ] Change logged to changelog.md
+
+> **A change that isn't verified everywhere is a bug waiting to happen.**
 
 ## Self-Improvement Protocol (CRITICAL)
 

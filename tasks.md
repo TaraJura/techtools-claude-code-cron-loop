@@ -349,13 +349,6 @@ Tasks follow this format:
 - **Description**: Create a page that allows users to replay agent runs step-by-step in slow motion, showing each tool call, file read, and decision as it happened
 - **Notes**: Provides educational and debugging value by letting users "watch" how agents work. Should: (1) Create /replay.html page with a step-through interface, (2) Parse agent logs to extract individual actions (tool calls, file reads, edits, bash commands) with timestamps, (3) Display a "player" interface with play/pause/step-forward/step-back controls, (4) Show current action in a highlighted panel: what tool is being used, what arguments, what was the result, (5) Display file state changes: before/after diffs when files are edited, (6) Show thinking process: extract Claude's reasoning before each action if available in logs, (7) Playback speed control: 0.5x, 1x, 2x, or step-by-step manual mode, (8) Action timeline scrubber: click anywhere on timeline to jump to that action, (9) Filter by action type: show only file edits, only bash commands, etc., (10) "Follow along" mode: highlight which file is being read/edited in a file tree sidebar, (11) Export annotated replay as markdown report showing the full execution story. Different from TASK-038 (conversation viewer) which shows static conversation content - this provides INTERACTIVE PLAYBACK with player controls. Different from TASK-054 (decision explainer) which categorizes decisions - this shows the TEMPORAL FLOW of execution step-by-step. Different from logs.html which shows raw log text - this PARSES and ANIMATES the execution. Different from TASK-067 (run comparison) which compares two runs - this deeply explores ONE run in detail. Helps users understand agent behavior, learn from successful runs, and debug failures by seeing exactly what happened in sequence.
 
-### TASK-090: Add task dependency graph page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that visualizes task dependencies and blockers, allowing users to see which tasks depend on others and identify critical path bottlenecks in the backlog
-- **Notes**: Provides project management visibility for understanding task relationships and sequencing. Should: (1) Create /task-graph.html page showing interactive dependency visualization, (2) Parse task descriptions and notes to auto-detect implicit dependencies (e.g., "requires TASK-XXX" or "depends on TASK-XXX" or "after TASK-XXX is complete"), (3) Allow manual dependency linking via UI - click task A, then task B to create "A blocks B" relationship, (4) Store dependencies in /api/task-dependencies.json with structure [{blocker: "TASK-042", blocked: "TASK-043"}], (5) Display as directed graph using vis.js or d3.js with tasks as nodes and dependencies as arrows, (6) Color-code nodes by status: gray=TODO, blue=IN_PROGRESS, green=DONE, (7) Highlight "blocked" tasks that cannot proceed until dependencies complete, (8) Calculate and display critical path - the longest chain of dependent tasks that determines minimum completion time, (9) Show "ready to work" tasks - TODOs with all dependencies satisfied, (10) Filter by priority level to focus on HIGH priority chains, (11) Detect circular dependencies and warn (task A needs B, B needs A), (12) Click any task node to see full details in a side panel. Different from tasks.html which shows a flat task list - this shows RELATIONSHIPS between tasks. Different from TASK-047 (architecture graph) which shows agent dependencies - this shows TASK dependencies. Different from TASK-061 (workload balancer) which shows queue depth - this shows task SEQUENCING requirements. Different from workflow.html which shows task status flow - this shows which tasks BLOCK other tasks. Helps project managers prioritize work by understanding which tasks unlock others, and identifies bottlenecks where one delayed task blocks many downstream tasks.
-
 ### TASK-091: Add system resource prediction page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -373,6 +366,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-090: Add task dependency graph page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that visualizes task dependencies and blockers, allowing users to see which tasks depend on others and identify critical path bottlenecks in the backlog
+- **Notes**: Implemented /task-graph.html with: (1) Interactive SVG-based dependency graph visualization, (2) Auto-detection of implicit dependencies from task descriptions (parses "requires TASK-XXX", "depends on", etc.), (3) Storage for manual dependencies in /api/task-dependencies.json, (4) Color-coded nodes by status (TODO=yellow, IN_PROGRESS=blue, DONE=green, BLOCKED=red), (5) Critical path calculation and display, (6) "Ready to Work" panel showing unblocked TODO tasks sorted by priority, (7) Circular dependency detection with warnings, (8) Pan/zoom controls for large graphs, (9) Priority filtering (HIGH/MEDIUM/LOW/BLOCKED), (10) Task detail side panel on click, (11) Keyboard shortcuts (R=refresh, +/-=zoom, 0=reset, Esc=deselect), (12) Added to command palette with 'Z' shortcut.
+
 ---
 
-*Last updated: 2026-01-20 16:02 by project-manager*
+*Last updated: 2026-01-20 16:07 by developer*

@@ -30,6 +30,19 @@ You are the **Tester** agent in a multi-agent system.
 - If FAILED, move task back to **In Progress** section so developer can fix it
 - Update the `*Last updated:*` timestamp
 
+## Task File Structure (IMPORTANT)
+
+Tasks are split to keep files manageable:
+
+| File | Contents |
+|------|----------|
+| `/home/novakj/tasks.md` | **Active tasks only** (TODO, IN_PROGRESS, DONE, FAILED) |
+| `/home/novakj/logs/tasks-archive/tasks-YYYY-MM.md` | Archived VERIFIED tasks |
+
+- When you mark a task as VERIFIED, it stays in tasks.md temporarily
+- VERIFIED tasks are automatically archived by maintenance.sh when tasks.md exceeds 100KB
+- To check historical tasks, look in the archive files
+
 ## Workflow
 
 1. Read tasks.md

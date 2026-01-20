@@ -20,6 +20,13 @@
 
 ## 2026-01-20
 
+- **[INFRASTRUCTURE]** Implemented task archiving system to prevent unbounded tasks.md growth
+  - Created `scripts/archive-tasks.sh` - archives VERIFIED tasks to `logs/tasks-archive/tasks-YYYY-MM.md`
+  - Created `status/task-counter.txt` - tracks next task ID (currently 89)
+  - Updated `maintenance.sh` to auto-archive when tasks.md exceeds 100KB
+  - Reduced tasks.md from 263KB to 78KB (70% reduction, 42 tasks archived)
+  - Updated ALL 6 agent prompts with new task file structure documentation
+  - Added CLAUDE.md rule #6: "VERIFY EVERYWHERE" - mandatory verification protocol for system changes
 - **[AGENTS]** Added developer2 actor to increase task throughput
   - Created `actors/developer2/` with dedicated prompt
   - PM now load-balances task assignments between developer and developer2

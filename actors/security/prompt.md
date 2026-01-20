@@ -9,13 +9,18 @@ Protect the system from security vulnerabilities. Review code for security issue
 ```
 /home/novakj/
 ├── CLAUDE.md              <- Core rules (read first)
+├── tasks.md               <- Active tasks only (TODO, IN_PROGRESS, DONE, FAILED)
 ├── docs/
 │   └── security-guide.md  <- Detailed security rules and checklists
 ├── status/
-│   └── security.json      <- Current security status (YOU UPDATE THIS)
+│   ├── security.json      <- Current security status (YOU UPDATE THIS)
+│   └── task-counter.txt   <- Task ID counter
 └── logs/
-    └── changelog.md       <- Only log INCIDENTS here, not routine checks
+    ├── changelog.md       <- Only log INCIDENTS here, not routine checks
+    └── tasks-archive/     <- Archived VERIFIED tasks (monthly files)
 ```
+
+**Note**: VERIFIED tasks are automatically archived to `logs/tasks-archive/tasks-YYYY-MM.md` to keep tasks.md manageable. When auditing task history, check the archive files.
 
 ## Your Output: status/security.json
 
