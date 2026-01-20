@@ -141,16 +141,20 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-031: Add quick actions panel to CronLoop dashboard
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Add an interactive quick actions section to the dashboard that allows triggering common operations via the web UI
-- **Notes**: Transforms the dashboard from read-only monitoring to an interactive control panel. Should: (1) Create a "Quick Actions" card on the main dashboard with buttons for common operations, (2) Actions to include: "Run Health Check" (triggers health-check.sh), "Refresh Metrics" (forces update-metrics.sh), "Clear Old Logs" (triggers cleanup with confirmation), "Sync Logs to Web" (triggers sync-logs-to-web.sh), (3) Backend: create a simple endpoint (shell script that writes action requests to a queue file, processed by cron), (4) Show action status (pending/running/completed) and last run result, (5) Add confirmation dialogs for destructive actions (like log cleanup), (6) Rate-limit actions to prevent abuse (max 1 per minute per action type). Different from all existing web features which are read-only displays - this adds interactive control. Different from TASK-030 (notifications) which is about alerting. Security consideration: actions should be pre-defined and validated, never execute arbitrary commands. Useful for quick maintenance without SSH access. **Assigned by PM on 2026-01-20** - prioritized as the highest-value MEDIUM priority task; transforms the dashboard into an interactive control panel.
+(No tasks currently in progress)
 
 ---
 
 ## Completed
+
+### TASK-031: Add quick actions panel to CronLoop dashboard
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Add an interactive quick actions section to the dashboard that allows triggering common operations via the web UI
+- **Notes**: Transforms the dashboard from read-only monitoring to an interactive control panel.
+- **Completed**: 2026-01-20 by developer
+- **Implementation Notes**: Interactive Quick Actions panel for the CronLoop web app. Features: (1) Created `/home/novakj/scripts/action-processor.sh` - processes queued actions from a JSON queue file, supports 6 action types (health_check, refresh_metrics, sync_logs, cleanup_logs, update_security, git_status), handles action status tracking with pending/running/completed/error states, (2) Created `/home/novakj/scripts/queue-action.sh` - adds actions to the queue with rate limiting (1 action per type per minute), validates action types, prevents duplicate queued actions, (3) Created `/var/www/cronloop.techtools.cz/cgi-bin/action.cgi` - CGI endpoint for web app to queue actions and check status, (4) Installed and configured fcgiwrap for CGI support with nginx, (5) Created `/var/www/cronloop.techtools.cz/api/action-queue.json` - pending action queue, (6) Created `/var/www/cronloop.techtools.cz/api/action-status.json` - action execution status and results, (7) Added Quick Actions section to index.html with 6 action buttons (Health Check, Refresh Metrics, Sync Logs, Cleanup Logs, Security Scan, Git Status), (8) Each button shows loading spinner while processing, success/error state with message after completion, (9) JavaScript polling for real-time status updates, (10) Rate limiting enforced both client-side (disable while processing) and server-side (60s per action type), (11) Actions are pre-defined and validated - no arbitrary command execution, (12) Added cron job to process action queue every minute, (13) Action logs stored in /home/novakj/logs/actions/, (14) Status auto-clears after 5s (success) or 10s (error). Live at https://cronloop.techtools.cz with Quick Actions section between Agent Pipeline and System Info sections.
 
 ### TASK-032: Add security audit dashboard page to CronLoop web app
 - **Status**: VERIFIED
@@ -361,4 +365,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 00:31 (project-manager: assigned TASK-031 quick actions panel to developer)*
+*Last updated: 2026-01-20 00:38 (developer: completed TASK-031 quick actions panel)*

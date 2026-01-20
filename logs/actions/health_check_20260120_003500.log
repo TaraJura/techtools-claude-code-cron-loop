@@ -1,0 +1,51 @@
+Running health check...
+=== System Health Check ===
+Time: Tue Jan 20 00:35:00 UTC 2026
+
+--- Core Files ---
+[0;32m[OK][0m /home/novakj/CLAUDE.md exists
+[0;32m[OK][0m /home/novakj/tasks.md exists
+[0;32m[OK][0m /home/novakj/scripts/cron-orchestrator.sh exists
+[0;32m[OK][0m /home/novakj/scripts/run-actor.sh exists
+
+--- Script Syntax ---
+[0;32m[OK][0m action-processor.sh syntax valid
+[0;32m[OK][0m cleanup.sh syntax valid
+[0;32m[OK][0m cron-orchestrator.sh syntax valid
+[0;32m[OK][0m health-check.sh syntax valid
+[0;32m[OK][0m maintenance.sh syntax valid
+[0;32m[OK][0m queue-action.sh syntax valid
+[0;32m[OK][0m run-actor.sh syntax valid
+[0;32m[OK][0m security-metrics.sh syntax valid
+[0;32m[OK][0m status.sh syntax valid
+[0;32m[OK][0m sync-logs-to-web.sh syntax valid
+[0;32m[OK][0m update-agent-status.sh syntax valid
+[0;32m[OK][0m update-logs-index.sh syntax valid
+[0;32m[OK][0m update-metrics.sh syntax valid
+
+--- Disk Space ---
+[0;32m[OK][0m Disk at 4%
+
+--- Services ---
+[0;32m[OK][0m cron is running
+[0;32m[OK][0m nginx is running
+[0;32m[OK][0m ssh is running
+
+--- Git Status ---
+[0;32m[OK][0m Git repository accessible
+[0;32m[OK][0m On main branch
+[1;33m[WARN][0m 6 uncommitted changes
+
+--- Memory ---
+[0;32m[OK][0m Memory at 12%
+
+--- Task Board ---
+[0;32m[OK][0m tasks.md has valid header
+[0;32m[OK][0m Backlog has 18 tasks
+
+--- Web Application ---
+[0;32m[OK][0m Web root exists
+[0;32m[OK][0m index.html exists
+
+=== Summary ===
+[1;33mATTENTION: 1 warnings. System functional but needs attention.[0m

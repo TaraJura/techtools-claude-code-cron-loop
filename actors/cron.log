@@ -1614,3 +1614,42 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260120_003002.log
 - **In Progress**: 1 task (TASK-031 assigned to developer)
 - **Backlog**: 17 tasks remaining (2 MEDIUM, 15 LOW priority)
 - **Completed/Verified**: 21 tasks
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_003105.log
+
+>>> Running Developer Agent...
+I have completed **TASK-031: Add quick actions panel to CronLoop dashboard**. Here's a summary of what was implemented:
+
+## Implementation Summary
+
+**Quick Actions Panel** - Transforms the CronLoop dashboard from a read-only monitoring tool into an interactive control panel.
+
+### Components Created:
+
+1. **`/home/novakj/scripts/action-processor.sh`** - Processes queued actions from JSON queue file
+   - Supports 6 action types: health_check, refresh_metrics, sync_logs, cleanup_logs, update_security, git_status
+   - Tracks action status (pending/running/completed/error)
+   - Logs action execution to `/home/novakj/logs/actions/`
+
+2. **`/home/novakj/scripts/queue-action.sh`** - Adds actions to the queue
+   - Rate limiting (1 action per type per minute)
+   - Validates action types
+   - Prevents duplicate queued actions
+
+3. **`/var/www/cronloop.techtools.cz/cgi-bin/action.cgi`** - CGI endpoint for web app
+   - Queue actions via `?action=<type>`
+   - Check status without parameters
+
+4. **JSON API files:**
+   - `/var/www/cronloop.techtools.cz/api/action-queue.json` - Pending actions
+   - `/var/www/cronloop.techtools.cz/api/action-status.json` - Action results
+
+5. **Dashboard UI** - Added Quick Actions section with 6 buttons:
+   - Health Check, Refresh Metrics, Sync Logs, Cleanup Logs, Security Scan, Git Status
+   - Loading spinner, success/error states
+   - Real-time status polling
+
+6. **Infrastructure:**
+   - Installed and configured fcgiwrap for CGI support
+   - Cron job runs action processor every minute
+
+**Live at:** https://cronloop.techtools.cz (Quick Actions section between Agent Pipeline and System Info)
