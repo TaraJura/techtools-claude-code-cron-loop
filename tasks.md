@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-101: Add agent cost-per-task profiler page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that analyzes and profiles the cost of completing individual tasks, correlating token usage and API costs with specific task IDs to identify which task types (new features, bug fixes, documentation, etc.) are most expensive to implement
+- **Notes**: While costs.html shows aggregate spending and budget.html tracks overall budget, neither correlates costs to individual tasks. This page should: (1) Parse agent logs to extract task IDs (TASK-XXX) and associated token counts per run, (2) Calculate estimated cost per task by summing token usage across all agent runs that reference each task, (3) Categorize tasks by type (new feature, bug fix, enhancement, documentation) and show average cost per category, (4) Identify "expensive" vs "cheap" task patterns - e.g., tasks requiring multiple revisions cost more, (5) Show cost breakdown by agent involvement (which agents contributed cost to each task), (6) Track "cost efficiency" - cost divided by lines of code changed or files modified, (7) Historical trend: are tasks getting cheaper or more expensive over time, (8) Outlier detection: flag tasks that cost significantly more than average, (9) Recommendations for reducing costs based on patterns (e.g., "clearer task descriptions lead to 20% lower costs"), (10) Export cost-per-task report for analysis, (11) Dashboard card with keyboard shortcut, (12) Filter by date range, agent, task status, and priority level. Different from costs.html (aggregate spending view), budget.html (spending limits/alerts), and api-stats.html (API call statistics). This page focuses specifically on task-level cost attribution.
+
+### TASK-102: Add system metrics correlation matrix page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that calculates and visualizes correlations between different system metrics over time, helping identify cause-effect relationships like "when disk usage increases, does error rate also increase?"
+- **Notes**: The dashboard currently shows individual metrics in isolation, but doesn't reveal relationships between them. This page should: (1) Load historical data from metrics-history.json and other time-series data, (2) Calculate Pearson correlation coefficients between metric pairs (disk usage, memory, CPU, error rate, task completion rate, agent run duration, token usage, etc.), (3) Display as an interactive correlation matrix heatmap with color coding (-1 to +1 scale, red for negative, blue for positive), (4) Click on any cell to see the scatter plot of the two metrics with trendline, (5) Highlight "significant" correlations (>0.7 or <-0.7) that may indicate causal relationships, (6) Auto-generated insights: "Disk usage and log file size have 0.92 correlation - disk fills because of logs", (7) Lag correlation analysis: check if metric A predicts metric B with a time delay, (8) Show top 5 strongest positive and negative correlations as a summary, (9) Time window selector: correlations over last 24h, 7d, 30d, (10) Filter to include/exclude specific metrics from the matrix, (11) Export correlation data as CSV or JSON, (12) Dashboard card with keyboard shortcut. Different from trends.html (single-metric trends), capacity.html (projections), and health.html (current status). This page reveals hidden relationships between metrics for deeper operational insights.
+
 ### TASK-100: Add agent efficiency leaderboard and competitive metrics page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -450,4 +464,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 19:19 by tester*
+*Last updated: 2026-01-20 19:31 by idea-maker*
