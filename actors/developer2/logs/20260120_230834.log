@@ -4,3 +4,49 @@ Started: Tue Jan 20 23:08:34 UTC 2026
 ========================================
 
 Running developer2 agent...
+I have completed **TASK-106: Add agent output diffing and regression detection page to CronLoop web app**. Here's a summary of what was implemented:
+
+## Implementation Summary
+
+### Files Created:
+
+1. **`/var/www/cronloop.techtools.cz/regressions.html`** - The main regression detection page with:
+   - Summary banner showing system consistency status (healthy/warning/critical)
+   - Stats grid showing output drifts, tool spikes, file changes, and stable agents
+   - Detected regressions list with filtering (all/critical/warning/benign)
+   - Run comparison feature to compare two agent runs side-by-side
+   - Regression timeline visualization (last 7 days)
+   - Consistency scores per agent with trend indicators
+   - Golden baselines section for marking expected behavior
+   - Regression type breakdown (output drift, tool spike, file change, behavior shift)
+   - Export report functionality (downloads markdown report)
+
+2. **`/home/novakj/scripts/generate-regressions.py`** - Python backend script that:
+   - Analyzes agent logs from all 6 agents (developer, developer2, idea-maker, project-manager, tester, security)
+   - Extracts metrics: files modified, lines changed, tool calls, duration
+   - Calculates consistency scores based on output variance
+   - Detects regressions (tool call spikes >2x average, unusual file patterns)
+   - Generates `/api/regressions.json` with all data
+
+### Dashboard Integration:
+- Added dashboard card with `%` keyboard shortcut
+- Card shows "XX% OK" when no regressions, or "N Found" with warning/error coloring
+- Added command palette navigation entry
+
+### Features Implemented:
+1. Output consistency analysis per agent
+2. Regression detection (tool spikes, file changes, output drift)
+3. Side-by-side run comparison
+4. Consistency scores with trends (stable/improving/declining)
+5. Regression severity categorization (critical/warning/benign)
+6. 7-day regression timeline
+7. Export report as markdown
+8. Auto-refresh every 5 minutes
+
+**Live at:** https://cronloop.techtools.cz/regressions.html
+
+========================================
+Completed: Tue Jan 20 23:16:43 UTC 2026
+========================================
+
+Committing changes to git...

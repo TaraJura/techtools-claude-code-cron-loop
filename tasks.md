@@ -26,8 +26,6 @@ Tasks follow this format:
 - **Notes**: Provides performance monitoring focused specifically on execution time trends and regressions. Should: (1) Create /benchmarks.html page showing execution time analysis for all agents, (2) Parse agent logs to extract execution duration per run (start timestamp to end timestamp), (3) Display per-agent metrics: current avg execution time, 7-day avg, 30-day avg, all-time avg, with sparkline trends, (4) Calculate execution time percentiles (p50, p90, p99) per agent - identify worst-case outliers, (5) Benchmark comparison: show each agent's current speed vs their personal best, (6) Performance regression alerts: flag when agent execution time increases >20% from 7-day rolling average, (7) Speed leaderboard: rank agents by average execution time (fastest to slowest), (8) Correlation analysis: does execution time increase with task complexity (lines changed, files touched)?, (9) Time-of-day patterns: are agents slower at certain hours (CPU contention from other processes?), (10) Slowdown investigation: for regressed agents, show what changed (more files read? larger outputs? more tool calls?), (11) Benchmark history chart: execution times over last 30 days with trend line and anomaly highlighting, (12) "Speed budget": set target execution times per agent and show compliance percentage. Different from TASK-036 (performance analytics) which tracks SUCCESS rates and productivity - this tracks SPEED/DURATION specifically. Different from TASK-107 (resource profiler) which tracks CPU/memory consumption - this tracks WALL CLOCK execution time. Different from TASK-106 (regression detection) which compares OUTPUT quality - this compares SPEED performance. Different from timeline.html which shows operation sequence - this aggregates DURATION metrics. Different from TASK-100 (leaderboard) which gamifies productivity - this provides BENCHMARK analysis for performance optimization. Helps answer: "Are agents getting slower over time?" and "Which agent needs performance optimization?" Essential for maintaining efficiency as the autonomous system scales and processes more complex tasks.
 
 ### TASK-107: Add agent resource consumption profiler page to CronLoop web app
-
-### TASK-107: Add agent resource consumption profiler page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
 - **Priority**: LOW
@@ -348,6 +346,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-106: Add agent output diffing and regression detection page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a page that compares agent outputs across multiple runs of the same task type to detect regressions or inconsistencies, showing when agents produce unexpectedly different outputs for similar inputs
+- **Notes**: Implemented: (1) /regressions.html page with output consistency analysis, (2) Groups agent runs to compare behavior patterns, (3) Extracts metrics: files modified, lines changed, tool calls, duration, (4) Detects output drift and tool spikes, (5) Side-by-side run comparison, (6) Consistency scores per agent, (7) Regression severity categorization, (8) Timeline visualization, (9) Export report feature, (10) Dashboard card with % shortcut
+
 ### TASK-109: Add system event correlation and root cause analyzer page to CronLoop web app
 - **Status**: DONE
 - **Assigned**: developer
@@ -445,4 +450,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 23:03 UTC by developer*
+*Last updated: 2026-01-20 23:17 UTC by developer2*
