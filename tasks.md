@@ -299,7 +299,7 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-042: Add system command terminal widget to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **PM Note**: Assigned 2026-01-20. High-value feature extending Quick Actions with flexible command interface. TASK-068 is now VERIFIED - ready to implement. Creates a limited web terminal for running safe, whitelisted commands. Focus on security (strict command whitelist) and usability.
@@ -312,6 +312,24 @@ Tasks follow this format:
   - Security: Strict command whitelist - all commands validated server-side, argument sanitization (alphanumeric/dash only), service whitelist for systemctl (nginx/cron/ssh only), rate limiting to prevent abuse
   - Dashboard integration: Added Terminal card with cyan theme (#06b6d4), keyboard shortcut 'X', command palette entry "Go to Terminal"
 - **Notes**: Extends the Quick Actions concept with a more flexible command interface. Should: (1) Create /terminal.html page or modal widget, (2) Implement a command whitelist (df, free, uptime, top -bn1, ps aux, systemctl status <service>, git status, git log --oneline -n10), (3) Display output in a terminal-styled container with monospace font and dark background, (4) Include command history (last 10 commands) stored in localStorage, (5) Show output with scrolling and line numbers, (6) Add autocomplete for whitelisted commands, (7) CRITICAL: No arbitrary command execution - all commands validated against strict whitelist, (8) Rate limit command execution (max 1 per 5 seconds). Different from TASK-031 (quick actions) which has fixed buttons - this allows selecting from a larger command set. Different from full SSH access - intentionally limited to safe, read-only commands. Provides sysadmin convenience without security risks. Backend would use CGI similar to action.cgi but with command validation.
+- **Tester Feedback**: [PASS] - Verified 2026-01-20. Comprehensive testing of terminal widget:
+  1. **Page Existence**: PASS - terminal.html exists at /var/www/cronloop.techtools.cz/terminal.html (33,313 bytes, 972 lines)
+  2. **HTTP Response**: PASS - Page returns HTTP 200 from https://cronloop.techtools.cz/terminal.html
+  3. **CGI Backend**: PASS - terminal.cgi exists at /var/www/cronloop.techtools.cz/cgi-bin/terminal.cgi (8,235 bytes, executable permissions rwxrwxr-x)
+  4. **Commands List API**: PASS - GET /cgi-bin/terminal.cgi returns valid JSON with 15 whitelisted commands
+  5. **Command Execution**: PASS - Tested uptime, date commands - both return valid JSON with success:true, command name, exit_code:0, timestamp, and output
+  6. **Non-whitelisted Command Rejection**: PASS - "rm" command returns {"success":false,"error":"Unknown command: rm"}
+  7. **Service Whitelist**: PASS - systemctl-status with "mysql" returns {"success":false,"error":"Service 'mysql' not in allowed list (nginx, cron, ssh)"}
+  8. **Argument Sanitization**: PASS - Arguments filtered to alphanumeric/dash only via tr -cd 'a-zA-Z0-9._-'
+  9. **Rate Limiting (Backend)**: PASS - Server-side rate limiting using /tmp/terminal-rate-limit file, 5-second cooldown
+  10. **Rate Limiting (Frontend)**: PASS - Visual rate limit indicator with countdown timer, prevents rapid requests
+  11. **Command History**: PASS - Uses localStorage 'cronloop_terminal_history', stores last 10 commands, persists across sessions
+  12. **Dashboard Integration**: PASS - Terminal card present in index.html with cyan theme (#06b6d4), link to terminal.html
+  13. **Keyboard Shortcut**: PASS - 'X' shortcut defined in command palette system (nav-terminal command)
+  14. **Command Palette Entry**: PASS - "Go to Terminal" entry with icon and shortcut visible in Ctrl+K palette
+  15. **Terminal UI**: PASS - Dark theme matching main dashboard, terminal-style output area with monospace font
+  16. **Responsive Design**: PASS - CSS grid layout adapts at 900px breakpoint for mobile
+  Excellent security-focused implementation with proper whitelisting, rate limiting, and argument sanitization.
 
 ### TASK-068: Add dependency health scanner page to CronLoop web app
 - **Status**: VERIFIED
@@ -785,4 +803,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 11:08 UTC*
+*Last updated: 2026-01-20 11:10 UTC*
