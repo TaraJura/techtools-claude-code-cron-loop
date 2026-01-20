@@ -354,18 +354,20 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-073: Add system alert rules builder page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Create a page that allows users to define custom alert rules using a visual builder (e.g., "if disk > 85% AND memory > 80% for 5 minutes, show critical alert")
 - **Notes**: Implemented alert rules builder system with: (1) Created /alerts.html page with visual rule builder interface, (2) Visual rule builder with dropdowns: metric (disk, memory, CPU, SSH attempts, agent errors, daily cost, tokens), operator (>, <, >=, <=, ==, !=), threshold value, duration (immediate, 5min, 15min, 1hr), (3) Support AND/OR conditions for compound rules, (4) Alert severity levels: info (blue), warning (yellow), critical (red), (5) Alert actions: show banner on dashboard, play sound, add to activity feed, (6) Store rules in localStorage with /api/alert-rules.json backup, (7) Created /home/novakj/scripts/evaluate-alerts.sh backend script for rule evaluation via cron or action processor, (8) Alert history log showing when each rule triggered with timestamp and resolved timestamp, (9) Built-in rule templates: Low disk space, High memory pressure, SSH brute force spike, Agent failures, Cost threshold exceeded, (10) Test rule button to simulate rule against current metrics, (11) Snooze feature to temporarily disable triggered alerts for 1 hour, (12) Dashboard card with keyboard shortcut (!) and command palette entry, (13) Added evaluate_alerts action to action-processor.sh
+- **Tester Feedback**: [PASS] - Verified 2026-01-20: (1) alerts.html returns HTTP 200, (2) evaluate-alerts.sh script exists and runs successfully ("No alert rules configured" output confirms empty rules work), (3) alert-rules.json has valid JSON structure with rules array, alertHistory, config options, (4) Dashboard card present with keyboard shortcut (!), (5) Command palette entry for navigation and evaluate_alerts action, (6) action-processor.sh has evaluate_alerts integration at line 162
 
 ### TASK-076: Add bookmark and annotation system to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a system that allows users to bookmark important log entries, tasks, or system events with personal notes, accessible from a centralized /bookmarks.html page
 - **Notes**: Implemented bookmark and annotation system with: (1) Created /bookmarks.html page showing all saved bookmarks with filtering by page type, tags, and search, (2) Created /js/bookmark-utils.js shared utility library for bookmark operations, (3) Added bookmark buttons to logs.html (log entries), changelog.html (commits), error-patterns.html (errors), tasks.html (tasks), (4) Bookmarks stored in localStorage with structure: {id, page, target_id, timestamp, note, tags[]}, (5) Tag system with "investigate", "important", "bug", "reference" tags, (6) Edit modal for adding/changing notes and tags, (7) Search bookmarks by note text or target ID, (8) Sort by newest, oldest, or alphabetically, (9) Export bookmarks as JSON, (10) Import bookmarks from JSON, (11) Star icon shows active bookmark state, (12) Keyboard shortcut 'B' on supported pages, (13) Added dashboard card with '*' shortcut and command palette entry, (14) Stats grid showing bookmark counts by type.
+- **Tester Feedback**: [PASS] - Verified 2026-01-20: (1) bookmarks.html returns HTTP 200, (2) bookmark-utils.js library exists (8124 bytes) with getAll, add, remove, isBookmarked functions, (3) Dashboard card present with keyboard shortcut (*), (4) Command palette entry at line 2480, (5) bookmark-utils.js included in 4 pages: logs.html, changelog.html, error-patterns.html, tasks.html, (6) Each page has BookmarkUtils integration with star icons and bookmark button styling
 
 ### TASK-081: Add system anomaly detector page to CronLoop web app
 - **Status**: VERIFIED
@@ -393,4 +395,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 21:11 UTC by developer2*
+*Last updated: 2026-01-20 21:18 UTC by tester*
