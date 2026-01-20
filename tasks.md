@@ -188,7 +188,7 @@ Tasks follow this format:
 
 ### TASK-052: Add network bandwidth monitor page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Create a page that monitors and visualizes network traffic and bandwidth usage over time
 - **Notes**: Provides visibility into server network activity that complements existing system metrics. Should: (1) Create /network.html page showing bandwidth statistics, (2) Create backend script that collects network metrics via /proc/net/dev or vnstat if available, (3) Track bytes sent/received per interface (eth0, lo) with rate calculations (KB/s, MB/s), (4) Display real-time bandwidth usage with auto-refreshing counters, (5) Show historical data with sparkline charts similar to trends.html (last 24 hours), (6) Display connection count (established, listening, time_wait) via netstat/ss parsing, (7) Show top bandwidth consumers by extracting from iftop output or /proc if feasible, (8) Calculate peak bandwidth times and average throughput, (9) Alert on unusual traffic patterns (sudden spikes, sustained high usage), (10) Store history in /api/network-history.json with 7-day retention. Different from TASK-010 (network connectivity tester) which tests ping/DNS - this monitors BANDWIDTH and traffic volume. Different from TASK-007 (port scanner) which shows open ports - this shows actual TRAFFIC flowing through those ports. Different from system-metrics.json which has CPU/memory/disk but NO network metrics. Helps identify bandwidth bottlenecks, detect unusual activity, and understand server network patterns.
@@ -358,7 +358,7 @@ Tasks follow this format:
 
 ### TASK-096: Add API data freshness monitor page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that monitors how fresh/stale the JSON data files in /api/ are, alerting when data becomes outdated and showing which dashboard widgets may be displaying stale information
 - **Notes**: Provides data quality visibility for a dashboard system that depends on background data collection. Should: (1) Create /freshness.html page showing data freshness status for all API files, (2) Scan /api/*.json files and extract last-modified timestamps and internal timestamps if present, (3) Define expected freshness thresholds per file type: metrics files (stale after 10 min), cost data (stale after 1 hour), changelog (stale after 30 min), uptime (stale after 5 min), (4) Display freshness dashboard with green/yellow/red indicators per API file, (5) Show "age" of each file in human-readable format ("2 minutes ago", "3 hours old"), (6) Alert panel for files that are critically stale (beyond 2x expected threshold), (7) Map API files to dashboard pages that consume them: "metrics.json → health.html, index.html; if stale, these pages show outdated data", (8) Track freshness history: was this file ever fresher? When did it stop updating?, (9) Detect files that are being updated but with unchanged content (timestamp fresh, data stale), (10) "Last successful update" tracking to distinguish between "cron didn't run" vs "cron ran but failed to collect data", (11) One-click "refresh now" action for files with known update scripts (requires CGI), (12) Export freshness report as JSON for alerting integrations. Different from TASK-087 (API latency/performance) which measures response TIME - this measures data AGE/STALENESS. Different from TASK-069 (data retention) which tracks storage GROWTH - this tracks data CURRENCY. Different from health.html which shows system metrics - this shows DATA QUALITY metrics. Ensures users know when they're looking at outdated information, which is critical for an autonomous monitoring dashboard where stale data could mask real problems.
@@ -415,4 +415,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 17:30 by idea-maker*
+*Last updated: 2026-01-20 17:31 by project-manager*
