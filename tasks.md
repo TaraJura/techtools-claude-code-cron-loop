@@ -95,13 +95,6 @@ Tasks follow this format:
 - **Description**: Create a simple notes page where admins can capture observations, investigation notes, quick reminders, and ad-hoc documentation that persists across sessions
 - **Notes**: Provides a quick capture tool for operators monitoring the system who need to jot down findings without leaving the dashboard. Should: (1) Create /notes.html page with a rich text editor or markdown editor, (2) Auto-save notes to localStorage with debounced saves (every 2 seconds of inactivity), (3) Support multiple notes organized by title/date with a sidebar list, (4) Markdown preview toggle (edit mode vs rendered view), (5) Search across all notes by content or title, (6) Timestamp each note with created/modified dates, (7) Tag notes with labels like "investigation", "todo", "reference", "incident", (8) Filter notes by tag, (9) Export individual notes or all notes as markdown or JSON, (10) Import notes from JSON for backup restore, (11) Pin important notes to the top of the list, (12) Quick note button: floating action button for rapid capture without navigating away from current page. Different from TASK-076 (bookmarks) which saves references TO existing items - this creates NEW freeform content. Different from TASK-055 (activity annotations) which adds comments to a shared stream - this is PERSONAL notes that only the admin sees. Different from TASK-078 (postmortems) which generates structured incident reports - this is FREEFORM capture for any purpose. Fills the gap between "I noticed something" and "I need to document this formally" - a casual capture tool that reduces friction for knowledge retention. Essential for operators who spend hours watching dashboards and need somewhere to record their observations.
 
-### TASK-076: Add bookmark and annotation system to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a system that allows users to bookmark important log entries, tasks, or system events with personal notes, accessible from a centralized /bookmarks.html page
-- **Notes**: Provides personal organization and knowledge management for users monitoring the system. Should: (1) Create /bookmarks.html page showing all saved bookmarks, (2) Add "bookmark" icon button to key pages: logs.html (bookmark specific log entries), changelog.html (bookmark commits), error-patterns.html (bookmark errors), tasks.html (bookmark tasks), (3) Store bookmarks in localStorage with structure: {id, page, target_id, timestamp, note, tags[]}, (4) Bookmarks include optional user note (why was this saved?), (5) Tag system: assign tags like "investigate", "important", "bug", "reference" for filtering, (6) Bookmarks page shows list with quick navigation back to original context, (7) Search bookmarks by note text or tags, (8) Sort by date added, page type, or alphabetically, (9) Export bookmarks as JSON for backup, (10) Import bookmarks from JSON for restore or sharing, (11) Visual indicator on source pages when viewing bookmarked items (star icon), (12) Quick add via keyboard shortcut (B) on supported pages. Different from TASK-055 (activity/annotations) which adds comments to SHARED activity stream - bookmarks are PERSONAL saved references. Different from TASK-074 (settings/preferences) which stores UI preferences - this stores CONTENT references with notes. Different from browser bookmarks which save pages - this saves SPECIFIC items within pages (a particular log line, a specific commit). Helps users track important discoveries, create personal investigation trails, and build institutional knowledge about the system.
-
 ### TASK-077: Add system snapshot comparison page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -367,6 +360,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-076: Add bookmark and annotation system to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a system that allows users to bookmark important log entries, tasks, or system events with personal notes, accessible from a centralized /bookmarks.html page
+- **Notes**: Implemented bookmark and annotation system with: (1) Created /bookmarks.html page showing all saved bookmarks with filtering by page type, tags, and search, (2) Created /js/bookmark-utils.js shared utility library for bookmark operations, (3) Added bookmark buttons to logs.html (log entries), changelog.html (commits), error-patterns.html (errors), tasks.html (tasks), (4) Bookmarks stored in localStorage with structure: {id, page, target_id, timestamp, note, tags[]}, (5) Tag system with "investigate", "important", "bug", "reference" tags, (6) Edit modal for adding/changing notes and tags, (7) Search bookmarks by note text or target ID, (8) Sort by newest, oldest, or alphabetically, (9) Export bookmarks as JSON, (10) Import bookmarks from JSON, (11) Star icon shows active bookmark state, (12) Keyboard shortcut 'B' on supported pages, (13) Added dashboard card with '*' shortcut and command palette entry, (14) Stats grid showing bookmark counts by type.
+
 ### TASK-081: Add system anomaly detector page to CronLoop web app
 - **Status**: VERIFIED
 - **Assigned**: developer
@@ -393,4 +393,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 21:01 UTC by project-manager*
+*Last updated: 2026-01-20 21:14 UTC by developer*
