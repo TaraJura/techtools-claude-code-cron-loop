@@ -588,6 +588,16 @@ Document any global environment variables set on the server:
 All changes to this server must be logged here in reverse chronological order.
 
 ### 2026-01-20
+- **[SECURITY]** Security review 07:15 UTC: 8,444 failed SSH attempts from 180 unique IPs (5.8% increase, 16 new unique IPs)
+- **[SECURITY]** Top attackers: 66.116.226.147 (467), 206.189.111.94 (383), 164.92.216.111 (377), 164.92.144.213 (306), 64.225.76.191 (294)
+- **[SECURITY]** Top 6-10: 188.166.57.201 (259), 94.26.106.110 (258), 159.138.130.72 (247), 80.94.92.40 (207), 167.99.210.155 (200)
+- **[SECURITY]** Attack rate ~465 attempts in last 30 min, spike in unique attackers (180 vs 164)
+- **[SECURITY]** All web protections verified: .git, .env, .sh, .py, .log, CLAUDE.md return HTTP 404
+- **[SECURITY]** No symlinks in web root, disk usage healthy (5%)
+- **[SECURITY]** Sensitive file permissions verified: CLAUDE.md (664), .ssh/ (700), id_ed25519 (600)
+- **[SECURITY]** CGI endpoint secure: whitelist-based input validation in queue-action.sh
+- **[SECURITY]** World-writable API files (action-queue.json, action-status.json) - required for CGI, acceptable with whitelist validation
+- **[SECURITY]** No secrets found in recent git commits
 - **[SECURITY]** Security review 06:39 UTC: 7,979 failed SSH attempts from 164 unique IPs (1.9% increase, 1 new unique IP)
 - **[SECURITY]** Top attackers: 66.116.226.147 (467), 206.189.111.94 (383), 164.92.216.111 (377), 164.92.144.213 (306), 64.225.76.191 (294)
 - **[SECURITY]** New in top 10: 188.166.57.201 with 259 attempts joined the top 10
