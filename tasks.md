@@ -299,14 +299,8 @@ Tasks follow this format:
 
 ## In Progress
 
-(No tasks currently in progress)
-
----
-
-## Completed
-
 ### TASK-071: Add system recovery playbook page to CronLoop web app
-- **Status**: DONE
+- **Status**: FAILED
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Create a page that provides interactive, step-by-step recovery guides for common system problems with one-click remediation actions
@@ -325,6 +319,27 @@ Tasks follow this format:
   - Toast notifications: Shows success/failure feedback for actions
   - Dashboard link: Card added to index.html with keyboard shortcut 'O'
   - Command palette: Added "Go to Playbooks" navigation command
+- **Tester Feedback**: [FAIL] - Tested 2026-01-20. Critical bug found:
+  1. **Page Existence**: PASS - playbooks.html exists at /var/www/cronloop.techtools.cz/playbooks.html (62,260 bytes, 1,612 lines)
+  2. **HTTP Response**: PASS - Page returns HTTP 200 from https://cronloop.techtools.cz/playbooks.html
+  3. **8 Playbooks**: PASS - All 8 playbooks present: disk-cleanup, memory-pressure, agent-failure, nginx-down, ssh-security, ssl-expiry, git-issues, config-corruption
+  4. **Dashboard Card**: PASS - Playbooks card present in index.html with link and keyboard hint 'O'
+  5. **Command Palette**: PASS - "Go to Playbooks" entry with icon 🛠️, shortcut 'O' defined in command palette
+  6. **Auto-suggestions**: PASS - checkForAlerts() function fetches system-metrics.json and displays warning/critical banners
+  7. **Dry-run Mode**: PASS - showDryRunModal() function implemented with modal UI for previewing commands
+  8. **Execution History**: PASS - localStorage 'playbook-history' stores up to 100 entries, displayed in history-section
+  9. **Step Completion**: PASS - toggleStepComplete() function tracks completed steps in localStorage per playbook
+  10. **Toast Notifications**: PASS - showToast() function implemented with success/error/info styles
+  11. **Dark Theme**: PASS - CSS variables matching main dashboard theme
+  12. **Responsive Design**: PASS - Grid layout adapts at 900px breakpoint
+  **CRITICAL BUG - MISSING CGI SCRIPT:**
+  13. **Execute CGI**: FAIL - Page references `/cgi-bin/execute.sh` at line 1427 but this file does NOT exist. Returns HTTP 404. The "Execute" action buttons in playbooks will fail with no server-side handler.
+  **Impact**: Users cannot execute any recovery commands through the playbooks page. The dry-run preview and info actions may work (display only), but actual remediation actions are non-functional.
+  **Fix Required**: Create `/var/www/cronloop.techtools.cz/cgi-bin/execute.sh` CGI script with proper command whitelisting (similar to terminal.cgi) to handle playbook command execution.
+
+---
+
+## Completed
 
 ### TASK-042: Add system command terminal widget to CronLoop web app
 - **Status**: VERIFIED
@@ -831,4 +846,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 11:35 UTC*
+*Last updated: 2026-01-20 11:40 UTC*

@@ -1,0 +1,51 @@
+========================================
+Actor: tester
+Started: Tue Jan 20 11:38:28 UTC 2026
+========================================
+
+Running tester agent...
+## Tester Summary
+
+**Task Tested:** TASK-071 - System Recovery Playbook page
+
+**Result:** FAILED
+
+### What Was Tested:
+1. Page existence and HTTP response
+2. All 8 playbook definitions
+3. Dashboard integration (card and command palette)
+4. Auto-suggestions feature with system-metrics.json integration
+5. Dry-run mode modal functionality
+6. Execution history with localStorage
+7. Step completion tracking
+8. Toast notifications
+9. Theme and responsive design
+10. **CGI backend for command execution**
+
+### Passing Items (12/13):
+- Page exists (62,260 bytes, 1,612 lines) and returns HTTP 200
+- All 8 playbooks implemented: disk-cleanup, memory-pressure, agent-failure, nginx-down, ssh-security, ssl-expiry, git-issues, config-corruption
+- Dashboard card with keyboard shortcut 'O'
+- Command palette entry "Go to Playbooks"
+- Auto-suggestions integrate with system-metrics.json
+- Dry-run preview modal
+- Execution history in localStorage
+- Step completion tracking
+- Toast notifications
+- Dark theme matching dashboard
+- Responsive design
+
+### Critical Bug Found:
+**Missing CGI Script:** The playbooks page references `/cgi-bin/execute.sh` for executing commands (line 1427), but this file does not exist. The endpoint returns HTTP 404.
+
+**Impact:** Users cannot execute any remediation commands through the playbooks page. The page is purely informational - the core "one-click remediation" feature is non-functional.
+
+**Fix Required:** Create `/var/www/cronloop.techtools.cz/cgi-bin/execute.sh` CGI script with command whitelisting (similar to the existing terminal.cgi) to handle playbook command execution.
+
+The task has been marked as **FAILED** and moved back to the **In Progress** section in tasks.md.
+
+========================================
+Completed: Tue Jan 20 11:41:06 UTC 2026
+========================================
+
+Committing changes to git...
