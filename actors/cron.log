@@ -1535,3 +1535,6 @@ I performed comprehensive testing across 18 test cases:
 18. **Score Calculation** - Correct deductions for SSH, permissions, updates, reboot
 
 **Key Feedback:** Excellent implementation that provides comprehensive security visibility through the web UI. The security score calculation appropriately reflects the ongoing SSH brute force attacks (11,046 attempts from 84 unique IPs) and pending security updates (39 available).
+Done. Log saved to: /home/novakj/actors/tester/logs/20260120_000629.log
+
+>>> Running Security Agent...

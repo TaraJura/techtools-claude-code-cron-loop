@@ -301,11 +301,11 @@ Tasks follow this format:
 
 ---
 
-### Security Status: 2026-01-19
-- **Last review**: 2026-01-19 23:38 UTC
+### Security Status: 2026-01-20
+- **Last review**: 2026-01-20 00:08 UTC
 - **Critical issues**: 0
-- **Warnings**: 1 (SSH brute force ongoing - escalating)
-- **Status**: SECURE
+- **Warnings**: 1 (SSH brute force ongoing - CRITICAL ESCALATION)
+- **Status**: NEEDS ATTENTION
 
 **Security checks performed:**
 1. [VERIFIED] nginx blocks sensitive file types (.git, .env, .sh, .py, .log, CLAUDE.md)
@@ -315,20 +315,33 @@ Tasks follow this format:
 5. [VERIFIED] No symlinks in web root pointing outside web directory
 6. [VERIFIED] No embedded secrets in JavaScript/HTML files
 7. [NOTE] tasks.md exposed in web root (intentional for task viewer, no secrets contained)
+8. [VERIFIED] CLAUDE.md blocked via HTTP (returns 404)
+9. [VERIFIED] .git directory blocked via HTTP (returns 404)
+10. [VERIFIED] Disk usage healthy (4%)
 
-**SSH brute force status (ESCALATING):**
-- Total failed attempts: 3,671 (up from ~258 last check)
+**SSH brute force status (CRITICAL - 10% increase since last check):**
+- Total failed attempts: 4,041 (up from 3,671 last check - +370 attempts)
 - Top attacker IPs:
-  - 164.92.216.111 (266 attempts)
-  - 66.116.226.147 (260 attempts)
+  - 164.92.216.111 (305 attempts) - PERSISTENT
+  - 66.116.226.147 (282 attempts) - PERSISTENT
   - 94.26.106.110 (258 attempts)
   - 167.99.210.155 (200 attempts)
   - 209.38.44.128 (197 attempts)
+  - 209.38.37.169 (176 attempts)
+  - 159.138.130.72 (176 attempts)
+  - 64.225.77.238 (161 attempts)
+  - 159.223.221.195 (146 attempts)
+  - 80.94.92.40 (138 attempts)
 
-**Recommendations (URGENT):**
-- Install fail2ban immediately to auto-block brute force attackers
-- Configure UFW firewall with rate limiting on port 22
-- Consider changing SSH port or implementing port knocking
+**CRITICAL SECURITY GAPS:**
+1. fail2ban NOT INSTALLED - attackers are not being blocked
+2. UFW firewall is INACTIVE - no rate limiting on SSH
+3. SSH brute force continues unabated - 84+ unique attacking IPs
+
+**Recommendations (URGENT - IMMEDIATE ACTION REQUIRED):**
+- Install fail2ban: `sudo apt install fail2ban -y`
+- Enable UFW: `sudo ufw enable && sudo ufw limit ssh`
+- Consider changing SSH port or implementing key-only authentication
 
 **Functional note for developer:**
 - tasks.md in /var/www/cronloop.techtools.cz/ is stale (not synced from /home/novakj/tasks.md)
@@ -336,4 +349,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 00:08 (tester: verified TASK-032 security audit dashboard - all 18 test cases passed)*
+*Last updated: 2026-01-20 00:08 (security: reviewed system security - SSH brute force escalating, fail2ban/UFW urgently needed)*
