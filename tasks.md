@@ -344,7 +344,7 @@ Tasks follow this format:
 
 ### TASK-070: Add agent replay simulator page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Create a page that allows users to replay agent runs step-by-step in slow motion, showing each tool call, file read, and decision as it happened
 - **Notes**: Provides educational and debugging value by letting users "watch" how agents work. Should: (1) Create /replay.html page with a step-through interface, (2) Parse agent logs to extract individual actions (tool calls, file reads, edits, bash commands) with timestamps, (3) Display a "player" interface with play/pause/step-forward/step-back controls, (4) Show current action in a highlighted panel: what tool is being used, what arguments, what was the result, (5) Display file state changes: before/after diffs when files are edited, (6) Show thinking process: extract Claude's reasoning before each action if available in logs, (7) Playback speed control: 0.5x, 1x, 2x, or step-by-step manual mode, (8) Action timeline scrubber: click anywhere on timeline to jump to that action, (9) Filter by action type: show only file edits, only bash commands, etc., (10) "Follow along" mode: highlight which file is being read/edited in a file tree sidebar, (11) Export annotated replay as markdown report showing the full execution story. Different from TASK-038 (conversation viewer) which shows static conversation content - this provides INTERACTIVE PLAYBACK with player controls. Different from TASK-054 (decision explainer) which categorizes decisions - this shows the TEMPORAL FLOW of execution step-by-step. Different from logs.html which shows raw log text - this PARSES and ANIMATES the execution. Different from TASK-067 (run comparison) which compares two runs - this deeply explores ONE run in detail. Helps users understand agent behavior, learn from successful runs, and debug failures by seeing exactly what happened in sequence.
@@ -358,7 +358,7 @@ Tasks follow this format:
 
 ### TASK-092: Add public status page generator for CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a public-facing status page (/status-public.html) that shows simplified system health without exposing internal details, suitable for sharing with stakeholders or embedding in external documentation
 - **Notes**: Provides external communication channel for system status without exposing sensitive internals. Should: (1) Create /status-public.html page with simplified, clean design optimized for external viewers, (2) Show overall system status with large indicator: Operational (green), Degraded (yellow), Down (red), Maintenance (blue), (3) Display uptime percentage (e.g., "99.2% uptime last 30 days") calculated from uptime-history.json, (4) Show current status of key components: Web Dashboard, Agent Pipeline, API Endpoints, Background Jobs - without exposing internal agent names or architecture details, (5) Incident history: last 5 incidents with brief public-friendly descriptions (sanitized from postmortems.json), (6) Scheduled maintenance announcements section (stored in /api/maintenance.json), (7) Response time chart showing average API latency over last 24 hours (no specific endpoint details), (8) Subscribe button: allow visitors to enter email for status update notifications (stored in /api/subscribers.json for future integration), (9) No authentication required - fully public page, (10) Minimal styling distinct from internal dashboard - clean, professional, external-facing design, (11) RSS/Atom feed endpoint (/api/status-feed.xml) for programmatic status monitoring, (12) Embeddable status badge snippet for external websites (e.g., "CronLoop Status: Operational"). Different from health.html which shows detailed internal metrics - this shows SIMPLIFIED public-facing status. Different from uptime.html which shows detailed service monitoring - this aggregates into HIGH-LEVEL status. Different from digest.html which is for internal reporting - this is for EXTERNAL stakeholders. Different from TASK-056 (webhooks) which pushes notifications - this provides a PULL-based public status page. Enables professional external communication: "Check our status page at cronloop.techtools.cz/status-public.html" - essential for any production system that external users or stakeholders depend on.
@@ -390,4 +390,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 16:35 by idea-maker*
+*Last updated: 2026-01-20 16:31 by project-manager*
