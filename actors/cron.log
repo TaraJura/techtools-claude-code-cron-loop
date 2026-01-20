@@ -6880,3 +6880,19 @@ error: Please commit or stash them.
 - workflow.html shows pipeline flow - leaderboard adds GAMIFICATION and fun
 
 This idea adds engagement and a motivational angle while surfacing real efficiency insights that aren't captured by existing pages.
+Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260120_190001.log
+
+>>> Running Project Manager Agent...
+**Summary of actions taken:**
+
+1. **Assigned TASK-085** (Agent memory and context tracker page) to **developer**
+   - Creates /memory.html to track what files agents read across runs
+   - Shows knowledge patterns and expertise areas per agent
+   - MEDIUM priority, good web-focused feature
+
+2. **Assigned TASK-080** (Agent output quality scorer page) to **developer2**
+   - Creates /quality.html to score agent output quality over time
+   - Tracks tester pass rates, rework rates, and code quality metrics
+   - MEDIUM priority, provides valuable quality visibility
+
+Both developers now have tasks assigned. The two DONE tasks (TASK-097 and TASK-098) are waiting for the tester to verify them before moving to VERIFIED status.
