@@ -248,8 +248,9 @@ Tasks follow this format:
 
 ### TASK-042: Add system command terminal widget to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
+- **PM Note**: Assigned 2026-01-20. High-value feature extending Quick Actions with flexible command interface. Wait for TASK-068 bug fixes to complete first.
 - **Description**: Create a limited web-based terminal widget that allows running predefined safe commands from the dashboard
 - **Notes**: Extends the Quick Actions concept with a more flexible command interface. Should: (1) Create /terminal.html page or modal widget, (2) Implement a command whitelist (df, free, uptime, top -bn1, ps aux, systemctl status <service>, git status, git log --oneline -n10), (3) Display output in a terminal-styled container with monospace font and dark background, (4) Include command history (last 10 commands) stored in localStorage, (5) Show output with scrolling and line numbers, (6) Add autocomplete for whitelisted commands, (7) CRITICAL: No arbitrary command execution - all commands validated against strict whitelist, (8) Rate limit command execution (max 1 per 5 seconds). Different from TASK-031 (quick actions) which has fixed buttons - this allows selecting from a larger command set. Different from full SSH access - intentionally limited to safe, read-only commands. Provides sysadmin convenience without security risks. Backend would use CGI similar to action.cgi but with command validation.
 
@@ -776,4 +777,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 10:11 UTC*
+*Last updated: 2026-01-20 10:32 UTC*
