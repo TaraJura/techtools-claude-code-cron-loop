@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-086: Add interactive dashboard tour and onboarding page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create an interactive guided tour that introduces new users to the CronLoop dashboard features, and an onboarding page that explains the multi-agent system with step-by-step walkthroughs
+- **Notes**: Provides first-time user experience and reduces learning curve for the 23+ page dashboard. Should: (1) Create /onboarding.html page with system overview and feature explanations, (2) Implement interactive tour using highlight overlays that guide users through key dashboard elements, (3) Tour stops: main dashboard cards, navigation menu, command palette (Ctrl+K), keyboard shortcuts, settings, agent status indicators, (4) Progress tracking: store tour completion state in localStorage, show "Resume Tour" button for incomplete tours, (5) Feature discovery badges: subtle indicators on features user hasn't explored yet, (6) Quick-start checklist: "View system health", "Check agent logs", "Review security status", "Customize settings", (7) Video-style animated GIFs or simple animations showing how features work, (8) Contextual help tooltips: hover ? icons on complex cards to see brief explanations, (9) "What's New" section highlighting recently added features (parse from changelog.json), (10) Role-based tour paths: "I'm a developer" vs "I'm a sysadmin" vs "I'm just exploring" - each shows different relevant features first, (11) Skip tour option that remembers preference, (12) Re-trigger tour from settings page or help menu. Different from TASK-034 (documentation/help page) which provides static reference documentation - this is INTERACTIVE GUIDED tour with step-by-step overlays. Different from settings.html which configures preferences - this TEACHES how to use the system. Different from existing keyboard shortcut references - this provides HANDS-ON practice. With 23+ pages, 30+ keyboard shortcuts, and a complex multi-agent architecture, onboarding is essential for new users to understand and effectively use the dashboard. First impressions matter.
+
+### TASK-087: Add API latency and performance metrics page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that tracks response times for all internal API endpoints (/api/*.json), measuring latency, availability, and performance trends to identify slow or failing data sources
+- **Notes**: Provides visibility into dashboard data pipeline health. Should: (1) Create /api-perf.html page showing API endpoint performance, (2) Track fetch latency for all /api/*.json endpoints used by dashboard pages, (3) Display latency metrics per endpoint: min, max, average, p95 response time over last hour/day, (4) Show availability percentage: successful fetches / total attempts per endpoint, (5) Visual latency chart showing response times over time (sparkline per endpoint), (6) Alert indicators for slow endpoints (>500ms average) or failing endpoints (>5% error rate), (7) Waterfall view: when loading index.html, show sequence of API calls with timing bars, (8) Size tracking: track response payload sizes to identify bloated JSON files, (9) Compare current vs historical: "costs.json is 40% slower than yesterday", (10) Automatic endpoint discovery: scan dashboard HTML files to find all fetch() calls to /api/, (11) Health score per endpoint based on latency + availability + size, (12) Export performance report as JSON for external analysis. Different from api-stats.html which tracks USAGE statistics (how often endpoints are called) - this tracks PERFORMANCE (how fast they respond). Different from health.html which shows system metrics (CPU/memory) - this shows API-LAYER metrics. Different from uptime.html which monitors external services - this monitors INTERNAL API endpoints. Different from TASK-036 (agent performance analytics) which tracks agent execution - this tracks API data source performance. Helps identify data pipeline bottlenecks: if changelog.json takes 2 seconds to load, the changelog page will feel slow. Essential for optimizing dashboard performance as JSON files grow over time.
+
 ### TASK-084: Add customizable dashboard layout page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -1090,4 +1104,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 14:11 UTC*
+*Last updated: 2026-01-20 14:31 UTC*

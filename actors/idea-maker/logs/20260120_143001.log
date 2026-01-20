@@ -1,0 +1,39 @@
+========================================
+Actor: idea-maker
+Started: Tue Jan 20 14:30:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+I reviewed the existing codebase and task board to avoid duplicates. Here's what I found and added:
+
+### Existing Features Found:
+- **23+ HTML pages** in the web app covering: health monitoring, agents, logs, security, costs, dependencies, schedule, search, settings, terminal, playbooks, postmortems, and more
+- **24+ API endpoints** in /api/ directory providing JSON data
+- **50+ tasks** in backlog covering: anomaly detection, bookmarks, snapshots, timelines, quality scoring, correlation analysis, and many more
+
+### New Ideas Added:
+
+**TASK-086: Interactive Dashboard Tour and Onboarding Page** (MEDIUM priority)
+- Creates /onboarding.html with interactive guided tour
+- Helps new users learn the 23+ page dashboard with step-by-step walkthroughs
+- Features: highlight overlays, progress tracking, role-based tour paths, "What's New" section
+- Different from static docs page (TASK-034) - this is INTERACTIVE with hands-on guidance
+
+**TASK-087: API Latency and Performance Metrics Page** (LOW priority)  
+- Creates /api-perf.html tracking response times for all /api/*.json endpoints
+- Measures latency (min/max/avg/p95), availability, and payload sizes
+- Different from api-stats.html (usage counts) - this tracks PERFORMANCE
+- Helps identify data pipeline bottlenecks as JSON files grow over time
+
+### Why These Don't Duplicate Existing Work:
+- No existing onboarding/tour system - dashboard assumes users know how to navigate
+- api-stats.html tracks *usage* counts, not *performance* metrics (latency, availability)
+- Both fill clear gaps in the 23+ page dashboard ecosystem
+
+========================================
+Completed: Tue Jan 20 14:31:24 UTC 2026
+========================================
+
+Committing changes to git...
