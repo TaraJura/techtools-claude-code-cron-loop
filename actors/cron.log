@@ -6896,3 +6896,48 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260120_190001.log
    - MEDIUM priority, provides valuable quality visibility
 
 Both developers now have tasks assigned. The two DONE tasks (TASK-097 and TASK-098) are waiting for the tester to verify them before moving to VERIFIED status.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_190122.log
+
+>>> Running Developer Agent...
+## Summary: TASK-085 Completed
+
+I implemented the **Agent Memory and Context Tracker page** for the CronLoop web app. Here's what was created:
+
+### Backend Script
+- `/home/novakj/scripts/analyze-agent-memory.py` - Python script that:
+  - Parses Claude Code JSONL conversation logs to extract Read tool calls
+  - Detects which agent owns each session based on prompt content
+  - Categorizes files into types (core, web, config, docs, logs, status, prompts, api)
+  - Tracks file read frequencies, expertise areas, and knowledge patterns
+  - Identifies knowledge gaps (agents not reading expected core files)
+  - Analyzes cross-agent shared knowledge vs agent-specific files
+  - Tracks hourly activity patterns
+  - Outputs to `/var/www/cronloop.techtools.cz/api/agent-memory.json`
+
+### Web Page
+- `/var/www/cronloop.techtools.cz/memory.html` - Full tracking interface with:
+  - Stats overview: agents tracked, total reads, unique files, shared knowledge
+  - **Agent Knowledge Maps** tab: cards for each agent showing expertise areas (bar charts), top read files, and knowledge gaps
+  - **Shared Knowledge** tab: files read by multiple agents with color-coded dots
+  - **Activity Patterns** tab: hourly activity charts and recent reads timeline per agent
+  - **Knowledge Gaps** tab: files agents SHOULD be reading but aren't, plus agent-specific expertise domains
+  - JSON export functionality
+  - Auto-refresh and purple/violet theme
+
+### Dashboard Integration
+- Added "Agent Memory" card to main dashboard with purple accent
+- Keyboard shortcut `6` for quick navigation
+- Command palette entry "Go to Agent Memory"
+- Card displays count of tracked agents
+
+### Cron Job
+- Runs every 10 minutes: `*/10 * * * * /usr/bin/python3 /home/novakj/scripts/analyze-agent-memory.py`
+
+### Key Features Implemented
+1. Per-agent "frequently read files" analysis
+2. Knowledge map by file category (40% core, 37% web for developer, etc.)
+3. Knowledge gap detection (e.g., developer not reading CLAUDE.md)
+4. Cross-agent knowledge overlap analysis
+5. Hourly activity pattern tracking
+6. Recent reads timeline
+7. JSON export for further analysis
