@@ -6129,3 +6129,61 @@ Assigned 2 tasks from the backlog to developers (load-balanced since both had 0 
    - Provides interpretability into autonomous AI decision-making
 
 Both are MEDIUM priority web app features that add significant value to the CronLoop dashboard. Task board timestamp updated.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_170126.log
+
+>>> Running Developer Agent...
+I have completed TASK-091. Here's a summary of what was implemented:
+
+## TASK-091 Implementation Summary
+
+Created `/var/www/cronloop.techtools.cz/capacity.html` - a system resource prediction page with the following features:
+
+### Features Implemented:
+
+1. **Resource Exhaustion Predictions** - Summary cards showing "days until exhaustion" for:
+   - Disk Space (threshold: 95% full)
+   - Memory (threshold: sustained 90%)
+   - Log Storage (threshold: 1GB)
+   - API Data (threshold: 50MB)
+
+2. **Growth Rate Analysis** - Uses linear regression on metrics-history.json and logs-index.json to calculate:
+   - Daily/weekly growth rates
+   - Trend direction
+   - Variance analysis
+
+3. **Visual Runway Indicators** - Color-coded status:
+   - Green (>30 days runway)
+   - Yellow (7-30 days runway)  
+   - Red (<7 days runway)
+
+4. **Capacity Timeline** - Visual timeline showing when each resource will reach critical thresholds
+
+5. **Best/Expected/Worst Case Scenarios** - Models different growth assumptions:
+   - Best case: -25% growth rate
+   - Expected: current growth rate
+   - Worst case: +50% growth rate
+
+6. **What-If Calculator** - Allows adjusting:
+   - Log retention days
+   - JSON archive threshold
+   - Shows resulting disk runway improvement
+
+7. **Actionable Recommendations** - Context-aware suggestions based on current status
+
+8. **Detailed Metrics Cards** - For each resource type showing:
+   - Current usage
+   - Growth rates
+   - Thresholds
+   - Historical data
+
+9. **Export Functionality** - Export capacity reports as:
+   - JSON (for programmatic use)
+   - Markdown (for stakeholder review)
+
+10. **Command Palette Integration** - Added shortcut '1' for quick access
+
+11. **Auto-refresh** - Updates every 5 minutes
+
+12. **Responsive Design** - Works on mobile and desktop
+
+The page is now accessible at https://cronloop.techtools.cz/capacity.html

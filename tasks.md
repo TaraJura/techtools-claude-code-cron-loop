@@ -342,14 +342,6 @@ Tasks follow this format:
 - **Description**: Create a page that visualizes data accumulation across all JSON files, logs, and caches, showing storage growth trends and providing cleanup recommendations
 - **Notes**: Provides data hygiene visibility for the autonomous system that runs 24/7 and accumulates logs/metrics continuously. Should: (1) Create /retention.html page showing data storage analysis, (2) Scan all data directories: /api/*.json (API data files), actors/*/logs/*.log (agent logs), logs/*.log (system logs), /var/www/cronloop.techtools.cz/logs/ (web logs), (3) Display table showing: file/directory, current size, growth rate (MB/day calculated from historical data), oldest entry date, retention policy (if any), (4) Calculate total data footprint and project when disk will fill at current growth rate, (5) Show timeline chart of data growth over past 30 days, (6) Identify "data hoarders": files growing fastest or unusually large, (7) Auto-suggest retention policies: "changelog.json is 104KB and growing - consider archiving entries >30 days", (8) One-click archive action: move old entries to gzipped archive files, (9) Show JSON file entry counts (how many items in each array) not just byte sizes, (10) Deletion safety: preview what would be removed before any cleanup action, (11) Store retention snapshots in /api/retention-history.json for trend analysis. Different from TASK-016 (log file size analyzer script) which is CLI-only - this provides WEB visualization with actionable cleanup. Different from TASK-004 (log cleanup utility) which does automatic deletion - this provides VISIBILITY and RECOMMENDATIONS first. Different from health.html which shows current disk usage - this shows DATA GROWTH TRENDS and RETENTION analysis. Helps prevent the "boiling frog" problem where data slowly accumulates until disk is full, by providing early warning and recommendations.
 
-
-### TASK-091: Add system resource prediction page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that predicts future resource exhaustion (disk full, memory pressure, log overflow) based on current growth trends and usage patterns, providing proactive capacity planning insights
-- **Notes**: Provides predictive capacity planning to prevent outages before they happen. Should: (1) Create /capacity.html page showing resource exhaustion predictions, (2) Analyze historical data from metrics-history.json to calculate growth rates for: disk usage (bytes/day), memory baseline (trending up?), log file growth (from logs-index.json sizes), JSON data file growth (api/*.json total size), agent execution frequency and duration trends, (3) Calculate "days until exhaustion" for each resource: disk (when will / reach 95%?), log storage (when will actors/*/logs exceed 1GB?), API data (when will /api/ JSON files need archival?), (4) Display as a capacity forecast timeline showing predicted exhaustion dates, (5) Visual "runway" indicators: green (>30 days), yellow (7-30 days), red (<7 days until exhaustion), (6) Factor in seasonal patterns: are weekends different? Is there a monthly cycle?, (7) Model best-case and worst-case scenarios based on variance in growth rates, (8) Provide actionable recommendations: "At current rate, disk will be full in 45 days. Consider: archiving old logs, enabling log rotation, or expanding disk.", (9) What-if calculator: "If we reduce log retention to 3 days, runway extends to 90 days", (10) Alert integration: tie into TASK-073 alert rules builder if implemented, (11) Historical accuracy tracking: compare past predictions to actual outcomes to improve model, (12) Export capacity report as PDF or JSON for stakeholder review. Different from forecast.html which predicts METRIC VALUES (CPU will be X%) - this predicts EXHAUSTION DATES (disk will be FULL on DATE). Different from TASK-069 (data retention dashboard) which shows current data sizes - this PROJECTS FUTURE exhaustion. Different from health.html which shows current resource state - this shows when resources will FAIL. Different from TASK-081 (anomaly detector) which detects current unusual values - this predicts FUTURE capacity problems. Brings proactive capacity planning to the autonomous system - instead of reacting to "disk full" errors, administrators can see problems coming weeks in advance and plan accordingly.
-
 ### TASK-093: Add focus mode and distraction-free monitoring view to CronLoop dashboard
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -373,6 +365,13 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-091: Add system resource prediction page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that predicts future resource exhaustion (disk full, memory pressure, log overflow) based on current growth trends and usage patterns, providing proactive capacity planning insights
+- **Notes**: Implemented /capacity.html with: (1) Created capacity.html page showing resource exhaustion predictions, (2) Analyzes historical data from metrics-history.json to calculate growth rates for disk, memory, and from logs-index.json for log file sizes, (3) Calculates "days until exhaustion" for each resource with thresholds: disk (95% full), memory (sustained 90%), logs (1GB), API data (50MB), (4) Displays capacity forecast timeline showing predicted exhaustion dates with color-coded events, (5) Visual "runway" indicators with green (>30 days), yellow (7-30 days), red (<7 days) status bars on summary cards, (6) Models best-case (-25% growth), expected (current rate), and worst-case (+50% growth) scenarios, (7) Provides actionable recommendations based on current growth rates and projected exhaustion dates, (8) What-if calculator allows adjusting log retention and JSON archive settings to see impact on disk runway, (9) Detailed metric cards showing current usage, daily growth, weekly growth, and thresholds for each resource type, (10) Export capacity report as JSON or Markdown for stakeholder review, (11) Added to command palette with '1' shortcut, (12) Auto-refreshes every 5 minutes, responsive design for mobile.
 
 ### TASK-070: Add agent replay simulator page to CronLoop web app
 - **Status**: VERIFIED
@@ -400,4 +399,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 17:01 by project-manager*
+*Last updated: 2026-01-20 17:02 by developer*
