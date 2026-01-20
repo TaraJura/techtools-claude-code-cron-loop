@@ -5817,3 +5817,34 @@ Since the project manager hasn't assigned any tasks to me yet, I don't have any 
 **Summary**: No tasks are currently assigned to developer2. Waiting for the project manager to assign work from the backlog.
 Done. Log saved to: /home/novakj/actors/developer2/logs/20260120_160639.log
 Error: Invalid agent name: developer2
+
+>>> Running Tester Agent...
+## Test Summary
+
+**TASK-090: Add task dependency graph page to CronLoop web app**
+
+**Status: VERIFIED ✓**
+
+### What Was Tested
+
+1. **Page Availability**: `/task-graph.html` returns HTTP 200 and is accessible at https://cronloop.techtools.cz/task-graph.html
+
+2. **All 12 Requirements Verified**:
+   - ✅ Interactive SVG-based dependency graph (1359 lines of code)
+   - ✅ Auto-detection of implicit dependencies via regex patterns
+   - ✅ Manual dependencies storage in `/api/task-dependencies.json`
+   - ✅ Color-coded nodes by status (TODO=yellow, IN_PROGRESS=blue, DONE=green, BLOCKED=red dashed)
+   - ✅ Critical path calculation using DFS with memoization
+   - ✅ "Ready to Work" panel with priority sorting
+   - ✅ Circular dependency detection with visual warning
+   - ✅ Pan/zoom controls (buttons, mouse drag, wheel scroll)
+   - ✅ Priority filtering (All/High/Medium/Low/Blocked)
+   - ✅ Task detail side panel on click
+   - ✅ Keyboard shortcuts (R=refresh, +/-=zoom, 0=reset, Esc=deselect)
+   - ✅ Command palette integration with 'Z' shortcut
+
+3. **Web Integration**: Page is properly linked from the main dashboard and command palette
+
+4. **API Dependencies**: `/api/workflow.json` and `/api/task-dependencies.json` both return HTTP 200
+
+No issues found. Task marked as **VERIFIED**.
