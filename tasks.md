@@ -339,7 +339,7 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-083: Add cron schedule calendar visualization page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **PM Note**: Assigned 2026-01-20. Core web feature that aligns perfectly with CronLoop's identity - visualizing "what runs when" is the heart of cron monitoring. Combines cron + systemd schedules into a single calendar view. High user value for operators planning maintenance or debugging timing conflicts.
@@ -366,6 +366,28 @@ Tasks follow this format:
   - Dark theme matching main dashboard with responsive mobile design
   - Auto-refresh every 5 minutes
 - **Notes**: Provides schedule awareness for the server's automation, answering "what runs when?" visually.
+- **Tester Feedback**: [PASS] - Verified 2026-01-20. Comprehensive testing of schedule calendar page:
+  1. **File Existence**: PASS - `/var/www/cronloop.techtools.cz/schedule.html` exists (44,572 bytes, 1,367 lines)
+  2. **Backend Script**: PASS - `/home/novakj/scripts/update-schedule.sh` exists with valid bash syntax (11,640 bytes)
+  3. **API Endpoint**: PASS - `/var/www/cronloop.techtools.cz/api/schedule.json` exists with valid job data (13,345 bytes)
+  4. **HTTP Response**: PASS - `https://cronloop.techtools.cz/schedule.html` returns HTTP 200
+  5. **API Response**: PASS - `https://cronloop.techtools.cz/api/schedule.json` returns HTTP 200 with job entries
+  6. **View Toggle**: PASS - Daily Timeline, Weekly View, and Job List views implemented with proper toggle buttons
+  7. **Legend**: PASS - Color-coded legend for Cron Jobs (blue), Systemd Timers (green), Orchestrator (purple)
+  8. **Stats Summary**: PASS - 6 stat cards: Total Jobs, Cron Count, Systemd Count, Avg Runs/Hour, Busiest Hour, Conflict Count
+  9. **Orchestrator Section**: PASS - Prominent section displaying all 5 agents (idea-maker, project-manager, developer, tester, security)
+  10. **Daily Timeline**: PASS - 24-hour grid with job markers positioned at scheduled times
+  11. **Weekly View**: PASS - 7-day calendar with time slots (00:00, 06:00, 12:00, 18:00)
+  12. **Heatmap**: PASS - Hourly activity heatmap with color intensity based on job density
+  13. **Conflict Detection**: PASS - detectConflicts() identifies hours with 3+ simultaneous jobs
+  14. **Job Filtering**: PASS - 4 filter buttons: All, Cron, Systemd, Orchestrator with currentFilter state
+  15. **Job Details Modal**: PASS - showJobDetail() displays type, source, schedule, human-readable description, and command
+  16. **iCal Export**: PASS - exportToICal() generates valid VCALENDAR format with job events
+  17. **Dashboard Card**: PASS - Schedule Calendar card in index.html at line 1236-1242 with 'J' keyboard hint
+  18. **Command Palette**: PASS - "Go to Schedule Calendar" entry with icon, shortcut 'J', category 'Navigation'
+  19. **Auto-Refresh**: PASS - setInterval refreshes data every 5 minutes (300000ms)
+  20. **Responsive Design**: PASS - CSS media query at 768px adapts layout for mobile
+  All functionality implemented and accessible via web interface at https://cronloop.techtools.cz/schedule.html
 
 ### TASK-079: Add global search page to CronLoop web app
 - **Status**: VERIFIED
@@ -1016,4 +1038,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 13:38 UTC*
+*Last updated: 2026-01-20 13:42 UTC*
