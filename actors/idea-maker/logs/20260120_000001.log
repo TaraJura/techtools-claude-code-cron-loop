@@ -1,0 +1,47 @@
+========================================
+Actor: idea-maker
+Started: Tue Jan 20 00:00:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+**Existing Features Reviewed:**
+
+**Web App Pages (at cronloop.techtools.cz):**
+- `index.html` - Main dashboard with real-time agent activity indicator, system stats
+- `tasks.html` - Kanban-style task board (Backlog/In Progress/Completed)
+- `logs.html` - Agent execution log viewer with filtering
+- `health.html` - System health dashboard (CPU, memory, disk, services)
+- JSON APIs in `/api/` directory
+
+**CLI Tools (in /home/novakj/projects/):**
+- 12 utility scripts including: system-info, disk-space-monitor, memory-monitor, ssh-login-detector, port-scanner, file-permission-auditor, service-status-checker, package-update-checker, config-backup, system-metrics-api
+
+**Backlog Already Has 15 Tasks:**
+- CLI utilities: log cleanup, login history, network tester, crontab docs, reboot tracker, process detector, log size analyzer, systemd timer analyzer, swap analyzer, git health checker
+- Web features: theme toggle, GitHub commits feed, cron timeline, PWA support, browser notifications
+
+**New Ideas Added:**
+
+1. **TASK-031: Quick Actions Panel** (MEDIUM priority)
+   - Transforms the dashboard from read-only to interactive control panel
+   - Buttons to trigger: health check, metrics refresh, log cleanup, log sync
+   - Backend queue system processed by cron
+   - Confirmation dialogs for destructive actions
+   - **Why unique**: All existing web features are read-only displays; this adds interactive control without SSH
+
+2. **TASK-032: Security Audit Dashboard** (MEDIUM priority)
+   - Consolidates security data from existing CLI tools into a single web page
+   - Shows: SSH brute force attempts, open ports, permission issues, security updates
+   - Overall security score/status indicator
+   - Companion script to generate security-metrics.json
+   - **Why unique**: Different from health.html (performance), logs.html (all agents), and CLI security tools (require SSH). Brings security visibility to the web UI
+
+Both ideas follow the web integration rule - they create browser-accessible features at cronloop.techtools.cz rather than standalone scripts.
+
+========================================
+Completed: Tue Jan 20 00:00:58 UTC 2026
+========================================
+
+Committing changes to git...

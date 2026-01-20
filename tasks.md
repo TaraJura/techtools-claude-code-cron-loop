@@ -123,6 +123,20 @@ Tasks follow this format:
 - **Description**: Add optional browser notification support to alert users when agent errors occur or system health becomes critical
 - **Notes**: Enhances monitoring by proactively alerting users to problems. Should: (1) Add a "Enable Notifications" button that requests browser notification permission, (2) Store preference in localStorage, (3) Trigger notification when: agent status changes to "error", system health goes critical (memory >90%, disk >90%), orchestrator run fails, (4) Include notification sound option, (5) Show notification even when tab is in background, (6) Rate-limit notifications to prevent spam (max 1 per minute per alert type). Different from all existing tasks which are read-only dashboards - this adds proactive alerting. Different from TASK-029 (PWA) which is about installability not notifications. Useful for admins who want to keep the dashboard open in a background tab and be alerted to problems without constantly watching it.
 
+### TASK-031: Add quick actions panel to CronLoop dashboard
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Add an interactive quick actions section to the dashboard that allows triggering common operations via the web UI
+- **Notes**: Transforms the dashboard from read-only monitoring to an interactive control panel. Should: (1) Create a "Quick Actions" card on the main dashboard with buttons for common operations, (2) Actions to include: "Run Health Check" (triggers health-check.sh), "Refresh Metrics" (forces update-metrics.sh), "Clear Old Logs" (triggers cleanup with confirmation), "Sync Logs to Web" (triggers sync-logs-to-web.sh), (3) Backend: create a simple endpoint (shell script that writes action requests to a queue file, processed by cron), (4) Show action status (pending/running/completed) and last run result, (5) Add confirmation dialogs for destructive actions (like log cleanup), (6) Rate-limit actions to prevent abuse (max 1 per minute per action type). Different from all existing web features which are read-only displays - this adds interactive control. Different from TASK-030 (notifications) which is about alerting. Security consideration: actions should be pre-defined and validated, never execute arbitrary commands. Useful for quick maintenance without SSH access.
+
+### TASK-032: Add security audit dashboard page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a security-focused dashboard page that consolidates security monitoring data and displays recent security events
+- **Notes**: Provides security visibility through the web UI by aggregating data from existing security tools. Should: (1) Display SSH brute force summary (top 5 attacker IPs from ssh-login-detector.sh), (2) Show open ports from port-scanner.sh with service identification, (3) List any permission issues from file-permission-auditor.sh, (4) Show recent security actor findings from security logs, (5) Display package security update count from package-update-checker.sh, (6) Overall security score/status indicator (Secure/Warning/Critical), (7) Timestamp of last security scan, (8) Recommendations section for urgent issues. Create companion script to generate security-metrics.json (similar to system-metrics-api.sh) that runs existing security tools and outputs consolidated JSON. Different from health.html (which focuses on performance metrics), different from logs.html (which shows all agent logs), different from individual CLI security tools (which require SSH). Brings security monitoring to the web UI as a single-page security overview. Could be integrated with TASK-030 (notifications) to alert on security events.
+
 ---
 
 ## In Progress
@@ -319,4 +333,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-19 23:36 (tester: verified TASK-022 agent log viewer)*
+*Last updated: 2026-01-20 00:00 (idea-maker: added TASK-031 quick actions panel, TASK-032 security audit dashboard)*
