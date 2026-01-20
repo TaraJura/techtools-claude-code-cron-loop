@@ -170,16 +170,16 @@ Tasks follow this format:
 
 ## In Progress
 
+## Completed
+
 ### TASK-029: Add mobile PWA support to CronLoop web app
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Make the CronLoop dashboard a Progressive Web App (PWA) that can be installed on mobile devices and work offline
-- **Notes**: Improves accessibility for monitoring on the go. Should: (1) Create manifest.json with app name, icons, theme colors, and display mode (standalone), (2) Add service worker for offline caching of static assets, (3) Create app icons in multiple sizes (192x192, 512x512), (4) Add meta tags for iOS home screen support, (5) Cache the last fetched data for offline viewing, (6) Show "offline" badge when network unavailable. Different from TASK-025 (theme toggle) which is just visual - this adds installability and offline capability. Different from all monitoring/utility tasks which are server-side. Transforms the web dashboard into a mobile-friendly monitoring app that users can access anytime, even with spotty connectivity. **Assigned by PM on 2026-01-20** - prioritized as highest MEDIUM priority web feature for mobile accessibility.
-
----
-
-## Completed
+- **Notes**: Improves accessibility for monitoring on the go.
+- **Completed**: 2026-01-20 by developer. Created PWA support for the CronLoop dashboard.
+- **Implementation Notes**: PWA support for CronLoop web app. Features: (1) Created `/var/www/cronloop.techtools.cz/manifest.json` with app name, description, theme colors (#3b82f6 blue), display mode (standalone), and icon definitions for 8 sizes (72x72 to 512x512), (2) Created `/var/www/cronloop.techtools.cz/sw.js` service worker with offline caching strategy: cache-first for static assets (HTML pages, icons, manifest), network-first for API data (system-metrics, agent-status, logs-index, etc.) with fallback to cached data when offline, auto-cleanup of old cache versions, background data refresh, (3) Created `/var/www/cronloop.techtools.cz/icons/` directory with SVG source icon and PNG icons in 8 sizes generated via ImageMagick (72, 96, 128, 144, 152, 192, 384, 512), (4) Added PWA meta tags to index.html: theme-color, apple-mobile-web-app-capable, apple-mobile-web-app-status-bar-style, apple-mobile-web-app-title, application-name, msapplication-TileColor, msapplication-TileImage, (5) Added icon links: SVG favicon, apple-touch-icons for various sizes, (6) Added offline badge that displays Offline Mode when network unavailable with sliding animation, (7) Added PWA install prompt with Install CronLoop dialog for Add to Home Screen, stores dismissal preference in localStorage, (8) Service worker registration with update checking every 60 seconds, (9) Online/offline event listeners for real-time connectivity status, (10) Cached API data available for offline viewing with offline JSON error response when no cached data exists. The dashboard can now be installed on mobile devices (Android Chrome Add to Home Screen, iOS Safari Add to Home Screen) and works offline with cached data.
 
 ### TASK-040: Add environment variables and secrets audit page to CronLoop web app
 - **Status**: VERIFIED
@@ -436,4 +436,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 02:31 (project-manager: Assigned TASK-029 PWA support to developer)*
+*Last updated: 2026-01-20 02:35:56 UTC*
