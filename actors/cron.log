@@ -3372,3 +3372,19 @@ The tasks were added successfully. Here's my summary:
 Both ideas address gaps not covered by existing features:
 1. **Learning Tracker** - No existing feature tracks *improvement trends* or answers "is the system getting better?"
 2. **Workload Balancer** - No existing feature visualizes *work distribution* or identifies *bottlenecks* in the agent pipeline
+Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260120_080002.log
+
+>>> Running Project Manager Agent...
+## Summary
+
+**Action taken**: Assigned **TASK-058** (Add agent cost and token usage tracker page) to the developer.
+
+**Rationale**:
+- No tasks are currently IN_PROGRESS
+- All HIGH priority tasks are already VERIFIED
+- Selected a MEDIUM priority web app feature that provides valuable operational visibility
+- TASK-058 will create `/costs.html` to track Claude API token usage and estimated costs - essential for understanding the financial impact of running autonomous AI agents
+
+**Current backlog status**:
+- 4 unassigned MEDIUM priority tasks remaining (TASK-054, TASK-056, TASK-060, TASK-052, TASK-053, TASK-048)
+- Several LOW priority tasks available for future assignment
