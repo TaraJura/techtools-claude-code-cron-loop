@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-072: Add agent communication timeline page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that visualizes the sequence of tool calls and file operations each agent makes during a run as an interactive timeline diagram
+- **Notes**: Provides execution-level visibility into what agents actually DO during their runs. Should: (1) Create /timeline.html page showing agent execution as a visual timeline, (2) Parse agent logs to extract tool calls (Read, Edit, Write, Bash, Grep, Glob) with timestamps and arguments, (3) Display as a horizontal or vertical timeline with nodes for each operation, (4) Color-code by tool type: blue for Read, green for Edit/Write, orange for Bash, purple for Grep/Glob, (5) Show file paths as hoverable tooltips on timeline nodes, (6) Click node to expand details: full arguments, result snippet, duration, (7) Filter by tool type (show only Bash commands, only file operations, etc.), (8) Filter by agent and date range, (9) Show parallel operations when agents run concurrently (if orchestrator runs multiple agents), (10) Aggregate statistics: total tool calls, most-read files, most-edited files, avg operation time, (11) Detect patterns like "read-edit-read-edit" cycles that indicate iterative debugging, (12) Export timeline as JSON or SVG for documentation. Different from TASK-038 (conversation viewer) which shows Claude's thinking/text - this shows TOOL OPERATIONS as a timeline. Different from TASK-070 (replay simulator) which plays back step-by-step - this shows the FULL timeline at once as a visualization. Different from TASK-028 (cron execution timeline) which shows orchestrator runs - this shows TOOL-LEVEL operations within a single run. Different from architecture.html which shows static agent relationships - this shows DYNAMIC execution patterns. Helps answer "what files did the developer touch?" and "how much time was spent reading vs writing?" by visualizing the execution trace.
+
+### TASK-073: Add system alert rules builder page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that allows users to define custom alert rules using a visual builder (e.g., "if disk > 85% AND memory > 80% for 5 minutes, show critical alert")
+- **Notes**: Enables proactive monitoring customization without editing code or configs. Should: (1) Create /alerts.html page with alert rules builder interface, (2) Visual rule builder with dropdowns: metric (disk, memory, CPU, SSH attempts, agent errors), operator (>, <, =, !=), threshold value, duration (immediate, 5min, 15min, 1hr), (3) Support AND/OR conditions for compound rules (e.g., disk high AND memory high), (4) Alert severity levels: info (blue), warning (yellow), critical (red), (5) Alert actions: show banner on dashboard, play sound, add to activity feed, trigger webhook (if TASK-056 implemented), (6) Store rules in /api/alert-rules.json with enabled/disabled toggle per rule, (7) Rule evaluation runs every minute via cron (or piggyback on existing metric updates), (8) Alert history log showing when each rule triggered with timestamp and resolved timestamp, (9) Built-in rule templates: "Low disk space", "High memory pressure", "Agent failures", "SSH brute force spike", "Cost threshold exceeded", (10) Test rule button: simulate the rule against current metrics to preview if it would trigger, (11) Snooze/acknowledge feature: temporarily disable alerts for a rule that's known/being worked on, (12) Dashboard widget showing active alerts count with severity. Different from TASK-030 (browser notifications) which is a fixed notification system - this allows CUSTOM rule definitions. Different from TASK-056 (webhooks) which is about notification delivery - this is about RULE CREATION. Different from health.html which shows current state - this EVALUATES conditions and maintains alert state. Different from error-patterns.html which analyzes historical errors - this provides REAL-TIME alerting based on user-defined rules. Different from forecast.html which predicts future issues - this alerts on CURRENT threshold breaches. Enables users to tailor monitoring to their specific needs rather than relying on hardcoded thresholds.
+
 ### TASK-066: Add system state time machine page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -764,4 +778,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 10:35 UTC*
+*Last updated: 2026-01-20 11:00 UTC*

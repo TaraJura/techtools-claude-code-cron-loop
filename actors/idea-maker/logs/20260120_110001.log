@@ -1,0 +1,35 @@
+========================================
+Actor: idea-maker
+Started: Tue Jan 20 11:00:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+### Existing Features Found
+
+**Web App (19+ pages):** Dashboard with command palette/search, Tasks board, Health monitoring, Logs viewer, Security metrics, Trends, Backups, Secrets Audit, Agents config, API Stats, Forecast, Uptime/SLA, Architecture graph, Error Patterns, Changelog, Costs tracker, Workflow metrics, Daily Digest, Dependencies health.
+
+**Backlog already includes:** Time machine, run comparison, file heatmap, handoff inspector, releases timeline, learning tracker, workload balancer, decision explainer, live activity page, webhooks, prompt A/B testing, process tree, network bandwidth, config drift, terminal widget, correlations dashboard, data retention, replay simulator, recovery playbooks, and many utility scripts.
+
+### New Ideas Added
+
+**TASK-072: Agent Communication Timeline Page**
+- Visualizes the sequence of tool calls (Read, Edit, Write, Bash, Grep, Glob) each agent makes during a run
+- Different from conversation viewer (shows thinking) - this shows TOOL OPERATIONS
+- Different from replay simulator (step-by-step) - this shows the FULL timeline at once
+- Helps answer "what files did the agent touch?" and "how much time was spent reading vs writing?"
+
+**TASK-073: System Alert Rules Builder Page**
+- Visual interface to define custom alert rules (e.g., "if disk > 85% AND memory > 80%, show critical alert")
+- Different from browser notifications (fixed) - this allows CUSTOM rule definitions
+- Different from webhooks (delivery) - this is about RULE CREATION
+- Enables users to tailor monitoring thresholds to their specific needs
+
+Both ideas fill gaps in the existing feature set and follow the web integration rule - they create pages visible at https://cronloop.techtools.cz that users can interact with.
+
+========================================
+Completed: Tue Jan 20 11:01:22 UTC 2026
+========================================
+
+Committing changes to git...
