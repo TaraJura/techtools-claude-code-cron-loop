@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-062: Add agent handoff inspector page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that visualizes how agents communicate and hand off work through tasks.md, showing the data flow between agents as tasks move through the pipeline
+- **Notes**: Provides visibility into inter-agent communication patterns in the multi-agent system. Should: (1) Create /handoffs.html page showing agent-to-agent data flow, (2) Parse tasks.md history (via git) to track when each agent modified a task and what they added, (3) Visualize the handoff chain per task: idea-maker creates → PM assigns → developer implements → tester reviews → security checks, (4) Show timeline view of a task's journey through the pipeline with timestamps at each handoff, (5) Track "handoff delay": time between one agent completing and next agent picking up, (6) Identify failed handoffs: tasks where next agent couldn't proceed (e.g., incomplete spec from PM), (7) Show most common handoff patterns and any unusual deviations, (8) Display data passed at each handoff: what did PM add? What did developer add?, (9) Highlight "handoff friction points": where do tasks often get stuck waiting?, (10) Statistics: average handoffs per task, total handoffs per day, handoff success rate, (11) Click on any handoff to see the exact task state before/after that agent touched it. Different from TASK-047 (architecture graph) which shows static dependencies - this shows ACTUAL data flow through tasks.md. Different from TASK-048 (workflow metrics) which tracks time in each status - this specifically tracks AGENT-TO-AGENT communication. Different from changelog.html which shows git commits - this extracts TASK MODIFICATIONS specifically. Different from TASK-061 (workload balancer) which shows queue depth - this shows how agents COMMUNICATE. Helps understand coordination effectiveness and identify where information gets lost or delayed between agents.
+
+### TASK-063: Add deployment/release timeline page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that tracks deployment history, git tags/releases, and provides a timeline of what features shipped when
+- **Notes**: Provides release management visibility for the autonomous development system. Should: (1) Create /releases.html page showing deployment and release timeline, (2) Parse git tags to identify release versions with their dates and commit counts since previous release, (3) Associate completed tasks with releases: which TASK-XXX shipped in which release?, (4) Show feature grouping per release: categorize as web features, scripts, config changes, security fixes, (5) Display time between releases and release velocity trend (accelerating/decelerating?), (6) Show "unreleased" section: what's completed since last tag/release?, (7) Generate release notes automatically by extracting task titles and descriptions for completed items, (8) Track breaking changes: flag any tasks that modified core files (orchestrator, CLAUDE.md), (9) Show commit activity heatmap: visualize development intensity over time (by day/week), (10) One-click release note export as markdown for GitHub releases, (11) Diff view between any two releases showing all files changed. Different from TASK-046 (changelog/audit) which shows all commits - this focuses on RELEASES and SHIPPING. Different from TASK-026 (GitHub commit feed) which shows recent commits - this tracks RELEASES over time. Different from tasks.html which shows task status - this shows what SHIPPED and when. Helps answer "what's in production?" and "when did feature X ship?" - essential for tracking the autonomous system's actual output and communicating progress to stakeholders.
+
 ### TASK-060: Add agent learning/improvement tracker page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
