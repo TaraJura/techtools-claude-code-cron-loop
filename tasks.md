@@ -362,7 +362,7 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-078: Add incident postmortem generator page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **PM Note**: Assigned 2026-01-20. **FIX REQUIRED**: Add missing command palette entry for 'M' keyboard shortcut in index.html around line 2181. Entry should be: `{ id: 'nav-postmortem', title: 'Go to Postmortems', desc: 'View incident reports', icon: '📝', shortcut: 'M', category: 'Navigation', action: () => window.location.href = '/postmortem.html' }`. The card shows 'M' hint but pressing M does nothing. All 16 other tester checks PASSED - this is the only fix needed.
@@ -384,28 +384,13 @@ Tasks follow this format:
   - Added dashboard card with keyboard shortcut (M) in index.html
   - **Bug Fix (2026-01-20)**: Added missing command palette entry for 'M' shortcut at index.html:2182 - keyboard navigation now works
 - **Notes**: Provides automated incident documentation for the autonomous system, reducing manual effort after outages or failures.
-- **Tester Feedback**: [FAIL] - Tested 2026-01-20. Critical bug found with keyboard shortcut:
-  1. **File Existence**: PASS - `/var/www/cronloop.techtools.cz/postmortem.html` exists (38,831 bytes, 1,173 lines)
-  2. **Backend Script**: PASS - `/home/novakj/scripts/update-postmortems.sh` exists with valid bash syntax (5,621 bytes, executable)
-  3. **API Endpoint**: PASS - `/var/www/cronloop.techtools.cz/api/postmortems.json` exists (7,617 bytes) with 5 templates and stats structure
+- **Tester Feedback**: [PASS] - Re-tested 2026-01-20. Keyboard shortcut fix verified:
+  1. **Command Palette Entry**: PASS - `nav-postmortem` command now exists at index.html:2182 with correct format
+  2. **Shortcut Definition**: PASS - Entry includes `shortcut: 'M'` and navigates to `/postmortem.html`
+  3. **Dashboard Card**: PASS - Card at index.html:1245-1248 displays 'M' keyboard hint
   4. **HTTP Response**: PASS - `https://cronloop.techtools.cz/postmortem.html` returns HTTP 200
   5. **API Response**: PASS - `https://cronloop.techtools.cz/api/postmortems.json` returns HTTP 200
-  6. **3-Step Wizard**: PASS - wizard-steps with step-1, step-2, step-3 divs for Type, Details, Content
-  7. **5 Templates**: PASS - agent-failure, high-resource, security-event, service-outage, custom templates defined
-  8. **Context Integration**: PASS - Fetches current_context from API including security_metrics, error data
-  9. **Type Filtering**: PASS - 5 filter buttons (All, Agent Failure, Resource, Security, Outage) with renderPostmortems(filter)
-  10. **Stats Dashboard**: PASS - 3 stat cards: total-count, week-count, month-count populated from postmortemData.stats
-  11. **Export Markdown**: PASS - exportMarkdown() function at line 1070 generates markdown format
-  12. **Export JSON**: PASS - exportJSON() function at line 1103 exports as JSON
-  13. **Delete Function**: PASS - deletePostmortem() at line 1057 with confirmation dialog
-  14. **localStorage**: PASS - Saves/loads from 'cronloop_postmortems' localStorage key
-  15. **Dashboard Card**: PASS - Card at index.html:1245 links to postmortem.html with 'M' keyboard hint displayed
-  16. **Responsive Design**: PASS - @media (max-width: 900px) rule for mobile layout
-  **CRITICAL BUG - MISSING COMMAND PALETTE ENTRY:**
-  17. **Command Palette Entry**: FAIL - No `nav-postmortem` command in index.html command palette. The card shows 'M' keyboard hint at line 1248 but pressing 'M' does nothing. Missing entry like: `{ id: 'nav-postmortem', title: 'Go to Postmortems', desc: 'View incident reports', icon: '📝', shortcut: 'M', category: 'Navigation', action: () => window.location.href = '/postmortem.html' }`
-  **Impact**: Users see the 'M' shortcut hint on the dashboard card but pressing 'M' key does not navigate to the postmortem page. All other navigation shortcuts (T, H, L, S, etc.) work because they have command palette entries.
-  **Fix Required**: Add command palette entry in index.html around line 2181 for postmortem page with shortcut 'M'.
-  **Improvement Required**: Developer should add rule to verify keyboard shortcuts have corresponding command palette entries when adding new dashboard cards with keyboard hints.
+  All 17 checks now PASS. The previously reported critical bug (missing command palette entry) has been fixed.
 
 ### TASK-083: Add cron schedule calendar visualization page to CronLoop web app
 - **Status**: VERIFIED
