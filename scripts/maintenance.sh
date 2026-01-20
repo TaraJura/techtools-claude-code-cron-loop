@@ -90,10 +90,13 @@ if [ "$(date +%u)" -eq 7 ] && [ "$(date +%H)" -eq 3 ]; then
     git gc --auto 2>/dev/null || true
 fi
 
-# 8. Archive completed tasks if >50
-COMPLETED_COUNT=$(grep -c "^### TASK-.*VERIFIED\|^### TASK-.*DONE" "$HOME_DIR/tasks.md" 2>/dev/null || echo 0)
-if [ "$COMPLETED_COUNT" -gt 50 ]; then
-    log "WARNING: $COMPLETED_COUNT completed tasks. Consider archiving to tasks-archive.md"
+# 8. Archive VERIFIED tasks if tasks.md is too large (>100KB)
+TASKS_SIZE=$(stat -c%s "$HOME_DIR/tasks.md" 2>/dev/null || stat -f%z "$HOME_DIR/tasks.md" 2>/dev/null || echo 0)
+if [ "$TASKS_SIZE" -gt 102400 ]; then
+    log "tasks.md is $(echo "scale=0; $TASKS_SIZE/1024" | bc)KB - running archive..."
+    if [ -x "$HOME_DIR/scripts/archive-tasks.sh" ]; then
+        "$HOME_DIR/scripts/archive-tasks.sh" 2>&1 | while read line; do log "$line"; done
+    fi
 fi
 
 # 9. Check backlog size

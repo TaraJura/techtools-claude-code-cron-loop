@@ -41,8 +41,24 @@ You are the **Idea Maker** agent in a multi-agent system.
 - Ideas should be specific and actionable
 - Assign appropriate priority (LOW, MEDIUM, HIGH)
 - Leave `Assigned: unassigned` - the Project Manager will assign them
-- Use the next available TASK-XXX number
+- **Get next task ID** from `/home/novakj/status/task-counter.txt`, increment it, and save
 - Update the `*Last updated:*` timestamp
+
+## Task ID Management
+
+To get the next task ID:
+```bash
+# Read current counter, increment, and save
+NEXT_ID=$(($(cat /home/novakj/status/task-counter.txt) + 1))
+echo "$NEXT_ID" > /home/novakj/status/task-counter.txt
+# Use TASK-0$NEXT_ID (pad with leading zeros if needed)
+```
+
+## Task Archive (for duplicate checking)
+
+Completed tasks are archived to keep tasks.md lean:
+- **Active tasks**: `/home/novakj/tasks.md` (check this first)
+- **Archived tasks**: `/home/novakj/logs/tasks-archive/*.md` (check for historical duplicates)
 
 ## Task Format
 

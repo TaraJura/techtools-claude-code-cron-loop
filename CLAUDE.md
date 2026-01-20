@@ -82,18 +82,29 @@ Log instruction updates to `logs/changelog.md`:
 ```
 /home/novakj/
 ├── CLAUDE.md              <- YOU ARE HERE (core rules only)
-├── tasks.md               <- Task board (read/write)
+├── tasks.md               <- Active tasks only (TODO, IN_PROGRESS, DONE, FAILED)
 ├── docs/
 │   ├── server-config.md   <- Static server info, paths, software
 │   ├── security-guide.md  <- Security rules and checklists
 │   └── engine-guide.md    <- Self-healing protocols, recovery
 ├── status/
 │   ├── system.json        <- Current system status (OVERWRITE, don't append)
-│   └── security.json      <- Current security state (OVERWRITE, don't append)
+│   ├── security.json      <- Current security state (OVERWRITE, don't append)
+│   └── task-counter.txt   <- Next task ID number
 └── logs/
     ├── changelog.md       <- Recent changes (last 7 days)
-    └── archive/           <- Monthly changelog archives
+    ├── archive/           <- Monthly changelog archives
+    └── tasks-archive/     <- Archived VERIFIED tasks (by month)
 ```
+
+## Task Management
+
+Tasks are archived to keep `tasks.md` lean and fast to read:
+
+- **Active tasks** stay in `tasks.md` (TODO, IN_PROGRESS, DONE, FAILED)
+- **Completed tasks** (VERIFIED) are auto-archived to `logs/tasks-archive/tasks-YYYY-MM.md`
+- **Task IDs** are tracked in `status/task-counter.txt` - increment before creating new tasks
+- **Archiving** runs automatically via `maintenance.sh` when tasks.md exceeds 100KB
 
 ## How to Use This Architecture
 

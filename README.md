@@ -243,7 +243,8 @@ Each agent has a dedicated prompt file at `actors/<agent>/prompt.md` defining it
 │
 ├── status/                # Current state (overwritten each cycle)
 │   ├── system.json        # System health status
-│   └── security.json      # Security review findings
+│   ├── security.json      # Security review findings
+│   └── task-counter.txt   # Next task ID number
 │
 ├── logs/                  # Execution logs
 │   ├── changelog.md       # Recent changes
@@ -311,15 +312,29 @@ Each agent has a dedicated prompt file at `actors/<agent>/prompt.md` defining it
 ┌──────────┐    ┌──────────┐    ┌─────────────┐    ┌──────────────┐    ┌──────────┐
 │   TODO   │───▶│IN_PROGRESS│───▶│    DONE     │───▶│   VERIFIED   │───▶│ ARCHIVED │
 │          │    │           │    │             │    │              │    │          │
-│ PM sets  │    │ Developer │    │ Developer   │    │ Tester       │    │ Cleanup  │
-│          │    │ starts    │    │ completes   │    │ approves     │    │          │
+│ PM sets  │    │ Developer │    │ Developer   │    │ Tester       │    │ Auto     │
+│          │    │ starts    │    │ completes   │    │ approves     │    │ archive  │
 └──────────┘    └──────────┘    └─────────────┘    └──────────────┘    └──────────┘
-                                       │
-                                       ▼ (if issues)
-                                ┌──────────┐
-                                │  FAILED  │ ──▶ Back to IN_PROGRESS
-                                └──────────┘
+                                       │                                     │
+                                       ▼ (if issues)                         │
+                                ┌──────────┐                                 │
+                                │  FAILED  │ ──▶ Back to IN_PROGRESS         │
+                                └──────────┘                                 │
+                                                                             ▼
+                                                              logs/tasks-archive/tasks-YYYY-MM.md
 ```
+
+### Task File Management
+
+To prevent unlimited growth, tasks are automatically archived:
+
+| File | Contents | Size Target |
+|------|----------|-------------|
+| `tasks.md` | Active tasks (TODO, IN_PROGRESS, DONE, FAILED) | <100KB |
+| `logs/tasks-archive/tasks-YYYY-MM.md` | Completed VERIFIED tasks | Monthly archives |
+| `status/task-counter.txt` | Next task ID number | Single number |
+
+**Archiving**: Runs automatically via `maintenance.sh` when `tasks.md` exceeds 100KB.
 
 ## Server Specifications
 

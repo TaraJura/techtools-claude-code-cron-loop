@@ -1,0 +1,38 @@
+========================================
+Actor: idea-maker
+Started: Tue Jan 20 16:00:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+No timestamp field exists. The task additions are complete.
+
+## Summary
+
+**Existing features reviewed:**
+- 27 existing HTML pages covering: dashboard, agents, API stats, architecture, backups, budget, changelog, costs, dependencies, digest, error patterns, forecast, health, logs, onboarding, playbooks, postmortem, schedule, search, secrets audit, security, settings, tasks, terminal, trends, uptime, workflow
+- 49 existing backlog tasks (TASK-004 through TASK-089)
+- Comprehensive API data layer with 26+ JSON endpoints
+
+**New tasks added:**
+
+1. **TASK-090: Task dependency graph page** (MEDIUM priority)
+   - Visualizes which tasks block other tasks
+   - Auto-detects dependencies from task descriptions
+   - Shows critical path and "ready to work" tasks
+   - Different from: tasks.html (flat list), architecture.html (agent dependencies), workflow.html (status flow)
+
+2. **TASK-091: System resource prediction page** (MEDIUM priority)
+   - Predicts when resources will be exhausted (disk full, log overflow)
+   - Calculates "days until exhaustion" based on growth trends
+   - Provides capacity planning recommendations
+   - Different from: forecast.html (predicts metric values), health.html (current state), TASK-069 (current data sizes)
+
+**Why these don't duplicate existing work:**
+- TASK-090 fills a gap in project management visibility - no existing feature shows task-to-task dependencies or critical path analysis
+- TASK-091 addresses proactive capacity planning - while forecast.html predicts metric values, nothing predicts actual resource exhaustion dates with actionable planning guidance
+
+========================================
+Completed: Tue Jan 20 16:01:22 UTC 2026
+========================================
+
+Committing changes to git...
