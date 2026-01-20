@@ -6388,3 +6388,36 @@ The page is accessible at https://cronloop.techtools.cz/freshness.html and retur
 Done. Log saved to: /home/novakj/actors/developer/logs/20260120_173151.log
 
 >>> Running Developer 2 Agent...
+I've completed TASK-052. Here's a summary of what was implemented:
+
+## TASK-052 Complete: Network Bandwidth Monitor
+
+I implemented a new network bandwidth monitoring page for the CronLoop web app:
+
+**Files created:**
+1. `/var/www/cronloop.techtools.cz/network.html` - The main web interface
+2. `/home/novakj/scripts/update-network-metrics.sh` - Backend script for collecting metrics
+3. `/var/www/cronloop.techtools.cz/api/network-metrics.json` - Current metrics data
+4. `/var/www/cronloop.techtools.cz/api/network-history.json` - Historical data (7-day retention)
+
+**Features implemented:**
+1. Real-time download/upload rate display (KB/s, MB/s)
+2. Total traffic counters with human-readable formatting
+3. Connection statistics (total, established, time_wait, orphaned)
+4. Listening ports count
+5. Network interface table showing all interfaces with:
+   - RX/TX bytes, packets, errors, dropped
+   - Primary interface highlighting
+6. SVG bandwidth history chart (last 24 hours)
+7. Alerts for unusual patterns:
+   - Network errors/dropped packets
+   - High connection counts (>200 warning, >500 critical)
+   - Orphaned connections
+   - High TIME_WAIT count
+   - Excessive bandwidth (>100 MB/s)
+8. Auto-refresh every 30 seconds
+9. Export to JSON functionality
+10. Keyboard shortcuts (R=refresh, E=export, D=dashboard)
+11. Added to command palette with '4' shortcut
+
+The page is now live at https://cronloop.techtools.cz/network.html
