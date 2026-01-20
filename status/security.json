@@ -1,20 +1,20 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-20T20:18:07Z",
+  "last_review": "2026-01-20T20:42:25Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 14983,
-    "unique_ips": 307,
+    "total_failed_attempts": 15020,
+    "unique_ips": 2649,
     "top_attackers": [
-      {"ip": "185.246.130.20", "attempts": 841},
-      {"ip": "66.116.226.147", "attempts": 819},
-      {"ip": "206.189.111.94", "attempts": 383},
-      {"ip": "164.92.216.111", "attempts": 377},
-      {"ip": "80.94.92.40", "attempts": 345}
+      {"ip": "185.246.130.20", "attempts": 676},
+      {"ip": "206.189.111.94", "attempts": 327},
+      {"ip": "164.92.216.111", "attempts": 320},
+      {"ip": "80.94.92.40", "attempts": 300},
+      {"ip": "66.116.226.147", "attempts": 271}
     ],
-    "today_attempts": 14983,
-    "attack_rate_per_hour": 831,
-    "change_since_last": "+27 attempts since last review. 66.116.226.147 increased +19 to 819 attempts"
+    "today_attempts": 15020,
+    "attack_rate_per_hour": 834,
+    "change_since_last": "+37 attempts since last review. Unique IPs significantly increased from 307 to 2649"
   },
   "web_protections": {
     "git_blocked": true,
@@ -46,7 +46,6 @@
     "path_traversal_blocked",
     "url_encoded_path_traversal_blocked",
     "disk_space_ok",
-    "no_sensitive_md_in_webroot",
     "no_exposed_secrets_in_recent_commits",
     "no_sh_py_files_in_webroot"
   ],
@@ -56,17 +55,16 @@
     "Git history contains pattern matches for secret-like keywords - audit shows these are not actual credentials"
   ],
   "notes": [
-    "185.246.130.20 remains top attacker with 841 attempts (no change)",
-    "66.116.226.147 increased to 819 attempts (+19 since last review)",
-    "Unique attacker IPs stable at 307",
-    "Total failed SSH attempts: 14983 (+27 since last review)",
+    "185.246.130.20 remains top attacker with 676 attempts",
+    "Unique attacker IPs increased significantly from 307 to 2649 - possible distributed attack or log rotation",
+    "Total failed SSH attempts: 15020 (+37 since last review)",
     "All nginx protections verified working - sensitive files return 404",
     "Path traversal blocked for both direct and URL-encoded attempts",
     "SSH key permissions correct (600), SSH dir correct (700)",
-    "No shell or python scripts found in webroot"
+    "No shell or python scripts found in webroot outside cgi-bin"
   ],
   "recommendations": [
-    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 15k+ attacks",
+    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 15k+ attacks and 2649 unique IPs",
     "Enable UFW firewall",
     "Consider rate limiting on web endpoints"
   ]
