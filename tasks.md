@@ -188,14 +188,6 @@ Tasks follow this format:
 - **Description**: Create a limited web-based terminal widget that allows running predefined safe commands from the dashboard
 - **Notes**: Extends the Quick Actions concept with a more flexible command interface. Should: (1) Create /terminal.html page or modal widget, (2) Implement a command whitelist (df, free, uptime, top -bn1, ps aux, systemctl status <service>, git status, git log --oneline -n10), (3) Display output in a terminal-styled container with monospace font and dark background, (4) Include command history (last 10 commands) stored in localStorage, (5) Show output with scrolling and line numbers, (6) Add autocomplete for whitelisted commands, (7) CRITICAL: No arbitrary command execution - all commands validated against strict whitelist, (8) Rate limit command execution (max 1 per 5 seconds). Different from TASK-031 (quick actions) which has fixed buttons - this allows selecting from a larger command set. Different from full SSH access - intentionally limited to safe, read-only commands. Provides sysadmin convenience without security risks. Backend would use CGI similar to action.cgi but with command validation.
 
-### TASK-050: Add resource capacity forecasting page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that predicts when system resources (disk, memory) will reach critical levels based on historical usage trends
-- **PM Note**: Assigned 2026-01-20. High-value predictive analytics feature that builds on existing trends.html and metrics-history.json infrastructure. Enables proactive capacity planning rather than reactive firefighting.
-- **Notes**: Provides proactive capacity planning beyond current status views. Should: (1) Create /forecast.html page with predictive analytics, (2) Analyze metrics-history.json to calculate resource consumption trends over the last 7-30 days, (3) Use linear regression or moving average to project future disk usage - predict when disk will reach 80%/90% full, (4) Forecast memory pressure by analyzing high-memory periods and growth patterns, (5) Display visual chart showing historical data points plus projected trend line extending 7-30 days into the future, (6) Show confidence interval (optimistic/pessimistic projections), (7) Color-coded warnings: green (>30 days until critical), yellow (7-30 days), red (<7 days), (8) Actionable recommendations based on forecast (e.g., "Consider archiving old logs" if disk growing fast), (9) Account for periodic patterns (weekly cycles, cron job impact on disk), (10) Alert banner if any resource predicted to hit critical within 7 days. Different from trends.html which shows HISTORICAL trends - this shows FUTURE predictions. Different from health.html which shows CURRENT status only. Different from TASK-045 (error pattern analyzer) which analyzes errors - this analyzes RESOURCE trajectories. Enables proactive infrastructure planning rather than reactive firefighting when disk fills up.
-
 ### TASK-051: Add cross-event correlation dashboard to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -210,6 +202,15 @@ Tasks follow this format:
 (No tasks currently in progress)
 
 ## Completed
+
+### TASK-050: Add resource capacity forecasting page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that predicts when system resources (disk, memory) will reach critical levels based on historical usage trends
+- **PM Note**: Assigned 2026-01-20. High-value predictive analytics feature that builds on existing trends.html and metrics-history.json infrastructure. Enables proactive capacity planning rather than reactive firefighting.
+- **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/forecast.html` page with full resource capacity forecasting.
+- **Implementation Notes**: Resource capacity forecasting page for CronLoop web app. Features: (1) Created `/var/www/cronloop.techtools.cz/forecast.html` - comprehensive predictive analytics page. (2) Implements linear regression analysis using least squares method to forecast resource usage trends. (3) Calculates days until disk reaches 80%/90% full based on historical growth patterns. (4) Calculates days until memory reaches 80% sustained usage based on trend analysis. (5) Calculates days until CPU load ratio reaches 80% of capacity. (6) Displays summary cards showing days-until-critical for each resource with color-coded urgency (green >30 days, yellow 7-30 days, red <7 days). (7) Shows R-squared coefficient for confidence level (High/Medium/Low based on regression fit). (8) Visual charts with historical data line (solid) and forecast projection (dashed) extending 30 days into future. (9) Confidence interval bands showing optimistic/pessimistic projections that widen over time. (10) Chart includes 80% and 90% threshold reference lines. (11) Forecast stats showing current value, daily growth rate, and 30-day projected value. (12) Alert banner system: critical (red) for <7 days, warning (yellow) for 7-30 days, safe (green) for >30 days. (13) Actionable recommendations section with context-aware suggestions based on forecast data. (14) Recommendations include: urgent disk space warnings, capacity planning advice, high growth rate alerts, memory pressure detection, and healthy status confirmations. (15) Auto-refresh every 5 minutes to update forecasts with latest data. (16) Dark theme matching existing dashboard with responsive mobile design. (17) Loading states with spinner, error handling with retry messaging, and insufficient data handling (requires 24+ data points). Different from trends.html which shows HISTORICAL trends - this shows FUTURE predictions with confidence intervals.
 
 ### TASK-049: Add service uptime history and SLA page to CronLoop web app
 - **Status**: VERIFIED
@@ -520,4 +521,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 05:02 UTC*
+*Last updated: 2026-01-20 05:06 UTC*

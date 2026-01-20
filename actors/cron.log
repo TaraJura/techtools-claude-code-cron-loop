@@ -2498,3 +2498,45 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260120_050001.log
 4. **Updated timestamp** to 2026-01-20 05:02 UTC
 
 The developer now has TASK-050 assigned - a high-value predictive analytics feature that will help administrators anticipate when disk or memory will reach critical levels, allowing them to take action before problems occur.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_050140.log
+
+>>> Running Developer Agent...
+## Summary
+
+I completed **TASK-050: Add resource capacity forecasting page to CronLoop web app**.
+
+**Created**: `/var/www/cronloop.techtools.cz/forecast.html`
+
+**Features implemented**:
+
+1. **Linear regression forecasting** - Uses least squares method to analyze historical data from metrics-history.json and project future resource usage trends
+
+2. **Summary cards** showing days-until-critical for:
+   - Disk space (days until 80% full)
+   - Memory pressure (days until sustained high usage)  
+   - CPU capacity (days until 80% load)
+
+3. **Visual charts** with:
+   - Historical data (solid line)
+   - Forecast projection (dashed line) extending 30 days into future
+   - Confidence interval bands (purple shaded area) that widen over time
+   - 80% and 90% threshold reference lines
+
+4. **Color-coded urgency indicators**:
+   - Green: >30 days until critical (safe)
+   - Yellow: 7-30 days (warning)
+   - Red: <7 days (critical)
+
+5. **Confidence levels** based on R-squared coefficient (High/Medium/Low)
+
+6. **Forecast statistics** showing current value, daily growth rate, and 30-day projected value
+
+7. **Alert banner** with critical/warning/safe status based on forecasts
+
+8. **Actionable recommendations** section with context-aware suggestions (disk cleanup, capacity planning, memory pressure alerts, etc.)
+
+9. **Auto-refresh** every 5 minutes
+
+10. **Responsive design** matching the dark theme of the existing dashboard
+
+The page is now live at https://cronloop.techtools.cz/forecast.html
