@@ -41,7 +41,7 @@ Tasks follow this format:
 
 ### TASK-074: Add dashboard settings and preferences page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a settings page that allows users to customize their dashboard experience with persistent preferences stored in localStorage
 - **Notes**: Provides personalization and better UX for power users. Should: (1) Create /settings.html page with organized settings categories, (2) Dashboard Layout settings: choose which cards to show/hide on index.html, reorder cards with drag-and-drop, set default view (compact/expanded), (3) Notification preferences: enable/disable browser notifications for alerts, choose which events trigger notifications (errors, task completions, security alerts), set quiet hours, (4) Theme preferences: select accent color from palette (current cyan, or green/purple/orange alternatives), adjust font size (small/medium/large), toggle high-contrast mode for accessibility, (5) Auto-refresh settings: configure global refresh interval (10s/30s/60s/off), per-page refresh overrides, (6) Data preferences: default date range for charts (24h/7d/30d), number format (1000 vs 1,000), timezone display preference (UTC vs local), (7) Quick Actions config: enable/disable rate limit warnings, set custom keyboard shortcuts for favorite actions, (8) Export/Import settings as JSON for backup or sharing between browsers, (9) Reset to defaults button with confirmation, (10) Settings summary on dashboard showing active customizations, (11) Store all preferences in localStorage with 'cronloop_settings_' prefix, (12) Apply settings immediately without page reload where possible. Different from TASK-029 (PWA) which handles offline caching - this handles USER PREFERENCES. Different from TASK-025 (dark/light theme) which is a single toggle - this provides COMPREHENSIVE customization. Improves user experience by letting each user tailor the dashboard to their workflow and preferences.
@@ -895,4 +895,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 12:31 UTC*
+*Last updated: 2026-01-20 12:32 UTC*
