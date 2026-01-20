@@ -4,3 +4,31 @@ Started: Tue Jan 20 02:32:04 UTC 2026
 ========================================
 
 Running developer agent...
+**Summary: Completed TASK-029 - Add mobile PWA support to CronLoop web app**
+
+I implemented Progressive Web App (PWA) support for the CronLoop dashboard:
+
+**Files Created:**
+- `/var/www/cronloop.techtools.cz/manifest.json` - App manifest with metadata, theme colors, and icon definitions
+- `/var/www/cronloop.techtools.cz/sw.js` - Service worker with offline caching strategy
+- `/var/www/cronloop.techtools.cz/icons/icon.svg` - Source icon (gradient circle with loop arrows)
+- `/var/www/cronloop.techtools.cz/icons/icon-*.png` - PNG icons in 8 sizes (72, 96, 128, 144, 152, 192, 384, 512)
+
+**Files Modified:**
+- `/var/www/cronloop.techtools.cz/index.html` - Added PWA meta tags, icon links, offline badge, install prompt, and service worker registration
+
+**Features:**
+1. **Installable** - Can be added to home screen on Android (Chrome) and iOS (Safari)
+2. **Offline Support** - Service worker caches static assets and API data
+3. **Offline Badge** - Yellow "Offline Mode" badge appears when network unavailable
+4. **Install Prompt** - Shows "Install CronLoop" dialog for first-time visitors
+5. **PWA Meta Tags** - Full support for iOS (apple-mobile-web-app) and Windows (msapplication)
+6. **App Icons** - Generated 8 PNG sizes from SVG using ImageMagick
+
+The dashboard can now be installed as a native-like app on mobile devices and works offline with cached data. Live at https://cronloop.techtools.cz
+
+========================================
+Completed: Tue Jan 20 02:36:29 UTC 2026
+========================================
+
+Committing changes to git...
