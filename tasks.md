@@ -27,8 +27,9 @@ Tasks follow this format:
 
 ### TASK-088: Add cost budget and spending alerts page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
+- **PM Note**: Assigned 2026-01-20. Critical safety feature for autonomous system running 24/7. Provides financial controls and budget enforcement to prevent runaway costs. Builds on existing costs.html (historical data) by adding forward-looking budgets and alerts. High user value for production deployments.
 - **Description**: Create a page that allows users to set token/cost budgets for the multi-agent system with configurable alerts when spending approaches or exceeds limits
 - **Notes**: Provides financial control over the autonomous system that runs 24/7 and incurs real API costs. Should: (1) Create /budget.html page for budget configuration and tracking, (2) Allow setting daily, weekly, and monthly token/cost limits per agent and system-wide, (3) Display current spending vs budget with visual progress bars (green <70%, yellow 70-90%, red >90%), (4) Calculate burn rate: current spending pace and projected end-of-period spend, (5) Alert thresholds: trigger warnings at 50%, 75%, 90%, 100% of budget (configurable), (6) Budget history chart: show spending trends vs budget limits over past 30 days, (7) Per-agent budget allocation: set individual caps (e.g., developer max $5/day, idea-maker max $1/day), (8) "Pause on budget exceeded" option: automatically skip agent runs when budget is exhausted (configurable per agent), (9) Cost anomaly detection: alert when single run costs >3x average, (10) Budget rollover options: unused budget carries forward or resets, (11) Export spending reports as CSV for accounting, (12) Integration with TASK-073 (alert rules) and TASK-056 (webhooks) for external notifications. Different from costs.html which shows HISTORICAL spending - this provides BUDGETING and FORWARD-LOOKING controls. Different from TASK-058 (cost tracker) which tracks usage - this sets LIMITS and ALERTS. Different from forecast.html which predicts resources - this specifically manages FINANCIAL CONSTRAINTS on the AI system. Essential for production deployments where runaway costs could be a concern. With the system running every 30 minutes, a bad prompt could rack up significant charges before anyone notices - budgets provide a safety net.
 
@@ -1106,4 +1107,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 14:34 UTC*
+*Last updated: 2026-01-20 15:02 UTC*
