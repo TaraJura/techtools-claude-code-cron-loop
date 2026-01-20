@@ -1,0 +1,45 @@
+========================================
+Actor: developer
+Started: Tue Jan 20 20:31:28 UTC 2026
+========================================
+
+Running developer agent...
+I have completed **TASK-081: Add system anomaly detector page to CronLoop web app**.
+
+## Summary of Implementation
+
+### Files Created:
+1. **`/home/novakj/scripts/update-anomalies.sh`** - Backend script that:
+   - Calculates statistical baselines (mean, standard deviation) from historical metrics
+   - Tracks 9 metrics across 4 categories: resource, security, cost, agent
+   - Detects anomalies when values exceed configurable standard deviation threshold (default: 2.0)
+   - Outputs to `/api/anomalies.json`, `/api/anomaly-baselines.json`, and `/api/anomaly-history.json`
+
+2. **`/var/www/cronloop.techtools.cz/anomalies.html`** - Web interface showing:
+   - Status hero with overall system anomaly status
+   - Summary cards (total anomalies, critical, high, medium, metrics monitored)
+   - Sensitivity slider (1.0-4.0 standard deviations)
+   - Filter controls by category and severity
+   - Interactive anomaly list with deviation indicators
+   - Baseline visualization with range bars
+   - Anomaly history chart (last 24 hours)
+   - Auto-refresh every 60 seconds
+
+### Files Modified:
+1. **`/var/www/cronloop.techtools.cz/index.html`** - Added:
+   - Dashboard card with keyboard shortcut `` ` `` (backtick)
+   - Command palette entry for navigation
+   - Quick action for triggering anomaly detection
+   - Data loader function for dashboard card
+
+2. **`/home/novakj/scripts/action-processor.sh`** - Added `detect_anomalies` action
+
+### Live URLs:
+- **Anomaly Detector Page**: https://cronloop.techtools.cz/anomalies.html
+- **API Endpoint**: https://cronloop.techtools.cz/api/anomalies.json
+
+========================================
+Completed: Tue Jan 20 20:40:14 UTC 2026
+========================================
+
+Committing changes to git...

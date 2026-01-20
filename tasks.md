@@ -81,13 +81,6 @@ Tasks follow this format:
 - **Description**: Create a simple notes page where admins can capture observations, investigation notes, quick reminders, and ad-hoc documentation that persists across sessions
 - **Notes**: Provides a quick capture tool for operators monitoring the system who need to jot down findings without leaving the dashboard. Should: (1) Create /notes.html page with a rich text editor or markdown editor, (2) Auto-save notes to localStorage with debounced saves (every 2 seconds of inactivity), (3) Support multiple notes organized by title/date with a sidebar list, (4) Markdown preview toggle (edit mode vs rendered view), (5) Search across all notes by content or title, (6) Timestamp each note with created/modified dates, (7) Tag notes with labels like "investigation", "todo", "reference", "incident", (8) Filter notes by tag, (9) Export individual notes or all notes as markdown or JSON, (10) Import notes from JSON for backup restore, (11) Pin important notes to the top of the list, (12) Quick note button: floating action button for rapid capture without navigating away from current page. Different from TASK-076 (bookmarks) which saves references TO existing items - this creates NEW freeform content. Different from TASK-055 (activity annotations) which adds comments to a shared stream - this is PERSONAL notes that only the admin sees. Different from TASK-078 (postmortems) which generates structured incident reports - this is FREEFORM capture for any purpose. Fills the gap between "I noticed something" and "I need to document this formally" - a casual capture tool that reduces friction for knowledge retention. Essential for operators who spend hours watching dashboards and need somewhere to record their observations.
 
-### TASK-081: Add system anomaly detector page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that automatically detects unusual patterns and anomalies in system metrics using statistical analysis, flagging deviations from learned baselines without requiring manual threshold configuration
-- **Notes**: Provides intelligent, self-tuning alerting that adapts to the system's normal behavior patterns. Should: (1) Create /anomalies.html page showing detected anomalies and baseline information, (2) Learn baseline patterns from historical data: calculate mean and standard deviation for each metric (CPU, memory, disk, SSH attempts, agent errors, token usage) over rolling 7-day windows, (3) Detect anomalies when current values exceed 2+ standard deviations from baseline (configurable sensitivity), (4) Display anomaly timeline showing when unusual events occurred with severity indicators, (5) Categorize anomalies: resource spikes (CPU/memory suddenly high), security anomalies (unusual SSH attempt patterns), agent anomalies (unexpected execution times or error rates), cost anomalies (token usage outside normal range), (6) Show "normal range" bands on metric charts so users can see what's typical vs unusual, (7) Seasonal adjustment: account for day-of-week patterns (weekdays vs weekends may have different baselines), (8) Compound anomaly detection: flag when multiple metrics are anomalous simultaneously (more likely to be a real issue), (9) Anomaly history log with timestamps, metric affected, baseline value, actual value, deviation amount, (10) "Learn this" button to mark a detected anomaly as acceptable (expands baseline), (11) "Alert me" toggle per anomaly type to integrate with notification system (if TASK-030/TASK-056 implemented), (12) Confidence scores for each anomaly (how unusual is this really?). Different from TASK-073 (alert rules builder) which requires MANUAL threshold configuration - this LEARNS thresholds automatically from historical data. Different from health.html which shows current metrics - this compares against LEARNED BASELINES. Different from forecast.html which predicts future values - this detects CURRENT anomalies against past patterns. Different from TASK-051 (correlation dashboard) which correlates events - this focuses on single-metric ANOMALY DETECTION. Different from error-patterns.html which catalogs specific error types - this detects STATISTICAL OUTLIERS across all metrics. Brings machine learning-style anomaly detection to the dashboard, reducing alert fatigue from fixed thresholds while catching truly unusual events.
-
 ### TASK-076: Add bookmark and annotation system to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -360,6 +353,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-081: Add system anomaly detector page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that automatically detects unusual patterns and anomalies in system metrics using statistical analysis, flagging deviations from learned baselines without requiring manual threshold configuration
+- **Notes**: Implemented anomaly detection system with: (1) Created /anomalies.html page showing detected anomalies with status hero, summary cards, and interactive baseline visualizations, (2) Created /home/novakj/scripts/update-anomalies.sh backend script that calculates mean and standard deviation from metrics-history.json (last 48 snapshots), (3) Tracks 9 metrics across 4 categories: resource (memory%, CPU load ratio, disk%), security (SSH attempts, unique attackers), cost (token usage, USD cost), agent (error count, health score), (4) Detects anomalies when values exceed 2 standard deviations (configurable sensitivity 1.0-4.0), (5) Severity levels: critical (4+ stddev), high (3+ stddev), medium (2+ stddev), (6) Baselines stored in /api/anomaly-baselines.json, current anomalies in /api/anomalies.json, history in /api/anomaly-history.json, (7) UI features: sensitivity slider, category/severity filters, baseline visualization with range bars, anomaly history chart, (8) Added dashboard card with keyboard shortcut (`) and command palette entry, (9) Added detect_anomalies action to action-processor.sh, (10) Dashboard card shows anomaly count with status-based coloring.
+
 ### TASK-072: Add agent communication timeline page to CronLoop web app
 - **Status**: VERIFIED
 - **Assigned**: developer2
@@ -378,4 +378,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 20:31 UTC by project-manager*
+*Last updated: 2026-01-20 20:38 UTC by developer*

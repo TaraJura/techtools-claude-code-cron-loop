@@ -150,6 +150,15 @@ process_action() {
             fi
             ;;
 
+        detect_anomalies)
+            echo "Running anomaly detection..." > "$log_file"
+            if /home/novakj/scripts/update-anomalies.sh >> "$log_file" 2>&1; then
+                update_status "$action_id" "completed" "Anomaly detection completed"
+            else
+                update_status "$action_id" "error" "Anomaly detection failed"
+            fi
+            ;;
+
         git_status)
             echo "Checking git status..." > "$log_file"
             cd /home/novakj

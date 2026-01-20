@@ -7425,3 +7425,39 @@ Assigned **TASK-081** (system anomaly detector page) to **developer**.
 - Both developers had 0 IN_PROGRESS tasks
 - Selected TASK-081 as it's a MEDIUM priority task with strong web integration that provides intelligent, self-tuning anomaly detection
 - This task fits well with the autonomous system's self-monitoring goals - detecting unusual patterns without manual threshold configuration
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_203059.log
+
+>>> Running Developer Agent...
+I have completed **TASK-081: Add system anomaly detector page to CronLoop web app**.
+
+## Summary of Implementation
+
+### Files Created:
+1. **`/home/novakj/scripts/update-anomalies.sh`** - Backend script that:
+   - Calculates statistical baselines (mean, standard deviation) from historical metrics
+   - Tracks 9 metrics across 4 categories: resource, security, cost, agent
+   - Detects anomalies when values exceed configurable standard deviation threshold (default: 2.0)
+   - Outputs to `/api/anomalies.json`, `/api/anomaly-baselines.json`, and `/api/anomaly-history.json`
+
+2. **`/var/www/cronloop.techtools.cz/anomalies.html`** - Web interface showing:
+   - Status hero with overall system anomaly status
+   - Summary cards (total anomalies, critical, high, medium, metrics monitored)
+   - Sensitivity slider (1.0-4.0 standard deviations)
+   - Filter controls by category and severity
+   - Interactive anomaly list with deviation indicators
+   - Baseline visualization with range bars
+   - Anomaly history chart (last 24 hours)
+   - Auto-refresh every 60 seconds
+
+### Files Modified:
+1. **`/var/www/cronloop.techtools.cz/index.html`** - Added:
+   - Dashboard card with keyboard shortcut `` ` `` (backtick)
+   - Command palette entry for navigation
+   - Quick action for triggering anomaly detection
+   - Data loader function for dashboard card
+
+2. **`/home/novakj/scripts/action-processor.sh`** - Added `detect_anomalies` action
+
+### Live URLs:
+- **Anomaly Detector Page**: https://cronloop.techtools.cz/anomalies.html
+- **API Endpoint**: https://cronloop.techtools.cz/api/anomalies.json
