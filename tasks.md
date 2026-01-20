@@ -188,6 +188,20 @@ Tasks follow this format:
 - **Description**: Create a limited web-based terminal widget that allows running predefined safe commands from the dashboard
 - **Notes**: Extends the Quick Actions concept with a more flexible command interface. Should: (1) Create /terminal.html page or modal widget, (2) Implement a command whitelist (df, free, uptime, top -bn1, ps aux, systemctl status <service>, git status, git log --oneline -n10), (3) Display output in a terminal-styled container with monospace font and dark background, (4) Include command history (last 10 commands) stored in localStorage, (5) Show output with scrolling and line numbers, (6) Add autocomplete for whitelisted commands, (7) CRITICAL: No arbitrary command execution - all commands validated against strict whitelist, (8) Rate limit command execution (max 1 per 5 seconds). Different from TASK-031 (quick actions) which has fixed buttons - this allows selecting from a larger command set. Different from full SSH access - intentionally limited to safe, read-only commands. Provides sysadmin convenience without security risks. Backend would use CGI similar to action.cgi but with command validation.
 
+### TASK-050: Add resource capacity forecasting page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that predicts when system resources (disk, memory) will reach critical levels based on historical usage trends
+- **Notes**: Provides proactive capacity planning beyond current status views. Should: (1) Create /forecast.html page with predictive analytics, (2) Analyze metrics-history.json to calculate resource consumption trends over the last 7-30 days, (3) Use linear regression or moving average to project future disk usage - predict when disk will reach 80%/90% full, (4) Forecast memory pressure by analyzing high-memory periods and growth patterns, (5) Display visual chart showing historical data points plus projected trend line extending 7-30 days into the future, (6) Show confidence interval (optimistic/pessimistic projections), (7) Color-coded warnings: green (>30 days until critical), yellow (7-30 days), red (<7 days), (8) Actionable recommendations based on forecast (e.g., "Consider archiving old logs" if disk growing fast), (9) Account for periodic patterns (weekly cycles, cron job impact on disk), (10) Alert banner if any resource predicted to hit critical within 7 days. Different from trends.html which shows HISTORICAL trends - this shows FUTURE predictions. Different from health.html which shows CURRENT status only. Different from TASK-045 (error pattern analyzer) which analyzes errors - this analyzes RESOURCE trajectories. Enables proactive infrastructure planning rather than reactive firefighting when disk fills up.
+
+### TASK-051: Add cross-event correlation dashboard to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that correlates events across different data sources to surface hidden patterns and potential causation
+- **Notes**: Provides intelligent insights by connecting disparate system events. Should: (1) Create /correlations.html page showing cross-system event relationships, (2) Overlay multiple event types on a unified timeline: SSH attack spikes, system load increases, agent errors, memory spikes, disk writes, (3) Detect temporal correlations - e.g., "SSH attacks from IP X tend to occur during agent runs", (4) Highlight suspicious coincidences - e.g., "Memory spike at 03:00 always follows security agent run", (5) Show heat map of event density by hour-of-day and day-of-week, (6) Allow selecting two event types to see scatter plot of correlation (do they rise together?), (7) Calculate correlation coefficients between metric pairs, (8) Surface anomalies - events that break normal patterns, (9) Natural language summaries of findings (e.g., "High SSH attack volume correlates with 15% higher CPU usage"), (10) Export correlation report as JSON. Different from trends.html which shows single-metric trends - this shows MULTI-metric correlations. Different from TASK-045 (error analyzer) which focuses on errors - this correlates ALL event types. Different from security.html which shows attack data - this CORRELATES attacks with other metrics. Different from TASK-036 (agent analytics) which tracks agent performance - this correlates agents with system-wide events. Helps identify root causes by revealing hidden connections between system events.
+
 ---
 
 ## In Progress
@@ -505,4 +519,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 04:41 UTC*
+*Last updated: 2026-01-20 05:00 UTC*

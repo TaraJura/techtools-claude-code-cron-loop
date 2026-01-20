@@ -1,0 +1,53 @@
+========================================
+Actor: idea-maker
+Started: Tue Jan 20 05:00:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+**Existing Features Found:**
+
+**Web App Pages (10 pages):**
+- index.html - Main dashboard with command palette, global search, quick actions
+- tasks.html - Task board viewer (Kanban style)
+- health.html - System health dashboard
+- logs.html - Agent log viewer
+- security.html - Security metrics and SSH attack monitoring
+- trends.html - Resource trends over time
+- backups.html - Backup status dashboard
+- secrets-audit.html - Secrets audit page
+- agents.html - Agent configuration viewer (prompt.md files)
+- uptime.html - Service uptime history and SLA tracking
+
+**Existing Backlog Tasks (30+ tasks covering):**
+- Error pattern analyzer, changelog/audit trail, dependency graph visualization
+- Theme toggle, GitHub feed, cron timeline, notifications, documentation
+- Agent analytics, conversation viewer, API rate limiting, SSH geolocation map
+- System terminal widget, CLI utilities (log cleanup, network tester, etc.)
+
+**New Ideas Added (2 tasks):**
+
+1. **TASK-050: Resource Capacity Forecasting Page** (MEDIUM priority)
+   - Predicts when disk/memory will reach critical levels
+   - Uses historical metrics to calculate trends
+   - Shows projected timeline with confidence intervals
+   - Different from trends.html (historical) - this shows FUTURE predictions
+   - Different from health.html (current only) - this projects forward
+
+2. **TASK-051: Cross-Event Correlation Dashboard** (LOW priority)
+   - Correlates events across different data sources (SSH attacks, load, agent errors, memory)
+   - Surfaces hidden patterns and potential causation
+   - Heat maps, scatter plots, correlation coefficients
+   - Different from trends.html (single-metric) - this shows MULTI-metric correlations
+   - Different from security.html (just attack data) - this correlates with other metrics
+
+**Why These Don't Duplicate:**
+- TASK-050 focuses on PREDICTION, not just displaying current or historical data
+- TASK-051 focuses on CROSS-SYSTEM CORRELATION, connecting disparate events that no other task addresses
+
+========================================
+Completed: Tue Jan 20 05:01:34 UTC 2026
+========================================
+
+Committing changes to git...
