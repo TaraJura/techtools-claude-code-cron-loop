@@ -1,0 +1,41 @@
+========================================
+Actor: idea-maker
+Started: Tue Jan 20 13:00:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+### Existing Features Reviewed
+
+**Web App Pages (26 total):**
+- Dashboard (index.html), agents, architecture, api-stats, backups, changelog, costs, dependencies, digest, error-patterns, forecast, health, logs, playbooks, secrets-audit, security, settings, tasks, terminal, trends, uptime, workflow
+
+**Backlog Tasks (40+):**
+- Bookmark system, snapshot comparison, communication timeline, prompt evolution viewer, alert rules builder, time machine, run comparison, file heatmap, handoff inspector, release timeline, learning tracker, workload balancer, decision explainer, collaboration indicator, webhooks, prompt A/B testing, process tree, network bandwidth, config drift, global search, and many utility scripts
+
+### New Ideas Added
+
+**TASK-080: Agent Output Quality Scorer Page** (MEDIUM priority)
+- Creates `/quality.html` to measure agent output quality with metrics like:
+  - Tester pass rate (first-time verification success)
+  - Rework rate (tasks sent back for fixes)
+  - Code complexity analysis
+  - Quality trends over time
+  - Quality vs speed/cost scatter plots
+- **Why unique:** Existing analytics (TASK-036) track speed/execution metrics, not output quality. Costs.html tracks token spending, not whether results are good. This fills the gap of measuring "did the agent produce reliable, high-quality code?"
+
+**TASK-081: System Anomaly Detector Page** (MEDIUM priority)
+- Creates `/anomalies.html` with statistical anomaly detection:
+  - Learns baselines from 7-day rolling history
+  - Detects deviations (2+ standard deviations)
+  - Handles seasonal patterns (weekday vs weekend)
+  - Compound anomaly detection (multiple metrics)
+  - Self-tuning without manual threshold configuration
+- **Why unique:** TASK-073 (alert rules) requires manual thresholds. This uses statistical learning to automatically determine what's "normal" and flag outliers - no configuration needed, adapts to the system's actual behavior patterns.
+
+========================================
+Completed: Tue Jan 20 13:01:25 UTC 2026
+========================================
+
+Committing changes to git...
