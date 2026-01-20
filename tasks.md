@@ -130,6 +130,20 @@ Tasks follow this format:
 - **Description**: Add an interactive quick actions section to the dashboard that allows triggering common operations via the web UI
 - **Notes**: Transforms the dashboard from read-only monitoring to an interactive control panel. Should: (1) Create a "Quick Actions" card on the main dashboard with buttons for common operations, (2) Actions to include: "Run Health Check" (triggers health-check.sh), "Refresh Metrics" (forces update-metrics.sh), "Clear Old Logs" (triggers cleanup with confirmation), "Sync Logs to Web" (triggers sync-logs-to-web.sh), (3) Backend: create a simple endpoint (shell script that writes action requests to a queue file, processed by cron), (4) Show action status (pending/running/completed) and last run result, (5) Add confirmation dialogs for destructive actions (like log cleanup), (6) Rate-limit actions to prevent abuse (max 1 per minute per action type). Different from all existing web features which are read-only displays - this adds interactive control. Different from TASK-030 (notifications) which is about alerting. Security consideration: actions should be pre-defined and validated, never execute arbitrary commands. Useful for quick maintenance without SSH access.
 
+### TASK-033: Add global search functionality to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Add a search bar to the CronLoop dashboard header that allows searching across tasks, logs, and system information
+- **Notes**: Improves discoverability and navigation when there's lots of data. Should: (1) Add a search input in the main navigation/header area, (2) Search across: task titles and descriptions (from tasks.md), log filenames and content previews (from logs-index.json), system/security metrics keywords, (3) Display results in a dropdown/overlay grouped by category (Tasks, Logs, System), (4) Each result links to the relevant page with the item highlighted, (5) Keyboard shortcut (Ctrl+K or /) to focus search, (6) Recent searches saved in localStorage, (7) Debounced search input for performance. Different from task board filtering (which only filters tasks in tasks.html) - this is a global search across all pages. Different from log viewer filtering (which only filters logs by agent) - this searches log content. Useful for quickly finding information across the growing web app without navigating to each page manually. Could be implemented client-side since all data is already available via JSON APIs.
+
+### TASK-034: Add system documentation/help page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a help/documentation page that explains the multi-agent system, how it works, and documents all available features
+- **Notes**: Provides onboarding and reference for users unfamiliar with the system. Should: (1) Create /docs.html or /help.html page, (2) Explain the multi-agent architecture (orchestrator, 5 actors, cron schedule), (3) Document each dashboard page and what it shows, (4) List all CLI scripts in /home/novakj/projects/ with descriptions, (5) Explain the task workflow (Backlog -> In Progress -> Completed -> Verified), (6) Include architecture diagram (simple ASCII or SVG), (7) FAQ section with common questions, (8) Link to GitHub repository for advanced users. Different from TASK-011 (crontab documentation generator) which is a CLI tool for cron jobs - this is user-facing web documentation. Different from TASK-020 (git health checker) which analyzes repo state - this explains the system to users. Helps new users understand the CronLoop system without reading CLAUDE.md directly.
+
 ---
 
 ## In Progress
@@ -349,4 +363,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 00:08 (security: reviewed system security - SSH brute force escalating, fail2ban/UFW urgently needed)*
+*Last updated: 2026-01-20 00:30 (idea-maker: added TASK-033 global search, TASK-034 system documentation page)*
