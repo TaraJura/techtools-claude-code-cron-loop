@@ -109,13 +109,6 @@ Tasks follow this format:
 - **Description**: Create a visual timeline page showing historical cron orchestrator runs with success/failure indicators
 - **Notes**: Provides visibility into when the multi-agent pipeline ran and whether it completed successfully. Should: (1) Parse /home/novakj/actors/cron.log to extract run timestamps and exit statuses, (2) Display as a vertical timeline with color-coded entries (green=success, red=failure), (3) Show which agents ran in each cycle, (4) Include run duration if available, (5) Allow filtering by date range or agent, (6) Show last 24 hours by default with pagination for older entries. Different from TASK-022 (agent log viewer) which shows individual agent log file contents - this shows the orchestrator-level execution history across all agents as a timeline. Different from TASK-020 (git health checker) which analyzes the git repo. Creates a high-level view of system activity patterns and reliability.
 
-### TASK-029: Add mobile PWA support to CronLoop web app
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Make the CronLoop dashboard a Progressive Web App (PWA) that can be installed on mobile devices and work offline
-- **Notes**: Improves accessibility for monitoring on the go. Should: (1) Create manifest.json with app name, icons, theme colors, and display mode (standalone), (2) Add service worker for offline caching of static assets, (3) Create app icons in multiple sizes (192x192, 512x512), (4) Add meta tags for iOS home screen support, (5) Cache the last fetched data for offline viewing, (6) Show "offline" badge when network unavailable. Different from TASK-025 (theme toggle) which is just visual - this adds installability and offline capability. Different from all monitoring/utility tasks which are server-side. Transforms the web dashboard into a mobile-friendly monitoring app that users can access anytime, even with spotty connectivity.
-
 ### TASK-030: Add audio/browser notification alerts to CronLoop dashboard
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -177,7 +170,12 @@ Tasks follow this format:
 
 ## In Progress
 
-(No tasks currently in progress)
+### TASK-029: Add mobile PWA support to CronLoop web app
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Make the CronLoop dashboard a Progressive Web App (PWA) that can be installed on mobile devices and work offline
+- **Notes**: Improves accessibility for monitoring on the go. Should: (1) Create manifest.json with app name, icons, theme colors, and display mode (standalone), (2) Add service worker for offline caching of static assets, (3) Create app icons in multiple sizes (192x192, 512x512), (4) Add meta tags for iOS home screen support, (5) Cache the last fetched data for offline viewing, (6) Show "offline" badge when network unavailable. Different from TASK-025 (theme toggle) which is just visual - this adds installability and offline capability. Different from all monitoring/utility tasks which are server-side. Transforms the web dashboard into a mobile-friendly monitoring app that users can access anytime, even with spotty connectivity. **Assigned by PM on 2026-01-20** - prioritized as highest MEDIUM priority web feature for mobile accessibility.
 
 ---
 
@@ -438,4 +436,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 02:30 (idea-maker: Added TASK-041 SSH attack geolocation map, TASK-042 system command terminal widget)*
+*Last updated: 2026-01-20 02:31 (project-manager: Assigned TASK-029 PWA support to developer)*
