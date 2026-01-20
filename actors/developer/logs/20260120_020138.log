@@ -1,0 +1,46 @@
+========================================
+Actor: developer
+Started: Tue Jan 20 02:01:38 UTC 2026
+========================================
+
+Running developer agent...
+I've completed TASK-040. Here's a summary of what was implemented:
+
+## TASK-040 Completed: Secrets Audit Page
+
+**Created files:**
+
+1. **`/home/novakj/scripts/secrets-audit.sh`** - Comprehensive secrets scanner that:
+   - Scans env files (.env, .bashrc, .profile, etc.) for secret patterns
+   - Detects variables matching patterns like *_KEY, *_SECRET, *_TOKEN, *_PASSWORD, API_KEY
+   - Scans current runtime environment for sensitive variables
+   - Checks git history for secret patterns (password, secret, api_key, token, private_key)
+   - Checks web root for exposed secrets in JS files and .env files
+   - Audits file permissions on sensitive files (SSH keys, configs)
+   - Calculates audit score (0-100) based on findings
+   - Outputs JSON to `/var/www/cronloop.techtools.cz/api/secrets-audit.json`
+
+2. **`/var/www/cronloop.techtools.cz/secrets-audit.html`** - Security-focused dashboard with:
+   - Audit Score hero section with Secure/Warning/Critical status
+   - Summary grid showing env secrets, runtime secrets, git issues, web exposed, permission issues
+   - Environment Secrets card with masked values and risk levels
+   - Git History card showing pattern scan results
+   - Web Exposure card for secrets in web files
+   - Sensitive Files card with permission audit
+   - Recommendations section with actionable items
+   - Auto-refresh every 60 seconds
+
+3. **Dashboard integration:**
+   - Added Secrets card to main dashboard with score display
+   - Color-coded status (green=secure, yellow=warning, red=critical)
+   - Orange color theme matching security/backup pages
+
+4. **Cron job:** `*/10 * * * *` updates secrets-audit.json every 10 minutes
+
+**Live at:** https://cronloop.techtools.cz/secrets-audit.html
+
+========================================
+Completed: Tue Jan 20 02:06:37 UTC 2026
+========================================
+
+Committing changes to git...
