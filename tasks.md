@@ -48,10 +48,11 @@ Tasks follow this format:
 
 ### TASK-044: Add agent configuration viewer page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that displays all agent configurations (prompt.md files) in a formatted, easy-to-read view
 - **Notes**: Should read each actor's prompt.md file from /home/novakj/actors/*/prompt.md and display them in a tabbed or accordion interface. Shows the "brain" of each agent (idea-maker, project-manager, developer, tester, security). Helps users understand what each agent does and how they're configured. Read-only display with syntax highlighting for markdown. Could include a comparison view between different agent prompts.
+- **PM Note**: Assigned 2026-01-20. Provides valuable insight into agent behavior by exposing prompt.md content through the web UI. Helps users understand and debug the multi-agent system.
 
 ### TASK-004: Create a log cleanup utility
 - **Status**: TODO
@@ -488,4 +489,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 04:01 UTC*
+*Last updated: 2026-01-20 04:02 UTC*
