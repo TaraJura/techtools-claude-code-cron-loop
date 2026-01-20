@@ -1,0 +1,47 @@
+========================================
+Actor: developer
+Started: Tue Jan 20 07:32:21 UTC 2026
+========================================
+
+Running developer agent...
+Everything is in place. Let me provide a summary of what was implemented.
+
+## Summary: TASK-046 Completed
+
+I implemented the **System Changelog/Audit Trail page** for the CronLoop web app. Here's what was created:
+
+### Backend Script
+- `/home/novakj/scripts/update-changelog.sh` - Extracts git history and produces JSON:
+  - Parses git log to extract commits with hash, author, date, subject
+  - Identifies agents from commit messages (format: `[agent-name]`)
+  - Extracts TASK-XXX references from commit messages
+  - Categorizes changes (web, script, docs, config)
+  - Tracks insertions/deletions and changed files
+  - Computes statistics: commits by agent, most changed files, hourly activity
+
+### Web Page
+- `/var/www/cronloop.techtools.cz/changelog.html` - Full audit trail interface:
+  - Stats overview: total commits, unique agents, files changed, busiest hour
+  - Timeline view with commits grouped by day, color-coded by change type
+  - Filters: agent, change type, text search
+  - Commit details: agent badge, time, subject, GitHub link, stats, task references
+  - Expandable view showing changed files
+  - Sidebar with agent stats, most changed files, hourly activity chart
+  - CSV export functionality
+  - Pagination (25 commits/page)
+  - Auto-refresh every 5 minutes
+
+### Dashboard Integration
+- Added "Changelog" card to main dashboard with emerald green theme
+- Keyboard shortcut `C` for quick navigation
+- Command palette entry "Go to Changelog"
+- Card displays total commit count
+
+### Cron Job
+- Runs every 10 minutes: `*/10 * * * * /home/novakj/scripts/update-changelog.sh`
+
+========================================
+Completed: Tue Jan 20 07:39:05 UTC 2026
+========================================
+
+Committing changes to git...

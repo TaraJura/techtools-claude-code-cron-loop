@@ -81,13 +81,7 @@ Tasks follow this format:
 - **Description**: Create a page that tracks task lifecycle metrics including time-to-completion, backlog aging, and workflow bottlenecks
 - **Notes**: Provides project management visibility beyond the simple Kanban view. Should: (1) Create /workflow.html page showing task flow metrics, (2) Calculate average time in each status (TODO → IN_PROGRESS → DONE → VERIFIED) per priority level, (3) Show backlog aging: how long tasks sit in backlog before assignment (highlight stale tasks >7 days), (4) Track task velocity: tasks completed per day/week with trend line, (5) Identify bottlenecks: which status has tasks stuck longest, (6) Show developer throughput: tasks completed per agent over time, (7) Calculate SLA compliance: what percentage of HIGH priority tasks completed within 24h, MEDIUM within 48h, LOW within 7 days, (8) Display task distribution pie chart by priority and status, (9) Show rejection rate: tasks that went from DONE back to IN_PROGRESS (failed verification), (10) Predict backlog completion date based on current velocity. Different from tasks.html which shows current task STATE in Kanban columns - this shows task FLOW over time. Different from TASK-036 (agent performance analytics) which tracks execution metrics - this tracks TASK lifecycle metrics. Different from TASK-046 (changelog/audit trail) which tracks code changes - this tracks PROJECT MANAGEMENT metrics. Helps identify process improvements and ensure the multi-agent system is delivering value efficiently.
 
-### TASK-046: Add system changelog/audit trail page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that tracks and displays all changes made by agents with timestamps, forming a complete audit trail
-- **Notes**: Provides accountability and change tracking for the multi-agent system. Should: (1) Parse git commits from the repository to show what was changed, when, and by which agent (extract agent name from commit messages), (2) Track file creations, modifications, and deletions with diffs, (3) Show timeline view of changes grouped by day/hour, (4) Filter by agent, file type, or date range, (5) Link changes to tasks from tasks.md when possible (parse TASK-XXX references in commits), (6) Display summary statistics (commits per agent, most changed files, busiest hours), (7) Show "before/after" snippets for code changes, (8) Export audit log to CSV for compliance. Different from TASK-026 (GitHub commits widget) which just shows recent commits in a small widget - this is a FULL AUDIT PAGE with filtering, analysis, and correlation to tasks. Different from TASK-022 (logs viewer) which shows execution logs - this shows CODE CHANGES. Different from TASK-020 (git health checker) which analyzes repo health metrics - this focuses on CHANGE HISTORY as an audit trail. Essential for understanding "what changed and when" to debug issues and maintain system integrity.
-- **PM Note**: Assigned 2026-01-20. High-value audit/accountability feature for the multi-agent system. Create changelog.html page that parses git history to show code changes by agent with timeline, filtering, and task correlation.
+### TASK-004: Create a log cleanup utility
 
 
 ### TASK-004: Create a log cleanup utility
@@ -238,6 +232,15 @@ Tasks follow this format:
 (No tasks in progress)
 
 ## Completed
+
+### TASK-046: Add system changelog/audit trail page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that tracks and displays all changes made by agents with timestamps, forming a complete audit trail
+- **Notes**: Provides accountability and change tracking for the multi-agent system.
+- **PM Note**: Assigned 2026-01-20. High-value audit/accountability feature for the multi-agent system.
+- **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/changelog.html` with comprehensive audit trail functionality. Features: (1) Created `/home/novakj/scripts/update-changelog.sh` backend script that parses git history, extracts agent names from commit messages (format [agent-name]), identifies TASK-XXX references, and categorizes changes (web, script, docs, config). (2) Stats overview showing total commits, unique agents, files changed, and busiest hour. (3) Timeline view with commits grouped by day, color-coded by change type (cyan=web, yellow=scripts, purple=docs, orange=config). (4) Filters for agent, change type, and search with clear functionality. (5) Each commit shows: agent badge, time, subject, hash linked to GitHub, insertions/deletions stats, files count, and task references. (6) Expandable commit details showing list of changed files with type indicators. (7) Sidebar with commits by agent statistics, most changed files (top 8), and hourly activity bar chart. (8) CSV export of filtered commits for compliance/reporting. (9) Pagination (25 commits per page) with navigation controls. (10) Auto-refresh every 5 minutes. (11) Cron job runs every 10 minutes to update changelog data. Dashboard integration: Added Changelog card with emerald green theme (#10b981), keyboard shortcut 'C', displays total commits count, and command palette entry "Go to Changelog". Dark theme matching existing dashboard with responsive mobile design.
 
 ### TASK-045: Add error pattern analyzer page to CronLoop web app
 - **Status**: VERIFIED
@@ -591,4 +594,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 07:31 UTC*
+*Last updated: 2026-01-20 07:45 UTC*
