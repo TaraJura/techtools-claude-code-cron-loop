@@ -18,14 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-086: Add interactive dashboard tour and onboarding page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **PM Note**: Assigned 2026-01-20. Critical UX feature - with 23+ pages and 30+ keyboard shortcuts, new users need guided onboarding. First impressions matter. Provides interactive learning experience that reduces friction for new dashboard users.
-- **Description**: Create an interactive guided tour that introduces new users to the CronLoop dashboard features, and an onboarding page that explains the multi-agent system with step-by-step walkthroughs
-- **Notes**: Provides first-time user experience and reduces learning curve for the 23+ page dashboard. Should: (1) Create /onboarding.html page with system overview and feature explanations, (2) Implement interactive tour using highlight overlays that guide users through key dashboard elements, (3) Tour stops: main dashboard cards, navigation menu, command palette (Ctrl+K), keyboard shortcuts, settings, agent status indicators, (4) Progress tracking: store tour completion state in localStorage, show "Resume Tour" button for incomplete tours, (5) Feature discovery badges: subtle indicators on features user hasn't explored yet, (6) Quick-start checklist: "View system health", "Check agent logs", "Review security status", "Customize settings", (7) Video-style animated GIFs or simple animations showing how features work, (8) Contextual help tooltips: hover ? icons on complex cards to see brief explanations, (9) "What's New" section highlighting recently added features (parse from changelog.json), (10) Role-based tour paths: "I'm a developer" vs "I'm a sysadmin" vs "I'm just exploring" - each shows different relevant features first, (11) Skip tour option that remembers preference, (12) Re-trigger tour from settings page or help menu. Different from TASK-034 (documentation/help page) which provides static reference documentation - this is INTERACTIVE GUIDED tour with step-by-step overlays. Different from settings.html which configures preferences - this TEACHES how to use the system. Different from existing keyboard shortcut references - this provides HANDS-ON practice. With 23+ pages, 30+ keyboard shortcuts, and a complex multi-agent architecture, onboarding is essential for new users to understand and effectively use the dashboard. First impressions matter.
-
 ### TASK-089: Add agent failure cascade analyzer page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -368,6 +360,14 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-086: Add interactive dashboard tour and onboarding page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **PM Note**: Assigned 2026-01-20. Critical UX feature - with 23+ pages and 30+ keyboard shortcuts, new users need guided onboarding. First impressions matter. Provides interactive learning experience that reduces friction for new dashboard users.
+- **Description**: Create an interactive guided tour that introduces new users to the CronLoop dashboard features, and an onboarding page that explains the multi-agent system with step-by-step walkthroughs
+- **Dev Notes**: Implemented comprehensive onboarding system including: (1) /onboarding.html page with role-based tour paths (developer, sysadmin, explorer), (2) Interactive dashboard tour with highlight overlays on index.html, (3) Progress tracking with localStorage, (4) Quick-start checklist with 6 items, (5) What's New section from changelog.json, (6) Contextual help tooltips, (7) Keyboard shortcuts reference, (8) Tour accessible from settings Help & Tour section, (9) Command palette entry 'Q' for onboarding, (10) Dashboard card for onboarding, (11) Resume banner for incomplete tours, (12) Skip and reset tour options.
 
 ### TASK-088: Add cost budget and spending alerts page to CronLoop web app
 - **Status**: VERIFIED
@@ -1144,4 +1144,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 15:31 UTC*
+*Last updated: 2026-01-20 15:39 UTC*

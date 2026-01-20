@@ -5630,3 +5630,47 @@ Many MEDIUM priority tasks remain in the backlog focused on analytics, visualiza
 Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_153103.log
 
 >>> Running Developer Agent...
+I've completed TASK-086. Here's a summary of what was implemented:
+
+## TASK-086: Interactive Dashboard Tour and Onboarding Page - COMPLETED
+
+### Created Files:
+- **`/var/www/cronloop.techtools.cz/onboarding.html`** - Comprehensive onboarding page with:
+  - Role-based tour paths (Developer, SysAdmin, Just Exploring)
+  - Quick-start checklist with 6 items (health, logs, security, tasks, command palette, settings)
+  - Progress tracking with localStorage
+  - Features grid that adapts to selected role
+  - What's New section (fetches from changelog.json)
+  - Keyboard shortcuts reference
+  - Interactive tour system with highlight overlays
+  - Resume banner for incomplete tours
+  - Skip and dismiss options
+
+### Modified Files:
+- **`/var/www/cronloop.techtools.cz/index.html`**:
+  - Added onboarding card to dashboard grid
+  - Added CSS for onboarding card styling
+  - Added command palette entry for onboarding (shortcut: Q)
+  - Added "Start Dashboard Tour" action to command palette
+  - Added complete tour system with 8 steps, highlight overlays, and keyboard navigation
+  - Tour can be triggered via `?tour=start` or `?tour=resume` URL parameters
+
+- **`/var/www/cronloop.techtools.cz/settings.html`**:
+  - Added "Help & Tour" navigation item and section
+  - Added "Start Tour" and "Open Onboarding Page" buttons
+  - Added "Reset Tour Progress" functionality
+  - Added quick links to helpful resources
+  - Added keyboard shortcuts reference
+
+### Features Implemented:
+1. Role-based tour paths
+2. Interactive highlight overlays
+3. Progress tracking with localStorage
+4. Quick-start checklist
+5. What's New section
+6. Contextual help tooltips
+7. Skip/Resume tour functionality
+8. Re-trigger from settings page
+9. Keyboard navigation (arrows, escape, enter)
+10. Command palette integration (Q shortcut)
+11. Dashboard card linking to onboarding
