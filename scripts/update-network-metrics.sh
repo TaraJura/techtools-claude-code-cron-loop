@@ -215,33 +215,40 @@ if [ ! -f "$HISTORY_FILE" ]; then
 }
 EOF
 else
-    # Read existing history
-    EXISTING_SNAPSHOTS=$(cat "$HISTORY_FILE" | grep -oP '"snapshots":\s*\[\K[^\]]*' || echo "")
+    # Use Python to safely read and update JSON history
+    python3 << PYEOF
+import json
+import sys
 
-    # Count existing snapshots (rough estimate)
-    SNAP_COUNT=$(echo "$EXISTING_SNAPSHOTS" | grep -o '"epoch"' | wc -l || echo "0")
-    SNAP_COUNT=$(echo "$SNAP_COUNT" | tr -d ' \n')
+try:
+    with open("$HISTORY_FILE", "r") as f:
+        history = json.load(f)
+except (json.JSONDecodeError, FileNotFoundError):
+    # Invalid JSON, start fresh
+    history = {"last_updated": "$TIMESTAMP", "retention_days": 7, "snapshots": []}
 
-    # If at max, remove oldest
-    if [ "$SNAP_COUNT" -ge "$MAX_HISTORY" ] 2>/dev/null; then
-        # Remove first snapshot (oldest)
-        EXISTING_SNAPSHOTS=$(echo "$EXISTING_SNAPSHOTS" | sed 's/^[^}]*},\s*//')
-    fi
+# Parse new snapshot
+new_snapshot = json.loads('''$SNAPSHOT''')
 
-    # Build new history
-    if [ -n "$EXISTING_SNAPSHOTS" ] && [ "$EXISTING_SNAPSHOTS" != "" ]; then
-        NEW_SNAPSHOTS="$EXISTING_SNAPSHOTS,$SNAPSHOT"
-    else
-        NEW_SNAPSHOTS="$SNAPSHOT"
-    fi
+# Ensure snapshots array exists
+if "snapshots" not in history or not isinstance(history["snapshots"], list):
+    history["snapshots"] = []
 
-    cat > "$HISTORY_FILE" <<EOF
-{
-  "last_updated": "$TIMESTAMP",
-  "retention_days": 7,
-  "snapshots": [$NEW_SNAPSHOTS]
-}
-EOF
+# Add new snapshot
+history["snapshots"].append(new_snapshot)
+
+# Limit to max history
+MAX_HISTORY = $MAX_HISTORY
+if len(history["snapshots"]) > MAX_HISTORY:
+    history["snapshots"] = history["snapshots"][-MAX_HISTORY:]
+
+# Update timestamp
+history["last_updated"] = "$TIMESTAMP"
+
+# Write back
+with open("$HISTORY_FILE", "w") as f:
+    json.dump(history, f, indent=2)
+PYEOF
 fi
 
 echo "Network metrics updated: $NETWORK_FILE"

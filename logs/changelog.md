@@ -20,6 +20,12 @@
 
 ## 2026-01-20
 
+- **[BUG FIX]** Fixed malformed `network-history.json` and ROOT CAUSE in `update-network-metrics.sh`:
+  - JSON corruption: syntax error `[{,{,{` on line 4
+  - Root cause: Shell-based JSON parsing with grep regex was unreliable for nested JSON
+  - Fix: Replaced shell JSON manipulation with Python json module for safe history updates
+  - This prevents future JSON corruption in network-history.json
+
 - **[BUG FIX]** Fixed ROOT CAUSE of JSON decimal formatting bug in scripts:
   - `update-workflow.sh` - bc outputs `.7` instead of `0.7` for values <1
   - `update-costs.sh` - same issue with cost calculations <$1
