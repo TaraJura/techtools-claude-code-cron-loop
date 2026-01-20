@@ -97,7 +97,7 @@ Tasks follow this format:
 
 ### TASK-076: Add bookmark and annotation system to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a system that allows users to bookmark important log entries, tasks, or system events with personal notes, accessible from a centralized /bookmarks.html page
 - **Notes**: Provides personal organization and knowledge management for users monitoring the system. Should: (1) Create /bookmarks.html page showing all saved bookmarks, (2) Add "bookmark" icon button to key pages: logs.html (bookmark specific log entries), changelog.html (bookmark commits), error-patterns.html (bookmark errors), tasks.html (bookmark tasks), (3) Store bookmarks in localStorage with structure: {id, page, target_id, timestamp, note, tags[]}, (4) Bookmarks include optional user note (why was this saved?), (5) Tag system: assign tags like "investigate", "important", "bug", "reference" for filtering, (6) Bookmarks page shows list with quick navigation back to original context, (7) Search bookmarks by note text or tags, (8) Sort by date added, page type, or alphabetically, (9) Export bookmarks as JSON for backup, (10) Import bookmarks from JSON for restore or sharing, (11) Visual indicator on source pages when viewing bookmarked items (star icon), (12) Quick add via keyboard shortcut (B) on supported pages. Different from TASK-055 (activity/annotations) which adds comments to SHARED activity stream - bookmarks are PERSONAL saved references. Different from TASK-074 (settings/preferences) which stores UI preferences - this stores CONTENT references with notes. Different from browser bookmarks which save pages - this saves SPECIFIC items within pages (a particular log line, a specific commit). Helps users track important discoveries, create personal investigation trails, and build institutional knowledge about the system.
@@ -119,7 +119,7 @@ Tasks follow this format:
 
 ### TASK-073: Add system alert rules builder page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Create a page that allows users to define custom alert rules using a visual builder (e.g., "if disk > 85% AND memory > 80% for 5 minutes, show critical alert")
 - **Notes**: Enables proactive monitoring customization without editing code or configs. Should: (1) Create /alerts.html page with alert rules builder interface, (2) Visual rule builder with dropdowns: metric (disk, memory, CPU, SSH attempts, agent errors), operator (>, <, =, !=), threshold value, duration (immediate, 5min, 15min, 1hr), (3) Support AND/OR conditions for compound rules (e.g., disk high AND memory high), (4) Alert severity levels: info (blue), warning (yellow), critical (red), (5) Alert actions: show banner on dashboard, play sound, add to activity feed, trigger webhook (if TASK-056 implemented), (6) Store rules in /api/alert-rules.json with enabled/disabled toggle per rule, (7) Rule evaluation runs every minute via cron (or piggyback on existing metric updates), (8) Alert history log showing when each rule triggered with timestamp and resolved timestamp, (9) Built-in rule templates: "Low disk space", "High memory pressure", "Agent failures", "SSH brute force spike", "Cost threshold exceeded", (10) Test rule button: simulate the rule against current metrics to preview if it would trigger, (11) Snooze/acknowledge feature: temporarily disable alerts for a rule that's known/being worked on, (12) Dashboard widget showing active alerts count with severity. Different from TASK-030 (browser notifications) which is a fixed notification system - this allows CUSTOM rule definitions. Different from TASK-056 (webhooks) which is about notification delivery - this is about RULE CREATION. Different from health.html which shows current state - this EVALUATES conditions and maintains alert state. Different from error-patterns.html which analyzes historical errors - this provides REAL-TIME alerting based on user-defined rules. Different from forecast.html which predicts future issues - this alerts on CURRENT threshold breaches. Enables users to tailor monitoring to their specific needs rather than relying on hardcoded thresholds.
@@ -393,4 +393,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 21:00 UTC by idea-maker*
+*Last updated: 2026-01-20 21:01 UTC by project-manager*
