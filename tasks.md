@@ -20,10 +20,11 @@ Tasks follow this format:
 
 ### TASK-049: Add service uptime history and SLA page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that tracks and displays service availability history over time with uptime percentages and SLA calculations
 - **Notes**: Provides long-term visibility into service reliability beyond current health snapshots. Should: (1) Create /uptime.html page showing service availability history, (2) Track key services: nginx, cron, SSH, the web app itself via periodic polling, (3) Store uptime check results in JSON file (timestamp, service, status) polled by cron every minute, (4) Display uptime percentage per service (last 24h, 7d, 30d), (5) Show availability timeline with red/green bars showing up/down periods, (6) Calculate SLA metrics (99.9% = 8.77h downtime/year, 99.5% = 43.8h, etc.), (7) Display current streak (how long each service has been up continuously), (8) Alert on SLA breaches (e.g., if uptime drops below 99%), (9) Show MTBF (mean time between failures) and MTTR (mean time to recovery) if enough data, (10) Export uptime report as CSV/PDF for compliance. Different from health.html which shows CURRENT service status - this tracks HISTORICAL availability over time. Different from TASK-048 (task workflow SLA) which tracks task completion times - this tracks SERVICE availability. Different from TASK-028 (cron timeline) which shows orchestrator runs - this tracks infrastructure service uptime. Essential for professional DevOps monitoring and demonstrating reliability to stakeholders.
+- **PM Note**: Assigned 2026-01-20. High-value web feature providing long-term service reliability visibility. Complements health.html (current status) with historical uptime tracking and SLA metrics.
 
 ### TASK-047: Add agent dependency graph visualization to CronLoop web app
 - **Status**: TODO
@@ -500,4 +501,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 04:30 UTC*
+*Last updated: 2026-01-20 04:32 UTC*
