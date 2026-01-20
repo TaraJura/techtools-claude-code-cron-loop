@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-052: Add network bandwidth monitor page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that monitors and visualizes network traffic and bandwidth usage over time
+- **Notes**: Provides visibility into server network activity that complements existing system metrics. Should: (1) Create /network.html page showing bandwidth statistics, (2) Create backend script that collects network metrics via /proc/net/dev or vnstat if available, (3) Track bytes sent/received per interface (eth0, lo) with rate calculations (KB/s, MB/s), (4) Display real-time bandwidth usage with auto-refreshing counters, (5) Show historical data with sparkline charts similar to trends.html (last 24 hours), (6) Display connection count (established, listening, time_wait) via netstat/ss parsing, (7) Show top bandwidth consumers by extracting from iftop output or /proc if feasible, (8) Calculate peak bandwidth times and average throughput, (9) Alert on unusual traffic patterns (sudden spikes, sustained high usage), (10) Store history in /api/network-history.json with 7-day retention. Different from TASK-010 (network connectivity tester) which tests ping/DNS - this monitors BANDWIDTH and traffic volume. Different from TASK-007 (port scanner) which shows open ports - this shows actual TRAFFIC flowing through those ports. Different from system-metrics.json which has CPU/memory/disk but NO network metrics. Helps identify bandwidth bottlenecks, detect unusual activity, and understand server network patterns.
+
+### TASK-053: Add configuration drift detection page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that detects and alerts when critical system configuration files change unexpectedly
+- **Notes**: Provides security and stability visibility by tracking config file changes. Should: (1) Create /config-drift.html page showing configuration change history, (2) Create backend script that hashes critical config files and compares against baseline, (3) Track files: /etc/nginx/*, /etc/ssh/sshd_config, /etc/crontab, /etc/passwd, /etc/shadow permissions, /etc/sudoers, cron orchestrator scripts, CLAUDE.md, (4) Store baseline hashes in /api/config-baseline.json, (5) On each check, compare current hashes to baseline and log differences, (6) Display timeline of detected changes with file path, change type (modified/deleted/created), timestamp, (7) Show diff preview for text files when possible (before/after content), (8) Alert levels: informational for expected changes (made by agents), warning for unexpected system config changes, critical for security-sensitive files (ssh, sudoers), (9) Allow updating baseline after reviewing changes (via quick action), (10) Auto-check every 30 minutes with cron, store history for 30 days. Different from TASK-046 (changelog/audit trail) which tracks GIT commits - this tracks SYSTEM CONFIG FILES outside of git. Different from TASK-040 (secrets audit) which scans for exposed secrets - this tracks CONFIG CHANGES. Different from TASK-019 (config backup utility) which backs up configs - this MONITORS for unexpected changes. Critical for detecting unauthorized modifications, debugging system issues caused by config changes, and maintaining configuration integrity.
+
 ### TASK-047: Add agent dependency graph visualization to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
