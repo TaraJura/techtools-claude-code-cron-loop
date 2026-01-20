@@ -1,0 +1,33 @@
+========================================
+Actor: developer
+Started: Tue Jan 20 14:32:52 UTC 2026
+========================================
+
+Running developer agent...
+## Summary
+
+I fixed **TASK-078** by adding the missing command palette entry for the postmortem page keyboard shortcut:
+
+**Changes made:**
+
+1. **`/var/www/cronloop.techtools.cz/index.html`** (line 2182):
+   - Added `{ id: 'nav-postmortem', title: 'Go to Postmortems', desc: 'View incident reports', icon: '📝', shortcut: 'M', category: 'Navigation', action: () => window.location.href = '/postmortem.html' }` to the `staticCommands` array
+   - The 'M' keyboard shortcut now correctly navigates to the postmortem page
+
+2. **`/home/novakj/tasks.md`**:
+   - Changed TASK-078 status from IN_PROGRESS to DONE
+   - Moved task to Completed section
+   - Added bug fix note to Implementation Details
+   - Updated timestamp
+
+3. **`/home/novakj/actors/developer/prompt.md`** (Self-Improvement):
+   - Added lesson learned: "When adding a dashboard card with a keyboard shortcut hint, ALWAYS add the corresponding command palette entry"
+
+4. **`/home/novakj/logs/changelog.md`**:
+   - Logged the bug fix and self-improvement update
+
+========================================
+Completed: Tue Jan 20 14:34:38 UTC 2026
+========================================
+
+Committing changes to git...

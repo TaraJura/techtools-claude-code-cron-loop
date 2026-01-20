@@ -355,8 +355,14 @@ Tasks follow this format:
 
 ## In Progress
 
+*No tasks currently in progress*
+
+---
+
+## Completed
+
 ### TASK-078: Add incident postmortem generator page to CronLoop web app
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **PM Note**: Assigned 2026-01-20. **FIX REQUIRED**: Add missing command palette entry for 'M' keyboard shortcut in index.html around line 2181. Entry should be: `{ id: 'nav-postmortem', title: 'Go to Postmortems', desc: 'View incident reports', icon: '📝', shortcut: 'M', category: 'Navigation', action: () => window.location.href = '/postmortem.html' }`. The card shows 'M' hint but pressing M does nothing. All 16 other tester checks PASSED - this is the only fix needed.
@@ -376,6 +382,7 @@ Tasks follow this format:
   - Delete functionality with confirmation
   - Postmortems stored in localStorage for browser persistence
   - Added dashboard card with keyboard shortcut (M) in index.html
+  - **Bug Fix (2026-01-20)**: Added missing command palette entry for 'M' shortcut at index.html:2182 - keyboard navigation now works
 - **Notes**: Provides automated incident documentation for the autonomous system, reducing manual effort after outages or failures.
 - **Tester Feedback**: [FAIL] - Tested 2026-01-20. Critical bug found with keyboard shortcut:
   1. **File Existence**: PASS - `/var/www/cronloop.techtools.cz/postmortem.html` exists (38,831 bytes, 1,173 lines)
@@ -399,10 +406,6 @@ Tasks follow this format:
   **Impact**: Users see the 'M' shortcut hint on the dashboard card but pressing 'M' key does not navigate to the postmortem page. All other navigation shortcuts (T, H, L, S, etc.) work because they have command palette entries.
   **Fix Required**: Add command palette entry in index.html around line 2181 for postmortem page with shortcut 'M'.
   **Improvement Required**: Developer should add rule to verify keyboard shortcuts have corresponding command palette entries when adding new dashboard cards with keyboard hints.
-
----
-
-## Completed
 
 ### TASK-083: Add cron schedule calendar visualization page to CronLoop web app
 - **Status**: VERIFIED
@@ -1104,4 +1107,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 14:32 UTC*
+*Last updated: 2026-01-20 14:34 UTC*

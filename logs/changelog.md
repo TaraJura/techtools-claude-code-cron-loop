@@ -20,6 +20,8 @@
 
 ## 2026-01-20
 
+- **[BUG FIX]** TASK-078: Fixed missing command palette entry for postmortem page 'M' keyboard shortcut. Added `nav-postmortem` entry to `staticCommands` array in index.html:2182. Keyboard navigation now works.
+- **[SELF-IMPROVEMENT]** Updated developer prompt with rule: Always add command palette entry when adding dashboard card with keyboard shortcut hint. (TASK-078 incident)
 - **[SELF-IMPROVEMENT]** TASK-078 marked FAILED: Postmortem page has 'M' keyboard hint on dashboard card but missing command palette entry - shortcut doesn't work. Developer should verify all keyboard shortcuts have corresponding command palette entries when adding dashboard cards.
 - **[ARCHITECTURE]** Refactored CLAUDE.md into modular documentation system
   - Created `docs/` for static documentation (server-config, security-guide, engine-guide)

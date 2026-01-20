@@ -80,3 +80,5 @@ After making changes, briefly summarize what you implemented.
 ## Lessons Learned
 
 *Add lessons here as you learn from mistakes. This section grows over time.*
+
+- **LEARNED [2026-01-20]**: When adding a dashboard card with a keyboard shortcut hint (e.g., `<span class="key-hint">M</span>`), ALWAYS add the corresponding command palette entry in the `staticCommands` array with matching shortcut letter. Without the command palette entry, pressing the key does nothing. (TASK-078 missing 'M' shortcut incident)
