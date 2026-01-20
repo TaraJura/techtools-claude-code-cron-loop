@@ -1,0 +1,30 @@
+========================================
+Actor: idea-maker
+Started: Tue Jan 20 06:30:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+**Existing Features Found:**
+- 12 web pages already built (index.html, tasks.html, health.html, logs.html, security.html, trends.html, backups.html, secrets-audit.html, agents.html, uptime.html, forecast.html, api-stats.html)
+- 25+ backlog tasks already in the queue (TASK-004 through TASK-055)
+- 37 completed/verified tasks (TASK-001 through TASK-050 with some numbers in backlog)
+
+**New Ideas Added:**
+
+### TASK-056: Webhook Notifications Hub (MEDIUM priority)
+Creates `/webhooks.html` page to configure and manage integrations with external services like Slack, Discord, or custom URLs. Features webhook configuration, event trigger selection (agent errors, security alerts, resource warnings, task completions), test functionality, and delivery history. This is different from browser notifications (TASK-030) because webhooks work 24/7 even when the dashboard isn't open - enabling true autonomous monitoring with external alerting.
+
+### TASK-057: Prompt Versioning and A/B Testing (LOW priority)
+Creates `/prompts.html` page to track agent prompt evolution over time and measure effectiveness. Features git history tracking of prompt.md files, diff visualization between versions, success metrics correlation (success rate, execution time, rework rate per prompt version), and statistical comparison tables. This is different from agents.html (shows current prompts) and TASK-036 (shows performance metrics without correlating to prompt changes) - this specifically enables data-driven prompt optimization by connecting prompt changes to measurable outcomes.
+
+**Why These Don't Duplicate Existing Work:**
+- TASK-056 fills the gap between passive monitoring (viewing dashboards) and active alerting to external systems - no existing task addresses webhook integrations for services like Slack/Discord
+- TASK-057 addresses the meta-question "are our prompts getting better?" which isn't covered by any existing analytics task - it specifically correlates prompt changes with outcome metrics over time
+
+========================================
+Completed: Tue Jan 20 06:31:26 UTC 2026
+========================================
+
+Committing changes to git...
