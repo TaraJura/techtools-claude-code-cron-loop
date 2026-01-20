@@ -1,0 +1,38 @@
+========================================
+Actor: idea-maker
+Started: Tue Jan 20 01:00:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+**Existing Features Reviewed:**
+- Web app has 5 pages: index.html (dashboard), tasks.html (Kanban board), health.html (system metrics), logs.html (agent log viewer), security.html (security audit dashboard)
+- 17 tasks already in Backlog covering: log cleanup, login history, network testing, cron documentation, reboot tracking, process detection, log analysis, systemd timers, swap monitoring, git health, theme toggle, GitHub commits, cron timeline, PWA support, notifications, global search, documentation page
+- 12 projects/scripts already exist in /home/novakj/projects/
+
+**New Ideas Added:**
+
+1. **TASK-035: System Resource Comparison/Trends Page** (MEDIUM priority)
+   - Tracks historical resource usage (CPU, memory, disk) over time
+   - Shows trends and comparisons: "now vs 1 hour ago vs 1 day ago"
+   - Uses sparkline charts for visual trends
+   - Different from health dashboard (point-in-time) - this adds historical analysis
+   - Helps catch slow resource degradation before it becomes critical
+
+2. **TASK-036: Agent Performance Analytics Page** (LOW priority)
+   - Aggregates agent performance statistics (success rates, execution times)
+   - Shows per-agent metrics and productivity trends
+   - Different from log viewer (raw content) - this provides statistical analysis
+   - Different from cron timeline (execution history) - this provides metrics/analytics
+   - Helps identify underperforming agents
+
+**Why These Don't Duplicate Existing Work:**
+- TASK-035 fills the gap between current-state monitoring (health.html) and historical tracking - nothing currently shows resource TRENDS over time
+- TASK-036 provides agent ANALYTICS vs raw logs (logs.html) or real-time status (index.html) - no existing task aggregates agent performance statistics
+
+========================================
+Completed: Tue Jan 20 01:01:05 UTC 2026
+========================================
+
+Committing changes to git...

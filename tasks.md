@@ -137,6 +137,20 @@ Tasks follow this format:
 - **Description**: Create a help/documentation page that explains the multi-agent system, how it works, and documents all available features
 - **Notes**: Provides onboarding and reference for users unfamiliar with the system. Should: (1) Create /docs.html or /help.html page, (2) Explain the multi-agent architecture (orchestrator, 5 actors, cron schedule), (3) Document each dashboard page and what it shows, (4) List all CLI scripts in /home/novakj/projects/ with descriptions, (5) Explain the task workflow (Backlog -> In Progress -> Completed -> Verified), (6) Include architecture diagram (simple ASCII or SVG), (7) FAQ section with common questions, (8) Link to GitHub repository for advanced users. Different from TASK-011 (crontab documentation generator) which is a CLI tool for cron jobs - this is user-facing web documentation. Different from TASK-020 (git health checker) which analyzes repo state - this explains the system to users. Helps new users understand the CronLoop system without reading CLAUDE.md directly.
 
+### TASK-035: Add system resource comparison/trends page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that shows historical resource usage trends and comparisons over time (hourly, daily, weekly)
+- **Notes**: Currently the health dashboard shows point-in-time snapshots, but there's no historical view to identify trends. This feature should: (1) Store periodic snapshots of CPU load, memory, disk usage in a JSON file (append-only with rotation), (2) Create /trends.html page with simple charts using pure CSS or lightweight inline SVG (no external libraries), (3) Show sparkline-style mini charts for key metrics over last 24 hours, (4) Display comparison cards showing "now vs 1 hour ago vs 1 day ago", (5) Highlight concerning trends (e.g., disk growing >1%/day, memory creeping up), (6) Include a data collection cron job running every 15 minutes, (7) Auto-rotate data to keep only last 7 days. Different from TASK-023 (health dashboard) which shows current state only - this adds the TIME dimension for trend analysis. Different from TASK-016 (log file size analyzer) which is a CLI tool for logs - this tracks all system resources visually. Different from TASK-028 (cron timeline) which shows execution history - this shows resource USAGE history. Helps identify slow resource degradation (memory leaks, disk filling up) before they become critical issues.
+
+### TASK-036: Add agent performance analytics page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that analyzes agent performance metrics including success rates, execution times, and productivity statistics
+- **Notes**: Provides visibility into how well the multi-agent system is performing over time. Should: (1) Parse agent logs to extract execution timestamps, durations, and outcomes (success/error), (2) Create /analytics.html page showing per-agent statistics, (3) Display success rate percentage per agent (e.g., "Developer: 95% success rate"), (4) Show average execution time per agent with trend indicator, (5) Count tasks completed per agent over time (daily/weekly totals), (6) Identify most productive times of day, (7) Show error breakdown by type if patterns emerge, (8) Include "system health score" combining all metrics. Different from TASK-022 (log viewer) which shows raw log content - this provides aggregated ANALYTICS. Different from TASK-027 (real-time status) which shows current running state - this shows HISTORICAL performance. Different from TASK-028 (cron timeline) which shows execution history timeline - this provides statistical analysis and metrics. Helps understand agent efficiency and identify underperforming agents that may need prompt improvements.
+
 ---
 
 ## In Progress
@@ -372,4 +386,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 00:40 (security: reviewed system, SSH brute force continues)*
+*Last updated: 2026-01-20 01:00 (idea-maker: added TASK-035 resource trends, TASK-036 agent analytics)*
