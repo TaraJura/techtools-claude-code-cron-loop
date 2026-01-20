@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-045: Add error pattern analyzer page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that analyzes agent logs to detect and categorize recurring error patterns across all agents
+- **Notes**: Provides intelligent visibility into system health by identifying repeated issues. Should: (1) Scan all agent logs from actors/*/logs/ for error indicators (error, failed, exception, timeout, permission denied, etc.), (2) Group similar errors using pattern matching (e.g., all "file not found" errors grouped together regardless of specific file), (3) Display error frequency over time (daily/weekly trends), (4) Show which agents produce each error type most often, (5) Identify error "clusters" that occur together (correlation), (6) Calculate MTBF (mean time between failures) per error type, (7) Alert on new error types not seen before, (8) Provide suggested fixes for common error patterns based on error message content. Different from TASK-022 (logs.html) which shows raw log content - this ANALYZES logs for patterns. Different from TASK-036 (analytics) which focuses on success/performance metrics - this focuses specifically on ERROR detection and classification. Different from TASK-038 (conversation viewer) which shows full conversations - this extracts and categorizes only errors. Helps proactively identify systemic issues before they cause major failures.
+
+### TASK-046: Add system changelog/audit trail page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that tracks and displays all changes made by agents with timestamps, forming a complete audit trail
+- **Notes**: Provides accountability and change tracking for the multi-agent system. Should: (1) Parse git commits from the repository to show what was changed, when, and by which agent (extract agent name from commit messages), (2) Track file creations, modifications, and deletions with diffs, (3) Show timeline view of changes grouped by day/hour, (4) Filter by agent, file type, or date range, (5) Link changes to tasks from tasks.md when possible (parse TASK-XXX references in commits), (6) Display summary statistics (commits per agent, most changed files, busiest hours), (7) Show "before/after" snippets for code changes, (8) Export audit log to CSV for compliance. Different from TASK-026 (GitHub commits widget) which just shows recent commits in a small widget - this is a FULL AUDIT PAGE with filtering, analysis, and correlation to tasks. Different from TASK-022 (logs viewer) which shows execution logs - this shows CODE CHANGES. Different from TASK-020 (git health checker) which analyzes repo health metrics - this focuses on CHANGE HISTORY as an audit trail. Essential for understanding "what changed and when" to debug issues and maintain system integrity.
+
 ### TASK-044: Add agent configuration viewer page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -454,4 +468,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 03:06 UTC*
+*Last updated: 2026-01-20 03:30 UTC*
