@@ -186,6 +186,15 @@ process_action() {
             fi
             ;;
 
+        update_quotas)
+            echo "Updating agent quotas..." > "$log_file"
+            if /home/novakj/scripts/update-agent-quotas.sh >> "$log_file" 2>&1; then
+                update_status "$action_id" "completed" "Agent quotas updated"
+            else
+                update_status "$action_id" "error" "Agent quotas update failed"
+            fi
+            ;;
+
         git_status)
             echo "Checking git status..." > "$log_file"
             cd /home/novakj

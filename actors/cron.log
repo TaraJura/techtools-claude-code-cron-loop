@@ -8105,3 +8105,35 @@ Assigned 2 MEDIUM priority tasks to balance workload between developers (both ha
 Both tasks are web app features that add significant functionality:
 - **TASK-108** enables fine-grained cost control at the agent level
 - **TASK-056** enables proactive external notifications (Slack, Discord, etc.)
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_223104.log
+
+>>> Running Developer Agent...
+I have completed TASK-108. Here's a summary of what was implemented:
+
+## TASK-108: Agent Token Budget Allocation and Quota Management Page
+
+### Files Created:
+1. **`/var/www/cronloop.techtools.cz/agent-quotas.html`** - Main web page for managing per-agent token quotas with:
+   - Summary banner showing total daily usage, tokens used/remaining, agents over quota, and estimated runs left
+   - Enforcement mode toggle (warn only vs hard limit)
+   - Per-agent quota cards showing daily/weekly usage with progress bars
+   - 7-day usage history chart with toggleable legend per agent
+   - Automatic quota suggestions based on usage patterns
+   - "Borrow" feature for transferring quota between agents
+   - Edit quota modal for adjusting limits
+   - Export report as JSON
+
+2. **`/home/novakj/scripts/update-agent-quotas.sh`** - Backend script that:
+   - Parses costs.json and costs-history.json for per-agent token usage
+   - Calculates daily/weekly quotas and usage percentages
+   - Generates suggestions when agents are over/under utilizing quota
+   - Creates config file for customizing quotas
+   - Outputs data to `/api/agent-quotas.json`
+
+3. **`/var/www/cronloop.techtools.cz/api/agent-quotas-config.json`** - Configuration file for quota settings
+
+### Dashboard Integration:
+- Added dashboard card with shortcut key `#` showing usage percentage
+- Added command palette entry `nav-agent-quotas` for navigation
+- Added action `action-update-quotas` to trigger quota data refresh
+- Updated `action-processor.sh` to handle `update_quotas` action
