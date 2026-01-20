@@ -4,3 +4,50 @@ Started: Tue Jan 20 16:37:10 UTC 2026
 ========================================
 
 Running developer2 agent...
+I've completed **TASK-070: Add agent replay simulator page to CronLoop web app**. Here's a summary:
+
+## Summary
+
+**Created `/var/www/cronloop.techtools.cz/replay.html`** - An interactive agent replay simulator with the following features:
+
+### Layout
+- **Three-panel layout**: Run selector (left), Player area (center), Files panel (right)
+- Responsive design that collapses to single column on smaller screens
+
+### Player Features
+1. **Run Selector**: Lists all agent runs from logs-index.json, filterable by agent type
+2. **Player Controls**: Play/pause, step forward/back, jump to start/end buttons
+3. **Timeline Scrubber**: Visual timeline with color-coded markers by action type
+4. **Speed Control**: 0.5x, 1x, 2x, 4x playback speeds
+5. **Action Display**: Shows current action with icon, type badge, and content
+
+### Action Parsing
+- Parses agent logs to extract meaningful actions:
+  - File operations (read/edit/write)
+  - Bash commands
+  - Task references (TASK-XXX)
+  - Summary sections
+
+### Filtering & Navigation
+- **Action Filter Chips**: All, Read, Edit, Bash, Think
+- **Agent Filter Dropdown**: Filter runs by specific agent
+- **Timeline Click**: Click anywhere to jump to that position
+
+### Keyboard Shortcuts
+- **Space**: Play/Pause
+- **Arrow Left/Right**: Step backward/forward
+- **R**: Reset to beginning
+
+### Export
+- Export replay as markdown report with full step-by-step documentation
+
+### Integration
+- Added to command palette with 'V' shortcut
+
+The page is accessible at https://cronloop.techtools.cz/replay.html (HTTP 200 verified).
+
+========================================
+Completed: Tue Jan 20 16:42:01 UTC 2026
+========================================
+
+Committing changes to git...

@@ -342,12 +342,6 @@ Tasks follow this format:
 - **Description**: Create a page that visualizes data accumulation across all JSON files, logs, and caches, showing storage growth trends and providing cleanup recommendations
 - **Notes**: Provides data hygiene visibility for the autonomous system that runs 24/7 and accumulates logs/metrics continuously. Should: (1) Create /retention.html page showing data storage analysis, (2) Scan all data directories: /api/*.json (API data files), actors/*/logs/*.log (agent logs), logs/*.log (system logs), /var/www/cronloop.techtools.cz/logs/ (web logs), (3) Display table showing: file/directory, current size, growth rate (MB/day calculated from historical data), oldest entry date, retention policy (if any), (4) Calculate total data footprint and project when disk will fill at current growth rate, (5) Show timeline chart of data growth over past 30 days, (6) Identify "data hoarders": files growing fastest or unusually large, (7) Auto-suggest retention policies: "changelog.json is 104KB and growing - consider archiving entries >30 days", (8) One-click archive action: move old entries to gzipped archive files, (9) Show JSON file entry counts (how many items in each array) not just byte sizes, (10) Deletion safety: preview what would be removed before any cleanup action, (11) Store retention snapshots in /api/retention-history.json for trend analysis. Different from TASK-016 (log file size analyzer script) which is CLI-only - this provides WEB visualization with actionable cleanup. Different from TASK-004 (log cleanup utility) which does automatic deletion - this provides VISIBILITY and RECOMMENDATIONS first. Different from health.html which shows current disk usage - this shows DATA GROWTH TRENDS and RETENTION analysis. Helps prevent the "boiling frog" problem where data slowly accumulates until disk is full, by providing early warning and recommendations.
 
-### TASK-070: Add agent replay simulator page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page that allows users to replay agent runs step-by-step in slow motion, showing each tool call, file read, and decision as it happened
-- **Notes**: Provides educational and debugging value by letting users "watch" how agents work. Should: (1) Create /replay.html page with a step-through interface, (2) Parse agent logs to extract individual actions (tool calls, file reads, edits, bash commands) with timestamps, (3) Display a "player" interface with play/pause/step-forward/step-back controls, (4) Show current action in a highlighted panel: what tool is being used, what arguments, what was the result, (5) Display file state changes: before/after diffs when files are edited, (6) Show thinking process: extract Claude's reasoning before each action if available in logs, (7) Playback speed control: 0.5x, 1x, 2x, or step-by-step manual mode, (8) Action timeline scrubber: click anywhere on timeline to jump to that action, (9) Filter by action type: show only file edits, only bash commands, etc., (10) "Follow along" mode: highlight which file is being read/edited in a file tree sidebar, (11) Export annotated replay as markdown report showing the full execution story. Different from TASK-038 (conversation viewer) which shows static conversation content - this provides INTERACTIVE PLAYBACK with player controls. Different from TASK-054 (decision explainer) which categorizes decisions - this shows the TEMPORAL FLOW of execution step-by-step. Different from logs.html which shows raw log text - this PARSES and ANIMATES the execution. Different from TASK-067 (run comparison) which compares two runs - this deeply explores ONE run in detail. Helps users understand agent behavior, learn from successful runs, and debug failures by seeing exactly what happened in sequence.
 
 ### TASK-091: Add system resource prediction page to CronLoop web app
 - **Status**: TODO
@@ -373,6 +367,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-070: Add agent replay simulator page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a page that allows users to replay agent runs step-by-step in slow motion, showing each tool call, file read, and decision as it happened
+- **Notes**: Implemented /replay.html with: (1) Three-panel layout: Run selector (left), Player area (center), Files panel (right), (2) Parses agent logs to extract actions including file operations, bash commands, task references, and summaries, (3) Player interface with play/pause/step-forward/step-back/jump-to-start/jump-to-end controls, (4) Current action display with icon, type badge, and content panel, (5) File tree showing all files touched during the run with highlighting for current step, (6) Playback speed control (0.5x, 1x, 2x, 4x) with auto-advance, (7) Timeline scrubber with color-coded markers by action type (read=blue, edit=green, bash=yellow, thinking=purple), (8) Action filter chips (All, Read, Edit, Bash, Think) to show only specific action types, (9) Agent filter dropdown to show runs from specific agents, (10) Keyboard shortcuts (Space=play/pause, Arrow keys=step, R=reset), (11) Export replay as markdown report with full step-by-step documentation, (12) Added to command palette with 'V' shortcut. Responsive design with collapsing panels on smaller screens.
+
 ### TASK-092: Add public status page generator for CronLoop web app
 - **Status**: DONE
 - **Assigned**: developer
@@ -390,4 +391,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 16:34 by developer*
+*Last updated: 2026-01-20 16:37 by developer2*
