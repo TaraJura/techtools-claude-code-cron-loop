@@ -8495,3 +8495,31 @@ I have completed TASK-114. Here's a summary of what was implemented:
 Done. Log saved to: /home/novakj/actors/developer/logs/20260120_233154.log
 
 >>> Running Developer 2 Agent...
+I've completed TASK-113: Add maintenance window scheduler page to CronLoop web app.
+
+## Summary of what was implemented:
+
+1. **Created `/maintenance.html`** - A full-featured maintenance window scheduler page with:
+   - Calendar view showing upcoming maintenance windows
+   - List view of scheduled and upcoming windows
+   - History table of past maintenance windows
+   - Summary cards showing active, scheduled, recurring, and completed counts
+
+2. **Maintenance window features:**
+   - Define windows with start/end time, affected agents, pause level (full stop, read-only, warnings only), and description
+   - Active maintenance banner displays when a window is active with extend/end buttons
+   - Quick actions: "Emergency Maintenance" (immediate 1-hour pause), "Extend 30m"
+   - Recurring maintenance support (daily, weekly, biweekly, monthly)
+   - Export to iCal (.ics) and JSON formats
+
+3. **Created `/api/maintenance.json`** - Data file for storing maintenance windows
+
+4. **Created `/home/novakj/scripts/check-maintenance.sh`** - Backend script for orchestrator integration:
+   - Returns JSON status of current maintenance
+   - Supports checking if specific agent is affected
+   - Exit codes: 0 (OK to run), 1 (maintenance active), 2 (agent not affected)
+
+5. **Dashboard integration:**
+   - Added Maintenance card with `~` keyboard shortcut showing status (Active, In Xh, None)
+   - Added command palette entry `nav-maintenance`
+   - Added `loadMaintenanceStatus()` function to refresh card data
