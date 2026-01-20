@@ -14,13 +14,13 @@ MESSAGE="${3:-}"
 
 if [ -z "$AGENT" ] || [ -z "$STATUS" ]; then
     echo "Usage: $0 <agent-name> <status> [message]"
-    echo "  agent-name: idea-maker, project-manager, developer, tester, security"
+    echo "  agent-name: idea-maker, project-manager, developer, developer2, tester, security, supervisor"
     echo "  status: running, idle, completed, error"
     exit 1
 fi
 
 # Valid agents
-AGENTS=("idea-maker" "project-manager" "developer" "tester" "security")
+AGENTS=("idea-maker" "project-manager" "developer" "developer2" "tester" "security" "supervisor")
 
 # Check if agent is valid
 VALID=0
@@ -66,6 +66,12 @@ if [ ! -f "$STATUS_FILE" ]; then
             "last_completed": null,
             "message": ""
         },
+        "developer2": {
+            "status": "idle",
+            "last_run": null,
+            "last_completed": null,
+            "message": ""
+        },
         "tester": {
             "status": "idle",
             "last_run": null,
@@ -73,6 +79,12 @@ if [ ! -f "$STATUS_FILE" ]; then
             "message": ""
         },
         "security": {
+            "status": "idle",
+            "last_run": null,
+            "last_completed": null,
+            "message": ""
+        },
+        "supervisor": {
             "status": "idle",
             "last_run": null,
             "last_completed": null,
@@ -104,8 +116,10 @@ except (json.JSONDecodeError, FileNotFoundError):
             "idea-maker": {"status": "idle", "last_run": None, "last_completed": None, "message": ""},
             "project-manager": {"status": "idle", "last_run": None, "last_completed": None, "message": ""},
             "developer": {"status": "idle", "last_run": None, "last_completed": None, "message": ""},
+            "developer2": {"status": "idle", "last_run": None, "last_completed": None, "message": ""},
             "tester": {"status": "idle", "last_run": None, "last_completed": None, "message": ""},
-            "security": {"status": "idle", "last_run": None, "last_completed": None, "message": ""}
+            "security": {"status": "idle", "last_run": None, "last_completed": None, "message": ""},
+            "supervisor": {"status": "idle", "last_run": None, "last_completed": None, "message": ""}
         }
     }
 

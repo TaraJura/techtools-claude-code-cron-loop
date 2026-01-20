@@ -290,7 +290,9 @@ daily_completions=$(get_daily_completions)
 bottleneck=$(get_bottleneck)
 
 # Calculate average completion per day (simple estimate)
-avg_completion=$(echo "scale=1; ($done + $verified) / 7" | bc 2>/dev/null || echo "0")
+# Use printf to ensure leading zero for decimals (bc outputs .7 instead of 0.7)
+avg_completion_raw=$(echo "scale=1; ($done + $verified) / 7" | bc 2>/dev/null || echo "0")
+avg_completion=$(printf "%.1f" "$avg_completion_raw" 2>/dev/null || echo "0.0")
 
 # Estimate days to clear backlog
 if [ "$velocity" != "0" ] && [ $(echo "$velocity > 0" | bc 2>/dev/null || echo "0") -eq 1 ]; then

@@ -46,11 +46,17 @@ else
 fi
 
 # Calculate costs (in USD)
-INPUT_COST=$(echo "scale=6; $INPUT_TOKENS * $INPUT_PRICE / 1000000" | bc)
-OUTPUT_COST=$(echo "scale=6; $OUTPUT_TOKENS * $OUTPUT_PRICE / 1000000" | bc)
-CACHE_READ_COST=$(echo "scale=6; $CACHE_READ * $CACHE_READ_PRICE / 1000000" | bc)
-CACHE_WRITE_COST=$(echo "scale=6; $CACHE_WRITE * $CACHE_WRITE_PRICE / 1000000" | bc)
-TOTAL_COST=$(echo "scale=6; $INPUT_COST + $OUTPUT_COST + $CACHE_READ_COST + $CACHE_WRITE_COST" | bc)
+# Note: Use printf to ensure leading zeros (bc outputs .xxx for values <1)
+INPUT_COST_RAW=$(echo "scale=6; $INPUT_TOKENS * $INPUT_PRICE / 1000000" | bc)
+INPUT_COST=$(printf "%.6f" "$INPUT_COST_RAW" 2>/dev/null || echo "0.000000")
+OUTPUT_COST_RAW=$(echo "scale=6; $OUTPUT_TOKENS * $OUTPUT_PRICE / 1000000" | bc)
+OUTPUT_COST=$(printf "%.6f" "$OUTPUT_COST_RAW" 2>/dev/null || echo "0.000000")
+CACHE_READ_COST_RAW=$(echo "scale=6; $CACHE_READ * $CACHE_READ_PRICE / 1000000" | bc)
+CACHE_READ_COST=$(printf "%.6f" "$CACHE_READ_COST_RAW" 2>/dev/null || echo "0.000000")
+CACHE_WRITE_COST_RAW=$(echo "scale=6; $CACHE_WRITE * $CACHE_WRITE_PRICE / 1000000" | bc)
+CACHE_WRITE_COST=$(printf "%.6f" "$CACHE_WRITE_COST_RAW" 2>/dev/null || echo "0.000000")
+TOTAL_COST_RAW=$(echo "scale=6; $INPUT_COST + $OUTPUT_COST + $CACHE_READ_COST + $CACHE_WRITE_COST" | bc)
+TOTAL_COST=$(printf "%.6f" "$TOTAL_COST_RAW" 2>/dev/null || echo "0.000000")
 
 # Output aggregate stats
 echo '  "aggregate": {' >> "$OUTPUT_FILE"
@@ -171,20 +177,25 @@ fi
 echo '  ],' >> "$OUTPUT_FILE"
 
 # Efficiency metrics
+# Note: Use printf to ensure leading zeros (bc outputs .xxx for values <1)
 if [ "$TOTAL_SESSIONS" -gt 0 ]; then
-    TOKENS_PER_SESSION=$(echo "scale=2; ($INPUT_TOKENS + $OUTPUT_TOKENS) / $TOTAL_SESSIONS" | bc)
-    COST_PER_SESSION=$(echo "scale=6; $TOTAL_COST / $TOTAL_SESSIONS" | bc)
+    TOKENS_PER_SESSION_RAW=$(echo "scale=2; ($INPUT_TOKENS + $OUTPUT_TOKENS) / $TOTAL_SESSIONS" | bc)
+    TOKENS_PER_SESSION=$(printf "%.2f" "$TOKENS_PER_SESSION_RAW" 2>/dev/null || echo "0.00")
+    COST_PER_SESSION_RAW=$(echo "scale=6; $TOTAL_COST / $TOTAL_SESSIONS" | bc)
+    COST_PER_SESSION=$(printf "%.6f" "$COST_PER_SESSION_RAW" 2>/dev/null || echo "0.000000")
 else
-    TOKENS_PER_SESSION=0
-    COST_PER_SESSION=0
+    TOKENS_PER_SESSION="0.00"
+    COST_PER_SESSION="0.000000"
 fi
 
 if [ "$TOTAL_MESSAGES" -gt 0 ]; then
-    TOKENS_PER_MESSAGE=$(echo "scale=2; ($INPUT_TOKENS + $OUTPUT_TOKENS) / $TOTAL_MESSAGES" | bc)
-    COST_PER_MESSAGE=$(echo "scale=6; $TOTAL_COST / $TOTAL_MESSAGES" | bc)
+    TOKENS_PER_MESSAGE_RAW=$(echo "scale=2; ($INPUT_TOKENS + $OUTPUT_TOKENS) / $TOTAL_MESSAGES" | bc)
+    TOKENS_PER_MESSAGE=$(printf "%.2f" "$TOKENS_PER_MESSAGE_RAW" 2>/dev/null || echo "0.00")
+    COST_PER_MESSAGE_RAW=$(echo "scale=6; $TOTAL_COST / $TOTAL_MESSAGES" | bc)
+    COST_PER_MESSAGE=$(printf "%.6f" "$COST_PER_MESSAGE_RAW" 2>/dev/null || echo "0.000000")
 else
-    TOKENS_PER_MESSAGE=0
-    COST_PER_MESSAGE=0
+    TOKENS_PER_MESSAGE="0.00"
+    COST_PER_MESSAGE="0.000000"
 fi
 
 echo '  "efficiency": {' >> "$OUTPUT_FILE"
