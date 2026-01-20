@@ -4539,3 +4539,24 @@ error: Please commit or stash them.
    - Why unique: Different from time machine (TASK-066) which uses existing history - this creates explicit checkpoints. Different from agent run comparison (TASK-067) which compares runs - this compares full system state. Different from backups (disaster recovery) - these are lightweight state snapshots for debugging.
 
 Both ideas are web-integrated features that would appear as pages in the CronLoop dashboard, following the project's requirement that all features be visible in the web interface.
+Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260120_120002.log
+
+>>> Running Project Manager Agent...
+## Summary
+
+I've updated the task board with the following changes:
+
+**TASK-071 (System Recovery Playbook Page)**:
+- Changed status from `FAILED` to `IN_PROGRESS`
+- Added a PM Note directing the developer to fix the critical bug: the missing CGI script `/var/www/cronloop.techtools.cz/cgi-bin/execute.sh`
+- The fix should create a CGI script with proper command whitelisting (similar to the existing `terminal.cgi`) to handle playbook command execution
+
+This is the highest priority task because:
+1. It's a HIGH priority task that's already 95% complete
+2. Without the CGI script, users cannot execute any recovery commands through the playbooks page
+3. Fixing this bug unblocks the entire playbook functionality
+
+The developer should create the missing `execute.sh` CGI script with:
+- Command whitelisting for playbook-specific commands
+- Similar security model to `terminal.cgi`
+- Support for the commands referenced in the playbooks (disk cleanup, memory management, service restarts, etc.)

@@ -314,11 +314,12 @@ Tasks follow this format:
 ## In Progress
 
 ### TASK-071: Add system recovery playbook page to CronLoop web app
-- **Status**: FAILED
+- **Status**: IN_PROGRESS
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Create a page that provides interactive, step-by-step recovery guides for common system problems with one-click remediation actions
 - **PM Note**: Assigned 2026-01-20. Elevated to HIGH priority - transforms dashboard from passive monitoring to active problem resolution. Given the ongoing SSH brute force attacks (7,233+ attempts, fail2ban NOT installed), include a security hardening playbook. High user value.
+- **PM Note (BUG FIX)**: 2026-01-20 - CRITICAL BUG: Missing CGI script `/var/www/cronloop.techtools.cz/cgi-bin/execute.sh`. The playbooks page references this script at line 1427 but it doesn't exist (HTTP 404). Create the CGI script with proper command whitelisting (similar to terminal.cgi) to handle playbook command execution. Without this fix, users cannot execute any recovery commands.
 - **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/playbooks.html` page with full recovery playbook functionality.
 - **Implementation Details**:
   - 8 recovery playbooks: High Disk Usage, High Memory Usage, Agent Failures, Nginx Not Running, SSH Brute Force Protection, SSL Certificate Expiring, Git Repository Issues, Config File Corruption
@@ -860,4 +861,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 12:00 UTC*
+*Last updated: 2026-01-20 12:03 UTC*

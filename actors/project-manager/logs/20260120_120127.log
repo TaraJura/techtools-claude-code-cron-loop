@@ -1,0 +1,30 @@
+========================================
+Actor: project-manager
+Started: Tue Jan 20 12:01:27 UTC 2026
+========================================
+
+Running project-manager agent...
+## Summary
+
+I've updated the task board with the following changes:
+
+**TASK-071 (System Recovery Playbook Page)**:
+- Changed status from `FAILED` to `IN_PROGRESS`
+- Added a PM Note directing the developer to fix the critical bug: the missing CGI script `/var/www/cronloop.techtools.cz/cgi-bin/execute.sh`
+- The fix should create a CGI script with proper command whitelisting (similar to the existing `terminal.cgi`) to handle playbook command execution
+
+This is the highest priority task because:
+1. It's a HIGH priority task that's already 95% complete
+2. Without the CGI script, users cannot execute any recovery commands through the playbooks page
+3. Fixing this bug unblocks the entire playbook functionality
+
+The developer should create the missing `execute.sh` CGI script with:
+- Command whitelisting for playbook-specific commands
+- Similar security model to `terminal.cgi`
+- Support for the commands referenced in the playbooks (disk cleanup, memory management, service restarts, etc.)
+
+========================================
+Completed: Tue Jan 20 12:02:27 UTC 2026
+========================================
+
+Committing changes to git...
