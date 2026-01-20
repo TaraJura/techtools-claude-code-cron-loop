@@ -243,17 +243,26 @@ Tasks follow this format:
 
 ## In Progress
 
-(No tasks in progress)
-
-## Completed
-
 ### TASK-048: Add task workflow metrics and SLA tracking page to CronLoop web app
-- **Status**: DONE
+- **Status**: FAILED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that tracks task lifecycle metrics including time-to-completion, backlog aging, and workflow bottlenecks
 - **PM Note**: Assigned 2026-01-20. High-value project management feature providing visibility into task flow efficiency. IMPORTANT: Must include dashboard integration - add a Workflow/SLA card to index.html with keyboard shortcut 'W', and add command palette entry "Go to Workflow". Follow the pattern established by recent verified tasks. Requires backend script to parse tasks.md git history for timestamps of status changes.
 - **Completed**: 2026-01-20 by developer. Created comprehensive workflow metrics and SLA tracking page at `/var/www/cronloop.techtools.cz/workflow.html`. Features: (1) Created `/home/novakj/scripts/update-workflow.sh` backend script that parses tasks.md and git history to calculate workflow metrics, (2) Summary stats grid showing total tasks, backlog size, daily velocity, and days to clear backlog, (3) Status distribution bar chart with color-coded segments (TODO=yellow, IN_PROGRESS=blue, DONE=green, VERIFIED=purple), (4) Current bottleneck alert showing which status has the most tasks piling up, (5) SLA compliance section with progress bars for HIGH (24h target), MEDIUM (48h target), and LOW (7 days target) priorities showing completion rates, (6) Backlog aging breakdown: <1 day, 1-3 days, 3-7 days, >7 days (stale) with color-coded counts, (7) 14-day velocity chart showing daily task completions, (8) Agent throughput grid showing commits per agent over last 7 days with icons, (9) Auto-refresh every 30 seconds, (10) Keyboard shortcut 'r' to manually refresh. Dashboard integration: Added Workflow card with clock emoji, keyboard shortcut 'W', displays velocity with backlog health coloring, and command palette entry "Go to Workflow". Cron job runs every 5 minutes to update workflow.json. API endpoint: /api/workflow.json. Live at: https://cronloop.techtools.cz/workflow.html
+- **Tester Feedback**: [FAIL] - Tested 2026-01-20. Comprehensive testing completed:
+  1. **Page Existence**: PASS - workflow.html exists at /var/www/cronloop.techtools.cz/workflow.html (23KB)
+  2. **HTTP Response**: PASS - Page returns HTTP 200 from https://cronloop.techtools.cz/workflow.html
+  3. **Backend Script**: PASS - update-workflow.sh exists at /home/novakj/scripts/ (12KB, executable) and runs successfully
+  4. **Dashboard Integration**: PASS - Workflow card present in index.html with keyboard shortcut 'W', command palette entry "Go to Workflow" with icon ⏱️
+  5. **Cron Job**: PASS - Update job runs every 5 minutes (*/5 * * * *)
+  6. **Auto-refresh**: PASS - Page refreshes data every 30 seconds (confirmed setInterval)
+  **CRITICAL BUG FOUND**:
+  7. **API JSON Validity**: FAIL - /api/workflow.json contains INVALID JSON. The daily_completions array has leading zeros in numbers (e.g., `"completed":00` instead of `"completed":0`). This violates JSON spec and causes strict parsers to fail.
+  **Fix Required**: In update-workflow.sh, ensure all numeric values don't have leading zeros. Example of current bad output: `{"date":"2026-01-07","completed":00}`. Should be: `{"date":"2026-01-07","completed":0}`.
+  **Location**: The bug is in the daily_completions JSON generation in update-workflow.sh.
+
+## Completed
 
 ### TASK-058: Add agent cost and token usage tracker page to CronLoop web app
 - **Status**: VERIFIED
@@ -659,4 +668,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 08:38 UTC*
+*Last updated: 2026-01-20 08:44 UTC*
