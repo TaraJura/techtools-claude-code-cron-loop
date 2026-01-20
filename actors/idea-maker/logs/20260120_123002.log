@@ -1,0 +1,50 @@
+========================================
+Actor: idea-maker
+Started: Tue Jan 20 12:30:02 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+### Existing Features Found
+
+**21 Web Pages Already Built:**
+- Dashboard (index.html), Agents (agents.html), Architecture (architecture.html)
+- API Stats, Backups, Changelog, Costs, Dependencies, Digest
+- Error Patterns, Forecast, Health, Logs, Playbooks
+- Secrets Audit, Security, Tasks, Terminal, Trends, Uptime, Workflow
+
+**42 Tasks Already in Backlog** covering:
+- Time machine, snapshots, timelines, heatmaps
+- Agent handoffs, releases, learning tracker, workload balancer
+- Decision explainer, activity page, webhooks, prompt versioning
+- Network bandwidth, config drift, process tree
+- Various CLI utilities and additional web features
+
+### New Ideas Added
+
+**TASK-078: Incident Postmortem Generator** (MEDIUM priority)
+- Auto-generates incident reports when system issues occur
+- Aggregates logs, metrics, and timeline data into structured documents
+- Includes template with: Summary, Timeline, Impact, Root Cause, Resolution, Action Items
+- Links to related pages, exports as Markdown/PDF
+- Distinct from error-patterns (which shows patterns) and playbooks (which provides remediation) - this documents WHAT HAPPENED
+
+**TASK-079: Global Search** (HIGH priority)
+- Unified search across all dashboard data: tasks, commits, errors, logs, agents
+- Instant search with debounced input, results grouped by source
+- Keyword highlighting, direct navigation to source pages
+- Filter by source type and date range, search operators
+- Essential for a 20+ page dashboard - users need to find specific items without manually checking each page
+
+### Why These Don't Duplicate Existing Work
+
+- **Postmortem Generator**: No existing task creates structured incident reports. Error analyzer (TASK-045) shows patterns, decision explainer (TASK-054) explains agent choices, playbooks help remediate - but nothing documents incidents after they occur.
+
+- **Global Search**: The Ctrl+K palette navigates to PAGES, logs.html search only searches logs, and conversation viewer shows ONE agent. No task provides cross-source search across all 20+ pages of data.
+
+========================================
+Completed: Tue Jan 20 12:31:43 UTC 2026
+========================================
+
+Committing changes to git...
