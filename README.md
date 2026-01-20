@@ -5,31 +5,73 @@ An autonomous multi-agent system powered by Claude Code running on a cron schedu
 ## Architecture
 
 ```
-┌─────────────────┐   ┌─────────────────┐   ┌─────────────────┐   ┌─────────────────┐
-│   IDEA MAKER    │-->│ PROJECT MANAGER │-->│    DEVELOPER    │-->│     TESTER      │
-│                 │   │                 │   │                 │   │                 │
-│ • Checks exist- │   │ • Assigns tasks │   │ • Implements    │   │ • Runs tests    │
-│   ing features  │   │ • Sets priority │   │   code          │   │ • Verifies work │
-│ • Creates new   │   │ • Manages       │   │ • Updates to    │   │ • VERIFIED or   │
-│   ideas         │   │   backlog       │   │   DONE          │   │   FAILED        │
-└─────────────────┘   └─────────────────┘   └─────────────────┘   └─────────────────┘
-         │                     │                     │                     │
-         └─────────────────────┴─────────────────────┴─────────────────────┘
-                                           │
-                                    ┌──────▼──────┐
-                                    │  tasks.md   │
-                                    │  (shared)   │
-                                    └─────────────┘
+┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐
+│ IDEA MAKER  │-->│     PM      │-->│  DEVELOPER  │-->│   TESTER    │-->│  SECURITY   │
+│             │   │             │   │             │   │             │   │             │
+│ Creates new │   │ Assigns     │   │ Implements  │   │ Verifies    │   │ Security    │
+│ ideas       │   │ tasks       │   │ code        │   │ work        │   │ review      │
+└─────────────┘   └─────────────┘   └─────────────┘   └─────────────┘   └─────────────┘
+        │                │                │                │                │
+        └────────────────┴────────────────┴────────────────┴────────────────┘
+                                          │
+                                   ┌──────▼──────┐
+                                   │  tasks.md   │
+                                   │  (shared)   │
+                                   └─────────────┘
 ```
 
 ## Agents
 
 | Agent | Role | Prompt |
 |-------|------|--------|
-| **idea-maker** | Generates new feature ideas, checks for duplicates | [prompt.md](actors/idea-maker/prompt.md) |
-| **project-manager** | Assigns tasks, manages priorities, reviews backlog | [prompt.md](actors/project-manager/prompt.md) |
-| **developer** | Implements assigned tasks, writes code | [prompt.md](actors/developer/prompt.md) |
-| **tester** | Tests completed work, provides feedback | [prompt.md](actors/tester/prompt.md) |
+| **idea-maker** | Generates new feature ideas | [prompt.md](actors/idea-maker/prompt.md) |
+| **project-manager** | Assigns tasks, manages priorities | [prompt.md](actors/project-manager/prompt.md) |
+| **developer** | Implements assigned tasks | [prompt.md](actors/developer/prompt.md) |
+| **tester** | Tests completed work | [prompt.md](actors/tester/prompt.md) |
+| **security** | Security reviews | [prompt.md](actors/security/prompt.md) |
+
+## Documentation Structure
+
+```
+/home/novakj/
+├── CLAUDE.md              # Core rules only (~130 lines)
+├── README.md              # This file
+├── tasks.md               # Shared task board
+│
+├── docs/                  # Detailed documentation
+│   ├── server-config.md   # Server specs, paths, software
+│   ├── security-guide.md  # Security rules and checklists
+│   └── engine-guide.md    # Self-healing protocols
+│
+├── status/                # Current state (OVERWRITTEN each cycle)
+│   ├── system.json        # System health status
+│   └── security.json      # Security review status
+│
+├── logs/                  # Change history
+│   ├── changelog.md       # Recent changes (last 7 days)
+│   └── archive/           # Monthly archives
+│
+├── actors/                # Agent configurations
+│   ├── idea-maker/
+│   ├── project-manager/
+│   ├── developer/
+│   ├── tester/
+│   └── security/
+│
+├── scripts/               # Automation scripts
+│   ├── run-actor.sh
+│   ├── cron-orchestrator.sh
+│   └── status.sh
+│
+└── projects/              # Code created by agents
+```
+
+## Key Design Principles
+
+1. **CLAUDE.md is lean** - Only core rules, ~130 lines (not 800+)
+2. **Status files are OVERWRITTEN** - Current state only, no endless appending
+3. **Changelog is rotated** - 7 days active, then archived
+4. **Docs are on-demand** - Detailed guides loaded when needed
 
 ## Task Lifecycle
 
@@ -41,39 +83,11 @@ An autonomous multi-agent system powered by Claude Code running on a cron schedu
 | `VERIFIED` | Tester | Tests passed |
 | `FAILED` | Tester | Tests failed, needs fix |
 
-## Directory Structure
-
-```
-/home/novakj/
-├── CLAUDE.md              # Server knowledge base (critical rules)
-├── README.md              # This file
-├── tasks.md               # Shared task board
-├── actors/
-│   ├── idea-maker/
-│   │   ├── prompt.md      # Idea maker instructions
-│   │   └── logs/          # Execution logs
-│   ├── project-manager/
-│   │   ├── prompt.md      # PM instructions
-│   │   └── logs/          # Execution logs
-│   ├── developer/
-│   │   ├── prompt.md      # Developer instructions
-│   │   └── logs/          # Execution logs
-│   └── tester/
-│       ├── prompt.md      # Tester instructions
-│       └── logs/          # Execution logs
-├── scripts/
-│   ├── run-actor.sh       # Run a single actor
-│   ├── cron-orchestrator.sh  # Run all actors in sequence
-│   └── status.sh          # View system status
-└── projects/              # Code created by agents
-    └── hello.py           # Example: first completed task
-```
-
 ## Execution Schedule
 
 - **Cron**: Every 30 minutes (`*/30 * * * *`)
-- **Order**: idea-maker → project-manager → developer → tester (5s delay between each)
-- **Auto-commit**: All changes pushed to GitHub after each agent runs
+- **Order**: idea-maker -> PM -> developer -> tester -> security
+- **Auto-commit**: Changes pushed to GitHub after each agent
 
 ## Quick Commands
 
@@ -82,68 +96,25 @@ An autonomous multi-agent system powered by Claude Code running on a cron schedu
 ./scripts/cron-orchestrator.sh
 
 # Run a single agent
-./scripts/run-actor.sh idea-maker
-./scripts/run-actor.sh project-manager
 ./scripts/run-actor.sh developer
-./scripts/run-actor.sh tester
 
-# Check system status and recent logs
+# Check system status
 ./scripts/status.sh
 
-# View cron schedule
-crontab -l
+# View current security status
+cat status/security.json | jq .
+
+# View recent changes
+cat logs/changelog.md
 ```
 
-## How It Works
-
-1. **Cron triggers** `cron-orchestrator.sh` every 30 minutes
-2. **Idea Maker** generates new feature ideas for the web app
-3. **Project Manager** reads `tasks.md`, assigns tasks from backlog
-4. **Developer** implements tasks in `/var/www/cronloop.techtools.cz`
-5. **Tester** verifies completed work on the live site
-6. **Auto-commit** after each agent: changes pushed to GitHub
-7. **Logs** saved to `actors/*/logs/` with timestamps
-
-## Configuration
-
-Agents run Claude Code in headless mode with `--dangerously-skip-permissions` for autonomous execution.
-
-Each agent has its own prompt file defining:
-- Responsibilities
-- Rules and constraints
-- Workflow steps
-- Output format
-
-## Logs
-
-Each agent creates timestamped logs:
-- `actors/idea-maker/logs/YYYYMMDD_HHMMSS.log`
-- `actors/project-manager/logs/YYYYMMDD_HHMMSS.log`
-- `actors/developer/logs/YYYYMMDD_HHMMSS.log`
-- `actors/tester/logs/YYYYMMDD_HHMMSS.log`
-- `actors/cron.log` - Orchestrator output
-
-## Web Application (Primary Project)
+## Web Application
 
 **Live Site**: [https://cronloop.techtools.cz](https://cronloop.techtools.cz)
 
-This is the **main project** that all agents work on. The web app serves as a dashboard for the multi-agent system and is continuously improved by the agents themselves.
+This is the **main project** that all agents work on. Every feature must be accessible via the web browser.
 
 **Web Root**: `/var/www/cronloop.techtools.cz`
-
-**Key Rule**: Every feature must be accessible via the web browser. No standalone scripts - everything should be visible at the live site.
-
-**Current Features:**
-- Dashboard with agent status
-- Task board viewer
-- System info display
-
-**Planned Features (built by agents):**
-- Real-time agent activity feed
-- Log file browser
-- System metrics (CPU, memory, disk)
-- Cron execution history
-- And more...
 
 ## Server Info
 
@@ -155,8 +126,14 @@ This is the **main project** that all agents work on. The web app serves as a da
 
 ## Documentation
 
-- [CLAUDE.md](CLAUDE.md) - Full server knowledge base and change log
-- [tasks.md](tasks.md) - Current task board
+| File | Purpose |
+|------|---------|
+| [CLAUDE.md](CLAUDE.md) | Core system rules |
+| [docs/server-config.md](docs/server-config.md) | Server configuration |
+| [docs/security-guide.md](docs/security-guide.md) | Security guidelines |
+| [docs/engine-guide.md](docs/engine-guide.md) | Self-healing engine |
+| [tasks.md](tasks.md) | Current task board |
+| [logs/changelog.md](logs/changelog.md) | Recent changes |
 
 ---
 
