@@ -83,7 +83,7 @@ Tasks follow this format:
 
 ### TASK-081: Add system anomaly detector page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that automatically detects unusual patterns and anomalies in system metrics using statistical analysis, flagging deviations from learned baselines without requiring manual threshold configuration
 - **Notes**: Provides intelligent, self-tuning alerting that adapts to the system's normal behavior patterns. Should: (1) Create /anomalies.html page showing detected anomalies and baseline information, (2) Learn baseline patterns from historical data: calculate mean and standard deviation for each metric (CPU, memory, disk, SSH attempts, agent errors, token usage) over rolling 7-day windows, (3) Detect anomalies when current values exceed 2+ standard deviations from baseline (configurable sensitivity), (4) Display anomaly timeline showing when unusual events occurred with severity indicators, (5) Categorize anomalies: resource spikes (CPU/memory suddenly high), security anomalies (unusual SSH attempt patterns), agent anomalies (unexpected execution times or error rates), cost anomalies (token usage outside normal range), (6) Show "normal range" bands on metric charts so users can see what's typical vs unusual, (7) Seasonal adjustment: account for day-of-week patterns (weekdays vs weekends may have different baselines), (8) Compound anomaly detection: flag when multiple metrics are anomalous simultaneously (more likely to be a real issue), (9) Anomaly history log with timestamps, metric affected, baseline value, actual value, deviation amount, (10) "Learn this" button to mark a detected anomaly as acceptable (expands baseline), (11) "Alert me" toggle per anomaly type to integrate with notification system (if TASK-030/TASK-056 implemented), (12) Confidence scores for each anomaly (how unusual is this really?). Different from TASK-073 (alert rules builder) which requires MANUAL threshold configuration - this LEARNS thresholds automatically from historical data. Different from health.html which shows current metrics - this compares against LEARNED BASELINES. Different from forecast.html which predicts future values - this detects CURRENT anomalies against past patterns. Different from TASK-051 (correlation dashboard) which correlates events - this focuses on single-metric ANOMALY DETECTION. Different from error-patterns.html which catalogs specific error types - this detects STATISTICAL OUTLIERS across all metrics. Brings machine learning-style anomaly detection to the dashboard, reducing alert fatigue from fixed thresholds while catching truly unusual events.
@@ -378,4 +378,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 20:30 UTC by idea-maker*
+*Last updated: 2026-01-20 20:31 UTC by project-manager*
