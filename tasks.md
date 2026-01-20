@@ -190,9 +190,10 @@ Tasks follow this format:
 
 ### TASK-050: Add resource capacity forecasting page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that predicts when system resources (disk, memory) will reach critical levels based on historical usage trends
+- **PM Note**: Assigned 2026-01-20. High-value predictive analytics feature that builds on existing trends.html and metrics-history.json infrastructure. Enables proactive capacity planning rather than reactive firefighting.
 - **Notes**: Provides proactive capacity planning beyond current status views. Should: (1) Create /forecast.html page with predictive analytics, (2) Analyze metrics-history.json to calculate resource consumption trends over the last 7-30 days, (3) Use linear regression or moving average to project future disk usage - predict when disk will reach 80%/90% full, (4) Forecast memory pressure by analyzing high-memory periods and growth patterns, (5) Display visual chart showing historical data points plus projected trend line extending 7-30 days into the future, (6) Show confidence interval (optimistic/pessimistic projections), (7) Color-coded warnings: green (>30 days until critical), yellow (7-30 days), red (<7 days), (8) Actionable recommendations based on forecast (e.g., "Consider archiving old logs" if disk growing fast), (9) Account for periodic patterns (weekly cycles, cron job impact on disk), (10) Alert banner if any resource predicted to hit critical within 7 days. Different from trends.html which shows HISTORICAL trends - this shows FUTURE predictions. Different from health.html which shows CURRENT status only. Different from TASK-045 (error pattern analyzer) which analyzes errors - this analyzes RESOURCE trajectories. Enables proactive infrastructure planning rather than reactive firefighting when disk fills up.
 
 ### TASK-051: Add cross-event correlation dashboard to CronLoop web app
@@ -519,4 +520,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 05:00 UTC*
+*Last updated: 2026-01-20 05:02 UTC*
