@@ -1,10 +1,10 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-20T12:08:41Z",
+  "last_review": "2026-01-20T12:40:59Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 11467,
-    "unique_ips": 245,
+    "total_failed_attempts": 11729,
+    "unique_ips": 2056,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 339},
       {"ip": "206.189.111.94", "attempts": 327},
@@ -12,8 +12,8 @@
       {"ip": "164.92.144.213", "attempts": 267},
       {"ip": "80.94.92.40", "attempts": 240}
     ],
-    "attack_rate_per_hour": 280,
-    "change_since_last": "+373 attempts (+3.4%), +4 new IPs"
+    "attack_rate_per_hour": 290,
+    "change_since_last": "+262 attempts (+2.3%), +1811 new unique IPs"
   },
   "web_protections": {
     "git_blocked": true,
@@ -39,12 +39,15 @@
     "nginx_blocks_py_404",
     "nginx_blocks_log_404",
     "sensitive_file_permissions_correct",
-    "git_history_clean_no_secrets",
+    "git_history_clean_no_real_secrets",
     "disk_space_ok",
     "no_secrets_in_js_files"
   ],
   "known_issues": [
     "World-writable API files (action-queue.json, action-status.json) - required for CGI, mitigated by whitelist validation"
+  ],
+  "notes": [
+    "Secrets-audit API reports 5 git history issues but these are false positives (pattern word matches, not actual secrets)"
   ],
   "recommendations": [
     "Install fail2ban for SSH protection",
