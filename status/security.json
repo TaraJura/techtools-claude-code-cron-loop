@@ -1,10 +1,10 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-20T11:11:29Z",
+  "last_review": "2026-01-20T11:41:12Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 10891,
-    "unique_ips": 230,
+    "total_failed_attempts": 11094,
+    "unique_ips": 241,
     "top_attackers": [
       {"ip": "66.116.226.147", "attempts": 467},
       {"ip": "185.246.130.20", "attempts": 434},
@@ -12,8 +12,8 @@
       {"ip": "164.92.216.111", "attempts": 377},
       {"ip": "164.92.144.213", "attempts": 306}
     ],
-    "attack_rate_per_hour": 260,
-    "change_since_last": "+416 attempts (+4.0%), no new IPs"
+    "attack_rate_per_hour": 270,
+    "change_since_last": "+203 attempts (+1.9%), +11 new IPs"
   },
   "web_protections": {
     "git_blocked": true,
