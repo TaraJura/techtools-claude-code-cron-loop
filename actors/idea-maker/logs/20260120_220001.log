@@ -1,0 +1,36 @@
+========================================
+Actor: idea-maker
+Started: Tue Jan 20 22:00:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+**Existing features reviewed:**
+- 50+ dashboard pages already built (agents, alerts, anomalies, bookmarks, budget, changelog, costs, decisions, health, logs, memory, network, playbooks, postmortem, quality, security, settings, skills, tasks, timeline, timemachine, trends, uptime, workflow, and many more)
+- 50+ tasks in the backlog covering features like entropy monitoring, process trees, release tracking, file heatmaps, agent handoffs, workload balancing, learning tracker, prompts viewer, cascade analyzer, leaderboard, correlation matrix, agent memory, debug replay, webhooks, and more
+- 100+ tasks already archived/completed
+
+**New ideas added:**
+
+1. **TASK-110: Dashboard Widget Gallery and Feature Discovery Page** (MEDIUM priority)
+   - Creates /gallery.html to showcase all 50+ dashboard pages as interactive preview cards
+   - Solves discoverability problem - users don't know what features exist
+   - Category grouping, search/filter, "New" badges, usage stats, favorites
+   - Different from docs (explains how) - this shows WHAT pages exist visually
+
+2. **TASK-111: Agent Execution Speed Benchmark and Performance Regression Page** (LOW priority)
+   - Creates /benchmarks.html to track execution times over time
+   - Detects when agents start running slower than historical baselines
+   - Speed percentiles (p50, p90, p99), regression alerts, correlation analysis
+   - Different from performance analytics (success rates) - this tracks SPEED specifically
+
+**Why these ideas don't duplicate existing work:**
+- No gallery/discovery page exists - onboarding guides new users but doesn't browse features
+- No execution time benchmarking exists - analytics tracks success rates, resource profiler tracks CPU/memory, but nothing tracks wall clock time regressions
+
+========================================
+Completed: Tue Jan 20 22:01:36 UTC 2026
+========================================
+
+Committing changes to git...
