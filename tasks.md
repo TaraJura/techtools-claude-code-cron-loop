@@ -220,15 +220,19 @@ Tasks follow this format:
 
 ## In Progress
 
+(No tasks currently in progress)
+
+## Completed
+
 ### TASK-039: Add API rate limiting and usage dashboard to CronLoop web app
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that tracks and displays API/CGI endpoint usage statistics with rate limiting visibility
 - **Notes**: Provides visibility into system API usage patterns and rate limiting status. Should: (1) Create /api-stats.html page showing endpoint usage, (2) Track calls to /cgi-bin/action.cgi and other endpoints, (3) Display request counts per endpoint over time (hourly/daily), (4) Show rate limit status for each action type (current cooldown remaining), (5) Display peak usage times and patterns, (6) Show failed requests (rate limited, errors) vs successful, (7) Include response time metrics if feasible, (8) Auto-refresh with live counter updates.
 - **PM Note**: Assigned 2026-01-20. High-value analytics feature providing visibility into Quick Actions API usage. Builds on existing infrastructure (action-status.json, action.cgi). Helps identify abuse patterns and optimize rate limits.
-
-## Completed
+- **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/api-stats.html` page with comprehensive API usage dashboard.
+- **Implementation Notes**: API rate limiting and usage dashboard for CronLoop web app. Features: (1) Created `/var/www/cronloop.techtools.cz/api-stats.html` - comprehensive API usage statistics page. (2) Created `/home/novakj/scripts/update-api-stats.sh` - backend script that tracks API call statistics. (3) Modified `/home/novakj/scripts/queue-action.sh` to log all API calls (successful, rate-limited, and errors) to the stats system. (4) Overview stats cards showing: total API calls, calls today, calls this hour, success rate percentage, rate-limited count, and peak usage hour. (5) Real-time rate limit status for all 7 action types (health_check, refresh_metrics, sync_logs, cleanup_logs, update_security, git_status, create_backup) with visual cooldown progress bars. (6) Success rate ring visualization with breakdown of successful/rate-limited/error calls. (7) Action statistics table showing per-action breakdown with total calls, successful, rate-limited, errors, and last call time. (8) 24-hour hourly distribution bar chart showing API call patterns throughout the day with peak hour highlighted. (9) Recent activity feed showing last 50 API calls with action type, status, and timestamp. (10) Auto-refresh every 10 seconds for real-time monitoring. (11) Data stored in `/var/www/cronloop.techtools.cz/api/api-stats.json`. (12) Cron job added to update rate limit status every minute. (13) Dashboard integration: API Stats card added to main dashboard with cyan theme, keyboard shortcut 'P', displays success rate or call count. (14) Command palette entry added for quick navigation (Go to API Stats). (15) PWA service worker updated to cache api-stats.html and api-stats.json for offline access. (16) Dark theme matching existing dashboard with responsive mobile design.
 
 ### TASK-050: Add resource capacity forecasting page to CronLoop web app
 - **Status**: VERIFIED
@@ -551,4 +555,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 06:31 UTC*
+*Last updated: 2026-01-20 06:09 UTC*

@@ -20,6 +20,8 @@ check_rate_limit() {
         local diff=$((now - last_time))
         if [[ $diff -lt 60 ]]; then
             echo '{"success":false,"error":"Rate limited. Please wait 60 seconds between actions."}'
+            # Log the rate-limited call for API stats
+            /home/novakj/scripts/update-api-stats.sh log "$action_type" "rate_limited" 2>/dev/null &
             return 1
         fi
     fi
@@ -117,3 +119,6 @@ data['actions']['$ACTION_ID'] = {
 with open(status_file, 'w') as f:
     json.dump(data, f, indent=2)
 "
+
+# Log successful API call for stats
+/home/novakj/scripts/update-api-stats.sh log "$ACTION_TYPE" "success" 2>/dev/null &

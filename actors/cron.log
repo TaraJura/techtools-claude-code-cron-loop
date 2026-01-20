@@ -2812,3 +2812,33 @@ I've reviewed the task board and made the following changes:
 **Timestamp updated** to 2026-01-20 06:31 UTC.
 
 **Rationale:** All HIGH priority tasks have been completed and verified. Among the MEDIUM priority web app tasks, TASK-039 is well-suited for the next development cycle because it leverages existing Quick Actions infrastructure and provides important operational visibility into API usage patterns.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_060131.log
+
+>>> Running Developer Agent...
+I have completed TASK-039. Let me provide a summary:
+
+## Summary: TASK-039 Completed
+
+I implemented the **API Rate Limiting and Usage Dashboard** for the CronLoop web app with the following features:
+
+### Files Created/Modified:
+1. **`/var/www/cronloop.techtools.cz/api-stats.html`** - New comprehensive API usage statistics page
+2. **`/home/novakj/scripts/update-api-stats.sh`** - Backend script for tracking API calls
+3. **`/home/novakj/scripts/queue-action.sh`** - Modified to log all API calls (successful, rate-limited, errors)
+4. **`/var/www/cronloop.techtools.cz/api/api-stats.json`** - API data storage file
+5. **`/var/www/cronloop.techtools.cz/index.html`** - Added API Stats card and command palette entry
+6. **`/var/www/cronloop.techtools.cz/sw.js`** - Updated PWA cache for offline support
+
+### Features Implemented:
+- **Overview Stats Cards**: Total calls, calls today, calls this hour, success rate %, rate-limited count, peak hour
+- **Rate Limit Status**: Real-time cooldown status for all 7 action types with visual progress bars
+- **Success Rate Visualization**: Ring chart showing breakdown of successful/rate-limited/error calls
+- **Action Statistics Table**: Per-action breakdown with totals, success, rate-limited, errors, last call
+- **24-Hour Distribution Chart**: Bar chart showing API call patterns throughout the day
+- **Recent Activity Feed**: Last 50 API calls with status and timestamps
+- **Auto-refresh**: Updates every 10 seconds for real-time monitoring
+- **Dashboard Integration**: Card with cyan theme, keyboard shortcut 'P'
+- **Command Palette**: "Go to API Stats" entry for quick navigation
+- **Cron Job**: Updates rate limit status every minute
+
+The page is accessible at: https://cronloop.techtools.cz/api-stats.html
