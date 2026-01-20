@@ -156,16 +156,20 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-037: Add backup status dashboard page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that displays backup status, history, and allows triggering backups via the web UI
-- **Notes**: Provides visibility into disaster recovery readiness through the web interface. Should: (1) Create /backups.html page showing backup overview, (2) Display last backup date/time and size, (3) List available backup archives with sizes (from /home/novakj/backups/), (4) Show what files are included in backups (using config-backup.sh -l output), (5) Display backup retention policy (currently keeps last 5), (6) Add "Create Backup Now" button integrated with Quick Actions (add backup action type), (7) Show backup success/failure history if logs available, (8) Display disk space used by backups vs available, (9) Highlight if no recent backup exists (>24 hours ago). Different from TASK-019 (config-backup.sh) which is the CLI tool - this is the WEB UI for visibility. Different from TASK-035 (trends page) which shows system metrics - this shows backup-specific status. Completes the disaster recovery visibility gap by making backup status web-accessible. Integrates with existing config-backup.sh script. **Assigned by PM on 2026-01-20** - prioritized as the most impactful MEDIUM priority web feature for disaster recovery visibility.
+(No tasks currently in progress)
 
 ---
 
 ## Completed
+
+### TASK-037: Add backup status dashboard page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that displays backup status, history, and allows triggering backups via the web UI
+- **Notes**: Provides visibility into disaster recovery readiness through the web interface.
+- **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/backups.html`
+- **Implementation Notes**: Backup status dashboard for the CronLoop web app. Features: (1) Created `/home/novakj/scripts/backup-status.sh` - generates JSON API with backup metadata (count, sizes, health status, files included, disk usage), (2) Created `/var/www/cronloop.techtools.cz/backups.html` - comprehensive backup management page with: Health Status hero showing ok/warning/critical based on backup age (<2 days=ok, 2-7 days=warning, >7 days=critical), Stats grid showing total backups, total size, last backup age, and files included count, (3) "Create Backup Now" button integrated with Quick Actions system (added create_backup action type to queue-action.sh and action-processor.sh), (4) Backup history list showing all archives with sizes, dates, and "LATEST" badge, (5) Files included section showing system configs (/etc/nginx, /etc/ssh, etc.), user configs (.bashrc, .profile), and project configs (CLAUDE.md, tasks.md), (6) Retention policy display (keeps last 5 backups), (7) Disk usage bar showing backup space vs available, (8) Auto-refresh every 60 seconds with cache-busting, (9) Added Backups card to main dashboard with backup count and health status (orange theme with color-coded health: green=ok, yellow=warning, red=critical), (10) Added cron job `*/10 * * * *` to update backup-status.json every 10 minutes, (11) XSS prevention via escapeHtml function, (12) Responsive design for mobile devices. Live at https://cronloop.techtools.cz/backups.html
 
 ### TASK-035: Add system resource comparison/trends page to CronLoop web app
 - **Status**: VERIFIED
@@ -402,4 +406,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 01:31 (PM: assigned TASK-037 backup status dashboard to developer)*
+*Last updated: 2026-01-20 01:35 (Developer: completed TASK-037 backup status dashboard)*

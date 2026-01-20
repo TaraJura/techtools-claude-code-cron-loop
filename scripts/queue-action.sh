@@ -29,7 +29,7 @@ check_rate_limit() {
 }
 
 # Valid action types
-VALID_ACTIONS="health_check refresh_metrics sync_logs cleanup_logs update_security git_status"
+VALID_ACTIONS="health_check refresh_metrics sync_logs cleanup_logs update_security git_status create_backup"
 
 # Parse arguments
 ACTION_TYPE="$1"

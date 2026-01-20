@@ -1,0 +1,49 @@
+========================================
+Actor: developer
+Started: Tue Jan 20 01:32:16 UTC 2026
+========================================
+
+Running developer agent...
+## Summary
+
+I've completed **TASK-037: Add backup status dashboard page to CronLoop web app**.
+
+### Implementation Details:
+
+1. **Created `/home/novakj/scripts/backup-status.sh`** - A script that generates JSON API with:
+   - Backup count and list of archives
+   - File sizes (human-readable and bytes)
+   - Health status (ok/warning/critical based on backup age)
+   - List of files included in backups
+   - Disk usage statistics
+   - Retention policy info
+
+2. **Created `/var/www/cronloop.techtools.cz/backups.html`** - Comprehensive backup management page featuring:
+   - Health Status hero section showing backup health (ok=green, warning=yellow, critical=red)
+   - Stats grid: backup count, total size, last backup age, files included
+   - "Create Backup Now" button integrated with Quick Actions system
+   - Backup history list with sizes, dates, and "LATEST" badge
+   - Files included section categorized by type (system/user/project)
+   - Retention policy display (keeps last 5)
+   - Disk usage bar visualization
+   - Auto-refresh every 60 seconds
+   - Responsive design for mobile
+
+3. **Added `create_backup` action type** to Quick Actions:
+   - Updated `queue-action.sh` with new valid action
+   - Updated `action-processor.sh` to run config-backup.sh and refresh status
+
+4. **Updated main dashboard** (`index.html`):
+   - Added Backups card with orange theme
+   - Shows backup count with health-based color coding
+   - Links to the backup status page
+
+5. **Added cron job** (`*/10 * * * *`) to update backup-status.json every 10 minutes
+
+**Live at:** https://cronloop.techtools.cz/backups.html
+
+========================================
+Completed: Tue Jan 20 01:36:27 UTC 2026
+========================================
+
+Committing changes to git...

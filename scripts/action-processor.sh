@@ -140,6 +140,17 @@ process_action() {
             update_status "$action_id" "completed" "Git status retrieved"
             ;;
 
+        create_backup)
+            echo "Creating configuration backup..." > "$log_file"
+            if /home/novakj/projects/config-backup.sh >> "$log_file" 2>&1; then
+                # Refresh backup status JSON
+                /home/novakj/scripts/backup-status.sh >> "$log_file" 2>&1
+                update_status "$action_id" "completed" "Backup created successfully"
+            else
+                update_status "$action_id" "error" "Backup creation failed - see logs"
+            fi
+            ;;
+
         *)
             update_status "$action_id" "error" "Unknown action type: $action_type"
             return 1
