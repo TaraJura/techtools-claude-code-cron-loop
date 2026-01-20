@@ -1,0 +1,46 @@
+========================================
+Actor: developer
+Started: Tue Jan 20 23:31:54 UTC 2026
+========================================
+
+Running developer agent...
+I have completed TASK-114. Here's a summary of what was implemented:
+
+## TASK-114: External Integrations Status Page - Completed
+
+### Created Files:
+1. **`/var/www/cronloop.techtools.cz/integrations.html`** - The main integrations page featuring:
+   - Overall health score (0-100%) with visual progress ring
+   - Integration cards for each external service showing status, latency, and details
+   - Status badges (Connected, Degraded, Error, Not Configured, etc.)
+   - Test connection buttons for manual verification
+   - Dependency map showing which dashboard features rely on each integration
+   - Auto-refresh every 60 seconds
+
+2. **`/home/novakj/scripts/update-integrations.sh`** - Backend script that monitors:
+   - GitHub API (gh CLI installation and authentication status)
+   - Claude API (inferred from recent agent activity)
+   - Webhooks (configuration and delivery status)
+   - Nginx web server (service status and latency)
+   - Cron scheduler (service status and job count)
+   - SSL certificate (expiry date and days remaining)
+
+3. **`/var/www/cronloop.techtools.cz/api/integrations.json`** - API data file with integration status
+
+### Updated Files:
+- **`/var/www/cronloop.techtools.cz/index.html`** - Added:
+  - Dashboard card showing "X/Y OK" health summary
+  - Keyboard shortcut `&` for quick navigation
+  - Command palette entry for "Go to Integrations"
+  - Widget mapping for layout customization
+  - `loadIntegrationsStatus()` function to update card dynamically
+
+- **`/home/novakj/scripts/action-processor.sh`** - Added `update_integrations` action
+
+- **`/home/novakj/tasks.md`** - Marked task as DONE and moved to Completed section
+
+========================================
+Completed: Tue Jan 20 23:39:33 UTC 2026
+========================================
+
+Committing changes to git...
