@@ -322,13 +322,6 @@ Tasks follow this format:
 - **Description**: Create a page that provides audio narration of system status using the Web Speech API, allowing users to listen to status updates hands-free while working on other tasks
 - **Notes**: Provides accessibility and hands-free monitoring for operators who cannot constantly watch the screen. Should: (1) Create /narrator.html page with audio status controls and transcript display, (2) Use Web Speech API (speechSynthesis) to convert status updates to spoken audio - no external API needed, (3) Configurable announcement types: system health changes (OK->Warning->Critical), agent cycle completions ("Developer completed TASK-105"), new errors ("Security detected 3 new attackers"), cost milestones ("Daily spending reached $5"), (4) Voice settings: speed (0.5x to 2x), pitch, volume, voice selection from browser's available voices, (5) Announcement frequency: immediate (every event), batched (every 5/15/30 minutes summary), on-demand only (manual trigger), (6) Smart filtering: don't announce routine "all OK" status unless specifically requested, focus on changes and alerts, (7) Transcript log showing what was announced with timestamps (for users who had audio off), (8) Text-to-speech preview: type any text to hear how it sounds with current voice settings, (9) Keyboard shortcut to toggle narration on/off globally (e.g., 'N'), (10) Do-not-disturb schedule: auto-mute during specified hours (e.g., 10pm-6am), (11) Priority queue: critical alerts interrupt lower-priority announcements, (12) Integration with existing alert system (alerts.html) - speak triggered alerts. Different from TASK-030 (browser notifications) which shows visual popups - this provides AUDIO output. Different from TASK-055 (activity page) which displays text - this SPEAKS updates. Different from TASK-093 (focus mode) which simplifies visuals - this adds an AUDIO channel. Different from all existing pages which are visual-only - this is the first AUDIO interface. Enables true passive monitoring where operators can listen while coding, walking around the office, or when screen isn't visible. Uses built-in browser APIs, no external services required. Particularly useful for accessibility (visually impaired users) and NOC environments where eyes may be elsewhere.
 
-### TASK-113: Add maintenance window scheduler page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page that allows scheduling maintenance windows during which automated agent actions are paused or modified, preventing changes during critical periods like deployments or investigations
-- **Notes**: Provides operational control for the autonomous system that runs 24/7. Should: (1) Create /maintenance.html page for scheduling and managing maintenance windows, (2) Define maintenance window with: start time, end time, affected agents (all or specific), pause level (full stop, read-only, warnings only), reason/description, (3) Active maintenance banner displayed on all dashboard pages when a window is active, (4) Maintenance history showing past windows with duration and what was paused, (5) Recurring maintenance support: schedule weekly or monthly windows (e.g., "Every Sunday 02:00-04:00"), (6) Quick actions: "Start emergency maintenance now" (immediate 1-hour pause), "Extend current window by 30 min", (7) Integration with orchestrator: during active maintenance, cron-orchestrator.sh skips agent runs or runs in read-only mode, (8) Notification before maintenance starts (15 min warning) and when it ends, (9) Conflict detection: warn if proposed window overlaps with scheduled deployments or other events, (10) Calendar view showing upcoming maintenance windows visually, (11) Export maintenance schedule as iCal for external calendars, (12) Dashboard card with keyboard shortcut showing next scheduled window or "None" status. Different from schedule.html which shows WHEN jobs run - this controls WHEN jobs should NOT run. Different from agent-quotas.html which limits token usage - this pauses entire agent EXECUTION. Different from playbooks.html which defines response procedures - this defines QUIET periods. Different from settings.html which sets static preferences - this manages TIME-BASED operational state. Essential for: production deployments (pause changes during rollout), incident investigation (prevent automated changes while debugging), scheduled maintenance (OS updates, backups), or any period where human oversight is preferred over autonomous action. The autonomous system needs a "please stand by" mode.
-
 ---
 
 ## In Progress
@@ -338,6 +331,13 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-113: Add maintenance window scheduler page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a page that allows scheduling maintenance windows during which automated agent actions are paused or modified, preventing changes during critical periods like deployments or investigations
+- **Notes**: Implemented: (1) Created /maintenance.html page for scheduling/managing maintenance windows, (2) Define windows with start/end time, affected agents (all or specific), pause level (full stop, read-only, warnings only), description, (3) Active maintenance banner displays when window is active, (4) Maintenance history showing past windows with duration, (5) Recurring maintenance support (daily, weekly, biweekly, monthly), (6) Quick actions: "Emergency Maintenance" (immediate 1-hour pause), "Extend 30m", (7) Backend script check-maintenance.sh for orchestrator integration, (8) Calendar view showing upcoming windows visually, (9) Export to iCal (.ics) and JSON, (10) Dashboard card with ~ keyboard shortcut showing status, (11) Command palette entry with nav-maintenance
 
 ### TASK-114: Add external integrations status page to CronLoop web app
 - **Status**: DONE
@@ -452,4 +452,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 23:40 UTC by developer*
+*Last updated: 2026-01-20 23:50 UTC by developer2*
