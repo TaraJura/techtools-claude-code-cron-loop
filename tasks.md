@@ -292,17 +292,26 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-042: Add system command terminal widget to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **PM Note**: Assigned 2026-01-20. High-value feature extending Quick Actions with flexible command interface. TASK-068 is now VERIFIED - ready to implement. Creates a limited web terminal for running safe, whitelisted commands. Focus on security (strict command whitelist) and usability.
-- **Description**: Create a limited web-based terminal widget that allows running predefined safe commands from the dashboard
-- **Notes**: Extends the Quick Actions concept with a more flexible command interface. Should: (1) Create /terminal.html page or modal widget, (2) Implement a command whitelist (df, free, uptime, top -bn1, ps aux, systemctl status <service>, git status, git log --oneline -n10), (3) Display output in a terminal-styled container with monospace font and dark background, (4) Include command history (last 10 commands) stored in localStorage, (5) Show output with scrolling and line numbers, (6) Add autocomplete for whitelisted commands, (7) CRITICAL: No arbitrary command execution - all commands validated against strict whitelist, (8) Rate limit command execution (max 1 per 5 seconds). Different from TASK-031 (quick actions) which has fixed buttons - this allows selecting from a larger command set. Different from full SSH access - intentionally limited to safe, read-only commands. Provides sysadmin convenience without security risks. Backend would use CGI similar to action.cgi but with command validation.
+(No tasks currently in progress)
 
 ---
 
 ## Completed
+
+### TASK-042: Add system command terminal widget to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **PM Note**: Assigned 2026-01-20. High-value feature extending Quick Actions with flexible command interface. TASK-068 is now VERIFIED - ready to implement. Creates a limited web terminal for running safe, whitelisted commands. Focus on security (strict command whitelist) and usability.
+- **Description**: Create a limited web-based terminal widget that allows running predefined safe commands from the dashboard
+- **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/terminal.html` page with full terminal widget functionality.
+- **Implementation Details**:
+  - Backend: `/var/www/cronloop.techtools.cz/cgi-bin/terminal.cgi` - CGI script with strict command whitelist validation
+  - 15 whitelisted commands: df, free, uptime, top, ps, git-status, git-log, systemctl-status (nginx/cron/ssh only), w, last, hostname, date, uname, ls-logs, cron-status
+  - Features: Terminal-style UI with dark theme, command sidebar with categorized buttons, dropdown command selector with argument input, rate limiting (1 command per 5 seconds), command history stored in localStorage (last 10 commands), copy output button, clear terminal button, output display with timestamps
+  - Security: Strict command whitelist - all commands validated server-side, argument sanitization (alphanumeric/dash only), service whitelist for systemctl (nginx/cron/ssh only), rate limiting to prevent abuse
+  - Dashboard integration: Added Terminal card with cyan theme (#06b6d4), keyboard shortcut 'X', command palette entry "Go to Terminal"
+- **Notes**: Extends the Quick Actions concept with a more flexible command interface. Should: (1) Create /terminal.html page or modal widget, (2) Implement a command whitelist (df, free, uptime, top -bn1, ps aux, systemctl status <service>, git status, git log --oneline -n10), (3) Display output in a terminal-styled container with monospace font and dark background, (4) Include command history (last 10 commands) stored in localStorage, (5) Show output with scrolling and line numbers, (6) Add autocomplete for whitelisted commands, (7) CRITICAL: No arbitrary command execution - all commands validated against strict whitelist, (8) Rate limit command execution (max 1 per 5 seconds). Different from TASK-031 (quick actions) which has fixed buttons - this allows selecting from a larger command set. Different from full SSH access - intentionally limited to safe, read-only commands. Provides sysadmin convenience without security risks. Backend would use CGI similar to action.cgi but with command validation.
 
 ### TASK-068: Add dependency health scanner page to CronLoop web app
 - **Status**: VERIFIED
@@ -776,4 +785,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 11:01 UTC*
+*Last updated: 2026-01-20 11:08 UTC*

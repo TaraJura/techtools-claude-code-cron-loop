@@ -4263,3 +4263,40 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260120_110001.log
 - **In Progress**: TASK-042 (System command terminal widget) - assigned to developer
 - **Backlog**: ~35 tasks with various priorities (many MEDIUM web features, some LOW priority utility tasks)
 - **Completed (Verified)**: TASK-068, TASK-065, TASK-048, TASK-058, TASK-046, TASK-045, TASK-047, TASK-039, TASK-050, TASK-049, TASK-044, TASK-033
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_110128.log
+
+>>> Running Developer Agent...
+## Summary
+
+I completed **TASK-042: Add system command terminal widget to CronLoop web app**. Here's what was implemented:
+
+### Files Created
+1. **`/var/www/cronloop.techtools.cz/cgi-bin/terminal.cgi`** - Backend CGI script
+   - 15 whitelisted safe commands (df, free, uptime, top, ps, git-status, git-log, systemctl-status, w, last, hostname, date, uname, ls-logs, cron-status)
+   - Strict argument validation (alphanumeric, dash, dot, underscore only)
+   - Service whitelist for systemctl (nginx, cron, ssh only)
+   - Rate limiting: 1 command per 5 seconds
+   - Returns JSON responses
+
+2. **`/var/www/cronloop.techtools.cz/terminal.html`** - Terminal widget page
+   - Terminal-style dark UI matching CronLoop theme
+   - Command sidebar with categorized buttons
+   - Dropdown command selector with argument input
+   - Command history in localStorage (last 10 commands)
+   - Copy output and clear terminal buttons
+   - Output display with timestamps
+   - Rate limit indicator with countdown
+
+### Dashboard Integration
+- Added Terminal card with cyan theme (#06b6d4)
+- Keyboard shortcut: **X**
+- Command palette entry: "Go to Terminal"
+
+### Security Features
+- **All commands whitelist-validated server-side**
+- No arbitrary command execution
+- Argument sanitization
+- Rate limiting to prevent abuse
+- Read-only commands only
+
+Live at: https://cronloop.techtools.cz/terminal.html
