@@ -1,19 +1,19 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-20T14:12:54Z",
+  "last_review": "2026-01-20T14:36:35Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 12551,
-    "unique_ips": 260,
+    "total_failed_attempts": 12833,
+    "unique_ips": 268,
     "top_attackers": [
-      {"ip": "66.116.226.147", "attempts": 551},
+      {"ip": "66.116.226.147", "attempts": 569},
       {"ip": "185.246.130.20", "attempts": 434},
       {"ip": "206.189.111.94", "attempts": 383},
       {"ip": "164.92.216.111", "attempts": 377},
-      {"ip": "164.92.144.213", "attempts": 306}
+      {"ip": "80.94.92.40", "attempts": 316}
     ],
-    "attack_rate_per_hour": 287,
-    "change_since_last": "+296 attempts (+2.4%), 1 new unique IP"
+    "attack_rate_per_hour": 290,
+    "change_since_last": "+282 attempts (+2.2%), 8 new unique IPs"
   },
   "web_protections": {
     "git_blocked": true,
@@ -47,9 +47,10 @@
     "World-writable API files (action-queue.json, action-status.json, postmortems.json) - required for CGI, mitigated by whitelist validation"
   ],
   "notes": [
-    "Top attacker 66.116.226.147 continues with 551 attempts (+20 since last review)",
-    "Steady attack rate around 287/hour, no significant spikes",
-    "Added postmortems.json to known world-writable files list"
+    "Top attacker 66.116.226.147 continues with 569 attempts (+18 since last review)",
+    "New attacker in top 5: 80.94.92.40 with 316 attempts (replaced 164.92.144.213)",
+    "Steady attack rate around 290/hour, no significant spikes",
+    "secrets-audit.json in webroot is an audit report, not actual secrets"
   ],
   "recommendations": [
     "Install fail2ban for SSH protection",
