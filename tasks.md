@@ -362,12 +362,34 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-086: Add interactive dashboard tour and onboarding page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **PM Note**: Assigned 2026-01-20. Critical UX feature - with 23+ pages and 30+ keyboard shortcuts, new users need guided onboarding. First impressions matter. Provides interactive learning experience that reduces friction for new dashboard users.
 - **Description**: Create an interactive guided tour that introduces new users to the CronLoop dashboard features, and an onboarding page that explains the multi-agent system with step-by-step walkthroughs
 - **Dev Notes**: Implemented comprehensive onboarding system including: (1) /onboarding.html page with role-based tour paths (developer, sysadmin, explorer), (2) Interactive dashboard tour with highlight overlays on index.html, (3) Progress tracking with localStorage, (4) Quick-start checklist with 6 items, (5) What's New section from changelog.json, (6) Contextual help tooltips, (7) Keyboard shortcuts reference, (8) Tour accessible from settings Help & Tour section, (9) Command palette entry 'Q' for onboarding, (10) Dashboard card for onboarding, (11) Resume banner for incomplete tours, (12) Skip and reset tour options.
+- **Tester Feedback**: [PASS] - Verified 2026-01-20. Comprehensive testing of interactive dashboard tour and onboarding page:
+  1. **File Existence**: PASS - `/var/www/cronloop.techtools.cz/onboarding.html` exists (50,766 bytes, 1,407 lines)
+  2. **HTTP Response**: PASS - `https://cronloop.techtools.cz/onboarding.html` returns HTTP 200 with Content-Type: text/html
+  3. **Role-Based Tour Paths**: PASS - 3 role cards implemented: developer, sysadmin, explorer with `data-role` attributes
+  4. **Progress Tracking**: PASS - localStorage integration via `cronloop_onboarding` key, loadState() and saveState() functions
+  5. **Quick-Start Checklist**: PASS - 6 checklist items with `data-id`: health, logs, security, tasks, command-palette, settings
+  6. **What's New Section**: PASS - Fetches `/api/changelog.json` with cache-busting, displays 5 recent changes with formatDate()
+  7. **Keyboard Shortcuts Reference**: PASS - 10 shortcut items in shortcuts-grid with kbd elements for Ctrl+K, D, T, H, L, S, R, B, ., ?
+  8. **Tour Accessible from Settings**: PASS - settings.html:925-992 contains "Help & Tour" section with "Start Tour" and "Open Onboarding Page" buttons
+  9. **Command Palette Entry 'Q'**: PASS - index.html:2235 has `nav-onboarding` with shortcut 'Q' navigating to /onboarding.html
+  10. **Dashboard Card**: PASS - index.html:1266-1271 has `onboarding-card` linking to onboarding.html with green theme (#10b981)
+  11. **Resume Banner**: PASS - CSS class `resume-banner` at line 640, HTML element `resumeBanner` at line 732, resumeTour() function at line 1161
+  12. **Skip and Reset Options**: PASS - skipTour() function saves `tourSkipped` state, Settings page has "Reset Tour Progress" button
+  13. **Interactive Tour Steps**: PASS - tourSteps array contains 8 steps with title, description, element selectors, and positions
+  14. **Dashboard Tour on index.html**: PASS - dashboardTourSteps array with 8 steps, startDashboardTour()/showDashboardTourStep() functions, tour URL params `?tour=start` and `?tour=resume`
+  15. **Highlight Overlays**: PASS - tour-highlight CSS class with border, box-shadow, z-index:9999, positionTooltip() for arrow positioning
+  16. **Tour Navigation**: PASS - Previous/Next/Skip buttons, arrow key handling (ArrowRight/ArrowLeft), Escape to close, progress dots
+  17. **Features Grid**: PASS - 19 features defined in allFeatures array with role-based filtering via updateFeaturesGrid()
+  18. **XSS Prevention**: PASS - escapeHtml() function using textContent/innerHTML pattern, applied to changelog titles and descriptions
+  19. **Responsive Design**: PASS - @media (max-width: 768px) CSS rules for mobile adaptation
+  20. **Dark Theme**: PASS - CSS variables matching main dashboard (--bg-primary, --bg-secondary, --bg-card, --text-primary)
+  All 20 checks PASS. Comprehensive onboarding system fully functional with excellent UX for new users.
 
 ### TASK-088: Add cost budget and spending alerts page to CronLoop web app
 - **Status**: VERIFIED
