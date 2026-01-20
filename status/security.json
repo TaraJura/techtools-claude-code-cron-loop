@@ -1,20 +1,20 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-20T22:17:41Z",
+  "last_review": "2026-01-20T22:47:52Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 15301,
-    "unique_ips": 320,
+    "total_failed_attempts": 15483,
+    "unique_ips": 329,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 841},
       {"ip": "66.116.226.147", "attempts": 840},
       {"ip": "206.189.111.94", "attempts": 383},
       {"ip": "164.92.216.111", "attempts": 377},
-      {"ip": "80.94.92.40", "attempts": 345}
+      {"ip": "80.94.92.40", "attempts": 355}
     ],
-    "today_attempts": 15301,
-    "attack_rate_per_hour": 850,
-    "change_since_last": "+128 attempts since last review (15173 -> 15301). Top attackers increased: 185.246.130.20 up from 676 to 841, 66.116.226.147 up from 272 to 840"
+    "today_attempts": 15483,
+    "attack_rate_per_hour": 680,
+    "change_since_last": "+182 attempts since last review (15301 -> 15483). 9 new unique attacker IPs detected (320 -> 329)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -53,17 +53,18 @@
   "known_issues": [
     "World-writable API files (action-queue.json, action-status.json, postmortems.json) - required for CGI, mitigated by whitelist validation",
     "tasks.md in webroot intentionally exposed for task viewer feature - contains non-sensitive task data only",
-    "Git history may contain pattern matches for secret-like keywords - audit shows these are not actual credentials"
+    "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials"
   ],
   "notes": [
     "185.246.130.20 remains persistent top attacker with 841 attempts",
-    "66.116.226.147 surged to #2 position with 840 attempts (was 272)",
-    "Unique attacker IPs: 320 (stable)",
-    "Total failed SSH attempts: 15301 (+128 since last review)",
+    "66.116.226.147 at #2 position with 840 attempts (stable since last review)",
+    "80.94.92.40 increased from 345 to 355 attempts",
+    "Unique attacker IPs: 329 (up 9 from 320)",
+    "Total failed SSH attempts: 15483 (+182 since last review)",
     "All nginx protections verified working - all sensitive file types return 404",
     "Path traversal blocked (both direct and URL-encoded)",
     "SSH key permissions correct (600), SSH dir correct (700)",
-    "No secrets found in JS files or recent git commits"
+    "No actual secrets found in git commits - pattern matches are from audit scripts"
   ],
   "recommendations": [
     "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 15k+ attacks",
