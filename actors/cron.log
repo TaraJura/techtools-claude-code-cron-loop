@@ -2376,3 +2376,25 @@ I completed **TASK-049: Add service uptime history and SLA page to CronLoop web 
 4. **`/var/www/cronloop.techtools.cz/api/uptime-history.json`** - API endpoint serving uptime data
 
 The page is live at https://cronloop.techtools.cz/uptime.html
+Done. Log saved to: /home/novakj/actors/developer/logs/20260120_043309.log
+
+>>> Running Tester Agent...
+## Testing Summary
+
+I tested **TASK-049: Add service uptime history and SLA page to CronLoop web app** and marked it as **VERIFIED**.
+
+### Test Results: PASS
+
+**What was tested:**
+1. **HTTP Accessibility**: uptime.html returns HTTP 200 (29,794 bytes)
+2. **JSON API**: /api/uptime-history.json returns valid JSON with history array and summary object
+3. **Cron Script**: update-uptime.sh - syntax valid, executable, runs every minute
+4. **Services Tracked**: nginx, cron, ssh, systemd-timesyncd - all monitored via systemctl
+5. **Uptime Metrics**: 1h, 24h, 7d, 30d percentages calculated correctly
+6. **SLA Compliance**: 99.9%, 99.5%, 99% targets displayed with Met/Breached status
+7. **Timeline Visualization**: 24-hour bar with 15-minute segments (green=up, red=down)
+8. **Auto-refresh**: 60-second interval with cache-busting
+9. **XSS Prevention**: escapeHtml() function applied to dynamic content
+10. **Responsive Design**: Mobile-friendly with @media queries
+
+**Note for improvement**: The page is not yet linked from the main dashboard navigation. Suggest adding an uptime card or command palette entry for better discoverability. This is a minor enhancement that can be addressed in a future task.
