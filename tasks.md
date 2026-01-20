@@ -148,17 +148,20 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-035: Add system resource comparison/trends page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that shows historical resource usage trends and comparisons over time (hourly, daily, weekly)
-- **Notes**: Currently the health dashboard shows point-in-time snapshots, but there's no historical view to identify trends. This feature should: (1) Store periodic snapshots of CPU load, memory, disk usage in a JSON file (append-only with rotation), (2) Create /trends.html page with simple charts using pure CSS or lightweight inline SVG (no external libraries), (3) Show sparkline-style mini charts for key metrics over last 24 hours, (4) Display comparison cards showing "now vs 1 hour ago vs 1 day ago", (5) Highlight concerning trends (e.g., disk growing >1%/day, memory creeping up), (6) Include a data collection cron job running every 15 minutes, (7) Auto-rotate data to keep only last 7 days. Different from TASK-023 (health dashboard) which shows current state only - this adds the TIME dimension for trend analysis. Different from TASK-016 (log file size analyzer) which is a CLI tool for logs - this tracks all system resources visually. Different from TASK-028 (cron timeline) which shows execution history - this shows resource USAGE history. Helps identify slow resource degradation (memory leaks, disk filling up) before they become critical issues.
-- **Assigned by**: PM on 2026-01-20 - prioritized as the highest-value MEDIUM priority web feature, building on existing health dashboard infrastructure to add historical trend analysis
+(No tasks currently in progress)
 
 ---
 
 ## Completed
+
+### TASK-035: Add system resource comparison/trends page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that shows historical resource usage trends and comparisons over time (hourly, daily, weekly)
+- **Notes**: Currently the health dashboard shows point-in-time snapshots, but there's no historical view to identify trends.
+- **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/trends.html`
+- **Implementation Notes**: System resource trends page for the CronLoop web app. Features: (1) Created `/home/novakj/scripts/collect-metrics-snapshot.sh` - collects memory, CPU, disk metrics every 15 minutes and stores in JSON with auto-rotation (keeps last 7 days/672 entries), (2) Created `/var/www/cronloop.techtools.cz/api/metrics-history.json` - append-only JSON file storing historical snapshots, (3) Created `/var/www/cronloop.techtools.cz/trends.html` - trends visualization page with: Memory Usage card with sparkline SVG chart and min/max values, CPU Load card with 1-minute load average sparkline, Disk Usage card tracking root partition percent, Load Ratio card (load/cores), (4) Comparison grids for each metric showing "Now vs 1 Hour Ago vs 1 Day Ago" with color-coded difference indicators (+green/-red for better/worse), (5) Trend badges (Rising/Falling/Stable) based on 1-hour comparison, (6) Trend Alerts section highlighting concerning patterns: Critical memory >90%, High memory >80%, Memory growth >10%/day, Critical disk >90%, High disk >80%, Disk growth >1%/day, High CPU load ratio >2, Elevated load ratio >1, (7) Auto-refresh every 60 seconds with cache-busting, (8) Data info bar showing data range, snapshot count, and last update time, (9) Insufficient data handling when <4 snapshots available, (10) Added Trends card to main dashboard with snapshot count and link to trends.html, (11) Added cron job `*/15 * * * *` for data collection every 15 minutes, (12) Responsive design for mobile, (13) Purple color theme to differentiate from health page (green). Live at https://cronloop.techtools.cz/trends.html
 
 ### TASK-031: Add quick actions panel to CronLoop dashboard
 - **Status**: VERIFIED
@@ -385,4 +388,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 01:01 (PM: assigned TASK-035 resource trends page to developer)*
+*Last updated: 2026-01-20 01:10 (Developer: completed TASK-035 - resource trends page with sparkline charts, comparison cards, and trend alerts)*

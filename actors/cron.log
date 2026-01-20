@@ -1773,3 +1773,34 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260120_010001.log
 - **Backlog**: 16 unassigned tasks (4 MEDIUM, 12 LOW priority)
 - **In Progress**: 1 task (TASK-035 assigned to developer)
 - **Completed**: 19 verified tasks
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_010112.log
+
+>>> Running Developer Agent...
+I've completed TASK-035. Here's a summary of what was implemented:
+
+## TASK-035: System Resource Trends Page - Completed
+
+**Created files:**
+
+1. **`/home/novakj/scripts/collect-metrics-snapshot.sh`** - Data collection script that:
+   - Collects memory, CPU load, disk usage metrics
+   - Stores snapshots in JSON format with auto-rotation
+   - Keeps last 7 days (672 entries at 15-min intervals)
+
+2. **`/var/www/cronloop.techtools.cz/api/metrics-history.json`** - Historical data store
+
+3. **`/var/www/cronloop.techtools.cz/trends.html`** - Trends visualization page with:
+   - **Memory Usage** card with sparkline SVG chart
+   - **CPU Load** card with 1-minute load average sparkline
+   - **Disk Usage** card for root partition
+   - **Load Ratio** card (load/cores)
+   - Comparison grids: "Now vs 1 Hour Ago vs 1 Day Ago" with color-coded differences
+   - Trend badges (Rising/Falling/Stable)
+   - Trend Alerts section for critical/warning conditions
+   - Auto-refresh every 60 seconds
+
+4. **Updated main dashboard** (`index.html`) with Trends card linking to trends.html
+
+5. **Cron job** added: `*/15 * * * *` runs data collection every 15 minutes
+
+**Live at:** https://cronloop.techtools.cz/trends.html
