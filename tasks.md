@@ -295,14 +295,6 @@ Tasks follow this format:
 - **Description**: Create a page that allows users to replay agent runs step-by-step in slow motion, showing each tool call, file read, and decision as it happened
 - **Notes**: Provides educational and debugging value by letting users "watch" how agents work. Should: (1) Create /replay.html page with a step-through interface, (2) Parse agent logs to extract individual actions (tool calls, file reads, edits, bash commands) with timestamps, (3) Display a "player" interface with play/pause/step-forward/step-back controls, (4) Show current action in a highlighted panel: what tool is being used, what arguments, what was the result, (5) Display file state changes: before/after diffs when files are edited, (6) Show thinking process: extract Claude's reasoning before each action if available in logs, (7) Playback speed control: 0.5x, 1x, 2x, or step-by-step manual mode, (8) Action timeline scrubber: click anywhere on timeline to jump to that action, (9) Filter by action type: show only file edits, only bash commands, etc., (10) "Follow along" mode: highlight which file is being read/edited in a file tree sidebar, (11) Export annotated replay as markdown report showing the full execution story. Different from TASK-038 (conversation viewer) which shows static conversation content - this provides INTERACTIVE PLAYBACK with player controls. Different from TASK-054 (decision explainer) which categorizes decisions - this shows the TEMPORAL FLOW of execution step-by-step. Different from logs.html which shows raw log text - this PARSES and ANIMATES the execution. Different from TASK-067 (run comparison) which compares two runs - this deeply explores ONE run in detail. Helps users understand agent behavior, learn from successful runs, and debug failures by seeing exactly what happened in sequence.
 
-### TASK-071: Add system recovery playbook page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: HIGH
-- **Description**: Create a page that provides interactive, step-by-step recovery guides for common system problems with one-click remediation actions
-- **PM Note**: Assigned 2026-01-20. Elevated to HIGH priority - transforms dashboard from passive monitoring to active problem resolution. Given the ongoing SSH brute force attacks (7,233+ attempts, fail2ban NOT installed), include a security hardening playbook. High user value.
-- **Notes**: Turns passive monitoring into active problem resolution with guided recovery procedures. Should: (1) Create /playbooks.html page with a library of recovery procedures, (2) Define playbooks for common issues: high disk usage (>80%), high memory usage (>90%), agent failures, cron not running, nginx down, SSL certificate expiring, git repository issues, config file corruption, (3) Each playbook shows: problem description, automated diagnosis (run checks to confirm the issue), step-by-step resolution guide with explanations, one-click action buttons for safe remediation steps (e.g., "Clear old logs", "Restart nginx", "Restore file from git"), (4) Integrate with existing metrics to auto-suggest relevant playbooks ("Disk at 85% - see disk cleanup playbook"), (5) Show playbook execution history: when was this playbook last used, what was the outcome, (6) Allow marking steps as completed during manual resolution, (7) Prerequisite checks: ensure conditions are safe before offering remediation (e.g., check backups exist before suggesting file restoration), (8) Severity indicators: informational guides vs urgent recovery procedures, (9) "Dry run" mode: show what each remediation action would do before executing, (10) Customizable playbooks: edit or add new recovery procedures via simple JSON format. Different from health.html which only SHOWS problems - this provides SOLUTIONS. Different from TASK-034 (help/docs page) which explains the system - this provides ACTIVE RECOVERY guidance. Different from TASK-031 (quick actions) which has generic actions - this has PROBLEM-SPECIFIC guided workflows. Different from docs/engine-guide.md which is static documentation - this is INTERACTIVE with live system integration. Transforms the dashboard from "monitoring only" to "monitoring + resolution" for faster incident response.
-
 ---
 
 ## In Progress
@@ -312,6 +304,27 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-071: Add system recovery playbook page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: HIGH
+- **Description**: Create a page that provides interactive, step-by-step recovery guides for common system problems with one-click remediation actions
+- **PM Note**: Assigned 2026-01-20. Elevated to HIGH priority - transforms dashboard from passive monitoring to active problem resolution. Given the ongoing SSH brute force attacks (7,233+ attempts, fail2ban NOT installed), include a security hardening playbook. High user value.
+- **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/playbooks.html` page with full recovery playbook functionality.
+- **Implementation Details**:
+  - 8 recovery playbooks: High Disk Usage, High Memory Usage, Agent Failures, Nginx Not Running, SSH Brute Force Protection, SSL Certificate Expiring, Git Repository Issues, Config File Corruption
+  - Auto-suggestions: Integrates with system-metrics.json to detect issues and show alert banners for relevant playbooks
+  - Diagnosis section: Each playbook has a "Run Diagnosis" button that checks current system state
+  - Step-by-step guides: Each playbook has multiple steps with descriptions and one-click action buttons
+  - Dry-run mode: Preview what each command will do before executing
+  - Action types: Info (read-only), Dry-run (preview), Execute (run command)
+  - Execution history: Tracks when playbooks were used and outcomes (localStorage)
+  - Step completion tracking: Mark steps as completed during manual resolution
+  - Prerequisites warnings: Displays warnings before dangerous operations
+  - Toast notifications: Shows success/failure feedback for actions
+  - Dashboard link: Card added to index.html with keyboard shortcut 'O'
+  - Command palette: Added "Go to Playbooks" navigation command
 
 ### TASK-042: Add system command terminal widget to CronLoop web app
 - **Status**: VERIFIED
@@ -818,4 +831,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 11:32 UTC*
+*Last updated: 2026-01-20 11:35 UTC*

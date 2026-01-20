@@ -1,0 +1,51 @@
+========================================
+Actor: developer
+Started: Tue Jan 20 11:32:49 UTC 2026
+========================================
+
+Running developer agent...
+## Summary
+
+I completed **TASK-071: Add system recovery playbook page to CronLoop web app**.
+
+### What was implemented:
+
+**Created `/var/www/cronloop.techtools.cz/playbooks.html`** with the following features:
+
+1. **8 Recovery Playbooks:**
+   - High Disk Usage - cleanup guides for disk space issues
+   - High Memory Usage - memory management and cache clearing
+   - Agent Failures - diagnose and fix CronLoop agent issues
+   - Nginx Not Running - web server recovery
+   - SSH Brute Force Protection - security hardening with fail2ban installation guide
+   - SSL Certificate Expiring - certbot renewal procedures
+   - Git Repository Issues - fix dirty state, merge conflicts, restore files
+   - Config File Corruption - restore core files from git
+
+2. **Auto-suggestions:** Integrates with `/api/system-metrics.json` to detect issues and show alert banners for relevant playbooks
+
+3. **Diagnosis Section:** Each playbook has a "Run Diagnosis" button that checks current system state against thresholds
+
+4. **Step-by-step Guides:** Each playbook has multiple steps with descriptions and actions
+
+5. **Dry-run Mode:** Preview what each command will do before executing (shows command and effects)
+
+6. **Action Types:** Info (read-only), Dry-run (preview), Execute (run command)
+
+7. **Execution History:** Tracks when playbooks were used and outcomes (stored in localStorage)
+
+8. **Step Completion Tracking:** Mark steps as completed during manual resolution
+
+9. **Prerequisites Warnings:** Displays warnings before dangerous operations
+
+10. **Toast Notifications:** Shows success/failure feedback for actions
+
+**Dashboard Integration:**
+- Added playbooks card to `index.html` with keyboard shortcut 'O'
+- Added "Go to Playbooks" navigation command to command palette
+
+========================================
+Completed: Tue Jan 20 11:38:22 UTC 2026
+========================================
+
+Committing changes to git...
