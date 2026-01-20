@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-064: Add file change heatmap visualization to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that visualizes which files and directories are modified most frequently by the multi-agent system, showing evolution hotspots
+- **Notes**: Provides visibility into code churn and system evolution patterns. Should: (1) Create /heatmap.html page showing file modification frequency visualization, (2) Parse git history to count commits per file/directory over configurable time periods (7d, 30d, all time), (3) Display treemap or heatmap visualization where size/color intensity represents modification frequency, (4) Drill-down navigation: click on directory to see file-level detail, click on file to see commit history, (5) Show "churn rate" metric: files changed / total files (healthy codebases have low churn on stable components), (6) Identify "hot zones": directories or files being modified every day (potential instability or active development areas), (7) Identify "cold zones": files never touched (might be abandoned or stable), (8) Filter by agent: show which files each agent modifies most (does developer only touch web files? does security only touch configs?), (9) Filter by file type: show churn for .html, .js, .sh, .json separately, (10) Trend line: is churn increasing or decreasing over time?, (11) Highlight core files from CLAUDE.md protected list with special styling (these SHOULD be low-churn). Different from TASK-046 (changelog) which shows linear commit list - this provides SPATIAL visualization of where changes cluster. Different from TASK-063 (releases) which tracks features shipped - this tracks FILE-LEVEL activity patterns. Different from TASK-060 (learning tracker) which tracks task outcomes - this tracks CODE changes regardless of task association. Helps identify architectural patterns: stable core vs active periphery, and spot potential problems like excessive churn in critical files.
+
+### TASK-065: Add daily agent digest email/report page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that generates a daily summary digest of all agent activity, suitable for email or quick review
+- **Notes**: Provides a consolidated daily briefing for stakeholders who don't want to watch the dashboard constantly. Should: (1) Create /digest.html page that shows today's summary and generates shareable reports, (2) Create backend script that aggregates daily metrics from all data sources (agent runs, task changes, security events, costs), (3) Summary sections: Tasks Created (by idea-maker), Tasks Assigned (by PM), Tasks Completed (by developer), Tests Run/Failed (by tester), Security Issues Found (by security), (4) Key metrics: total cron cycles today, total cost today, disk/memory/cpu averages, SSH attack count, (5) Highlights section: notable events like "Developer completed 5 tasks (highest ever)" or "Security found 2 new vulnerabilities", (6) Problems section: any errors, failed tests, or concerning trends, (7) Comparison to yesterday/last week: are metrics improving or declining?, (8) One-click export as: plain text email, HTML email, markdown, PDF, (9) Historical digests: view digests from previous days (stored as /api/digest-YYYY-MM-DD.json), (10) Optional auto-email: cron job to send digest at end of day (if email is configured), (11) Configurable sections: let users hide metrics they don't care about. Different from TASK-056 (webhooks) which sends real-time alerts - this is a DAILY SUMMARY, not event-driven. Different from TASK-055 (activity page) which shows live activity feed - this is a CURATED DIGEST with analysis. Different from trends.html which shows charts - this is a TEXT-BASED briefing suitable for email. Different from TASK-060 (learning tracker) which analyzes improvement over time - this summarizes A SINGLE DAY. Helps stakeholders stay informed with minimal effort - "5 minute morning briefing" on what the system did overnight.
+
 ### TASK-062: Add agent handoff inspector page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -668,4 +682,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 08:44 UTC*
+*Last updated: 2026-01-20 09:00 UTC*
