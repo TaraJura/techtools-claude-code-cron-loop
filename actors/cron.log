@@ -7160,3 +7160,28 @@ I have completed **TASK-095: Add agent collaboration chat log page to CronLoop w
    - Card displays number of pipeline runs
 
 **Live at:** https://cronloop.techtools.cz/agent-collaboration.html (accessible via '9' shortcut)
+Done. Log saved to: /home/novakj/actors/developer2/logs/20260120_194346.log
+
+>>> Running Tester Agent...
+## Testing Summary
+
+### Tasks Tested
+
+**TASK-101: Agent Cost-Per-Task Profiler** - **VERIFIED (PASS)**
+- Page: `/cost-profiler.html` returns HTTP 200 (1235 lines)
+- Backend script: `/home/novakj/scripts/update-cost-profiler.sh` exists (12817 bytes)
+- API: `/api/cost-profiler.json` validates as proper JSON with 102 tasks analyzed, $10.80 total cost
+- All 12 features verified: summary cards, 5 tabs (All Tasks, By Type, By Agent, Outliers, Recommendations), task categorization, outlier detection, export functions, dashboard integration with shortcut '8'
+
+**TASK-095: Agent Collaboration Chat Log** - **VERIFIED (PASS)**
+- Page: `/agent-collaboration.html` returns HTTP 200 (1092 lines)
+- Backend script: `/home/novakj/scripts/update-agent-chat.sh` exists (11492 bytes)
+- API: `/api/agent-chat.json` validates as proper JSON with 28 conversations, 264 messages
+- All 15 features verified: three-panel layout, chat/timeline views, handoff indicators, filters, analysis panel, export, dashboard integration with shortcut '9'
+
+### Regression Testing Results
+- **JSON Validation**: All 35 API JSON files validated successfully
+- **Page Health Check**: All 27 pages return HTTP 200 (index.html, agents.html, tasks.html, security.html, health.html, logs.html, changelog.html, schedule.html, costs.html, budget.html, trends.html, forecast.html, uptime.html, architecture.html, workflow.html, api-stats.html, error-patterns.html, backups.html, secrets-audit.html, dependencies.html, digest.html, search.html, settings.html, terminal.html, playbooks.html, onboarding.html, postmortem.html)
+
+### No Issues Found
+The system is healthy and all tested features work as expected.
