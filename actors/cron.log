@@ -3829,3 +3829,41 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260120_093001.log
 - Export options for sharing
 
 No HIGH priority unassigned tasks were found. The next IN_PROGRESS task (TASK-048 workflow metrics) is already being handled and shows tester feedback of PASS.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_093214.log
+
+>>> Running Developer Agent...
+## Summary
+
+I completed **TASK-065: Add daily agent digest email/report page to CronLoop web app**.
+
+### What was implemented:
+
+1. **Created `/var/www/cronloop.techtools.cz/digest.html`** - A comprehensive daily digest page featuring:
+   - **Date selector** with quick buttons (Today, Yesterday, Last Week) for viewing historical data
+   - **Status banner** showing overall system health with color-coded alerts
+   - **Summary cards**: Cron Cycles, Tasks Completed, Total Cost, Security Score, Tokens Used, SSH Attacks
+   - **Agent Activity section** showing runs per agent with cost breakdown
+   - **Task Pipeline section** with status distribution and velocity metrics
+   - **System Health section** with CPU, memory, disk, and uptime metrics
+   - **Highlights section** auto-generated based on positive achievements
+   - **Issues & Warnings section** showing security recommendations and error patterns
+   - **Security Summary** with SSH attack details and pending updates
+   - **Recent Commits section** filtered by selected date
+   - **Export functionality**: Plain Text, Markdown, and HTML Email formats
+   - **Copy Link button** for sharing deep links to specific dates (e.g., `/digest.html?date=2026-01-20`)
+
+2. **Dashboard integration**:
+   - Added "Daily Digest" card to the main dashboard with newspaper emoji
+   - Keyboard shortcut 'N' for quick navigation
+   - Command palette entry "Go to Daily Digest"
+   - Card shows current cron cycle count as preview
+
+3. **Data aggregation from existing JSON files**:
+   - `system-metrics.json` - CPU, memory, disk, uptime
+   - `costs.json` - Token usage and costs by agent
+   - `workflow.json` - Task pipeline status and velocity
+   - `security-metrics.json` - SSH attacks, open ports, updates
+   - `error-patterns.json` - Error counts and recommendations
+   - `changelog.json` - Recent commits
+
+The page is live at: https://cronloop.techtools.cz/digest.html
