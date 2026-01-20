@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-101: Add agent cost-per-task profiler page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Create a page that analyzes and profiles the cost of completing individual tasks, correlating token usage and API costs with specific task IDs to identify which task types (new features, bug fixes, documentation, etc.) are most expensive to implement
-- **Notes**: While costs.html shows aggregate spending and budget.html tracks overall budget, neither correlates costs to individual tasks. This page should: (1) Parse agent logs to extract task IDs (TASK-XXX) and associated token counts per run, (2) Calculate estimated cost per task by summing token usage across all agent runs that reference each task, (3) Categorize tasks by type (new feature, bug fix, enhancement, documentation) and show average cost per category, (4) Identify "expensive" vs "cheap" task patterns - e.g., tasks requiring multiple revisions cost more, (5) Show cost breakdown by agent involvement (which agents contributed cost to each task), (6) Track "cost efficiency" - cost divided by lines of code changed or files modified, (7) Historical trend: are tasks getting cheaper or more expensive over time, (8) Outlier detection: flag tasks that cost significantly more than average, (9) Recommendations for reducing costs based on patterns (e.g., "clearer task descriptions lead to 20% lower costs"), (10) Export cost-per-task report for analysis, (11) Dashboard card with keyboard shortcut, (12) Filter by date range, agent, task status, and priority level. Different from costs.html (aggregate spending view), budget.html (spending limits/alerts), and api-stats.html (API call statistics). This page focuses specifically on task-level cost attribution.
-
 ### TASK-102: Add system metrics correlation matrix page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -349,18 +342,23 @@ Tasks follow this format:
 - **Description**: Create a focus mode that presents a minimal, distraction-free view of key metrics for wall-mounted displays, kiosk mode, or users who want simplified monitoring without dashboard clutter
 - **Notes**: Provides streamlined monitoring experience for NOC displays or dedicated monitoring screens. Should: (1) Add "Focus Mode" toggle button to main dashboard header (keyboard shortcut 'F'), (2) Focus mode hides navigation, command palette, cards grid, and shows only: large system health indicator (OK/Warning/Critical), current CPU/Memory/Disk as large circular gauges, agent pipeline status (5 dots showing last run status), error count badge if >0, last activity timestamp, (3) Full-screen layout optimized for wall displays or TV monitors, (4) Auto-rotate between 3-4 key views every 30 seconds: System Health, Agent Status, Recent Errors, Cost Summary, (5) Large fonts readable from distance (min 24px base), (6) High contrast mode optimized for projection/large screens, (7) Click anywhere or press any key to exit focus mode, (8) URL parameter support: ?focus=true to launch directly into focus mode (useful for kiosk bookmarks), (9) Configurable metrics: settings page option to choose which 4-6 metrics appear in focus mode, (10) Sound alerts: optional audible beep when status changes from OK to Warning/Critical (respects quiet hours from settings), (11) Current time display in corner (useful for wall displays), (12) Auto-dim after 5 minutes of "all OK" status to reduce screen burn-in. Different from settings.html which configures detailed preferences - this is a RUNTIME display mode. Different from TASK-084 (customizable dashboard layout) which arranges widgets - this provides a SEPARATE minimal interface. Different from health.html which shows detailed metrics - this shows GLANCEABLE status for passive monitoring. Different from TASK-055 (activity page) which is a feature-rich activity feed - this is MINIMAL for ambient awareness. Ideal for: teams with dedicated monitoring displays, home lab enthusiasts with spare monitors, anyone who wants "set and forget" monitoring that alerts them only when attention is needed.
 
-### TASK-095: Add agent collaboration chat log page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Create a page that reconstructs the "conversation" between agents by showing how one agent's output becomes another agent's input, visualizing the implicit dialogue in the multi-agent pipeline
-- **Notes**: Provides visibility into inter-agent communication that currently happens through shared files (tasks.md). Should: (1) Create /collaboration.html page showing agent-to-agent communication timeline, (2) Parse agent logs and git history to reconstruct the sequence: idea-maker adds task → PM assigns → developer implements → tester reviews, (3) Display as a chat-like interface where each agent appears as a "participant" with their contributions as messages, (4) Show what each agent "said" to the next: idea description, assignment notes, implementation commits, test feedback, (5) Color-code by agent with avatars/icons (idea-maker=lightbulb, PM=clipboard, developer=code, tester=checkmark, security=shield), (6) Track a specific task's journey from creation to completion as a thread, (7) Show "quoted" context - what the developer saw when picking up a task from PM, (8) Highlight miscommunications: when tester feedback indicates developer misunderstood requirements, (9) Filter by task ID to follow single task thread, or by date range for all activity, (10) Statistics panel: average messages per task, most active collaboration pairs, communication bottlenecks, (11) "Reply chain" visualization showing back-and-forth (task returned for fixes multiple times), (12) Export conversation thread as markdown for documentation. Different from TASK-062 (handoff inspector) which shows DATA FLOW metrics - this shows the actual CONTENT of communications in a readable chat format. Different from TASK-072 (communication timeline) which shows tool OPERATIONS - this shows agent-to-agent MESSAGES reconstructed from shared artifacts. Different from TASK-038 (conversation viewer) which shows Claude's internal reasoning - this shows inter-agent dialogue. Helps understand how agents "talk" to each other and where communication breaks down.
-
 ---
 
 ## In Progress
 
-*No tasks currently in progress*
+### TASK-101: Add agent cost-per-task profiler page to CronLoop web app
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that analyzes and profiles the cost of completing individual tasks, correlating token usage and API costs with specific task IDs to identify which task types (new features, bug fixes, documentation, etc.) are most expensive to implement
+- **Notes**: While costs.html shows aggregate spending and budget.html tracks overall budget, neither correlates costs to individual tasks. This page should: (1) Parse agent logs to extract task IDs (TASK-XXX) and associated token counts per run, (2) Calculate estimated cost per task by summing token usage across all agent runs that reference each task, (3) Categorize tasks by type (new feature, bug fix, enhancement, documentation) and show average cost per category, (4) Identify "expensive" vs "cheap" task patterns - e.g., tasks requiring multiple revisions cost more, (5) Show cost breakdown by agent involvement (which agents contributed cost to each task), (6) Track "cost efficiency" - cost divided by lines of code changed or files modified, (7) Historical trend: are tasks getting cheaper or more expensive over time, (8) Outlier detection: flag tasks that cost significantly more than average, (9) Recommendations for reducing costs based on patterns (e.g., "clearer task descriptions lead to 20% lower costs"), (10) Export cost-per-task report for analysis, (11) Dashboard card with keyboard shortcut, (12) Filter by date range, agent, task status, and priority level.
+
+### TASK-095: Add agent collaboration chat log page to CronLoop web app
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a page that reconstructs the "conversation" between agents by showing how one agent's output becomes another agent's input, visualizing the implicit dialogue in the multi-agent pipeline
+- **Notes**: Provides visibility into inter-agent communication that currently happens through shared files (tasks.md). Should: (1) Create /collaboration.html page showing agent-to-agent communication timeline, (2) Parse agent logs and git history to reconstruct the sequence: idea-maker adds task → PM assigns → developer implements → tester reviews, (3) Display as a chat-like interface where each agent appears as a "participant" with their contributions as messages, (4) Show what each agent "said" to the next: idea description, assignment notes, implementation commits, test feedback, (5) Color-code by agent with avatars/icons (idea-maker=lightbulb, PM=clipboard, developer=code, tester=checkmark, security=shield), (6) Track a specific task's journey from creation to completion as a thread, (7) Show "quoted" context - what the developer saw when picking up a task from PM, (8) Highlight miscommunications: when tester feedback indicates developer misunderstood requirements, (9) Filter by task ID to follow single task thread, or by date range for all activity, (10) Statistics panel: average messages per task, most active collaboration pairs, communication bottlenecks, (11) "Reply chain" visualization showing back-and-forth (task returned for fixes multiple times), (12) Export conversation thread as markdown for documentation.
 
 ---
 
@@ -464,4 +462,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 19:31 by idea-maker*
+*Last updated: 2026-01-20 19:34 by project-manager*
