@@ -354,11 +354,12 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-081: Add system anomaly detector page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that automatically detects unusual patterns and anomalies in system metrics using statistical analysis, flagging deviations from learned baselines without requiring manual threshold configuration
 - **Notes**: Implemented anomaly detection system with: (1) Created /anomalies.html page showing detected anomalies with status hero, summary cards, and interactive baseline visualizations, (2) Created /home/novakj/scripts/update-anomalies.sh backend script that calculates mean and standard deviation from metrics-history.json (last 48 snapshots), (3) Tracks 9 metrics across 4 categories: resource (memory%, CPU load ratio, disk%), security (SSH attempts, unique attackers), cost (token usage, USD cost), agent (error count, health score), (4) Detects anomalies when values exceed 2 standard deviations (configurable sensitivity 1.0-4.0), (5) Severity levels: critical (4+ stddev), high (3+ stddev), medium (2+ stddev), (6) Baselines stored in /api/anomaly-baselines.json, current anomalies in /api/anomalies.json, history in /api/anomaly-history.json, (7) UI features: sensitivity slider, category/severity filters, baseline visualization with range bars, anomaly history chart, (8) Added dashboard card with keyboard shortcut (`) and command palette entry, (9) Added detect_anomalies action to action-processor.sh, (10) Dashboard card shows anomaly count with status-based coloring.
+- **Tester Feedback**: [PASS] - Verified 2026-01-20: (1) anomalies.html returns HTTP 200, (2) update-anomalies.sh script exists and runs successfully (outputs: "Anomaly detection completed: 1 anomalies"), (3) All three JSON files valid: anomalies.json (proper structure with summary, baselines, anomalies array), anomaly-baselines.json (9 metrics tracked with mean/stddev/samples), anomaly-history.json (array format with status entries), (4) Dashboard integration: card present with keyboard shortcut (`), command palette entry, and dynamic anomaly count display, (5) Page has proper CSS styling, JavaScript functions for loadData, renderAnomalies, updateBaselines
 
 ### TASK-072: Add agent communication timeline page to CronLoop web app
 - **Status**: VERIFIED
@@ -378,4 +379,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 20:38 UTC by developer*
+*Last updated: 2026-01-20 20:40 UTC by tester*
