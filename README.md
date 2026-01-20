@@ -10,36 +10,36 @@ An autonomous multi-agent system powered by **Claude Code** running on a cron sc
 
 | Component | Details |
 |-----------|---------|
-| **Agents** | 5 autonomous AI agents (idea-maker, project-manager, developer, tester, security) |
+| **Agents** | 6 autonomous AI agents (idea-maker, project-manager, developer, developer2, tester, security) |
 | **Execution** | Every 30 minutes via cron |
-| **Web App** | 24 HTML pages, PWA-enabled, dark theme dashboard |
-| **API** | 22 JSON endpoints for real-time data |
-| **Commits** | 245+ auto-commits |
-| **Tasks** | 85 tasks in the backlog |
+| **Web App** | 27 HTML pages, PWA-enabled, dark theme dashboard |
+| **API** | 24 JSON endpoints for real-time data |
+| **Commits** | 269+ auto-commits |
+| **Tasks** | 91 tasks in the backlog |
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                           CRON ORCHESTRATOR (*/30 * * * *)                      │
-│                                                                                 │
-│  ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐ │
-│  │IDEA MAKER │──▶│    PM     │──▶│ DEVELOPER │──▶│  TESTER   │──▶│ SECURITY  │ │
-│  │           │   │           │   │           │   │           │   │           │ │
-│  │ Generate  │   │ Assign    │   │ Implement │   │ Verify    │   │ Security  │ │
-│  │ ideas     │   │ tasks     │   │ features  │   │ work      │   │ review    │ │
-│  └───────────┘   └───────────┘   └───────────┘   └───────────┘   └───────────┘ │
-│        │               │               │               │               │        │
-│        └───────────────┴───────────────┴───────────────┴───────────────┘        │
-│                                        │                                        │
-│                                 ┌──────▼──────┐                                 │
-│                                 │  tasks.md   │  ◀── Shared Task Board          │
-│                                 └──────┬──────┘                                 │
-│                                        │                                        │
-│                                 ┌──────▼──────┐                                 │
-│                                 │   GitHub    │  ◀── Auto-commit after each     │
-│                                 └─────────────┘      agent run                  │
-└─────────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────────────────┐
+│                              CRON ORCHESTRATOR (*/30 * * * *)                                 │
+│                                                                                               │
+│  ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐  ┌──────────┐ │
+│  │IDEA MAKER │──▶│    PM     │──▶│ DEVELOPER │──▶│DEVELOPER2 │──▶│  TESTER   │─▶│ SECURITY │ │
+│  │           │   │           │   │           │   │           │   │           │  │          │ │
+│  │ Generate  │   │ Assign    │   │ Implement │   │ Implement │   │ Verify    │  │ Security │ │
+│  │ ideas     │   │ tasks     │   │ features  │   │ features  │   │ work      │  │ review   │ │
+│  └───────────┘   └───────────┘   └───────────┘   └───────────┘   └───────────┘  └──────────┘ │
+│        │               │               │               │               │              │       │
+│        └───────────────┴───────────────┴───────────────┴───────────────┴──────────────┘       │
+│                                              │                                                │
+│                                       ┌──────▼──────┐                                         │
+│                                       │  tasks.md   │  ◀── Shared Task Board                  │
+│                                       └──────┬──────┘                                         │
+│                                              │                                                │
+│                                       ┌──────▼──────┐                                         │
+│                                       │   GitHub    │  ◀── Auto-commit after each             │
+│                                       └─────────────┘      agent run                          │
+└───────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ## How Data Flows (No Traditional Backend!)
@@ -136,8 +136,9 @@ When you see CPU metrics on the dashboard:
 | Agent | Role | Description |
 |-------|------|-------------|
 | **idea-maker** | Ideation | Generates new feature ideas for the web app backlog |
-| **project-manager** | Planning | Assigns tasks from backlog to developer, manages priorities |
+| **project-manager** | Planning | Assigns tasks from backlog to developer or developer2, manages priorities |
 | **developer** | Implementation | Builds web app features in `/var/www/cronloop.techtools.cz` |
+| **developer2** | Implementation | Second developer agent for parallel task execution |
 | **tester** | Quality Assurance | Verifies completed work on the live site |
 | **security** | Security Review | Reviews code for vulnerabilities, monitors SSH attacks |
 
@@ -149,12 +150,12 @@ Each agent has a dedicated prompt file at `actors/<agent>/prompt.md` defining it
 **Web Root**: `/var/www/cronloop.techtools.cz`
 **Stack**: HTML, CSS, JavaScript (PWA)
 
-### Dashboard Pages (24 total)
+### Dashboard Pages (27 total)
 
 | Page | Description |
 |------|-------------|
 | `index.html` | Main dashboard with system overview, agent status, real-time metrics |
-| `agents.html` | Detailed view of all 5 agents and their configurations |
+| `agents.html` | Detailed view of all 6 agents and their configurations |
 | `tasks.html` | Task board viewer showing backlog, in-progress, completed |
 | `logs.html` | Browse agent execution logs by date and agent |
 | `health.html` | System health metrics (CPU, memory, disk, services) |
@@ -162,6 +163,7 @@ Each agent has a dedicated prompt file at `actors/<agent>/prompt.md` defining it
 | `changelog.html` | Git commit history with filtering and search |
 | `schedule.html` | Cron job schedule visualization and execution timeline |
 | `costs.html` | Claude API token usage and cost tracking |
+| `budget.html` | Token budget tracking and spending limits |
 | `trends.html` | Long-term metric trends and patterns |
 | `forecast.html` | Predictive analytics for system resources |
 | `uptime.html` | Service uptime monitoring and history |
@@ -177,10 +179,12 @@ Each agent has a dedicated prompt file at `actors/<agent>/prompt.md` defining it
 | `settings.html` | Dashboard configuration and preferences |
 | `terminal.html` | Web-based terminal interface (read-only) |
 | `playbooks.html` | Runbook documentation for common operations |
+| `onboarding.html` | Getting started guide and system overview |
+| `postmortem.html` | Incident postmortem reports and analysis |
 
 ### API Endpoints (`/api/`)
 
-22 JSON files providing real-time data:
+24 JSON files providing real-time data:
 
 | Endpoint | Data |
 |----------|------|
@@ -189,15 +193,25 @@ Each agent has a dedicated prompt file at `actors/<agent>/prompt.md` defining it
 | `system-metrics.json` | CPU, memory, disk metrics (updated every minute) |
 | `changelog.json` | Parsed git commit history |
 | `costs.json` | Token usage and cost data |
+| `costs-history.json` | Historical cost tracking data |
+| `budget.json` | Token budget and spending limits |
+| `budget-history.json` | Historical budget data |
 | `schedule.json` | Cron execution schedule |
 | `error-patterns.json` | Analyzed error patterns |
 | `workflow.json` | Task workflow status |
 | `dependencies.json` | Dependency health data |
+| `dependencies-history.json` | Historical dependency status |
 | `backup-status.json` | Backup job status |
 | `secrets-audit.json` | Security audit results |
+| `security-metrics.json` | Security-related metrics |
 | `uptime-history.json` | Historical uptime data |
 | `metrics-history.json` | Historical system metrics |
 | `logs-index.json` | Index of available log files |
+| `api-stats.json` | API endpoint usage statistics |
+| `api-stats-history.json` | Historical API stats |
+| `action-queue.json` | Queued system actions |
+| `action-status.json` | Action execution status |
+| `postmortems.json` | Incident postmortem data |
 
 ### CGI Scripts (`/cgi-bin/`)
 
@@ -220,7 +234,7 @@ Each agent has a dedicated prompt file at `actors/<agent>/prompt.md` defining it
 /home/novakj/
 ├── CLAUDE.md              # Core system rules and instructions
 ├── README.md              # This file
-├── tasks.md               # Shared task board (85 tasks)
+├── tasks.md               # Shared task board (91 tasks)
 │
 ├── docs/                  # Detailed documentation
 │   ├── server-config.md   # Server specs, paths, software
@@ -242,11 +256,12 @@ Each agent has a dedicated prompt file at `actors/<agent>/prompt.md` defining it
 │   │   └── prompt.md      # Agent behavior instructions
 │   ├── project-manager/
 │   ├── developer/
+│   ├── developer2/
 │   ├── tester/
 │   ├── security/
 │   └── cron.log           # Orchestrator execution log
 │
-├── scripts/               # 26 automation scripts
+├── scripts/               # 27 automation scripts
 │   ├── cron-orchestrator.sh    # Main orchestrator (runs all agents)
 │   ├── run-actor.sh            # Run individual agent
 │   ├── update-metrics.sh       # Update system metrics
@@ -259,6 +274,8 @@ Each agent has a dedicated prompt file at `actors/<agent>/prompt.md` defining it
 │   ├── cleanup.sh              # Daily cleanup
 │   ├── health-check.sh         # Health monitoring
 │   ├── secrets-audit.sh        # Security scanning
+│   ├── update-budget.sh        # Token budget tracking
+│   ├── update-postmortems.sh   # Incident postmortem updates
 │   └── ...more scripts
 │
 ├── backups/               # Configuration backups
@@ -278,7 +295,7 @@ Each agent has a dedicated prompt file at `actors/<agent>/prompt.md` defining it
 
 | Schedule | Script | Description |
 |----------|--------|-------------|
-| `*/30 * * * *` | `cron-orchestrator.sh` | Run all 5 agents sequentially |
+| `*/30 * * * *` | `cron-orchestrator.sh` | Run all 6 agents sequentially |
 | `* * * * *` | `update-metrics.sh` | Update system metrics JSON |
 | `0 * * * *` | `maintenance.sh` | Hourly maintenance and health checks |
 | `0 3 * * *` | `cleanup.sh` | Daily cleanup of old logs |
