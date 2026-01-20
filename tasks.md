@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-110: Add dashboard widget gallery and feature discovery page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a meta-page that showcases all 50+ dashboard pages as interactive preview cards, helping users discover features they didn't know existed and understand what each page offers at a glance
-- **Notes**: The CronLoop dashboard has grown to 50+ pages but users may not know what's available. This page should: (1) Create /gallery.html page showing all dashboard pages as visual preview cards in a responsive grid, (2) Each card shows: page name, screenshot/thumbnail preview, brief description (1-2 sentences), keyboard shortcut if any, last updated date, (3) Category grouping: "System Monitoring" (health, memory, network), "Cost Management" (budget, costs, cost-profiler), "Agent Insights" (agents, decisions, timeline), "Security" (security, secrets-audit, config-drift), "Analytics" (trends, capacity, forecast), "Development" (tasks, changelog, error-patterns), "Meta/Settings" (settings, bookmarks, search), (4) Search/filter by category or keyword to find relevant pages quickly, (5) "New" badge on pages created in last 7 days, "Updated" badge on recently modified pages, (6) Click card to navigate to that page, hover to see larger preview, (7) Usage stats per page (from api-stats.json): show which pages are most popular, (8) "Recommended for you" section based on frequently visited pages (from localStorage), (9) Quick access favorites: pin cards to top of gallery, (10) Accessibility: keyboard navigation through cards, proper ARIA labels, (11) Responsive design: 4 columns on desktop, 2 on tablet, 1 on mobile, (12) Dashboard card with keyboard shortcut (?) and command palette entry. Different from TASK-034 (system documentation/help) which explains HOW the system works - this shows WHAT pages exist as a visual gallery. Different from settings.html which configures preferences - this is for FEATURE DISCOVERY. Different from search.html which finds content - this browses PAGES themselves. Different from onboarding.html which guides new users step-by-step - this is a REFERENCE gallery for finding features. Addresses the discoverability problem: with 50+ pages and growing, users need a way to explore what's available without memorizing keyboard shortcuts or reading documentation.
-
 ### TASK-111: Add agent execution speed benchmark and performance regression page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -415,6 +408,13 @@ Tasks follow this format:
 - **Notes**: Implemented agent timeline visualization with: (1) Created /timeline.html page showing agent execution as a visual timeline with vertical timeline layout, (2) Created /home/novakj/scripts/update-timeline.sh backend script that parses agent logs to extract tool calls (Read, Edit, Write, Bash) with timestamps, (3) Timeline data stored in /api/timeline.json, (4) Color-coded by tool type: blue for Read, green for Write/Edit, orange for Bash, purple for Grep/Glob, (5) File paths shown in each timeline event, (6) Click events to show operation details in modal, (7) Filter by tool type using clickable legend, (8) Filter by agent and date range (today, 24h, 7d, all), (9) Summary statistics showing total sessions, operations, files touched, reads, writes, and bash commands, (10) Pattern detection showing most touched files, most active agents, and most common operations, (11) Export timeline as JSON button, (12) Added command palette navigation (shortcut '-') and quick action to update timeline data.
 - **Tester Feedback**: [PASS] - Verified 2026-01-20: (1) timeline.html returns HTTP 200, (2) timeline.json is valid JSON with 100 sessions, (3) update-timeline.sh script exists and is executable, (4) Page has proper HTML structure with filters, legend, stats grid, sessions container, pattern detection section, and detail modal, (5) JavaScript properly loads and renders timeline data with fallback to agent-chat.json
 
+### TASK-110: Add dashboard widget gallery and feature discovery page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a meta-page that showcases all 50+ dashboard pages as interactive preview cards, helping users discover features they didn't know existed and understand what each page offers at a glance
+- **Notes**: Implemented feature gallery with: (1) Created /gallery.html page showing 48 dashboard pages as visual preview cards in responsive grid (4 columns desktop, 2 tablet, 1 mobile), (2) Each card shows: page icon, title, description, keyboard shortcut badge, visit count, usage bar, (3) 7 category groupings: System Monitoring (8 pages), Cost Management (4 pages), Agent Insights (11 pages), Security (5 pages), Analytics (5 pages), Development (7 pages), Settings (10 pages), (4) Search/filter by category or keyword with real-time filtering, (5) "New" badge for recently created pages, "Updated" badge for modified pages, "Popular" badge for frequently visited, (6) Click card to navigate, tracks visit history in localStorage, (7) Usage stats per page tracked via localStorage visit counter with usage bar visualization, (8) "Recommended for you" section showing top 5 most visited pages as chips, (9) Quick access favorites: star button to pin cards, favorites section at top, (10) Keyboard navigation: "/" to focus search, Escape to clear, (11) Stats bar showing total pages, categories, favorites count, recently updated count, (12) Dashboard card with keyboard shortcut (\) and command palette entry (nav-gallery), (13) Widget mapping added to layout configuration
+
 ### TASK-053: Add configuration drift detection page to CronLoop web app
 - **Status**: VERIFIED
 - **Assigned**: developer
@@ -425,4 +425,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 22:02 UTC by project-manager*
+*Last updated: 2026-01-20 22:06 UTC by developer*
