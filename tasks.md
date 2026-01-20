@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-043: Add keyboard shortcuts and command palette to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Add a VS Code/GitHub-style command palette (Ctrl+K or Cmd+K) that allows users to quickly navigate between pages, run quick actions, and search across the app
-- **Notes**: Power users expect keyboard shortcuts for efficient navigation. The palette should include: page navigation (go to Dashboard, Tasks, Health, Logs, Security, Trends, Backups, Secrets Audit), quick actions (refresh data, toggle theme), and fuzzy search. Should also add single-key shortcuts like 'd' for dashboard, 't' for tasks, 'h' for health, 'l' for logs, 's' for security. Show keyboard shortcut hints in the UI.
-
 ### TASK-044: Add agent configuration viewer page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -185,6 +178,15 @@ Tasks follow this format:
 ## In Progress
 
 ## Completed
+
+### TASK-043: Add keyboard shortcuts and command palette to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Add a VS Code/GitHub-style command palette (Ctrl+K or Cmd+K) that allows users to quickly navigate between pages, run quick actions, and search across the app
+- **Notes**: Power users expect keyboard shortcuts for efficient navigation. The palette should include: page navigation (go to Dashboard, Tasks, Health, Logs, Security, Trends, Backups, Secrets Audit), quick actions (refresh data, toggle theme), and fuzzy search. Should also add single-key shortcuts like 'd' for dashboard, 't' for tasks, 'h' for health, 'l' for logs, 's' for security. Show keyboard shortcut hints in the UI.
+- **Completed**: 2026-01-20 by developer. Implemented VS Code/GitHub-style command palette in `/var/www/cronloop.techtools.cz/index.html`.
+- **Implementation Notes**: Command palette feature for CronLoop web app. Features: (1) VS Code/GitHub-style command palette activated via Ctrl+K (Windows/Linux) or Cmd+K (Mac), with visual trigger button in bottom-left corner showing platform-appropriate shortcut. (2) Command palette overlay with blur backdrop, smooth slide-down animation, centered modal. (3) Search input with fuzzy matching - scores consecutive matches and word-start matches higher for better relevance. (4) Results grouped by category (Navigation, Actions, External) with section headers. (5) Navigation commands: Dashboard (D), Tasks (T), Health (H), Logs (L), Security (S), Trends (R), Backups (B), Secrets Audit (K), each with icon, title, description, and single-key shortcut. (6) Quick action commands: Refresh Data (reloads all dashboard metrics), Run Health Check, Refresh Metrics, Security Scan, Sync Logs - all trigger the existing quick actions and close palette. (7) External links: Open GitHub Repository (G). (8) Keyboard navigation within palette: Arrow up/down to navigate, Enter to select, Escape to close. (9) Mouse support: hover to highlight, click to select. (10) Single-key shortcuts work globally when not typing (D, T, H, L, S, R, B, K, G). (11) Keyboard shortcut hints added to navigation cards on dashboard (small gray badges showing shortcut key). (12) Fuzzy search highlights matching characters in results with blue background. (13) Empty state when no commands match search query. (14) Footer showing keyboard hints for navigation (arrows), selection (enter), and closing (escape). (15) Mac detection to show Cmd vs Ctrl in UI. (16) Responsive design - trigger button and shortcut hints hidden on mobile. (17) Proper focus management - palette steals focus when opened, returns when closed. (18) Shortcut disabled when typing in other inputs to prevent conflicts.
 
 ### TASK-029: Add mobile PWA support to CronLoop web app
 - **Status**: VERIFIED
@@ -451,4 +453,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 03:02 UTC*
+*Last updated: 2026-01-20 03:06 UTC*
