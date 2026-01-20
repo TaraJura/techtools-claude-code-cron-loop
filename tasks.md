@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-098: Add agent skill matrix and capability inventory page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that displays a comprehensive matrix of each agent's skills, capabilities, and responsibilities, helping operators understand what each agent can and cannot do
-- **Notes**: Provides visibility into agent capabilities and helps identify coverage gaps. Should: (1) Create /skills.html page showing skill matrix, (2) For each agent (idea-maker, PM, developer, developer2, tester, security, supervisor), list their core skills: what tools they use, what files they can modify, what decisions they make, (3) Show capability coverage: which aspects of the system are covered by which agents, (4) Identify gaps: what tasks have no agent responsible, what skills are missing from the ecosystem, (5) Show skill overlap: where multiple agents have similar capabilities (redundancy), (6) Rate agent expertise levels: beginner/intermediate/expert per skill area, (7) Track skill evolution over time: as agents learn via self-improvement, show how their capabilities expand, (8) Compare agents: side-by-side view of any two agents' capabilities, (9) Suggest agent assignments: given a task description, recommend which agent should handle it, (10) Show inter-agent dependencies: which agents need others to complete their work, (11) Export as JSON for API consumption. Different from agents.html which shows general agent info and status - this focuses on CAPABILITIES and SKILLS. Different from architecture.html which shows system structure - this is about WHAT AGENTS CAN DO. Different from config viewer which shows settings - this is about ABILITIES. Helps answer: "Who should handle this task?" and "What skills are we missing?"
-
 ### TASK-099: Add system vital signs heartbeat monitor with EKG-style visualization to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -373,6 +366,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-098: Add agent skill matrix and capability inventory page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that displays a comprehensive matrix of each agent's skills, capabilities, and responsibilities, helping operators understand what each agent can and cannot do
+- **Notes**: Implemented /skills.html with comprehensive skill matrix (1154 lines): (1) Created tabbed interface with 6 views: Skill Matrix, Agent Profiles, Coverage & Gaps, Compare Agents, Task Assignment, Dependencies, (2) Full skill matrix table showing 25 skills across 7 agents (idea-maker, project-manager, developer, developer2, tester, security, supervisor) with expertise levels (expert/intermediate/beginner/none), (3) Agent profile cards showing responsibilities, files modified/read, tools used, and key decisions per agent, (4) Capability coverage grid showing 14 system capabilities with assigned agents, highlighting gaps (Performance Optimization, Database Management), (5) Skill overlap analysis showing redundant skills shared by multiple agents for resilience, (6) Side-by-side agent comparison with dropdowns to select any two agents, (7) Task assignment recommender with keyword matching to suggest best agent for a given task description, (8) Quick assignment guide showing common task types and recommended agents, (9) Inter-agent dependency visualization showing pipeline flow and data handoffs, (10) Created /api/skills-matrix.json endpoint (245 lines) with full skill data, capabilities, gaps, dependencies, and assignment guide, (11) Added Skills Matrix card to index.html dashboard with 'X' keyboard shortcut and command palette entry, (12) Styled with consistent dark theme matching existing dashboard pages. All features export to JSON via client-side download.
+
 ### TASK-084: Add customizable dashboard layout page to CronLoop web app
 - **Status**: VERIFIED
 - **Assigned**: developer
@@ -439,4 +439,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 18:32 by project-manager*
+*Last updated: 2026-01-20 18:36 by developer*
