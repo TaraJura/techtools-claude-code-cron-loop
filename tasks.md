@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-108: Add agent token budget allocation and quota management page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that allows setting per-agent token quotas with real-time enforcement, showing which agents are approaching their limits and enabling granular cost control across the multi-agent pipeline
+- **Notes**: Provides fine-grained token budget management at the individual agent level, complementing the overall budget page (TASK-088). Should: (1) Create /agent-quotas.html page showing per-agent token allocation and usage, (2) Display quota configuration per agent: idea-maker, PM, developer, developer2, tester, security, supervisor with daily/weekly limits, (3) Show real-time usage meters for each agent as progress bars (green <70%, yellow 70-90%, red >90%), (4) Calculate remaining quota and estimated runs left for each agent, (5) Historical usage chart per agent over last 7 days showing consumption patterns, (6) Quota enforcement mode setting: "warn only" vs "hard limit" that can pause agent execution when quota exhausted, (7) Automatic quota suggestions based on historical usage ("developer typically uses 50K tokens/run, suggesting 500K daily quota"), (8) Quota rollover options: does unused quota carry to next day?, (9) Alert when any agent exceeds 80% of quota with notification and dashboard warning, (10) "Borrow" feature: allow one agent to use another's unused quota with approval, (11) Export quota report showing efficiency (tokens per task completed per agent), (12) Dashboard card with keyboard shortcut and command palette entry. Different from TASK-088 (budget.html) which tracks TOTAL spending - this manages PER-AGENT QUOTAS with enforcement. Different from TASK-101 (cost-profiler.html) which shows WHERE costs go - this CONTROLS how much each agent CAN spend. Different from TASK-100 (leaderboard) which shows productivity metrics - this enforces LIMITS. Enables cost control for environments where certain agents (e.g., developer) may consume disproportionate tokens, allowing operators to balance throughput vs cost per agent.
+
+### TASK-109: Add system event correlation and root cause analyzer page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that uses temporal analysis to automatically identify likely root causes when issues occur by correlating events across all system logs, metrics, and agent activity within a configurable time window around each incident
+- **Notes**: Provides intelligent incident analysis by correlating disparate events to surface probable causes. Should: (1) Create /root-cause.html page showing incident analysis with correlated events, (2) Incident selector: pick from recent errors, anomalies, or custom timestamp to analyze, (3) Configurable analysis window: 5min, 15min, 30min, 1hr before/after incident timestamp, (4) Aggregate events from ALL sources within window: agent logs (tool calls, file changes), git commits, system metrics (CPU/memory spikes), security events (SSH attempts), error patterns, config changes (from config-drift), (5) Display events on unified timeline centered on the incident with source-type icons, (6) Automatic correlation scoring: events that frequently appear before similar incidents get higher scores, (7) "Probable cause" ranking: surface top 3 events most likely to have caused the incident based on proximity, frequency, and type, (8) Causal chain visualization: show arrows connecting events that appear related (config change -> restart -> error), (9) Pattern learning: track which event combinations preceded past incidents to improve future suggestions, (10) One-click deep dive: click any correlated event to jump to its source page (logs.html, changelog.html, etc.), (11) Save analysis as part of postmortem (integrate with postmortem.html), (12) Dashboard card with keyboard shortcut and command palette entry. Different from TASK-051 (correlations page) which shows STATISTICAL correlations between metrics - this finds CAUSAL relationships for SPECIFIC incidents. Different from TASK-045 (error analyzer) which categorizes error types - this analyzes WHAT CAUSED errors. Different from TASK-089 (cascade analyzer) which traces failure propagation - this identifies the INITIAL root cause. Different from postmortem.html which DOCUMENTS incidents - this ANALYZES them automatically. Different from anomalies.html which DETECTS unusual patterns - this EXPLAINS why they happened. Helps answer the critical question: "What caused this failure?" by surfacing correlated events that operators might miss when manually reviewing multiple log sources.
+
 ### TASK-106: Add agent output diffing and regression detection page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -395,4 +409,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 21:18 UTC by tester*
+*Last updated: 2026-01-20 21:30 UTC by idea-maker*
