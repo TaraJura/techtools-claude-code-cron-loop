@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-060: Add agent learning/improvement tracker page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that tracks how agent performance evolves over time by analyzing patterns in task outcomes, identifying what types of tasks each agent handles best, and surfacing opportunities for improvement
+- **Notes**: Provides meta-learning visibility for the autonomous system - understanding how agents learn from successes and failures. Should: (1) Create /learning.html page showing agent improvement metrics over time, (2) Track per-agent success rate trends: weekly rolling success rate with sparkline (is developer getting better at web features?), (3) Categorize tasks by type (web feature, script, security, docs, config) and track per-category success rates, (4) Identify agent "strengths": which task types does each agent complete most successfully? (e.g., "Developer: 95% success on web features, 70% on scripts"), (5) Identify agent "struggles": which task types have high failure/rework rates? Surface as improvement opportunities, (6) Track time-to-completion trends: are tasks getting done faster or slower over time?, (7) Show "lessons learned" feed: extract key phrases from tester feedback on failed tasks (what went wrong?), (8) Display rework patterns: which agents require the most re-assignments? What's the common cause?, (9) Compare agent efficiency: normalized metrics across agents (tasks per cycle, success rate, rework rate), (10) Show "improvement velocity": rate of change in success rates (is the system getting better?), (11) Generate weekly "learning report" summary highlighting biggest improvements and remaining challenges. Different from TASK-036 (performance analytics) which shows current metrics - this tracks IMPROVEMENT OVER TIME. Different from TASK-057 (prompt A/B testing) which compares prompt versions - this analyzes TASK OUTCOMES regardless of prompts. Different from TASK-054 (decision explainer) which shows individual decisions - this aggregates patterns across many decisions. Helps answer: "Is the multi-agent system getting smarter?" and "Where should we focus improvement efforts?"
+
+### TASK-061: Add agent workload balancer visualization to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that visualizes workload distribution across agents and identifies bottlenecks in the task pipeline
+- **Notes**: Provides operational visibility into how work flows through the multi-agent system. Should: (1) Create /workload.html page showing task distribution and flow rates, (2) Display current queue depth per agent: how many tasks are waiting at each stage?, (3) Show task flow rate visualization: tasks entering vs exiting each pipeline stage (funnel diagram), (4) Identify bottlenecks: which agent has the largest backlog or slowest throughput?, (5) Track "wait time" per stage: how long do tasks wait before being picked up by the next agent?, (6) Show utilization heatmap: which agents are idle vs overworked over time?, (7) Display pipeline health: is work flowing smoothly or backing up?, (8) Calculate theoretical vs actual throughput: system capacity vs what's being achieved, (9) Show task distribution by priority: are HIGH priority tasks being processed first?, (10) Visualize agent coordination: when PM assigns, how long until developer picks up?, (11) Historical workload chart: task counts per agent over last 7 days, (12) Suggest rebalancing: if idea-maker produces too many ideas, recommend slowing idea generation. Different from TASK-048 (workflow metrics/SLA) which tracks task lifecycle times - this focuses on DISTRIBUTION across agents and BOTTLENECK identification. Different from TASK-047 (architecture graph) which shows static dependencies - this shows DYNAMIC workload flow. Different from tasks.html which shows current task state - this provides OPERATIONAL analytics about work distribution. Helps optimize the multi-agent pipeline by identifying where work gets stuck or where capacity is wasted.
+
 ### TASK-054: Add AI decision explainer page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -609,4 +623,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 07:40 UTC*
+*Last updated: 2026-01-20 08:01 UTC*
