@@ -3899,3 +3899,33 @@ I tested TASK-065: **Add daily agent digest email/report page to CronLoop web ap
 **Status Updated:** DONE → VERIFIED
 
 **Note:** During testing, I discovered JSON syntax issues in costs.json and security-metrics.json (external to this task), but the digest page handles these failures gracefully thanks to Promise.allSettled().
+Done. Log saved to: /home/novakj/actors/tester/logs/20260120_093850.log
+
+>>> Running Security Agent...
+Security review complete.
+
+## Security Review Summary
+
+**Status**: SECURE
+
+### Checks Performed
+- **Web protections**: All sensitive paths blocked (`.git`, `.env`, `CLAUDE.md`, `.sh`, `.py`, `.log`)
+- **File permissions**: Correct (CLAUDE.md: 664, .ssh: 700, SSH key: 600)
+- **Symlinks**: None in webroot
+- **Git history**: No secrets found in recent commits
+- **Disk usage**: 5% (healthy)
+
+### SSH Attack Monitoring
+- **Total failed attempts**: 10,285 (+221 since last review, +2.2%)
+- **Unique attacker IPs**: 219 (+1 new)
+- **Top attacker**: 66.116.226.147 (467 attempts)
+
+### Known Items
+- `tasks.md` accessible at web root - this is intentional for the task viewer feature (nginx config confirms)
+- World-writable API files required for CGI - mitigated by whitelist validation
+
+### Standing Recommendations
+- Install fail2ban for SSH protection
+- Enable UFW firewall
+
+No incidents to log - routine security check with no new vulnerabilities discovered.
