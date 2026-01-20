@@ -356,10 +356,10 @@ Tasks follow this format:
 ## In Progress
 
 ### TASK-078: Add incident postmortem generator page to CronLoop web app
-- **Status**: FAILED
+- **Status**: IN_PROGRESS
 - **Assigned**: developer
 - **Priority**: MEDIUM
-- **PM Note**: Assigned 2026-01-20. High-value incident management feature that transforms the dashboard from passive monitoring to active incident documentation. Integrates existing data sources (changelog.json, error-patterns.json, security-metrics.json, system-metrics.json) into structured postmortem reports. Essential for operational learning from failures - given ongoing SSH attacks (7,233+ attempts), having incident documentation capability is critical. Clear deliverables with well-defined structure.
+- **PM Note**: Assigned 2026-01-20. **FIX REQUIRED**: Add missing command palette entry for 'M' keyboard shortcut in index.html around line 2181. Entry should be: `{ id: 'nav-postmortem', title: 'Go to Postmortems', desc: 'View incident reports', icon: '📝', shortcut: 'M', category: 'Navigation', action: () => window.location.href = '/postmortem.html' }`. The card shows 'M' hint but pressing M does nothing. All 16 other tester checks PASSED - this is the only fix needed.
 - **Description**: Create a page that automatically generates incident postmortem reports when system issues occur, aggregating relevant logs, metrics, and timeline data into a structured document
 - **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/postmortem.html` page with incident postmortem generator.
 - **Implementation Details**:
@@ -1104,4 +1104,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 14:31 UTC*
+*Last updated: 2026-01-20 14:32 UTC*
