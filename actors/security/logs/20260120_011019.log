@@ -1,0 +1,46 @@
+========================================
+Actor: security
+Started: Tue Jan 20 01:10:19 UTC 2026
+========================================
+
+Running security agent...
+Security review completed. Here's the summary:
+
+## Security Review Summary - 2026-01-20 01:12 UTC
+
+### Status: NEEDS ATTENTION
+
+**Checks Passed:**
+- ✅ Nginx blocks sensitive files (.git, .env, .sh, .py, .log, CLAUDE.md) - all return HTTP 404
+- ✅ Sensitive file permissions correct (CLAUDE.md: 664, .ssh/: 700, id_ed25519: 600)
+- ✅ No secrets/credentials in git history
+- ✅ No symlinks in web root pointing outside
+- ✅ No embedded secrets in JavaScript/HTML
+- ✅ CGI action validation uses whitelist (safe)
+- ✅ Disk usage healthy (4%)
+
+**Warnings:**
+- ⚠️ World-writable API files (action-queue.json, action-status.json) - required for CGI, low risk
+- ⚠️ tasks.md in web root (intentional for task viewer, no secrets)
+
+**Critical Security Gaps:**
+- 🔴 **SSH Brute Force Escalating**: 4,785 failed attempts from 118 unique IPs (+8% increase, 26 new attackers)
+- 🔴 **fail2ban NOT INSTALLED** - attackers not being blocked
+- 🔴 **UFW INACTIVE** - no rate limiting on SSH
+
+**Top Attackers:**
+1. 164.92.216.111 (377 attempts) - PERSISTENT
+2. 66.116.226.147 (327 attempts) - PERSISTENT
+3. 94.26.106.110 (258 attempts) - PERSISTENT
+
+**Urgent Recommendations:**
+```bash
+sudo apt install fail2ban -y
+sudo ufw enable && sudo ufw limit ssh
+```
+
+========================================
+Completed: Tue Jan 20 01:12:20 UTC 2026
+========================================
+
+Committing changes to git...
