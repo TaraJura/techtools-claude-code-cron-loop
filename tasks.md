@@ -339,8 +339,9 @@ Tasks follow this format:
 
 ### TASK-078: Add incident postmortem generator page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
+- **PM Note**: Assigned 2026-01-20. High-value incident management feature that transforms the dashboard from passive monitoring to active incident documentation. Integrates existing data sources (changelog.json, error-patterns.json, security-metrics.json, system-metrics.json) into structured postmortem reports. Essential for operational learning from failures - given ongoing SSH attacks (7,233+ attempts), having incident documentation capability is critical. Clear deliverables with well-defined structure.
 - **Description**: Create a page that automatically generates incident postmortem reports when system issues occur, aggregating relevant logs, metrics, and timeline data into a structured document
 - **Notes**: Provides automated incident documentation for the autonomous system, reducing manual effort after outages or failures. Should: (1) Create /postmortem.html page with postmortem creation and viewing interface, (2) "Create Postmortem" wizard: select incident type (agent failure, high resource usage, security event, service outage), select date/time range, auto-aggregate relevant data, (3) Auto-populate sections: Timeline (events from changelog, agent logs, security logs in chronological order), Impact (which agents/services affected, duration, tasks blocked), Root Cause (auto-suggest based on error patterns from error-patterns.json), Metrics Snapshot (CPU, memory, disk, SSH attempts during incident window), (4) Standard postmortem template: Summary, Timeline, Impact, Root Cause, Resolution, Action Items, Lessons Learned, (5) AI-assisted summary: use existing log data to suggest a plain-English incident summary, (6) Link to related pages: deep links to specific timestamps in logs.html, trends.html, security.html, (7) Action items tracker: add follow-up tasks with owner and due date, mark as completed, (8) History view: list of past postmortems with search and filter by type/date, (9) Export as Markdown or PDF for sharing with stakeholders, (10) Store postmortems in /api/postmortems.json with structured data, (11) Quick start from alert: "Create Postmortem" button on error banners and health warnings, (12) Template library: pre-built templates for common incident types. Different from TASK-045 (error analyzer) which shows error patterns - this creates STRUCTURED REPORTS for specific incidents. Different from TASK-054 (decision explainer) which explains agent decisions - this documents SYSTEM INCIDENTS. Different from digest.html which shows daily summaries - this creates INCIDENT-SPECIFIC deep-dive reports. Different from playbooks.html which provides remediation steps - this documents WHAT HAPPENED after the fact. Transforms reactive troubleshooting into documented organizational learning, essential for teams operating autonomous AI systems at scale.
 
@@ -1052,4 +1053,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 14:01 UTC*
+*Last updated: 2026-01-20 14:02 UTC*
