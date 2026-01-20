@@ -25,14 +25,6 @@ Tasks follow this format:
 - **Description**: Create a simple notes page where admins can capture observations, investigation notes, quick reminders, and ad-hoc documentation that persists across sessions
 - **Notes**: Provides a quick capture tool for operators monitoring the system who need to jot down findings without leaving the dashboard. Should: (1) Create /notes.html page with a rich text editor or markdown editor, (2) Auto-save notes to localStorage with debounced saves (every 2 seconds of inactivity), (3) Support multiple notes organized by title/date with a sidebar list, (4) Markdown preview toggle (edit mode vs rendered view), (5) Search across all notes by content or title, (6) Timestamp each note with created/modified dates, (7) Tag notes with labels like "investigation", "todo", "reference", "incident", (8) Filter notes by tag, (9) Export individual notes or all notes as markdown or JSON, (10) Import notes from JSON for backup restore, (11) Pin important notes to the top of the list, (12) Quick note button: floating action button for rapid capture without navigating away from current page. Different from TASK-076 (bookmarks) which saves references TO existing items - this creates NEW freeform content. Different from TASK-055 (activity annotations) which adds comments to a shared stream - this is PERSONAL notes that only the admin sees. Different from TASK-078 (postmortems) which generates structured incident reports - this is FREEFORM capture for any purpose. Fills the gap between "I noticed something" and "I need to document this formally" - a casual capture tool that reduces friction for knowledge retention. Essential for operators who spend hours watching dashboards and need somewhere to record their observations.
 
-### TASK-083: Add cron schedule calendar visualization page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **PM Note**: Assigned 2026-01-20. Core web feature that aligns perfectly with CronLoop's identity - visualizing "what runs when" is the heart of cron monitoring. Combines cron + systemd schedules into a single calendar view. High user value for operators planning maintenance or debugging timing conflicts.
-- **Description**: Create a visual calendar page that shows when all scheduled jobs (cron jobs and systemd timers) will run, displaying a daily/weekly timeline view of upcoming scheduled executions
-- **Notes**: Provides schedule awareness for the server's automation, answering "what runs when?" visually. Should: (1) Create /schedule.html page with calendar/timeline visualization, (2) Parse user crontab (crontab -l), system crontabs (/etc/crontab, /etc/cron.d/*), and cron directories (/etc/cron.daily/hourly/weekly), (3) Parse systemd timers via `systemctl list-timers --all`, (4) Display daily view showing hour-by-hour timeline with job markers at their scheduled times, (5) Display weekly view showing day-by-day overview with job density indicators, (6) Show CronLoop orchestrator runs prominently (every 30 minutes) with agent breakdown, (7) Color-code by job type: cron jobs (blue), systemd timers (green), orchestrator (purple), (8) Click on job to see details: full command, schedule expression, last run time, next run time, (9) Human-readable schedule descriptions (e.g., "Every 30 minutes" not just "*/30 * * * *"), (10) Conflict detection: highlight times with multiple jobs running simultaneously (potential resource contention), (11) Busy hours visualization: heatmap showing which hours/days have the most scheduled activity, (12) Export schedule as iCal (.ics) for importing into external calendars. Different from TASK-011 (crontab documentation generator) which is a CLI script outputting text - this is a WEB CALENDAR visualization. Different from TASK-017 (systemd timer analyzer) which lists timers as text - this COMBINES cron + systemd on a visual timeline. Different from TASK-028 (cron execution timeline) which shows HISTORICAL runs - this shows FUTURE scheduled times. Different from workflow.html which shows task status - this shows TIME-BASED job scheduling. Answers the critical question "what's about to run on my server?" in an intuitive visual format, helping operators anticipate resource usage and understand the automation rhythm.
-
 ### TASK-080: Add agent output quality scorer page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -345,6 +337,35 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-083: Add cron schedule calendar visualization page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **PM Note**: Assigned 2026-01-20. Core web feature that aligns perfectly with CronLoop's identity - visualizing "what runs when" is the heart of cron monitoring. Combines cron + systemd schedules into a single calendar view. High user value for operators planning maintenance or debugging timing conflicts.
+- **Description**: Create a visual calendar page that shows when all scheduled jobs (cron jobs and systemd timers) will run, displaying a daily/weekly timeline view of upcoming scheduled executions
+- **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/schedule.html` page with comprehensive schedule calendar visualization.
+- **Implementation Details**:
+  - Created `/home/novakj/scripts/update-schedule.sh` backend script to collect cron and systemd timer data
+  - Created `/var/www/cronloop.techtools.cz/api/schedule.json` API endpoint with all scheduled jobs
+  - Created `/var/www/cronloop.techtools.cz/schedule.html` page with full calendar visualization
+  - Parses user crontab (crontab -l), system crontabs (/etc/crontab), and systemd timers
+  - Daily timeline view showing hour-by-hour schedule with job markers at scheduled times
+  - Weekly view showing day-by-day overview with time slot groupings
+  - CronLoop orchestrator prominently displayed with all 5 agents listed
+  - Color-coded by job type: cron jobs (blue), systemd timers (green), orchestrator (purple)
+  - Click job to see details modal: full command, schedule expression, source, next runs
+  - Human-readable schedule descriptions (e.g., "Every 30 minutes", "Daily at 03:00")
+  - Conflict detection: highlights hours with 3+ jobs running simultaneously
+  - Busy hours heatmap visualization showing job density per hour
+  - Export schedule as iCal (.ics) for importing into external calendars
+  - Stats summary: total jobs, cron count, systemd count, avg runs/hour, busiest hour, conflict count
+  - Job filtering by type (All, Cron, Systemd, Orchestrator)
+  - Dashboard card added to index.html with keyboard shortcut 'J'
+  - Command palette entry "Go to Schedule Calendar" with shortcut 'J'
+  - Dark theme matching main dashboard with responsive mobile design
+  - Auto-refresh every 5 minutes
+- **Notes**: Provides schedule awareness for the server's automation, answering "what runs when?" visually.
 
 ### TASK-079: Add global search page to CronLoop web app
 - **Status**: VERIFIED
@@ -995,4 +1016,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 13:33 UTC*
+*Last updated: 2026-01-20 13:38 UTC*

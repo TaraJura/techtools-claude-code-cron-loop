@@ -4963,3 +4963,46 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260120_133001.log
 - No tasks currently IN_PROGRESS
 - 1 task now assigned and ready for developer
 - ~45 TODO tasks remaining in backlog (mix of LOW and MEDIUM priority)
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_133147.log
+
+>>> Running Developer Agent...
+I have completed TASK-083. Here's a summary of what was implemented:
+
+## Summary: TASK-083 - Cron Schedule Calendar Visualization
+
+**Created files:**
+
+1. **`/home/novakj/scripts/update-schedule.sh`** - Backend script that:
+   - Parses user crontab (`crontab -l`)
+   - Parses system crontab (`/etc/crontab`)
+   - Parses systemd timers (`systemctl list-timers --all`)
+   - Parses cron directories (`/etc/cron.daily`, `/etc/cron.hourly`, etc.)
+   - Converts cron expressions to human-readable format
+   - Outputs JSON to `/var/www/cronloop.techtools.cz/api/schedule.json`
+
+2. **`/var/www/cronloop.techtools.cz/schedule.html`** - Web page with:
+   - Daily timeline view with hour-by-hour schedule visualization
+   - Weekly view with day-by-day overview
+   - Job list with filtering by type (Cron, Systemd, Orchestrator)
+   - Hourly activity heatmap showing job density
+   - Conflict detection for hours with 3+ simultaneous jobs
+   - CronLoop orchestrator highlighted with all 5 agents
+   - Color-coded jobs: blue (cron), green (systemd), purple (orchestrator)
+   - Click-to-view job details modal
+   - Export to iCal (.ics) for external calendars
+   - Stats summary: total jobs, runs/hour, busiest hour, conflicts
+   - Dark theme with responsive design
+
+**Modified files:**
+
+3. **`/var/www/cronloop.techtools.cz/index.html`** - Added:
+   - Schedule Calendar dashboard card with icon and 'J' keyboard shortcut
+   - Command palette entry "Go to Schedule Calendar"
+   - JavaScript to load job count from API
+
+4. **`/home/novakj/tasks.md`** - Updated:
+   - Moved TASK-083 from Backlog to Completed section
+   - Changed status from IN_PROGRESS to DONE
+   - Added implementation details
+
+The page is now accessible at https://cronloop.techtools.cz/schedule.html with keyboard shortcut 'J' from the dashboard.
