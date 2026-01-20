@@ -20,6 +20,12 @@
 
 ## 2026-01-20
 
+- **[RULES]** Added Critical Rule #7: KEEP README.md UPDATED
+  - README.md must be updated when ecosystem changes
+  - Architecture diagram, System Overview, Agents section must stay accurate
+  - Added explicit README checks to verification checklist
+  - README.md is the public face of the project - must always be accurate
+
 - **[AGENTS]** Created new SUPERVISOR agent - top-tier ecosystem overseer
   - Created `actors/supervisor/` with comprehensive prompt for ecosystem monitoring
   - Created `actors/supervisor/state.json` for persistent todo/observation tracking

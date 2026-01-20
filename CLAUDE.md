@@ -57,9 +57,9 @@ Ask yourself:
 
 ### 2. Update Everything
 - [ ] `CLAUDE.md` - Core rules
-- [ ] `actors/*/prompt.md` - All 6 agent prompts that are affected
+- [ ] `actors/*/prompt.md` - All 7 agent prompts that are affected
 - [ ] `docs/*.md` - Relevant documentation
-- [ ] `README.md` - Project documentation
+- [ ] `README.md` - **CRITICAL**: Architecture diagram, System Overview, Agents section
 - [ ] Scripts that implement the change
 
 ### 3. Test the Change
@@ -72,6 +72,8 @@ Ask yourself:
 Before considering any system change complete:
 - [ ] All agent prompts updated and consistent
 - [ ] Documentation matches implementation
+- [ ] **README.md Architecture diagram is accurate**
+- [ ] **README.md System Overview numbers are correct**
 - [ ] Scripts work when actually executed
 - [ ] No broken references or outdated information
 - [ ] Change logged to changelog.md
