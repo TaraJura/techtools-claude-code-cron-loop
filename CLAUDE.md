@@ -587,6 +587,13 @@ Document any global environment variables set on the server:
 
 All changes to this server must be logged here in reverse chronological order.
 
+### 2026-01-20
+- **[SECURITY]** Security review: 4,424 failed SSH attempts from 92 unique IPs (9% increase since last check)
+- **[SECURITY]** Verified nginx security rules block .git, .env, .sh, .py, .log, CLAUDE.md
+- **[SECURITY]** Verified no secrets in git history
+- **[SECURITY]** Noted world-writable API files (action-queue.json, action-status.json) needed for CGI - risk assessed as low due to whitelist validation
+- **[SECURITY]** Confirmed fail2ban still not installed, UFW inactive - SSH brute force continues
+
 ### 2026-01-19
 - **[SECURITY]** Hardened nginx config with rules to block .git, .env, .sh, .py, .log, CLAUDE.md file types
 - **[SECURITY]** Verified no secrets exposed in git history
