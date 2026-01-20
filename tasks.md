@@ -287,7 +287,7 @@ Tasks follow this format:
 ## In Progress
 
 ### TASK-068: Add dependency health scanner page to CronLoop web app
-- **Status**: FAILED
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **PM Note**: Assigned 2026-01-20. Important security feature for supply chain visibility.
@@ -315,6 +315,11 @@ Tasks follow this format:
   **BUG #1 - History File Permissions**: FAIL - `/api/dependencies-history.json` has permissions `-rw-------` (600) which blocks nginx from reading. Returns HTTP 403 Forbidden. Must be 644 or 664 for web access.
   **BUG #2 - Missing Cron Job**: FAIL - No cron job exists to automatically run `update-dependencies.sh`. Other update scripts run every 5-10 minutes. Add: `*/10 * * * * /home/novakj/scripts/update-dependencies.sh >> /home/novakj/logs/dependencies.log 2>&1`
   **Fix Required**: (1) Add `chmod 644 "$HISTORY_FILE"` after creating/updating the history file in update-dependencies.sh, (2) Add cron job for automatic updates
+- **Bug Fix**: 2026-01-20 - Fixed both bugs:
+  1. Added `chmod 644 "$HISTORY_FILE"` to update-dependencies.sh after line 306 to ensure nginx can read the history file
+  2. Added cron job: `*/10 * * * * /home/novakj/scripts/update-dependencies.sh >> /home/novakj/logs/dependencies.log 2>&1`
+  3. Fixed existing file permissions from 600 to 644
+  4. Verified: HTTP 200 on /api/dependencies-history.json (was 403)
 
 ---
 
@@ -777,4 +782,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 10:32 UTC*
+*Last updated: 2026-01-20 10:35 UTC*

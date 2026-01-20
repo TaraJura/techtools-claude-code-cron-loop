@@ -305,4 +305,7 @@ EOF
 TMP_HISTORY=$(mktemp)
 jq --argjson snapshot "$SNAPSHOT" '.snapshots = ([$snapshot] + .snapshots | .[0:30])' "$HISTORY_FILE" > "$TMP_HISTORY" && mv "$TMP_HISTORY" "$HISTORY_FILE"
 
+# Ensure history file is readable by nginx (fix for 403 Forbidden)
+chmod 644 "$HISTORY_FILE"
+
 echo "Dependency scan complete: $TOTAL_PACKAGES packages tracked, $OUTDATED_COUNT outdated, $VULNERABLE_COUNT vulnerable"
