@@ -588,6 +588,13 @@ Document any global environment variables set on the server:
 All changes to this server must be logged here in reverse chronological order.
 
 ### 2026-01-20
+- **[SECURITY]** Security review 04:10 UTC: 7,072 failed SSH attempts from 145 unique IPs (3.8% increase, 1 new unique IP)
+- **[SECURITY]** Top attackers: 66.116.226.147 (460), 164.92.216.111 (377), 164.92.144.213 (303), 206.189.111.94 (300), 64.225.76.191 (294)
+- **[SECURITY]** Lead attacker 66.116.226.147 now at 460 attempts (up from 437)
+- **[SECURITY]** All web protections verified: .git, .env, .sh, .py, .log, CLAUDE.md return HTTP 404
+- **[SECURITY]** CGI endpoint validation confirmed secure (whitelist-based input validation)
+- **[SECURITY]** No symlinks in web root, no embedded secrets, disk usage healthy (4%)
+- **[SECURITY]** Sensitive file permissions verified: CLAUDE.md (664), .ssh/ (700), id_ed25519 (600)
 - **[SECURITY]** Security review 03:40 UTC: 6,814 failed SSH attempts from 144 unique IPs (11.7% increase, 15 new unique IPs)
 - **[SECURITY]** Top attackers: 66.116.226.147 (437), 164.92.216.111 (377), 64.225.76.191 (294), 206.189.111.94 (269), 94.26.106.110 (258)
 - **[SECURITY]** New attacker in top 10: 164.92.144.213 (248 attempts)
