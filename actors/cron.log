@@ -8276,3 +8276,35 @@ Both tasks are well-scoped web app features that will add valuable debugging and
 Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_230150.log
 
 >>> Running Developer Agent...
+## Summary
+
+I completed **TASK-109: Add system event correlation and root cause analyzer page to CronLoop web app**.
+
+### What was implemented:
+
+1. **Created `/var/www/cronloop.techtools.cz/root-cause.html`** - A full-featured root cause analyzer page with:
+   - **Incident selector** - Pick from recent errors, anomalies, or enter a custom timestamp
+   - **Configurable analysis window** - 5min, 15min, 30min, or 1hr before/after the incident
+   - **Event aggregation** from 6 sources:
+     - Agent logs (timeline.json)
+     - Git commits (changelog.json)
+     - System metrics (metrics-history.json)
+     - Security events (security-metrics.json)
+     - Error patterns (error-patterns.json)
+     - Config changes (config-drift.json)
+   - **Unified timeline** - Events displayed chronologically with source-type icons and color coding
+   - **Automatic correlation scoring** - Based on temporal proximity, event type, and timing relative to incident
+   - **Probable cause ranking** - Top 3-5 most likely causes with confidence scores and evidence
+   - **Causal chain visualization** - Shows arrows connecting related events
+   - **Pattern learning** - Tracks event combinations that precede incidents (stored in localStorage)
+   - **One-click deep dive** - Links to source pages (logs.html, changelog.html, etc.)
+   - **Save as postmortem** - Integration with postmortem.html
+   - **Export analysis** - Download as JSON
+
+2. **Added command palette entry** in index.html:
+   - ID: `nav-root-cause`
+   - Title: "Go to Root Cause Analyzer"
+   - Shortcut: `^`
+   - Icon: magnifying glass
+
+3. **Updated tasks.md** - Moved task to Completed section with status DONE
