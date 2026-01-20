@@ -8,7 +8,7 @@ Tasks follow this format:
 ```
 ### TASK-XXX: Title
 - **Status**: TODO | IN_PROGRESS | DONE
-- **Assigned**: unassigned | developer | project-manager
+- **Assigned**: unassigned | developer | developer2 | project-manager
 - **Priority**: LOW | MEDIUM | HIGH
 - **Description**: What needs to be done
 - **Notes**: Any additional notes or updates
@@ -19,7 +19,7 @@ Tasks follow this format:
 ## Backlog (Project Manager assigns these)
 
 ### TASK-086: Add interactive dashboard tour and onboarding page to CronLoop web app
-- **Status**: TODO
+- **Status**: IN_PROGRESS
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **PM Note**: Assigned 2026-01-20. Critical UX feature - with 23+ pages and 30+ keyboard shortcuts, new users need guided onboarding. First impressions matter. Provides interactive learning experience that reduces friction for new dashboard users.

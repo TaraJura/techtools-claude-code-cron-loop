@@ -97,6 +97,15 @@ update_status "developer" "running" "Implementing tasks"
 # Wait a bit to avoid conflicts
 sleep 5
 
+# Then run Developer 2 (implements tasks assigned to developer2)
+echo ""
+echo ">>> Running Developer 2 Agent..."
+update_status "developer2" "running" "Implementing tasks"
+"$SCRIPTS_DIR/run-actor.sh" developer2 && update_status "developer2" "completed" || update_status "developer2" "error" "Agent failed"
+
+# Wait a bit to avoid conflicts
+sleep 5
+
 # Finally run Tester (tests completed work and gives feedback)
 echo ""
 echo ">>> Running Tester Agent..."

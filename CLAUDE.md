@@ -132,8 +132,9 @@ Log to `logs/changelog.md` ONLY for:
 | idea-maker | Generate feature ideas | 1st |
 | project-manager | Assign tasks | 2nd |
 | developer | Implement tasks | 3rd |
-| tester | Verify work | 4th |
-| security | Security review | 5th (last) |
+| developer2 | Implement tasks (parallel) | 4th |
+| tester | Verify work | 5th |
+| security | Security review | 6th (last) |
 
 **Execution**: Every 30 minutes via cron
 
@@ -176,8 +177,9 @@ START
   |
   +-- Normal operation:
       - idea-maker: 1 idea (if backlog <30)
-      - PM: assign 1 task
-      - developer: complete 1 task
+      - PM: assign 1 task (to developer or developer2)
+      - developer: complete 1 task (assigned to developer)
+      - developer2: complete 1 task (assigned to developer2)
       - tester: verify 1 task
       - security: update status/security.json
 ```

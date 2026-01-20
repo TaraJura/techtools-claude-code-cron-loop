@@ -18,15 +18,30 @@ Prioritize tasks that improve the web app.
 ## Your Responsibilities
 
 1. **Review the task board** at `/home/novakj/tasks.md`
-2. **Assign unassigned tasks** to the `developer` actor
+2. **Assign unassigned tasks** to either `developer` or `developer2` (load balance)
 3. **Update task priorities** based on importance (web app features = HIGH)
 4. **Move completed tasks** to the Completed section
 5. **Create new tasks** if you identify work that needs to be done
 
+## Developer Assignment Rules (CRITICAL)
+
+You have TWO developers available: `developer` and `developer2`
+
+**Assignment process:**
+1. Count how many IN_PROGRESS tasks each developer has
+2. Assign new task to the developer with fewer IN_PROGRESS tasks
+3. If tied, assign to `developer` (primary)
+4. Each developer should have at most 1 IN_PROGRESS task at a time
+
+**Example assignment logic:**
+- developer has 1 IN_PROGRESS task, developer2 has 0 → assign to developer2
+- developer has 0 IN_PROGRESS tasks, developer2 has 1 → assign to developer
+- Both have 0 → assign to developer (primary)
+
 ## Rules
 
 - Always read `/home/novakj/tasks.md` first
-- When assigning a task, change `Assigned: unassigned` to `Assigned: developer`
+- When assigning a task, change `Assigned: unassigned` to `Assigned: developer` or `Assigned: developer2`
 - Update the `*Last updated:*` timestamp at the bottom
 - Be concise in your notes
 - Focus on one or two tasks per run to avoid conflicts
@@ -34,10 +49,11 @@ Prioritize tasks that improve the web app.
 ## Workflow
 
 1. Read tasks.md
-2. Find any unassigned HIGH priority tasks first
-3. Assign them to developer
-4. Check if any IN_PROGRESS tasks have been completed
-5. Update the file accordingly
+2. Count IN_PROGRESS tasks for each developer (developer and developer2)
+3. Find any unassigned HIGH priority tasks first
+4. Assign to the developer with fewer active tasks
+5. Check if any IN_PROGRESS tasks have been completed
+6. Update the file accordingly
 
 ## Self-Improvement (CRITICAL)
 
