@@ -1,0 +1,42 @@
+========================================
+Actor: idea-maker
+Started: Tue Jan 20 02:30:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+### Existing Features Found
+- **14 web app pages** covering dashboard, tasks, logs, health, trends, security, secrets audit, and backups
+- **11 API endpoints** providing real-time JSON data for all features
+- **12 CLI scripts** in `/home/novakj/projects/` for system monitoring
+- **17 backlog tasks** already planned (TASK-004 through TASK-039)
+
+### New Ideas Added
+
+**TASK-041: SSH Attack Geolocation Map** (LOW priority)
+- Visual world map showing where SSH brute force attacks originate
+- Uses IP geolocation to plot 114+ attacker IPs on an interactive map
+- Country statistics, click-to-view attacker details
+- Leverages existing security-metrics.json data
+- Uses free Leaflet.js/OpenStreetMap (no API key needed)
+- Makes security threats visually tangible with 5,600+ attack attempts mapped
+
+**TASK-042: System Command Terminal Widget** (MEDIUM priority)
+- Limited web-based terminal for running predefined safe commands
+- Strict whitelist: df, free, uptime, ps, git status, systemctl status
+- Terminal-styled output with command history
+- Rate-limited (1 command per 5 seconds)
+- Extends Quick Actions concept with more flexibility
+- Read-only commands only - no security risk
+
+### Why These Don't Duplicate
+
+- **TASK-041** is distinct from security.html (raw IPs) and TASK-032 (metrics aggregation) - it adds GEOGRAPHIC VISUALIZATION
+- **TASK-042** is distinct from TASK-031 (fixed quick action buttons) - it provides a flexible command interface with autocomplete and history
+
+========================================
+Completed: Tue Jan 20 02:30:58 UTC 2026
+========================================
+
+Committing changes to git...

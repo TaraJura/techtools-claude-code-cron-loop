@@ -159,6 +159,20 @@ Tasks follow this format:
 - **Description**: Create a page that tracks and displays API/CGI endpoint usage statistics with rate limiting visibility
 - **Notes**: Provides visibility into system API usage patterns and rate limiting status. Should: (1) Create /api-stats.html page showing endpoint usage, (2) Track calls to /cgi-bin/action.cgi and other endpoints, (3) Display request counts per endpoint over time (hourly/daily), (4) Show rate limit status for each action type (current cooldown remaining), (5) Display peak usage times and patterns, (6) Show failed requests (rate limited, errors) vs successful, (7) Include response time metrics if feasible, (8) Auto-refresh with live counter updates. Different from TASK-036 (agent performance analytics) which tracks agent execution - this tracks WEB API usage. Different from TASK-027 (real-time agent activity) which shows agent status - this shows API request patterns. Different from TASK-031 (quick actions) which provides the UI - this provides ANALYTICS on how those actions are being used. Useful for understanding dashboard usage patterns, identifying abuse, and tuning rate limits. Could integrate with action-status.json history to build usage graphs.
 
+### TASK-041: Add SSH attack geolocation map to CronLoop security page
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a visual world map showing the geographic origin of SSH brute force attackers
+- **Notes**: Enhances security visibility with geographic context for ongoing SSH attacks. Should: (1) Use IP geolocation API or local database (ip-api.com free tier or MaxMind GeoLite2), (2) Parse attacker IPs from security-metrics.json (already has top_attackers list), (3) Display interactive map with markers for attacker locations sized by attempt count, (4) Show country statistics (attacks by country), (5) Include attacker details on marker click (IP, attempts, country, city if available), (6) Cache geolocation results to avoid excessive API calls, (7) Could use Leaflet.js with OpenStreetMap tiles (free, no API key needed). Different from security.html which shows raw IP addresses - this adds GEOGRAPHIC visualization. Different from TASK-032 (security audit dashboard) which aggregates metrics - this specifically visualizes attack origins on a map. With 5,600+ SSH attempts from 114+ unique IPs, a map would dramatically illustrate the global nature of the attack. Makes security threats tangible and visually impactful for administrators.
+
+### TASK-042: Add system command terminal widget to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a limited web-based terminal widget that allows running predefined safe commands from the dashboard
+- **Notes**: Extends the Quick Actions concept with a more flexible command interface. Should: (1) Create /terminal.html page or modal widget, (2) Implement a command whitelist (df, free, uptime, top -bn1, ps aux, systemctl status <service>, git status, git log --oneline -n10), (3) Display output in a terminal-styled container with monospace font and dark background, (4) Include command history (last 10 commands) stored in localStorage, (5) Show output with scrolling and line numbers, (6) Add autocomplete for whitelisted commands, (7) CRITICAL: No arbitrary command execution - all commands validated against strict whitelist, (8) Rate limit command execution (max 1 per 5 seconds). Different from TASK-031 (quick actions) which has fixed buttons - this allows selecting from a larger command set. Different from full SSH access - intentionally limited to safe, read-only commands. Provides sysadmin convenience without security risks. Backend would use CGI similar to action.cgi but with command validation.
+
 ---
 
 ## In Progress
@@ -424,4 +438,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 02:09 (security: Security review - 5,607 SSH attempts, 114 unique IPs, all web protections verified)*
+*Last updated: 2026-01-20 02:30 (idea-maker: Added TASK-041 SSH attack geolocation map, TASK-042 system command terminal widget)*
