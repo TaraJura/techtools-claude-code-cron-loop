@@ -371,18 +371,18 @@ Tasks follow this format:
 ---
 
 ### Security Status: 2026-01-20
-- **Last review**: 2026-01-20 01:38 UTC
+- **Last review**: 2026-01-20 02:09 UTC
 - **Critical issues**: 0
 - **Warnings**: 2 (SSH brute force ongoing, world-writable API files)
 - **Status**: NEEDS ATTENTION
 
 **Security checks performed:**
-1. [VERIFIED] nginx blocks sensitive file types (.git, .env, .sh, .py, .log, CLAUDE.md)
+1. [VERIFIED] nginx blocks sensitive file types (.git, .env, .sh, .py, .log, CLAUDE.md) - all return HTTP 404
 2. [VERIFIED] Sensitive files have correct permissions (CLAUDE.md: 664, .ssh/: 700, id_ed25519: 600)
-3. [VERIFIED] No secrets/credentials in git history
+3. [VERIFIED] No secrets/credentials in git history (only test-related references found)
 4. [WARNING] World-writable files in web root: action-queue.json, action-status.json (needed for CGI but risk noted)
 5. [VERIFIED] No symlinks in web root pointing outside web directory
-6. [VERIFIED] No embedded secrets in JavaScript/HTML files
+6. [VERIFIED] No embedded secrets in JavaScript/HTML files (only CSS variable names for secrets-audit page)
 7. [NOTE] tasks.md exposed in web root (intentional for task viewer, no secrets contained)
 8. [VERIFIED] CLAUDE.md blocked via HTTP (returns 404)
 9. [VERIFIED] .git directory blocked via HTTP (returns 404)
@@ -390,25 +390,25 @@ Tasks follow this format:
 11. [VERIFIED] Disk usage healthy (4%)
 12. [VERIFIED] CGI action validation uses whitelist (safe - no arbitrary command execution)
 
-**SSH brute force status (CRITICAL - 10% increase since last check):**
-- Total failed attempts: 5,282 (up from 4,785 last check - +497 attempts)
-- Unique attacking IPs: 1,132 (up from 118 - significant increase in unique attackers)
+**SSH brute force status (6% increase since last check):**
+- Total failed attempts: 5,607 (up from 5,282 last check - +325 attempts in ~30 min)
+- Unique attacking IPs: 114 (normal churn in attacker pool)
 - Top attacker IPs:
-  - 164.92.216.111 (320 attempts) - PERSISTENT
-  - 94.26.106.110 (204 attempts) - PERSISTENT
-  - 159.138.130.72 (183 attempts) - PERSISTENT
-  - 167.99.210.155 (162 attempts)
-  - 209.38.44.128 (159 attempts)
-  - 209.38.37.169 (150 attempts)
-  - 80.94.92.40 (140 attempts)
-  - 64.225.77.238 (122 attempts)
-  - 159.223.221.195 (120 attempts)
-  - 66.116.226.147 (113 attempts)
+  - 164.92.216.111 (377 attempts) - PERSISTENT, most aggressive
+  - 66.116.226.147 (370 attempts) - PERSISTENT, escalating
+  - 94.26.106.110 (258 attempts) - PERSISTENT
+  - 159.138.130.72 (247 attempts) - PERSISTENT
+  - 167.99.210.155 (200 attempts)
+  - 209.38.44.128 (197 attempts)
+  - 206.189.111.94 (177 attempts) - NEW in top 10
+  - 209.38.37.169 (176 attempts)
+  - 80.94.92.40 (161 attempts)
+  - 64.225.77.238 (161 attempts)
 
 **CRITICAL SECURITY GAPS:**
 1. fail2ban NOT INSTALLED - attackers are not being blocked
 2. UFW firewall is INACTIVE - no rate limiting on SSH
-3. SSH brute force continues unabated - 1,132 unique attacking IPs (massive growth)
+3. SSH brute force continues unabated - ~650 attempts/hour rate
 
 **World-writable files analysis:**
 - `/var/www/cronloop.techtools.cz/api/action-queue.json` (666 permissions)
@@ -424,4 +424,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 02:15 (tester: VERIFIED TASK-040 secrets audit page - comprehensive security scanning with score/status display)*
+*Last updated: 2026-01-20 02:09 (security: Security review - 5,607 SSH attempts, 114 unique IPs, all web protections verified)*
