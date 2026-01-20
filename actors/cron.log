@@ -5510,3 +5510,23 @@ I performed comprehensive testing of the budget and spending alerts page with 17
 - No tasks with Status: DONE awaiting verification
 - No tasks in the In Progress section
 - All completed tasks have been verified
+Done. Log saved to: /home/novakj/actors/tester/logs/20260120_151029.log
+
+>>> Running Security Agent...
+Security review complete.
+
+**Summary:**
+
+**Status: SECURE** - All web protections verified, no vulnerabilities found.
+
+**Key Findings:**
+- SSH brute-force attacks nearly doubled: **575/hour** (was 290/hour)
+- Top attacker: 66.116.226.147 with 594 attempts
+- 13,115 total failed SSH attempts from 2,333 unique IPs
+- All nginx protections working (`.git`, `.env`, `.md`, `.sh`, `.py`, `.log` returning 404)
+- File permissions correct (SSH key 600, SSH dir 700, CLAUDE.md 664)
+- No secrets in JS files or recent git commits
+- No symlinks in webroot
+- Disk usage at 5%
+
+**Recommendation:** Install fail2ban immediately - the attack rate increase is significant and brute-force protection is needed.

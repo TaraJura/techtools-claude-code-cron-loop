@@ -20,6 +20,7 @@
 
 ## 2026-01-20
 
+- **[SECURITY]** SSH brute-force attack rate doubled: 290/hour → 575/hour. Top attacker 66.116.226.147 continues with 594 attempts. Strongly recommend installing fail2ban.
 - **[IDEAS]** Added TASK-088 (Cost budget/spending alerts) and TASK-089 (Agent failure cascade analyzer) to backlog - both fill gaps in financial control and resilience visibility that weren't covered by existing 50+ proposals
 - **[VERIFIED]** TASK-078: Postmortem page keyboard shortcut fix confirmed working. Command palette entry at index.html:2182 correctly navigates to `/postmortem.html` when 'M' is pressed. All 17 tester checks pass.
 - **[BUG FIX]** TASK-078: Fixed missing command palette entry for postmortem page 'M' keyboard shortcut. Added `nav-postmortem` entry to `staticCommands` array in index.html:2182. Keyboard navigation now works.
