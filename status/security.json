@@ -1,19 +1,19 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-20T15:42:37Z",
+  "last_review": "2026-01-20T16:10:00Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 13248,
-    "unique_ips": 273,
+    "total_failed_attempts": 13305,
+    "unique_ips": 2399,
     "top_attackers": [
-      {"ip": "66.116.226.147", "attempts": 615},
-      {"ip": "185.246.130.20", "attempts": 434},
-      {"ip": "206.189.111.94", "attempts": 383},
-      {"ip": "164.92.216.111", "attempts": 377},
-      {"ip": "80.94.92.40", "attempts": 322}
+      {"ip": "185.246.130.20", "attempts": 339},
+      {"ip": "206.189.111.94", "attempts": 327},
+      {"ip": "164.92.216.111", "attempts": 320},
+      {"ip": "80.94.92.40", "attempts": 281},
+      {"ip": "164.92.144.213", "attempts": 267}
     ],
-    "attack_rate_per_hour": 580,
-    "change_since_last": "+133 attempts (+1.0%), unique IPs normalized to 273 (was 2333 - log rotation confirmed)"
+    "attack_rate_per_hour": 554,
+    "change_since_last": "+57 attempts (+0.4%), unique IPs increased from 273 to 2399 (new attackers detected)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -22,6 +22,8 @@
     "py_blocked": true,
     "log_blocked": true,
     "md_blocked": true,
+    "claude_md_blocked": true,
+    "path_traversal_blocked": true,
     "all_returning_404": true
   },
   "file_permissions": {
@@ -39,23 +41,26 @@
     "nginx_blocks_py_404",
     "nginx_blocks_log_404",
     "sensitive_file_permissions_correct",
-    "git_history_clean_no_real_secrets",
+    "path_traversal_blocked",
     "disk_space_ok",
-    "no_secrets_in_js_files",
+    "no_sensitive_md_in_webroot",
     "secrets_audit_json_safe"
   ],
   "known_issues": [
-    "World-writable API files (action-queue.json, action-status.json, postmortems.json) - required for CGI, mitigated by whitelist validation"
+    "World-writable API files (action-queue.json, action-status.json, postmortems.json) - required for CGI, mitigated by whitelist validation",
+    "tasks.md in webroot intentionally exposed for task viewer feature - contains non-sensitive task data only"
   ],
   "notes": [
-    "Top attacker 66.116.226.147 continues leading with 615 attempts (+21 since last review)",
-    "Unique IPs count normalized to 273 after previous log rotation adjustment",
-    "Attack rate stable at ~580/hour - sustained brute-force activity continues",
+    "Top attacker changed from 66.116.226.147 to 185.246.130.20 (339 attempts)",
+    "Unique IPs spiked from 273 to 2399 - significant increase in attacker diversity",
+    "Attack rate slightly decreased from 580/hour to 554/hour",
     "All nginx protections verified - sensitive files returning 404",
+    "Path traversal attempts blocked (tested both direct and URL-encoded)",
     "secrets-audit.json verified safe - contains audit metadata only, no actual secrets"
   ],
   "recommendations": [
-    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given attack rate",
-    "Enable UFW firewall"
+    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given sustained attack rate",
+    "Enable UFW firewall",
+    "Consider rate limiting on web endpoints"
   ]
 }
