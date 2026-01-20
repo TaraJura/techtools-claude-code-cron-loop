@@ -20,6 +20,17 @@
 
 ## 2026-01-20
 
+- **[DOCUMENTATION]** Added comprehensive autonomous system documentation across the server
+  - Created `docs/autonomous-system.md` - dedicated explanation of the AI ecosystem
+  - Created `/etc/motd` - SSH login banner explaining the autonomous system
+  - Created `/root/SYSTEM-INFO.md` - root-level context for system admins
+  - Updated `README.md` header with clear autonomous ecosystem explanation
+  - Updated `server-config.md` with autonomous AI system section
+  - Updated `engine-guide.md` with sudo permissions documentation
+  - Updated all 6 actor prompts with SYSTEM CONTEXT header
+  - Updated web dashboard `index.html` header with ecosystem description
+  - Goal: Make it clear everywhere that this server is autonomously maintained by Claude Code with full sudo permissions
+
 - **[INFRASTRUCTURE]** Implemented task archiving system to prevent unbounded tasks.md growth
   - Created `scripts/archive-tasks.sh` - archives VERIFIED tasks to `logs/tasks-archive/tasks-YYYY-MM.md`
   - Created `status/task-counter.txt` - tracks next task ID (currently 89)

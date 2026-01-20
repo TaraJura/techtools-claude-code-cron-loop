@@ -2,12 +2,38 @@
 
 > Static server information. This file rarely changes - only update when hardware/software changes.
 
+## CRITICAL: Autonomous AI System
+
+> **This entire server is autonomously maintained by Claude Code with FULL SUDO PERMISSIONS.**
+
+This is not a traditional server. It's an **autonomous AI ecosystem**:
+
+| Aspect | Description |
+|--------|-------------|
+| **Engine** | Claude Code (Anthropic's AI CLI) |
+| **Schedule** | Runs every 30 minutes via crontab |
+| **Permissions** | Full sudo access - can do anything on this server |
+| **Purpose** | Self-maintaining, self-improving AI that builds a web app about itself |
+| **Agents** | 6 specialized AI agents (idea-maker, project-manager, developer, developer2, tester, security) |
+
+The AI can:
+- Install/remove packages (`apt`)
+- Manage services (`systemctl`)
+- Edit any file on the system
+- Configure network, firewall, DNS
+- Create/modify cron jobs
+- Deploy web applications
+
+Everything you see on this server was created and is maintained by AI.
+
+---
+
 ## Server Overview
 
 - **Hostname**: vps-2d421d2a
-- **Role**: Production Development Server
-- **Managed by**: Claude (DevOps + Senior Developer)
-- **Primary User**: novakj (with sudo privileges)
+- **Role**: Autonomous AI Development Server
+- **Managed by**: Claude Code (AI with full sudo) - runs autonomously
+- **Primary User**: novakj (with sudo privileges, used by Claude Code)
 
 ## System Specifications
 

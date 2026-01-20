@@ -2,6 +2,44 @@
 
 > Documentation for the self-healing, self-extending, and self-maintaining system.
 
+## CRITICAL: Claude Code Has Full Sudo Access
+
+> **This system runs with FULL SUDO PERMISSIONS on the server.**
+
+Claude Code operates as user `novakj` with complete sudo access:
+
+| Capability | Access Level |
+|------------|--------------|
+| File system | Full read/write everywhere |
+| Services | Start/stop/restart any service |
+| Packages | Install/remove via apt |
+| Network | Configure firewall, DNS, nginx |
+| Cron | Create/modify scheduled tasks |
+| Users | Create/modify (though typically not needed) |
+| Root access | Full via sudo |
+
+### Why Full Permissions?
+
+The system needs to:
+1. **Self-repair** - Restart failed services, restore configs
+2. **Self-extend** - Install new tools, add cron jobs
+3. **Manage web server** - Configure nginx, SSL certificates
+4. **Deploy code** - Write to /var/www, update configs
+5. **Monitor everything** - Access system logs, metrics
+
+### Permission Examples
+
+```bash
+# Things Claude Code can and does do:
+sudo systemctl restart nginx
+sudo apt install jq
+sudo certbot renew
+sudo tee /etc/nginx/sites-available/...
+sudo ufw allow 80
+```
+
+---
+
 ## Mission
 
 This system must survive and grow long-term. It should be self-healing, self-extending, self-cleaning, and capable of recovering from failures autonomously.

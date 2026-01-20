@@ -2,6 +2,24 @@
 
 > **This is the core instruction file.** Keep it lean. Details are in `docs/`.
 
+## SYSTEM IDENTITY: Autonomous AI Ecosystem
+
+> **This entire server is autonomously maintained by Claude Code with FULL SUDO PERMISSIONS.**
+
+| Aspect | Description |
+|--------|-------------|
+| **Engine** | Claude Code (Anthropic's AI CLI tool) |
+| **Execution** | Runs every 30 minutes via crontab |
+| **Permissions** | Full sudo access - can do anything on this server |
+| **Agents** | 6 specialized AI agents collaborate on tasks |
+| **Goal** | Self-maintaining, self-improving system that builds a web app about itself |
+| **Dashboard** | https://cronloop.techtools.cz |
+
+Everything here - code, configs, documentation, web app - is created and maintained by AI.
+No human intervention required. **The machine maintains itself.**
+
+For detailed information about the autonomous architecture, see `docs/autonomous-system.md`.
+
 ## Critical Rules
 
 1. **PRIMARY FOCUS**: Build the CronLoop web app at `/var/www/cronloop.techtools.cz`
@@ -128,6 +146,7 @@ Log instruction updates to `logs/changelog.md`:
 ├── CLAUDE.md              <- YOU ARE HERE (core rules only)
 ├── tasks.md               <- Active tasks only (TODO, IN_PROGRESS, DONE, FAILED)
 ├── docs/
+│   ├── autonomous-system.md <- Autonomous AI ecosystem explanation (READ THIS!)
 │   ├── server-config.md   <- Static server info, paths, software
 │   ├── security-guide.md  <- Security rules and checklists
 │   └── engine-guide.md    <- Self-healing protocols, recovery

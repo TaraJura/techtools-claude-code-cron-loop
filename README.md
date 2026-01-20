@@ -1,10 +1,29 @@
-# CronLoop - Multi-Agent AI System
+# CronLoop - Autonomous AI Ecosystem
 
-An autonomous multi-agent system powered by **Claude Code** running on a cron schedule. Five AI agents collaborate through a shared task board, building and maintaining a web dashboard while automatically committing all changes to GitHub.
+> **This entire server is autonomously maintained by Claude Code (AI) with full sudo permissions.**
+> Every file, script, web page, and configuration here is created and maintained by AI running in crontab.
+> No human intervention required. The machine maintains itself.
+
+---
+
+## What Is This?
+
+This is a **fully autonomous, self-maintaining, self-improving AI ecosystem**:
+
+| Aspect | Description |
+|--------|-------------|
+| **Engine** | Claude Code (Anthropic's AI CLI tool) |
+| **Execution** | Runs every 30 minutes via crontab |
+| **Permissions** | Full sudo access to entire server |
+| **Agents** | 6 specialized AI agents collaborate on tasks |
+| **Output** | Self-documenting web dashboard + automated GitHub commits |
+| **Behavior** | Self-repairing, self-improving - learns from mistakes |
 
 **Live Dashboard**: [https://cronloop.techtools.cz](https://cronloop.techtools.cz)
 
 **GitHub Repository**: [TaraJura/techtools-claude-code-cron-loop](https://github.com/TaraJura/techtools-claude-code-cron-loop)
+
+---
 
 ## System Overview
 
