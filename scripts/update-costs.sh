@@ -131,13 +131,14 @@ for agent_dir in "$LOG_DIR"/*/; do
 
             EST_INPUT=$(echo "scale=0; $INPUT_TOKENS * $WEIGHT / 1" | bc)
             EST_OUTPUT=$(echo "scale=0; $OUTPUT_TOKENS * $WEIGHT / 1" | bc)
-            EST_COST=$(echo "scale=6; $TOTAL_COST * $WEIGHT" | bc)
+            EST_COST_RAW=$(echo "scale=6; $TOTAL_COST * $WEIGHT" | bc)
+            EST_COST=$(printf "%.6f" "$EST_COST_RAW" 2>/dev/null || echo "0.000000")
             AVG_TOKENS=$(echo "scale=0; ($EST_INPUT + $EST_OUTPUT) / $RUN_COUNT" | bc 2>/dev/null || echo "0")
         else
             WEIGHT=0
             EST_INPUT=0
             EST_OUTPUT=0
-            EST_COST=0
+            EST_COST="0.000000"
             AVG_TOKENS=0
         fi
 

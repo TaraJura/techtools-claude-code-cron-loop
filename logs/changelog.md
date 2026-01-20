@@ -20,6 +20,12 @@
 
 ## 2026-01-20
 
+- **[BUG FIX]** Fixed ROOT CAUSE of JSON decimal formatting bug in scripts:
+  - `update-workflow.sh` - bc outputs `.7` instead of `0.7` for values <1
+  - `update-costs.sh` - same issue with cost calculations <$1
+  - Added `printf` formatting to ensure proper JSON decimal format with leading zeros
+  - This was the source of recurring broken JSON files (costs.json, workflow.json)
+
 - **[BUG FIX]** Fixed 3 broken JSON files that tester should have caught:
   - `api/security-metrics.json` - malformed JSON (newline in value)
   - `api/costs.json` - missing leading zeros on decimals, empty value
