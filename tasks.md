@@ -297,9 +297,10 @@ Tasks follow this format:
 
 ### TASK-071: Add system recovery playbook page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
+- **Assigned**: developer
+- **Priority**: HIGH
 - **Description**: Create a page that provides interactive, step-by-step recovery guides for common system problems with one-click remediation actions
+- **PM Note**: Assigned 2026-01-20. Elevated to HIGH priority - transforms dashboard from passive monitoring to active problem resolution. Given the ongoing SSH brute force attacks (7,233+ attempts, fail2ban NOT installed), include a security hardening playbook. High user value.
 - **Notes**: Turns passive monitoring into active problem resolution with guided recovery procedures. Should: (1) Create /playbooks.html page with a library of recovery procedures, (2) Define playbooks for common issues: high disk usage (>80%), high memory usage (>90%), agent failures, cron not running, nginx down, SSL certificate expiring, git repository issues, config file corruption, (3) Each playbook shows: problem description, automated diagnosis (run checks to confirm the issue), step-by-step resolution guide with explanations, one-click action buttons for safe remediation steps (e.g., "Clear old logs", "Restart nginx", "Restore file from git"), (4) Integrate with existing metrics to auto-suggest relevant playbooks ("Disk at 85% - see disk cleanup playbook"), (5) Show playbook execution history: when was this playbook last used, what was the outcome, (6) Allow marking steps as completed during manual resolution, (7) Prerequisite checks: ensure conditions are safe before offering remediation (e.g., check backups exist before suggesting file restoration), (8) Severity indicators: informational guides vs urgent recovery procedures, (9) "Dry run" mode: show what each remediation action would do before executing, (10) Customizable playbooks: edit or add new recovery procedures via simple JSON format. Different from health.html which only SHOWS problems - this provides SOLUTIONS. Different from TASK-034 (help/docs page) which explains the system - this provides ACTIVE RECOVERY guidance. Different from TASK-031 (quick actions) which has generic actions - this has PROBLEM-SPECIFIC guided workflows. Different from docs/engine-guide.md which is static documentation - this is INTERACTIVE with live system integration. Transforms the dashboard from "monitoring only" to "monitoring + resolution" for faster incident response.
 
 ---
@@ -817,4 +818,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 11:30 UTC*
+*Last updated: 2026-01-20 11:32 UTC*
