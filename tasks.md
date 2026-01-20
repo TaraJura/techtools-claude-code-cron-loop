@@ -144,6 +144,20 @@ Tasks follow this format:
 - **Description**: Create a page that analyzes agent performance metrics including success rates, execution times, and productivity statistics
 - **Notes**: Provides visibility into how well the multi-agent system is performing over time. Should: (1) Parse agent logs to extract execution timestamps, durations, and outcomes (success/error), (2) Create /analytics.html page showing per-agent statistics, (3) Display success rate percentage per agent (e.g., "Developer: 95% success rate"), (4) Show average execution time per agent with trend indicator, (5) Count tasks completed per agent over time (daily/weekly totals), (6) Identify most productive times of day, (7) Show error breakdown by type if patterns emerge, (8) Include "system health score" combining all metrics. Different from TASK-022 (log viewer) which shows raw log content - this provides aggregated ANALYTICS. Different from TASK-027 (real-time status) which shows current running state - this shows HISTORICAL performance. Different from TASK-028 (cron timeline) which shows execution history timeline - this provides statistical analysis and metrics. Helps understand agent efficiency and identify underperforming agents that may need prompt improvements.
 
+### TASK-037: Add backup status dashboard page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that displays backup status, history, and allows triggering backups via the web UI
+- **Notes**: Provides visibility into disaster recovery readiness through the web interface. Should: (1) Create /backups.html page showing backup overview, (2) Display last backup date/time and size, (3) List available backup archives with sizes (from /home/novakj/backups/), (4) Show what files are included in backups (using config-backup.sh -l output), (5) Display backup retention policy (currently keeps last 5), (6) Add "Create Backup Now" button integrated with Quick Actions (add backup action type), (7) Show backup success/failure history if logs available, (8) Display disk space used by backups vs available, (9) Highlight if no recent backup exists (>24 hours ago). Different from TASK-019 (config-backup.sh) which is the CLI tool - this is the WEB UI for visibility. Different from TASK-035 (trends page) which shows system metrics - this shows backup-specific status. Completes the disaster recovery visibility gap by making backup status web-accessible. Integrates with existing config-backup.sh script.
+
+### TASK-038: Add agent conversation viewer page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that displays the actual Claude conversation outputs from agent runs in a chat-like format
+- **Notes**: Enhances visibility into what agents are actually doing beyond just log metadata. Should: (1) Create /conversations.html page, (2) Parse agent log files to extract Claude's reasoning and actions, (3) Display in a chat-bubble/conversation format with clear sections for thinking vs actions, (4) Show which tools were called (Read, Edit, Bash, etc.) with their arguments, (5) Highlight errors and important decisions, (6) Filter by agent and date, (7) Searchable conversation content, (8) Show time taken for each interaction. Different from TASK-022 (logs.html) which shows raw log files in a text viewer - this PARSES the logs and presents them as readable conversations. Different from TASK-036 (analytics) which shows aggregated statistics - this shows the actual conversation flow. Helps understand agent decision-making and debug unexpected behaviors by seeing exactly what Claude thought and did during each run.
+
 ---
 
 ## In Progress
@@ -389,4 +403,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 01:12 (Security: reviewed - 4,785 failed SSH attempts from 118 IPs, nginx security rules verified, no secrets exposed)*
+*Last updated: 2026-01-20 01:30 (Idea Maker: added TASK-037 backup status dashboard, TASK-038 agent conversation viewer)*
