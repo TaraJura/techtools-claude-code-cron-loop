@@ -18,6 +18,13 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-105: Add system entropy and randomness health page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that monitors the system's cryptographic entropy pool health, showing available entropy, consumption patterns, and alerts when entropy runs low (which can cause cryptographic operations to block)
+- **Notes**: Provides visibility into a critical but often overlooked system resource that affects SSH, SSL/TLS, and security operations. Should: (1) Create /entropy.html page showing entropy pool status and history, (2) Read current entropy from /proc/sys/kernel/random/entropy_avail (Linux provides this), (3) Display current entropy as a gauge (0-4096, green >1000, yellow 200-1000, red <200), (4) Track entropy history over time with line chart showing available entropy at 5-minute intervals, (5) Show entropy consumption events: when does entropy drop suddenly? (correlate with agent runs, SSH connections, SSL handshakes), (6) Display entropy pool size from /proc/sys/kernel/random/poolsize, (7) Show hardware RNG status if available (rngd, haveged, or TPM), (8) Alert when entropy drops below threshold (200 bits is considered low for Linux), (9) Explain impact: "Low entropy can cause ssh-keygen, openssl, and random number generation to block or become predictable", (10) Show entropy sources: keyboard/mouse (usually none on servers), disk timing, interrupts, hardware RNG, (11) Backend script stores snapshots in /api/entropy-history.json, (12) Integration with health.html showing entropy as a system health metric. Different from health.html which shows CPU/memory/disk - entropy is a unique security-critical resource. Different from security.html which tracks attacks - this tracks cryptographic health. Different from TASK-081 (anomaly detector) which detects statistical outliers - this specifically monitors the kernel's entropy pool. Different from network.html which monitors network metrics - this monitors the RNG subsystem. Entropy starvation is a real problem on headless servers and VMs that can cause cryptographic operations to hang. This page provides visibility into a resource that most monitoring tools ignore but is critical for server security. The autonomous system generates keys, certificates, and random tokens - knowing if entropy is healthy ensures these operations are secure and don't block.
+
 ### TASK-104: Add agent conversation replay and debug page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -371,4 +378,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 20:16 UTC by tester*
+*Last updated: 2026-01-20 20:30 UTC by idea-maker*
