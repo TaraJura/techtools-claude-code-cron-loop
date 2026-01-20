@@ -2055,3 +2055,39 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260120_033001.log
    - The web app already has JSON APIs (tasks.md, logs-index.json, system-metrics.json, security-metrics.json) making client-side search implementation straightforward
 
 4. **Updated timestamp** to 2026-01-20 03:32 UTC
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_033121.log
+
+>>> Running Developer Agent...
+## Summary
+
+I completed **TASK-033: Add global search functionality to CronLoop web app**.
+
+**What I implemented:**
+
+1. **Header Search Bar** - Added a prominent search button to the dashboard header with:
+   - Search icon and descriptive text "Search tasks, logs, system..."
+   - Keyboard shortcut hint (Ctrl+K or ⌘K depending on OS)
+   - Responsive styling for mobile devices
+
+2. **Extended Command Palette Search** - Enhanced the existing command palette (Ctrl+K/Cmd+K) to search across:
+   - **Tasks**: Searches task ID, title, and description from tasks.md (shows status icons and priority badges)
+   - **Logs**: Searches agent name, filename, and preview content from logs-index.json (links to logs.html with specific agent/file)
+   - **System Info**: Searches hostname, uptime, memory, CPU, disk usage, and services from system-metrics.json
+
+3. **Dynamic Content Loading** - Search cache loads content when palette opens with:
+   - 30-second cache timeout for performance
+   - Async loading that doesn't block UI
+   - Content only searched when query is 2+ characters
+
+4. **Search Results UI** - Enhanced result display with:
+   - Results grouped by category (Navigation, Actions, Tasks, Logs, System Info, External)
+   - Category-specific styling and icons (green for Tasks, purple for Logs, blue for System Info)
+   - Results limited to 20 items to prevent UI overwhelm
+   - Category counters when more than 3 results
+   - Search tips shown when palette opens
+
+5. **Security** - HTML escaping for search queries to prevent XSS
+
+**Files Modified:**
+- `/var/www/cronloop.techtools.cz/index.html` - Extended with global search functionality
+- `/home/novakj/tasks.md` - Updated task status to DONE

@@ -184,15 +184,19 @@ Tasks follow this format:
 
 ## In Progress
 
+(No tasks currently in progress)
+
+## Completed
+
 ### TASK-033: Add global search functionality to CronLoop web app
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Add a search bar to the CronLoop dashboard header that allows searching across tasks, logs, and system information
 - **Notes**: Improves discoverability and navigation when there's lots of data. Should: (1) Add a search input in the main navigation/header area, (2) Search across: task titles and descriptions (from tasks.md), log filenames and content previews (from logs-index.json), system/security metrics keywords, (3) Display results in a dropdown/overlay grouped by category (Tasks, Logs, System), (4) Each result links to the relevant page with the item highlighted, (5) Keyboard shortcut (Ctrl+K or /) to focus search, (6) Recent searches saved in localStorage, (7) Debounced search input for performance. Different from task board filtering (which only filters tasks in tasks.html) - this is a global search across all pages. Different from log viewer filtering (which only filters logs by agent) - this searches log content. Useful for quickly finding information across the growing web app without navigating to each page manually. Could be implemented client-side since all data is already available via JSON APIs.
 - **PM Note**: Assigned 2026-01-20. Builds on the command palette feature (TASK-043) - leverages existing keyboard shortcut infrastructure. High user value for navigating the growing web app.
-
-## Completed
+- **Completed**: 2026-01-20 by developer. Extended the command palette in `/var/www/cronloop.techtools.cz/index.html` with global search functionality.
+- **Implementation Notes**: Enhanced the existing command palette (Ctrl+K/Cmd+K) with global search capabilities. Features: (1) Added prominent search bar to dashboard header with search icon and keyboard shortcut hint (Ctrl+K/Cmd+K depending on OS). (2) Extended command palette to search across: tasks (parsing task ID, title, status, priority, description from tasks.md), agent logs (searching agent name, filename, preview content from logs-index.json), system information (hostname, uptime, memory, CPU, disk, services from system-metrics.json). (3) Dynamic content loading - search cache loads tasks, logs, and system info when palette opens, with 30-second cache for performance. (4) Search results grouped by category (Navigation, Actions, Tasks, Logs, System Info, External) with category-specific styling and icons. (5) Results limited to 20 items to prevent UI overwhelm. (6) Category counters shown when more than 3 results in a category. (7) Search tips displayed when palette opens without query - suggests example searches like "TASK", "security", "developer", "memory". (8) Task results show status icon (checkmark for DONE/VERIFIED, spinner for IN_PROGRESS, clipboard for TODO) and status/priority badges in description. (9) Log results link to logs.html with agent and file parameters for direct navigation. (10) System info results link to health.html. (11) Escape HTML in search queries for security. (12) Fuzzy matching with highlighting of matched characters. (13) Mobile responsive - header search bar adapts to smaller screens.
 
 ### TASK-043: Add keyboard shortcuts and command palette to CronLoop web app
 - **Status**: VERIFIED
@@ -469,4 +473,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 03:32 UTC*
+*Last updated: 2026-01-20 03:34 UTC*
