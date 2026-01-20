@@ -29,8 +29,8 @@ This is a **fully autonomous, self-maintaining, self-improving AI ecosystem**:
 
 | Component | Details |
 |-----------|---------|
-| **Agents** | 6 autonomous AI agents (idea-maker, project-manager, developer, developer2, tester, security) |
-| **Execution** | Every 30 minutes via cron |
+| **Agents** | 7 autonomous AI agents (6 in main pipeline + 1 supervisor) |
+| **Execution** | Main pipeline every 30 min, Supervisor hourly |
 | **Web App** | 27 HTML pages, PWA-enabled, dark theme dashboard |
 | **API** | 24 JSON endpoints for real-time data |
 | **Commits** | 269+ auto-commits |
@@ -39,26 +39,48 @@ This is a **fully autonomous, self-maintaining, self-improving AI ecosystem**:
 ## Architecture
 
 ```
-┌───────────────────────────────────────────────────────────────────────────────────────────────┐
-│                              CRON ORCHESTRATOR (*/30 * * * *)                                 │
-│                                                                                               │
-│  ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐  ┌──────────┐ │
-│  │IDEA MAKER │──▶│    PM     │──▶│ DEVELOPER │──▶│DEVELOPER2 │──▶│  TESTER   │─▶│ SECURITY │ │
-│  │           │   │           │   │           │   │           │   │           │  │          │ │
-│  │ Generate  │   │ Assign    │   │ Implement │   │ Implement │   │ Verify    │  │ Security │ │
-│  │ ideas     │   │ tasks     │   │ features  │   │ features  │   │ work      │  │ review   │ │
-│  └───────────┘   └───────────┘   └───────────┘   └───────────┘   └───────────┘  └──────────┘ │
-│        │               │               │               │               │              │       │
-│        └───────────────┴───────────────┴───────────────┴───────────────┴──────────────┘       │
-│                                              │                                                │
-│                                       ┌──────▼──────┐                                         │
-│                                       │  tasks.md   │  ◀── Shared Task Board                  │
-│                                       └──────┬──────┘                                         │
-│                                              │                                                │
-│                                       ┌──────▼──────┐                                         │
-│                                       │   GitHub    │  ◀── Auto-commit after each             │
-│                                       └─────────────┘      agent run                          │
-└───────────────────────────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                    MAIN PIPELINE (*/30 * * * *)                                     │
+│                                                                                                     │
+│  ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐     │
+│  │IDEA MAKER │──▶│    PM     │──▶│ DEVELOPER │──▶│DEVELOPER2 │──▶│  TESTER   │──▶│ SECURITY  │     │
+│  │           │   │           │   │           │   │           │   │           │   │           │     │
+│  │ Generate  │   │ Assign    │   │ Implement │   │ Implement │   │ Verify    │   │ Security  │     │
+│  │ ideas     │   │ tasks     │   │ features  │   │ features  │   │ work      │   │ review    │     │
+│  └───────────┘   └───────────┘   └───────────┘   └───────────┘   └───────────┘   └───────────┘     │
+│        │               │               │               │               │               │           │
+│        └───────────────┴───────────────┴───────────────┴───────────────┴───────────────┘           │
+│                                              │                                                     │
+│                                       ┌──────▼──────┐                                              │
+│                                       │  tasks.md   │  ◀── Shared Task Board                       │
+│                                       └──────┬──────┘                                              │
+│                                              │                                                     │
+│                                       ┌──────▼──────┐                                              │
+│                                       │   GitHub    │  ◀── Auto-commit after each agent            │
+│                                       └─────────────┘                                              │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                    SUPERVISOR (15 * * * *)                                          │
+│                                    Runs hourly at :15 past                                          │
+│                                                                                                     │
+│                              ┌─────────────────────────────────┐                                    │
+│                              │          SUPERVISOR             │                                    │
+│                              │                                 │                                    │
+│                              │  • Monitors all agents          │                                    │
+│                              │  • Checks system health         │                                    │
+│                              │  • Maintains persistent todos   │                                    │
+│                              │  • Fixes issues conservatively  │                                    │
+│                              │  • Prioritizes stability        │                                    │
+│                              │                                 │                                    │
+│                              │  Goal: Keep ecosystem alive     │                                    │
+│                              │        as long as possible      │                                    │
+│                              └───────────────┬─────────────────┘                                    │
+│                                              │                                                      │
+│                                       ┌──────▼──────┐                                               │
+│                                       │ state.json  │  ◀── Persistent state across runs            │
+│                                       └─────────────┘                                               │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ## How Data Flows (No Traditional Backend!)

@@ -32,6 +32,12 @@ For detailed information about the autonomous architecture, see `docs/autonomous
    - Verify the change works by actually testing it
    - If a change affects multiple agents, update ALL agent prompts
    - Never assume a change is complete until tested end-to-end
+7. **KEEP README.md UPDATED** (MANDATORY): When changing the ecosystem:
+   - Update `README.md` Architecture diagram if agents/flow changes
+   - Update `README.md` System Overview table if metrics change
+   - Update `README.md` Agents section if adding/removing agents
+   - Update `README.md` Scheduled Tasks if cron changes
+   - **README.md is the public face of this project - it must always be accurate!**
 
 ## System Change Verification Protocol (MANDATORY)
 
