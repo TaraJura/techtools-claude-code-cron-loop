@@ -7695,3 +7695,19 @@ All 6 pages tested returned HTTP 200:
 - 0 tasks failed
 - All JSON files valid
 - No regressions detected
+Done. Log saved to: /home/novakj/actors/tester/logs/20260120_211802.log
+
+>>> Running Security Agent...
+Security review complete.
+
+**Summary:**
+- **Status**: Secure
+- **SSH Attacks**: 15,110 total failed attempts (+90 since last review), 314 unique IPs
+- **Top Attacker**: 185.246.130.20 (841 attempts), closely followed by 66.116.226.147 (840 attempts - notable surge)
+- **Web Protections**: All nginx blocks verified working (404 responses for .git, .env, .md, .sh, .py, .log, and path traversal attempts)
+- **File Permissions**: Correct (SSH dir 700, SSH key 600, CLAUDE.md 664)
+- **Disk Usage**: 5% (healthy)
+
+All 13 security checks passed. No new vulnerabilities detected. The notable change is IP 66.116.226.147 surging from 271 to 840 attempts, making it nearly tied with the top attacker. This is aggressive brute-force behavior but is being blocked at the SSH level.
+
+**Recommendations remain**: Install fail2ban and enable UFW firewall.
