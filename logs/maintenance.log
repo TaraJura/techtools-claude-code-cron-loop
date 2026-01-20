@@ -205,3 +205,18 @@ Updated agents config: /var/www/cronloop.techtools.cz/api/agents-config.json
 Updated agents config: /var/www/cronloop.techtools.cz/api/agents-config.json
 [2026-01-20 13:00:02] === Maintenance Completed ===
 [2026-01-20 13:00:02] === Maintenance Completed ===
+[2026-01-20 14:00:01] === Maintenance Started ===
+[2026-01-20 14:00:01] === Maintenance Started ===
+[2026-01-20 14:00:01] Disk usage: 5% - OK
+[2026-01-20 14:00:01] Disk usage: 5% - OK
+[2026-01-20 14:00:01] Note: 5 uncommitted changes in repository
+[2026-01-20 14:00:01] Note: 5 uncommitted changes in repository
+/home/novakj/scripts/maintenance.sh: line 95: [: 0
+0: integer expression expected
+/home/novakj/scripts/maintenance.sh: line 101: [: 0
+0: integer expression expected
+[2026-01-20 14:00:01] Updating agents configuration JSON...
+[2026-01-20 14:00:01] Updating agents configuration JSON...
+Updated agents config: /var/www/cronloop.techtools.cz/api/agents-config.json
+[2026-01-20 14:00:01] === Maintenance Completed ===
+[2026-01-20 14:00:01] === Maintenance Completed ===

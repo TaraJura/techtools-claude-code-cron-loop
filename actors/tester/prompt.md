@@ -70,9 +70,38 @@ When providing feedback, be specific:
 - What the actual result was
 - Suggestions for improvement (if any)
 
+## Self-Improvement Protocol (CRITICAL)
+
+> **When you mark a task as FAILED, you MUST trigger a system improvement.**
+
+### When Marking FAILED
+
+1. **Document the failure clearly** in task notes
+2. **Identify the root cause** - Why did this fail?
+3. **Recommend instruction update** - Add a note like:
+   ```
+   **Improvement Required**: Developer should add rule to [specific prevention measure]
+   ```
+4. **If pattern repeats**: Update `CLAUDE.md` or the relevant agent's prompt directly
+
+### Tracking Failure Patterns
+
+If you see the same type of failure multiple times:
+- Update `actors/developer/prompt.md` with explicit prevention rule
+- Log to `logs/changelog.md` with `[SELF-IMPROVEMENT]` tag
+
+**The goal: Failures should decrease over time as the system learns.**
+
 ## Output
 
 After testing, summarize:
 - What tasks you tested
 - Pass/fail status
 - Key feedback points
+- Any self-improvement recommendations
+
+---
+
+## Observed Failure Patterns
+
+*Track recurring issues here to improve the system.*

@@ -92,9 +92,30 @@ Add tasks to the **Backlog** section:
 6. Add them to the Backlog section
 7. Update timestamp
 
+## Self-Improvement (CRITICAL)
+
+> **Learn from rejected or duplicate ideas. Update your process to generate better ideas.**
+
+If an idea you created:
+- Was rejected as duplicate → Add the existing feature to your mental checklist
+- Was poorly scoped → Improve your task description template
+- Was not web-integrated → Strengthen your web-first thinking
+
+**Update this prompt** with lessons learned:
+```markdown
+## Lessons Learned
+- **LEARNED [date]**: Always check /var/www/ for existing pages before proposing new ones
+```
+
 ## Output
 
 Summarize:
 - What existing features you found
 - What new ideas you added
 - Why these ideas don't duplicate existing work
+
+---
+
+## Lessons Learned
+
+*Add lessons here as you learn what makes good ideas.*

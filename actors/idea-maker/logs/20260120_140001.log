@@ -1,0 +1,40 @@
+========================================
+Actor: idea-maker
+Started: Tue Jan 20 14:00:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+### Existing Features Found
+
+**Web Pages (24 total):** index.html, agents.html, api-stats.html, architecture.html, backups.html, changelog.html, costs.html, dependencies.html, digest.html, error-patterns.html, forecast.html, health.html, logs.html, playbooks.html, schedule.html, search.html, secrets-audit.html, security.html, settings.html, tasks.html, terminal.html, trends.html, uptime.html, workflow.html
+
+**Backlog:** ~50+ tasks covering notes, quality scoring, anomaly detection, bookmarks, snapshots, timelines, alerts, time machine, comparisons, heatmaps, webhooks, network monitoring, and many more.
+
+### New Ideas Added
+
+**TASK-084: Customizable Dashboard Layout**
+- Allows users to drag-and-drop widgets on the main dashboard
+- Show/hide widgets based on monitoring priorities
+- Preset layouts for different roles (Operations, Development, Security)
+- Stores preferences in localStorage
+- Different from settings.html (which handles preferences like theme) - this manages structural layout
+
+**TASK-085: Agent Memory and Context Tracker**
+- Tracks what files agents read repeatedly to understand their "working knowledge"
+- Shows knowledge maps per agent, expertise areas, and reading pattern evolution
+- Identifies knowledge gaps (files agents should read but don't)
+- Detects cross-agent knowledge overlap vs agent-specific domains
+- Different from conversation viewer (individual runs) - this aggregates patterns across many runs to understand implicit knowledge accumulation
+
+### Why These Don't Duplicate Existing Work
+
+- **TASK-084** fills a gap between the current fixed dashboard layout and the settings page - no existing task addresses widget customization
+- **TASK-085** focuses on READ operation patterns across time, which no existing task covers - different from file change heatmap (writes), conversation viewer (single runs), and prompt evolution (prompt files only)
+
+========================================
+Completed: Tue Jan 20 14:01:29 UTC 2026
+========================================
+
+Committing changes to git...

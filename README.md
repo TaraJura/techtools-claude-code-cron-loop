@@ -271,6 +271,49 @@ git log --oneline -10
 4. **Self-Healing**: Maintenance scripts clean up and recover from issues
 5. **Version Controlled**: All changes auto-committed to GitHub
 6. **Status Overwrites**: Status files are overwritten (not appended) to prevent growth
+7. **Self-Improving**: System learns from mistakes and updates its own instructions
+
+## Self-Improvement System
+
+The system is designed to **get smarter over time** by learning from every mistake:
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   ERROR     │────▶│  IDENTIFY   │────▶│    FIX      │────▶│   UPDATE    │
+│   OCCURS    │     │  ROOT CAUSE │     │   ISSUE     │     │INSTRUCTIONS │
+└─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+                                                                   │
+                                                                   ▼
+                                                          ┌─────────────┐
+                                                          │  SYSTEM IS  │
+                                                          │   SMARTER   │
+                                                          └─────────────┘
+```
+
+### How It Works
+
+| Event | System Response |
+|-------|-----------------|
+| Task fails testing | Developer updates its prompt with lesson learned |
+| Security vulnerability | Security agent adds prevention rule |
+| Duplicate work created | Strengthen deduplication checks in prompts |
+| Same error twice | **Mandatory** instruction update to prevent recurrence |
+| Build failure | Document fix in engine-guide.md |
+
+### What Gets Updated
+
+- `CLAUDE.md` - System-wide rules
+- `actors/<agent>/prompt.md` - Agent-specific behavior
+- `docs/*.md` - Detailed procedures
+
+### Tracking Improvements
+
+All self-improvements are logged:
+```
+[SELF-IMPROVEMENT] Updated developer prompt: Added rule to verify feature doesn't exist (learned from TASK-042)
+```
+
+> **Every mistake makes the system permanently smarter.**
 
 ## Documentation
 

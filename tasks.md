@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-084: Add customizable dashboard layout page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a system that allows users to customize which widgets appear on the main dashboard and arrange them in a personalized layout
+- **Notes**: Provides personalization for different user workflows and monitoring priorities. Should: (1) Create /layout.html configuration page for managing dashboard layout, (2) Define a set of available dashboard widgets: system health mini-card, agent status overview, recent errors, task progress, cost tracker, uptime status, security alerts, recent commits, resource gauges (CPU/memory/disk), (3) Enable drag-and-drop widget arrangement on the main index.html dashboard, (4) Allow users to show/hide individual widgets based on their monitoring needs, (5) Store layout configuration in localStorage for persistence across sessions, (6) Support preset layouts: "Operations view" (health + errors + uptime), "Development view" (tasks + commits + agents), "Security view" (security + SSH attempts + audit), (7) Widget size options: compact (1-column) or expanded (2-column) for key widgets, (8) "Reset to default" button to restore standard layout, (9) Import/export layout as JSON for sharing configurations between users, (10) Responsive behavior: automatically stack widgets on mobile regardless of desktop layout, (11) Quick toggle to temporarily show all widgets without changing saved layout, (12) Remember collapsed/expanded state per widget. Different from TASK-074 (settings/preferences) which stores UI preferences like theme and refresh rate - this specifically manages WIDGET LAYOUT and VISIBILITY on the dashboard. Different from TASK-025 (dark/light theme) which is visual styling - this is STRUCTURAL customization of what information appears. Different from index.html itself which has a fixed layout - this makes it user-configurable. Helps power users focus on metrics relevant to their role while reducing visual clutter from widgets they don't need. A security-focused admin might only want security widgets, while a developer might prioritize task and commit information.
+
+### TASK-085: Add agent memory and context tracker page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that tracks what information agents "remember" across runs by analyzing what files they read and patterns in their behavior, helping understand implicit knowledge accumulation in the multi-agent system
+- **Notes**: Provides visibility into how agents build working knowledge through file reads and repeated interactions. Should: (1) Create /memory.html page showing agent knowledge patterns, (2) Track per-agent "frequently read files": which files does each agent read most often? (parse logs for Read tool calls), (3) Build knowledge map per agent: developer reads tasks.md + web files, security reads security configs, etc., (4) Identify "core knowledge files" that all agents reference repeatedly (CLAUDE.md, tasks.md, server-config.md), (5) Track first-read vs repeated-read patterns: when does an agent first encounter a file vs read it routinely?, (6) Show knowledge evolution timeline: how has each agent's reading pattern changed over time?, (7) Detect knowledge gaps: files that SHOULD be read but aren't (e.g., developer never reads security-guide.md), (8) Display agent "expertise areas" based on file categories they interact with most, (9) Cross-agent knowledge overlap: which files do multiple agents share vs which are agent-specific?, (10) Track "reference chains": when agent reads file A, do they often then read file B? (implicit dependencies), (11) Highlight when agents read new files for the first time (learning events), (12) Export knowledge profile per agent as JSON for analysis. Different from TASK-038 (conversation viewer) which shows individual conversations - this AGGREGATES patterns across many runs. Different from TASK-075 (prompt evolution) which tracks prompt file changes - this tracks RUNTIME reading behavior. Different from TASK-054 (decision explainer) which explains individual decisions - this tracks ACCUMULATED knowledge patterns. Different from TASK-064 (file change heatmap) which tracks WRITE operations - this focuses on READ operations and knowledge consumption. Helps answer: "What does the developer agent 'know' about the codebase?" and "Are agents reading the documentation they need?" Essential for understanding implicit context accumulation in LLM-based agents that don't have persistent memory but develop patterns through repeated file reads.
+
 ### TASK-082: Add admin scratchpad/notes page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -1038,4 +1052,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 13:42 UTC*
+*Last updated: 2026-01-20 14:01 UTC*

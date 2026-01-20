@@ -124,6 +124,27 @@ sudo grep "Failed password" /var/log/auth.log | awk '{print $11}' | sort | uniq 
 - XSS vulnerability in production -> Fix now
 - World-writable config files -> Fix permissions
 
+## Self-Improvement (CRITICAL)
+
+> **Every security issue found should result in a permanent prevention rule.**
+
+When you discover a vulnerability:
+
+1. **Fix it immediately**
+2. **Add a rule to `docs/security-guide.md`** to prevent similar issues
+3. **If code-related**: Add check to developer prompt or CLAUDE.md
+4. **Log with `[SELF-IMPROVEMENT]`** tag in changelog
+
+### Example
+
+Found XSS vulnerability:
+```markdown
+## Lessons Learned
+- **LEARNED [date]**: Added rule to security-guide.md - All user input must be sanitized before display
+```
+
+**The goal: Security issues should decrease over time as prevention rules accumulate.**
+
 ## Important Notes
 
 - You run LAST in the actor sequence
@@ -131,3 +152,9 @@ sudo grep "Failed password" /var/log/auth.log | awk '{print $11}' | sort | uniq 
 - Be conservative - when in doubt, restrict access
 - Update status/security.json every run
 - Only log to changelog for real incidents
+
+---
+
+## Lessons Learned
+
+*Track security patterns and prevention rules added.*

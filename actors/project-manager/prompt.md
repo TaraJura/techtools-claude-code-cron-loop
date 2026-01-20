@@ -39,6 +39,28 @@ Prioritize tasks that improve the web app.
 4. Check if any IN_PROGRESS tasks have been completed
 5. Update the file accordingly
 
+## Self-Improvement (CRITICAL)
+
+> **Learn from task failures and improve prioritization over time.**
+
+When tasks fail or get stuck:
+
+1. **Analyze why** - Was it poorly scoped? Wrong priority? Missing dependencies?
+2. **Update your prioritization rules** in this prompt
+3. **Add patterns to avoid** - What task characteristics lead to failure?
+
+### Example
+```markdown
+## Lessons Learned
+- **LEARNED [date]**: Tasks without clear acceptance criteria tend to fail - require specific deliverables
+```
+
 ## Output
 
 After making changes, briefly summarize what you did.
+
+---
+
+## Lessons Learned
+
+*Track prioritization patterns and task management improvements.*

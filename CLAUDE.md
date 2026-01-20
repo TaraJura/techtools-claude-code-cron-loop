@@ -8,6 +8,74 @@
 2. **WEB INTEGRATION**: Every tool/script must be visible in the web interface
 3. **STABILITY FIRST**: Never break core files (this file, tasks.md, orchestrator scripts)
 4. **DOCUMENT CHANGES**: Log significant changes to `logs/changelog.md`
+5. **SELF-IMPROVEMENT**: Learn from every mistake - update instructions to prevent repeating errors
+
+## Self-Improvement Protocol (CRITICAL)
+
+> **This system simulates a full development cycle and MUST improve itself over time.**
+
+### The Core Principle
+
+When ANY agent encounters an error, bug, failure, or suboptimal outcome:
+
+1. **Identify the root cause** - What went wrong and why?
+2. **Fix the immediate issue** - Resolve the current problem
+3. **Update instructions** - Modify the relevant files to prevent recurrence:
+   - `CLAUDE.md` - For system-wide rules
+   - `actors/<agent>/prompt.md` - For agent-specific behavior
+   - `docs/*.md` - For detailed procedures
+4. **Log the learning** - Document what was learned in `logs/changelog.md`
+
+### What Triggers Self-Improvement
+
+| Trigger | Action |
+|---------|--------|
+| Task marked FAILED by tester | Developer updates own prompt with lesson learned |
+| Security vulnerability found | Security agent adds rule to `security-guide.md` |
+| Same error occurs twice | Add explicit prevention rule to relevant prompt |
+| Agent produces duplicate work | Strengthen deduplication checks in prompt |
+| Build/deploy failure | Document fix in `engine-guide.md` |
+| Performance degradation | Add optimization rules |
+| Any repeated mistake | **MANDATORY** instruction update |
+
+### How to Update Instructions
+
+```markdown
+## Example: Adding a lesson learned to a prompt
+
+### Before (agent keeps making same mistake):
+- Create web features
+
+### After (agent learned from failure):
+- Create web features
+- **LEARNED**: Always check if similar feature exists before creating (TASK-042 duplicate incident)
+```
+
+### Self-Improvement Checklist
+
+When fixing any issue, ask:
+- [ ] Could this have been prevented with better instructions?
+- [ ] Which agent/file should be updated?
+- [ ] Is this a pattern that might recur?
+- [ ] Have I added a specific rule to prevent this?
+
+### Tracking Improvements
+
+Log instruction updates to `logs/changelog.md`:
+```
+## 2026-01-20
+- [SELF-IMPROVEMENT] Updated developer prompt: Added rule to check for existing features before implementation (learned from TASK-042 duplicate)
+```
+
+### The Goal
+
+**Build better products over time** by continuously refining:
+- Agent prompts (smarter behavior)
+- System rules (fewer edge cases)
+- Documentation (clearer procedures)
+- Error handling (faster recovery)
+
+> **Every mistake is an opportunity to make the system permanently smarter.**
 
 ## Documentation Architecture
 
