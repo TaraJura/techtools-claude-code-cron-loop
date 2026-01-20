@@ -23,15 +23,21 @@ update_orchestrator_status() {
     local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
     local status_file="/var/www/cronloop.techtools.cz/api/agent-status.json"
 
+    # Convert bash boolean to Python boolean
+    local py_running="False"
+    if [ "$running" = "true" ]; then
+        py_running="True"
+    fi
+
     if [ -f "$status_file" ]; then
         python3 << PYTHON
 import json
 try:
     with open("$status_file", "r") as f:
         data = json.load(f)
-    data["orchestrator_running"] = $running
+    data["orchestrator_running"] = $py_running
     data["timestamp"] = "$timestamp"
-    if $running:
+    if $py_running:
         data["orchestrator_started"] = "$timestamp"
     else:
         # Mark all agents as idle when orchestrator finishes
