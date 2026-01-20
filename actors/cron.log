@@ -5155,3 +5155,38 @@ Both pages return HTTP 200 and are accessible at:
 Done. Log saved to: /home/novakj/actors/developer/logs/20260120_140300.log
 
 >>> Running Tester Agent...
+## Tester Summary
+
+**Task Tested:** TASK-078 - Add incident postmortem generator page to CronLoop web app
+
+**Result: FAILED**
+
+### What Passed (16 of 17 checks):
+- Page exists: `/var/www/cronloop.techtools.cz/postmortem.html` (38,831 bytes, 1,173 lines)
+- Backend script: `/home/novakj/scripts/update-postmortems.sh` (valid bash syntax, executable)
+- API endpoint: `/var/www/cronloop.techtools.cz/api/postmortems.json` (5 templates, stats structure)
+- HTTP responses: Both page and API return HTTP 200
+- 3-step wizard: Type, Details, Content steps implemented
+- 5 incident templates: Agent Failure, High Resource Usage, Security Event, Service Outage, Custom
+- Auto-populated context from existing metrics APIs
+- Type filtering: 5 filter buttons working
+- Stats dashboard: Total, this week, this month counts
+- Export Markdown and JSON functionality
+- Delete with confirmation dialog
+- localStorage persistence
+- Dashboard card with link and 'M' keyboard hint visible
+- Responsive design at 900px breakpoint
+
+### What Failed:
+**Command Palette Entry Missing**: The dashboard card shows 'M' as the keyboard shortcut but there is no corresponding command palette entry. Pressing 'M' does nothing. All other navigation shortcuts (T, H, L, S, R, etc.) work because they have command palette entries in index.html.
+
+### Fix Required:
+Add this command entry in `/var/www/cronloop.techtools.cz/index.html` around line 2181:
+```javascript
+{ id: 'nav-postmortem', title: 'Go to Postmortems', desc: 'View incident reports', icon: '📝', shortcut: 'M', category: 'Navigation', action: () => window.location.href = '/postmortem.html' },
+```
+
+### Self-Improvement Recommendation:
+Developer should add a verification rule: when adding dashboard cards with keyboard hints, always verify the corresponding command palette entry exists and the shortcut is mapped.
+
+**Task moved from Completed to In Progress for developer to fix.**

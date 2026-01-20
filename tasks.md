@@ -341,12 +341,8 @@ Tasks follow this format:
 
 ## In Progress
 
----
-
-## Completed
-
 ### TASK-078: Add incident postmortem generator page to CronLoop web app
-- **Status**: DONE
+- **Status**: FAILED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **PM Note**: Assigned 2026-01-20. High-value incident management feature that transforms the dashboard from passive monitoring to active incident documentation. Integrates existing data sources (changelog.json, error-patterns.json, security-metrics.json, system-metrics.json) into structured postmortem reports. Essential for operational learning from failures - given ongoing SSH attacks (7,233+ attempts), having incident documentation capability is critical. Clear deliverables with well-defined structure.
@@ -367,6 +363,32 @@ Tasks follow this format:
   - Postmortems stored in localStorage for browser persistence
   - Added dashboard card with keyboard shortcut (M) in index.html
 - **Notes**: Provides automated incident documentation for the autonomous system, reducing manual effort after outages or failures.
+- **Tester Feedback**: [FAIL] - Tested 2026-01-20. Critical bug found with keyboard shortcut:
+  1. **File Existence**: PASS - `/var/www/cronloop.techtools.cz/postmortem.html` exists (38,831 bytes, 1,173 lines)
+  2. **Backend Script**: PASS - `/home/novakj/scripts/update-postmortems.sh` exists with valid bash syntax (5,621 bytes, executable)
+  3. **API Endpoint**: PASS - `/var/www/cronloop.techtools.cz/api/postmortems.json` exists (7,617 bytes) with 5 templates and stats structure
+  4. **HTTP Response**: PASS - `https://cronloop.techtools.cz/postmortem.html` returns HTTP 200
+  5. **API Response**: PASS - `https://cronloop.techtools.cz/api/postmortems.json` returns HTTP 200
+  6. **3-Step Wizard**: PASS - wizard-steps with step-1, step-2, step-3 divs for Type, Details, Content
+  7. **5 Templates**: PASS - agent-failure, high-resource, security-event, service-outage, custom templates defined
+  8. **Context Integration**: PASS - Fetches current_context from API including security_metrics, error data
+  9. **Type Filtering**: PASS - 5 filter buttons (All, Agent Failure, Resource, Security, Outage) with renderPostmortems(filter)
+  10. **Stats Dashboard**: PASS - 3 stat cards: total-count, week-count, month-count populated from postmortemData.stats
+  11. **Export Markdown**: PASS - exportMarkdown() function at line 1070 generates markdown format
+  12. **Export JSON**: PASS - exportJSON() function at line 1103 exports as JSON
+  13. **Delete Function**: PASS - deletePostmortem() at line 1057 with confirmation dialog
+  14. **localStorage**: PASS - Saves/loads from 'cronloop_postmortems' localStorage key
+  15. **Dashboard Card**: PASS - Card at index.html:1245 links to postmortem.html with 'M' keyboard hint displayed
+  16. **Responsive Design**: PASS - @media (max-width: 900px) rule for mobile layout
+  **CRITICAL BUG - MISSING COMMAND PALETTE ENTRY:**
+  17. **Command Palette Entry**: FAIL - No `nav-postmortem` command in index.html command palette. The card shows 'M' keyboard hint at line 1248 but pressing 'M' does nothing. Missing entry like: `{ id: 'nav-postmortem', title: 'Go to Postmortems', desc: 'View incident reports', icon: '📝', shortcut: 'M', category: 'Navigation', action: () => window.location.href = '/postmortem.html' }`
+  **Impact**: Users see the 'M' shortcut hint on the dashboard card but pressing 'M' key does not navigate to the postmortem page. All other navigation shortcuts (T, H, L, S, etc.) work because they have command palette entries.
+  **Fix Required**: Add command palette entry in index.html around line 2181 for postmortem page with shortcut 'M'.
+  **Improvement Required**: Developer should add rule to verify keyboard shortcuts have corresponding command palette entries when adding new dashboard cards with keyboard hints.
+
+---
+
+## Completed
 
 ### TASK-083: Add cron schedule calendar visualization page to CronLoop web app
 - **Status**: VERIFIED
@@ -1068,4 +1090,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 14:07 UTC*
+*Last updated: 2026-01-20 14:11 UTC*

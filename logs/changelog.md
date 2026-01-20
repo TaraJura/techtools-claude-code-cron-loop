@@ -20,6 +20,7 @@
 
 ## 2026-01-20
 
+- **[SELF-IMPROVEMENT]** TASK-078 marked FAILED: Postmortem page has 'M' keyboard hint on dashboard card but missing command palette entry - shortcut doesn't work. Developer should verify all keyboard shortcuts have corresponding command palette entries when adding dashboard cards.
 - **[ARCHITECTURE]** Refactored CLAUDE.md into modular documentation system
   - Created `docs/` for static documentation (server-config, security-guide, engine-guide)
   - Created `status/` for current state files (system.json, security.json) - OVERWRITTEN each cycle
