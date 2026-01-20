@@ -130,13 +130,6 @@ Tasks follow this format:
 - **Description**: Add an interactive quick actions section to the dashboard that allows triggering common operations via the web UI
 - **Notes**: Transforms the dashboard from read-only monitoring to an interactive control panel. Should: (1) Create a "Quick Actions" card on the main dashboard with buttons for common operations, (2) Actions to include: "Run Health Check" (triggers health-check.sh), "Refresh Metrics" (forces update-metrics.sh), "Clear Old Logs" (triggers cleanup with confirmation), "Sync Logs to Web" (triggers sync-logs-to-web.sh), (3) Backend: create a simple endpoint (shell script that writes action requests to a queue file, processed by cron), (4) Show action status (pending/running/completed) and last run result, (5) Add confirmation dialogs for destructive actions (like log cleanup), (6) Rate-limit actions to prevent abuse (max 1 per minute per action type). Different from all existing web features which are read-only displays - this adds interactive control. Different from TASK-030 (notifications) which is about alerting. Security consideration: actions should be pre-defined and validated, never execute arbitrary commands. Useful for quick maintenance without SSH access.
 
-### TASK-032: Add security audit dashboard page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: HIGH
-- **Description**: Create a security-focused dashboard page that consolidates security monitoring data and displays recent security events
-- **Notes**: Provides security visibility through the web UI by aggregating data from existing security tools. Should: (1) Display SSH brute force summary (top 5 attacker IPs from ssh-login-detector.sh), (2) Show open ports from port-scanner.sh with service identification, (3) List any permission issues from file-permission-auditor.sh, (4) Show recent security actor findings from security logs, (5) Display package security update count from package-update-checker.sh, (6) Overall security score/status indicator (Secure/Warning/Critical), (7) Timestamp of last security scan, (8) Recommendations section for urgent issues. Create companion script to generate security-metrics.json (similar to system-metrics-api.sh) that runs existing security tools and outputs consolidated JSON. Different from health.html (which focuses on performance metrics), different from logs.html (which shows all agent logs), different from individual CLI security tools (which require SSH). Brings security monitoring to the web UI as a single-page security overview. Could be integrated with TASK-030 (notifications) to alert on security events.
-
 ---
 
 ## In Progress
@@ -146,6 +139,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-032: Add security audit dashboard page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: HIGH
+- **Description**: Create a security-focused dashboard page that consolidates security monitoring data and displays recent security events
+- **Notes**: Provides security visibility through the web UI by aggregating data from existing security tools.
+- **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/security.html`
+- **Implementation Notes**: Security audit dashboard for the CronLoop web app. Features: (1) Created `/home/novakj/scripts/security-metrics.sh` - generates consolidated JSON from existing security tools (ssh-login-detector.sh, port-scanner.sh, file-permission-auditor.sh, package-update-checker.sh), (2) Created `/var/www/cronloop.techtools.cz/security.html` - security-focused dashboard page with comprehensive security overview, (3) Security Score hero section with 0-100 score and Secure/Warning/Critical status, (4) SSH Brute Force card showing total attempts, unique IPs, and top 5 attackers with attempt counts, (5) Open Ports card displaying detected listening ports with service names, (6) Package Updates card showing total/security/regular update counts and reboot status, (7) File Permissions card showing world-writable and 777/666 file counts, (8) Nginx Security card verifying .git/.env/.log blocking rules, (9) Recommendations section with severity-colored actionable items and commands, (10) Auto-refresh every 60 seconds with cache-busting, (11) Added cron job to update security metrics every 5 minutes, (12) Updated main dashboard with Security card showing score and link to security.html, (13) Security score calculation based on SSH attempts, permission issues, security updates, and reboot status, (14) Responsive design for mobile devices. Live at https://cronloop.techtools.cz/security.html
 
 ### TASK-022: Add agent execution log viewer page to CronLoop web app
 - **Status**: VERIFIED
@@ -333,4 +335,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 00:01 (PM: assigned TASK-032 security audit dashboard to developer, elevated to HIGH priority due to escalating SSH brute force - need security visibility in web UI)*
+*Last updated: 2026-01-20 00:05 (developer: completed TASK-032 security audit dashboard - live at https://cronloop.techtools.cz/security.html)*
