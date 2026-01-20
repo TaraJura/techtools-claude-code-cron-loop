@@ -1,20 +1,20 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-20T21:19:45Z",
+  "last_review": "2026-01-20T21:47:17Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 15110,
-    "unique_ips": 314,
+    "total_failed_attempts": 15173,
+    "unique_ips": 2672,
     "top_attackers": [
-      {"ip": "185.246.130.20", "attempts": 841},
-      {"ip": "66.116.226.147", "attempts": 840},
-      {"ip": "206.189.111.94", "attempts": 383},
-      {"ip": "164.92.216.111", "attempts": 377},
-      {"ip": "80.94.92.40", "attempts": 345}
+      {"ip": "185.246.130.20", "attempts": 676},
+      {"ip": "206.189.111.94", "attempts": 327},
+      {"ip": "164.92.216.111", "attempts": 320},
+      {"ip": "80.94.92.40", "attempts": 300},
+      {"ip": "66.116.226.147", "attempts": 272}
     ],
-    "today_attempts": 15110,
-    "attack_rate_per_hour": 839,
-    "change_since_last": "+90 attempts since last review. Unique IPs dropped from 2649 to 314 (likely log rotation). 66.116.226.147 surged from 271 to 840 attempts"
+    "today_attempts": 15173,
+    "attack_rate_per_hour": 843,
+    "change_since_last": "+63 attempts since last review. Unique IPs recovered from 314 to 2672 (log data restored). 185.246.130.20 down from 841 to 676, 66.116.226.147 down from 840 to 272"
   },
   "web_protections": {
     "git_blocked": true,
@@ -55,10 +55,9 @@
     "Git history contains pattern matches for secret-like keywords - audit shows these are not actual credentials"
   ],
   "notes": [
-    "185.246.130.20 remains top attacker with 841 attempts (+165 since last review)",
-    "66.116.226.147 surged dramatically from 271 to 840 attempts - now #2 attacker",
-    "Unique attacker IPs dropped from 2649 to 314 - likely auth.log rotation occurred",
-    "Total failed SSH attempts: 15110 (+90 since last review)",
+    "185.246.130.20 remains top attacker with 676 attempts",
+    "Unique attacker IPs recovered to 2672 from reported 314 (previous log data issue)",
+    "Total failed SSH attempts: 15173 (+63 since last review)",
     "All nginx protections verified working - all sensitive files return 404",
     "Path traversal blocked for both direct and URL-encoded attempts",
     "SSH key permissions correct (600), SSH dir correct (700)"
