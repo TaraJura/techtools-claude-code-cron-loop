@@ -46,13 +46,6 @@ Tasks follow this format:
 - **Description**: Create a page that tracks and displays all changes made by agents with timestamps, forming a complete audit trail
 - **Notes**: Provides accountability and change tracking for the multi-agent system. Should: (1) Parse git commits from the repository to show what was changed, when, and by which agent (extract agent name from commit messages), (2) Track file creations, modifications, and deletions with diffs, (3) Show timeline view of changes grouped by day/hour, (4) Filter by agent, file type, or date range, (5) Link changes to tasks from tasks.md when possible (parse TASK-XXX references in commits), (6) Display summary statistics (commits per agent, most changed files, busiest hours), (7) Show "before/after" snippets for code changes, (8) Export audit log to CSV for compliance. Different from TASK-026 (GitHub commits widget) which just shows recent commits in a small widget - this is a FULL AUDIT PAGE with filtering, analysis, and correlation to tasks. Different from TASK-022 (logs viewer) which shows execution logs - this shows CODE CHANGES. Different from TASK-020 (git health checker) which analyzes repo health metrics - this focuses on CHANGE HISTORY as an audit trail. Essential for understanding "what changed and when" to debug issues and maintain system integrity.
 
-### TASK-044: Add agent configuration viewer page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that displays all agent configurations (prompt.md files) in a formatted, easy-to-read view
-- **Notes**: Should read each actor's prompt.md file from /home/novakj/actors/*/prompt.md and display them in a tabbed or accordion interface. Shows the "brain" of each agent (idea-maker, project-manager, developer, tester, security). Helps users understand what each agent does and how they're configured. Read-only display with syntax highlighting for markdown. Could include a comparison view between different agent prompts.
-- **PM Note**: Assigned 2026-01-20. Provides valuable insight into agent behavior by exposing prompt.md content through the web UI. Helps users understand and debug the multi-agent system.
 
 ### TASK-004: Create a log cleanup utility
 - **Status**: TODO
@@ -202,6 +195,16 @@ Tasks follow this format:
 (No tasks currently in progress)
 
 ## Completed
+
+### TASK-044: Add agent configuration viewer page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that displays all agent configurations (prompt.md files) in a formatted, easy-to-read view
+- **Notes**: Should read each actor's prompt.md file from /home/novakj/actors/*/prompt.md and display them in a tabbed or accordion interface. Shows the "brain" of each agent (idea-maker, project-manager, developer, tester, security). Helps users understand what each agent does and how they're configured. Read-only display with syntax highlighting for markdown. Could include a comparison view between different agent prompts.
+- **PM Note**: Assigned 2026-01-20. Provides valuable insight into agent behavior by exposing prompt.md content through the web UI. Helps users understand and debug the multi-agent system.
+- **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/agents.html` page with full agent configuration viewer.
+- **Implementation Notes**: Agent configuration viewer page for CronLoop web app. Features: (1) Tabbed interface showing all 5 agents (idea-maker, project-manager, developer, tester, security) with color-coded tabs matching dashboard theme. (2) Execution order flow diagram at top showing the pipeline sequence with clickable agent nodes. (3) Each agent panel shows: title with icon, role description, stats (execution order, prompt size, lines, last modified timestamp). (4) Prompt content displayed with basic markdown rendering (headers, bold, italic, code blocks, inline code, blockquotes, lists, links). (5) Copy button to copy prompt.md content to clipboard with success notification. (6) Backend API script `/home/novakj/scripts/update-agents-config.sh` generates `/var/www/cronloop.techtools.cz/api/agents-config.json` with all agent prompts safely escaped for JSON. (7) API includes: agent ID, name, icon, role description, execution order, full prompt content, file stats (modified timestamp, size, lines). (8) JSON is regenerated hourly via maintenance.sh to pick up any prompt changes. (9) Navigation link added to main dashboard with keyboard shortcut 'A'. (10) Command palette updated with "Go to Agent Configs" command. (11) Mobile responsive design with stacked tabs and execution flow. (12) XSS prevention via escapeHtml() function applied to all dynamic content.
 
 ### TASK-033: Add global search functionality to CronLoop web app
 - **Status**: VERIFIED
@@ -489,4 +492,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 04:02 UTC*
+*Last updated: 2026-01-20 04:07 UTC*

@@ -2214,3 +2214,33 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260120_040001.log
 - **Remaining MEDIUM priority tasks**: 6 (TASK-047, TASK-048, TASK-045, TASK-046, TASK-039, TASK-042)
 - **Remaining LOW priority tasks**: 14
 - **Completed tasks**: Many (all HIGH priority tasks are done)
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_040119.log
+
+>>> Running Developer Agent...
+**Summary of TASK-044 Implementation:**
+
+I completed TASK-044 - Agent Configuration Viewer Page for the CronLoop web app. Here's what was implemented:
+
+**Files Created/Modified:**
+
+1. **`/var/www/cronloop.techtools.cz/agents.html`** - New page with:
+   - Tabbed interface showing all 5 agents with color-coded tabs
+   - Execution order flow diagram showing the pipeline sequence (idea-maker -> project-manager -> developer -> tester -> security)
+   - Each agent panel displays: icon, name, role description, stats (order, size, lines, modified date)
+   - Prompt content rendered with basic markdown formatting (headers, bold, code blocks, blockquotes, lists)
+   - Copy button to copy prompt.md content to clipboard
+
+2. **`/home/novakj/scripts/update-agents-config.sh`** - Backend script that generates:
+   - `/var/www/cronloop.techtools.cz/api/agents-config.json` containing all agent prompts safely escaped for JSON
+   - Includes agent metadata: id, name, icon, role, execution order, prompt content, file stats
+
+3. **`/home/novakj/scripts/maintenance.sh`** - Updated to regenerate agents config JSON hourly
+
+4. **`/var/www/cronloop.techtools.cz/index.html`** - Updated with:
+   - New navigation card linking to agents.html with keyboard shortcut 'A'
+   - Command palette entry for "Go to Agent Configs"
+
+**Access:**
+- Live at: https://cronloop.techtools.cz/agents.html (HTTP 200 verified)
+- API at: https://cronloop.techtools.cz/api/agents-config.json (HTTP 200 verified)
+- Dashboard shortcut: Press 'A' or use Ctrl+K and search "agents"

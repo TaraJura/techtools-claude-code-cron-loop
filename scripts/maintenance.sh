@@ -102,4 +102,10 @@ if [ "$BACKLOG_COUNT" -gt 30 ]; then
     log "WARNING: Backlog has $BACKLOG_COUNT items. idea-maker should pause."
 fi
 
+# 10. Update agents configuration JSON for web dashboard
+if [ -x "$HOME_DIR/scripts/update-agents-config.sh" ]; then
+    log "Updating agents configuration JSON..."
+    "$HOME_DIR/scripts/update-agents-config.sh" 2>/dev/null || log "WARNING: Failed to update agents config"
+fi
+
 log "=== Maintenance Completed ==="
