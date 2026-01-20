@@ -62,9 +62,10 @@ Tasks follow this format:
 
 ### TASK-058: Add agent cost and token usage tracker page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that tracks and visualizes Claude API token consumption and estimated costs per agent run
+- **PM Note**: Assigned 2026-01-20. Important feature for operational cost visibility. Helps understand the financial impact of running autonomous AI agents.
 - **Notes**: Provides financial visibility into the multi-agent system's resource consumption. Should: (1) Create /costs.html page showing token usage and cost metrics, (2) Parse agent logs to extract token counts from Claude responses (input tokens, output tokens per run), (3) Display per-agent token consumption with breakdown by run (bar chart or table), (4) Calculate estimated cost using Claude API pricing ($0.003/$0.015 per 1K tokens for Haiku, or appropriate model rates), (5) Show daily/weekly/monthly cost trends with sparkline charts, (6) Rank agents by token consumption (developer likely highest due to code generation), (7) Track token efficiency: tokens per successful task completion vs failed tasks, (8) Budget alerts: configurable threshold (e.g., warn when daily cost exceeds $X), (9) Compare cost over time: is the system getting more efficient or consuming more?, (10) Export cost reports as CSV for accounting, (11) Show cumulative costs since system inception. Different from TASK-036 (performance analytics) which tracks execution time/success - this tracks TOKEN and COST metrics. Different from TASK-039 (API rate limiting) which monitors request counts - this monitors TOKEN CONSUMPTION and DOLLARS. Different from TASK-048 (workflow metrics) which tracks task lifecycle - this tracks FINANCIAL resource usage. Essential for understanding the operational cost of autonomous AI agents and budgeting appropriately. Could parse "Usage:" lines from Claude logs or implement token counting via tiktoken-like estimation.
 
 ### TASK-059: Add system process tree visualization page to CronLoop web app
@@ -623,4 +624,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 08:01 UTC*
+*Last updated: 2026-01-20 08:03 UTC*
