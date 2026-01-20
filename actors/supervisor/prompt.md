@@ -99,6 +99,38 @@ You don't check everything every run. Rotate through these areas:
 - [ ] API JSON files valid: Quick syntax check of `/var/www/cronloop.techtools.cz/api/*.json`
 - [ ] Security status: Review `status/security.json` for concerns
 - [ ] Agent prompts consistent: All have SYSTEM CONTEXT header
+- [ ] **TESTER PERFORMANCE**: Is tester doing regression testing? (see below)
+
+### CRITICAL: Monitor Tester Agent Performance
+
+> **The tester is responsible for catching bugs BEFORE users see them.**
+> If users report bugs that the tester should have caught, the tester is failing.
+
+**Check tester is doing their job:**
+```bash
+# 1. Are ALL JSON files valid? (Tester should catch invalid JSON every run)
+for f in /var/www/cronloop.techtools.cz/api/*.json; do
+    python3 -c "import json; json.load(open('$f'))" 2>&1 || echo "TESTER FAILED: $f is invalid!"
+done
+
+# 2. Are all pages returning 200?
+for page in index security health agents tasks logs; do
+    code=$(curl -s -o /dev/null -w "%{http_code}" "https://cronloop.techtools.cz/${page}.html")
+    [ "$code" != "200" ] && echo "TESTER FAILED: ${page}.html returns $code"
+done
+```
+
+**If tester is failing:**
+1. Check tester's recent logs: `ls -la actors/tester/logs/`
+2. Review what tester actually did vs what they should do
+3. Update tester prompt with stronger requirements
+4. Add failing pattern to tester's "Observed Failure Patterns"
+
+**Tester's responsibilities (verify they're doing these):**
+- [ ] Validating ALL JSON files every run
+- [ ] Testing 3-5 existing pages each run (regression)
+- [ ] Testing new DONE tasks
+- [ ] Fixing broken JSON immediately (not waiting for tasks)
 
 ### Monthly Rotation (pick 1 per run)
 - [ ] Log file sizes: Are logs being rotated properly?

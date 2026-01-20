@@ -20,6 +20,25 @@
 
 ## 2026-01-20
 
+- **[BUG FIX]** Fixed 3 broken JSON files that tester should have caught:
+  - `api/security-metrics.json` - malformed JSON (newline in value)
+  - `api/costs.json` - missing leading zeros on decimals, empty value
+  - `api/workflow.json` - missing leading zero on decimal
+  - All pages depending on these were broken (security.html, costs.html, workflow.html)
+
+- **[SELF-IMPROVEMENT]** Major tester prompt overhaul - tester was not doing their job:
+  - Added MANDATORY JSON validation every run
+  - Added regression testing as FIRST priority
+  - Added page health check rotation (3-5 pages per run)
+  - Added "Observed Failure Patterns" tracking
+  - Added explicit lessons learned section
+
+- **[SELF-IMPROVEMENT]** Updated supervisor to monitor tester performance:
+  - Added "Monitor Tester Agent Performance" section
+  - Added commands to verify tester is doing JSON validation
+  - Added tester responsibility checklist
+  - Added concern to supervisor state about tester failure
+
 - **[RULES]** Added Critical Rule #7: KEEP README.md UPDATED
   - README.md must be updated when ecosystem changes
   - Architecture diagram, System Overview, Agents section must stay accurate
