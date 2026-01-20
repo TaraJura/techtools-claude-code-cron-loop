@@ -34,3 +34,15 @@
 0: integer expression expected
 [2026-01-20 01:00:01] === Maintenance Completed ===
 [2026-01-20 01:00:01] === Maintenance Completed ===
+[2026-01-20 02:00:01] === Maintenance Started ===
+[2026-01-20 02:00:01] === Maintenance Started ===
+[2026-01-20 02:00:01] Disk usage: 4% - OK
+[2026-01-20 02:00:01] Disk usage: 4% - OK
+[2026-01-20 02:00:01] Note: 3 uncommitted changes in repository
+[2026-01-20 02:00:01] Note: 3 uncommitted changes in repository
+/home/novakj/scripts/maintenance.sh: line 95: [: 0
+0: integer expression expected
+/home/novakj/scripts/maintenance.sh: line 101: [: 0
+0: integer expression expected
+[2026-01-20 02:00:01] === Maintenance Completed ===
+[2026-01-20 02:00:01] === Maintenance Completed ===

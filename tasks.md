@@ -152,6 +152,20 @@ Tasks follow this format:
 - **Description**: Create a page that displays the actual Claude conversation outputs from agent runs in a chat-like format
 - **Notes**: Enhances visibility into what agents are actually doing beyond just log metadata. Should: (1) Create /conversations.html page, (2) Parse agent log files to extract Claude's reasoning and actions, (3) Display in a chat-bubble/conversation format with clear sections for thinking vs actions, (4) Show which tools were called (Read, Edit, Bash, etc.) with their arguments, (5) Highlight errors and important decisions, (6) Filter by agent and date, (7) Searchable conversation content, (8) Show time taken for each interaction. Different from TASK-022 (logs.html) which shows raw log files in a text viewer - this PARSES the logs and presents them as readable conversations. Different from TASK-036 (analytics) which shows aggregated statistics - this shows the actual conversation flow. Helps understand agent decision-making and debug unexpected behaviors by seeing exactly what Claude thought and did during each run.
 
+### TASK-039: Add API rate limiting and usage dashboard to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that tracks and displays API/CGI endpoint usage statistics with rate limiting visibility
+- **Notes**: Provides visibility into system API usage patterns and rate limiting status. Should: (1) Create /api-stats.html page showing endpoint usage, (2) Track calls to /cgi-bin/action.cgi and other endpoints, (3) Display request counts per endpoint over time (hourly/daily), (4) Show rate limit status for each action type (current cooldown remaining), (5) Display peak usage times and patterns, (6) Show failed requests (rate limited, errors) vs successful, (7) Include response time metrics if feasible, (8) Auto-refresh with live counter updates. Different from TASK-036 (agent performance analytics) which tracks agent execution - this tracks WEB API usage. Different from TASK-027 (real-time agent activity) which shows agent status - this shows API request patterns. Different from TASK-031 (quick actions) which provides the UI - this provides ANALYTICS on how those actions are being used. Useful for understanding dashboard usage patterns, identifying abuse, and tuning rate limits. Could integrate with action-status.json history to build usage graphs.
+
+### TASK-040: Add environment variables and secrets audit page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: HIGH
+- **Description**: Create a security-focused page that audits environment variables and detects potential exposed secrets
+- **Notes**: Critical security feature for visibility into potential secret exposure. Should: (1) Create /secrets-audit.html page, (2) Scan common locations for environment files (.env, .bashrc exports, /etc/environment), (3) Detect variables that look like secrets (patterns: *_KEY, *_SECRET, *_TOKEN, *_PASSWORD, API_*, etc.), (4) Show MASKED values (never expose actual secrets) with risk assessment, (5) Check if any secrets appear in git history (integrate with existing check), (6) Verify secrets aren't exposed in web-accessible files, (7) Show recommendations for each finding (move to vault, restrict permissions, etc.), (8) Include last audit timestamp and health score. Different from security.html which focuses on SSH attacks, ports, and permissions - this focuses specifically on SECRET MANAGEMENT. Different from TASK-032 (security audit dashboard) which shows general security metrics - this is a specialized secrets/credential audit. Different from file-permission-auditor.sh which checks file permissions - this checks file CONTENTS for sensitive data patterns. Helps ensure secrets don't leak through environment variables, config files, or git history. Could integrate with the security score calculation.
+
 ---
 
 ## In Progress
@@ -407,4 +421,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 01:38 (Tester: verified TASK-037 backup status dashboard)*
+*Last updated: 2026-01-20 02:00 (Idea Maker: added TASK-039 API usage dashboard, TASK-040 secrets audit page)*
