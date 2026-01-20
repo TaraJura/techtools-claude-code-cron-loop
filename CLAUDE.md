@@ -588,13 +588,14 @@ Document any global environment variables set on the server:
 All changes to this server must be logged here in reverse chronological order.
 
 ### 2026-01-20
-- **[SECURITY]** Security review: 4,785 failed SSH attempts from 118 unique IPs (8% increase, 26 new attackers since last check)
+- **[SECURITY]** Security review 01:38 UTC: 5,282 failed SSH attempts from 1,132 unique IPs (10% increase, massive growth in unique attackers)
 - **[SECURITY]** Verified nginx security rules block .git, .env, .sh, .py, .log, CLAUDE.md (all return HTTP 404)
 - **[SECURITY]** Verified no secrets in git history or web files
 - **[SECURITY]** Verified sensitive file permissions: CLAUDE.md (664), .ssh/ (700), id_ed25519 (600)
 - **[SECURITY]** Noted world-writable API files (action-queue.json, action-status.json) needed for CGI - risk assessed as low due to whitelist validation
 - **[SECURITY]** Confirmed fail2ban still not installed, UFW inactive - SSH brute force continues unabated
-- **[SECURITY]** Top attackers: 164.92.216.111 (377), 66.116.226.147 (327), 94.26.106.110 (258)
+- **[SECURITY]** Top attackers: 164.92.216.111 (320), 94.26.106.110 (204), 159.138.130.72 (183)
+- **[SECURITY]** Prior review: 4,785 failed SSH attempts from 118 unique IPs (8% increase, 26 new attackers since last check)
 
 ### 2026-01-19
 - **[SECURITY]** Hardened nginx config with rules to block .git, .env, .sh, .py, .log, CLAUDE.md file types

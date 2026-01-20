@@ -354,7 +354,7 @@ Tasks follow this format:
 ---
 
 ### Security Status: 2026-01-20
-- **Last review**: 2026-01-20 01:12 UTC
+- **Last review**: 2026-01-20 01:38 UTC
 - **Critical issues**: 0
 - **Warnings**: 2 (SSH brute force ongoing, world-writable API files)
 - **Status**: NEEDS ATTENTION
@@ -373,25 +373,25 @@ Tasks follow this format:
 11. [VERIFIED] Disk usage healthy (4%)
 12. [VERIFIED] CGI action validation uses whitelist (safe - no arbitrary command execution)
 
-**SSH brute force status (CRITICAL - 8% increase since last check):**
-- Total failed attempts: 4,785 (up from 4,424 last check - +361 attempts)
-- Unique attacking IPs: 118 (up from 92 - 26 new attackers)
+**SSH brute force status (CRITICAL - 10% increase since last check):**
+- Total failed attempts: 5,282 (up from 4,785 last check - +497 attempts)
+- Unique attacking IPs: 1,132 (up from 118 - significant increase in unique attackers)
 - Top attacker IPs:
-  - 164.92.216.111 (377 attempts) - PERSISTENT
-  - 66.116.226.147 (327 attempts) - PERSISTENT
-  - 94.26.106.110 (258 attempts) - PERSISTENT
-  - 159.138.130.72 (247 attempts)
-  - 167.99.210.155 (200 attempts)
-  - 209.38.44.128 (197 attempts)
-  - 209.38.37.169 (176 attempts)
-  - 80.94.92.40 (161 attempts)
-  - 64.225.77.238 (161 attempts)
-  - 159.223.221.195 (146 attempts)
+  - 164.92.216.111 (320 attempts) - PERSISTENT
+  - 94.26.106.110 (204 attempts) - PERSISTENT
+  - 159.138.130.72 (183 attempts) - PERSISTENT
+  - 167.99.210.155 (162 attempts)
+  - 209.38.44.128 (159 attempts)
+  - 209.38.37.169 (150 attempts)
+  - 80.94.92.40 (140 attempts)
+  - 64.225.77.238 (122 attempts)
+  - 159.223.221.195 (120 attempts)
+  - 66.116.226.147 (113 attempts)
 
 **CRITICAL SECURITY GAPS:**
 1. fail2ban NOT INSTALLED - attackers are not being blocked
 2. UFW firewall is INACTIVE - no rate limiting on SSH
-3. SSH brute force continues unabated - 118 unique attacking IPs (growing)
+3. SSH brute force continues unabated - 1,132 unique attacking IPs (massive growth)
 
 **World-writable files analysis:**
 - `/var/www/cronloop.techtools.cz/api/action-queue.json` (666 permissions)
