@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-076: Add bookmark and annotation system to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a system that allows users to bookmark important log entries, tasks, or system events with personal notes, accessible from a centralized /bookmarks.html page
+- **Notes**: Provides personal organization and knowledge management for users monitoring the system. Should: (1) Create /bookmarks.html page showing all saved bookmarks, (2) Add "bookmark" icon button to key pages: logs.html (bookmark specific log entries), changelog.html (bookmark commits), error-patterns.html (bookmark errors), tasks.html (bookmark tasks), (3) Store bookmarks in localStorage with structure: {id, page, target_id, timestamp, note, tags[]}, (4) Bookmarks include optional user note (why was this saved?), (5) Tag system: assign tags like "investigate", "important", "bug", "reference" for filtering, (6) Bookmarks page shows list with quick navigation back to original context, (7) Search bookmarks by note text or tags, (8) Sort by date added, page type, or alphabetically, (9) Export bookmarks as JSON for backup, (10) Import bookmarks from JSON for restore or sharing, (11) Visual indicator on source pages when viewing bookmarked items (star icon), (12) Quick add via keyboard shortcut (B) on supported pages. Different from TASK-055 (activity/annotations) which adds comments to SHARED activity stream - bookmarks are PERSONAL saved references. Different from TASK-074 (settings/preferences) which stores UI preferences - this stores CONTENT references with notes. Different from browser bookmarks which save pages - this saves SPECIFIC items within pages (a particular log line, a specific commit). Helps users track important discoveries, create personal investigation trails, and build institutional knowledge about the system.
+
+### TASK-077: Add system snapshot comparison page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that allows users to take named snapshots of the current system state and compare any two snapshots to see what changed
+- **Notes**: Provides before/after analysis capability for debugging and change validation. Should: (1) Create /snapshots.html page for managing system snapshots, (2) "Take Snapshot" button captures current state: all JSON files in /api/, git status, running processes count, disk/memory/CPU metrics, task counts by status, error patterns summary, (3) Store snapshots in /api/snapshots/ directory as timestamped JSON files, (4) Name snapshots with user-provided label (e.g., "Before deploy", "After fix", "Baseline 2026-01-20"), (5) List all saved snapshots with name, timestamp, and size, (6) Compare mode: select two snapshots and show side-by-side diff, (7) Diff visualization: green for additions, red for removals, yellow for changes in numeric values, (8) Highlight significant changes: task status changes, metric threshold crossings, new errors, (9) Auto-snapshot option: take snapshot before each orchestrator run (configurable), (10) Snapshot retention: keep last 20 snapshots, auto-delete older ones, (11) Export snapshot as downloadable JSON, (12) Quick actions: "Snapshot now", "Compare with previous", "Compare with baseline". Different from TASK-066 (time machine) which reconstructs state from existing history files - this creates EXPLICIT named snapshots on demand. Different from TASK-067 (agent run comparison) which compares agent RUNS - this compares full SYSTEM STATE including metrics, configs, and tasks. Different from backups.html which backs up files for disaster recovery - this creates lightweight STATE snapshots for comparison. Think of it like git commits but for system state - users explicitly save checkpoints they can compare later. Useful for "what changed after I ran that command?" or "compare production state before and after the agent cycle."
+
 ### TASK-072: Add agent communication timeline page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -846,4 +860,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 11:40 UTC*
+*Last updated: 2026-01-20 12:00 UTC*
