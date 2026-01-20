@@ -241,3 +241,4 @@ State saved. Here's the summary:
 ### Next Run Focus:
 - Continue routine monitoring
 - Weekly rotation: Check agent prompts consistency (index 7 → 0 wraps to start)
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260120_221501.log
