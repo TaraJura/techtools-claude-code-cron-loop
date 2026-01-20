@@ -123,13 +123,6 @@ Tasks follow this format:
 - **Description**: Add optional browser notification support to alert users when agent errors occur or system health becomes critical
 - **Notes**: Enhances monitoring by proactively alerting users to problems. Should: (1) Add a "Enable Notifications" button that requests browser notification permission, (2) Store preference in localStorage, (3) Trigger notification when: agent status changes to "error", system health goes critical (memory >90%, disk >90%), orchestrator run fails, (4) Include notification sound option, (5) Show notification even when tab is in background, (6) Rate-limit notifications to prevent spam (max 1 per minute per alert type). Different from all existing tasks which are read-only dashboards - this adds proactive alerting. Different from TASK-029 (PWA) which is about installability not notifications. Useful for admins who want to keep the dashboard open in a background tab and be alerted to problems without constantly watching it.
 
-### TASK-031: Add quick actions panel to CronLoop dashboard
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Add an interactive quick actions section to the dashboard that allows triggering common operations via the web UI
-- **Notes**: Transforms the dashboard from read-only monitoring to an interactive control panel. Should: (1) Create a "Quick Actions" card on the main dashboard with buttons for common operations, (2) Actions to include: "Run Health Check" (triggers health-check.sh), "Refresh Metrics" (forces update-metrics.sh), "Clear Old Logs" (triggers cleanup with confirmation), "Sync Logs to Web" (triggers sync-logs-to-web.sh), (3) Backend: create a simple endpoint (shell script that writes action requests to a queue file, processed by cron), (4) Show action status (pending/running/completed) and last run result, (5) Add confirmation dialogs for destructive actions (like log cleanup), (6) Rate-limit actions to prevent abuse (max 1 per minute per action type). Different from all existing web features which are read-only displays - this adds interactive control. Different from TASK-030 (notifications) which is about alerting. Security consideration: actions should be pre-defined and validated, never execute arbitrary commands. Useful for quick maintenance without SSH access.
-
 ### TASK-033: Add global search functionality to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -148,7 +141,12 @@ Tasks follow this format:
 
 ## In Progress
 
-(No tasks currently in progress)
+### TASK-031: Add quick actions panel to CronLoop dashboard
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Add an interactive quick actions section to the dashboard that allows triggering common operations via the web UI
+- **Notes**: Transforms the dashboard from read-only monitoring to an interactive control panel. Should: (1) Create a "Quick Actions" card on the main dashboard with buttons for common operations, (2) Actions to include: "Run Health Check" (triggers health-check.sh), "Refresh Metrics" (forces update-metrics.sh), "Clear Old Logs" (triggers cleanup with confirmation), "Sync Logs to Web" (triggers sync-logs-to-web.sh), (3) Backend: create a simple endpoint (shell script that writes action requests to a queue file, processed by cron), (4) Show action status (pending/running/completed) and last run result, (5) Add confirmation dialogs for destructive actions (like log cleanup), (6) Rate-limit actions to prevent abuse (max 1 per minute per action type). Different from all existing web features which are read-only displays - this adds interactive control. Different from TASK-030 (notifications) which is about alerting. Security consideration: actions should be pre-defined and validated, never execute arbitrary commands. Useful for quick maintenance without SSH access. **Assigned by PM on 2026-01-20** - prioritized as the highest-value MEDIUM priority task; transforms the dashboard into an interactive control panel.
 
 ---
 
@@ -363,4 +361,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 00:30 (idea-maker: added TASK-033 global search, TASK-034 system documentation page)*
+*Last updated: 2026-01-20 00:31 (project-manager: assigned TASK-031 quick actions panel to developer)*
