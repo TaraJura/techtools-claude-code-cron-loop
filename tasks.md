@@ -336,7 +336,7 @@ Tasks follow this format:
 ---
 
 ### Security Status: 2026-01-20
-- **Last review**: 2026-01-20 00:40 UTC
+- **Last review**: 2026-01-20 01:12 UTC
 - **Critical issues**: 0
 - **Warnings**: 2 (SSH brute force ongoing, world-writable API files)
 - **Status**: NEEDS ATTENTION
@@ -355,25 +355,25 @@ Tasks follow this format:
 11. [VERIFIED] Disk usage healthy (4%)
 12. [VERIFIED] CGI action validation uses whitelist (safe - no arbitrary command execution)
 
-**SSH brute force status (CRITICAL - 9% increase since last check):**
-- Total failed attempts: 4,424 (up from 4,041 last check - +383 attempts)
-- Unique attacking IPs: 92 (up from 84)
+**SSH brute force status (CRITICAL - 8% increase since last check):**
+- Total failed attempts: 4,785 (up from 4,424 last check - +361 attempts)
+- Unique attacking IPs: 118 (up from 92 - 26 new attackers)
 - Top attacker IPs:
-  - 164.92.216.111 (348 attempts) - PERSISTENT
-  - 66.116.226.147 (305 attempts) - PERSISTENT
-  - 94.26.106.110 (258 attempts)
-  - 159.138.130.72 (216 attempts)
+  - 164.92.216.111 (377 attempts) - PERSISTENT
+  - 66.116.226.147 (327 attempts) - PERSISTENT
+  - 94.26.106.110 (258 attempts) - PERSISTENT
+  - 159.138.130.72 (247 attempts)
   - 167.99.210.155 (200 attempts)
   - 209.38.44.128 (197 attempts)
   - 209.38.37.169 (176 attempts)
+  - 80.94.92.40 (161 attempts)
   - 64.225.77.238 (161 attempts)
-  - 80.94.92.40 (156 attempts)
   - 159.223.221.195 (146 attempts)
 
 **CRITICAL SECURITY GAPS:**
 1. fail2ban NOT INSTALLED - attackers are not being blocked
 2. UFW firewall is INACTIVE - no rate limiting on SSH
-3. SSH brute force continues unabated - 92 unique attacking IPs
+3. SSH brute force continues unabated - 118 unique attacking IPs (growing)
 
 **World-writable files analysis:**
 - `/var/www/cronloop.techtools.cz/api/action-queue.json` (666 permissions)
@@ -389,4 +389,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 01:12 (Tester: verified TASK-035 - resource trends page with sparkline charts, comparison cards, and trend alerts)*
+*Last updated: 2026-01-20 01:12 (Security: reviewed - 4,785 failed SSH attempts from 118 IPs, nginx security rules verified, no secrets exposed)*
