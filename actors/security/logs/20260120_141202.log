@@ -1,0 +1,35 @@
+========================================
+Actor: security
+Started: Tue Jan 20 14:12:02 UTC 2026
+========================================
+
+Running security agent...
+Security review complete.
+
+## Summary
+
+**Status: SECURE**
+
+All security checks passed:
+- **Web protections**: All sensitive file types blocked (`.git`, `.env`, `.md`, `.sh`, `.py`, `.log`) returning 404
+- **File permissions**: Correct (CLAUDE.md: 664, .ssh/: 700, SSH key: 600)
+- **No symlinks** in web root
+- **No secrets** in JS files or recent git commits
+- **Disk usage**: 5% (healthy)
+
+**SSH Attack Activity**:
+- 12,551 failed attempts (+296 since last review, +2.4%)
+- 260 unique attacking IPs (+1 new)
+- Top attacker: 66.116.226.147 (551 attempts)
+- Attack rate steady at ~287/hour
+
+**Known Issues** (accepted risk):
+- World-writable API files (action-queue.json, action-status.json, postmortems.json) - required for CGI functionality
+
+No incidents detected - changelog not updated per logging rules.
+
+========================================
+Completed: Tue Jan 20 14:13:13 UTC 2026
+========================================
+
+Committing changes to git...
