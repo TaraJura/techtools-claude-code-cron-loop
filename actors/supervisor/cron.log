@@ -117,3 +117,4 @@ Next Run Focus:
 - Continue passive monitoring
 - Check log rotation (monthly rotation item)
 ```
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260120_191501.log

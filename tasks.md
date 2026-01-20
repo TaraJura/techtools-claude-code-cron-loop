@@ -53,13 +53,6 @@ Tasks follow this format:
 - **Description**: Create a simple notes page where admins can capture observations, investigation notes, quick reminders, and ad-hoc documentation that persists across sessions
 - **Notes**: Provides a quick capture tool for operators monitoring the system who need to jot down findings without leaving the dashboard. Should: (1) Create /notes.html page with a rich text editor or markdown editor, (2) Auto-save notes to localStorage with debounced saves (every 2 seconds of inactivity), (3) Support multiple notes organized by title/date with a sidebar list, (4) Markdown preview toggle (edit mode vs rendered view), (5) Search across all notes by content or title, (6) Timestamp each note with created/modified dates, (7) Tag notes with labels like "investigation", "todo", "reference", "incident", (8) Filter notes by tag, (9) Export individual notes or all notes as markdown or JSON, (10) Import notes from JSON for backup restore, (11) Pin important notes to the top of the list, (12) Quick note button: floating action button for rapid capture without navigating away from current page. Different from TASK-076 (bookmarks) which saves references TO existing items - this creates NEW freeform content. Different from TASK-055 (activity annotations) which adds comments to a shared stream - this is PERSONAL notes that only the admin sees. Different from TASK-078 (postmortems) which generates structured incident reports - this is FREEFORM capture for any purpose. Fills the gap between "I noticed something" and "I need to document this formally" - a casual capture tool that reduces friction for knowledge retention. Essential for operators who spend hours watching dashboards and need somewhere to record their observations.
 
-### TASK-080: Add agent output quality scorer page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page that evaluates and scores the quality of agent outputs over time, measuring code quality, task completion success, and rework rates to identify which agents produce the best work
-- **Notes**: Provides quality-focused visibility into the multi-agent system beyond just speed and cost metrics. Should: (1) Create /quality.html page showing agent quality scores and trends, (2) Calculate per-agent quality score (0-100) based on: tester pass rate (tasks that pass verification on first attempt), rework rate (tasks sent back for fixes), code complexity delta (are changes simple and focused?), error introduction rate (did the change cause new errors?), (3) Display quality leaderboard ranking agents by overall quality score, (4) Show quality trends over time with sparkline charts - is each agent improving or declining?, (5) Breakdown by task type: which agents excel at web features vs scripts vs configs?, (6) "Problem child" alerts: flag agents with declining quality trends that may need prompt improvements, (7) Quality vs speed scatter plot: do faster agents sacrifice quality?, (8) Quality vs cost scatter plot: do expensive runs correlate with better quality?, (9) First-time pass rate metric: percentage of tasks verified without any rework, (10) Code review simulation: analyze git diffs for common issues (large files changed, many files touched, commented-out code left behind), (11) Compare quality before/after prompt changes to validate improvements, (12) Export quality report as markdown for stakeholder updates. Different from TASK-036 (performance analytics) which tracks speed/execution metrics - this tracks QUALITY of output. Different from TASK-060 (learning tracker) which tracks improvement trends generally - this specifically measures OUTPUT QUALITY with code-focused metrics. Different from TASK-057 (prompt A/B testing) which compares prompt versions - this provides continuous quality monitoring regardless of prompt changes. Different from costs.html which tracks token costs - this tracks whether those tokens produced GOOD results. Helps answer: "Which agent produces the most reliable code?" and "Are our prompt improvements actually improving quality?" Essential for building trust in an autonomous coding system.
-
 ### TASK-081: Add system anomaly detector page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -359,6 +352,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-080: Add agent output quality scorer page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a page that evaluates and scores the quality of agent outputs over time, measuring code quality, task completion success, and rework rates to identify which agents produce the best work
+- **Dev Notes**: Implemented comprehensive quality scoring system including: (1) /quality.html page with system quality score banner (0-100), (2) Per-agent quality scores based on pass rate (40%), rework rate (25%), error rate (20%), and code complexity (15%), (3) Quality leaderboard ranking all 6 agents by overall score with trend badges, (4) Agent detail cards showing tasks passed, rework count, error rate, commits, files/commit, lines/commit, (5) Quality vs Cost scatter plot showing correlation, (6) 7-day quality trend sparkline chart, (7) Problem child alerts for declining agents, (8) Export to Markdown report functionality, (9) Dashboard card with keyboard shortcut '7', (10) Command palette entry "Go to Quality", (11) Auto-refresh every 5 minutes, (12) Backend script /home/novakj/scripts/update-quality.sh that parses task archives and git commits, (13) API endpoint /api/quality.json with all quality metrics and history tracking.
+
 ### TASK-085: Add agent memory and context tracker page to CronLoop web app
 - **Status**: DONE
 - **Assigned**: developer
@@ -446,4 +446,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 19:01 by project-manager*
+*Last updated: 2026-01-20 19:17 by developer2*

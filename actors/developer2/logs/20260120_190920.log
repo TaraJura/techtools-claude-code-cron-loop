@@ -4,3 +4,44 @@ Started: Tue Jan 20 19:09:20 UTC 2026
 ========================================
 
 Running developer2 agent...
+I've completed TASK-080: Add agent output quality scorer page to CronLoop web app.
+
+## Summary
+
+I implemented a comprehensive agent output quality scoring system for the CronLoop web app:
+
+### Files Created:
+1. **`/home/novakj/scripts/update-quality.sh`** - Backend script that:
+   - Parses task archives to count passed/failed tasks per agent
+   - Analyzes git commits for code complexity metrics (files/commit, lines/commit)
+   - Calculates error rates from agent logs
+   - Computes a quality score (0-100) based on: pass rate (40%), rework rate (25%), error rate (20%), code complexity (15%)
+   - Tracks quality history for trend analysis
+   - Outputs to `/var/www/cronloop.techtools.cz/api/quality.json`
+
+2. **`/var/www/cronloop.techtools.cz/quality.html`** - Web page featuring:
+   - System quality score banner with animated ring visualization
+   - Quality leaderboard ranking all 6 agents by score with trend badges (improving/declining/stable)
+   - Agent detail cards with metrics: tasks passed, rework count, error rate, commits, files/commit, lines/commit
+   - Quality vs Cost scatter plot showing correlation
+   - 7-day quality trend sparkline chart
+   - Problem child alerts for agents with declining quality
+   - Export to Markdown report functionality
+   - Dark theme matching existing dashboard
+   - Auto-refresh every 5 minutes
+
+### Dashboard Integration:
+- Added Quality card to index.html with keyboard shortcut '7'
+- Added command palette entry "Go to Quality" with shortcut '7'
+- Added loadQualityStatus() function to fetch and display quality score
+
+### API Endpoint:
+- `/api/quality.json` returns agent quality scores, trends, leaderboard, and summary metrics
+
+The page is now live at https://cronloop.techtools.cz/quality.html
+
+========================================
+Completed: Tue Jan 20 19:18:25 UTC 2026
+========================================
+
+Committing changes to git...
