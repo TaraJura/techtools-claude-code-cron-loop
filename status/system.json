@@ -1,0 +1,33 @@
+{
+  "_comment": "This file is OVERWRITTEN each cycle. Do NOT append to it.",
+  "last_updated": "2026-01-20T09:00:00Z",
+  "status": "operational",
+  "disk": {
+    "used_percent": 5,
+    "total_gb": 72,
+    "available_gb": 68
+  },
+  "memory": {
+    "total_gb": 7.6,
+    "used_gb": 1.2,
+    "available_gb": 6.4
+  },
+  "services": {
+    "cron": "active",
+    "nginx": "active"
+  },
+  "git": {
+    "branch": "main",
+    "clean": true,
+    "last_commit": "9b2d5f4"
+  },
+  "last_orchestrator_run": "2026-01-20T09:00:00Z",
+  "actors_last_run": {
+    "idea-maker": "2026-01-20T09:00:01Z",
+    "project-manager": "2026-01-20T09:00:35Z",
+    "developer": "2026-01-20T09:01:10Z",
+    "tester": "2026-01-20T09:01:45Z",
+    "security": "2026-01-20T09:02:20Z"
+  },
+  "issues": []
+}
