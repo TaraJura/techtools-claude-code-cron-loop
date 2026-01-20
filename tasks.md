@@ -347,16 +347,18 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-073: Add system alert rules builder page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page that allows users to define custom alert rules using a visual builder (e.g., "if disk > 85% AND memory > 80% for 5 minutes, show critical alert")
-- **Notes**: Enables proactive monitoring customization without editing code or configs
+*No tasks currently in progress*
 
 ---
 
 ## Completed
+
+### TASK-073: Add system alert rules builder page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a page that allows users to define custom alert rules using a visual builder (e.g., "if disk > 85% AND memory > 80% for 5 minutes, show critical alert")
+- **Notes**: Implemented alert rules builder system with: (1) Created /alerts.html page with visual rule builder interface, (2) Visual rule builder with dropdowns: metric (disk, memory, CPU, SSH attempts, agent errors, daily cost, tokens), operator (>, <, >=, <=, ==, !=), threshold value, duration (immediate, 5min, 15min, 1hr), (3) Support AND/OR conditions for compound rules, (4) Alert severity levels: info (blue), warning (yellow), critical (red), (5) Alert actions: show banner on dashboard, play sound, add to activity feed, (6) Store rules in localStorage with /api/alert-rules.json backup, (7) Created /home/novakj/scripts/evaluate-alerts.sh backend script for rule evaluation via cron or action processor, (8) Alert history log showing when each rule triggered with timestamp and resolved timestamp, (9) Built-in rule templates: Low disk space, High memory pressure, SSH brute force spike, Agent failures, Cost threshold exceeded, (10) Test rule button to simulate rule against current metrics, (11) Snooze feature to temporarily disable triggered alerts for 1 hour, (12) Dashboard card with keyboard shortcut (!) and command palette entry, (13) Added evaluate_alerts action to action-processor.sh
 
 ### TASK-076: Add bookmark and annotation system to CronLoop web app
 - **Status**: DONE
@@ -391,4 +393,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 21:14 UTC by developer*
+*Last updated: 2026-01-20 21:11 UTC by developer2*
