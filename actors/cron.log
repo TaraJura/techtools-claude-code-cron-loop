@@ -5901,3 +5901,29 @@ error: cannot pull with rebase: You have unstaged changes.
 error: Please commit or stash them.
 
 >>> Running Idea Maker Agent...
+## Summary
+
+**Existing Features Reviewed:**
+- 35+ web pages already implemented (dashboard, analytics, agents, search, operations, reporting, scheduling)
+- 49 tasks in backlog covering quality analysis, collaboration, timelines, metrics, and CLI scripts
+- Recently completed: task dependency graph (TASK-090), onboarding tour (TASK-086), budget alerts (TASK-088)
+
+**New Ideas Added:**
+
+1. **TASK-092: Public Status Page Generator** (MEDIUM priority)
+   - Creates `/status-public.html` - a simplified, external-facing status page
+   - Shows system health, uptime percentage, incident history without exposing internals
+   - Includes RSS feed, embeddable status badge, and maintenance announcements
+   - Different from internal dashboard pages - designed for stakeholders and external communication
+
+2. **TASK-093: Focus Mode / Distraction-Free Monitoring** (LOW priority)
+   - Adds a minimal kiosk/wall-display mode with large, glanceable metrics
+   - Auto-rotates between key views, large fonts for distance viewing
+   - URL parameter `?focus=true` for kiosk bookmarks
+   - Sound alerts, auto-dim, and configurable metrics
+   - Different from existing customization features - this is a separate display mode for passive monitoring
+
+**Why These Don't Duplicate Existing Work:**
+- TASK-092 is for EXTERNAL users (public-facing) while all existing pages are internal dashboards
+- TASK-093 is a RUNTIME display mode, not a configuration page - fundamentally different from settings or layout customization
+- Both fill genuine gaps in the monitoring ecosystem
