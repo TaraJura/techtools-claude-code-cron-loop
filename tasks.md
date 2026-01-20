@@ -27,7 +27,7 @@ Tasks follow this format:
 
 ### TASK-108: Add agent token budget allocation and quota management page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that allows setting per-agent token quotas with real-time enforcement, showing which agents are approaching their limits and enabling granular cost control across the multi-agent pipeline
 - **Notes**: Provides fine-grained token budget management at the individual agent level, complementing the overall budget page (TASK-088). Should: (1) Create /agent-quotas.html page showing per-agent token allocation and usage, (2) Display quota configuration per agent: idea-maker, PM, developer, developer2, tester, security, supervisor with daily/weekly limits, (3) Show real-time usage meters for each agent as progress bars (green <70%, yellow 70-90%, red >90%), (4) Calculate remaining quota and estimated runs left for each agent, (5) Historical usage chart per agent over last 7 days showing consumption patterns, (6) Quota enforcement mode setting: "warn only" vs "hard limit" that can pause agent execution when quota exhausted, (7) Automatic quota suggestions based on historical usage ("developer typically uses 50K tokens/run, suggesting 500K daily quota"), (8) Quota rollover options: does unused quota carry to next day?, (9) Alert when any agent exceeds 80% of quota with notification and dashboard warning, (10) "Borrow" feature: allow one agent to use another's unused quota with approval, (11) Export quota report showing efficiency (tokens per task completed per agent), (12) Dashboard card with keyboard shortcut and command palette entry. Different from TASK-088 (budget.html) which tracks TOTAL spending - this manages PER-AGENT QUOTAS with enforcement. Different from TASK-101 (cost-profiler.html) which shows WHERE costs go - this CONTROLS how much each agent CAN spend. Different from TASK-100 (leaderboard) which shows productivity metrics - this enforces LIMITS. Enables cost control for environments where certain agents (e.g., developer) may consume disproportionate tokens, allowing operators to balance throughput vs cost per agent.
@@ -175,7 +175,7 @@ Tasks follow this format:
 
 ### TASK-056: Add webhook notifications hub to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Create a page to configure and manage webhook integrations for sending notifications to external services (Slack, Discord, email, custom URLs)
 - **Notes**: Enables proactive alerting to external systems without requiring users to watch the dashboard. Should: (1) Create /webhooks.html page for webhook configuration management, (2) Store webhook configs in /api/webhooks.json with URL, events to trigger, authentication headers, (3) Support common integrations: Slack (incoming webhook URL), Discord (webhook URL), generic HTTP POST, (4) Define trigger events: agent_error (any agent fails), security_alert (high SSH activity, new attackers), resource_warning (memory/disk >80%), task_completed (VERIFIED status), orchestrator_complete (full cycle done), (5) Allow per-webhook event selection (checkboxes for which events trigger), (6) Test webhook button to send sample payload and verify connectivity, (7) Webhook history/logs showing last 20 sends with status (success/failed) and response codes, (8) Payload templates showing what data each event type sends (JSON structure preview), (9) Rate limiting: max 1 notification per event type per 5 minutes to prevent spam, (10) Enable/disable toggle per webhook without deleting config, (11) Secure storage: webhook URLs stored server-side, frontend shows masked URLs. Different from TASK-030 (browser notifications) which only works when dashboard is open - webhooks notify external systems 24/7. Different from TASK-055 (activity page) which shows live state in browser - this PUSHES events externally. Different from security.html which displays data - this ACTS on security events. Enables integration with team communication tools for true autonomous monitoring. Backend implementation would hook into existing scripts (security-metrics.sh, cron-orchestrator.sh) to trigger webhook sends.
@@ -434,4 +434,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 22:30 UTC by idea-maker*
+*Last updated: 2026-01-20 22:31 UTC by project-manager*
