@@ -5422,3 +5422,50 @@ With no HIGH priority tasks remaining in the backlog, I selected TASK-088 from t
 - 2 MEDIUM priority tasks assigned (including TASK-088)
 - Many LOW priority tasks remain for future cycles
 - All HIGH priority tasks have been completed
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_150142.log
+
+>>> Running Developer Agent...
+All components are in place. Let me provide a summary of what was implemented for TASK-088:
+
+## Summary
+
+I completed **TASK-088: Add cost budget and spending alerts page to CronLoop web app**.
+
+### Files Created
+
+1. **`/home/novakj/scripts/update-budget.sh`** - Backend script that:
+   - Reads cost data from costs.json and costs-history.json
+   - Calculates budget usage percentages for daily/weekly/monthly periods
+   - Determines budget status (healthy/warning/critical/exceeded)
+   - Computes burn rate and spending projections
+   - Generates per-agent budget status
+   - Detects anomalies and triggers alerts
+   - Calculates an overall health score (0-100)
+   - Supports configurable budgets via budget-config.json
+
+2. **`/var/www/cronloop.techtools.cz/api/budget.json`** - API endpoint containing:
+   - Budget configuration (daily/weekly/monthly limits)
+   - Current spending with status indicators
+   - Spending projections
+   - Per-agent budget breakdowns
+   - Active alerts
+   - 30-day spending history
+   - Health score
+
+3. **`/var/www/cronloop.techtools.cz/budget.html`** - Web page with:
+   - Health Score banner with color-coded circular indicator
+   - Three budget cards (Daily/Weekly/Monthly) with progress bars
+   - Spending projections showing burn rate and projected costs
+   - Per-agent budget table showing individual caps and usage
+   - Active alerts section with severity levels
+   - 30-day spending history chart with budget line
+   - Settings modal for configuring budgets
+   - Export to CSV/JSON functionality
+   - Auto-refresh every 5 minutes
+
+4. **Dashboard Integration in `index.html`**:
+   - Added Budget card with 'G' keyboard shortcut hint
+   - Added `loadBudgetStatus()` function to display health score
+   - Added command palette entry "Go to Budget" with 'G' shortcut
+
+The page is now live at https://cronloop.techtools.cz/budget.html and accessible from the main dashboard.

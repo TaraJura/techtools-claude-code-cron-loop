@@ -25,14 +25,6 @@ Tasks follow this format:
 - **Description**: Create an interactive guided tour that introduces new users to the CronLoop dashboard features, and an onboarding page that explains the multi-agent system with step-by-step walkthroughs
 - **Notes**: Provides first-time user experience and reduces learning curve for the 23+ page dashboard. Should: (1) Create /onboarding.html page with system overview and feature explanations, (2) Implement interactive tour using highlight overlays that guide users through key dashboard elements, (3) Tour stops: main dashboard cards, navigation menu, command palette (Ctrl+K), keyboard shortcuts, settings, agent status indicators, (4) Progress tracking: store tour completion state in localStorage, show "Resume Tour" button for incomplete tours, (5) Feature discovery badges: subtle indicators on features user hasn't explored yet, (6) Quick-start checklist: "View system health", "Check agent logs", "Review security status", "Customize settings", (7) Video-style animated GIFs or simple animations showing how features work, (8) Contextual help tooltips: hover ? icons on complex cards to see brief explanations, (9) "What's New" section highlighting recently added features (parse from changelog.json), (10) Role-based tour paths: "I'm a developer" vs "I'm a sysadmin" vs "I'm just exploring" - each shows different relevant features first, (11) Skip tour option that remembers preference, (12) Re-trigger tour from settings page or help menu. Different from TASK-034 (documentation/help page) which provides static reference documentation - this is INTERACTIVE GUIDED tour with step-by-step overlays. Different from settings.html which configures preferences - this TEACHES how to use the system. Different from existing keyboard shortcut references - this provides HANDS-ON practice. With 23+ pages, 30+ keyboard shortcuts, and a complex multi-agent architecture, onboarding is essential for new users to understand and effectively use the dashboard. First impressions matter.
 
-### TASK-088: Add cost budget and spending alerts page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **PM Note**: Assigned 2026-01-20. Critical safety feature for autonomous system running 24/7. Provides financial controls and budget enforcement to prevent runaway costs. Builds on existing costs.html (historical data) by adding forward-looking budgets and alerts. High user value for production deployments.
-- **Description**: Create a page that allows users to set token/cost budgets for the multi-agent system with configurable alerts when spending approaches or exceeds limits
-- **Notes**: Provides financial control over the autonomous system that runs 24/7 and incurs real API costs. Should: (1) Create /budget.html page for budget configuration and tracking, (2) Allow setting daily, weekly, and monthly token/cost limits per agent and system-wide, (3) Display current spending vs budget with visual progress bars (green <70%, yellow 70-90%, red >90%), (4) Calculate burn rate: current spending pace and projected end-of-period spend, (5) Alert thresholds: trigger warnings at 50%, 75%, 90%, 100% of budget (configurable), (6) Budget history chart: show spending trends vs budget limits over past 30 days, (7) Per-agent budget allocation: set individual caps (e.g., developer max $5/day, idea-maker max $1/day), (8) "Pause on budget exceeded" option: automatically skip agent runs when budget is exhausted (configurable per agent), (9) Cost anomaly detection: alert when single run costs >3x average, (10) Budget rollover options: unused budget carries forward or resets, (11) Export spending reports as CSV for accounting, (12) Integration with TASK-073 (alert rules) and TASK-056 (webhooks) for external notifications. Different from costs.html which shows HISTORICAL spending - this provides BUDGETING and FORWARD-LOOKING controls. Different from TASK-058 (cost tracker) which tracks usage - this sets LIMITS and ALERTS. Different from forecast.html which predicts resources - this specifically manages FINANCIAL CONSTRAINTS on the AI system. Essential for production deployments where runaway costs could be a concern. With the system running every 30 minutes, a bad prompt could rack up significant charges before anyone notices - budgets provide a safety net.
-
 ### TASK-089: Add agent failure cascade analyzer page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -375,6 +367,31 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-088: Add cost budget and spending alerts page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **PM Note**: Assigned 2026-01-20. Critical safety feature for autonomous system running 24/7. Provides financial controls and budget enforcement to prevent runaway costs.
+- **Description**: Create a page that allows users to set token/cost budgets for the multi-agent system with configurable alerts when spending approaches or exceeds limits
+- **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/budget.html` page with comprehensive budget management functionality.
+- **Implementation Details**:
+  - Created `/home/novakj/scripts/update-budget.sh` backend script to calculate budget metrics from costs data
+  - Created `/var/www/cronloop.techtools.cz/api/budget.json` API endpoint with budget configuration and spending data
+  - Created `/var/www/cronloop.techtools.cz/budget.html` page with full budget management features
+  - Health Score banner (0-100) showing overall budget health with color-coded indicator
+  - Daily/Weekly/Monthly budget tracking with progress bars (green <70%, yellow 70-90%, red >90%)
+  - Per-agent budget allocation showing individual caps and usage per agent
+  - Spending projections: daily burn rate, projected weekly/monthly spend, over-budget warnings
+  - Active alerts section showing triggered budget alerts with severity levels
+  - 30-day spending history chart comparing actual costs vs budget limits
+  - Budget configuration modal for setting daily/weekly/monthly limits, alert thresholds, rollover options
+  - Export to CSV and JSON for accounting and external analysis
+  - Dashboard card with 'G' keyboard shortcut added to index.html
+  - Command palette entry "Go to Budget" with shortcut 'G'
+  - Auto-refresh every 5 minutes
+  - Dark theme matching main dashboard with responsive mobile design
+- **Notes**: Provides forward-looking budget controls complementing costs.html (historical spending).
 
 ### TASK-078: Add incident postmortem generator page to CronLoop web app
 - **Status**: VERIFIED
@@ -1107,4 +1124,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 15:02 UTC*
+*Last updated: 2026-01-20 15:10 UTC*
