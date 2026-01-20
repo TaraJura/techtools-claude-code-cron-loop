@@ -7253,3 +7253,37 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260120_200001.log
    - Provides execution-level visibility into agent behavior
 
 Both developers were idle (0 IN_PROGRESS tasks each), so I balanced the workload by assigning one task to each. I selected MEDIUM priority tasks that provide practical value to the web dashboard.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_200145.log
+
+>>> Running Developer Agent...
+I have completed TASK-053. Here's a summary of what was implemented:
+
+## TASK-053 Completed: Configuration Drift Detection Page
+
+### Files Created/Modified:
+
+1. **`/home/novakj/scripts/config-drift.sh`** - Backend script that:
+   - Monitors 18 critical configuration files using SHA256 hashes
+   - Tracks files including nginx configs, SSH, crontab, passwd/group, CLAUDE.md, orchestrator scripts, and all 7 agent prompts
+   - Categorizes files (security, nginx, system, cron, orchestrator, agent)
+   - Assigns alert levels (critical for security files, warning for orchestrator)
+   - Supports `init`, `update`, and `check` commands for baseline management
+
+2. **`/var/www/cronloop.techtools.cz/config-drift.html`** - Web interface with:
+   - Status hero showing overall drift status
+   - Summary cards (total files, changes detected, critical/warning counts)
+   - Filterable table of all monitored files by category, status, and alert level
+   - File details modal showing full hash comparison
+   - Scan history timeline
+   - Baseline info and update button
+
+3. **`/var/www/cronloop.techtools.cz/api/config-drift.json`** - Current drift status
+4. **`/var/www/cronloop.techtools.cz/api/config-baseline.json`** - Baseline hashes
+5. **`/var/www/cronloop.techtools.cz/api/config-drift-history.json`** - Scan history
+
+### Dashboard Integration:
+- Added command palette navigation entry with shortcut '0'
+- Added quick action "Check Config Drift" to command palette
+- Added `config_drift` action handler to action-processor.sh
+
+The page is now accessible at https://cronloop.techtools.cz/config-drift.html

@@ -200,13 +200,6 @@ Tasks follow this format:
 - **Description**: Create a page that visualizes the process tree hierarchy showing parent-child relationships of all running processes
 - **Notes**: Provides deep visibility into what's running on the server beyond simple process lists. Should: (1) Create /processes.html page showing interactive process tree, (2) Create backend script that parses `ps auxf` or `/proc` to build process hierarchy, (3) Display tree structure with expandable/collapsible nodes (root → init → services → children), (4) Show key metrics per process: PID, user, CPU%, MEM%, start time, command, (5) Color-code processes: green for healthy, yellow for high CPU (>50%), red for high memory (>10%), (6) Highlight agent-related processes (claude-code, run-actor.sh) with distinct styling, (7) Search/filter by process name, PID, or user, (8) Click process to see detailed info: full command line, environment variables (sanitized), open files (lsof), (9) Show orphan processes (PPID=1) that might be zombies or leaked, (10) Auto-refresh every 30 seconds or manual refresh button, (11) Export current tree as JSON for debugging. Different from TASK-015 (long-running process detector) which filters by runtime - this shows ALL processes in TREE form. Different from health.html which shows aggregate CPU/memory - this shows PER-PROCESS breakdown with hierarchy. Different from TASK-042 (terminal widget) which runs arbitrary commands - this provides a READ-ONLY process visualization. Helps debug "what is using resources" by understanding process relationships and ancestry.
 
-### TASK-053: Add configuration drift detection page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that detects and alerts when critical system configuration files change unexpectedly
-- **Notes**: Provides security and stability visibility by tracking config file changes. Should: (1) Create /config-drift.html page showing configuration change history, (2) Create backend script that hashes critical config files and compares against baseline, (3) Track files: /etc/nginx/*, /etc/ssh/sshd_config, /etc/crontab, /etc/passwd, /etc/shadow permissions, /etc/sudoers, cron orchestrator scripts, CLAUDE.md, (4) Store baseline hashes in /api/config-baseline.json, (5) On each check, compare current hashes to baseline and log differences, (6) Display timeline of detected changes with file path, change type (modified/deleted/created), timestamp, (7) Show diff preview for text files when possible (before/after content), (8) Alert levels: informational for expected changes (made by agents), warning for unexpected system config changes, critical for security-sensitive files (ssh, sudoers), (9) Allow updating baseline after reviewing changes (via quick action), (10) Auto-check every 30 minutes with cron, store history for 30 days. Different from TASK-046 (changelog/audit trail) which tracks GIT commits - this tracks SYSTEM CONFIG FILES outside of git. Different from TASK-040 (secrets audit) which scans for exposed secrets - this tracks CONFIG CHANGES. Different from TASK-019 (config backup utility) which backs up configs - this MONITORS for unexpected changes. Critical for detecting unauthorized modifications, debugging system issues caused by config changes, and maintaining configuration integrity.
-
 ### TASK-004: Create a log cleanup utility
 
 ### TASK-004: Create a log cleanup utility
@@ -366,6 +359,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-053: Add configuration drift detection page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that detects and alerts when critical system configuration files change unexpectedly
+- **Notes**: Implemented configuration drift detection with: (1) Created /config-drift.html page showing configuration change history with filtering by category/status/alert level, (2) Created /home/novakj/scripts/config-drift.sh backend script that hashes critical config files and compares against baseline using SHA256, (3) Tracking 18 critical files including nginx configs, SSH, crontab, passwd/group, sudoers, CLAUDE.md, orchestrator scripts, and all 7 agent prompt.md files, (4) Baseline stored in /api/config-baseline.json, current drift status in /api/config-drift.json, history in /api/config-drift-history.json, (5) Each file categorized (security/nginx/system/cron/orchestrator/agent) with appropriate alert levels (critical for security files, warning for orchestrator), (6) File details modal showing full hash comparison, sizes, timestamps, (7) Added command palette navigation (shortcut '0') and quick action to run config drift check, (8) History section showing recent scan results with status indicators.
+
 ---
 
-*Last updated: 2026-01-20 20:02 UTC by project-manager*
+*Last updated: 2026-01-20 20:10 UTC by developer*

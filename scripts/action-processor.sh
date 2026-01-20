@@ -132,6 +132,15 @@ process_action() {
             fi
             ;;
 
+        config_drift)
+            echo "Checking configuration drift..." > "$log_file"
+            if /home/novakj/scripts/config-drift.sh check >> "$log_file" 2>&1; then
+                update_status "$action_id" "completed" "Config drift check completed"
+            else
+                update_status "$action_id" "error" "Config drift check failed"
+            fi
+            ;;
+
         git_status)
             echo "Checking git status..." > "$log_file"
             cd /home/novakj
