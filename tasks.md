@@ -95,12 +95,6 @@ Tasks follow this format:
 - **Description**: Create a page that allows users to take named snapshots of the current system state and compare any two snapshots to see what changed
 - **Notes**: Provides before/after analysis capability for debugging and change validation. Should: (1) Create /snapshots.html page for managing system snapshots, (2) "Take Snapshot" button captures current state: all JSON files in /api/, git status, running processes count, disk/memory/CPU metrics, task counts by status, error patterns summary, (3) Store snapshots in /api/snapshots/ directory as timestamped JSON files, (4) Name snapshots with user-provided label (e.g., "Before deploy", "After fix", "Baseline 2026-01-20"), (5) List all saved snapshots with name, timestamp, and size, (6) Compare mode: select two snapshots and show side-by-side diff, (7) Diff visualization: green for additions, red for removals, yellow for changes in numeric values, (8) Highlight significant changes: task status changes, metric threshold crossings, new errors, (9) Auto-snapshot option: take snapshot before each orchestrator run (configurable), (10) Snapshot retention: keep last 20 snapshots, auto-delete older ones, (11) Export snapshot as downloadable JSON, (12) Quick actions: "Snapshot now", "Compare with previous", "Compare with baseline". Different from TASK-066 (time machine) which reconstructs state from existing history files - this creates EXPLICIT named snapshots on demand. Different from TASK-067 (agent run comparison) which compares agent RUNS - this compares full SYSTEM STATE including metrics, configs, and tasks. Different from backups.html which backs up files for disaster recovery - this creates lightweight STATE snapshots for comparison. Think of it like git commits but for system state - users explicitly save checkpoints they can compare later. Useful for "what changed after I ran that command?" or "compare production state before and after the agent cycle."
 
-### TASK-072: Add agent communication timeline page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page that visualizes the sequence of tool calls and file operations each agent makes during a run as an interactive timeline diagram
-- **Notes**: Provides execution-level visibility into what agents actually DO during their runs. Should: (1) Create /timeline.html page showing agent execution as a visual timeline, (2) Parse agent logs to extract tool calls (Read, Edit, Write, Bash, Grep, Glob) with timestamps and arguments, (3) Display as a horizontal or vertical timeline with nodes for each operation, (4) Color-code by tool type: blue for Read, green for Edit/Write, orange for Bash, purple for Grep/Glob, (5) Show file paths as hoverable tooltips on timeline nodes, (6) Click node to expand details: full arguments, result snippet, duration, (7) Filter by tool type (show only Bash commands, only file operations, etc.), (8) Filter by agent and date range, (9) Show parallel operations when agents run concurrently (if orchestrator runs multiple agents), (10) Aggregate statistics: total tool calls, most-read files, most-edited files, avg operation time, (11) Detect patterns like "read-edit-read-edit" cycles that indicate iterative debugging, (12) Export timeline as JSON or SVG for documentation. Different from TASK-038 (conversation viewer) which shows Claude's thinking/text - this shows TOOL OPERATIONS as a timeline. Different from TASK-070 (replay simulator) which plays back step-by-step - this shows the FULL timeline at once as a visualization. Different from TASK-028 (cron execution timeline) which shows orchestrator runs - this shows TOOL-LEVEL operations within a single run. Different from architecture.html which shows static agent relationships - this shows DYNAMIC execution patterns. Helps answer "what files did the developer touch?" and "how much time was spent reading vs writing?" by visualizing the execution trace.
 
 ### TASK-075: Add agent prompt evolution viewer page to CronLoop web app
 - **Status**: TODO
@@ -359,6 +353,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-072: Add agent communication timeline page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a page that visualizes the sequence of tool calls and file operations each agent makes during a run as an interactive timeline diagram
+- **Notes**: Implemented agent timeline visualization with: (1) Created /timeline.html page showing agent execution as a visual timeline with vertical timeline layout, (2) Created /home/novakj/scripts/update-timeline.sh backend script that parses agent logs to extract tool calls (Read, Edit, Write, Bash) with timestamps, (3) Timeline data stored in /api/timeline.json, (4) Color-coded by tool type: blue for Read, green for Write/Edit, orange for Bash, purple for Grep/Glob, (5) File paths shown in each timeline event, (6) Click events to show operation details in modal, (7) Filter by tool type using clickable legend, (8) Filter by agent and date range (today, 24h, 7d, all), (9) Summary statistics showing total sessions, operations, files touched, reads, writes, and bash commands, (10) Pattern detection showing most touched files, most active agents, and most common operations, (11) Export timeline as JSON button, (12) Added command palette navigation (shortcut '-') and quick action to update timeline data.
+
 ### TASK-053: Add configuration drift detection page to CronLoop web app
 - **Status**: DONE
 - **Assigned**: developer
@@ -368,4 +369,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 20:10 UTC by developer*
+*Last updated: 2026-01-20 20:15 UTC by developer2*

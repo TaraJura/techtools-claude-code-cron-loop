@@ -141,6 +141,15 @@ process_action() {
             fi
             ;;
 
+        update_timeline)
+            echo "Updating agent timeline..." > "$log_file"
+            if /home/novakj/scripts/update-timeline.sh >> "$log_file" 2>&1; then
+                update_status "$action_id" "completed" "Timeline data updated"
+            else
+                update_status "$action_id" "error" "Timeline update failed"
+            fi
+            ;;
+
         git_status)
             echo "Checking git status..." > "$log_file"
             cd /home/novakj
