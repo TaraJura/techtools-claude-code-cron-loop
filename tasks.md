@@ -60,14 +60,6 @@ Tasks follow this format:
 - **Description**: Create a page to track agent prompt versions over time and compare their effectiveness through A/B testing metrics
 - **Notes**: Enables data-driven prompt optimization for the multi-agent system. Should: (1) Create /prompts.html page for prompt versioning and testing, (2) Track git history of actors/*/prompt.md files to show version timeline, (3) Display diff between prompt versions (highlight what changed), (4) Associate each agent run with the prompt version active at that time (store version hash in logs), (5) Calculate success metrics per prompt version: success rate (DONE/VERIFIED vs errors), average execution time, lines of code changed, rework rate (tasks needing fixes), (6) Comparison table: version A vs version B showing all metrics side-by-side, (7) Statistical significance indicator (enough samples? confident conclusion?), (8) Prompt changelog: what was the intent of each change? (auto-extract from git commit messages), (9) "Rollback" button to revert to previous prompt version if current performs worse, (10) Prompt templates library: save effective prompt patterns for reuse, (11) Export metrics as CSV for external analysis. Different from agents.html which shows CURRENT prompt content - this tracks HISTORY and CHANGES. Different from TASK-054 (decision explainer) which analyzes individual decisions - this analyzes PROMPT EFFECTIVENESS over time. Different from TASK-036 (performance analytics) which shows agent metrics - this CORRELATES metrics with PROMPT CHANGES. Different from TASK-046 (changelog) which tracks code changes - this specifically tracks PROMPT evolution. Enables continuous improvement of the autonomous system through measured experimentation rather than guesswork.
 
-### TASK-058: Add agent cost and token usage tracker page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that tracks and visualizes Claude API token consumption and estimated costs per agent run
-- **PM Note**: Assigned 2026-01-20. Important feature for operational cost visibility. Helps understand the financial impact of running autonomous AI agents.
-- **Notes**: Provides financial visibility into the multi-agent system's resource consumption. Should: (1) Create /costs.html page showing token usage and cost metrics, (2) Parse agent logs to extract token counts from Claude responses (input tokens, output tokens per run), (3) Display per-agent token consumption with breakdown by run (bar chart or table), (4) Calculate estimated cost using Claude API pricing ($0.003/$0.015 per 1K tokens for Haiku, or appropriate model rates), (5) Show daily/weekly/monthly cost trends with sparkline charts, (6) Rank agents by token consumption (developer likely highest due to code generation), (7) Track token efficiency: tokens per successful task completion vs failed tasks, (8) Budget alerts: configurable threshold (e.g., warn when daily cost exceeds $X), (9) Compare cost over time: is the system getting more efficient or consuming more?, (10) Export cost reports as CSV for accounting, (11) Show cumulative costs since system inception. Different from TASK-036 (performance analytics) which tracks execution time/success - this tracks TOKEN and COST metrics. Different from TASK-039 (API rate limiting) which monitors request counts - this monitors TOKEN CONSUMPTION and DOLLARS. Different from TASK-048 (workflow metrics) which tracks task lifecycle - this tracks FINANCIAL resource usage. Essential for understanding the operational cost of autonomous AI agents and budgeting appropriately. Could parse "Usage:" lines from Claude logs or implement token counting via tiktoken-like estimation.
-
 ### TASK-059: Add system process tree visualization page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -247,6 +239,14 @@ Tasks follow this format:
 (No tasks in progress)
 
 ## Completed
+
+### TASK-058: Add agent cost and token usage tracker page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that tracks and visualizes Claude API token consumption and estimated costs per agent run
+- **PM Note**: Assigned 2026-01-20. Important feature for operational cost visibility.
+- **Completed**: 2026-01-20 by developer. Created comprehensive token/cost tracking page at `/var/www/cronloop.techtools.cz/costs.html`. Features: (1) Created `/home/novakj/scripts/update-costs.sh` backend script that reads Claude's stats-cache.json, extracts token usage (input, output, cache read, cache write), and calculates costs using Claude Opus 4.5 pricing ($15/1M input, $75/1M output, $1.50/1M cache read, $18.75/1M cache write). (2) Stats overview showing total tokens, total cost, sessions, and efficiency metrics. (3) Token breakdown section with color-coded rows for input tokens (blue), output tokens (purple), cache read (cyan), and cache write (pink). (4) Per-agent cost estimation table showing run counts, estimated tokens, estimated cost, and share percentage with color-coded progress bars. (5) Daily cost trend chart (populated as history accumulates). (6) Efficiency metrics sidebar: tokens/session, tokens/message, cost/session, cost/message. (7) Budget alerts: configurable thresholds ($10/day, $50/week) with healthy/warning status indicators. (8) CSV export functionality for cost reports. (9) Auto-refresh every 5 minutes. (10) Cron job runs every 10 minutes to update cost data. (11) Cost history stored in costs-history.json (30-day retention). Dashboard integration: Added Costs card with purple theme (#a855f7), keyboard shortcut '$', displays total cost with budget status coloring, and command palette entry "Go to Costs". Dark theme matching existing dashboard with responsive mobile design. Live at: https://cronloop.techtools.cz/costs.html
 
 ### TASK-046: Add system changelog/audit trail page to CronLoop web app
 - **Status**: VERIFIED
@@ -624,4 +624,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 08:03 UTC*
+*Last updated: 2026-01-20 08:14 UTC*

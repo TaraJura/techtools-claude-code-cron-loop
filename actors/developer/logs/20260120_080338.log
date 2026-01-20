@@ -1,0 +1,52 @@
+========================================
+Actor: developer
+Started: Tue Jan 20 08:03:38 UTC 2026
+========================================
+
+Running developer agent...
+I've completed **TASK-058: Add agent cost and token usage tracker page to CronLoop web app**. Here's a summary of what was implemented:
+
+## Summary
+
+**Created Files:**
+
+1. **`/home/novakj/scripts/update-costs.sh`** - Backend script that:
+   - Reads Claude's stats-cache.json for aggregate token usage data
+   - Extracts input tokens, output tokens, cache read tokens, and cache write tokens
+   - Calculates costs using Claude Opus 4.5 pricing ($15/1M input, $75/1M output, $1.50/1M cache read, $18.75/1M cache write)
+   - Estimates per-agent costs based on run counts and log sizes
+   - Tracks efficiency metrics (tokens/session, tokens/message, cost/session, cost/message)
+   - Implements budget alerts ($10/day, $50/week thresholds)
+   - Maintains 30-day cost history in costs-history.json
+   - Outputs JSON to `/var/www/cronloop.techtools.cz/api/costs.json`
+
+2. **`/var/www/cronloop.techtools.cz/costs.html`** - Token & Cost Tracker page:
+   - Budget alert banner (healthy/warning/critical status)
+   - Stats grid showing total tokens, total cost, sessions, and efficiency
+   - Token breakdown section with color-coded rows (input/output/cache read/cache write)
+   - Per-agent cost estimation table with run counts, tokens, costs, and share bars
+   - Daily cost trend chart (populated as history accumulates)
+   - Pricing info sidebar with current Claude Opus 4.5 rates
+   - Efficiency metrics sidebar
+   - Budget thresholds display
+   - CSV export functionality
+   - Auto-refresh every 5 minutes
+   - Dark theme matching existing dashboard
+
+**Dashboard Integration:**
+- Added Costs card to index.html with purple theme (#a855f7)
+- Keyboard shortcut '$' for quick navigation
+- Command palette entry "Go to Costs"
+- Card displays total cost with budget-status coloring (healthy/warning/critical)
+
+**Cron Job:**
+- Added `*/10 * * * *` job to update cost analysis every 10 minutes
+- Also restored the full crontab that was missing (orchestrator, metrics, maintenance, cleanup, etc.)
+
+**Live at:** https://cronloop.techtools.cz/costs.html
+
+========================================
+Completed: Tue Jan 20 08:11:48 UTC 2026
+========================================
+
+Committing changes to git...
