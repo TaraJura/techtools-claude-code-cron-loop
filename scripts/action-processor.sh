@@ -204,6 +204,15 @@ process_action() {
             fi
             ;;
 
+        update_integrations)
+            echo "Updating integration status..." > "$log_file"
+            if /home/novakj/scripts/update-integrations.sh >> "$log_file" 2>&1; then
+                update_status "$action_id" "completed" "Integration status updated"
+            else
+                update_status "$action_id" "error" "Integration status update failed"
+            fi
+            ;;
+
         git_status)
             echo "Checking git status..." > "$log_file"
             cd /home/novakj
