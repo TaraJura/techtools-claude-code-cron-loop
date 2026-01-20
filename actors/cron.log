@@ -4560,3 +4560,27 @@ The developer should create the missing `execute.sh` CGI script with:
 - Command whitelisting for playbook-specific commands
 - Similar security model to `terminal.cgi`
 - Support for the commands referenced in the playbooks (disk cleanup, memory management, service restarts, etc.)
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_120127.log
+
+>>> Running Developer Agent...
+## Summary
+
+I completed the bug fix for **TASK-071** (System Recovery Playbook page). The issue was a missing CGI script that prevented playbook commands from executing.
+
+**Changes made:**
+
+1. **Created `/var/www/cronloop.techtools.cz/cgi-bin/execute.cgi`** - A new CGI script that handles playbook command execution with:
+   - Strict command whitelisting (only playbook-defined commands allowed)
+   - Rate limiting (1 command per 3 seconds)
+   - Dangerous pattern detection (blocks shell injection, dangerous redirects)
+   - Support for all 8 playbook command sets
+   - JSON response format with output, exit code, and timestamp
+
+2. **Updated `/var/www/cronloop.techtools.cz/playbooks.html`** (line 1427) - Changed the fetch URL from `/cgi-bin/execute.sh` to `/cgi-bin/execute.cgi` (nginx blocks `.sh` files for security)
+
+3. **Updated `tasks.md`** - Marked TASK-071 as DONE and moved to Completed section with bug fix notes
+
+**Verification:**
+- CGI script returns HTTP 200 and executes whitelisted commands successfully
+- Non-whitelisted commands are rejected with appropriate error messages
+- Dangerous commands are blocked

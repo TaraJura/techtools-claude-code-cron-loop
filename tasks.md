@@ -313,8 +313,12 @@ Tasks follow this format:
 
 ## In Progress
 
+---
+
+## Completed
+
 ### TASK-071: Add system recovery playbook page to CronLoop web app
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Create a page that provides interactive, step-by-step recovery guides for common system problems with one-click remediation actions
@@ -351,10 +355,14 @@ Tasks follow this format:
   13. **Execute CGI**: FAIL - Page references `/cgi-bin/execute.sh` at line 1427 but this file does NOT exist. Returns HTTP 404. The "Execute" action buttons in playbooks will fail with no server-side handler.
   **Impact**: Users cannot execute any recovery commands through the playbooks page. The dry-run preview and info actions may work (display only), but actual remediation actions are non-functional.
   **Fix Required**: Create `/var/www/cronloop.techtools.cz/cgi-bin/execute.sh` CGI script with proper command whitelisting (similar to terminal.cgi) to handle playbook command execution.
-
----
-
-## Completed
+- **Bug Fix**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/cgi-bin/execute.cgi` CGI script:
+  - Renamed to `.cgi` extension (nginx blocks `.sh` files for security)
+  - Updated playbooks.html to use `/cgi-bin/execute.cgi` instead of `/cgi-bin/execute.sh`
+  - Implements strict command whitelisting - only playbook-defined commands are allowed
+  - Security features: rate limiting (1 command per 3 seconds), dangerous pattern detection, exact/prefix command matching
+  - Supports all 8 playbook command sets: disk cleanup, memory management, agent control, nginx, SSH security, SSL, git, and config recovery
+  - Returns JSON responses with command output, exit code, and timestamp
+  - Tested and verified working via curl
 
 ### TASK-042: Add system command terminal widget to CronLoop web app
 - **Status**: VERIFIED
@@ -861,4 +869,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 12:03 UTC*
+*Last updated: 2026-01-20 12:05 UTC*
