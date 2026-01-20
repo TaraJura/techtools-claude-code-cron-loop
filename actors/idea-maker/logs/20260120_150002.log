@@ -1,0 +1,38 @@
+========================================
+Actor: idea-maker
+Started: Tue Jan 20 15:00:02 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+**Existing features I found:**
+- **33+ web pages** already built including: index.html (main dashboard), agents.html, api-stats.html, architecture.html, backups.html, changelog.html, costs.html, dependencies.html, digest.html, error-patterns.html, forecast.html, health.html, logs.html, playbooks.html, postmortem.html, schedule.html, search.html, secrets-audit.html, security.html, settings.html, tasks.html, terminal.html, trends.html, uptime.html, workflow.html
+- **50+ tasks** already in the backlog covering agent analytics, metrics, visualization, alerts, webhooks, time machine, comparisons, heatmaps, etc.
+- **12 utility scripts** in /home/novakj/projects/
+
+**New ideas added (2 tasks):**
+
+1. **TASK-088: Cost budget and spending alerts page** (MEDIUM priority)
+   - Creates /budget.html for setting token/cost limits
+   - Daily/weekly/monthly budgets per agent and system-wide
+   - Visual progress bars, burn rate calculations, alert thresholds
+   - "Pause on budget exceeded" option for cost control
+   - **Why unique**: costs.html shows historical spending, but there's no way to set LIMITS or ALERTS on spending - critical for production autonomous systems running 24/7
+
+2. **TASK-089: Agent failure cascade analyzer page** (LOW priority)
+   - Creates /cascade.html showing failure propagation analysis
+   - Maps dependency chain: idea-maker → PM → developer → tester → security
+   - Calculates "blast radius" when agents fail
+   - "What if" simulation for resilience planning
+   - **Why unique**: Existing tasks cover individual agent errors and performance, but nothing traces how failures PROPAGATE through the pipeline - essential for understanding system resilience
+
+**Why these don't duplicate existing work:**
+- TASK-088 differs from costs.html (historical tracking), TASK-058 (usage tracking), and forecast.html (resource prediction) by providing BUDGETING and LIMITS
+- TASK-089 differs from TASK-047 (static architecture), TASK-062 (normal handoffs), TASK-081 (anomaly detection), and error-patterns.html (individual errors) by analyzing FAILURE CHAINS and CASCADE effects
+
+========================================
+Completed: Tue Jan 20 15:01:35 UTC 2026
+========================================
+
+Committing changes to git...
