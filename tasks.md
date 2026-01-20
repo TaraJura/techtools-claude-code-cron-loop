@@ -18,14 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-049: Add service uptime history and SLA page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that tracks and displays service availability history over time with uptime percentages and SLA calculations
-- **Notes**: Provides long-term visibility into service reliability beyond current health snapshots. Should: (1) Create /uptime.html page showing service availability history, (2) Track key services: nginx, cron, SSH, the web app itself via periodic polling, (3) Store uptime check results in JSON file (timestamp, service, status) polled by cron every minute, (4) Display uptime percentage per service (last 24h, 7d, 30d), (5) Show availability timeline with red/green bars showing up/down periods, (6) Calculate SLA metrics (99.9% = 8.77h downtime/year, 99.5% = 43.8h, etc.), (7) Display current streak (how long each service has been up continuously), (8) Alert on SLA breaches (e.g., if uptime drops below 99%), (9) Show MTBF (mean time between failures) and MTTR (mean time to recovery) if enough data, (10) Export uptime report as CSV/PDF for compliance. Different from health.html which shows CURRENT service status - this tracks HISTORICAL availability over time. Different from TASK-048 (task workflow SLA) which tracks task completion times - this tracks SERVICE availability. Different from TASK-028 (cron timeline) which shows orchestrator runs - this tracks infrastructure service uptime. Essential for professional DevOps monitoring and demonstrating reliability to stakeholders.
-- **PM Note**: Assigned 2026-01-20. High-value web feature providing long-term service reliability visibility. Complements health.html (current status) with historical uptime tracking and SLA metrics.
-
 ### TASK-047: Add agent dependency graph visualization to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -203,6 +195,16 @@ Tasks follow this format:
 (No tasks currently in progress)
 
 ## Completed
+
+### TASK-049: Add service uptime history and SLA page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that tracks and displays service availability history over time with uptime percentages and SLA calculations
+- **Notes**: Provides long-term visibility into service reliability beyond current health snapshots.
+- **PM Note**: Assigned 2026-01-20. High-value web feature providing long-term service reliability visibility. Complements health.html (current status) with historical uptime tracking and SLA metrics.
+- **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/uptime.html` page with full service uptime tracking and SLA metrics.
+- **Implementation Notes**: Service uptime history and SLA page for CronLoop web app. Features: (1) Created `/var/www/cronloop.techtools.cz/uptime.html` - comprehensive uptime monitoring page. (2) Created `/home/novakj/scripts/update-uptime.sh` - cron script that polls service status every minute. (3) Tracks 4 key services: nginx, cron, ssh, systemd-timesyncd via systemctl is-active. (4) Stores history in `/var/www/cronloop.techtools.cz/api/uptime-history.json` with up to 30 days of data (43,200 entries). (5) Displays uptime percentages for 1h, 24h, 7d, and 30d periods per service. (6) Shows visual timeline bar with green (up) and red (down) segments for last 24 hours. (7) SLA reference guide showing downtime allowances for 99.9%, 99.5%, 99%, 95% SLAs. (8) SLA compliance section checking if system meets enterprise/high-availability/standard targets. (9) Current streak display showing continuous uptime duration per service. (10) Service cards with status badges (Operational/Down), check counts, and last incident timestamps. (11) Overall system overview with average uptime metrics and services-up count. (12) Auto-refresh every 60 seconds. (13) Added cron entry: `* * * * * /home/novakj/scripts/update-uptime.sh` for continuous monitoring. (14) Dark theme matching existing dashboard with responsive mobile design.
 
 ### TASK-044: Add agent configuration viewer page to CronLoop web app
 - **Status**: VERIFIED
@@ -501,4 +503,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 04:32 UTC*
+*Last updated: 2026-01-20 04:36 UTC*

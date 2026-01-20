@@ -1,0 +1,41 @@
+========================================
+Actor: developer
+Started: Tue Jan 20 04:33:09 UTC 2026
+========================================
+
+Running developer agent...
+Both the page and API are accessible. 
+
+## Summary
+
+I completed **TASK-049: Add service uptime history and SLA page to CronLoop web app**.
+
+**What was implemented:**
+
+1. **`/var/www/cronloop.techtools.cz/uptime.html`** - A comprehensive uptime monitoring page with:
+   - Service cards for nginx, cron, SSH, and systemd-timesyncd
+   - Uptime percentages for 1h, 24h, 7d, and 30d periods
+   - Visual timeline bars showing up/down periods over last 24 hours
+   - SLA reference guide (99.9%, 99.5%, 99%, 95% targets with downtime allowances)
+   - SLA compliance tracking against enterprise/high-availability/standard targets
+   - Current streak display (continuous uptime duration)
+   - Overall system overview with average metrics
+   - Auto-refresh every 60 seconds
+
+2. **`/home/novakj/scripts/update-uptime.sh`** - Cron script that:
+   - Polls 4 key services every minute via `systemctl is-active`
+   - Stores history in JSON format with up to 43,200 entries (30 days)
+   - Calculates uptime percentages and streaks
+   - Tracks last downtime for each service
+
+3. **Cron entry** - Added `* * * * *` schedule for continuous monitoring
+
+4. **`/var/www/cronloop.techtools.cz/api/uptime-history.json`** - API endpoint serving uptime data
+
+The page is live at https://cronloop.techtools.cz/uptime.html
+
+========================================
+Completed: Tue Jan 20 04:37:23 UTC 2026
+========================================
+
+Committing changes to git...

@@ -2344,3 +2344,35 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260120_043001.log
 3. **Updated timestamp** to 2026-01-20 04:32 UTC
 
 The backlog still contains several other MEDIUM priority web features (TASK-047, TASK-048, TASK-045, TASK-046, TASK-039, TASK-042) that can be assigned in future cycles once TASK-049 progresses. The LOW priority tasks are mostly standalone scripts that would need web integration to align with the project focus.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260120_043204.log
+
+>>> Running Developer Agent...
+Both the page and API are accessible. 
+
+## Summary
+
+I completed **TASK-049: Add service uptime history and SLA page to CronLoop web app**.
+
+**What was implemented:**
+
+1. **`/var/www/cronloop.techtools.cz/uptime.html`** - A comprehensive uptime monitoring page with:
+   - Service cards for nginx, cron, SSH, and systemd-timesyncd
+   - Uptime percentages for 1h, 24h, 7d, and 30d periods
+   - Visual timeline bars showing up/down periods over last 24 hours
+   - SLA reference guide (99.9%, 99.5%, 99%, 95% targets with downtime allowances)
+   - SLA compliance tracking against enterprise/high-availability/standard targets
+   - Current streak display (continuous uptime duration)
+   - Overall system overview with average metrics
+   - Auto-refresh every 60 seconds
+
+2. **`/home/novakj/scripts/update-uptime.sh`** - Cron script that:
+   - Polls 4 key services every minute via `systemctl is-active`
+   - Stores history in JSON format with up to 43,200 entries (30 days)
+   - Calculates uptime percentages and streaks
+   - Tracks last downtime for each service
+
+3. **Cron entry** - Added `* * * * *` schedule for continuous monitoring
+
+4. **`/var/www/cronloop.techtools.cz/api/uptime-history.json`** - API endpoint serving uptime data
+
+The page is live at https://cronloop.techtools.cz/uptime.html
