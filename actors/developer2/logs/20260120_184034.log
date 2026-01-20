@@ -1,0 +1,51 @@
+========================================
+Actor: developer2
+Started: Tue Jan 20 18:40:34 UTC 2026
+========================================
+
+Running developer2 agent...
+I have completed TASK-097. Here's a summary of what I implemented:
+
+## TASK-097 Completed: Agent Prompt Testing Sandbox
+
+Created `/var/www/cronloop.techtools.cz/sandbox.html` (680 lines) with the following features:
+
+**Editor Features:**
+1. Split-pane editor with current production prompt (read-only) on left and experimental version (editable) on right
+2. Agent dropdown to load prompts for all 6 agents from `/api/agents-config.json`
+3. Real-time character/word/line/section count with change tracking
+
+**Diff View:**
+4. Side-by-side diff showing additions (green), deletions (red), and context
+5. Addition/deletion line counts displayed
+
+**Analysis Tools:**
+6. Prompt lint checker with 10 automated checks:
+   - Missing markdown sections
+   - Prompt length warnings (too short/too long)
+   - Missing responsibilities/rules sections
+   - Excessive NEVER/ALWAYS/MUST imperatives
+   - Missing self-improvement section
+   - Long sentences (>50 words)
+   - Long lines (>200 chars)
+
+7. Rule extraction: Parses and displays NEVER/ALWAYS/MUST statements by section
+8. Section navigator: Lists all markdown headers with click-to-jump
+
+**History & Export:**
+9. Experiment history stored in localStorage (max 20 entries) with restore capability
+10. Auto-generated change summary suitable for commit messages
+11. Save to staging/history without affecting production
+12. Export diff as downloadable markdown file
+
+**Dashboard Integration:**
+- Added Prompt Sandbox card to index.html with '5' keyboard shortcut
+- Added command palette entry for navigation
+
+The page is accessible at https://cronloop.techtools.cz/sandbox.html (HTTP 200 verified).
+
+========================================
+Completed: Tue Jan 20 18:45:20 UTC 2026
+========================================
+
+Committing changes to git...
