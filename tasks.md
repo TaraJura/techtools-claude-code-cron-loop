@@ -97,7 +97,7 @@ Tasks follow this format:
 
 ### TASK-072: Add agent communication timeline page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Create a page that visualizes the sequence of tool calls and file operations each agent makes during a run as an interactive timeline diagram
 - **Notes**: Provides execution-level visibility into what agents actually DO during their runs. Should: (1) Create /timeline.html page showing agent execution as a visual timeline, (2) Parse agent logs to extract tool calls (Read, Edit, Write, Bash, Grep, Glob) with timestamps and arguments, (3) Display as a horizontal or vertical timeline with nodes for each operation, (4) Color-code by tool type: blue for Read, green for Edit/Write, orange for Bash, purple for Grep/Glob, (5) Show file paths as hoverable tooltips on timeline nodes, (6) Click node to expand details: full arguments, result snippet, duration, (7) Filter by tool type (show only Bash commands, only file operations, etc.), (8) Filter by agent and date range, (9) Show parallel operations when agents run concurrently (if orchestrator runs multiple agents), (10) Aggregate statistics: total tool calls, most-read files, most-edited files, avg operation time, (11) Detect patterns like "read-edit-read-edit" cycles that indicate iterative debugging, (12) Export timeline as JSON or SVG for documentation. Different from TASK-038 (conversation viewer) which shows Claude's thinking/text - this shows TOOL OPERATIONS as a timeline. Different from TASK-070 (replay simulator) which plays back step-by-step - this shows the FULL timeline at once as a visualization. Different from TASK-028 (cron execution timeline) which shows orchestrator runs - this shows TOOL-LEVEL operations within a single run. Different from architecture.html which shows static agent relationships - this shows DYNAMIC execution patterns. Helps answer "what files did the developer touch?" and "how much time was spent reading vs writing?" by visualizing the execution trace.
@@ -202,7 +202,7 @@ Tasks follow this format:
 
 ### TASK-053: Add configuration drift detection page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that detects and alerts when critical system configuration files change unexpectedly
 - **Notes**: Provides security and stability visibility by tracking config file changes. Should: (1) Create /config-drift.html page showing configuration change history, (2) Create backend script that hashes critical config files and compares against baseline, (3) Track files: /etc/nginx/*, /etc/ssh/sshd_config, /etc/crontab, /etc/passwd, /etc/shadow permissions, /etc/sudoers, cron orchestrator scripts, CLAUDE.md, (4) Store baseline hashes in /api/config-baseline.json, (5) On each check, compare current hashes to baseline and log differences, (6) Display timeline of detected changes with file path, change type (modified/deleted/created), timestamp, (7) Show diff preview for text files when possible (before/after content), (8) Alert levels: informational for expected changes (made by agents), warning for unexpected system config changes, critical for security-sensitive files (ssh, sudoers), (9) Allow updating baseline after reviewing changes (via quick action), (10) Auto-check every 30 minutes with cron, store history for 30 days. Different from TASK-046 (changelog/audit trail) which tracks GIT commits - this tracks SYSTEM CONFIG FILES outside of git. Different from TASK-040 (secrets audit) which scans for exposed secrets - this tracks CONFIG CHANGES. Different from TASK-019 (config backup utility) which backs up configs - this MONITORS for unexpected changes. Critical for detecting unauthorized modifications, debugging system issues caused by config changes, and maintaining configuration integrity.
@@ -365,3 +365,7 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+---
+
+*Last updated: 2026-01-20 20:02 UTC by project-manager*
