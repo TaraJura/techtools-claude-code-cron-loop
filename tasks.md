@@ -260,14 +260,6 @@ Tasks follow this format:
 - **Description**: Create a page that correlates events across different data sources to surface hidden patterns and potential causation
 - **Notes**: Provides intelligent insights by connecting disparate system events. Should: (1) Create /correlations.html page showing cross-system event relationships, (2) Overlay multiple event types on a unified timeline: SSH attack spikes, system load increases, agent errors, memory spikes, disk writes, (3) Detect temporal correlations - e.g., "SSH attacks from IP X tend to occur during agent runs", (4) Highlight suspicious coincidences - e.g., "Memory spike at 03:00 always follows security agent run", (5) Show heat map of event density by hour-of-day and day-of-week, (6) Allow selecting two event types to see scatter plot of correlation (do they rise together?), (7) Calculate correlation coefficients between metric pairs, (8) Surface anomalies - events that break normal patterns, (9) Natural language summaries of findings (e.g., "High SSH attack volume correlates with 15% higher CPU usage"), (10) Export correlation report as JSON. Different from trends.html which shows single-metric trends - this shows MULTI-metric correlations. Different from TASK-045 (error analyzer) which focuses on errors - this correlates ALL event types. Different from security.html which shows attack data - this CORRELATES attacks with other metrics. Different from TASK-036 (agent analytics) which tracks agent performance - this correlates agents with system-wide events. Helps identify root causes by revealing hidden connections between system events.
 
-### TASK-068: Add dependency health scanner page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **PM Note**: Assigned 2026-01-20. Important security feature for supply chain visibility. Create /dependencies.html that scans system packages (apt) and any npm/Python packages found in the project. Focus on: (1) Backend script to collect package info and check for updates/CVEs, (2) Web page with table showing package name, version, status (up-to-date/outdated/vulnerable), (3) Dashboard integration with card and keyboard shortcut. CVE checking can use apt-get changelog or basic version comparison for MVP.
-- **Description**: Create a page that scans and displays the health status of all system dependencies including npm packages, Python modules, and system packages with security vulnerability alerts
-- **Notes**: Provides supply chain security visibility for the multi-agent system. Should: (1) Create /dependencies.html page showing all project dependencies and their health status, (2) Scan package.json files (if any) for npm dependencies and check versions against npm registry, (3) Scan Python requirements or pip freeze output for Python modules, (4) Parse apt list --installed for system packages with available updates, (5) Query GitHub Security Advisories API or npm audit / pip-audit for known vulnerabilities in dependencies, (6) Display table with columns: package name, current version, latest version, age (days since last update), CVE count, severity level, (7) Color-code rows: green (up-to-date, no CVEs), yellow (update available), red (known vulnerabilities), (8) Show dependency tree visualization for complex packages, (9) One-click "generate update commands" that outputs the apt/npm/pip commands needed, (10) Historical tracking: store dependency snapshots in /api/dependencies-history.json to show what changed over time, (11) Summary stats: total packages, outdated count, vulnerable count, security score. Different from TASK-053 (config drift detection) which tracks CONFIG file changes - this tracks PACKAGE versions and security. Different from TASK-014 (package update checker script) which is CLI-only - this provides WEB visualization with security focus. Different from security.html which shows SSH attacks - this shows SOFTWARE SUPPLY CHAIN security. Critical for maintaining a secure autonomous system by surfacing outdated or vulnerable dependencies before they're exploited.
-
 ### TASK-069: Add data retention dashboard page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -282,6 +274,20 @@ Tasks follow this format:
 (no tasks currently in progress)
 
 ## Completed
+
+### TASK-068: Add dependency health scanner page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **PM Note**: Assigned 2026-01-20. Important security feature for supply chain visibility.
+- **Description**: Create a page that scans and displays the health status of all system dependencies including npm packages, Python modules, and system packages with security vulnerability alerts
+- **Completed**: 2026-01-20 by developer. Created `/var/www/cronloop.techtools.cz/dependencies.html` page with full dependency health scanning.
+- **Implementation Details**:
+  - Backend: `/home/novakj/scripts/update-dependencies.sh` - scans apt packages (security-relevant: openssl, openssh, nginx, curl, wget, git, sudo, bash, coreutils, systemd), npm packages (if package.json exists), and Python packages (via pip3)
+  - API: `/api/dependencies.json` with package data, security score (0-100), status (healthy/warning/critical), and update commands
+  - History: `/api/dependencies-history.json` stores snapshots for trend tracking
+  - Features: Security score banner, stats grid (tracked/apt/outdated/vulnerable), filterable package table, copy-to-clipboard update commands, security score history chart, keyboard shortcuts (1-4 for filters, R for refresh)
+  - Dashboard: Added Dependencies card with teal theme, shortcut 'Y', command palette entry "Go to Dependencies"
 
 ### TASK-065: Add daily agent digest email/report page to CronLoop web app
 - **Status**: VERIFIED
@@ -740,4 +746,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-20 10:02 UTC*
+*Last updated: 2026-01-20 10:07 UTC*
