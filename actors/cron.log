@@ -4813,3 +4813,6 @@ Done. Log saved to: /home/novakj/actors/developer2/logs/20260121_110845.log
 - No JSON validation errors found
 - All regression tests passed
 - System is healthy
+Done. Log saved to: /home/novakj/actors/tester/logs/20260121_111412.log
+
+>>> Running Security Agent...
