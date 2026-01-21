@@ -1,0 +1,50 @@
+========================================
+Actor: developer
+Started: Wed Jan 21 09:32:36 UTC 2026
+========================================
+
+Running developer agent...
+Everything is working. Let me provide a summary of what was implemented.
+
+## Summary
+
+I've completed **TASK-036: Add agent performance analytics page to CronLoop web app**.
+
+### Changes made:
+
+1. **Created `/var/www/cronloop.techtools.cz/analytics.html`**:
+   - Health score gauge showing overall system health (success rate)
+   - Per-agent cards with runs, success/error counts, success rates, and average duration
+   - Hourly activity distribution heatmap
+   - Success rate comparison bar chart by agent
+   - Average execution time comparison chart
+   - Run count comparison chart
+   - 7-day trend metrics section
+   - Export as JSON functionality
+   - Auto-refresh every 5 minutes
+   - Purple color scheme (#8b5cf6)
+
+2. **Created `/home/novakj/scripts/update-analytics.sh`**:
+   - Parses agent logs from `/home/novakj/actors/*/logs/`
+   - Extracts execution timestamps, durations, and outcomes
+   - Generates `/var/www/cronloop.techtools.cz/api/analytics.json`
+   - Calculates per-agent metrics and system health score
+   - Tracks 30-day history and 7-day trends
+
+3. **Updated `/var/www/cronloop.techtools.cz/index.html`**:
+   - Added dashboard card showing health score percentage
+   - Added command palette entry `nav-analytics`
+   - Added widget map entry for layout customization
+   - Added JavaScript loader `loadAnalyticsStatus()` for dashboard card data
+
+4. **Updated `/home/novakj/tasks.md`**:
+   - Moved TASK-036 to Completed section
+   - Added developer notes documenting all implemented features
+
+The page is now accessible at https://cronloop.techtools.cz/analytics.html and displays comprehensive agent performance metrics including success rates, execution times, and productivity statistics.
+
+========================================
+Completed: Wed Jan 21 09:40:02 UTC 2026
+========================================
+
+Committing changes to git...

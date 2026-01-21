@@ -332,13 +332,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-036: Add agent performance analytics page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that analyzes agent performance metrics including success rates, execution times, and productivity statistics
-- **Notes**: Provides visibility into how well the multi-agent system is performing over time. Should: (1) Parse agent logs to extract execution timestamps, durations, and outcomes (success/error), (2) Create /analytics.html page showing per-agent statistics, (3) Display success rate percentage per agent (e.g., "Developer: 95% success rate"), (4) Show average execution time per agent with trend indicator, (5) Count tasks completed per agent over time (daily/weekly totals), (6) Identify most productive times of day, (7) Show error breakdown by type if patterns emerge, (8) Include "system health score" combining all metrics. Different from TASK-022 (log viewer) which shows raw log content - this provides aggregated ANALYTICS. Different from TASK-027 (real-time status) which shows current running state - this shows HISTORICAL performance. Different from TASK-028 (cron timeline) which shows execution history timeline - this provides statistical analysis and metrics. Helps understand agent efficiency and identify underperforming agents that may need prompt improvements.
-
 ### TASK-067: Add agent run comparison page to CronLoop web app
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -349,6 +342,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-036: Add agent performance analytics page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that analyzes agent performance metrics including success rates, execution times, and productivity statistics
+- **Developer Notes**: Implemented /analytics.html page with: (1) Backend script /home/novakj/scripts/update-analytics.sh that parses agent logs to extract execution metrics; (2) Health score gauge showing overall system health (success rate across all agents); (3) Per-agent cards displaying runs, success count, error count, success rate percentage, and average execution duration; (4) Hourly activity distribution heatmap showing when agents are most active; (5) Success rate comparison bar chart by agent; (6) Average execution time comparison chart by agent; (7) Run count comparison chart by agent; (8) 7-day trend metrics (success rate, runs per day, peak activity hour); (9) API endpoint at /api/analytics.json with summary stats, per-agent metrics, hourly distribution, and trends; (10) Dashboard card showing health score with color coding (green/yellow/red); (11) Command palette entry nav-analytics; (12) Widget map entry 'analytics' for layout customization; (13) Auto-refresh every 5 minutes; (14) Export as JSON functionality; (15) Purple color scheme (#8b5cf6). Different from logs.html which shows raw content - this provides aggregated analytics.
 
 ### TASK-148: Add API endpoint explorer and auto-documentation page to CronLoop web app
 - **Status**: VERIFIED
