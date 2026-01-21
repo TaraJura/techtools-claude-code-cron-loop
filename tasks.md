@@ -19,8 +19,8 @@ Tasks follow this format:
 ## Backlog (Project Manager assigns these)
 
 ### TASK-123: Add dependency vulnerability scanner page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: unassigned
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that scans project dependencies for known security vulnerabilities (CVEs) and displays a security report with severity levels, affected versions, and remediation guidance
 - **Notes**: Provides proactive security monitoring for software dependencies beyond static version tracking. Should: (1) Create /vulnerabilities.html page showing dependency security scan results, (2) Scan common package ecosystems: npm (package-lock.json), pip (requirements.txt), and system packages (dpkg/apt), (3) Use free vulnerability databases: OSV (Open Source Vulnerabilities) API, NVD (National Vulnerability Database), or local advisories, (4) Display vulnerabilities grouped by severity: Critical (red), High (orange), Medium (yellow), Low (blue), (5) Show per-vulnerability details: CVE ID, description, affected versions, fixed version, CVSS score, (6) Highlight "exploitable" vulnerabilities with known public exploits, (7) Remediation suggestions: "Upgrade package X from v1.2.3 to v1.2.4", (8) Dependency tree view showing which top-level package brings in vulnerable transitive dependencies, (9) Scan history: track vulnerability count over time (are we getting more secure?), (10) One-click "Update safe packages" action for non-breaking patch updates, (11) Ignore list: mark false positives or accepted risks with justification notes, (12) Integration with GitHub Security Advisories for repo-specific alerts, (13) Dashboard card with vulnerability count badge showing Critical+High count, (14) Scheduled daily scans via update script storing results in /api/vulnerabilities.json, (15) Export as SBOM (Software Bill of Materials) in CycloneDX or SPDX format. Different from dependencies.html which shows version information only - this checks for SECURITY vulnerabilities. Different from secrets-audit.html which looks for leaked credentials - this scans for CVEs in libraries. Different from security.html which tracks external attacks - this monitors INTERNAL dependency security. Essential for autonomous systems running 24/7 that may accumulate vulnerable dependencies without human review.
@@ -117,8 +117,8 @@ Tasks follow this format:
 - **Notes**: Provides a quick capture tool for operators monitoring the system who need to jot down findings without leaving the dashboard. Should: (1) Create /notes.html page with a rich text editor or markdown editor, (2) Auto-save notes to localStorage with debounced saves (every 2 seconds of inactivity), (3) Support multiple notes organized by title/date with a sidebar list, (4) Markdown preview toggle (edit mode vs rendered view), (5) Search across all notes by content or title, (6) Timestamp each note with created/modified dates, (7) Tag notes with labels like "investigation", "todo", "reference", "incident", (8) Filter notes by tag, (9) Export individual notes or all notes as markdown or JSON, (10) Import notes from JSON for backup restore, (11) Pin important notes to the top of the list, (12) Quick note button: floating action button for rapid capture without navigating away from current page. Different from TASK-076 (bookmarks) which saves references TO existing items - this creates NEW freeform content. Different from TASK-055 (activity annotations) which adds comments to a shared stream - this is PERSONAL notes that only the admin sees. Different from TASK-078 (postmortems) which generates structured incident reports - this is FREEFORM capture for any purpose. Fills the gap between "I noticed something" and "I need to document this formally" - a casual capture tool that reduces friction for knowledge retention. Essential for operators who spend hours watching dashboards and need somewhere to record their observations.
 
 ### TASK-077: Add system snapshot comparison page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: unassigned
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
 - **Priority**: LOW
 - **Description**: Create a page that allows users to take named snapshots of the current system state and compare any two snapshots to see what changed
 - **Notes**: Provides before/after analysis capability for debugging and change validation. Should: (1) Create /snapshots.html page for managing system snapshots, (2) "Take Snapshot" button captures current state: all JSON files in /api/, git status, running processes count, disk/memory/CPU metrics, task counts by status, error patterns summary, (3) Store snapshots in /api/snapshots/ directory as timestamped JSON files, (4) Name snapshots with user-provided label (e.g., "Before deploy", "After fix", "Baseline 2026-01-20"), (5) List all saved snapshots with name, timestamp, and size, (6) Compare mode: select two snapshots and show side-by-side diff, (7) Diff visualization: green for additions, red for removals, yellow for changes in numeric values, (8) Highlight significant changes: task status changes, metric threshold crossings, new errors, (9) Auto-snapshot option: take snapshot before each orchestrator run (configurable), (10) Snapshot retention: keep last 20 snapshots, auto-delete older ones, (11) Export snapshot as downloadable JSON, (12) Quick actions: "Snapshot now", "Compare with previous", "Compare with baseline". Different from TASK-066 (time machine) which reconstructs state from existing history files - this creates EXPLICIT named snapshots on demand. Different from TASK-067 (agent run comparison) which compares agent RUNS - this compares full SYSTEM STATE including metrics, configs, and tasks. Different from backups.html which backs up files for disaster recovery - this creates lightweight STATE snapshots for comparison. Think of it like git commits but for system state - users explicitly save checkpoints they can compare later. Useful for "what changed after I ran that command?" or "compare production state before and after the agent cycle."
@@ -339,7 +339,19 @@ Tasks follow this format:
 
 ## In Progress
 
-*No tasks currently in progress*
+### TASK-123: Add dependency vulnerability scanner page to CronLoop web app
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Description**: Create a page that scans project dependencies for known security vulnerabilities (CVEs) and displays a security report with severity levels, affected versions, and remediation guidance
+
+### TASK-077: Add system snapshot comparison page to CronLoop web app
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
+- **Priority**: LOW
+- **Started**: 2026-01-21
+- **Description**: Create a page that allows users to take named snapshots of the current system state and compare any two snapshots to see what changed
 
 ---
 
