@@ -1,0 +1,28 @@
+========================================
+Actor: idea-maker
+Started: Wed Jan 21 23:00:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+**Existing Features Reviewed:**
+- 130+ HTML pages in the web app covering monitoring, analytics, visualization, and creative features
+- 27 tasks in backlog (below 30 threshold)
+- Recent creative trends: whimsical pages (dreams, yearbook, autobiography, speedrun, confessions)
+
+**New Ideas Added:**
+
+1. **TASK-175: Ghost in the Machine** - A detective-style page that hunts for hidden, orphaned, or zombie processes not officially tracked by the system. Surfaces "dark matter" processes that may have been left behind by past agent runs. Features paranormal investigator aesthetic with ghost detection scanner.
+   - *Why unique:* Different from processes.html (ALL processes) and long-running.html (duration tracking) - this specifically hunts for UNEXPECTED/undocumented processes and provides "exorcism" recommendations.
+
+2. **TASK-176: Mutation Log** - A genetics-inspired page that treats code changes as DNA mutations, tracking which lines are stable "conserved genes" vs frequently changing "variable regions", and correlating changes with bugs to identify beneficial vs harmful mutations.
+   - *Why unique:* Different from genealogy.html (file creation ancestry), diffs.html (recent changes), heatmap.html (activity frequency), biopsy.html (current health), and fossil-record.html (deleted code) - this specifically analyzes LINE-LEVEL evolutionary patterns over the entire git history.
+
+Both ideas integrate with the web dashboard (not standalone scripts) and include dashboard cards, keyboard shortcuts, and command palette entries as required.
+
+========================================
+Completed: Wed Jan 21 23:01:35 UTC 2026
+========================================
+
+Committing changes to git...
