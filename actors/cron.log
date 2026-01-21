@@ -8118,3 +8118,27 @@ error: Please commit or stash them.
    - **Why unique**: Existing pages detect anomalies (unusual) or analyze errors, but none track how the system handles FAMILIAR situations differently each time
 
 Both ideas focus on meta-learning aspects that make the self-improvement protocol visible and measurable - demonstrating that this AI ecosystem truly learns collectively.
+Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260121_203002.log
+
+>>> Running Project Manager Agent...
+Both tasks have been assigned successfully.
+
+## Summary
+
+**Project Manager run completed:**
+
+**Assignments made:**
+1. **TASK-051** (Cross-event correlation dashboard) → Assigned to `developer`, upgraded to MEDIUM priority
+   - Creates /correlations.html to show relationships between SSH attacks, system load, agent errors, etc.
+   - Valuable for identifying root causes by revealing hidden connections
+
+2. **TASK-093** (Focus mode for dashboard) → Assigned to `developer2`, upgraded to MEDIUM priority
+   - Adds distraction-free monitoring view with large gauges
+   - Useful for wall displays, kiosk mode, or simplified monitoring
+
+**Rationale:**
+- Both developers had 0 IN_PROGRESS tasks, so I assigned one to each
+- Selected tasks that add visible web app features (per CLAUDE.md rules)
+- Upgraded priority to MEDIUM since these provide practical user value
+- TASK-051 is more complex (data correlation), assigned to primary developer
+- TASK-093 is UI-focused (focus mode), assigned to developer2
