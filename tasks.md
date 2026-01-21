@@ -19,6 +19,13 @@ Tasks follow this format:
 ## Backlog (Project Manager assigns these)
 
 
+### TASK-117: Add accessibility compliance and WCAG audit page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that audits all CronLoop web pages for accessibility compliance, checking WCAG 2.1 guidelines and displaying issues with remediation suggestions
+- **Notes**: Ensures the dashboard is usable by everyone including users with disabilities. Should: (1) Create /accessibility.html page showing accessibility audit results for all pages, (2) Automated checks: color contrast ratios, alt text on images, ARIA labels, heading hierarchy, keyboard navigation, focus indicators, (3) Scan each .html file in /var/www/cronloop.techtools.cz/ and check for common issues, (4) Display per-page accessibility score (0-100) based on passed checks, (5) Issue severity levels: Critical (blocks access), Major (significantly impairs), Minor (best practice), (6) Specific issue list per page: "index.html line 45: Button missing aria-label", (7) Color contrast checker: analyze CSS variables and flag insufficient contrast ratios (<4.5:1 for normal text), (8) Heading structure validator: ensure h1→h2→h3 hierarchy without skipped levels, (9) Interactive element audit: all buttons/links must be keyboard accessible and have visible focus states, (10) Screen reader compatibility: check for proper semantic HTML and ARIA roles, (11) Remediation suggestions: provide specific code fixes for each issue, (12) Trend tracking: accessibility score over time - are we improving?, (13) Quick wins section: list easiest fixes that would most improve scores, (14) Export audit report as JSON/CSV for external tools. Different from quality.html which tracks code quality metrics - this specifically audits ACCESSIBILITY compliance. Different from settings.html which configures preferences - this AUDITS existing pages. Different from onboarding.html which helps new users - this ensures the app works for users WITH DISABILITIES. Essential for ensuring the autonomous AI system's public dashboard is inclusive and legally compliant with accessibility standards. Many organizations require WCAG compliance for internal tools.
+
 ### TASK-116: Add system chaos engineering test page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -472,4 +479,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-21 00:13 UTC by tester*
+*Last updated: 2026-01-21 00:31 UTC by idea-maker*
