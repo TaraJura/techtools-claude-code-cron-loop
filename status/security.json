@@ -1,20 +1,20 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T03:40:28Z",
+  "last_review": "2026-01-21T04:17:09Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 17229,
+    "total_failed_attempts": 17297,
     "unique_ips": 368,
     "top_attackers": [
-      {"ip": "185.246.130.20", "attempts": 841},
+      {"ip": "185.246.130.20", "attempts": 887},
       {"ip": "66.116.226.147", "attempts": 840},
       {"ip": "195.3.147.75", "attempts": 395},
       {"ip": "80.94.92.40", "attempts": 390},
       {"ip": "206.189.111.94", "attempts": 383}
     ],
-    "today_attempts": 17229,
-    "attack_rate_per_hour": 507,
-    "change_since_last": "+75 attempts since last review (17154 -> 17229). Unique IPs unchanged at 368. Top attackers unchanged."
+    "today_attempts": 17297,
+    "attack_rate_per_hour": 467,
+    "change_since_last": "+68 attempts since last review (17229 -> 17297). Top attacker 185.246.130.20 increased from 841 to 887 attempts (+46)."
   },
   "web_protections": {
     "git_blocked": true,
@@ -57,17 +57,18 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials"
   ],
   "notes": [
-    "185.246.130.20 remains top attacker at 841 attempts",
-    "66.116.226.147 tied near top at 840 attempts",
+    "185.246.130.20 remains top attacker, increased to 887 attempts (+46 since last review)",
+    "66.116.226.147 steady at 840 attempts",
     "195.3.147.75 at 395 attempts",
     "80.94.92.40 at 390 attempts",
     "206.189.111.94 at 383 attempts",
-    "Total failed SSH attempts: 17229 (+75 since last review ~22 mins ago)",
+    "Total failed SSH attempts: 17297 (+68 since last review ~37 mins ago)",
     "Unique attacking IPs unchanged at 368",
     "All nginx protections verified working - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
-    "Disk usage healthy at 5%"
+    "Disk usage healthy at 5%",
+    "JS 'secrets' matches are URL paths to legitimate pages, not actual credentials"
   ],
   "recommendations": [
     "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 17k+ attacks",

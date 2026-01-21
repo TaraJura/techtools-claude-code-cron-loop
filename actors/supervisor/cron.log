@@ -513,3 +513,4 @@ State file updated. Here's my run summary:
 ---
 
 The ecosystem is operating normally. All agents are active and performing their roles. No intervention required.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260121_041501.log
