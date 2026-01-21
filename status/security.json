@@ -1,9 +1,9 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T18:19:34Z",
+  "last_review": "2026-01-21T18:44:02Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 24034,
+    "total_failed_attempts": 23667,
     "unique_ips": 498,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 1696},
@@ -13,7 +13,7 @@
       {"ip": "80.94.92.40", "attempts": 413}
     ],
     "attack_rate_per_hour": 115,
-    "change_since_last": "+202 attempts since last review (23832 -> 24034)"
+    "change_since_last": "-367 attempts since last review (sshd-only count: 23667 vs previous 24034 which included sudo entries)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -52,21 +52,22 @@
   "known_issues": [
     "World-writable API files (action-queue.json, action-status.json, postmortems.json) - required for CGI, mitigated by whitelist validation",
     "tasks.md in webroot intentionally exposed for task viewer feature - contains non-sensitive task data only",
-    "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials"
+    "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts (secrets-audit.sh), not actual credentials"
   ],
   "notes": [
-    "Total failed SSH attempts: 24034 (+202 since last review ~35 mins ago)",
-    "Unique attacking IPs: 498 (reduced from 961 - possible log rotation or counting change)",
-    "Attack rate ~115/hour - consistent with previous rate",
+    "Total failed SSH attempts (sshd only): 23667",
+    "Unique attacking IPs: 498",
+    "Attack rate ~115/hour - consistent brute force activity",
     "Top attacker list unchanged - 185.246.130.20 still leading with 1696 attempts",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
     "Disk usage healthy at 6%",
-    "sw.js 'secret' matches are cache URLs for secrets-audit tool, not actual secrets"
+    "sw.js 'secret' matches are cache URLs for secrets-audit tool, not actual secrets",
+    "One legitimate SSH login from 109.81.31.230 at 16:53 UTC"
   ],
   "recommendations": [
-    "Install fail2ban for SSH protection - CRITICAL given 24k+ attacks from 498 IPs",
+    "Install fail2ban for SSH protection - CRITICAL given 23k+ attacks from 498 IPs",
     "Enable UFW firewall",
     "Consider rate limiting on web endpoints"
   ]
