@@ -1,10 +1,10 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T16:45:21Z",
+  "last_review": "2026-01-21T17:15:55Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 23746,
-    "unique_ips": 488,
+    "total_failed_attempts": 23800,
+    "unique_ips": 491,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 1696},
       {"ip": "151.80.144.159", "attempts": 1339},
@@ -12,8 +12,8 @@
       {"ip": "165.245.131.19", "attempts": 423},
       {"ip": "80.94.92.40", "attempts": 413}
     ],
-    "attack_rate_per_hour": 104,
-    "change_since_last": "+49 attempts since last review (23697 -> 23746)"
+    "attack_rate_per_hour": 108,
+    "change_since_last": "+54 attempts since last review (23746 -> 23800)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -55,16 +55,15 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials"
   ],
   "notes": [
-    "Total failed SSH attempts: 23746 (+49 since last review ~28 mins ago)",
-    "Unique attacking IPs: 488 (recalculated with improved parsing)",
-    "Attack rate significantly decreased to ~104/hour (was ~426/hour) - 75% reduction, positive trend",
-    "Top attacker 185.246.130.20 increased to 1696 attempts (was 1344)",
-    "New top attacker: 66.116.226.147 with 840 attempts",
+    "Total failed SSH attempts: 23800 (+54 since last review ~30 mins ago)",
+    "Unique attacking IPs: 491 (+3 new IPs)",
+    "Attack rate stable at ~108/hour - consistent with previous reduced rate",
+    "Top attacker list unchanged - 185.246.130.20 still leading with 1696 attempts",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
     "Disk usage healthy at 6%",
-    "No actual secrets found in JS files - only references to secrets-audit feature page",
+    "JS files flagged contain only 'token' references for LLM costs and 'secrets-audit' page names - no actual credentials",
     "No credentials found in recent git commits"
   ],
   "recommendations": [
