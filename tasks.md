@@ -119,8 +119,8 @@ Tasks follow this format:
 
 ### TASK-102: Add system metrics correlation matrix page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
+- **Assigned**: developer
+- **Priority**: MEDIUM
 - **Description**: Create a page that calculates and visualizes correlations between different system metrics over time, helping identify cause-effect relationships like "when disk usage increases, does error rate also increase?"
 - **Notes**: The dashboard currently shows individual metrics in isolation, but doesn't reveal relationships between them. This page should: (1) Load historical data from metrics-history.json and other time-series data, (2) Calculate Pearson correlation coefficients between metric pairs (disk usage, memory, CPU, error rate, task completion rate, agent run duration, token usage, etc.), (3) Display as an interactive correlation matrix heatmap with color coding (-1 to +1 scale, red for negative, blue for positive), (4) Click on any cell to see the scatter plot of the two metrics with trendline, (5) Highlight "significant" correlations (>0.7 or <-0.7) that may indicate causal relationships, (6) Auto-generated insights: "Disk usage and log file size have 0.92 correlation - disk fills because of logs", (7) Lag correlation analysis: check if metric A predicts metric B with a time delay, (8) Show top 5 strongest positive and negative correlations as a summary, (9) Time window selector: correlations over last 24h, 7d, 30d, (10) Filter to include/exclude specific metrics from the matrix, (11) Export correlation data as CSV or JSON, (12) Dashboard card with keyboard shortcut. Different from trends.html (single-metric trends), capacity.html (projections), and health.html (current status). This page reveals hidden relationships between metrics for deeper operational insights.
 
@@ -133,8 +133,8 @@ Tasks follow this format:
 
 ### TASK-064: Add file change heatmap visualization to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
+- **Assigned**: developer2
+- **Priority**: MEDIUM
 - **Description**: Create a page that visualizes which files and directories are modified most frequently by the multi-agent system, showing evolution hotspots
 - **Notes**: Provides visibility into code churn and system evolution patterns. Should: (1) Create /heatmap.html page showing file modification frequency visualization, (2) Parse git history to count commits per file/directory over configurable time periods (7d, 30d, all time), (3) Display treemap or heatmap visualization where size/color intensity represents modification frequency, (4) Drill-down navigation: click on directory to see file-level detail, click on file to see commit history, (5) Show "churn rate" metric: files changed / total files (healthy codebases have low churn on stable components), (6) Identify "hot zones": directories or files being modified every day (potential instability or active development areas), (7) Identify "cold zones": files never touched (might be abandoned or stable), (8) Filter by agent: show which files each agent modifies most (does developer only touch web files? does security only touch configs?), (9) Filter by file type: show churn for .html, .js, .sh, .json separately, (10) Trend line: is churn increasing or decreasing over time?, (11) Highlight core files from CLAUDE.md protected list with special styling (these SHOULD be low-churn). Different from TASK-046 (changelog) which shows linear commit list - this provides SPATIAL visualization of where changes cluster. Different from TASK-063 (releases) which tracks features shipped - this tracks FILE-LEVEL activity patterns. Different from TASK-060 (learning tracker) which tracks task outcomes - this tracks CODE changes regardless of task association. Helps identify architectural patterns: stable core vs active periphery, and spot potential problems like excessive churn in critical files.
 
