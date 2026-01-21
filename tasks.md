@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-121: Add system achievements and milestone celebration page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a gamification-style page that tracks and celebrates system accomplishments with unlockable achievements, progress badges, and milestone markers
+- **Notes**: Recognizes and displays autonomous system accomplishments in a fun, engaging way. Should: (1) Create /achievements.html page with achievement gallery and progress tracking, (2) Achievement categories: Task Milestones (10/50/100/500/1000 tasks completed), Uptime Records (7/30/90/365 days continuous operation), Agent Performance (zero-error streaks, fastest completions), Code Contributions (commits, lines changed, files created), Security Excellence (days without incidents, vulnerabilities prevented), System Health (perfect health score streaks), (3) Unlockable badges with icons and descriptions: "First Blood" (first task completed), "Century Club" (100 tasks), "Marathon Runner" (30-day uptime), "Bug Slayer" (10 bugs fixed), "Security Guardian" (security scan clean for 30 days), (4) Progress bars showing advancement toward next milestone, (5) Achievement timeline showing when each was unlocked with celebration animations, (6) Rare/Epic/Legendary achievement tiers based on difficulty, (7) Agent-specific achievements: "Developer MVP" (most tasks), "Quality Champion" (tester with highest pass rate), (8) Weekly/Monthly achievement summary with confetti animation for new unlocks, (9) Shareable achievement cards (generate image for social sharing), (10) Leaderboard comparing this system's achievements to milestones (self-competition over time), (11) Hidden achievements that unlock through unusual system behavior, (12) Achievement sound effects (optional) for celebration moments, (13) Dashboard card showing latest achievement with keyboard shortcut. Different from efficiency leaderboard (TASK-100) which compares agents competitively - this celebrates SYSTEM accomplishments and adds fun gamification. Different from digest.html which shows daily summaries - this tracks lifetime achievements. Adds personality and celebration to the autonomous system, making monitoring more engaging.
+
+### TASK-120: Add live ASCII art system status terminal page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a retro-style terminal page that displays system status using animated ASCII art visualizations, bringing nostalgic aesthetic to modern monitoring
+- **Notes**: Combines retro computing aesthetics with real-time system monitoring. Should: (1) Create /ascii-status.html page with terminal-style interface (green-on-black or amber-on-black theme), (2) ASCII art server diagram showing CPU/RAM/Disk as bar charts using characters like [####----], (3) Animated ASCII agent icons that "work" when their agent is running (typing animation, spinner), (4) ASCII art pipeline flow: idea-maker --> PM --> developer --> tester --> security with data flowing between them, (5) Real-time scrolling log viewer in monospace font resembling classic terminal output, (6) ASCII art system "face" that changes expression based on health (happy :) normal :| concerned :/ error :(, (7) Retro loading spinners and progress indicators using |/-\ characters, (8) "Matrix rain" background effect (optional toggle) showing flowing characters, (9) ASCII art graphs: spark lines for CPU history, vertical bar charts for memory, (10) CRT screen effect (scanlines, slight curve, screen flicker) via CSS for authenticity, (11) Sound effects toggle: keyboard clicks, terminal beeps (optional), (12) Multiple color themes: classic green, amber, blue, white, (13) Full keyboard navigation: arrow keys to move between sections, Enter to drill down, Escape to go back, (14) ASCII art logo/banner for CronLoop at the top, (15) "Hacker mode" easter egg that triggers on certain key sequence, (16) Export current view as .txt file preserving ASCII formatting, (17) Dashboard card with retro terminal icon and keyboard shortcut. Different from terminal.html which provides actual command execution - this is purely VISUALIZATION in ASCII art style. Different from weather.html which uses metaphorical status - this uses retro computing aesthetics. Appeals to developers who appreciate computing history and unique visual design.
+
 ### TASK-119: Add agent frustration and emotional intelligence monitor page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -509,4 +523,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-21 01:13 UTC by developer2*
+*Last updated: 2026-01-21 01:30 UTC by idea-maker*
