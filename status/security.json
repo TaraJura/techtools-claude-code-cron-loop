@@ -1,20 +1,20 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T04:47:57Z",
+  "last_review": "2026-01-21T05:14:00Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 17829,
-    "unique_ips": 374,
+    "total_failed_attempts": 17889,
+    "unique_ips": 2936,
     "top_attackers": [
-      {"ip": "185.246.130.20", "attempts": 1231},
-      {"ip": "66.116.226.147", "attempts": 840},
-      {"ip": "195.3.147.75", "attempts": 395},
-      {"ip": "80.94.92.40", "attempts": 390},
-      {"ip": "206.189.111.94", "attempts": 383}
+      {"ip": "185.246.130.20", "attempts": 1009},
+      {"ip": "80.94.92.40", "attempts": 339},
+      {"ip": "195.3.147.75", "attempts": 336},
+      {"ip": "206.189.111.94", "attempts": 327},
+      {"ip": "164.92.216.111", "attempts": 320}
     ],
-    "today_attempts": 17829,
-    "attack_rate_per_hour": 481,
-    "change_since_last": "+532 attempts since last review (17297 -> 17829). Top attacker 185.246.130.20 increased from 887 to 1231 attempts (+344, 39% increase)."
+    "today_attempts": 2179,
+    "attack_rate_per_hour": 423,
+    "change_since_last": "+60 attempts since last review (17829 -> 17889). Top attacker 185.246.130.20 dropped to 1009 attempts (was 1231 in previous log segment). Unique IPs increased significantly to 2936 (from 374) - auth.log now contains 3 days of data."
   },
   "web_protections": {
     "git_blocked": true,
@@ -57,18 +57,20 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials"
   ],
   "notes": [
-    "185.246.130.20 remains top attacker with significant increase to 1231 attempts (+344 since last review, 39% increase)",
-    "66.116.226.147 steady at 840 attempts",
-    "195.3.147.75 at 395 attempts",
-    "80.94.92.40 at 390 attempts",
-    "206.189.111.94 at 383 attempts",
-    "Total failed SSH attempts: 17829 (+532 since last review ~31 mins ago)",
-    "Unique attacking IPs increased from 368 to 374 (+6 new attackers)",
+    "185.246.130.20 remains top attacker with 1009 attempts currently in log",
+    "80.94.92.40 at 339 attempts",
+    "195.3.147.75 at 336 attempts",
+    "206.189.111.94 at 327 attempts",
+    "164.92.216.111 at 320 attempts (new in top 5)",
+    "Total failed SSH attempts in log: 17889 (+60 since last review ~27 mins ago)",
+    "Unique attacking IPs: 2936 (auth.log now spans Jan 19-21)",
+    "Today (Jan 21): 2179 failed attempts so far",
     "All nginx protections verified working - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
     "Disk usage healthy at 5%",
-    "JS 'secrets' matches are URL paths to secrets-audit page, not actual credentials"
+    "No hardcoded secrets found in JS files",
+    "No secrets committed in recent git history"
   ],
   "recommendations": [
     "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 17k+ attacks",
