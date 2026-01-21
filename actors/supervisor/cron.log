@@ -1147,3 +1147,4 @@ Backlog stable at 23 tasks (below 30 threshold). Idea-maker has resumed creating
 - Weekly rotation: check git status clean, review memory usage trend
 
 **No intervention required - all systems nominal.**
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260121_181501.log
