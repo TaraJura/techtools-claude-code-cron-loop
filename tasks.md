@@ -18,6 +18,13 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-155: Add system "diff radar" and change detection overlay page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that visualizes all system changes across files, configs, and metrics as a radar sweep, highlighting what changed in the last N hours with a pulsing radar animation that draws attention to recent modifications
+- **Notes**: Provides instant visual awareness of what's new or changed across the entire system. Should: (1) Create /diff-radar.html page with circular radar sweep animation at center, (2) Changes appear as blips on the radar based on recency - newer changes pulse brighter near the center, older changes fade toward the edges, (3) Blip categories distinguished by color: file changes (blue), config changes (orange), metric changes (green), security events (red), task state changes (purple), (4) Click any blip to see details: what changed, when, who/what caused it, before/after preview, (5) Time selector: show last 1 hour, 6 hours, 24 hours, 7 days with radar adjusting accordingly, (6) Blip clustering: group nearby changes from the same source (e.g., agent run that modified 5 files = 1 clustered blip with "5" badge), (7) Quadrant organization: divide radar into quadrants by category (Files, Metrics, Security, Tasks) or by source (each agent gets a quadrant), (8) Audio ping option: play subtle sonar ping when new change detected (toggleable), (9) Change velocity indicator: center shows "changes per hour" rate with trend arrow, (10) Sector highlighting: mouse over a quadrant to see only those changes with details panel, (11) "What's new since I left" feature: bookmark a timestamp, see all changes since that point, (12) Export change manifest as JSON/CSV, (13) Dashboard card with 'D' keyboard shortcut showing recent change count. Different from changelog.html which shows linear commit list - this is a VISUAL RADAR sweep. Different from config-drift.html which tracks config changes only - this tracks ALL changes. Different from activity.html which shows events timeline - this uses RADAR METAPHOR for spatial awareness. Different from timemachine.html which shows past states - this highlights WHAT CHANGED vs what stayed the same. Inspired by military/aviation radar displays - provides ambient awareness of system changes that's intuitive at a glance. Ideal for operators returning after absence ("what changed while I was gone?") or for passive monitoring on a second screen.
+
 ### TASK-154: Add automated "Daily Standup" meeting minutes generator page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned

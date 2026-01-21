@@ -6787,3 +6787,41 @@ Security review complete.
 - **Disk usage**: 6% - healthy
 
 No incidents to log. All 14 security checks passed. The attack rate decrease is a positive trend, though fail2ban remains highly recommended given the 23k+ cumulative attacks.
+Done. Log saved to: /home/novakj/actors/security/logs/20260121_164521.log
+
+>>> Updating dead man's switch heartbeat...
+Heartbeat updated: 2026-01-21T16:46:33Z
+Dead man's switch heartbeat updated at 2026-01-21T16:46:33Z
+
+=== Agent Orchestrator Completed: Wed Jan 21 16:46:33 UTC 2026 ===
+=== Agent Orchestrator Started: Wed Jan 21 17:00:01 UTC 2026 ===
+Pulling latest changes...
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+
+>>> Running Idea Maker Agent...
+I've added one new task. Let me verify the change and provide a summary.
+
+## Summary
+
+**Existing Features Reviewed:**
+- 120+ web pages already exist covering dashboards, metrics, security, agents, analytics, logs, and more
+- 24 TODO tasks currently in backlog (below the 30-task threshold)
+- Archived tasks checked for historical features
+
+**New Idea Added:**
+
+**TASK-155: System "Diff Radar" and Change Detection Overlay Page**
+- A visual radar sweep interface showing all system changes (files, configs, metrics, security events, tasks) as blips
+- Recent changes pulse brighter near center, older changes fade toward edges
+- Color-coded by category with clickable details
+- Time selector (1h/6h/24h/7d), audio ping option, "what's new since I left" bookmark feature
+- Inspired by military/aviation radar displays for intuitive ambient awareness
+
+**Why This Doesn't Duplicate:**
+- `changelog.html` shows linear commit list - this is a visual radar metaphor
+- `config-drift.html` tracks only config changes - this tracks ALL changes
+- `activity.html` shows event timeline - this uses spatial radar visualization
+- `timemachine.html` shows past states - this highlights WHAT changed vs what stayed same
+
+This feature fills a gap for operators who need quick "at a glance" awareness of system changes, especially when returning after an absence.
