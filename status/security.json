@@ -1,9 +1,9 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T13:18:53Z",
+  "last_review": "2026-01-21T13:40:26Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 21859,
+    "total_failed_attempts": 22194,
     "unique_ips": 457,
     "top_attackers": [
       {"ip": "151.80.144.159", "attempts": 1339},
@@ -12,8 +12,8 @@
       {"ip": "80.94.92.40", "attempts": 413},
       {"ip": "195.3.147.75", "attempts": 395}
     ],
-    "attack_rate_per_hour": 850,
-    "change_since_last": "+522 attempts since last review (21337 -> 21859)"
+    "attack_rate_per_hour": 960,
+    "change_since_last": "+335 attempts since last review (21859 -> 22194)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -56,17 +56,17 @@
   ],
   "notes": [
     "Top attacker IPs unchanged: 151.80.144.159 (#1), 185.246.130.20 (#2), 66.116.226.147 (#3)",
-    "Total failed SSH attempts: 21859 (+522 since last review ~30 mins ago)",
-    "Unique attacking IPs: 457 (slight increase from 444)",
-    "Attack rate continues at ~850/hour (sustained brute-force activity)",
+    "Total failed SSH attempts: 22194 (+335 since last review ~21 mins ago)",
+    "Unique attacking IPs: 457 (unchanged from last review)",
+    "Attack rate increased to ~960/hour (sustained brute-force activity)",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
     "Disk usage healthy at 6%",
-    "sw.js references to 'secrets-audit' are feature paths, not exposed secrets"
+    "JS files contain 'token' references for UI elements only, not credentials"
   ],
   "recommendations": [
-    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 21k+ attacks and high rate",
+    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 22k+ attacks and high rate",
     "Enable UFW firewall",
     "Consider rate limiting on web endpoints"
   ]
