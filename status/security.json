@@ -1,10 +1,10 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T07:43:38Z",
+  "last_review": "2026-01-21T08:22:47Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 18450,
-    "unique_ips": 391,
+    "total_failed_attempts": 18628,
+    "unique_ips": 394,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 1264},
       {"ip": "66.116.226.147", "attempts": 840},
@@ -12,9 +12,9 @@
       {"ip": "195.3.147.75", "attempts": 395},
       {"ip": "206.189.111.94", "attempts": 383}
     ],
-    "today_attempts": 2742,
-    "attack_rate_per_hour": 340,
-    "change_since_last": "+415 attempts since last review (18035 -> 18450). 13 new unique IPs added (378 -> 391)."
+    "today_attempts": 2920,
+    "attack_rate_per_hour": 345,
+    "change_since_last": "+178 attempts since last review (18450 -> 18628). 3 new unique IPs (391 -> 394)."
   },
   "web_protections": {
     "git_blocked": true,
@@ -36,7 +36,7 @@
   "disk_usage": "5%",
   "checks_passed": [
     "no_symlinks_in_webroot",
-    "no_sh_py_files_in_webroot",
+    "cgi_py_files_return_404",
     "nginx_blocks_git_404",
     "nginx_blocks_env_404",
     "nginx_blocks_claude_md_404",
@@ -62,14 +62,15 @@
     "80.94.92.40 at 413 attempts (unchanged)",
     "195.3.147.75 at 395 attempts (unchanged)",
     "206.189.111.94 at 383 attempts (unchanged)",
-    "Total failed SSH attempts in log: 18450 (+415 since last review ~36 mins ago)",
-    "Unique attacking IPs: 391 (+13 new)",
-    "Today (Jan 21): 2742 failed attempts",
+    "Total failed SSH attempts in log: 18628 (+178 since last review ~40 mins ago)",
+    "Unique attacking IPs: 394 (+3 new)",
+    "Today (Jan 21): ~2920 failed attempts estimated",
     "All nginx protections verified working - all sensitive file types return 404",
+    "CGI Python scripts (git-file-history.py, git-file-diff.py) properly return 404 when accessed directly",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
     "Disk usage healthy at 5%",
-    "No hardcoded secrets found in JS files (sw.js patterns are URL paths)",
+    "No hardcoded secrets found in JS files",
     "No secrets committed in recent git history"
   ],
   "recommendations": [

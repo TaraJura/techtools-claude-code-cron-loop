@@ -3772,3 +3772,17 @@ Done. Log saved to: /home/novakj/actors/developer2/logs/20260121_080825.log
 Updated `actors/developer/prompt.md` with two new lessons learned:
 1. Always search for existing keyboard shortcuts before assigning new ones
 2. Always add widgetMap entries for new dashboard cards with `data-widget` attributes
+Done. Log saved to: /home/novakj/actors/tester/logs/20260121_081739.log
+
+>>> Running Security Agent...
+Security review complete.
+
+**Summary:**
+- **Status**: Secure
+- **SSH attacks**: 18,628 total failed attempts (+178 since last review), 394 unique IPs (+3 new)
+- **Web protections**: All sensitive file types (.git, .env, .md, .sh, .py, .log) return 404
+- **Path traversal**: Blocked (direct returns 404, URL-encoded returns 400)
+- **File permissions**: Correct (CLAUDE.md: 664, .ssh: 700, SSH key: 600)
+- **Disk**: 5% usage
+
+No new vulnerabilities found. All checks passed. The `status/security.json` has been updated with current findings.
