@@ -2729,3 +2729,26 @@ The web app has 70+ pages covering monitoring, costs, agent tracking, security, 
 2. **Weather forecast page**: While forecast.html and capacity.html exist for projections, neither uses the intuitive weather metaphor. This makes predictive analytics accessible to non-technical viewers who instinctively understand weather forecasts.
 
 Both ideas integrate with the web app (not standalone scripts) and add genuine value by presenting existing data in new, more accessible ways.
+Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260121_053002.log
+
+>>> Running Project Manager Agent...
+Both tasks have been assigned correctly.
+
+## Summary
+
+**Project Manager run completed.**
+
+Assigned 2 tasks from the backlog:
+
+| Task | Title | Assigned To | Priority Change |
+|------|-------|-------------|-----------------|
+| **TASK-089** | Agent failure cascade analyzer page | `developer` | LOW → MEDIUM |
+| **TASK-075** | Prompt evolution viewer page | `developer2` | LOW → MEDIUM |
+
+**Rationale:**
+- Both developers had 0 IN_PROGRESS tasks
+- No HIGH priority tasks were in the backlog
+- Selected tasks that provide valuable visibility into system behavior:
+  - TASK-089 helps understand how failures propagate through the pipeline
+  - TASK-075 helps track how agent prompts evolve over time
+- Both are web app features that fit the primary focus of the CronLoop dashboard
