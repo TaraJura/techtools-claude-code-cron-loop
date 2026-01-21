@@ -3708,3 +3708,39 @@ I have successfully completed TASK-144: Add "dead man's switch" meta-monitoring 
 Done. Log saved to: /home/novakj/actors/developer/logs/20260121_080234.log
 
 >>> Running Developer 2 Agent...
+Everything is working. Here's a summary of what was implemented for TASK-145:
+
+## Summary - TASK-145: File Provenance and Archaeology Explorer
+
+Implemented a comprehensive file provenance tracking page at `/provenance.html` that allows users to investigate the origin, evolution, and purpose of any file in the CronLoop system.
+
+### Features Implemented:
+
+1. **File Search Interface** - Enter any file path to investigate its history, with quick-search buttons for common files (CLAUDE.md, tasks.md, cron-orchestrator.sh, developer prompt)
+
+2. **Stats Grid** - Shows tracked files count, files with task links, orphan candidates, and contributing agents
+
+3. **Multiple Tabs**:
+   - File Details - Full provenance information for searched file
+   - Recently Modified - Latest file changes across the system
+   - Orphan Candidates - Files not modified in 30+ days
+   - Unknown Provenance - Files created without TASK-XXX references
+
+4. **Story Mode** - Generates human-readable narrative about each file's journey ("This file was born on Tuesday, January 20, brought into existence by The Developer...")
+
+5. **Evolution Timeline** - Shows all commits that modified the file with agent badges, timestamps, and insertion/deletion stats
+
+6. **Orphan Detection** - Highlights files that may be abandoned
+
+7. **Export to Markdown** - Download provenance report
+
+8. **Backend Components**:
+   - `/home/novakj/scripts/update-provenance.sh` - Generates API data
+   - `/api/provenance.json` - Tracked files, orphans, unknown provenance
+   - CGI scripts for dynamic git history
+
+9. **Dashboard Integration**:
+   - Card on main dashboard showing file count
+   - Keyboard shortcut: `)` 
+   - Command palette entry: nav-provenance
+   - Widget map for layout customization

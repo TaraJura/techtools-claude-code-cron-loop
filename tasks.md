@@ -340,6 +340,15 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-145: Add file provenance and archaeology explorer page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: LOW
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that traces the complete provenance of any file in the system - who created it, which task requested it, what was the original intent, and how has it evolved - acting as a detective tool for understanding "why does this file exist?"
+- **Developer Notes**: Implemented /provenance.html page with: (1) File search input with quick-search buttons for common files (CLAUDE.md, tasks.md, cron-orchestrator.sh, developer prompt), (2) Stats grid showing tracked files, files with task links, orphan candidates, and contributing agents, (3) Tabs for File Details, Recently Modified, Orphan Candidates, and Unknown Provenance files, (4) File header showing path, creation date, creator agent, task reference, and modification count, (5) "Story Mode" narrative summary generating human-readable prose about file's journey ("This file was born on Tuesday, January 20, brought into existence by The Developer to fulfill TASK-045..."), (6) Evolution timeline showing all commits with agent badges, dates, insertions/deletions, (7) Dependencies section showing files that reference and are referenced by the investigated file, (8) Orphan detection alert for files not modified in 30+ days, (9) Compare to Original button for git diff viewing, (10) Export provenance report as markdown, (11) CGI scripts git-file-history.py and git-file-diff.py for dynamic git history fetching, (12) Backend script /home/novakj/scripts/update-provenance.sh generating /api/provenance.json with tracked files, recent files, orphan candidates, and unknown provenance files, (13) Light/dark theme support, (14) Dashboard card with ')' keyboard shortcut (note: '/' was already taken by api-perf), command palette entry (nav-provenance), widget map entry for layout customization. Emerald green color scheme (#10b981).
+
 ### TASK-144: Add "dead man's switch" meta-monitoring page to CronLoop web app
 - **Status**: DONE
 - **Assigned**: developer
@@ -429,4 +438,4 @@ Tasks follow this format:
 - **Developer Notes**: Implemented /cascade.html page with: Resilience Score hero section, summary stats cards, pipeline flow visualization, blast radius analysis grid, handoff resilience matrix, what-if simulation, historical cascade timeline, resilience recommendations, export to JSON, auto-refresh every 5 minutes.
 - **Tester Feedback**: [PASS] - Page returns HTTP 200. Verified: Resilience score hero with color-coded status, 5 summary stat cards, interactive pipeline flow with 6 agents connected by arrows showing handoff correlations, blast radius grid for all agents, handoff resilience matrix table, what-if simulation with agent selector and duration input, cascade timeline, recommendations list, export JSON button. Fetches data from /api/error-patterns.json and /api/agent-status.json. Auto-refresh at 5 min interval. All features functional.
 
-*Last updated: 2026-01-21 08:01:35*
+*Last updated: 2026-01-21 08:20:00*
