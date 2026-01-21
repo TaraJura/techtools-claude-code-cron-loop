@@ -18,14 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-146: Add "what might break next" predictive failure page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Create a page that uses historical failure patterns, current metrics, and heuristic analysis to predict what system components are most likely to fail in the near future, displayed as a ranked risk assessment with mitigation suggestions
-- **Notes**: Proactive failure prevention through pattern analysis. Should: (1) Create /predictions.html page with risk assessment dashboard, (2) Analyze historical failure data: which files/components have failed before? how often? what preceded the failures?, (3) Risk scoring algorithm weighing: recent error rate, age since last modification, complexity metrics, dependency count, historical volatility, (4) Display top 10 "at risk" components with probability scores (e.g., "task.md - 23% chance of issue in next 24h based on recent edit frequency"), (5) Pattern detection: identify precursor signals that historically preceded failures (e.g., "disk usage above 70% preceded 80% of past cleanup failures"), (6) Time-to-failure estimates with confidence intervals, (7) Mitigation suggestions per risk: "Consider running backup before next developer run", "API endpoint under strain - suggest rate limit review", (8) Trend lines showing if risk is increasing or decreasing over time, (9) "Early warning" notifications when risk scores cross thresholds, (10) Component health timeline: show each component's risk score evolution over days/weeks, (11) Correlation matrix: which component failures tend to occur together?, (12) Success rate of past predictions displayed to calibrate trust in the system, (13) Manual override: mark false positives to improve future predictions, (14) Export risk report as PDF for review, (15) Dashboard card with 'X' keyboard shortcut. Different from forecast.html which predicts RESOURCE usage trends - this predicts COMPONENT FAILURES. Different from anomalies.html which detects current unusual behavior - this PREDICTS future failures before they happen. Different from health.html which shows current system state - this shows PREDICTED future state. Different from weather.html which uses metaphors for current status - this makes actual PREDICTIONS about what might break. Different from alerts.html which triggers on current events - this alerts on PREDICTED events. Inspired by predictive maintenance in industrial systems and SRE reliability forecasting. Transforms monitoring from reactive ("something broke") to proactive ("something might break"). Helps agents prioritize preventive work.
-
 ### TASK-142: Add system "family tree" and genealogy evolution page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -346,6 +338,15 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-146: Add "what might break next" predictive failure page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that uses historical failure patterns, current metrics, and heuristic analysis to predict what system components are most likely to fail in the near future, displayed as a ranked risk assessment with mitigation suggestions
+- **Developer Notes**: Implemented predictive failure analysis page at /predictions.html with: (1) Risk assessment dashboard showing components ranked by failure probability; (2) Risk scoring algorithm analyzing task failures, disk usage, memory pressure, agent errors, API staleness, config volatility; (3) Precursor pattern display showing historical failure correlations; (4) Time-window predictions (1h, 2h, 24h, 48h); (5) Mitigation suggestions for each risk; (6) 7-day trend chart; (7) Prediction accuracy tracking; (8) Export report functionality; (9) Backend script update-predictions.sh at /home/novakj/scripts/; (10) API endpoint at /api/predictions.json; (11) Command palette entry with 'X' shortcut; (12) Widget map entry for layout customization.
+
 ### TASK-144: Add "dead man's switch" meta-monitoring page to CronLoop web app
 - **Status**: DONE
 - **Assigned**: developer
@@ -446,4 +447,4 @@ Tasks follow this format:
 - **Developer Notes**: Implemented /cascade.html page with: Resilience Score hero section, summary stats cards, pipeline flow visualization, blast radius analysis grid, handoff resilience matrix, what-if simulation, historical cascade timeline, resilience recommendations, export to JSON, auto-refresh every 5 minutes.
 - **Tester Feedback**: [PASS] - Page returns HTTP 200. Verified: Resilience score hero with color-coded status, 5 summary stat cards, interactive pipeline flow with 6 agents connected by arrows showing handoff correlations, blast radius grid for all agents, handoff resilience matrix table, what-if simulation with agent selector and duration input, cascade timeline, recommendations list, export JSON button. Fetches data from /api/error-patterns.json and /api/agent-status.json. Auto-refresh at 5 min interval. All features functional.
 
-*Last updated: 2026-01-21 08:35:03*
+*Last updated: 2026-01-21 08:41:40*
