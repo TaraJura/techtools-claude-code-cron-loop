@@ -8485,3 +8485,41 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260121_213002.log
 - developer: 1 pending task (TASK-112)
 - developer2: 0 tasks
 - Backlog: 25 remaining unassigned tasks (all LOW priority)
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260121_213125.log
+
+>>> Running Developer Agent...
+I have completed **TASK-112: Add system "voice" narrator and audio status updates page**.
+
+## Summary of Implementation
+
+Created `/var/www/cronloop.techtools.cz/narrator.html` with the following features:
+
+1. **Audio Status Controls** - Enable/disable narrator with visual feedback, test voice button, stop button
+2. **Web Speech API** - Uses browser's built-in speechSynthesis for text-to-speech
+3. **Configurable Announcement Types**:
+   - Health changes (OK → Warning → Critical)
+   - Agent cycle completions
+   - New errors
+   - Security alerts
+   - Cost milestones
+4. **Voice Settings**:
+   - Speed (0.5x to 2x)
+   - Pitch control
+   - Volume control
+   - Voice selection from browser's available voices
+5. **Announcement Frequency**:
+   - Immediate (every event)
+   - Batched (5/15/30 minutes)
+   - On-demand only
+6. **Smart Filtering** - Focus on changes and alerts, not routine "all OK" messages
+7. **Transcript Log** - Shows announced messages with timestamps, persisted to localStorage
+8. **Text-to-Speech Preview** - Test any text with current voice settings
+9. **Keyboard Shortcut** - Press 's' to toggle narrator on/off
+10. **Do-Not-Disturb Schedule** - Configurable quiet hours (default 10pm-6am)
+11. **Priority Queue** - Critical alerts interrupt lower-priority announcements
+12. **Browser Support Detection** - Shows warning if Web Speech API not supported
+
+**Dashboard Integration**:
+- Dashboard card with speaker icon (🔊) and 's' keyboard shortcut
+- Command palette entry
+- widgetMap entry for layout customization

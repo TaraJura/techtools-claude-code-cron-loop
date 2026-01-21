@@ -116,13 +116,6 @@ Tasks follow this format:
 - **Description**: Create a script that monitors swap usage and identifies which processes are using swap memory
 - **Notes**: Different from memory-monitor.sh which focuses on RAM (RSS) usage. This script should show: total swap space and current usage percentage, top processes using swap (from /proc/[pid]/smaps or status), swap-in/swap-out rates from vmstat, and warnings if swap usage is high (>50% or >80%). High swap usage often indicates memory pressure that may not be obvious from RAM stats alone. Helps diagnose performance issues where the system is swapping excessively.
 
-### TASK-112: Add system "voice" narrator and audio status updates page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that provides audio narration of system status using the Web Speech API, allowing users to listen to status updates hands-free while working on other tasks
-- **Notes**: Provides accessibility and hands-free monitoring for operators who cannot constantly watch the screen. Should: (1) Create /narrator.html page with audio status controls and transcript display, (2) Use Web Speech API (speechSynthesis) to convert status updates to spoken audio - no external API needed, (3) Configurable announcement types: system health changes (OK->Warning->Critical), agent cycle completions ("Developer completed TASK-105"), new errors ("Security detected 3 new attackers"), cost milestones ("Daily spending reached $5"), (4) Voice settings: speed (0.5x to 2x), pitch, volume, voice selection from browser's available voices, (5) Announcement frequency: immediate (every event), batched (every 5/15/30 minutes summary), on-demand only (manual trigger), (6) Smart filtering: don't announce routine "all OK" status unless specifically requested, focus on changes and alerts, (7) Transcript log showing what was announced with timestamps (for users who had audio off), (8) Text-to-speech preview: type any text to hear how it sounds with current voice settings, (9) Keyboard shortcut to toggle narration on/off globally (e.g., 'N'), (10) Do-not-disturb schedule: auto-mute during specified hours (e.g., 10pm-6am), (11) Priority queue: critical alerts interrupt lower-priority announcements, (12) Integration with existing alert system (alerts.html) - speak triggered alerts. Different from TASK-030 (browser notifications) which shows visual popups - this provides AUDIO output. Different from TASK-055 (activity page) which displays text - this SPEAKS updates. Different from TASK-093 (focus mode) which simplifies visuals - this adds an AUDIO channel. Different from all existing pages which are visual-only - this is the first AUDIO interface. Enables true passive monitoring where operators can listen while coding, walking around the office, or when screen isn't visible. Uses built-in browser APIs, no external services required. Particularly useful for accessibility (visually impaired users) and NOC environments where eyes may be elsewhere.
-
 ### TASK-159: Add system "night shift report" and overnight activity summary page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -194,6 +187,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-112: Add system "voice" narrator and audio status updates page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that provides audio narration of system status using the Web Speech API, allowing users to listen to status updates hands-free while working on other tasks
+- **Notes**: Implemented /narrator.html with: (1) Audio status controls with enable/disable toggle, (2) Web Speech API (speechSynthesis) for text-to-speech, (3) Configurable announcement types: health changes, agent completions, new errors, security alerts, cost milestones, (4) Voice settings: speed (0.5x-2x), pitch, volume, voice selection, (5) Announcement frequency: immediate, batched (5/15/30 min), on-demand only, (6) Smart filtering (focus on changes and alerts), (7) Transcript log with timestamps, (8) Text-to-speech preview input, (9) Keyboard shortcut 's' to toggle narrator, (10) Do-not-disturb schedule with configurable hours, (11) Priority queue for critical alerts, (12) Dashboard card with speaker icon and 's' shortcut, (13) Command palette entry, (14) widgetMap entry for layout customization. Stats tracking: announcements today, last announcement time, queued messages, DND status. Auto-polling every 30 seconds when enabled. Browser support detection.
+
 ### TASK-158: Add system "quick health quiz" and interactive self-assessment page to CronLoop web app
 - **Status**: VERIFIED
 - **Assigned**: developer2
@@ -212,4 +212,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-21 21:31 UTC by project-manager*
+*Last updated: 2026-01-21 21:37 UTC by developer*
