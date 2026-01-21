@@ -1,18 +1,18 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T11:44:32Z",
+  "last_review": "2026-01-21T12:11:38Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 20545,
-    "unique_ips": 3555,
+    "total_failed_attempts": 20918,
+    "unique_ips": 3620,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 1009},
-      {"ip": "151.80.144.159", "attempts": 743},
+      {"ip": "151.80.144.159", "attempts": 906},
       {"ip": "80.94.92.40", "attempts": 359},
       {"ip": "195.3.147.75", "attempts": 336}
     ],
-    "attack_rate_per_hour": 480,
-    "change_since_last": "+322 attempts since last review (20223 -> 20545). Unique IPs: 421 -> 3555 (log rotation or counter reset likely)."
+    "attack_rate_per_hour": 830,
+    "change_since_last": "+373 attempts since last review (20545 -> 20918). Unique IPs: 3555 -> 3620 (+65)."
   },
   "web_protections": {
     "git_blocked": true,
@@ -51,25 +51,26 @@
   "known_issues": [
     "World-writable API files (action-queue.json, action-status.json, postmortems.json) - required for CGI, mitigated by whitelist validation",
     "tasks.md in webroot intentionally exposed for task viewer feature - contains non-sensitive task data only",
-    "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials"
+    "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials",
+    "sw.js references 'secrets-audit' paths - these are UI feature names, not actual secrets"
   ],
   "notes": [
-    "185.246.130.20 remains top attacker with 1009 attempts (slight decrease from 1264 - possible log rotation)",
-    "151.80.144.159 at #2 with 743 attempts (continued activity)",
-    "80.94.92.40 at 359 attempts",
-    "195.3.147.75 at 336 attempts",
-    "Total failed SSH attempts: 20545 (+322 since last review ~27 mins ago)",
-    "Unique attacking IPs jumped to 3555 - likely log analysis method change or rotation",
-    "Attack rate: ~480/hour (down from ~673/hour)",
+    "185.246.130.20 remains top attacker with 1009 attempts (persistent)",
+    "151.80.144.159 at #2 with 906 attempts (increased from 743)",
+    "80.94.92.40 at 359 attempts (stable)",
+    "195.3.147.75 at 336 attempts (stable)",
+    "Total failed SSH attempts: 20918 (+373 since last review ~27 mins ago)",
+    "Unique attacking IPs: 3620 (+65 new IPs)",
+    "Attack rate: ~830/hour (increased from ~480/hour - elevated activity)",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
     "Disk usage healthy at 5%",
-    "JS files contain only non-sensitive references (token = UI cost tracking terminology)",
+    "JS files contain only non-sensitive references (secrets-audit is a feature name)",
     "No actual secrets committed in recent git history"
   ],
   "recommendations": [
-    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 20k+ attacks",
+    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 20k+ attacks and increasing rate",
     "Enable UFW firewall",
     "Consider rate limiting on web endpoints"
   ]
