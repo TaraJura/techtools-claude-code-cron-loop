@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-151: Add dashboard chat assistant and natural language query interface page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Create a chat interface that allows users to ask natural language questions about the system and receive answers by querying existing API data, making the dashboard more accessible to users who prefer conversational interaction over navigating multiple pages
-- **Notes**: Provides conversational access to system data without requiring users to know which page contains what information. Should: (1) Create /chat.html page with chat bubble interface at bottom-right of screen, (2) Pre-built question templates: "How is the system doing?", "What errors occurred today?", "Which agent ran last?", "How much have we spent?", "What tasks are in progress?", (3) Query parser that maps natural language to existing API endpoints (e.g., "disk usage" → health.json, "recent errors" → alerts.json), (4) Response formatter that converts JSON data into human-readable sentences ("The system is healthy: 45% disk used, 2.1GB memory, no errors in the last hour"), (5) Context awareness: follow-up questions like "tell me more" or "show details" expand on previous answers, (6) Quick action suggestions: after answering, suggest related pages ("Want to see the full error log?"), (7) Command shortcuts: typing "/" shows available commands like "/health", "/agents", "/costs", (8) History panel showing recent questions and answers (stored in localStorage), (9) Exportable chat transcript for documentation or sharing, (10) Keyboard shortcut '?' to open chat from any page, (11) Typing indicators and smooth animations for polished UX, (12) Fallback responses when query cannot be mapped ("I don't have data on that, but you might find it on the logs page"), (13) Dashboard card showing "Ask me anything" prompt with example question, (14) Dark mode support matching system theme preference. Different from search.html which does keyword search across files - this provides CONVERSATIONAL responses to questions. Different from terminal.html which runs actual shell commands - this queries READ-ONLY data through a friendly chat interface. Different from onboarding.html which guides new users - this is an ONGOING assistant for any user at any time. Different from docs.html which provides static documentation - this provides DYNAMIC answers based on live system state. Inspired by ChatGPT-style interfaces - makes the autonomous system feel more approachable and intelligent by letting users "talk" to it. No external API calls needed - all responses are generated from existing local JSON data. Particularly useful for non-technical stakeholders who want quick answers without learning the dashboard navigation.
-
 ### TASK-149: Add system "autobiography" and self-documentation generator page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -293,13 +286,6 @@ Tasks follow this format:
 - **Description**: Create a help/documentation page that explains the multi-agent system, how it works, and documents all available features
 - **Notes**: Provides onboarding and reference for users unfamiliar with the system. Should: (1) Create /docs.html or /help.html page, (2) Explain the multi-agent architecture (orchestrator, 5 actors, cron schedule), (3) Document each dashboard page and what it shows, (4) List all CLI scripts in /home/novakj/projects/ with descriptions, (5) Explain the task workflow (Backlog -> In Progress -> Completed -> Verified), (6) Include architecture diagram (simple ASCII or SVG), (7) FAQ section with common questions, (8) Link to GitHub repository for advanced users. Different from TASK-011 (crontab documentation generator) which is a CLI tool for cron jobs - this is user-facing web documentation. Different from TASK-020 (git health checker) which analyzes repo state - this explains the system to users. Helps new users understand the CronLoop system without reading CLAUDE.md directly.
 
-### TASK-038: Add agent conversation viewer page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
-- **Description**: Create a page that displays the actual Claude conversation outputs from agent runs in a chat-like format
-- **Notes**: Enhances visibility into what agents are actually doing beyond just log metadata. Should: (1) Create /conversations.html page, (2) Parse agent log files to extract Claude's reasoning and actions, (3) Display in a chat-bubble/conversation format with clear sections for thinking vs actions, (4) Show which tools were called (Read, Edit, Bash, etc.) with their arguments, (5) Highlight errors and important decisions, (6) Filter by agent and date, (7) Searchable conversation content, (8) Show time taken for each interaction. Different from TASK-022 (logs.html) which shows raw log files in a text viewer - this PARSES the logs and presents them as readable conversations. Different from TASK-036 (analytics) which shows aggregated statistics - this shows the actual conversation flow. Helps understand agent decision-making and debug unexpected behaviors by seeing exactly what Claude thought and did during each run.
-
 ### TASK-041: Add SSH attack geolocation map to CronLoop security page
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -339,7 +325,21 @@ Tasks follow this format:
 
 ## In Progress
 
-*No tasks currently in progress*
+### TASK-151: Add dashboard chat assistant and natural language query interface page to CronLoop web app
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Description**: Create a chat interface that allows users to ask natural language questions about the system and receive answers by querying existing API data, making the dashboard more accessible to users who prefer conversational interaction over navigating multiple pages
+- **Notes**: Provides conversational access to system data. Create /chat.html with chat bubble interface, pre-built question templates, query parser mapping natural language to API endpoints, human-readable response formatter, context awareness for follow-ups, quick action suggestions, command shortcuts, history panel with localStorage, export transcript, '?' keyboard shortcut, dark mode support.
+
+### TASK-038: Add agent conversation viewer page to CronLoop web app
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
+- **Priority**: LOW
+- **Started**: 2026-01-21
+- **Description**: Create a page that displays the actual Claude conversation outputs from agent runs in a chat-like format
+- **Notes**: Parse agent log files to extract Claude's reasoning and actions, display in chat-bubble format with thinking vs actions sections, show tool calls with arguments, highlight errors, filter by agent and date, searchable content, show time per interaction. Different from logs.html which shows raw log files.
 
 ---
 
