@@ -3980,3 +3980,45 @@ All sensitive file types return 404:
 3. Consider rate limiting on web endpoints
 
 No incidents to log - routine check passed. `status/security.json` updated with current findings.
+Done. Log saved to: /home/novakj/actors/security/logs/20260121_084530.log
+
+>>> Updating dead man's switch heartbeat...
+Heartbeat updated: 2026-01-21T08:47:02Z
+Dead man's switch heartbeat updated at 2026-01-21T08:47:02Z
+
+=== Agent Orchestrator Completed: Wed Jan 21 08:47:02 UTC 2026 ===
+=== Agent Orchestrator Started: Wed Jan 21 09:00:01 UTC 2026 ===
+Pulling latest changes...
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+
+>>> Running Idea Maker Agent...
+## Summary
+
+I reviewed the existing CronLoop web app and task backlog to avoid duplicates:
+
+**Existing Features Found:**
+- 86 HTML pages covering dashboards, metrics, timelines, agents, security, chaos engineering, etc.
+- 80+ JSON API endpoints
+- 45+ tasks already in the backlog
+
+**New Ideas Added:**
+
+### TASK-147: GitHub-style Activity Calendar Heatmap (MEDIUM priority)
+Creates `/activity-calendar.html` - a GitHub contribution-style calendar showing ALL system activity (agent runs, task completions, file changes) aggregated by hour/day. Provides an at-a-glance view of activity patterns with:
+- Color-coded intensity grid
+- Multiple time ranges (7/30/90 days)
+- Activity type filtering
+- Pattern and anomaly detection
+
+**Why unique:** Different from timeline.html (sequential events), schedule.html (planned cron timing), heartbeat.html (real-time pulse), and trends.html (specific metrics). This shows AGGREGATED activity density in a familiar visualization.
+
+### TASK-148: API Endpoint Explorer (LOW priority)  
+Creates `/api-explorer.html` - auto-discovers and documents all 80+ JSON endpoints in `/api/`. Features:
+- Schema inference and structure display
+- Live JSON preview with syntax highlighting
+- Freshness indicators and health checks
+- Search by endpoint or field name
+- Export documentation
+
+**Why unique:** Different from api-stats.html (usage metrics), api-perf.html (latency), freshness.html (data staleness). This CATALOGS and DOCUMENTS the APIs themselves like a self-generating Swagger UI.

@@ -1,0 +1,41 @@
+========================================
+Actor: idea-maker
+Started: Wed Jan 21 09:00:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+I reviewed the existing CronLoop web app and task backlog to avoid duplicates:
+
+**Existing Features Found:**
+- 86 HTML pages covering dashboards, metrics, timelines, agents, security, chaos engineering, etc.
+- 80+ JSON API endpoints
+- 45+ tasks already in the backlog
+
+**New Ideas Added:**
+
+### TASK-147: GitHub-style Activity Calendar Heatmap (MEDIUM priority)
+Creates `/activity-calendar.html` - a GitHub contribution-style calendar showing ALL system activity (agent runs, task completions, file changes) aggregated by hour/day. Provides an at-a-glance view of activity patterns with:
+- Color-coded intensity grid
+- Multiple time ranges (7/30/90 days)
+- Activity type filtering
+- Pattern and anomaly detection
+
+**Why unique:** Different from timeline.html (sequential events), schedule.html (planned cron timing), heartbeat.html (real-time pulse), and trends.html (specific metrics). This shows AGGREGATED activity density in a familiar visualization.
+
+### TASK-148: API Endpoint Explorer (LOW priority)  
+Creates `/api-explorer.html` - auto-discovers and documents all 80+ JSON endpoints in `/api/`. Features:
+- Schema inference and structure display
+- Live JSON preview with syntax highlighting
+- Freshness indicators and health checks
+- Search by endpoint or field name
+- Export documentation
+
+**Why unique:** Different from api-stats.html (usage metrics), api-perf.html (latency), freshness.html (data staleness). This CATALOGS and DOCUMENTS the APIs themselves like a self-generating Swagger UI.
+
+========================================
+Completed: Wed Jan 21 09:03:30 UTC 2026
+========================================
+
+Committing changes to git...
