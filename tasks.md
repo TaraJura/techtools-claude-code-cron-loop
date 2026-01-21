@@ -282,14 +282,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-004: Create a log cleanup utility
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: LOW
-- **Started**: 2026-01-21
-- **Description**: Create a script that removes log files older than 7 days from the actors/*/logs/ directories
-- **Notes**: Prevents log accumulation over time. Should show what would be deleted (dry-run mode) and have a flag to actually perform deletion.
-
 ### TASK-082: Add admin scratchpad/notes page to CronLoop web app
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -301,6 +293,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-004: Create a log cleanup utility
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: LOW
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a script that removes log files older than 7 days from the actors/*/logs/ directories
+- **Developer Notes**: Implemented /home/novakj/scripts/log-cleanup.sh with: (1) Dry-run mode (default) that shows what would be deleted without removing files; (2) --delete flag to actually perform deletion; (3) --help flag showing usage information; (4) Color-coded output for readability (blue for would-delete, red for deleted, green for success, yellow for warnings); (5) Lists each file with agent name, filename, size (human-readable), and modification date; (6) Summary showing total file count and space to reclaim/reclaimed; (7) Scans all actors/*/logs/*.log directories; (8) 7-day retention policy matching existing cleanup.sh but as a standalone utility with preview capability. Different from cleanup.sh which does automatic deletion without preview - this provides inspection before action.
 
 ### TASK-064: Add file change heatmap visualization to CronLoop web app
 - **Status**: VERIFIED

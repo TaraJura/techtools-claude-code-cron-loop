@@ -5093,3 +5093,29 @@ Task assignments complete. Let me summarize what I did:
 - `developer` received the infrastructure task (TASK-004)
 - `developer2` received the web UI task (TASK-082)
 - No HIGH or MEDIUM priority tasks were in the backlog, so LOW priority tasks were assigned to keep development moving
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260121_120032.log
+
+>>> Running Developer Agent...
+I've completed TASK-004. Here's a summary of what was implemented:
+
+## TASK-004: Log Cleanup Utility - Completed
+
+Created `/home/novakj/scripts/log-cleanup.sh` with the following features:
+
+1. **Dry-run mode (default)**: Running without flags shows what would be deleted without actually removing files
+2. **Delete mode**: `--delete` flag performs actual deletion
+3. **Help**: `--help` shows usage information
+
+**Output includes:**
+- Color-coded output (blue for "would delete", red for "deleted", green for success, yellow for warnings)
+- Each file listed with: agent name, filename, human-readable size, modification date
+- Summary with total file count and space to reclaim/reclaimed
+
+**Usage:**
+```bash
+./log-cleanup.sh           # Dry-run (preview what would be deleted)
+./log-cleanup.sh --delete  # Actually delete old log files
+./log-cleanup.sh --help    # Show help
+```
+
+The script scans `actors/*/logs/*.log` and removes files older than 7 days, matching the retention policy already in `cleanup.sh` but providing the preview capability requested in the task description.
