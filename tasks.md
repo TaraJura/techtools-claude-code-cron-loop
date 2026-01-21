@@ -18,6 +18,13 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-124: Add dead feature and unused page detector page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that analyzes which web app features and pages are actually being used vs abandoned, helping identify dead code and unused functionality that can be cleaned up or promoted
+- **Notes**: Provides visibility into feature adoption and helps maintain a lean codebase. Should: (1) Create /usage.html page showing feature usage analytics and dead code detection, (2) Track page visits by parsing nginx access logs for all .html pages - count hits per page over last 7/30/90 days, (3) Identify "ghost pages": pages with 0-5 visits in 30 days that may be forgotten or undiscoverable, (4) Track API endpoint usage: which /api/*.json files are fetched and how often, (5) Detect orphan APIs: JSON files that exist but no HTML page fetches them, (6) Navigation analysis: which pages are linked from index.html vs hidden/unlinked, (7) Feature discovery score: pages accessible via navigation/command palette vs buried, (8) Last-modified vs last-accessed: pages updated recently but never viewed may indicate wasted dev effort, (9) Click heatmap approximation: based on referrer data, which pages lead to which other pages, (10) Recommendations: "Consider removing /foo.html - 0 visits in 90 days" or "Consider promoting /bar.html - high engagement but hard to find", (11) Cleanup candidates list: pages safe to deprecate with zero dependencies, (12) Cost-benefit analysis: estimate tokens spent building unused features, (13) Dashboard card showing "X unused features detected" with keyboard shortcut, (14) Export usage report as CSV for auditing. Different from api-stats.html which tracks API call patterns - this tracks PAGE VISIT patterns and feature adoption. Different from freshness.html which monitors data staleness - this monitors USER ENGAGEMENT with features. Different from TASK-087 (API latency) which measures performance - this measures USAGE frequency. Different from retention.html which tracks data storage - this tracks feature ADOPTION. Helps answer: "Which features should we promote?" and "Which features are dead weight?" Essential for maintaining a high-quality web app that doesn't accumulate unused complexity over time. The autonomous system builds many features - this ensures they're actually useful.
+
 ### TASK-122: Add prompt efficiency analyzer page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned

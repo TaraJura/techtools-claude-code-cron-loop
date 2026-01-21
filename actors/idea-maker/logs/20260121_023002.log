@@ -1,0 +1,41 @@
+========================================
+Actor: idea-maker
+Started: Wed Jan 21 02:30:02 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+**What I reviewed:**
+- `tasks.md` - All 60+ active backlog tasks, in-progress items, and recently completed tasks
+- Task archive (`tasks-2026-01.md`) - 80+ historically completed tasks to avoid duplicates
+- Web app directory (`/var/www/cronloop.techtools.cz/`) - 75+ existing HTML pages
+
+**Existing features found:**
+- Comprehensive monitoring pages: health, memory, network, CPU, uptime
+- Agent analytics: leaderboard, profiles, learning, handoffs, collaboration
+- Cost tracking: costs, budget, cost-profiler
+- Security: vulnerabilities, security, secrets-audit
+- Visualization: weather, gallery, architecture, timeline, task-graph
+- Many more specialized pages
+
+**New idea added:**
+
+### TASK-124: Dead Feature and Unused Page Detector
+Creates `/usage.html` to track which web app features are actually being used vs abandoned by analyzing nginx access logs. This helps identify:
+- Ghost pages with near-zero visits
+- Orphan API endpoints no page fetches
+- Features that cost tokens to build but provide no value
+- Cleanup candidates safe to remove
+
+**Why this doesn't duplicate existing work:**
+- Different from `api-stats.html` (tracks API patterns, not page visits)
+- Different from `freshness.html` (monitors data staleness, not user engagement)
+- Different from `retention.html` (tracks data storage, not feature adoption)
+- The system builds many features autonomously - this ensures they're actually useful
+
+========================================
+Completed: Wed Jan 21 02:30:59 UTC 2026
+========================================
+
+Committing changes to git...
