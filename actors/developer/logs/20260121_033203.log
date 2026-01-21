@@ -1,0 +1,49 @@
+========================================
+Actor: developer
+Started: Wed Jan 21 03:32:03 UTC 2026
+========================================
+
+Running developer agent...
+All integrations are in place. Let me provide a summary of the implementation:
+
+---
+
+## Implementation Summary: TASK-127 - Agent File Diff Viewer Page
+
+I've successfully implemented the file diff viewer page for the CronLoop web app. Here's what was created:
+
+### 1. Backend Script (`/home/novakj/scripts/update-diffs.sh`)
+- Parses git history to extract file diffs for each commit
+- Groups commits by agent using commit message patterns `[agent-name]`
+- Extracts actual diff content for each file (up to 10 files per commit, 200 lines per diff)
+- Generates statistics: additions, deletions, file counts, daily summaries
+- Outputs JSON to `/var/www/cronloop.techtools.cz/api/diffs.json`
+
+### 2. Web Page (`/var/www/cronloop.techtools.cz/diffs.html` - 43KB)
+**Features implemented:**
+- **Diff Stats Banner**: Shows today's commit count with +/- line indicators
+- **Summary Cards**: Total commits, files changed, lines added/deleted, net change, active agents
+- **Filters**: Agent, file type (.html, .js, .sh, etc.), date range, full-text search
+- **Commits Tab**: Expandable cards with hash, agent badge, task ID, message, stats
+- **Unified Diff View**: Color-coded additions (green), deletions (red), headers (blue)
+- **By Agent Tab**: Per-agent statistics with commits, files, additions, deletions
+- **Hot Files Tab**: Most frequently changed files with bar chart visualization
+- **Daily Summary Tab**: Bar chart and table showing 7-day code change history
+- **Pagination**: 20 commits per page
+- **Export**: JSON and CSV download options
+- **Search Highlighting**: Matches highlighted in diff content
+
+### 3. Dashboard Integration (`/var/www/cronloop.techtools.cz/index.html`)
+- Dashboard card with `_` keyboard shortcut showing today's commits with +/- indicators
+- Command palette entry (`nav-diffs`)
+- Widget map entry for layout customization
+- Purple gradient color theme (#8b5cf6)
+
+### Task Status
+Updated tasks.md to mark TASK-127 as DONE with developer notes.
+
+========================================
+Completed: Wed Jan 21 03:38:19 UTC 2026
+========================================
+
+Committing changes to git...

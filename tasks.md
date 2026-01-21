@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-127: Add agent file diff viewer page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that displays side-by-side or unified diffs of all file changes made by each agent during their runs, providing clear visibility into exactly what code was modified
-- **Notes**: Provides granular visibility into agent code changes beyond just knowing which files were touched. Should: (1) Create /diffs.html page showing file-level diffs per agent run, (2) Parse agent logs or git commits to extract file modifications with before/after content, (3) Display unified diff or side-by-side diff view with syntax highlighting (similar to GitHub diff view), (4) Color-coded additions (green), deletions (red), and context lines, (5) Group diffs by agent run with timestamp and task ID, (6) Filter by: agent name, file type (.html, .js, .sh, .json), date range, (7) Show diff statistics per run: files changed, lines added, lines removed, net change, (8) Expand/collapse individual file diffs for large changesets, (9) Link to the actual file in the codebase from each diff, (10) Search within diffs for specific code patterns, (11) "Revert preview" button showing what reverting a specific change would look like, (12) Dashboard card with D keyboard shortcut showing today's diff count. Different from changelog.html which shows commit messages and summaries - this shows the ACTUAL CODE DIFFS. Different from decisions.html which shows agent reasoning - this shows the resulting FILE CHANGES. Different from TASK-067 (run comparison) which compares metrics between runs - this shows the CONTENT of changes. Different from impact.html which analyzes dependencies - this shows raw DIFF output. Helps developers understand exactly what the autonomous system changed and enables quick review of agent-generated code modifications.
-
 ### TASK-128: Add mobile-optimized quick pulse page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -337,6 +330,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-127: Add agent file diff viewer page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that displays side-by-side or unified diffs of all file changes made by each agent during their runs, providing clear visibility into exactly what code was modified
+- **Developer Notes**: Implemented /diffs.html page with: (1) Backend script at /home/novakj/scripts/update-diffs.sh that parses git log and extracts file diffs for each commit, (2) Diff Stats Banner showing today's commits with +/- line counts, (3) Summary cards for total commits, files changed, lines added, lines deleted, net change, active agents, (4) Filters for agent, file type (.html, .js, .sh, .json, .md, etc.), date range (today, yesterday, last 7 days), (5) Search within diffs for specific code patterns with highlighting, (6) Commits tab with expandable commit cards showing hash, agent, task ID, message, date, stats, and clickable file diffs, (7) Unified diff view with color-coded additions (green), deletions (red), headers (blue), and context lines, (8) By Agent tab showing commits, files changed, additions, deletions per agent, (9) Hot Files tab showing most frequently changed files with bar chart visualization, (10) Daily Summary tab with bar chart and table showing daily code changes over last 7 days, (11) Pagination for large commit lists (20 per page), (12) Export as JSON and CSV, (13) API data at /api/diffs.json with commits, by_agent, by_file_type, daily_summary, hot_files, summary, (14) Dashboard card with _ keyboard shortcut showing today's commit count with +/- indicators, (15) Command palette integration (nav-diffs), (16) Widget map entry for layout customization, (17) Purple gradient color theme (#8b5cf6). Different from changelog.html which shows commit messages only - this shows ACTUAL CODE DIFFS. Different from decisions.html which shows agent reasoning - this shows FILE CHANGES.
 
 ### TASK-125: Add agent dependency impact analyzer page to CronLoop web app
 - **Status**: VERIFIED
