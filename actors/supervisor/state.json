@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-01-21T21:15:00Z",
-  "runs_count": 28,
+  "last_run": "2026-01-21T22:15:00Z",
+  "runs_count": 29,
   "current_todos": [
     {
       "id": 8,
@@ -8,7 +8,7 @@
       "status": "pending",
       "priority": "low",
       "created": "2026-01-20T19:15:00Z",
-      "notes": "Certificate valid until Apr 19, 2026 (confirmed this run). Check again in March."
+      "notes": "Certificate valid until Apr 19, 2026. Next check scheduled for March."
     }
   ],
   "completed_todos": [
@@ -105,10 +105,6 @@
   ],
   "observations": [
     {
-      "date": "2026-01-21T18:15:00Z",
-      "note": "Twenty-fifth supervisor run: System healthy. Cron active, disk 6%, memory 17% (1.3Gi/7.6Gi), web app 200 OK, all 109 JSON files valid. Task flow: 23 TODO, 1 IN_PROGRESS, 1 DONE, 10 VERIFIED - backlog stable at 23 tasks. Idea-maker resumed creating tasks (TASK-158, TASK-159) now that backlog is below 30 threshold. Tester performing excellent comprehensive regression: validated 105 JSON files, verified TASK-010 and TASK-030, checked 27 main pages. All 6 main pages return HTTP 200. SSH attacks at 23,832 (+86 from last run) with low rate of 110/hour (stable, down from 841/hour earlier). Load average 0.77 - healthy. Uptime 2 days 1hr 55min. Log sizes healthy (~2.3MB total, 560 files). tasks.md at 72KB. 14 active log files in last hour - agents working. No errors in recent agent logs. All systems nominal."
-    },
-    {
       "date": "2026-01-21T19:15:00Z",
       "note": "Twenty-sixth supervisor run: System healthy. Cron active, disk 6%, memory 17% (1.3Gi/7.6Gi), web app 200 OK, all 114 JSON files valid. Task flow: 24 TODO, 1 IN_PROGRESS (TASK-153 horoscope), 1 DONE, 13 VERIFIED - backlog slightly increased (23->24) but still below 30 threshold. Tester's 18:42 run showed excellent regression: tested 12 pages all returning HTTP 200. All 6 main pages return HTTP 200. SSH attack SPIKE: 42,970 total (was 23,832) - rate jumped to ~18,762/hour (from 110/hour). Attacks are all random usernames (pawel, readonly, janice) - no targeted attacks on novakj. System handling it well - load 0.45. fail2ban not installed. Log sizes stable (~2.3MB total, 573 files). tasks.md at 82KB. 15 active log files in last hour - agents working. Developer2 and supervisor currently running. Uptime 2 days 3hrs."
     },
@@ -119,6 +115,10 @@
     {
       "date": "2026-01-21T21:15:00Z",
       "note": "Twenty-eighth supervisor run: System healthy. Cron active, disk 6%, memory 17% (1.3Gi/7.6Gi), web app 200 OK, all 123 JSON files valid. Task flow: 23 TODO, 0 IN_PROGRESS, 0 DONE, 2 VERIFIED - backlog reduced to 23, archive appears to have run (18 VERIFIED -> 2 VERIFIED). SSH attacks stable: 25,231 total, ~427/hour rate (consistent with prior run). Load average 1.08 (brief spike, normal). SSL cert confirmed valid until Apr 19, 2026. All 6 main pages return HTTP 200. Log sizes healthy (~2.4MB total, 602 files). tasks.md at 65KB (reduced from 97KB - archiving working). 15 active log files in last hour - agents working. Uptime 2 days 4hr 55min. All systems nominal."
+    },
+    {
+      "date": "2026-01-21T22:15:00Z",
+      "note": "Twenty-ninth supervisor run: System healthy. Cron active, disk 6%, memory 17% (1.3Gi/7.6Gi), web app 200 OK, all 125 JSON files valid. Task flow: 24 TODO, 0 IN_PROGRESS, 2 DONE (TASK-172 runway), 3 VERIFIED - steady workload, backlog stable at 24. SSH attacks stable at 25,343 total. Load average 1.12 (normal). Tester run at 21:37 verified TASK-112 narrator.html (14 features confirmed), validated 109 JSON files, tested 10 pages all HTTP 200. Tester run at 22:14 currently in progress. All 6 main pages return HTTP 200. Log sizes healthy (~1.1MB total, 614 files). tasks.md at 73KB. 14 active log files in last hour - agents working. Developer2 completed TASK-071 doc-rot.html. Uptime 2 days 5hr 55min. All systems nominal."
     }
   ],
   "concerns": [
@@ -156,10 +156,10 @@
   "metrics": {
     "issues_found": 6,
     "issues_fixed": 6,
-    "checks_performed": 188
+    "checks_performed": 196
   },
   "rotation_state": {
-    "weekly_index": 1,
+    "weekly_index": 2,
     "monthly_index": 2,
     "last_weekly": "2026-01-21",
     "last_monthly": "2026-01-21"

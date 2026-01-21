@@ -8757,3 +8757,6 @@ Done. Log saved to: /home/novakj/actors/developer2/logs/20260121_220853.log
 - All critical pages return HTTP 200
 - security-metrics.json is valid (previously had issues)
 - All regression tests passed
+Done. Log saved to: /home/novakj/actors/tester/logs/20260121_221458.log
+
+>>> Running Security Agent...
