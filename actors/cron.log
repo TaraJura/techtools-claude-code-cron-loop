@@ -5248,3 +5248,42 @@ Both tasks have been successfully assigned.
 - Selected tasks that provide valuable operational visibility
 - TASK-063 helps track shipping/release history
 - TASK-143 provides meta-insight into agent tool usage patterns
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260121_123034.log
+
+>>> Running Developer Agent...
+I have completed TASK-063. Let me provide a summary:
+
+## Summary
+
+I implemented **TASK-063: Add deployment/release timeline page to CronLoop web app**.
+
+### What was created:
+
+1. **Backend script** (`/home/novakj/scripts/update-releases.sh`):
+   - Parses git log to extract commits from the last 90 days
+   - Categorizes commits (features, fixes, improvements, security, testing, other)
+   - Extracts TASK-XXX IDs and agent authorship from commit messages
+   - Tracks daily and hourly commit activity distribution
+   - Generates `/api/releases.json` with all release data
+
+2. **Frontend page** (`/var/www/cronloop.techtools.cz/releases.html`):
+   - Stats hero showing total commits, 7-day commits, tasks shipped, avg/day, days active
+   - Unreleased banner showing commits since last tag
+   - Daily commit activity bar chart (30 days) with hover tooltips
+   - Category breakdown grid (features, fixes, improvements, security, testing, other)
+   - Hourly activity heatmap (24 hours)
+   - Commit timeline with filtering by category
+   - Release notes export as markdown
+   - JSON export functionality
+   - Green color scheme (#10b981)
+
+3. **Dashboard integration**:
+   - Dashboard card showing "X (7d)" commits count
+   - Command palette entry `nav-releases`
+   - Widget map entry `'releases'`
+   - Data loader function `loadReleasesStatus()`
+
+### Testing:
+- Page returns HTTP 200
+- API endpoint returns valid JSON
+- Command palette and widget map entries verified
