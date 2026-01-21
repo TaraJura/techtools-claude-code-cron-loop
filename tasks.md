@@ -133,13 +133,6 @@ Tasks follow this format:
 - **Description**: Create a simple notes page where admins can capture observations, investigation notes, quick reminders, and ad-hoc documentation that persists across sessions
 - **Notes**: Provides a quick capture tool for operators monitoring the system who need to jot down findings without leaving the dashboard. Should: (1) Create /notes.html page with a rich text editor or markdown editor, (2) Auto-save notes to localStorage with debounced saves (every 2 seconds of inactivity), (3) Support multiple notes organized by title/date with a sidebar list, (4) Markdown preview toggle (edit mode vs rendered view), (5) Search across all notes by content or title, (6) Timestamp each note with created/modified dates, (7) Tag notes with labels like "investigation", "todo", "reference", "incident", (8) Filter notes by tag, (9) Export individual notes or all notes as markdown or JSON, (10) Import notes from JSON for backup restore, (11) Pin important notes to the top of the list, (12) Quick note button: floating action button for rapid capture without navigating away from current page. Different from TASK-076 (bookmarks) which saves references TO existing items - this creates NEW freeform content. Different from TASK-055 (activity annotations) which adds comments to a shared stream - this is PERSONAL notes that only the admin sees. Different from TASK-078 (postmortems) which generates structured incident reports - this is FREEFORM capture for any purpose. Fills the gap between "I noticed something" and "I need to document this formally" - a casual capture tool that reduces friction for knowledge retention. Essential for operators who spend hours watching dashboards and need somewhere to record their observations.
 
-### TASK-075: Add agent prompt evolution viewer page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page that tracks and visualizes how agent prompt.md files have changed over time with side-by-side diff view
-- **Notes**: Provides visibility into prompt engineering and agent behavior evolution. Should: (1) Create /prompts.html page showing prompt history for all 5 agents, (2) List all agents with their current prompt.md file paths and last-modified dates, (3) Use git log to retrieve historical versions of each prompt.md file, (4) Side-by-side diff view comparing any two versions of a prompt (current vs previous, or any two commits), (5) Syntax highlighting for markdown content, (6) Change statistics: lines added/removed, word count changes, section changes, (7) Timeline view showing when prompts were modified with commit messages, (8) Detect structural changes: added instructions, removed rules, modified behavior guidelines, (9) Agent behavior correlation: link prompt changes to git commits made by that agent (did behavior change after prompt update?), (10) Search across all prompt versions for specific keywords or instructions, (11) Export prompt diff as markdown for documentation, (12) "Revert preview" showing what a rollback would look like (read-only, actual revert requires git commands). Different from TASK-046 (changelog) which tracks all file changes - this focuses specifically on PROMPT FILES with semantic analysis. Different from TASK-044 (agent config viewer) which shows current state - this shows EVOLUTION over time. Different from TASK-057 (prompt versioning/A/B testing) which is about running experiments - this is about VIEWING history. Helps answer "why did the developer agent start doing X?" by correlating behavior changes with prompt modifications.
-
 ### TASK-067: Add agent run comparison page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -354,6 +347,16 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-075: Add agent prompt evolution viewer page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that tracks and visualizes how agent prompt.md files have changed over time with side-by-side diff view
+- **Developer Notes**: Implemented /prompts.html page with: (1) Agent tabs showing all 7 agents (idea-maker, project-manager, developer, developer2, tester, security, supervisor) with version count badges, (2) Version timeline sidebar showing all git versions of each agent's prompt.md file with commit hash, date, +/- stats, and who made the change, (3) Side-by-side diff view with Ctrl+click to select two versions for comparison, (4) Syntax highlighted diff output with additions (green), deletions (red), and context lines, (5) Raw/Rendered toggle for viewing markdown source or rendered preview, (6) Search functionality within prompt content, (7) Statistics showing total agents, total versions, latest change time, and most evolved agent, (8) Export diff as markdown functionality, (9) CGI script /cgi-bin/prompt-version.cgi for fetching prompt content at specific commits and generating diffs, (10) Backend script /home/novakj/scripts/update-prompt-history.sh that extracts git history for all prompt.md files and generates /api/prompt-history.json. Page accessible at https://cronloop.techtools.cz/prompts.html
+- **Notes**: Provides visibility into prompt engineering and agent behavior evolution. Different from TASK-046 (changelog) which tracks all file changes - this focuses specifically on PROMPT FILES. Different from TASK-044 (agent config viewer) which shows current state - this shows EVOLUTION over time.
 
 ### TASK-133: Add agent token budget optimizer with real-time spending alerts page to CronLoop web app
 - **Status**: VERIFIED

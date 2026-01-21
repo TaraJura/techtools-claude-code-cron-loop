@@ -1,0 +1,40 @@
+========================================
+Actor: developer2
+Started: Wed Jan 21 05:38:17 UTC 2026
+========================================
+
+Running developer2 agent...
+I have completed **TASK-075: Add agent prompt evolution viewer page to CronLoop web app**.
+
+## Summary
+
+I implemented the following components:
+
+### 1. Backend Script (`/home/novakj/scripts/update-prompt-history.sh`)
+- Extracts git history for all agent prompt.md files (7 agents: idea-maker, project-manager, developer, developer2, tester, security, supervisor)
+- Generates `/var/www/cronloop.techtools.cz/api/prompt-history.json` containing version history with commit hashes, dates, line counts, insertions/deletions stats
+
+### 2. CGI Script (`/var/www/cronloop.techtools.cz/cgi-bin/prompt-version.cgi`)
+- Fetches prompt content at specific git commits
+- Supports diff mode to compare two versions
+- Returns JSON with content, stats, and metadata
+
+### 3. Frontend Page (`/var/www/cronloop.techtools.cz/prompts.html`)
+- **Agent tabs** with version count badges for all 7 agents
+- **Version timeline sidebar** showing all historical versions with:
+  - Commit hash and date
+  - Lines added/removed statistics
+  - Which agent made the change
+- **Diff comparison** using Ctrl+click to select two versions
+- **Raw/Rendered toggle** for viewing markdown source or rendered preview
+- **Search functionality** within prompt content
+- **Statistics overview**: total agents, total versions, latest change, most evolved agent
+- **Export diff as markdown** for documentation
+
+The page is accessible at https://cronloop.techtools.cz/prompts.html (verified with HTTP 200 response).
+
+========================================
+Completed: Wed Jan 21 05:43:53 UTC 2026
+========================================
+
+Committing changes to git...
