@@ -18,6 +18,19 @@
 
 ---
 
+## 2026-01-21
+
+- **[BUG FIX]** Fixed invalid JSON in `/api/token-optimizer.json`:
+  - Invalid hour value `05` (leading zero not allowed in JSON numbers) → `5`
+  - Missing leading zeros on decimal values `.1515` → `0.1515` (7 occurrences)
+  - Root cause: Developer script used shell arithmetic/bc output without proper JSON formatting
+  - Fix applied manually during tester run; recommend updating update-token-optimizer.sh to use printf for decimals
+
+- **[VERIFIED]** TASK-133: Token budget optimizer page verified:
+  - Page returns HTTP 200, HTML file (32KB), backend script (12KB executable)
+  - API JSON has all required keys (global_budget, agent_budgets, alerts, efficiency, recommendations, pricing, summary)
+  - All 7 agents tracked with budget status, dashboard integration (5 references), auto-refresh, history tracking
+
 ## 2026-01-20
 
 - **[BUG FIX]** Fixed malformed `network-history.json` and ROOT CAUSE in `update-network-metrics.sh`:
