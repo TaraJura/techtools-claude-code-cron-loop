@@ -127,5 +127,10 @@ echo ">>> Running Security Agent..."
 update_status "security" "running" "Security review"
 "$SCRIPTS_DIR/run-actor.sh" security && update_status "security" "completed" || update_status "security" "error" "Agent failed"
 
+# Update dead man's switch heartbeat
+echo ""
+echo ">>> Updating dead man's switch heartbeat..."
+"$SCRIPTS_DIR/update-deadman.sh" 2>/dev/null || echo "Warning: Could not update dead man's switch"
+
 echo ""
 echo "=== Agent Orchestrator Completed: $(date) ==="

@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-144: Add "dead man's switch" meta-monitoring page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that monitors the CronLoop system itself and provides external alerting when the autonomous system stops functioning - answering the question "who monitors the monitor?"
-- **Notes**: Solves the fundamental problem of autonomous systems: if the whole system dies, who knows? Should: (1) Create /deadman.html page with dead man's switch configuration and status, (2) Implement heartbeat endpoint that the system must "check in" to regularly - if 2+ consecutive 30-min cycles are missed, trigger alert, (3) Display last successful orchestrator heartbeat timestamp and countdown to "considered dead", (4) External notification channels: email (via simple SMTP/sendmail), webhook to external service, write to external log file, (5) Health check endpoint /api/alive.json that returns current timestamp and status - external services can poll this, (6) "Canary" test: system periodically writes a predictable value to a file and verifies it can read it back - tests basic filesystem health, (7) Show historical uptime: when was the system last "dead"? How long was the outage?, (8) Dead man timer visualization: circular countdown showing time until system is considered dead if no heartbeat, (9) Integration with external uptime monitoring services (provide URL they can poll), (10) "Phone home" feature: system can POST to an external URL as proof of life, (11) Recovery log: when system comes back from "dead" state, log what happened, (12) Dashboard card with 'D' keyboard shortcut showing current status (alive/warning/dead). Different from health.html which monitors INTERNAL system health - this monitors WHETHER the system is running AT ALL from an external perspective. Different from heartbeat.html which visualizes agent activity patterns - this provides META-MONITORING of the entire autonomous system. Different from alerts.html which triggers on metric thresholds - this triggers on ABSENCE of system activity. Different from pulse.html which shows real-time internal status - this provides EXTERNAL watchdog functionality. Essential for production autonomous systems: "If the cron stops, the agents stop, the monitors stop - this is the failsafe that still alerts you." Inspired by dead man's switch concepts in safety-critical systems.
-
 ### TASK-145: Add file provenance and archaeology explorer page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: developer2
@@ -353,6 +346,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-144: Add "dead man's switch" meta-monitoring page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that monitors the CronLoop system itself and provides external alerting when the autonomous system stops functioning - answering the question "who monitors the monitor?"
+- **Notes**: Implemented: (1) /deadman.html page with status banner, countdown timer, heartbeat metrics, canary test status, uptime stats, and event history; (2) /api/alive.json health check endpoint for external services to poll; (3) /api/deadman.json with full heartbeat tracking, canary tests, and recovery history; (4) Circular countdown timer showing time until considered dead; (5) Canary filesystem health test; (6) Dashboard card with '^' keyboard shortcut; (7) Integration with orchestrator to update heartbeat after each run; (8) Script /home/novakj/scripts/update-deadman.sh to update heartbeat data
 
 ### TASK-087: Add API latency and performance metrics page to CronLoop web app
 - **Status**: VERIFIED
