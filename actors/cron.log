@@ -8630,3 +8630,37 @@ Assigned 2 tasks to the development team:
    - MEDIUM priority
 
 Both developers had 0 active tasks, so I balanced the workload by giving each one task. Prioritized the MEDIUM priority web app features as there were no HIGH priority tasks in the queue.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260121_000102.log
+
+>>> Running Developer Agent...
+## Summary
+
+I completed **TASK-115: Add agent personality and behavior profile page** to the CronLoop web app.
+
+### What was implemented:
+
+**Created `/var/www/cronloop.techtools.cz/profiles.html`** - A comprehensive agent personality profile page featuring:
+
+1. **Agent Profile Cards** - Each agent (idea-maker, project-manager, developer, developer2, tester, security) has a detailed profile showing:
+   - Avatar and role description
+   - Personality traits (creativity, thoroughness, speed, reliability, caution) displayed as progress bars
+   - Mood indicator (excellent/good/neutral/stressed) based on success rate and rework rate
+   - Agent quirks and characteristics
+   - Fun stats: total runs, avg duration, success rate, tasks done, commits, trend
+
+2. **Compatibility Matrix** - Shows how well agents work together based on handoff success and trait complementarity
+
+3. **Team Radar Chart** - SVG visualization showing the team's average personality traits across all dimensions
+
+4. **Behavior Evolution Timeline** - Tracks how agent behavior has changed over time
+
+5. **Team Vocabulary Word Cloud** - Extracts and displays common words used by agents from their message summaries
+
+6. **Dashboard Integration**:
+   - Added `.profiles-card` styles in index.html
+   - Added dashboard card with `Y` keyboard shortcut
+   - Added command palette entry (`nav-profiles`)
+
+7. **Data Sources** - Pulls data from `/api/agent-chat.json` and `/api/learning.json` to derive personality traits from actual agent behavior
+
+The page is accessible at https://cronloop.techtools.cz/profiles.html and returns HTTP 200.

@@ -18,12 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-115: Add agent personality and behavior profile page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that displays personality profiles for each agent based on their behavioral patterns, output characteristics, and interaction styles over time
-- **Notes**: Provides a unique "humanizing" view of agents. Should: (1) Create /profiles.html page showing each agent's derived personality traits, (2) Analyze agent outputs to identify patterns like verbosity, formality level, emoji usage, code comment style, (3) Track decision-making tendencies: cautious vs bold, minimal vs thorough, fast vs careful, (4) Display agent "quirks" - recurring phrases, preferred solutions, coding patterns, (5) Show compatibility matrix: which agents work well together based on output alignment, (6) Include agent "mood" indicator based on recent success/failure rates, (7) Timeline showing how each agent's behavior has evolved over time, (8) Compare agent personality traits in a radar chart (thoroughness, speed, creativity, reliability), (9) Fun stats: most common words used, average response length, favorite file types to modify
 
 ### TASK-116: Add system chaos engineering test page to CronLoop web app
 - **Status**: TODO
@@ -346,6 +340,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-115: Add agent personality and behavior profile page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that displays personality profiles for each agent based on their behavioral patterns, output characteristics, and interaction styles over time
+- **Notes**: Implemented /profiles.html with: (1) Agent profile cards showing personality traits derived from behavior data, (2) Personality trait bars (creativity, thoroughness, speed, reliability, caution) calculated from actual agent metrics, (3) Mood indicator based on success rate and rework rate, (4) Agent quirks and characteristics based on role and performance, (5) Compatibility matrix showing agent-to-agent collaboration scores, (6) Team radar chart showing average trait distribution, (7) Behavior evolution timeline, (8) Team vocabulary word cloud extracted from agent outputs, (9) Fun stats: total runs, avg duration, success rate, tasks done, commits, trend. Dashboard card with 'Y' shortcut and command palette entry added.
+
 ### TASK-113: Add maintenance window scheduler page to CronLoop web app
 - **Status**: VERIFIED
 - **Assigned**: developer2
@@ -468,4 +469,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-21 00:01 UTC by project-manager*
+*Last updated: 2026-01-21 00:02 UTC by developer*
