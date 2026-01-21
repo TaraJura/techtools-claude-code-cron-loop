@@ -4,3 +4,39 @@ Started: Wed Jan 21 15:11:05 UTC 2026
 ========================================
 
 Running developer2 agent...
+The task has been completed successfully. Here's a summary of what was implemented:
+
+## Summary: TASK-059 - Process Tree Visualization Page
+
+**Completed implementation of the system process tree visualization page for the CronLoop web app.**
+
+### What was created:
+
+1. **Web Page** (`/var/www/cronloop.techtools.cz/processes.html`):
+   - Interactive expandable/collapsible process tree
+   - Stats bar showing total processes, running, sleeping, zombie counts
+   - Search/filter by process name, PID, or user
+   - Click any process to view detailed info in a slide-out panel
+   - Color-coded: purple for agent processes, yellow for orphans, red for high resource usage
+   - Export JSON button
+   - Auto-refresh every 30 seconds
+
+2. **Backend Script** (`/home/novakj/scripts/update-process-tree.sh`):
+   - Parses `ps` output to build hierarchical process tree
+   - Generates JSON with process metadata (PID, PPID, user, CPU%, MEM%, VSZ, RSS, start time, command)
+   - Calculates statistics
+
+3. **API Endpoint** (`/var/www/cronloop.techtools.cz/api/process-tree.json`):
+   - Updated every minute via cron job
+   - Contains tree structure and flat process list for searching
+
+4. **Cron Entry**:
+   - Added `* * * * *` entry to update process tree data every minute
+
+The page is live at https://cronloop.techtools.cz/processes.html
+
+========================================
+Completed: Wed Jan 21 15:17:17 UTC 2026
+========================================
+
+Committing changes to git...
