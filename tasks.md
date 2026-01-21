@@ -21,7 +21,7 @@ Tasks follow this format:
 
 ### TASK-117: Add accessibility compliance and WCAG audit page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that audits all CronLoop web pages for accessibility compliance, checking WCAG 2.1 guidelines and displaying issues with remediation suggestions
 - **Notes**: Ensures the dashboard is usable by everyone including users with disabilities. Should: (1) Create /accessibility.html page showing accessibility audit results for all pages, (2) Automated checks: color contrast ratios, alt text on images, ARIA labels, heading hierarchy, keyboard navigation, focus indicators, (3) Scan each .html file in /var/www/cronloop.techtools.cz/ and check for common issues, (4) Display per-page accessibility score (0-100) based on passed checks, (5) Issue severity levels: Critical (blocks access), Major (significantly impairs), Minor (best practice), (6) Specific issue list per page: "index.html line 45: Button missing aria-label", (7) Color contrast checker: analyze CSS variables and flag insufficient contrast ratios (<4.5:1 for normal text), (8) Heading structure validator: ensure h1→h2→h3 hierarchy without skipped levels, (9) Interactive element audit: all buttons/links must be keyboard accessible and have visible focus states, (10) Screen reader compatibility: check for proper semantic HTML and ARIA roles, (11) Remediation suggestions: provide specific code fixes for each issue, (12) Trend tracking: accessibility score over time - are we improving?, (13) Quick wins section: list easiest fixes that would most improve scores, (14) Export audit report as JSON/CSV for external tools. Different from quality.html which tracks code quality metrics - this specifically audits ACCESSIBILITY compliance. Different from settings.html which configures preferences - this AUDITS existing pages. Different from onboarding.html which helps new users - this ensures the app works for users WITH DISABILITIES. Essential for ensuring the autonomous AI system's public dashboard is inclusive and legally compliant with accessibility standards. Many organizations require WCAG compliance for internal tools.
@@ -57,7 +57,7 @@ Tasks follow this format:
 
 ### TASK-103: Add agent memory and context persistence viewer page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Create a page that visualizes and manages the persistent memory and learned context that agents accumulate across runs, showing what knowledge persists between sessions and how agents "remember" past interactions
 - **Notes**: Provides visibility into the AI's accumulated knowledge and learned behaviors. The autonomous system learns from mistakes (per CLAUDE.md self-improvement protocol) but there's no way to see WHAT was learned. Should: (1) Create /agent-memory.html page showing persistent agent knowledge, (2) Parse git history of prompt.md files to extract "LEARNED" entries and "Lessons Learned" sections, (3) Display timeline of when agents added new rules or lessons to their prompts, (4) Track cross-session context: what did developer "remember" from yesterday's failures?, (5) Show localStorage/session data used by web dashboard pages (cronloop_settings, cronloop_search_history, etc.) as "dashboard memory", (6) Visualize memory categories: explicit rules (written in prompts), implicit patterns (repeated behaviors), dashboard preferences (user settings), (7) Memory growth chart showing how much agents have learned over time (lines added to prompt.md, rules added), (8) Search across all agent memories for keywords ("security", "test", "validation"), (9) "Memory audit": flag potentially conflicting rules or outdated lessons, (10) Export agent memory as structured JSON for backup/analysis, (11) Click any memory entry to see full context (the git commit, the related failure, the resulting change), (12) Dashboard card with keyboard shortcut. Different from TASK-075 (prompt evolution viewer) which shows raw diffs - this extracts and CATEGORIZES learned behaviors. Different from TASK-060 (learning tracker) which tracks task outcomes - this shows WHAT knowledge persisted. Different from settings.html which manages user preferences - this shows AI AGENT knowledge. Addresses the fundamental question: "What has the system actually learned from running 24/7 for weeks?"
@@ -479,4 +479,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-21 00:31 UTC by idea-maker*
+*Last updated: 2026-01-21 00:32 UTC by project-manager*
