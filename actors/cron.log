@@ -4244,3 +4244,35 @@ I've completed **TASK-036: Add agent performance analytics page to CronLoop web 
    - Added developer notes documenting all implemented features
 
 The page is now accessible at https://cronloop.techtools.cz/analytics.html and displays comprehensive agent performance metrics including success rates, execution times, and productivity statistics.
+Done. Log saved to: /home/novakj/actors/developer/logs/20260121_093236.log
+
+>>> Running Developer 2 Agent...
+I've completed TASK-067. Here's a summary of what was implemented:
+
+## Summary
+
+**TASK-067: Agent Run Comparison Page** - DONE
+
+### Files Created/Modified:
+
+1. **`/var/www/cronloop.techtools.cz/compare.html`** - Main comparison page with:
+   - Two dropdown selectors to choose agent runs (filterable by agent type)
+   - Side-by-side comparison of run summaries showing timestamp, task ID, duration, and commit hash
+   - Metrics comparison grid with visual comparison bars for: execution duration, log lines, log size, files read/modified, tool calls, git files changed, insertions, and deletions
+   - Percentage difference indicators showing better/worse/neutral styling
+   - Key insights section with auto-generated analysis
+   - Export comparison report as JSON
+   - Orange color scheme (#f59e0b)
+
+2. **`/home/novakj/scripts/update-compare-data.sh`** - Backend script that:
+   - Parses agent logs from the last 7 days
+   - Extracts metrics: duration, task ID, error status, files read/modified, tool calls, git commit info
+   - Generates `/var/www/cronloop.techtools.cz/api/compare-runs.json`
+
+3. **`/var/www/cronloop.techtools.cz/index.html`** - Updated with:
+   - Dashboard card with '=' keyboard shortcut showing run count
+   - Command palette entry `nav-compare`
+   - Widget map entry for layout customization
+   - Status loader function `loadCompareStatus()`
+
+The page is now accessible at https://cronloop.techtools.cz/compare.html and allows users to compare any two agent runs side-by-side to identify differences, improvements, or regressions.

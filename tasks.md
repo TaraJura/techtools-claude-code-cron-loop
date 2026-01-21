@@ -332,16 +332,20 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-067: Add agent run comparison page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page that allows side-by-side comparison of two agent runs to analyze what changed between them, helping identify improvements or regressions
-- **Notes**: Provides diff-style analysis between agent executions. Should: (1) Create /compare.html page with two dropdowns to select agent runs by date/time (e.g., "Developer - 2026-01-20 09:00" vs "Developer - 2026-01-19 09:00"), (2) Parse agent logs to extract key metrics for each run: execution time, tokens used, files read, files modified, tools called, errors encountered, task ID worked on, (3) Display side-by-side comparison grid showing metrics from run A vs run B with difference indicators, (4) Highlight significant differences: execution time >20% different, token usage variance, new errors in run B, files touched differently, (5) Show tool usage breakdown comparison: how many Read/Edit/Write/Bash calls in each run, (6) Display file diff summary: which files did run A modify that run B didn't (and vice versa), (7) Success/failure comparison: if one run succeeded and other failed, highlight root cause, (8) Time breakdown comparison: how long did each phase take (reading, thinking, writing), (9) Filter by agent type: compare only idea-maker runs, or developer runs, etc., (10) "Find similar runs" button: identify other runs that worked on similar tasks for broader comparison, (11) Export comparison report as markdown or JSON. Different from TASK-038 (conversation viewer) which shows ONE run's conversation - this COMPARES two runs side-by-side. Different from TASK-036 (performance analytics) which shows aggregate metrics - this compares SPECIFIC runs in detail. Different from TASK-057 (prompt A/B testing) which correlates with prompt changes - this compares runs regardless of prompts. Different from TASK-060 (learning tracker) which tracks improvement trends - this provides DETAILED comparison of specific runs. Helps answer: "Why did this run fail when yesterday's succeeded?" or "Did our prompt change make the developer faster?" by providing granular run-to-run comparison.
+*No tasks currently in progress*
 
 ---
 
 ## Completed
+
+### TASK-067: Add agent run comparison page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that allows side-by-side comparison of two agent runs to analyze what changed between them, helping identify improvements or regressions
+- **Developer Notes**: Implemented /compare.html page with: (1) Two dropdown selectors to choose agent runs by date/time with agent filtering; (2) Backend script /home/novakj/scripts/update-compare-data.sh that parses agent logs from last 7 days and extracts metrics; (3) API endpoint /api/compare-runs.json with run data including duration, task ID, error status, files read/modified, tool calls, git commit info (files changed, insertions, deletions); (4) Side-by-side comparison grid with visual bars showing metric proportions; (5) Difference indicators showing percentage change with better/worse/neutral styling; (6) Key insights section with auto-generated analysis (duration differences, error status changes, code change comparisons, same/different agent detection); (7) Export comparison report as JSON; (8) Dashboard card with '=' keyboard shortcut showing run count; (9) Command palette entry nav-compare; (10) Widget map entry for layout customization; (11) Orange color scheme (#f59e0b). Different from conversation viewer which shows one run - this compares two runs side-by-side. Different from analytics which shows aggregates - this compares specific runs in detail.
 
 ### TASK-036: Add agent performance analytics page to CronLoop web app
 - **Status**: DONE
