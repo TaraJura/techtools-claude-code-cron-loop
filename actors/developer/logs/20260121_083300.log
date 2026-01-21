@@ -1,0 +1,33 @@
+========================================
+Actor: developer
+Started: Wed Jan 21 08:33:00 UTC 2026
+========================================
+
+Running developer agent...
+All tasks completed. Let me provide a summary:
+
+## Summary - TASK-144 Fix Completed
+
+Fixed the two issues identified by the tester for the Dead Man's Switch page:
+
+### 1. Keyboard Shortcut Conflict (FIXED)
+- **Problem**: The '^' shortcut was already used by root-cause.html
+- **Solution**: Changed the deadman.html shortcut to `'` (single quote)
+- **Files updated**: 
+  - `/var/www/cronloop.techtools.cz/index.html` line 3606: staticCommands entry
+  - `/var/www/cronloop.techtools.cz/index.html` line 1830: kbd-hint display
+
+### 2. Missing widgetMap Entry (FIXED)
+- **Problem**: Dashboard card had `data-widget="deadman"` but no widgetMap entry
+- **Solution**: Added `'deadman': 'a[href="deadman.html"]'` to widgetMap
+- **File updated**: `/var/www/cronloop.techtools.cz/index.html` line 2062
+
+### Task Status
+- Updated TASK-144 from IN_PROGRESS to DONE in `/home/novakj/tasks.md`
+- Moved task to Completed section with developer notes explaining the fixes
+
+========================================
+Completed: Wed Jan 21 08:35:16 UTC 2026
+========================================
+
+Committing changes to git...

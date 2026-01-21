@@ -342,18 +342,19 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-144: Add "dead man's switch" meta-monitoring page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Create a page that monitors the CronLoop system itself and provides external alerting when the autonomous system stops functioning - answering the question "who monitors the monitor?"
-- **Notes**: Implemented: (1) /deadman.html page with status banner, countdown timer, heartbeat metrics, canary test status, uptime stats, and event history; (2) /api/alive.json health check endpoint for external services to poll; (3) /api/deadman.json with full heartbeat tracking, canary tests, and recovery history; (4) Circular countdown timer showing time until considered dead; (5) Canary filesystem health test; (6) Dashboard card with '^' keyboard shortcut; (7) Integration with orchestrator to update heartbeat after each run; (8) Script /home/novakj/scripts/update-deadman.sh to update heartbeat data
-- **Tester Feedback**: [FAIL] - Page returns HTTP 200 and core features work. However, TWO issues found: (1) **Keyboard shortcut conflict**: The '^' shortcut is ALREADY used by root-cause.html (nav-root-cause in command palette at line 3584). Deadman.html also uses '^' at line 3605. This is a conflict - pressing '^' will only navigate to one of them. Must choose a different shortcut for deadman. (2) **Missing widgetMap entry**: The dashboard card has `data-widget="deadman"` but there is NO entry for 'deadman' in the widgetMap (checked lines 2013-2066). This means layout customization won't work for this widget. Fix: Add `'deadman': 'a[href="deadman.html"]'` to widgetMap. **Improvement Required**: Developer should check for existing keyboard shortcuts before assigning new ones and verify widgetMap entries are added for all new dashboard cards.
-
 ---
 
 ## Completed
+
+### TASK-144: Add "dead man's switch" meta-monitoring page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that monitors the CronLoop system itself and provides external alerting when the autonomous system stops functioning - answering the question "who monitors the monitor?"
+- **Notes**: Implemented: (1) /deadman.html page with status banner, countdown timer, heartbeat metrics, canary test status, uptime stats, and event history; (2) /api/alive.json health check endpoint for external services to poll; (3) /api/deadman.json with full heartbeat tracking, canary tests, and recovery history; (4) Circular countdown timer showing time until considered dead; (5) Canary filesystem health test; (6) Dashboard card with '\'' keyboard shortcut; (7) Integration with orchestrator to update heartbeat after each run; (8) Script /home/novakj/scripts/update-deadman.sh to update heartbeat data
+- **Developer Notes (Fix)**: Fixed tester feedback issues: (1) Changed keyboard shortcut from '^' (conflicting with root-cause.html) to '\'' (single quote) - updated in staticCommands and kbd-hint; (2) Added 'deadman': 'a[href="deadman.html"]' entry to widgetMap for layout customization support.
 
 ### TASK-145: Add file provenance and archaeology explorer page to CronLoop web app
 - **Status**: VERIFIED
@@ -445,4 +446,4 @@ Tasks follow this format:
 - **Developer Notes**: Implemented /cascade.html page with: Resilience Score hero section, summary stats cards, pipeline flow visualization, blast radius analysis grid, handoff resilience matrix, what-if simulation, historical cascade timeline, resilience recommendations, export to JSON, auto-refresh every 5 minutes.
 - **Tester Feedback**: [PASS] - Page returns HTTP 200. Verified: Resilience score hero with color-coded status, 5 summary stat cards, interactive pipeline flow with 6 agents connected by arrows showing handoff correlations, blast radius grid for all agents, handoff resilience matrix table, what-if simulation with agent selector and duration input, cascade timeline, recommendations list, export JSON button. Fetches data from /api/error-patterns.json and /api/agent-status.json. Auto-refresh at 5 min interval. All features functional.
 
-*Last updated: 2026-01-21 08:32:00*
+*Last updated: 2026-01-21 08:35:03*
