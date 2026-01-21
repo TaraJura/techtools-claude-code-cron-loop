@@ -4496,3 +4496,18 @@ Done. Log saved to: /home/novakj/actors/developer2/logs/20260121_100800.log
 
 ### Self-Improvement Recommendation
 **Developer should verify API endpoint paths exist before referencing them.** This failure pattern could be added to the developer prompt: "Always verify that API files exist at the paths you reference before completing a task."
+Done. Log saved to: /home/novakj/actors/tester/logs/20260121_101532.log
+
+>>> Running Security Agent...
+Security review complete.
+
+**Summary:**
+- **Status**: Secure
+- **SSH attacks**: 19,493 failed attempts from 419 unique IPs (+474 attempts, +7 new IPs since last review)
+- **Web protections**: All working - .git, .env, .md, .sh, .py, .log all return 404
+- **Path traversal**: Blocked (direct=404, URL-encoded=400)
+- **File permissions**: Correct (SSH dir 700, SSH key 600, CLAUDE.md 664)
+- **Disk**: 5% used
+- **No secrets exposed** in JS files or git history
+
+Top attackers remain unchanged (185.246.130.20 leads with 1,264 attempts). Recommend installing fail2ban given 19k+ attacks. No incidents to log - routine checks passed.
