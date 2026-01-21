@@ -1,20 +1,20 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T02:15:34Z",
+  "last_review": "2026-01-21T02:49:10Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 16635,
-    "unique_ips": 345,
+    "total_failed_attempts": 16664,
+    "unique_ips": 347,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 841},
       {"ip": "66.116.226.147", "attempts": 840},
       {"ip": "195.3.147.75", "attempts": 395},
-      {"ip": "80.94.92.40", "attempts": 389},
+      {"ip": "80.94.92.40", "attempts": 390},
       {"ip": "206.189.111.94", "attempts": 383}
     ],
-    "today_attempts": 16635,
-    "attack_rate_per_hour": 693,
-    "change_since_last": "+284 attempts since last review (16351 -> 16635). 66.116.226.147 surge to 840 attempts (was 272). New IP 195.3.147.75 at 395 attempts."
+    "today_attempts": 16664,
+    "attack_rate_per_hour": 694,
+    "change_since_last": "+29 attempts since last review (16635 -> 16664). Attack rate stable. 80.94.92.40 up to 390 (was 389). 2 new unique IPs (345 -> 347)."
   },
   "web_protections": {
     "git_blocked": true,
@@ -58,9 +58,12 @@
   ],
   "notes": [
     "185.246.130.20 remains top attacker at 841 attempts",
-    "66.116.226.147 surged from 272 to 840 attempts - now tied for top attacker",
-    "New aggressive IP: 195.3.147.75 appeared with 395 attempts",
-    "Total failed SSH attempts: 16635 (+284 since last review ~33 mins ago)",
+    "66.116.226.147 steady at 840 attempts - tied with top attacker",
+    "195.3.147.75 at 395 attempts - aggressive attacker from prior review",
+    "80.94.92.40 at 390 attempts (was 389)",
+    "Total failed SSH attempts: 16664 (+29 since last review ~34 mins ago)",
+    "Attack rate stable at ~694/hour",
+    "2 new unique IPs since last review (345 -> 347)",
     "All nginx protections verified working - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
@@ -69,7 +72,6 @@
   "recommendations": [
     "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 16k+ attacks",
     "Enable UFW firewall",
-    "Consider rate limiting on web endpoints",
-    "Monitor 66.116.226.147 and 195.3.147.75 - aggressive new attackers"
+    "Consider rate limiting on web endpoints"
   ]
 }
