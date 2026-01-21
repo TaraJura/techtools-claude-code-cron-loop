@@ -7852,3 +7852,41 @@ I've completed **TASK-015: Create a long-running process detector**. Here's a su
 - Dashboard card showing long-running count with color-coded severity
 - Command palette entry with 'l' keyboard shortcut
 - widgetMap entry for layout customization
+Done. Log saved to: /home/novakj/actors/developer2/logs/20260121_193950.log
+
+>>> Running Tester Agent...
+## Tester Summary
+
+### Tasks Tested
+
+**TASK-015: Long-running process detector** → **VERIFIED** ✓
+- Page `/long-running.html` returns HTTP 200
+- Backend script exists at `/scripts/update-long-running-processes.sh`
+- API `/api/processes.json` returns valid JSON with 154 total processes, 19 long-running
+- Dashboard card integration with 'l' shortcut confirmed
+- widgetMap entry present
+- All required features implemented
+
+**TASK-012: System reboot history tracker** → **VERIFIED** ✓
+- Page `/reboot-history.html` returns HTTP 200
+- Backend script exists at `/scripts/update-reboot-history.sh`
+- API `/api/reboot-history.json` returns valid JSON with current uptime (2d 3h 15m), 100% uptime percentage
+- Dashboard card integration with 'u' shortcut confirmed
+- widgetMap entry present
+- All required features implemented
+
+### JSON Validation
+- **120 JSON files validated** - All valid, no syntax errors
+
+### Regression Testing
+- **25 pages tested** - All return HTTP 200:
+  - Core: index.html, security.html, health.html, agents.html, tasks.html
+  - Analytics: logs.html, changelog.html, schedule.html, costs.html, budget.html, trends.html, forecast.html, uptime.html
+  - Infrastructure: architecture.html, workflow.html, api-stats.html, error-patterns.html, backups.html
+  - Utility: secrets-audit.html, dependencies.html, digest.html, search.html, settings.html
+  - Recent: terminal.html, playbooks.html, onboarding.html, postmortem.html, horoscope.html, retrospective.html, standup.html
+
+### Status
+- No broken pages detected
+- No JSON validation failures
+- All DONE tasks verified and marked as VERIFIED

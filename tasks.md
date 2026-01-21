@@ -188,22 +188,24 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-015: Create a long-running process detector
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a script that identifies processes that have been running for extended periods (e.g., >24 hours, >7 days), with web dashboard integration
 - **Notes**: Implemented at /long-running.html with: (1) Backend script /scripts/update-long-running-processes.sh that scans all processes, filters expected system processes, and categorizes by age (1h-7d=info, 7d-30d=warning, 30d+=critical), (2) API endpoint /api/processes.json with summary stats, system uptime, and process details including PID, user, command, elapsed time, start time, CPU/memory usage, and severity, (3) Web page with system uptime banner, stats grid showing total/long-running/warning/critical counts, severity legend, sortable and filterable table with search, (4) Dashboard card showing long-running process count with color-coded status, (5) Command palette entry with 'l' keyboard shortcut, (6) widgetMap entry for layout customization, (7) Auto-refresh every 60 seconds, (8) Export JSON functionality. Filters out expected long-running processes like systemd, cron, nginx, etc. Helps identify forgotten background tasks or runaway scripts.
+- **Tester Feedback**: [PASS] - Page returns HTTP 200. Backend script exists at /scripts/update-long-running-processes.sh. API endpoint /api/processes.json returns valid JSON with 6 keys including summary (total_processes: 154, long_running_count: 19, warning_count: 0, critical_count: 0). HTML includes: system uptime banner, stats grid with total/long-running/warning/critical counts, severity legend, sortable/filterable table with search. Dashboard card on index.html showing process count. Command palette entry with 'l' shortcut. widgetMap integration confirmed. Auto-refresh at 60 seconds. Export JSON button present.
 
 ### TASK-012: Create a system reboot history tracker
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a script that shows system reboot history and uptime records, with web dashboard integration
 - **Notes**: Implemented at /reboot-history.html with: (1) Backend script /scripts/update-reboot-history.sh that gathers reboot data using `last reboot` command, (2) API endpoint /api/reboot-history.json with current uptime, statistics, reboot history, and warnings, (3) Current uptime banner showing formatted uptime, boot time, kernel version, and hostname, (4) Statistics grid showing total reboots, average uptime, record uptime, and warning count, (5) Uptime percentage ring chart showing system reliability, (6) 24-hour uptime trend visualization showing online/offline status per hour, (7) Reboot timeline with chronological list of reboots including kernel version and duration, (8) System information panel with detailed system stats, (9) Uptime records panel showing best, average, and minimum uptimes, (10) Warning banner for stability issues (high reboot frequency, crash reboots), (11) Export as JSON functionality, (12) Dashboard card with 'u' keyboard shortcut showing current uptime, (13) Command palette entry, (14) widgetMap entry for layout customization, (15) Auto-refresh every 60 seconds.
+- **Tester Feedback**: [PASS] - Page returns HTTP 200. Backend script exists at /scripts/update-reboot-history.sh. API endpoint /api/reboot-history.json returns valid JSON with 7 keys including current_uptime (2d 3h 15m), statistics (100% uptime), hostname (vps-2d421d2a), kernel (6.14.0-34-generic). HTML includes: uptime banner with formatted uptime/boot time/kernel/hostname, stats grid (total reboots/average uptime/record uptime/warnings), 24-hour trend chart container, reboot timeline, warning banner, export JSON button. Dashboard card on index.html with 'u' shortcut showing uptime. Command palette entry present. widgetMap integration confirmed. Auto-refresh at 60 seconds.
 
 ### TASK-153: Add agent "daily horoscope" and whimsical prediction page to CronLoop web app
 - **Status**: VERIFIED
