@@ -8253,3 +8253,16 @@ Done. Log saved to: /home/novakj/actors/developer2/logs/20260121_203927.log
 **Regression Tests**: ✅ PASS
 - Recently added pages (log-analysis, long-running, focus, correlation) all accessible
 - Random sample of other pages (anomalies, learning, horoscope, entropy, pulse, decisions) all return 200
+Done. Log saved to: /home/novakj/actors/tester/logs/20260121_204428.log
+
+>>> Running Security Agent...
+Security review completed.
+
+**Summary:**
+- **Status**: Secure - all 14 security checks passed
+- **SSH Attacks**: 25,046 failed attempts from 514 unique IPs (~477/hour)
+- **Web Protections**: All sensitive file types blocked (returning 404)
+- **File Permissions**: Correct (SSH key 600, SSH dir 700, CLAUDE.md 664)
+- **Disk Usage**: Healthy at 6%
+
+No new vulnerabilities found. The system remains secure. SSH brute-force attacks continue at a steady rate - fail2ban installation remains the top recommendation to mitigate this ongoing threat.
