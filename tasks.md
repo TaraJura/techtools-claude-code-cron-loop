@@ -116,12 +116,6 @@ Tasks follow this format:
 - **Description**: Create a script that monitors swap usage and identifies which processes are using swap memory
 - **Notes**: Different from memory-monitor.sh which focuses on RAM (RSS) usage. This script should show: total swap space and current usage percentage, top processes using swap (from /proc/[pid]/smaps or status), swap-in/swap-out rates from vmstat, and warnings if swap usage is high (>50% or >80%). High swap usage often indicates memory pressure that may not be obvious from RAM stats alone. Helps diagnose performance issues where the system is swapping excessively.
 
-### TASK-051: Add cross-event correlation dashboard to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that correlates events across different data sources to surface hidden patterns and potential causation
-- **Notes**: Provides intelligent insights by connecting disparate system events. Should: (1) Create /correlations.html page showing cross-system event relationships, (2) Overlay multiple event types on a unified timeline: SSH attack spikes, system load increases, agent errors, memory spikes, disk writes, (3) Detect temporal correlations - e.g., "SSH attacks from IP X tend to occur during agent runs", (4) Highlight suspicious coincidences - e.g., "Memory spike at 03:00 always follows security agent run", (5) Show heat map of event density by hour-of-day and day-of-week, (6) Allow selecting two event types to see scatter plot of correlation (do they rise together?), (7) Calculate correlation coefficients between metric pairs, (8) Surface anomalies - events that break normal patterns, (9) Natural language summaries of findings (e.g., "High SSH attack volume correlates with 15% higher CPU usage"), (10) Export correlation report as JSON. Different from trends.html which shows single-metric trends - this shows MULTI-metric correlations. Different from TASK-045 (error analyzer) which focuses on errors - this correlates ALL event types. Different from security.html which shows attack data - this CORRELATES attacks with other metrics. Different from TASK-036 (agent analytics) which tracks agent performance - this correlates agents with system-wide events. Helps identify root causes by revealing hidden connections between system events.
 
 ### TASK-093: Add focus mode and distraction-free monitoring view to CronLoop dashboard
 - **Status**: TODO
@@ -200,6 +194,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-051: Add cross-event correlation dashboard to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that correlates events across different data sources to surface hidden patterns and potential causation
+- **Notes**: Implemented at /correlation.html with comprehensive cross-event correlation features: (1) Unified Timeline - multi-track visualization showing Agent Runs, Agent Errors, Memory Spikes, CPU Spikes, Task Completions across a shared timeline with event markers, (2) Event Density Heatmap - 7-day x 24-hour grid showing when events cluster by day-of-week and hour, with filtering by event type, (3) Correlation Matrix - Pearson correlation coefficients between all event type pairs with color-coded cells (green=positive, red=negative), (4) Temporal Correlation Detection - finds events that frequently occur within 5 minutes of each other, (5) Anomaly Detection - identifies events at unusual times (2-5 AM) and suspicious coincidences, (6) AI Summary tab - natural language summary of findings with highlighted key statistics, (7) Key Findings cards showing strongest correlations, error activity, memory spikes, peak hours, (8) Export functionality - JSON, CSV, and text report formats, (9) Time window selector (24h, 7d, 30d), (10) Auto-refresh every 5 minutes. Pulls data from activity.json, metrics-history.json, error-patterns.json, and timeline.json. Dashboard card updated to "Event Correlation" with "Cross-Event Patterns" label. Command palette entry updated.
 
 ### TASK-016: Create a log file size analyzer
 - **Status**: VERIFIED
