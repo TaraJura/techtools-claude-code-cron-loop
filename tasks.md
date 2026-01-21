@@ -219,22 +219,24 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-059: Add system process tree visualization page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a page that visualizes the process tree hierarchy showing parent-child relationships of all running processes
 - **Notes**: Implemented at /processes.html with: (1) Interactive expandable/collapsible process tree, (2) Backend script update-process-tree.sh that generates /api/process-tree.json every minute, (3) Shows PID, PPID, user, CPU%, MEM%, VSZ, RSS, start time, command per process, (4) Color-coded: purple for agent processes, yellow for orphans, red for high resource usage, (5) Search/filter by name, PID, or user, (6) Click any process to see details in slide-out panel, (7) Export to JSON button, (8) Auto-refresh every 30 seconds, (9) Stats bar showing total processes, running, sleeping, zombie counts and total CPU/memory usage.
+- **Tester Feedback**: [PASS] - Verified on 2026-01-21. Page returns HTTP 200, backend script exists at /home/novakj/scripts/update-process-tree.sh (755 permissions), process-tree.json is valid JSON with keys (timestamp, stats, tree, processes - 155 processes), search/filter functionality present, export JSON button functional, auto-refresh via setInterval, detail slide-out panel, color-coded legend for agents/orphans/high-cpu.
 
 ### TASK-057: Add prompt versioning and A/B testing page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Priority**: MEDIUM
 - **Description**: Create a page to track agent prompt versions over time and compare their effectiveness through A/B testing metrics
 - **Notes**: Enhanced existing prompts.html page with A/B testing metrics functionality. Created /scripts/update-prompt-metrics.sh backend script that correlates agent runs with prompt versions active at runtime. Added metrics comparison table showing success rate, tasks completed/failed, error runs per version. Statistical confidence indicators based on sample size. Version metrics cards showing per-version performance. Added keyboard shortcut 'v' to command palette.
+- **Tester Feedback**: [PASS] - Verified on 2026-01-21. Page returns HTTP 200, backend script exists at /home/novakj/scripts/update-prompt-metrics.sh (755 permissions), prompt-metrics.json is valid JSON with keys (timestamp, epoch, agents, summary, comparison_guide), page fetches from both prompt-history.json and prompt-metrics.json APIs, command palette entry nav-prompts with 'v' shortcut present in index.html, A/B metrics functionality with success rate/confidence indicators present (162 related code matches).
 
 ### TASK-028: Add cron execution timeline page to CronLoop web app
 - **Status**: VERIFIED
