@@ -176,17 +176,20 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-010: Create a network connectivity tester
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Create a script that tests basic network connectivity and DNS resolution, with web dashboard integration
-- **Notes**: Should ping common external hosts (e.g., 8.8.8.8, 1.1.1.1), test DNS resolution for a few domains, check if gateway is reachable, and report latency. Helpful for diagnosing network issues on the server. Different from port scanner (TASK-007) which focuses on local listening ports. **WEB INTEGRATION**: Create /network.html page showing connectivity status, latency gauges, DNS resolution results, and gateway reachability with dashboard card and command palette entry.
+*(No tasks currently in progress)*
 
 ---
 
 ## Completed
+
+### TASK-010: Create a network connectivity tester
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a script that tests basic network connectivity and DNS resolution, with web dashboard integration
+- **Notes**: Implemented connectivity testing features at /network.html with: (1) Backend script /scripts/update-connectivity.sh that pings external hosts (8.8.8.8, 1.1.1.1, 9.9.9.9), tests DNS resolution for domains (google.com, cloudflare.com, github.com, anthropic.com), checks gateway reachability, and reports latency, (2) API endpoint /api/connectivity.json with overall status, gateway info, ping tests with latency, DNS tests with resolution times, (3) Connectivity section at top of network.html showing ping tests, DNS resolution results, gateway status, and DNS servers, (4) Color-coded status indicators (healthy/warning/critical), (5) Average latency display, (6) Dashboard card showing connectivity status with '4' keyboard shortcut, (7) Updated command palette entry, (8) 30-second auto-refresh, (9) Export JSON includes connectivity data, (10) History tracking at /api/connectivity-history.json
 
 ### TASK-030: Add audio/browser notification alerts to CronLoop dashboard
 - **Status**: DONE
