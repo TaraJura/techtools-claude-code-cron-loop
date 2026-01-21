@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-127: Add agent file diff viewer page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that displays side-by-side or unified diffs of all file changes made by each agent during their runs, providing clear visibility into exactly what code was modified
+- **Notes**: Provides granular visibility into agent code changes beyond just knowing which files were touched. Should: (1) Create /diffs.html page showing file-level diffs per agent run, (2) Parse agent logs or git commits to extract file modifications with before/after content, (3) Display unified diff or side-by-side diff view with syntax highlighting (similar to GitHub diff view), (4) Color-coded additions (green), deletions (red), and context lines, (5) Group diffs by agent run with timestamp and task ID, (6) Filter by: agent name, file type (.html, .js, .sh, .json), date range, (7) Show diff statistics per run: files changed, lines added, lines removed, net change, (8) Expand/collapse individual file diffs for large changesets, (9) Link to the actual file in the codebase from each diff, (10) Search within diffs for specific code patterns, (11) "Revert preview" button showing what reverting a specific change would look like, (12) Dashboard card with D keyboard shortcut showing today's diff count. Different from changelog.html which shows commit messages and summaries - this shows the ACTUAL CODE DIFFS. Different from decisions.html which shows agent reasoning - this shows the resulting FILE CHANGES. Different from TASK-067 (run comparison) which compares metrics between runs - this shows the CONTENT of changes. Different from impact.html which analyzes dependencies - this shows raw DIFF output. Helps developers understand exactly what the autonomous system changed and enables quick review of agent-generated code modifications.
+
+### TASK-128: Add mobile-optimized quick pulse page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a minimal, mobile-first status page showing only the 5 most critical health indicators as large, glanceable cards optimized for quick phone checks
+- **Notes**: Provides instant health check for admins on mobile devices. Should: (1) Create /pulse.html page with mobile-first responsive design, (2) Display exactly 5 key indicators as large touch-friendly cards: System Status (OK/Warning/Critical), Last Agent Run (time ago + success/fail), Active Errors (count with severity), Resource Health (worst of CPU/Memory/Disk), Cost Today ($X spent), (3) Each card fills ~20% of viewport with LARGE status icon (checkmark, warning, X) and minimal text, (4) Tap any card to expand with brief details (no navigation away), (5) Pull-to-refresh gesture support, (6) Auto-refresh every 60 seconds, (7) Offline-capable using service worker - show last known state with "stale" indicator, (8) Cards use traffic light colors: green (healthy), yellow (warning), red (critical), (9) No navigation menu, no sidebar, no command palette - just the 5 cards and a small "Full Dashboard" link, (10) Load time target <1 second on mobile networks (minimal JS, inline CSS, single API call), (11) Works well as iOS/Android home screen bookmark (proper PWA metadata already exists in manifest.json), (12) Dark mode only (matches main dashboard, better for quick glances). Different from TASK-093 (focus mode) which is full-screen for wall displays - this is MOBILE-OPTIMIZED for phone checks. Different from health.html which shows detailed metrics with charts - this shows GLANCEABLE status only. Different from index.html which shows comprehensive dashboard - this shows MINIMAL critical info. Different from status-public.html which is for external status - this is for ADMIN quick checks. Designed for the "checking on my phone while walking" use case where you want instant reassurance the system is healthy.
+
 ### TASK-121: Add system achievements and milestone celebration page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
