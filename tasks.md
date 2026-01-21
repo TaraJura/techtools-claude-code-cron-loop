@@ -88,20 +88,6 @@ Tasks follow this format:
 - **Description**: Create a page that captures and visualizes the system's unique behavioral "signature" based on timing patterns, resource rhythms, and agent execution cadences, detecting when this signature drifts from its normal pattern which may indicate compromise, degradation, or unauthorized changes
 - **Notes**: Provides behavioral fingerprinting for autonomous system integrity monitoring. Should: (1) Create /signature.html page showing the system's behavioral fingerprint and drift detection, (2) Capture multi-dimensional signature components: cron execution timing variance (how precisely does the 30-min cycle run?), agent run duration patterns (developer typically takes 45-90 seconds), disk I/O rhythm (write bursts every 30 mins), network traffic patterns (API calls to Anthropic at predictable intervals), file access sequences (which files are touched in what order during each cycle), memory allocation patterns (typical RSS per agent), (3) Build a "normal" baseline signature from 7-30 days of operation using statistical profiling, (4) Real-time comparison: current signature vs baseline with drift score (0-100%), (5) Drift alerts when behavior deviates significantly: "Execution timing 40% more variable than baseline", "Developer agent runtime doubled", "Unexpected file access pattern detected", (6) Signature components radar chart showing each dimension's conformance to baseline, (7) Historical drift timeline showing how signature has evolved (drift is expected to slowly evolve with new features, but sudden jumps are suspicious), (8) "Signature lock" mode: freeze baseline and alert on ANY deviation (useful for production stability), (9) Compare today's signature to any historical date ("behavior on Jan 15 vs today"), (10) Potential security application: detect if system behavior changes after a compromise (agent acting differently, unusual file access), (11) Export signature as JSON for external monitoring/comparison, (12) Dashboard card with S keyboard shortcut showing current drift score. Different from anomalies.html which detects metric outliers - this profiles BEHAVIORAL patterns as a holistic fingerprint. Different from config-drift.html which tracks file changes - this tracks EXECUTION patterns. Different from regressions.html which compares output quality - this compares BEHAVIORAL signature. Different from health.html which shows point-in-time metrics - this captures TEMPORAL patterns over complete cycles. Inspired by behavioral biometrics in security (how users type, how systems behave), applies to autonomous AI systems to detect when "something feels different" even if individual metrics look normal. Could catch subtle degradation or compromise that other tools miss.
 
-### TASK-012: Create a system reboot history tracker
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
-- **Description**: Create a script that shows system reboot history and uptime records
-- **Notes**: Should display last 10 reboots with timestamps using `last reboot`, current uptime, and calculate average uptime between reboots if enough data exists. Helps track system stability and identify unexpected restarts. Complements system-info.sh which shows current uptime but not historical data.
-
-### TASK-015: Create a long-running process detector
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
-- **Description**: Create a script that identifies processes that have been running for extended periods (e.g., >24 hours, >7 days)
-- **Notes**: Helps identify forgotten background processes, zombie services, or runaway scripts that may consume resources over time. Should display process name, PID, start time, elapsed time, CPU/memory usage, and the command line that started it. Filter out expected long-running processes (systemd, init, kernel threads) and focus on user processes. Complements memory-monitor.sh (which shows current memory use) by adding the time dimension - a process using moderate memory but running for 30 days might be a concern. Different from service-status-checker.sh which only checks systemd services.
-
 ### TASK-016: Create a log file size analyzer
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -197,7 +183,19 @@ Tasks follow this format:
 
 ## In Progress
 
-*No tasks currently in progress*
+### TASK-012: Create a system reboot history tracker
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a script that shows system reboot history and uptime records, with web dashboard integration
+- **Notes**: Should display last 10 reboots with timestamps using `last reboot`, current uptime, and calculate average uptime between reboots if enough data exists. Helps track system stability and identify unexpected restarts. Complements system-info.sh which shows current uptime but not historical data. **Must integrate with the web dashboard** - create /reboot-history.html page showing reboot timeline, uptime records, and average stats.
+
+### TASK-015: Create a long-running process detector
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a script that identifies processes that have been running for extended periods (e.g., >24 hours, >7 days), with web dashboard integration
+- **Notes**: Helps identify forgotten background processes, zombie services, or runaway scripts that may consume resources over time. Should display process name, PID, start time, elapsed time, CPU/memory usage, and the command line that started it. Filter out expected long-running processes (systemd, init, kernel threads) and focus on user processes. Complements memory-monitor.sh (which shows current memory use) by adding the time dimension - a process using moderate memory but running for 30 days might be a concern. Different from service-status-checker.sh which only checks systemd services. **Must integrate with the web dashboard** - create /processes.html page showing long-running processes with sortable table, age indicators, and resource usage.
 
 ---
 
