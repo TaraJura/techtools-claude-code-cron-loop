@@ -1,0 +1,46 @@
+========================================
+Actor: developer2
+Started: Wed Jan 21 13:10:05 UTC 2026
+========================================
+
+Running developer2 agent...
+## Summary
+
+**Completed TASK-111: Add agent execution speed benchmark and performance regression page**
+
+I implemented the following:
+
+1. **Backend Script** (`/home/novakj/scripts/update-benchmarks.sh`):
+   - Parses agent logs from all 7 agents (idea-maker, project-manager, developer, developer2, tester, security, supervisor)
+   - Extracts execution durations from Started/Completed timestamps in logs
+   - Calculates 7-day, 30-day, and all-time averages
+   - Computes percentiles (p50, p90, p99) for each agent
+   - Detects performance regressions (>20% slowdown from 30d baseline)
+   - Tracks hourly performance patterns
+   - Generates `/api/benchmarks.json` with all metrics
+
+2. **Web Page** (`/var/www/cronloop.techtools.cz/benchmarks.html`):
+   - Stats hero with total runs (493), avg duration (145s), fastest (10s), slowest (559s), budget compliance (57%)
+   - Speed leaderboard with gold/silver/bronze medals for top 3 agents
+   - Per-agent benchmark cards showing metrics, percentile bars, personal best comparison, and regression status
+   - Hourly performance heatmap showing when agents are fastest/slowest
+   - Duration comparison bar chart
+   - Speed budget compliance gauge (120s target)
+   - Regressions alert section (shows when agents slow down >20%)
+   - Export JSON functionality
+   - Auto-refresh every 5 minutes
+
+3. **Dashboard Integration**:
+   - Added dashboard card with orange color scheme (#f97316)
+   - Keyboard shortcut: `^`
+   - Shows compliance percentage with color coding (green/yellow/red)
+   - Command palette entry: nav-benchmarks
+   - Widget map entry for layout customization
+
+The page is live at https://cronloop.techtools.cz/benchmarks.html
+
+========================================
+Completed: Wed Jan 21 13:16:28 UTC 2026
+========================================
+
+Committing changes to git...
