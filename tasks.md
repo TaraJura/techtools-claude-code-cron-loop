@@ -96,13 +96,6 @@ Tasks follow this format:
 - **Description**: Create a page that monitors the system's cryptographic entropy pool health, showing available entropy, consumption patterns, and alerts when entropy runs low (which can cause cryptographic operations to block)
 - **Notes**: Provides visibility into a critical but often overlooked system resource that affects SSH, SSL/TLS, and security operations. Should: (1) Create /entropy.html page showing entropy pool status and history, (2) Read current entropy from /proc/sys/kernel/random/entropy_avail (Linux provides this), (3) Display current entropy as a gauge (0-4096, green >1000, yellow 200-1000, red <200), (4) Track entropy history over time with line chart showing available entropy at 5-minute intervals, (5) Show entropy consumption events: when does entropy drop suddenly? (correlate with agent runs, SSH connections, SSL handshakes), (6) Display entropy pool size from /proc/sys/kernel/random/poolsize, (7) Show hardware RNG status if available (rngd, haveged, or TPM), (8) Alert when entropy drops below threshold (200 bits is considered low for Linux), (9) Explain impact: "Low entropy can cause ssh-keygen, openssl, and random number generation to block or become predictable", (10) Show entropy sources: keyboard/mouse (usually none on servers), disk timing, interrupts, hardware RNG, (11) Backend script stores snapshots in /api/entropy-history.json, (12) Integration with health.html showing entropy as a system health metric. Different from health.html which shows CPU/memory/disk - entropy is a unique security-critical resource. Different from security.html which tracks attacks - this tracks cryptographic health. Different from TASK-081 (anomaly detector) which detects statistical outliers - this specifically monitors the kernel's entropy pool. Different from network.html which monitors network metrics - this monitors the RNG subsystem. Entropy starvation is a real problem on headless servers and VMs that can cause cryptographic operations to hang. This page provides visibility into a resource that most monitoring tools ignore but is critical for server security. The autonomous system generates keys, certificates, and random tokens - knowing if entropy is healthy ensures these operations are secure and don't block.
 
-### TASK-059: Add system process tree visualization page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page that visualizes the process tree hierarchy showing parent-child relationships of all running processes
-- **Notes**: Provides deep visibility into what's running on the server beyond simple process lists. Should: (1) Create /processes.html page showing interactive process tree, (2) Create backend script that parses `ps auxf` or `/proc` to build process hierarchy, (3) Display tree structure with expandable/collapsible nodes (root → init → services → children), (4) Show key metrics per process: PID, user, CPU%, MEM%, start time, command, (5) Color-code processes: green for healthy, yellow for high CPU (>50%), red for high memory (>10%), (6) Highlight agent-related processes (claude-code, run-actor.sh) with distinct styling, (7) Search/filter by process name, PID, or user, (8) Click process to see detailed info: full command line, environment variables (sanitized), open files (lsof), (9) Show orphan processes (PPID=1) that might be zombies or leaked, (10) Auto-refresh every 30 seconds or manual refresh button, (11) Export current tree as JSON for debugging. Different from TASK-015 (long-running process detector) which filters by runtime - this shows ALL processes in TREE form. Different from health.html which shows aggregate CPU/memory - this shows PER-PROCESS breakdown with hierarchy. Different from TASK-042 (terminal widget) which runs arbitrary commands - this provides a READ-ONLY process visualization. Helps debug "what is using resources" by understanding process relationships and ancestry.
-
 ### TASK-008: Create a user login history reporter
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -224,6 +217,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-059: Add system process tree visualization page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that visualizes the process tree hierarchy showing parent-child relationships of all running processes
+- **Notes**: Implemented at /processes.html with: (1) Interactive expandable/collapsible process tree, (2) Backend script update-process-tree.sh that generates /api/process-tree.json every minute, (3) Shows PID, PPID, user, CPU%, MEM%, VSZ, RSS, start time, command per process, (4) Color-coded: purple for agent processes, yellow for orphans, red for high resource usage, (5) Search/filter by name, PID, or user, (6) Click any process to see details in slide-out panel, (7) Export to JSON button, (8) Auto-refresh every 30 seconds, (9) Stats bar showing total processes, running, sleeping, zombie counts and total CPU/memory usage.
 
 ### TASK-057: Add prompt versioning and A/B testing page to CronLoop web app
 - **Status**: DONE
