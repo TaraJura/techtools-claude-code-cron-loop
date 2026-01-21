@@ -5796,3 +5796,34 @@ The task has been moved to the Completed section in tasks.md with status DONE.
 Done. Log saved to: /home/novakj/actors/developer/logs/20260121_140146.log
 
 >>> Running Developer 2 Agent...
+I have completed TASK-055. Here's a summary of what was implemented:
+
+## TASK-055: Live Collaboration Indicator Page - Completed
+
+**Implemented `/activity.html`** - A real-time collaboration and activity monitoring page for the CronLoop web app.
+
+### What was created:
+
+1. **Backend Script** (`/home/novakj/scripts/update-activity.sh`):
+   - Detects if cron-orchestrator is running (via PID file or process check)
+   - Identifies currently running agent from log file timestamps (within last 60 seconds)
+   - Collects recent agent runs from all 7 agents
+   - Generates `/api/activity.json` with orchestrator status, current agent info, and recent runs
+   - Creates `/api/viewers.json` and `/api/annotations.json` for presence and notes tracking
+
+2. **Activity Page** (`/var/www/cronloop.techtools.cz/activity.html`):
+   - Live status banner with pulsing indicator showing System Active/Idle
+   - Current agent display showing which agent is running with elapsed time
+   - Stats grid: runs today, viewers online, notes (24h), errors today
+   - Activity feed showing recent agent runs with error/success badges
+   - Viewers sidebar with presence tracking
+   - Quick notes feature for annotations (stored in localStorage)
+   - Sound alerts toggle for new activity notifications
+   - Export JSON functionality
+   - Auto-refresh every 10 seconds
+
+3. **Dashboard Integration**:
+   - Dashboard card with green color scheme (#22c55e)
+   - 'L' keyboard shortcut
+   - Command palette entry `nav-activity`
+   - Widget map entry for layout customization
