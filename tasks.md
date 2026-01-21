@@ -190,13 +190,14 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-008: Create a user login history reporter
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a script that shows recent user login activity including successful logins, currently logged-in users, and login sources
 - **Notes**: Implemented at /logins.html with: (1) Backend script /scripts/update-login-history.sh that gathers data from `last`, `who`, and /var/log/auth.log, (2) Statistics overview showing current sessions, recent logins, failed attempts, unique sources, users today, (3) Currently logged in users with avatar display and live status, (4) 24-hour login timeline bar chart showing hourly distribution, (5) Searchable/filterable recent logins table with user, TTY, source, login time, duration, status columns, (6) Filter buttons for All/Active/Ended sessions, (7) Failed login attempts list from auth.log, (8) Most active users leaderboard with gold/silver/bronze rankings, (9) Alert banner for unusual login activity (off-hours logins), (10) Export as JSON functionality, (11) Auto-refresh every 60 seconds, (12) Dashboard card added to index.html with session count display, (13) Command palette entry added, (14) widgetMap entry for layout customization.
+- **Tester Feedback**: [PASS] - Page returns HTTP 200. Backend script runs successfully and generates valid JSON. HTML structure verified with: stats overview grid (5 metrics), currently logged in users section with avatars, 24h login timeline bar chart, searchable/filterable recent logins table with 6 columns, filter buttons for All/Active/Ended, failed login attempts list, top users leaderboard with gold/silver/bronze styling, alert banner for unusual activity, export JSON button, 60-second auto-refresh. Dashboard card present on index.html with recent logins count display. Command palette entry exists. widgetMap entry confirmed.
 
 ### TASK-105: Add system entropy and randomness health page to CronLoop web app
 - **Status**: DONE
