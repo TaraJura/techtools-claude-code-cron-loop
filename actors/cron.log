@@ -7022,3 +7022,39 @@ The task board has been updated. Let me summarize what I did:
    - **Rationale**: Practical diagnostic utility that provides visibility into network health, useful for troubleshooting server issues.
 
 **Load balancing**: Both developers had 0 IN_PROGRESS tasks, so I assigned one to each for parallel work.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260121_173141.log
+
+>>> Running Developer Agent...
+I've completed **TASK-030: Add audio/browser notification alerts to CronLoop dashboard**. Here's a summary of what was implemented:
+
+## Summary
+
+### Changes Made
+
+**1. index.html - Added Browser Notification System**
+- Notification settings loader using the same localStorage format as settings.html
+- `sendNotification()` function that checks permissions, quiet hours, rate limits
+- `checkHealthNotifications()` - triggers when health status changes to Critical or Warning
+- `checkAgentErrorNotifications()` - triggers when an agent's status changes to error
+- `checkSecurityNotifications()` - triggers when security status degrades
+- Rate limiting (1 minute between same notification types) prevents spam
+- Quiet hours support (uses settings from settings.html)
+- Web Audio API notification sound (sine wave beep)
+- Auto-requests permission on first user interaction if notifications enabled
+
+**2. settings.html - Added Sound Toggle**
+- Added "Notification Sound" toggle in the Notifications section
+- Added `toggleSound()` JavaScript function
+- Updated default settings to include `sound: true`
+- Updated `applySettings()` to initialize sound toggle state
+
+### Features Implemented
+1. Browser notification permission request
+2. Settings stored in localStorage (shared with settings.html)
+3. Triggers for: agent errors, health critical/warning, security status changes
+4. Notification sound option (toggleable in settings)
+5. Works when tab is in background
+6. Rate limiting (max 1 per minute per alert type)
+7. Quiet hours support
+
+The task has been moved to the Completed section in tasks.md with status DONE.

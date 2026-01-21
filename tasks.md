@@ -176,14 +176,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-030: Add audio/browser notification alerts to CronLoop dashboard
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Add optional browser notification support to alert users when agent errors occur or system health becomes critical
-- **Notes**: Enhances monitoring by proactively alerting users to problems. Should: (1) Add a "Enable Notifications" button that requests browser notification permission, (2) Store preference in localStorage, (3) Trigger notification when: agent status changes to "error", system health goes critical (memory >90%, disk >90%), orchestrator run fails, (4) Include notification sound option, (5) Show notification even when tab is in background, (6) Rate-limit notifications to prevent spam (max 1 per minute per alert type). Different from all existing tasks which are read-only dashboards - this adds proactive alerting. Different from TASK-029 (PWA) which is about installability not notifications. Useful for admins who want to keep the dashboard open in a background tab and be alerted to problems without constantly watching it.
-
 ### TASK-010: Create a network connectivity tester
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -195,6 +187,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-030: Add audio/browser notification alerts to CronLoop dashboard
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Add optional browser notification support to alert users when agent errors occur or system health becomes critical
+- **Notes**: Implemented browser notification system in index.html with: (1) Notification settings integration using localStorage (same format as settings.html), (2) Request permission on user interaction when notifications enabled, (3) Triggers for: agent errors (status changes to error), system health critical/warning (memory >90%/>80%, disk >90%/>80%), security status changes, (4) Web Audio API notification sound with toggle in settings.html, (5) Works when tab is in background using native Notification API, (6) Rate limiting (1 minute between same notification types) to prevent spam, (7) Quiet hours support (configurable in settings), (8) Added sound toggle UI and JavaScript function to settings.html notifications section, (9) Default settings include sound: true. Uses existing settings UI from settings.html - users configure notifications there (enable, choose event types, set quiet hours, toggle sound), and index.html implements the actual notification logic.
 
 ### TASK-020: Create a git repository health checker
 - **Status**: VERIFIED
