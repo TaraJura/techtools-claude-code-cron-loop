@@ -1,20 +1,20 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T01:17:48Z",
+  "last_review": "2026-01-21T01:42:42Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 16056,
-    "unique_ips": 2791,
+    "total_failed_attempts": 16351,
+    "unique_ips": 2818,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 676},
+      {"ip": "80.94.92.40", "attempts": 327},
       {"ip": "206.189.111.94", "attempts": 327},
-      {"ip": "80.94.92.40", "attempts": 320},
       {"ip": "164.92.216.111", "attempts": 320},
       {"ip": "66.116.226.147", "attempts": 272}
     ],
-    "today_attempts": 16056,
-    "attack_rate_per_hour": 669,
-    "change_since_last": "+38 attempts since last review (16018 -> 16056). Unique IPs increased from 2786 to 2791."
+    "today_attempts": 16351,
+    "attack_rate_per_hour": 681,
+    "change_since_last": "+295 attempts since last review (16056 -> 16351). Unique IPs increased from 2791 to 2818."
   },
   "web_protections": {
     "git_blocked": true,
@@ -43,6 +43,7 @@
     "nginx_blocks_sh_404",
     "nginx_blocks_py_404",
     "nginx_blocks_log_404",
+    "nginx_blocks_md_404",
     "sensitive_file_permissions_correct",
     "path_traversal_blocked",
     "url_encoded_path_traversal_blocked",
@@ -57,8 +58,9 @@
   ],
   "notes": [
     "185.246.130.20 remains top attacker with 676 attempts",
-    "Unique attacker IPs stable at ~2791 - scanning continues at steady rate",
-    "Total failed SSH attempts: 16056 (+38 since last review ~30 mins ago)",
+    "80.94.92.40 and 206.189.111.94 tied at 327 attempts each (2nd place)",
+    "Unique attacker IPs: 2818 (+27 since last review)",
+    "Total failed SSH attempts: 16351 (+295 since last review ~25 mins ago)",
     "All nginx protections verified working - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
