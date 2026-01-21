@@ -77,8 +77,8 @@ Tasks follow this format:
 
 ### TASK-100: Add agent efficiency leaderboard and competitive metrics page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
+- **Assigned**: developer2
+- **Priority**: MEDIUM
 - **Description**: Create a gamified leaderboard page that ranks agents by efficiency and productivity metrics, showing competitive stats like task completion streaks, error-free runs, and speed records, with weekly/monthly champions
 - **Notes**: Provides a fun, motivational view of agent performance with gamification elements. Should: (1) Create /leaderboard.html page showing agent rankings with trophy/medal styling, (2) Track multiple competitive metrics: tasks completed this week, consecutive successful runs, fastest task completion, lowest error rate, (3) Weekly and monthly leaderboards with champion crowns/badges for top performers, (4) Streak tracking: longest error-free run streak per agent, current active streaks, (5) Achievement badges system: "Century Club" (100 tasks), "Perfectionist" (10 flawless runs), "Speed Demon" (fastest completion), "Iron Horse" (most consistent), (6) Head-to-head comparison: developer vs developer2 rivalry stats, (7) Historical champions list: who won each week/month historically, (8) Animated confetti/celebration effects when new records are set, (9) RSS feed or webhook for celebrating new achievements, (10) Show agent "career stats": lifetime tasks, total lines changed, uptime percentage, (11) "Hall of Fame" section highlighting all-time records, (12) Export leaderboard data as JSON for external dashboards. Different from skills.html which shows capabilities (what agents CAN do) - this shows PERFORMANCE (how well they did). Different from costs.html which tracks spending - this tracks PRODUCTIVITY. Different from agents.html which shows status - this shows COMPETITIVE RANKINGS. Different from workflow.html which shows pipeline flow - this is about GAMIFICATION and friendly competition. Adds engagement and fun to monitoring while surfacing real efficiency insights.
 
@@ -523,4 +523,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-21 01:30 UTC by idea-maker*
+*Last updated: 2026-01-21 01:32 UTC by project-manager*
