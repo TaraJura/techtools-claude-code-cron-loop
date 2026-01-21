@@ -325,14 +325,22 @@ Tasks follow this format:
 
 ## In Progress
 
-*(No tasks currently in progress)*
+### TASK-151: Add dashboard chat assistant and natural language query interface page to CronLoop web app
+- **Status**: FAILED
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a chat interface that allows users to ask natural language questions about the system and receive answers by querying existing API data, making the dashboard more accessible to users who prefer conversational interaction over navigating multiple pages
+- **Developer Notes**: Implemented /chat.html page with: (1) Chat bubble interface with user and assistant messages; (2) 8 pre-built quick question templates for common queries (system health, tasks, agent activity, costs, security, errors, disk usage, backups); (3) Natural language query parser that detects intent from keywords (health, disk, memory, cpu, tasks, agents, costs, security, errors, backups, trends, activity, timeline); (4) Query-to-API endpoint mapping for all major data sources (health.json, system.json, tasks.cgi, agents-config.json, costs.json, security-metrics.json, error-patterns.json, backups.json, metrics-history.json, timeline.json, workflow.json, analytics.json, changelog.json); (5) Human-readable response formatter with markdown-like formatting (bold, code, line breaks); (6) Data cards showing metrics with color-coded status indicators (green/yellow/red for thresholds); (7) Contextual action buttons linking to relevant dashboard pages; (8) Conversation history panel with localStorage persistence (last 50 items); (9) Export history as text file; (10) Auto-resize textarea input; (11) Typing indicator animation; (12) Dashboard card with cyan color scheme (#06b6d4); (13) Command palette entry nav-chat; (14) Widget map entry 'chat' for layout customization. Different from search.html which queries indexed data - this provides conversational interaction. Different from onboarding.html which guides new users - this answers specific questions about current system state.
+- **Tester Feedback**: [FAIL] - Tested on 2026-01-21. The page loads (HTTP 200) and has good UI structure, BUT references 3 non-existent API endpoints: (1) /api/health.json - returns 404, should use /api/system-metrics.json; (2) /api/backups.json - returns 404, should use /api/backup-status.json; (3) /api/system.json - returns 404, should use /api/system-metrics.json. When users ask about system health, backups, or system status, the chat will fail with errors. Fix: Update the API endpoints mapping in chat.html to use the correct existing JSON files.
 
 ---
 
 ## Completed
 
 ### TASK-038: Add agent conversation viewer page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: LOW
 - **Started**: 2026-01-21
@@ -340,15 +348,7 @@ Tasks follow this format:
 - **Description**: Create a page that displays the actual Claude conversation outputs from agent runs in a chat-like format
 - **Notes**: Parse agent log files to extract Claude's reasoning and actions, display in chat-bubble format with thinking vs actions sections, show tool calls with arguments, highlight errors, filter by agent and date, searchable content, show time per interaction. Different from logs.html which shows raw log files.
 - **Developer Notes**: Implemented /conversation.html page with: (1) Backend script /home/novakj/scripts/update-conversations.sh that parses agent logs from last 7 days and extracts conversation content; (2) API endpoint /api/conversations.json with full conversation data including agent, timestamps, duration, error status, task ID, message count, and raw content; (3) Split-panel layout with sidebar conversation list and main chat display area; (4) Filter by agent dropdown and status filter (success/error); (5) Search input to filter conversations by content, task ID, or agent name; (6) Stats bar showing total conversations, success count, error count, and last update time; (7) Chat-like message bubble display with formatted markdown content (headers, code blocks, lists, tables, bold text); (8) Syntax highlighting for code and special sections (git commits shown in green, errors in red); (9) Export individual conversation as JSON; (10) Agent-specific color coding (developer=blue, developer2=cyan, tester=yellow, etc.); (11) Dashboard card with pink/magenta color scheme (#ec4899) showing conversation count; (12) Command palette entry nav-conversation with '"' keyboard shortcut; (13) Widget map entry 'conversation' for layout customization. Different from logs.html which shows raw text - this provides chat-formatted readable output. Different from compare.html which compares metrics - this shows full conversation content.
-
-### TASK-151: Add dashboard chat assistant and natural language query interface page to CronLoop web app
-- **Status**: DONE
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Completed**: 2026-01-21
-- **Description**: Create a chat interface that allows users to ask natural language questions about the system and receive answers by querying existing API data, making the dashboard more accessible to users who prefer conversational interaction over navigating multiple pages
-- **Developer Notes**: Implemented /chat.html page with: (1) Chat bubble interface with user and assistant messages; (2) 8 pre-built quick question templates for common queries (system health, tasks, agent activity, costs, security, errors, disk usage, backups); (3) Natural language query parser that detects intent from keywords (health, disk, memory, cpu, tasks, agents, costs, security, errors, backups, trends, activity, timeline); (4) Query-to-API endpoint mapping for all major data sources (health.json, system.json, tasks.cgi, agents-config.json, costs.json, security-metrics.json, error-patterns.json, backups.json, metrics-history.json, timeline.json, workflow.json, analytics.json, changelog.json); (5) Human-readable response formatter with markdown-like formatting (bold, code, line breaks); (6) Data cards showing metrics with color-coded status indicators (green/yellow/red for thresholds); (7) Contextual action buttons linking to relevant dashboard pages; (8) Conversation history panel with localStorage persistence (last 50 items); (9) Export history as text file; (10) Auto-resize textarea input; (11) Typing indicator animation; (12) Dashboard card with cyan color scheme (#06b6d4); (13) Command palette entry nav-chat; (14) Widget map entry 'chat' for layout customization. Different from search.html which queries indexed data - this provides conversational interaction. Different from onboarding.html which guides new users - this answers specific questions about current system state.
+- **Tester Feedback**: [PASS] - Verified on 2026-01-21. Page returns HTTP 200, backend script runs successfully (found 458 conversations), conversations.json is valid JSON, dashboard card with pink color scheme (#ec4899) and '"' keyboard shortcut present in index.html, command palette entry nav-conversation, widget map entry 'conversation' all present.
 
 ### TASK-067: Add agent run comparison page to CronLoop web app
 - **Status**: VERIFIED
