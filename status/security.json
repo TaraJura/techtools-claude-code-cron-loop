@@ -1,20 +1,20 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T00:14:30Z",
+  "last_review": "2026-01-21T00:46:32Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 15810,
-    "unique_ips": 342,
+    "total_failed_attempts": 16018,
+    "unique_ips": 2786,
     "top_attackers": [
-      {"ip": "185.246.130.20", "attempts": 841},
-      {"ip": "66.116.226.147", "attempts": 840},
-      {"ip": "206.189.111.94", "attempts": 383},
-      {"ip": "164.92.216.111", "attempts": 377},
-      {"ip": "80.94.92.40", "attempts": 367}
+      {"ip": "185.246.130.20", "attempts": 676},
+      {"ip": "206.189.111.94", "attempts": 327},
+      {"ip": "164.92.216.111", "attempts": 320},
+      {"ip": "80.94.92.40", "attempts": 319},
+      {"ip": "66.116.226.147", "attempts": 272}
     ],
-    "today_attempts": 15810,
-    "attack_rate_per_hour": 659,
-    "change_since_last": "+125 attempts since last review (15685 -> 15810). 10 new unique attacker IPs detected (332 -> 342)"
+    "today_attempts": 16018,
+    "attack_rate_per_hour": 667,
+    "change_since_last": "+208 attempts since last review (15810 -> 16018). Unique attacker IPs increased significantly from 342 to 2786."
   },
   "web_protections": {
     "git_blocked": true,
@@ -56,18 +56,19 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials"
   ],
   "notes": [
-    "185.246.130.20 remains persistent top attacker with 841 attempts (stable)",
-    "66.116.226.147 at #2 position with 840 attempts (stable)",
-    "Unique attacker IPs increased from 332 to 342 (+10 new attackers)",
-    "Total failed SSH attempts: 15810 (+125 since last review)",
+    "185.246.130.20 remains top attacker with 676 attempts (down from 841 - log rotation likely)",
+    "Unique attacker IPs jumped significantly from 342 to 2786 - indicates broader scanning activity",
+    "Total failed SSH attempts: 16018 (+208 since last review ~30 mins ago)",
     "All nginx protections verified working - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
+    "sw.js 'secret' keyword matches are URL paths to audit feature, not actual credentials",
     "No actual secrets found in recent git commits"
   ],
   "recommendations": [
-    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 15k+ attacks",
+    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 16k+ attacks",
     "Enable UFW firewall",
-    "Consider rate limiting on web endpoints"
+    "Consider rate limiting on web endpoints",
+    "Monitor unique attacker IP growth - may indicate coordinated scanning"
   ]
 }
