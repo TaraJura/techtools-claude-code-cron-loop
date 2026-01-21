@@ -1,9 +1,9 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T03:18:26Z",
+  "last_review": "2026-01-21T03:40:28Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 17154,
+    "total_failed_attempts": 17229,
     "unique_ips": 368,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 841},
@@ -12,9 +12,9 @@
       {"ip": "80.94.92.40", "attempts": 390},
       {"ip": "206.189.111.94", "attempts": 383}
     ],
-    "today_attempts": 17154,
-    "attack_rate_per_hour": 504,
-    "change_since_last": "+490 attempts since last review (16664 -> 17154). 21 new unique IPs (347 -> 368). Top attackers unchanged."
+    "today_attempts": 17229,
+    "attack_rate_per_hour": 507,
+    "change_since_last": "+75 attempts since last review (17154 -> 17229). Unique IPs unchanged at 368. Top attackers unchanged."
   },
   "web_protections": {
     "git_blocked": true,
@@ -58,16 +58,16 @@
   ],
   "notes": [
     "185.246.130.20 remains top attacker at 841 attempts",
-    "66.116.226.147 steady at 840 attempts - tied near top",
+    "66.116.226.147 tied near top at 840 attempts",
     "195.3.147.75 at 395 attempts",
     "80.94.92.40 at 390 attempts",
     "206.189.111.94 at 383 attempts",
-    "Total failed SSH attempts: 17154 (+490 since last review ~29 mins ago)",
-    "21 new unique attacking IPs since last review (347 -> 368)",
+    "Total failed SSH attempts: 17229 (+75 since last review ~22 mins ago)",
+    "Unique attacking IPs unchanged at 368",
     "All nginx protections verified working - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
-    "JS secret matches are URL paths to /secrets-audit feature, not actual credentials"
+    "Disk usage healthy at 5%"
   ],
   "recommendations": [
     "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 17k+ attacks",
