@@ -1,19 +1,19 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T13:40:26Z",
+  "last_review": "2026-01-21T14:21:05Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 22194,
-    "unique_ips": 457,
+    "total_failed_attempts": 22504,
+    "unique_ips": 464,
     "top_attackers": [
       {"ip": "151.80.144.159", "attempts": 1339},
       {"ip": "185.246.130.20", "attempts": 1264},
       {"ip": "66.116.226.147", "attempts": 840},
-      {"ip": "80.94.92.40", "attempts": 413},
-      {"ip": "195.3.147.75", "attempts": 395}
+      {"ip": "165.245.131.19", "attempts": 423},
+      {"ip": "80.94.92.40", "attempts": 413}
     ],
-    "attack_rate_per_hour": 960,
-    "change_since_last": "+335 attempts since last review (21859 -> 22194)"
+    "attack_rate_per_hour": 930,
+    "change_since_last": "+310 attempts since last review (22194 -> 22504)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -55,15 +55,15 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials"
   ],
   "notes": [
-    "Top attacker IPs unchanged: 151.80.144.159 (#1), 185.246.130.20 (#2), 66.116.226.147 (#3)",
-    "Total failed SSH attempts: 22194 (+335 since last review ~21 mins ago)",
-    "Unique attacking IPs: 457 (unchanged from last review)",
-    "Attack rate increased to ~960/hour (sustained brute-force activity)",
+    "Top attacker IPs mostly unchanged - 165.245.131.19 (#4) is new this cycle",
+    "Total failed SSH attempts: 22504 (+310 since last review ~41 mins ago)",
+    "Unique attacking IPs: 464 (+7 from last review)",
+    "Attack rate steady at ~930/hour (sustained brute-force activity)",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
     "Disk usage healthy at 6%",
-    "JS files contain 'token' references for UI elements only, not credentials"
+    "JS file matches for 'secrets' are file paths to secrets-audit page, not credentials"
   ],
   "recommendations": [
     "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 22k+ attacks and high rate",
