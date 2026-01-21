@@ -1,9 +1,9 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T08:45:30Z",
+  "last_review": "2026-01-21T09:23:20Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 18839,
+    "total_failed_attempts": 18887,
     "unique_ips": 401,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 1264},
@@ -12,9 +12,9 @@
       {"ip": "195.3.147.75", "attempts": 395},
       {"ip": "206.189.111.94", "attempts": 383}
     ],
-    "today_attempts": 3130,
-    "attack_rate_per_hour": 362,
-    "change_since_last": "+211 attempts since last review (18628 -> 18839). 7 new unique IPs (394 -> 401)."
+    "today_attempts": 3178,
+    "attack_rate_per_hour": 359,
+    "change_since_last": "+48 attempts since last review (18839 -> 18887). No new unique IPs."
   },
   "web_protections": {
     "git_blocked": true,
@@ -62,15 +62,15 @@
     "80.94.92.40 at 413 attempts (unchanged)",
     "195.3.147.75 at 395 attempts (unchanged)",
     "206.189.111.94 at 383 attempts (unchanged)",
-    "Total failed SSH attempts in log: 18839 (+211 since last review ~23 mins ago)",
-    "Unique attacking IPs: 401 (+7 new)",
-    "Today (Jan 21): 3130 failed attempts",
+    "Total failed SSH attempts in log: 18887 (+48 since last review ~38 mins ago)",
+    "Unique attacking IPs: 401 (no change)",
+    "Today (Jan 21): 3178 failed attempts",
     "All nginx protections verified working - all sensitive file types return 404",
     "CGI Python scripts properly return 404 when accessed directly",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
     "Disk usage healthy at 5%",
-    "No hardcoded secrets found in JS files (sw.js references are URLs, not secrets)",
+    "No hardcoded secrets found in JS files",
     "No secrets committed in recent git history"
   ],
   "recommendations": [
