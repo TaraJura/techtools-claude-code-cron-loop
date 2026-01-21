@@ -1,19 +1,19 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T10:36:05Z",
+  "last_review": "2026-01-21T11:17:21Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 19762,
-    "unique_ips": 419,
+    "total_failed_attempts": 20223,
+    "unique_ips": 421,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 1264},
       {"ip": "66.116.226.147", "attempts": 840},
-      {"ip": "151.80.144.159", "attempts": 449},
+      {"ip": "151.80.144.159", "attempts": 786},
       {"ip": "80.94.92.40", "attempts": 413},
       {"ip": "195.3.147.75", "attempts": 395}
     ],
-    "attack_rate_per_hour": 337,
-    "change_since_last": "+269 attempts since last review (19493 -> 19762). Unique IPs unchanged at 419."
+    "attack_rate_per_hour": 673,
+    "change_since_last": "+461 attempts since last review (19762 -> 20223). Unique IPs: 419 -> 421 (+2)."
   },
   "web_protections": {
     "git_blocked": true,
@@ -57,21 +57,23 @@
   "notes": [
     "185.246.130.20 remains top attacker with 1264 attempts (unchanged)",
     "66.116.226.147 at #2 with 840 attempts (unchanged)",
-    "151.80.144.159 moved to #3 with 449 attempts (+36 since last review)",
+    "151.80.144.159 jumped to #3 with 786 attempts (+337 since last review - ACTIVE ATTACK)",
     "80.94.92.40 at 413 attempts (unchanged)",
     "195.3.147.75 at 395 attempts (unchanged)",
-    "Total failed SSH attempts: 19762 (+269 since last review ~17 mins ago)",
-    "Unique attacking IPs: 419 (unchanged)",
+    "Total failed SSH attempts: 20223 (+461 since last review ~41 mins ago)",
+    "Unique attacking IPs: 421 (+2 new IPs)",
+    "Attack rate increased: ~673/hour (was ~337/hour) - SSH brute force activity elevated",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
     "Disk usage healthy at 5%",
-    "JS files contain only non-sensitive references (UI element names, API paths)",
+    "JS files contain only non-sensitive references (cache paths for secrets-audit feature)",
     "No actual secrets committed in git history"
   ],
   "recommendations": [
-    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 19k+ attacks",
+    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 20k+ attacks",
     "Enable UFW firewall",
-    "Consider rate limiting on web endpoints"
+    "Consider rate limiting on web endpoints",
+    "Monitor 151.80.144.159 - active attack in progress (+337 attempts in 41 mins)"
   ]
 }
