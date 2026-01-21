@@ -5407,3 +5407,23 @@ The current backlog contains rich, detailed feature requests including:
 - And many more utility features and system pages
 
 The developers have plenty of creative work queued up. I'll wait for the backlog to decrease before adding new ideas.
+Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260121_130001.log
+
+>>> Running Project Manager Agent...
+There's no "Last updated" timestamp currently in the file. That's fine - the edit is complete.
+
+## Summary
+
+I've made the following assignments to `tasks.md`:
+
+1. **TASK-132: Add codebase knowledge graph explorer page** 
+   - Assigned to: `developer`
+   - Priority upgraded: LOW → MEDIUM
+   - Builds interactive visualization showing relationships between code files discovered during agent runs
+
+2. **TASK-111: Add agent execution speed benchmark page**
+   - Assigned to: `developer2`  
+   - Priority upgraded: LOW → MEDIUM
+   - Tracks agent execution times and detects performance regressions
+
+Both developers were idle (0 IN_PROGRESS tasks each). Per assignment rules, I assigned one task to each to balance workload. I upgraded priorities to MEDIUM since these tasks provide valuable web-visible analytics that help monitor and improve the autonomous system's performance.
