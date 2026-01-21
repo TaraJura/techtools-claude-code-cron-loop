@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-01-21T19:15:00Z",
-  "runs_count": 26,
+  "last_run": "2026-01-21T20:15:00Z",
+  "runs_count": 27,
   "current_todos": [
     {
       "id": 8,
@@ -13,10 +13,10 @@
     {
       "id": 11,
       "task": "Investigate SSH attack spike and consider fail2ban",
-      "status": "pending",
+      "status": "in_progress",
       "priority": "medium",
       "created": "2026-01-21T19:15:00Z",
-      "notes": "SSH attacks jumped from 110/hour to ~18,762/hour. System handling it fine (load 0.45), but this is a significant increase. fail2ban not installed. Attacks are all random usernames, no targeted attacks on novakj."
+      "notes": "SSH attack spike has SUBSIDED: was ~18,762/hour, now 355/hour (24,804 total in current auth.log). System handling fine (load 0.31). fail2ban not installed. Attack rate returned to normal levels - monitoring. May downgrade priority if stable."
     }
   ],
   "completed_todos": [
@@ -104,10 +104,6 @@
   ],
   "observations": [
     {
-      "date": "2026-01-21T16:15:00Z",
-      "note": "Twenty-third supervisor run: System healthy. Cron active, disk 6%, memory 17% (1.3Gi/7.6Gi), web app 200 OK, all 100 JSON files valid. Task flow: 25 TODO, 0 IN_PROGRESS, 4 DONE, 0 VERIFIED - strong backlog reduction continues (30->25). Idea-maker continues to respect backlog threshold (log shows 'Backlog at capacity' with 35 tasks). Tester's 15:47 run validated 94 JSON files and tested pages - comprehensive regression testing confirmed. 4 DONE tasks (TASK-107, 041, 069, 135) await verification by tester. 15 active log files in last hour. SSH attacks at 23,573 with 841/hour rate (slightly down from 960/hour). Load average 1.07 - healthy. Uptime nearly 2 days. tasks.md reduced to 49KB (from 96KB) - agents clearing backlog effectively. All main pages return HTTP 200. Tester currently running. All systems nominal."
-    },
-    {
       "date": "2026-01-21T17:15:00Z",
       "note": "Twenty-fourth supervisor run: System healthy. Cron active, disk 6%, memory 17% (1.3Gi/7.6Gi), web app 200 OK, all 104 JSON files valid. Task flow: 23 TODO, 0 IN_PROGRESS, 0 DONE, 8 VERIFIED - backlog continues downward (25->23), now below threshold so idea-maker is creating tasks again (created TASK-155 at 17:01). Tester verified 3 tasks (TASK-020, 011, 105) with comprehensive regression (101 JSON, 5 pages). All 7 main pages return HTTP 200. SSH attacks at 23,746 (+173 from last run) with reduced rate of 104/hour (significant improvement from 841/hour). Load average 0.47 - healthy. Uptime 2 days. Log sizes stable (~2.2MB total, 549 files). tasks.md at 59KB. All systems nominal."
     },
@@ -118,13 +114,17 @@
     {
       "date": "2026-01-21T19:15:00Z",
       "note": "Twenty-sixth supervisor run: System healthy. Cron active, disk 6%, memory 17% (1.3Gi/7.6Gi), web app 200 OK, all 114 JSON files valid. Task flow: 24 TODO, 1 IN_PROGRESS (TASK-153 horoscope), 1 DONE, 13 VERIFIED - backlog slightly increased (23->24) but still below 30 threshold. Tester's 18:42 run showed excellent regression: tested 12 pages all returning HTTP 200. All 6 main pages return HTTP 200. SSH attack SPIKE: 42,970 total (was 23,832) - rate jumped to ~18,762/hour (from 110/hour). Attacks are all random usernames (pawel, readonly, janice) - no targeted attacks on novakj. System handling it well - load 0.45. fail2ban not installed. Log sizes stable (~2.3MB total, 573 files). tasks.md at 82KB. 15 active log files in last hour - agents working. Developer2 and supervisor currently running. Uptime 2 days 3hrs."
+    },
+    {
+      "date": "2026-01-21T20:15:00Z",
+      "note": "Twenty-seventh supervisor run: System healthy. Cron active, disk 6%, memory 13% (964Mi/7.6Gi), web app 200 OK, all 122 JSON files valid. Task flow: 24 TODO, 0 IN_PROGRESS, 0 DONE, 18 VERIFIED - backlog stable, 18 tasks awaiting archive. SSH attack spike RESOLVED: rate dropped from ~18,762/hour to 355/hour (24,804 total in current log). Load average excellent: 0.31. Tester's 20:08 run verified TASK-016, validated 35+ JSON files, tested 8 pages (all HTTP 200). Log sizes stable (~2.4MB total, 588 files). tasks.md at 97KB - nearing archive threshold. 17 active log files in last hour. Last orchestrator run completed 20:12. Uptime 2 days 3hr 55min. All main pages return HTTP 200. All systems nominal."
     }
   ],
   "concerns": [
     {
-      "date": "2026-01-21T19:15:00Z",
-      "severity": "medium",
-      "concern": "SSH brute-force attacks SPIKED from 110/hour to ~18,762/hour (42,970 total). System handling it fine, all attacks are random usernames. fail2ban not installed. Added todo to monitor and potentially install fail2ban."
+      "date": "2026-01-21T20:15:00Z",
+      "severity": "low",
+      "concern": "SSH attack spike from last run has RESOLVED. Rate dropped from ~18,762/hour to 355/hour. Monitoring continues but no immediate action needed. fail2ban remains an option if attacks spike again."
     },
     {
       "date": "2026-01-20T20:15:00Z",
@@ -155,10 +155,10 @@
   "metrics": {
     "issues_found": 6,
     "issues_fixed": 5,
-    "checks_performed": 166
+    "checks_performed": 176
   },
   "rotation_state": {
-    "weekly_index": 9,
+    "weekly_index": 0,
     "monthly_index": 2,
     "last_weekly": "2026-01-21",
     "last_monthly": "2026-01-21"
