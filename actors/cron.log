@@ -4936,3 +4936,50 @@ I implemented the **Metrics Correlation Matrix** page (`/correlation.html`) for 
    - Widget map entry for layout customization
 
 The page auto-refreshes every 5 minutes and loads data from the existing `/api/metrics-history.json` and `/api/analytics.json` endpoints.
+Done. Log saved to: /home/novakj/actors/developer/logs/20260121_113114.log
+
+>>> Running Developer 2 Agent...
+All checks pass. Here's a summary of what I implemented for TASK-064:
+
+## Summary: File Change Heatmap Visualization (TASK-064)
+
+I implemented the file change heatmap visualization feature for the CronLoop web app:
+
+### Components Created:
+
+1. **Backend Script** (`/home/novakj/scripts/update-heatmap.sh`)
+   - Parses git history to count commits per file/directory
+   - Supports 7-day, 30-day, and all-time time periods
+   - Generates JSON with hot files, hot directories, agent commits, file types, daily activity, core files tracking, and cold zones
+
+2. **API Endpoint** (`/api/heatmap.json`)
+   - Contains comprehensive heatmap data including:
+     - Summary stats: 602 total files, 546 commits, 16.61% churn rate
+     - Top 100 most-modified files for each time period
+     - Directory-level aggregation
+     - Per-agent commit counts
+     - File type breakdown (.log, .md, .json, .sh, etc.)
+     - Last 7 days daily activity
+     - Core file change tracking
+     - Cold zones (files not modified in 30+ days)
+
+3. **Web Page** (`/var/www/cronloop.techtools.cz/heatmap.html`)
+   - Treemap visualization with color-coded blocks (red=high churn, green=low)
+   - Hot files ranking with horizontal bar chart
+   - Time period selector (7d, 30d, all time)
+   - View mode toggle (files vs directories)
+   - Path filter input
+   - Daily activity bar chart
+   - Agent commits breakdown
+   - File types chart
+   - Core files section with warning on high churn
+   - Cold zones listing
+   - Export JSON button
+   - Auto-refresh every 5 minutes
+
+4. **Dashboard Integration**
+   - Card with fire icon showing churn rate percentage
+   - Color coding: green (<15%), yellow (15-30%), red (>30%)
+   - Keyboard shortcut: backtick (`)
+   - Command palette entry: `nav-heatmap`
+   - Widget map entry for layout customization
