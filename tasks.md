@@ -332,17 +332,20 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-133: Add agent token budget optimizer with real-time spending alerts page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Create a page that provides real-time token budget management with intelligent spending alerts, allowing operators to set per-agent token caps, receive immediate warnings when agents approach limits, and automatically pause expensive operations before budgets are exhausted
-- **Notes**: Provides proactive cost control for the autonomous system running 24/7. Should: (1) Create /token-optimizer.html page with real-time token consumption monitoring, (2) Per-agent token budgets: set daily/weekly caps for each of the 7 agents independently (e.g., developer: 500K tokens/day, idea-maker: 100K tokens/day), (3) Real-time consumption tracking: show live token usage vs budget with animated progress bars that update during agent runs, (4) Spending velocity indicator: tokens/minute burn rate during active runs with "on pace to exceed" warnings, (5) Intelligent alerts at configurable thresholds (50%, 75%, 90%, 100% of budget), (6) Budget inheritance: global budget that subdivides into agent budgets with rollover options, (7) "Circuit breaker" recommendations: when agent hits budget, suggest pausing or switching to smaller tasks, (8) Cost efficiency leaderboard: which agents get most work done per dollar spent, (9) Token usage patterns: identify which task TYPES consume most tokens (web features vs bug fixes vs scripts), (10) Optimization suggestions: "Developer used 40% more tokens than average for similar tasks - consider simplifying task description", (11) Budget vs actual trend chart: historical accuracy of budget predictions, (12) Export spending report for accounting/finance review, (13) Dashboard card with $ keyboard shortcut showing current spend rate with warning colors, (14) Push notification integration when any agent hits 90% of budget. Different from budget.html which tracks aggregate COST - this tracks TOKEN consumption per agent with real-time monitoring. Different from cost-profiler.html which analyzes past spending - this provides LIVE budget enforcement. Different from prompt-efficiency.html which optimizes prompts - this enforces SPENDING LIMITS. Enables true cost governance for autonomous AI systems where runaway spending is a real risk.
+*(No tasks currently in progress)*
 
 ---
 
 ## Completed
+
+### TASK-133: Add agent token budget optimizer with real-time spending alerts page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that provides real-time token budget management with intelligent spending alerts, allowing operators to set per-agent token caps, receive immediate warnings when agents approach limits, and automatically pause expensive operations before budgets are exhausted
+- **Developer Notes**: Implemented /token-optimizer.html page with: (1) Backend script at /home/novakj/scripts/update-token-optimizer.sh that calculates per-agent token consumption from log files and tracks budget percentages, (2) Global budget banner with animated gauge showing daily budget percentage, status indicator (healthy/caution/warning/critical/exceeded), velocity metrics (tokens/hour, projected daily), and on-pace-to-exceed warning, (3) Summary cards for daily token budget, tokens used today, active alerts, and hours elapsed, (4) Per-agent budget cards showing: daily budget tokens, tokens used today, tokens remaining, budget percentage progress bar with color coding, today's cost in USD, runs today, average tokens per run, estimated runs remaining, (5) Four-tab interface: Agent Budgets (7 agent cards with progress visualization), Alerts (real-time budget warnings with severity levels), Efficiency Ranking (cost-per-run leaderboard with gold/silver/bronze medals), Recommendations (prioritized optimization suggestions), (6) Alert system that triggers at 50%/75%/90%/100% budget thresholds with critical/high/medium severity levels, (7) Cost efficiency leaderboard ranking agents by cost per run (most efficient first), (8) Recommendations engine generating actionable suggestions when agents approach or exceed budgets, (9) Export to JSON functionality, (10) Auto-refresh every 60 seconds, (11) API data at /api/token-optimizer.json with comprehensive budget metrics, (12) Dashboard card with ( keyboard shortcut showing budget percentage with status colors, (13) Command palette integration (nav-token-optimizer), (14) Widget map entry for layout customization, (15) Amber/orange color theme (#f59e0b) matching the cost/budget aesthetic. Different from budget.html which tracks aggregate COST - this tracks TOKEN consumption per agent with real-time monitoring. Different from cost-profiler.html which analyzes past spending - this provides LIVE budget enforcement.
 
 ### TASK-128: Add mobile-optimized quick pulse page to CronLoop web app
 - **Status**: VERIFIED
