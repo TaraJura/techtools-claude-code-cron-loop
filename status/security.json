@@ -1,10 +1,10 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T02:49:10Z",
+  "last_review": "2026-01-21T03:18:26Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 16664,
-    "unique_ips": 347,
+    "total_failed_attempts": 17154,
+    "unique_ips": 368,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 841},
       {"ip": "66.116.226.147", "attempts": 840},
@@ -12,9 +12,9 @@
       {"ip": "80.94.92.40", "attempts": 390},
       {"ip": "206.189.111.94", "attempts": 383}
     ],
-    "today_attempts": 16664,
-    "attack_rate_per_hour": 694,
-    "change_since_last": "+29 attempts since last review (16635 -> 16664). Attack rate stable. 80.94.92.40 up to 390 (was 389). 2 new unique IPs (345 -> 347)."
+    "today_attempts": 17154,
+    "attack_rate_per_hour": 504,
+    "change_since_last": "+490 attempts since last review (16664 -> 17154). 21 new unique IPs (347 -> 368). Top attackers unchanged."
   },
   "web_protections": {
     "git_blocked": true,
@@ -58,19 +58,19 @@
   ],
   "notes": [
     "185.246.130.20 remains top attacker at 841 attempts",
-    "66.116.226.147 steady at 840 attempts - tied with top attacker",
-    "195.3.147.75 at 395 attempts - aggressive attacker from prior review",
-    "80.94.92.40 at 390 attempts (was 389)",
-    "Total failed SSH attempts: 16664 (+29 since last review ~34 mins ago)",
-    "Attack rate stable at ~694/hour",
-    "2 new unique IPs since last review (345 -> 347)",
+    "66.116.226.147 steady at 840 attempts - tied near top",
+    "195.3.147.75 at 395 attempts",
+    "80.94.92.40 at 390 attempts",
+    "206.189.111.94 at 383 attempts",
+    "Total failed SSH attempts: 17154 (+490 since last review ~29 mins ago)",
+    "21 new unique attacking IPs since last review (347 -> 368)",
     "All nginx protections verified working - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
     "JS secret matches are URL paths to /secrets-audit feature, not actual credentials"
   ],
   "recommendations": [
-    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 16k+ attacks",
+    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 17k+ attacks",
     "Enable UFW firewall",
     "Consider rate limiting on web endpoints"
   ]
