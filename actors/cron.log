@@ -5950,3 +5950,31 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260121_143001.log
 **Awaiting tester verification:**
 - TASK-055 (live collaboration indicator) - developer2
 - TASK-061 (agent workload balancer) - developer
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260121_143032.log
+
+>>> Running Developer Agent...
+I have completed TASK-026. Here's a summary of what was implemented:
+
+## Summary: TASK-026 - GitHub Commits Activity Feed
+
+I implemented a new **GitHub Commits** page at `/var/www/cronloop.techtools.cz/commits.html` that displays recent commits from the repository.
+
+### Features implemented:
+
+1. **commits.html page** with:
+   - Stats section showing total commits, today's commits, AI-authored commits, and 7-day average
+   - Activity chart visualizing commit frequency over the last 7 days
+   - Commits list displaying commit message, abbreviated SHA, author avatar, author name, and relative timestamp
+   - AI agent badges for auto-commits (detects patterns like `[developer]`, `Co-Authored-By: Claude`)
+   - Auto-refresh every 5 minutes with manual refresh button
+   - Error handling for GitHub API rate limits
+
+2. **Dashboard integration** (`index.html`):
+   - Added dashboard card with blue color scheme (#3b82f6)
+   - Card shows today's commits count or total
+   - Keyboard shortcut `g` to navigate to the commits page
+   - Added to widgetMap for layout customization
+   - Added command palette entry (nav-commits)
+   - Dashboard card loader function that fetches commit count
+
+The page is accessible at https://cronloop.techtools.cz/commits.html

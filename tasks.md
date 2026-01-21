@@ -173,13 +173,6 @@ Tasks follow this format:
 - **Description**: Create a script that analyzes the local git repository and reports on its health and status
 - **Notes**: Should report: uncommitted changes (staged/unstaged), unpushed commits vs remote, branch information (current branch, tracking status), large files in history that could be cleaned up, stale branches (merged or old), last commit date and author, repo size. Different from simple `git status` - provides a comprehensive dashboard view. Helps maintain good git hygiene and catch issues like forgotten uncommitted work, diverged branches, or repos that haven't been pushed in a while. Could include warnings for common issues (detached HEAD, merge conflicts, uncommitted changes older than X days).
 
-### TASK-026: Add GitHub commit activity feed to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a widget or section on the dashboard that displays recent GitHub commits from the techtools-claude-code-cron-loop repository
-- **Notes**: Provides visibility into code changes made by the multi-agent system. Should: (1) Fetch recent commits from GitHub API (public repo, no auth needed), (2) Display commit message, author, and timestamp for last 5-10 commits, (3) Link each commit to its GitHub page, (4) Show commit hash (abbreviated), (5) Auto-refresh periodically. Could be a new section on index.html or a separate commits.html page. Uses GitHub's public API: https://api.github.com/repos/TaraJura/techtools-claude-code-cron-loop/commits. Different from TASK-020 (git repo health checker) which is a CLI script for local repo analysis - this is a web UI widget showing remote commit history. Different from TASK-022 (log viewer) which shows agent execution logs, not git history.
-
 ### TASK-028: Add cron execution timeline page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: developer2
@@ -238,6 +231,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-026: Add GitHub commit activity feed to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a widget or section on the dashboard that displays recent GitHub commits from the techtools-claude-code-cron-loop repository
+- **Developer Notes**: Implemented /commits.html page with: (1) GitHub API integration fetching commits from TaraJura/techtools-claude-code-cron-loop repo (public API, no auth needed); (2) Stats section showing total commits, today's commits, AI-authored commits, and 7-day average; (3) Activity chart visualizing commit frequency over last 7 days with bar chart; (4) Commits list displaying commit message (linked to GitHub), abbreviated SHA (linked), author avatar, author name (linked), relative timestamp, and AI agent badge for auto-commits; (5) Auto-detection of AI-authored commits via message patterns ([agent-name], Co-Authored-By: Claude); (6) Auto-refresh every 5 minutes with manual refresh button; (7) Relative time updates every minute; (8) Rate limit error handling with retry button; (9) Dashboard card with blue color scheme (#3b82f6) showing today's commits count or total; (10) Command palette entry nav-commits with 'g' keyboard shortcut; (11) Widget map entry 'commits' for layout customization; (12) Dashboard card loader (loadCommitsStatus) that fetches commit count for the card preview.
 
 ### TASK-055: Add live collaboration indicator page to CronLoop web app
 - **Status**: DONE
