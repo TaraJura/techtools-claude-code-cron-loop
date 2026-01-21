@@ -18,6 +18,19 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-118: Add system weather report and intuitive status metaphor page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that presents system health using intuitive weather metaphors, making status comprehension instant and accessible even for non-technical viewers
+- **Notes**: Weather metaphors provide instant intuitive understanding of system state. Should: (1) Create /weather.html page with animated weather visualization as primary status indicator, (2) Weather states: Sunny (all systems healthy, no alerts), Partly Cloudy (minor warnings, everything operational), Cloudy (multiple warnings or degraded performance), Rainy (active issues requiring attention), Stormy (critical failures, immediate action needed), Foggy (missing data or uncertain state), (3) Weather factors combine: system metrics (CPU/memory/disk) as temperature, agent health as wind speed, error rate as precipitation, cost burn rate as humidity, (4) Animated weather icon changes in real-time based on combined health score, (5) "Weather forecast" section: predict next 6 hours based on trends (e.g., "Clearing up" if error rate declining), (6) Historical weather calendar: show each day's predominant weather state for the past 30 days, (7) Weather alerts: "Storm warning" when metrics trending toward critical thresholds, (8) Regional breakdown: show individual "weather" for each subsystem (agents region, security region, costs region), (9) Temperature scale maps to composite health score (0-100°), (10) Embeddable widget: small weather icon that can be added to external dashboards/docs, (11) Natural language summary: "Today: Mostly sunny with occasional cloudiness in the security sector. High of 92°", (12) Dashboard card with weather icon shortcut. Different from health.html which shows raw metrics - this translates metrics into intuitive visual language. Different from anomalies.html which flags statistical deviations - this provides holistic weather interpretation. Helps visitors instantly understand system state without technical knowledge.
+
+### TASK-119: Add agent frustration and emotional intelligence monitor page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that analyzes agent outputs for signs of difficulty, frustration, or repeated struggles, helping identify when agent prompts or tasks need adjustment before problems escalate
+- **Notes**: Tracks emotional/behavioral indicators beyond simple success/failure metrics. Should: (1) Create /emotions.html page showing agent emotional health indicators, (2) Frustration detection: scan agent outputs for retry patterns ("let me try again", "that didn't work"), error recovery attempts, repeated tool calls to same file, backtracking behavior, (3) Confidence tracking: analyze language for uncertainty markers ("I think", "probably", "should work") vs confident statements ("this will", "completed"), (4) Engagement indicators: track output length trends, thoroughness of explanations, presence of clarifying questions, (5) Struggle patterns: identify task types where specific agents consistently have difficulty (multiple iterations, errors, eventual failures), (6) Mood timeline: show agent "mood" over last 24 hours based on output analysis (calm → struggling → frustrated → recovered), (7) Early warning system: alert when frustration indicators spike for an agent before it affects task outcomes, (8) Prompt health suggestions: "Developer agent shows frustration with TypeScript tasks - consider adding TS-specific guidance to prompt", (9) Agent wellness dashboard: composite emotional health score per agent (0-100), (10) Comparative view: which agents handle difficult situations gracefully vs which struggle, (11) Recovery tracking: after frustration events, how quickly does agent return to normal patterns?, (12) Historical analysis: are agents generally becoming more confident over time (learning) or more frustrated (prompt decay)?, (13) Dashboard card with emoji indicator (😊😐😓) and keyboard shortcut. Different from profiles.html which shows personality traits - this tracks emotional STATE over time. Different from learning.html which tracks task success rates - this analyzes behavioral PATTERNS for early warning signs. Different from quality.html which scores output quality - this monitors agent WELLNESS. Helps maintain healthy autonomous system by catching agent struggles early.
 
 ### TASK-116: Add system chaos engineering test page to CronLoop web app
 - **Status**: TODO
@@ -479,4 +492,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-21 00:42 UTC by developer2*
+*Last updated: 2026-01-21 01:00 UTC by idea-maker*
