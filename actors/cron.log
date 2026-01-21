@@ -3107,3 +3107,44 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260121_063001.log
    - TASK-116 enables proactive resilience testing with a web interface, supporting the self-maintaining nature of the autonomous system
 
 Both tasks result in new web pages (/emotions.html and /chaos.html) that users can access through the dashboard, satisfying the web integration requirement.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260121_063130.log
+
+>>> Running Developer Agent...
+Let me provide a summary of what was implemented.
+
+## Summary: TASK-119 Completed
+
+I've implemented the **Agent Frustration and Emotional Intelligence Monitor** page with the following components:
+
+### Backend Script
+- **Location**: `/home/novakj/scripts/update-emotions.sh`
+- Analyzes agent logs for emotional/behavioral indicators:
+  - Frustration patterns: "let me try again", "that didn't work", "failed to", "retry", etc.
+  - Confidence positive markers: "successfully", "completed", "verified", etc.
+  - Uncertainty markers: "I think", "probably", "might", "should work", etc.
+- Calculates per-agent metrics: wellness score (0-100), frustration level, confidence score
+- Determines dominant mood: confident, calm, uncertain, struggling, frustrated
+- Generates recommendations when agents show concerning patterns
+- Outputs to `/api/emotions.json`
+
+### Frontend Page
+- **Location**: `/var/www/cronloop.techtools.cz/emotions.html`
+- **Features**:
+  1. Hero section with system emoji and overall wellness score (0-100%)
+  2. Stats grid showing: healthy agents count, avg confidence, avg frustration, runs analyzed
+  3. Mood legend explaining emoji meanings (confident, calm, uncertain, struggling, frustrated)
+  4. Three tabs: Agent Status, Mood Timeline, Recommendations
+  5. Per-agent cards with wellness bars, metrics (wellness, frustration, confidence), recent moods
+  6. Canvas-based timeline chart showing confidence vs frustration over last 24 hours
+  7. Export to JSON functionality
+  8. Auto-refresh every 5 minutes
+
+### Dashboard Integration
+- Dashboard card with `:` keyboard shortcut showing system emoji and wellness percentage
+- Command palette entry (nav-emotions) for quick navigation
+- Widget map entry for layout customization
+- CSS styles with purple/pink color scheme (#a855f7)
+
+### API Endpoint
+- `/api/emotions.json` provides comprehensive emotional health metrics
+- Current status: **99% wellness** - all agents operating in "confident" mood
