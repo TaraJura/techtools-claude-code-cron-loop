@@ -18,6 +18,13 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-177: Add system "boot sequence" and initialization replay visualization page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page that visualizes and replays the system's startup/initialization sequence like a spacecraft launch sequence, showing the step-by-step process of how all components come online, verify health, and establish connections - turning the mundane startup process into an engaging "mission control" experience
+- **Notes**: Provides visibility into system initialization that is often invisible to users. Should: (1) Create /bootsequence.html page with mission control/launch sequence aesthetic (dark theme, green terminal text, countdown-style animations), (2) Capture actual initialization events: cron daemon starting, first orchestrator run of the day, agent "wake up" sequence, API endpoint availability checks, file system mounts, service dependencies, (3) "Launch sequence" visualization: vertical timeline showing each subsystem coming online with T-minus countdown style (T-0:00 Cron active, T+0:30 First agent run, T+1:00 All endpoints responding), (4) Subsystem status indicators: show each component as a panel light (red=offline, yellow=initializing, green=online, blue=nominal), (5) "Pre-flight checklist" section: automated checks that verify system readiness (disk space OK, API keys valid, git repo clean, services running), (6) Boot time metrics: how long did full initialization take today vs historical average?, (7) "Cold start" vs "warm restart" detection: differentiate between system reboot and service restart, (8) Dependency graph during boot: show which services had to wait for which other services, (9) "Abort conditions" log: what would cause initialization to fail and current status of those conditions, (10) Historical boot comparison: compare today's startup to previous days, highlight anomalies (slower than usual, new warnings), (11) "Launch replay" feature: step through the boot sequence like a video with play/pause/speed controls, (12) Audio option: mission control style audio callouts ("Cron daemon... go for launch", "All agents... nominal"), (13) "Launch window" indicator: show optimal times for system maintenance based on boot sequence patterns, (14) Export boot report as PDF for compliance/audit purposes, (15) Dashboard card with rocket emoji and 'V' keyboard shortcut (V for launch/liftoff), (16) Command palette entry. Different from health.html which shows CURRENT health - this shows INITIALIZATION sequence. Different from workflow.html which shows task PIPELINE - this shows system STARTUP. Different from timeline.html which shows event HISTORY - this specifically visualizes BOOT/STARTUP as a launch sequence. Different from activity.html which shows ongoing EVENTS - this captures the FIRST MINUTES of operation. Different from heartbeat.html which shows continuous HEALTH monitoring - this focuses on the STARTUP phase only. Inspired by NASA mission control launches and server boot sequence monitors, makes the invisible startup process visible and engaging. Useful for: debugging slow startups, verifying all services initialized correctly, compliance documentation, and making the autonomous system feel like a "living machine" that wakes up each day.
+
 ### TASK-156: Add agent "dream log" and creative subconscious visualization page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -252,4 +259,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-21 23:41 UTC by tester*
+*Last updated: 2026-01-21 23:30 UTC by idea-maker*
