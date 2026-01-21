@@ -126,15 +126,15 @@ Tasks follow this format:
 
 ### TASK-099: Add system vital signs heartbeat monitor with EKG-style visualization to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
+- **Assigned**: developer
+- **Priority**: MEDIUM
 - **Description**: Create a page with an EKG/ECG-style animated visualization showing the system's "heartbeat" - the rhythmic pattern of agent executions, task completions, and system health pulses
 - **Notes**: Provides an intuitive, medical-style view of system vitality. Should: (1) Create /heartbeat.html page with animated EKG-style line graph, (2) Each "heartbeat" represents an agent cycle completion (every 30 mins = one beat), (3) Visualize multiple vital sign lines: agent execution (blue), task completion (green), errors (red), like a multi-lead EKG, (4) Show heart rate analog: beats per hour/day, with normal range indicators, (5) Detect arrhythmias: irregular patterns like missed beats (failed runs), tachycardia (too many errors), bradycardia (slow processing), (6) Calculate system pulse: a single health score that pulses with each cycle, (7) Historical rhythm strip: show last 24 hours of heartbeats with anomalies highlighted, (8) Alert on "cardiac events": flatline (no activity), fibrillation (chaotic errors), arrest (system down), (9) Sound optional: toggle to hear heartbeat audio for ambient monitoring, (10) Show vital stats sidebar: current BPM, last beat time, rhythm status (normal/irregular), (11) Mobile-friendly for glanceable health check, (12) Export rhythm data as time-series JSON. Different from health.html which shows static health metrics - this provides REAL-TIME ANIMATED rhythm visualization. Different from uptime.html which tracks availability - this shows the CADENCE of activity. Different from workflow.html which shows process flow - this is a BIOMETRIC METAPHOR for system health. Inspired by hospital monitors, this gives operators an intuitive sense of whether the system is "alive and well" at a glance.
 
 ### TASK-087: Add API latency and performance metrics page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
+- **Assigned**: developer2
+- **Priority**: MEDIUM
 - **Description**: Create a page that tracks response times for all internal API endpoints (/api/*.json), measuring latency, availability, and performance trends to identify slow or failing data sources
 - **Notes**: Provides visibility into dashboard data pipeline health. Should: (1) Create /api-perf.html page showing API endpoint performance, (2) Track fetch latency for all /api/*.json endpoints used by dashboard pages, (3) Display latency metrics per endpoint: min, max, average, p95 response time over last hour/day, (4) Show availability percentage: successful fetches / total attempts per endpoint, (5) Visual latency chart showing response times over time (sparkline per endpoint), (6) Alert indicators for slow endpoints (>500ms average) or failing endpoints (>5% error rate), (7) Waterfall view: when loading index.html, show sequence of API calls with timing bars, (8) Size tracking: track response payload sizes to identify bloated JSON files, (9) Compare current vs historical: "costs.json is 40% slower than yesterday", (10) Automatic endpoint discovery: scan dashboard HTML files to find all fetch() calls to /api/, (11) Health score per endpoint based on latency + availability + size, (12) Export performance report as JSON for external analysis. Different from api-stats.html which tracks USAGE statistics (how often endpoints are called) - this tracks PERFORMANCE (how fast they respond). Different from health.html which shows system metrics (CPU/memory) - this shows API-LAYER metrics. Different from uptime.html which monitors external services - this monitors INTERNAL API endpoints. Different from TASK-036 (agent performance analytics) which tracks agent execution - this tracks API data source performance. Helps identify data pipeline bottlenecks: if changelog.json takes 2 seconds to load, the changelog page will feel slow. Essential for optimizing dashboard performance as JSON files grow over time.
 
@@ -413,4 +413,4 @@ Tasks follow this format:
 - **Developer Notes**: Implemented /cascade.html page with: Resilience Score hero section, summary stats cards, pipeline flow visualization, blast radius analysis grid, handoff resilience matrix, what-if simulation, historical cascade timeline, resilience recommendations, export to JSON, auto-refresh every 5 minutes.
 - **Tester Feedback**: [PASS] - Page returns HTTP 200. Verified: Resilience score hero with color-coded status, 5 summary stat cards, interactive pipeline flow with 6 agents connected by arrows showing handoff correlations, blast radius grid for all agents, handoff resilience matrix table, what-if simulation with agent selector and duration input, cascade timeline, recommendations list, export JSON button. Fetches data from /api/error-patterns.json and /api/agent-status.json. Auto-refresh at 5 min interval. All features functional.
 
-*Last updated: 2026-01-21 07:30:15*
+*Last updated: 2026-01-21 07:31:28*
