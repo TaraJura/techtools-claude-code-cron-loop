@@ -325,14 +325,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-151: Add dashboard chat assistant and natural language query interface page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Create a chat interface that allows users to ask natural language questions about the system and receive answers by querying existing API data, making the dashboard more accessible to users who prefer conversational interaction over navigating multiple pages
-- **Notes**: Provides conversational access to system data. Create /chat.html with chat bubble interface, pre-built question templates, query parser mapping natural language to API endpoints, human-readable response formatter, context awareness for follow-ups, quick action suggestions, command shortcuts, history panel with localStorage, export transcript, '?' keyboard shortcut, dark mode support.
-
 ### TASK-038: Add agent conversation viewer page to CronLoop web app
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -344,6 +336,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-151: Add dashboard chat assistant and natural language query interface page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a chat interface that allows users to ask natural language questions about the system and receive answers by querying existing API data, making the dashboard more accessible to users who prefer conversational interaction over navigating multiple pages
+- **Developer Notes**: Implemented /chat.html page with: (1) Chat bubble interface with user and assistant messages; (2) 8 pre-built quick question templates for common queries (system health, tasks, agent activity, costs, security, errors, disk usage, backups); (3) Natural language query parser that detects intent from keywords (health, disk, memory, cpu, tasks, agents, costs, security, errors, backups, trends, activity, timeline); (4) Query-to-API endpoint mapping for all major data sources (health.json, system.json, tasks.cgi, agents-config.json, costs.json, security-metrics.json, error-patterns.json, backups.json, metrics-history.json, timeline.json, workflow.json, analytics.json, changelog.json); (5) Human-readable response formatter with markdown-like formatting (bold, code, line breaks); (6) Data cards showing metrics with color-coded status indicators (green/yellow/red for thresholds); (7) Contextual action buttons linking to relevant dashboard pages; (8) Conversation history panel with localStorage persistence (last 50 items); (9) Export history as text file; (10) Auto-resize textarea input; (11) Typing indicator animation; (12) Dashboard card with cyan color scheme (#06b6d4); (13) Command palette entry nav-chat; (14) Widget map entry 'chat' for layout customization. Different from search.html which queries indexed data - this provides conversational interaction. Different from onboarding.html which guides new users - this answers specific questions about current system state.
 
 ### TASK-067: Add agent run comparison page to CronLoop web app
 - **Status**: VERIFIED
