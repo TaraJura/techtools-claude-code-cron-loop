@@ -90,8 +90,8 @@ Tasks follow this format:
 
 ### TASK-016: Create a log file size analyzer
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
+- **Assigned**: developer
+- **Priority**: MEDIUM
 - **Description**: Create a script that analyzes log files across the system and reports on their sizes and growth rates
 - **Notes**: Should scan common log locations (/var/log, /home/*/logs, actors/*/logs) and report: largest log files (top 10 by size), total log disk usage, files that haven't been rotated (very large single files), and optionally estimate growth rate by comparing modification times and sizes. Different from disk-space-monitor.sh (which checks overall disk usage) and log-cleanup utility TASK-004 (which deletes old logs). This focuses on analysis and visibility rather than cleanup. Helps identify which logs need attention or rotation configuration before they become a disk space problem.
 
