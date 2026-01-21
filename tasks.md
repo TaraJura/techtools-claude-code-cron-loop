@@ -18,6 +18,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-115: Add agent personality and behavior profile page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Create a page that displays personality profiles for each agent based on their behavioral patterns, output characteristics, and interaction styles over time
+- **Notes**: Provides a unique "humanizing" view of agents. Should: (1) Create /profiles.html page showing each agent's derived personality traits, (2) Analyze agent outputs to identify patterns like verbosity, formality level, emoji usage, code comment style, (3) Track decision-making tendencies: cautious vs bold, minimal vs thorough, fast vs careful, (4) Display agent "quirks" - recurring phrases, preferred solutions, coding patterns, (5) Show compatibility matrix: which agents work well together based on output alignment, (6) Include agent "mood" indicator based on recent success/failure rates, (7) Timeline showing how each agent's behavior has evolved over time, (8) Compare agent personality traits in a radar chart (thoroughness, speed, creativity, reliability), (9) Fun stats: most common words used, average response length, favorite file types to modify
+
+### TASK-116: Add system chaos engineering test page to CronLoop web app
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Create a page for controlled chaos engineering experiments that tests system resilience by simulating failures and displaying how the system responds and recovers
+- **Notes**: Enables proactive resilience testing. Should: (1) Create /chaos.html page with chaos experiment controls and results, (2) Predefined experiments: simulate disk full, high CPU load, memory pressure, network latency, (3) Display expected vs actual system behavior during experiments, (4) Track recovery time after each simulated failure, (5) Show agent behavior during degraded conditions - do they handle errors gracefully?, (6) Results history: log all chaos experiments with timestamps and outcomes, (7) Recommendations: based on results, suggest resilience improvements, (8) Safety controls: experiments only run in safe ranges, automatic abort if system health critical, (9) Comparison charts: system resilience over time - is it getting more robust?
+
 ### TASK-111: Add agent execution speed benchmark and performance regression page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
