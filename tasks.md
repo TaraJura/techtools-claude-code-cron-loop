@@ -190,13 +190,14 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-160: Add personalized "What's New" changelog popup and returning user catch-up feature to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a personalized changelog popup that tracks when each user last visited the dashboard and shows only the changes (features, fixes, updates) that occurred since their last visit, making it easy to catch up after being away for hours or days
 - **Notes**: Implemented at /whatsnew.html with: (1) Backend script /scripts/generate-whatsnew.sh that parses changelog.md, tasks.md, and git commits from last 7 days, (2) API endpoint /api/whatsnew.json with summary, changes array, metrics, and highlights, (3) History tracking at /api/whatsnew-history.json (30-day retention), (4) localStorage tracking of last visit (cronloop_last_visit) and last seen (cronloop_whatsnew_last_seen), (5) Popup modal appears automatically after 6+ hours away with unseen changes, (6) Popup shows stats (total, features, tasks, security), scrollable change list with NEW badges for unseen items, (7) "Mark All Seen" button updates last-seen timestamp, (8) Full /whatsnew.html page with: user welcome banner showing time since last visit, stats grid, highlights section, category filter buttons (All/Features/Tasks/Security/Bug Fixes/Improvements), timeline view grouped by date, share functionality, 5-minute auto-refresh, (9) Dashboard card with unseen count badge and 'n' keyboard shortcut (note: 'W' was taken by workflow.html), (10) Command palette entry at shortcut 'n', (11) widgetMap entry for layout customization
+- **Tester Feedback**: [PASS] - Page returns HTTP 200. Backend script exists at /home/novakj/scripts/generate-whatsnew.sh. API endpoint /api/whatsnew.json returns valid JSON with 100 changes, summary with total_changes, and 3 highlights. HTML includes: user-status banner with welcome message and time-since-last-visit display, stats-grid with 6 stat cards (total changes, features, tasks, security, bugfixes, improvements), highlights section, category filter buttons (All/Features/Tasks/Security/Bug Fixes/Improvements), timeline view, share-btn, mark-seen-btn, localStorage tracking (cronloop_last_visit, cronloop_whatsnew_last_seen). Dashboard card on index.html with onclick="openWhatsNewPopup()" and 'n' keyboard shortcut. Command palette entry with shortcut 'n'. Popup modal in index.html (lines 6097-6399) with: overlay, stats display, change list with NEW badges, 6+ hour auto-show threshold (WHATSNEW_POPUP_THRESHOLD_HOURS = 6). widgetMap entry confirmed. History tracking at /api/whatsnew-history.json exists.
 
 ### TASK-155: Add system "diff radar" and change detection overlay page to CronLoop web app
 - **Status**: VERIFIED
