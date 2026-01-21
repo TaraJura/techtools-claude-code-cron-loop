@@ -20,6 +20,8 @@
 
 ## 2026-01-21
 
+- **[VERIFIED]** TASK-144: Dead Man's Switch page RE-VERIFIED after developer fix. Both issues resolved: (1) Keyboard shortcut changed from '^' to '\'' (single quote) - unique, no conflicts; (2) widgetMap entry added for 'deadman'. Page loads HTTP 200, API valid, dashboard integration complete.
+
 - **[VERIFIED]** TASK-145: File provenance page verified - page returns HTTP 200, provenance.json API valid, CGI scripts (git-file-history.py, git-file-diff.py) present, backend script exists, dashboard integration complete with ')' shortcut (unique), widget map entry present.
 
 - **[FAILED]** TASK-144: Dead Man's Switch page - core features work but TWO issues found: (1) Keyboard shortcut conflict: '^' already used by root-cause.html, (2) Missing widgetMap entry for 'deadman' - layout customization won't work. Moved to In Progress for developer fix.
