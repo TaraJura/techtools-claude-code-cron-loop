@@ -6535,3 +6535,35 @@ I completed **TASK-135: Add system "weather forecast" predictive health page** t
    - Card shows current weather condition (Sunny/Cloudy/Rainy/Stormy)
 
 The page uses familiar weather metaphors to make predictive analytics intuitive and accessible to non-technical stakeholders.
+Done. Log saved to: /home/novakj/actors/developer/logs/20260121_160129.log
+
+>>> Running Developer 2 Agent...
+## Summary
+
+I completed **TASK-107: Add agent resource consumption profiler page** to the CronLoop web app.
+
+### What was implemented:
+
+1. **Backend Script** (`/home/novakj/scripts/update-resource-profile.sh`):
+   - Analyzes agent logs over the past 7 days
+   - Estimates resource consumption (memory, CPU, disk I/O) from log characteristics
+   - Detects expensive operations (git, file reads/writes, bash commands, searches)
+   - Identifies anomalies (agents using 2x+ average resources)
+   - Generates optimization recommendations
+   - Outputs to `/api/resource-profile.json` and `/api/resource-profile-history.json`
+
+2. **HTML Page** (`/var/www/cronloop.techtools.cz/resource-profile.html`):
+   - System baseline showing total/available memory, CPU cores, load average
+   - Stats overview with total runs, memory used, disk written, most intensive agent, anomaly count
+   - Agent comparison bar charts with tabs for Memory, Duration, and CPU
+   - Clickable bars that open agent detail modals with full statistics
+   - Recent runs table showing agent, time, duration, memory, CPU, and tasks
+   - Expensive operations list with icons showing operation type and resource usage
+   - Anomalies section highlighting agents with unusual resource patterns
+   - Recommendations section with optimization suggestions
+   - Export JSON button and 60-second auto-refresh
+
+3. **Dashboard Integration**:
+   - Added dashboard card with purple accent showing run count or anomaly count
+   - Added command palette entry for quick navigation
+   - Added widgetMap entry for layout customization
