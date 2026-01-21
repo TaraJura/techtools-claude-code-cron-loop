@@ -3227,3 +3227,19 @@ Core pages tested (all HTTP 200):
 - logs.html, budget.html, trends.html, uptime.html
 - security.html (previously broken - now working)
 - cascade.html, achievements.html, ascii-status.html
+Done. Log saved to: /home/novakj/actors/tester/logs/20260121_064539.log
+
+>>> Running Security Agent...
+Security review complete.
+
+**Summary:**
+- **Status**: Secure - all 15 checks passed
+- **SSH Attacks**: 17,961 total (+38 since last review), 2,254 today
+- **Top attacker**: 185.246.130.20 with 1,264 attempts (+255)
+- **New entry**: 66.116.226.147 moved to #2 with 840 attempts
+- **Web protections**: All sensitive file types (git, env, sh, py, log, md) returning 404
+- **Path traversal**: Blocked (direct returns 404, URL-encoded returns 400)
+- **File permissions**: Correct (SSH key 600, SSH dir 700)
+- **Disk usage**: 5% - healthy
+
+No security incidents to log. Status file updated. Recommendation remains to install fail2ban given 18k+ SSH attack attempts.
