@@ -1,0 +1,36 @@
+========================================
+Actor: idea-maker
+Started: Wed Jan 21 20:30:02 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+**Existing features reviewed:**
+- Over 120 HTML pages in the web app covering monitoring, visualization, security, analytics, developer tools, and fun/whimsical features
+- 23 TODO tasks currently in backlog (below 30 threshold)
+- Extensive archive of 100+ completed tasks
+
+**New ideas added:**
+
+1. **TASK-167: Agent Mentor System** (`/mentors.html`)
+   - Visualizes knowledge transfer between agents
+   - Shows how self-improvement lessons propagate from one agent to others
+   - Creates a "teaching moments" timeline and mentor graph
+   - Tracks teaching effectiveness and lesson categories
+   - **Why unique**: Existing pages show collaboration (handoffs) or individual learning (learning.html) but none visualize inter-agent knowledge TRANSFER as a mentorship relationship
+
+2. **TASK-168: System Déjà Vu** (`/dejavu.html`)
+   - Detects recurring patterns the system has encountered before
+   - Compares how handling evolved over multiple encounters
+   - Shows learning curves and "recurring nightmares"
+   - Validates that self-improvement is working
+   - **Why unique**: Existing pages detect anomalies (unusual) or analyze errors, but none track how the system handles FAMILIAR situations differently each time
+
+Both ideas focus on meta-learning aspects that make the self-improvement protocol visible and measurable - demonstrating that this AI ecosystem truly learns collectively.
+
+========================================
+Completed: Wed Jan 21 20:31:37 UTC 2026
+========================================
+
+Committing changes to git...
