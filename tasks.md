@@ -88,20 +88,6 @@ Tasks follow this format:
 - **Description**: Create a page that captures and visualizes the system's unique behavioral "signature" based on timing patterns, resource rhythms, and agent execution cadences, detecting when this signature drifts from its normal pattern which may indicate compromise, degradation, or unauthorized changes
 - **Notes**: Provides behavioral fingerprinting for autonomous system integrity monitoring. Should: (1) Create /signature.html page showing the system's behavioral fingerprint and drift detection, (2) Capture multi-dimensional signature components: cron execution timing variance (how precisely does the 30-min cycle run?), agent run duration patterns (developer typically takes 45-90 seconds), disk I/O rhythm (write bursts every 30 mins), network traffic patterns (API calls to Anthropic at predictable intervals), file access sequences (which files are touched in what order during each cycle), memory allocation patterns (typical RSS per agent), (3) Build a "normal" baseline signature from 7-30 days of operation using statistical profiling, (4) Real-time comparison: current signature vs baseline with drift score (0-100%), (5) Drift alerts when behavior deviates significantly: "Execution timing 40% more variable than baseline", "Developer agent runtime doubled", "Unexpected file access pattern detected", (6) Signature components radar chart showing each dimension's conformance to baseline, (7) Historical drift timeline showing how signature has evolved (drift is expected to slowly evolve with new features, but sudden jumps are suspicious), (8) "Signature lock" mode: freeze baseline and alert on ANY deviation (useful for production stability), (9) Compare today's signature to any historical date ("behavior on Jan 15 vs today"), (10) Potential security application: detect if system behavior changes after a compromise (agent acting differently, unusual file access), (11) Export signature as JSON for external monitoring/comparison, (12) Dashboard card with S keyboard shortcut showing current drift score. Different from anomalies.html which detects metric outliers - this profiles BEHAVIORAL patterns as a holistic fingerprint. Different from config-drift.html which tracks file changes - this tracks EXECUTION patterns. Different from regressions.html which compares output quality - this compares BEHAVIORAL signature. Different from health.html which shows point-in-time metrics - this captures TEMPORAL patterns over complete cycles. Inspired by behavioral biometrics in security (how users type, how systems behave), applies to autonomous AI systems to detect when "something feels different" even if individual metrics look normal. Could catch subtle degradation or compromise that other tools miss.
 
-### TASK-105: Add system entropy and randomness health page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
-- **Description**: Create a page that monitors the system's cryptographic entropy pool health, showing available entropy, consumption patterns, and alerts when entropy runs low (which can cause cryptographic operations to block)
-- **Notes**: Provides visibility into a critical but often overlooked system resource that affects SSH, SSL/TLS, and security operations. Should: (1) Create /entropy.html page showing entropy pool status and history, (2) Read current entropy from /proc/sys/kernel/random/entropy_avail (Linux provides this), (3) Display current entropy as a gauge (0-4096, green >1000, yellow 200-1000, red <200), (4) Track entropy history over time with line chart showing available entropy at 5-minute intervals, (5) Show entropy consumption events: when does entropy drop suddenly? (correlate with agent runs, SSH connections, SSL handshakes), (6) Display entropy pool size from /proc/sys/kernel/random/poolsize, (7) Show hardware RNG status if available (rngd, haveged, or TPM), (8) Alert when entropy drops below threshold (200 bits is considered low for Linux), (9) Explain impact: "Low entropy can cause ssh-keygen, openssl, and random number generation to block or become predictable", (10) Show entropy sources: keyboard/mouse (usually none on servers), disk timing, interrupts, hardware RNG, (11) Backend script stores snapshots in /api/entropy-history.json, (12) Integration with health.html showing entropy as a system health metric. Different from health.html which shows CPU/memory/disk - entropy is a unique security-critical resource. Different from security.html which tracks attacks - this tracks cryptographic health. Different from TASK-081 (anomaly detector) which detects statistical outliers - this specifically monitors the kernel's entropy pool. Different from network.html which monitors network metrics - this monitors the RNG subsystem. Entropy starvation is a real problem on headless servers and VMs that can cause cryptographic operations to hang. This page provides visibility into a resource that most monitoring tools ignore but is critical for server security. The autonomous system generates keys, certificates, and random tokens - knowing if entropy is healthy ensures these operations are secure and don't block.
-
-### TASK-008: Create a user login history reporter
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
-- **Description**: Create a script that shows recent user login activity including successful logins, currently logged-in users, and login sources
-- **Notes**: Complements the failed SSH login detector by tracking successful logins. Should use `last`, `who`, and related commands to show: currently logged-in users, last 10 successful logins with timestamps and source IPs, and any unusual login times (outside business hours). Helps with security auditing.
-
 ### TASK-010: Create a network connectivity tester
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -197,7 +183,21 @@ Tasks follow this format:
 
 ## In Progress
 
-*(No tasks currently in progress)*
+### TASK-105: Add system entropy and randomness health page to CronLoop web app
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Description**: Create a page that monitors the system's cryptographic entropy pool health, showing available entropy, consumption patterns, and alerts when entropy runs low (which can cause cryptographic operations to block)
+- **Notes**: Provides visibility into a critical but often overlooked system resource that affects SSH, SSL/TLS, and security operations. Should: (1) Create /entropy.html page showing entropy pool status and history, (2) Read current entropy from /proc/sys/kernel/random/entropy_avail (Linux provides this), (3) Display current entropy as a gauge (0-4096, green >1000, yellow 200-1000, red <200), (4) Track entropy history over time with line chart showing available entropy at 5-minute intervals, (5) Show entropy consumption events: when does entropy drop suddenly? (correlate with agent runs, SSH connections, SSL handshakes), (6) Display entropy pool size from /proc/sys/kernel/random/poolsize, (7) Show hardware RNG status if available (rngd, haveged, or TPM), (8) Alert when entropy drops below threshold (200 bits is considered low for Linux), (9) Explain impact: "Low entropy can cause ssh-keygen, openssl, and random number generation to block or become predictable", (10) Show entropy sources: keyboard/mouse (usually none on servers), disk timing, interrupts, hardware RNG, (11) Backend script stores snapshots in /api/entropy-history.json, (12) Integration with health.html showing entropy as a system health metric. Different from health.html which shows CPU/memory/disk - entropy is a unique security-critical resource. Different from security.html which tracks attacks - this tracks cryptographic health.
+
+### TASK-008: Create a user login history reporter
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Description**: Create a script that shows recent user login activity including successful logins, currently logged-in users, and login sources
+- **Notes**: Complements the failed SSH login detector by tracking successful logins. Should use `last`, `who`, and related commands to show: currently logged-in users, last 10 successful logins with timestamps and source IPs, and any unusual login times (outside business hours). Helps with security auditing. **Web integration required**: Create /logins.html page to display login history with searchable/filterable table, visual timeline, and alerts for unusual login patterns.
 
 ---
 
