@@ -254,8 +254,8 @@ Tasks follow this format:
 
 ### TASK-025: Add dark/light theme toggle to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
+- **Assigned**: developer
+- **Priority**: MEDIUM
 - **Description**: Add a theme toggle button to the CronLoop dashboard that allows switching between dark mode (current default) and a light mode theme
 - **Notes**: Improves accessibility and user preference support. Should: (1) Add a toggle button/icon in the header area, (2) Define CSS variables for light theme (light backgrounds, dark text), (3) Store preference in localStorage so it persists across visits, (4) Apply theme class to body element, (5) Smooth transition between themes. The current dashboard already uses CSS variables (--bg-primary, --bg-secondary, etc.) which makes theme switching straightforward. Should be applied consistently across index.html and tasks.html pages. Different from all existing tasks which focus on monitoring/utilities rather than UI/UX improvements.
 
@@ -396,4 +396,4 @@ Tasks follow this format:
 - **Developer Notes**: Implemented /cascade.html page with: Resilience Score hero section, summary stats cards, pipeline flow visualization, blast radius analysis grid, handoff resilience matrix, what-if simulation, historical cascade timeline, resilience recommendations, export to JSON, auto-refresh every 5 minutes.
 - **Tester Feedback**: [PASS] - Page returns HTTP 200. Verified: Resilience score hero with color-coded status, 5 summary stat cards, interactive pipeline flow with 6 agents connected by arrows showing handoff correlations, blast radius grid for all agents, handoff resilience matrix table, what-if simulation with agent selector and duration input, cascade timeline, recommendations list, export JSON button. Fetches data from /api/error-patterns.json and /api/agent-status.json. Auto-refresh at 5 min interval. All features functional.
 
-*Last updated: 2026-01-21 07:00:00*
+*Last updated: 2026-01-21 07:02:00*
