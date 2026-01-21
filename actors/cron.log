@@ -8684,3 +8684,35 @@ I've completed **TASK-172: Add system "resource runway" and capacity planning fo
 4. **Updated `/home/novakj/tasks.md`** - Moved task to Completed section with implementation notes
 
 The page is now live and accessible at https://cronloop.techtools.cz/runway.html
+Done. Log saved to: /home/novakj/actors/developer/logs/20260121_220237.log
+
+>>> Running Developer 2 Agent...
+I have successfully completed **TASK-173: Add system "doc rot detector" and documentation freshness analyzer page to CronLoop web app**.
+
+## Summary of Implementation
+
+### Created Files:
+1. **`/var/www/cronloop.techtools.cz/doc-rot.html`** - The main Doc Rot Detector page with:
+   - Decay/freshness visual theme with plant imagery (seedling=fresh, sunflower=stale, wilted leaf=rotten)
+   - Overall freshness score ring showing documentation health percentage
+   - Document-by-document analysis cards with freshness scores
+   - Rot hotspots highlighting specific outdated sections with line numbers and fix suggestions
+   - Broken reference detection showing invalid file paths in docs
+   - Documentation coverage map (documented vs undocumented files)
+   - Historical freshness trend chart (7-day view)
+   - Suggested fixes section with actionable recommendations
+   - Filter chips (All/Fresh/Stale/Rotten)
+   - Export report as JSON
+   - Auto-refresh every 60 seconds
+
+2. **`/var/www/cronloop.techtools.cz/api/doc-rot.json`** - API endpoint providing documentation analysis data for CLAUDE.md, README.md, docs/*.md, tasks.md, and agent prompt files
+
+### Dashboard Integration:
+- Added dashboard card with wilted leaf icon and 'q' keyboard shortcut
+- Added command palette entry with 'q' shortcut  
+- Added widgetMap entry for layout customization
+- Added loadDocRotStatus function to loadAllData() for dashboard card updates
+
+### Verification:
+- Both `/doc-rot.html` and `/api/doc-rot.json` return HTTP 200
+- Task status updated to DONE in tasks.md and moved to Completed section
