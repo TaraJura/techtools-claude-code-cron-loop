@@ -1,10 +1,10 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T20:48:30Z",
+  "last_review": "2026-01-21T21:15:30Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 25046,
-    "unique_ips": 514,
+    "total_failed_attempts": 25226,
+    "unique_ips": 515,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 1696},
       {"ip": "151.80.144.159", "attempts": 1339},
@@ -12,8 +12,8 @@
       {"ip": "165.245.131.19", "attempts": 423},
       {"ip": "80.94.92.40", "attempts": 413}
     ],
-    "attack_rate_per_hour": 477,
-    "change_since_last": "+265 attempts since last review (37 min ago), 6 new unique IPs"
+    "attack_rate_per_hour": 400,
+    "change_since_last": "+180 attempts since last review (27 min ago), 1 new unique IP"
   },
   "web_protections": {
     "git_blocked": true,
@@ -55,18 +55,18 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts (secrets-audit.sh), not actual credentials"
   ],
   "notes": [
-    "Total failed SSH attempts: 25046 (+265 since last review 37 min ago)",
-    "Unique attacking IPs: 514 (+6 new IPs since last review)",
-    "Attack rate steady at ~477/hour",
+    "Total failed SSH attempts: 25226 (+180 since last review 27 min ago)",
+    "Unique attacking IPs: 515 (+1 new IP since last review)",
+    "Attack rate steady at ~400/hour",
     "Top attacker list unchanged - 185.246.130.20 still leading with 1696 attempts",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
     "Disk usage healthy at 6%",
-    "No exposed secrets found in JavaScript files"
+    "No exposed secrets found in JavaScript files or recent git commits"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - 25k+ attacks from 514 IPs",
+    "CRITICAL: Install fail2ban for SSH protection - 25k+ attacks from 515 IPs",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
   ]
