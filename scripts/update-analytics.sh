@@ -220,7 +220,7 @@ runs_per_day_7d=$((runs_7d / 7))
     echo "    \"total_success\": $total_success,"
     echo "    \"total_errors\": $total_errors,"
     echo "    \"avg_duration_seconds\": $avg_duration,"
-    echo "    \"most_productive_hour\": $most_productive_hour,"
+    echo "    \"most_productive_hour\": $((10#$most_productive_hour)),"
     echo "    \"health_score\": $health_score"
     echo "  },"
 

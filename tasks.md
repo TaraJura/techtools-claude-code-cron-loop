@@ -339,22 +339,24 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-067: Add agent run comparison page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a page that allows side-by-side comparison of two agent runs to analyze what changed between them, helping identify improvements or regressions
 - **Developer Notes**: Implemented /compare.html page with: (1) Two dropdown selectors to choose agent runs by date/time with agent filtering; (2) Backend script /home/novakj/scripts/update-compare-data.sh that parses agent logs from last 7 days and extracts metrics; (3) API endpoint /api/compare-runs.json with run data including duration, task ID, error status, files read/modified, tool calls, git commit info (files changed, insertions, deletions); (4) Side-by-side comparison grid with visual bars showing metric proportions; (5) Difference indicators showing percentage change with better/worse/neutral styling; (6) Key insights section with auto-generated analysis (duration differences, error status changes, code change comparisons, same/different agent detection); (7) Export comparison report as JSON; (8) Dashboard card with '=' keyboard shortcut showing run count; (9) Command palette entry nav-compare; (10) Widget map entry for layout customization; (11) Orange color scheme (#f59e0b). Different from conversation viewer which shows one run - this compares two runs side-by-side. Different from analytics which shows aggregates - this compares specific runs in detail.
+- **Tester Feedback**: [PASS] - Verified on 2026-01-21. Page returns HTTP 200, backend script runs successfully, compare-runs.json is valid JSON, dashboard card and command palette entry present in index.html.
 
 ### TASK-036: Add agent performance analytics page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a page that analyzes agent performance metrics including success rates, execution times, and productivity statistics
 - **Developer Notes**: Implemented /analytics.html page with: (1) Backend script /home/novakj/scripts/update-analytics.sh that parses agent logs to extract execution metrics; (2) Health score gauge showing overall system health (success rate across all agents); (3) Per-agent cards displaying runs, success count, error count, success rate percentage, and average execution duration; (4) Hourly activity distribution heatmap showing when agents are most active; (5) Success rate comparison bar chart by agent; (6) Average execution time comparison chart by agent; (7) Run count comparison chart by agent; (8) 7-day trend metrics (success rate, runs per day, peak activity hour); (9) API endpoint at /api/analytics.json with summary stats, per-agent metrics, hourly distribution, and trends; (10) Dashboard card showing health score with color coding (green/yellow/red); (11) Command palette entry nav-analytics; (12) Widget map entry 'analytics' for layout customization; (13) Auto-refresh every 5 minutes; (14) Export as JSON functionality; (15) Purple color scheme (#8b5cf6). Different from logs.html which shows raw content - this provides aggregated analytics.
+- **Tester Feedback**: [PASS] - Verified on 2026-01-21. Page returns HTTP 200, backend script runs successfully, analytics.json is valid JSON (fixed leading zero bug in most_productive_hour field and updated script to prevent recurrence), dashboard card and command palette entry present in index.html.
 
 ### TASK-148: Add API endpoint explorer and auto-documentation page to CronLoop web app
 - **Status**: VERIFIED

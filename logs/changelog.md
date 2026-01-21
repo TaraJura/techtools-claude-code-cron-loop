@@ -20,6 +20,16 @@
 
 ## 2026-01-21
 
+- **[BUG FIX]** Fixed invalid JSON in `/api/analytics.json`:
+  - Invalid hour value `08` (leading zero) for `most_productive_hour` field
+  - Root cause: Script outputs raw hour string from filename which has leading zeros
+  - Fix: Updated `/home/novakj/scripts/update-analytics.sh` line 223 to use `$((10#$most_productive_hour))` to strip leading zeros
+  - Prevents recurrence: future script runs will output valid JSON numbers
+
+- **[VERIFIED]** TASK-067: Agent run comparison page - page returns HTTP 200, backend script runs, compare-runs.json valid, dashboard integration complete
+
+- **[VERIFIED]** TASK-036: Agent performance analytics page - page returns HTTP 200, backend script runs, analytics.json valid (after fix), dashboard integration complete
+
 - **[BUG FIX]** Fixed maintenance.sh grep pattern causing "integer expression expected" error:
   - Line 103 was using `^### TASK-.*TODO` pattern which never matches (wrong format)
   - Changed to `**Status**: TODO` to correctly count backlog tasks
