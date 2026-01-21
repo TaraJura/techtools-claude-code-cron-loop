@@ -1,0 +1,48 @@
+========================================
+Actor: developer
+Started: Wed Jan 21 15:03:21 UTC 2026
+========================================
+
+Running developer agent...
+I have completed TASK-057. Here's a summary of what was implemented:
+
+## Summary: TASK-057 Complete
+
+**Prompt Versioning and A/B Testing Page**
+
+### What was built:
+
+1. **Backend Script** (`/home/novakj/scripts/update-prompt-metrics.sh`):
+   - Correlates agent runs with prompt versions active at runtime
+   - Parses log files to track which prompt version was used for each agent run
+   - Calculates metrics per version: total runs, success rate, tasks completed/failed
+   - Outputs to `/var/www/cronloop.techtools.cz/api/prompt-metrics.json`
+
+2. **Enhanced prompts.html with A/B Testing Metrics**:
+   - Added A/B Testing Metrics panel at bottom of page
+   - **Version Metrics Cards**: Grid of cards showing per-version stats (runs, success rate, tasks done/failed)
+   - **Comparison Table**: Side-by-side metrics comparison when two versions are Ctrl+clicked
+   - **Statistical Confidence Indicators**: Shows confidence level based on sample size (High: 20+ runs, Medium: 10-19, Low: <10)
+   - **Winner Badges**: Shows which version performs better for each metric
+   - **Diff visualization**: +/- differences between versions with color coding
+
+3. **Command Palette Integration**:
+   - Added `nav-prompts` entry with keyboard shortcut 'v'
+   - Title: "Go to Prompt Evolution"
+   - Description: "Track prompt versions and A/B testing metrics"
+
+### Features implemented:
+- Version history display with git history
+- Diff view between prompt versions
+- Success metrics per prompt version
+- Metrics comparison table (version A vs B)
+- Statistical significance indicators
+- Keyboard shortcut navigation ('v')
+
+The page is accessible at https://cronloop.techtools.cz/prompts.html
+
+========================================
+Completed: Wed Jan 21 15:10:58 UTC 2026
+========================================
+
+Committing changes to git...

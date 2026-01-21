@@ -96,13 +96,6 @@ Tasks follow this format:
 - **Description**: Create a page that monitors the system's cryptographic entropy pool health, showing available entropy, consumption patterns, and alerts when entropy runs low (which can cause cryptographic operations to block)
 - **Notes**: Provides visibility into a critical but often overlooked system resource that affects SSH, SSL/TLS, and security operations. Should: (1) Create /entropy.html page showing entropy pool status and history, (2) Read current entropy from /proc/sys/kernel/random/entropy_avail (Linux provides this), (3) Display current entropy as a gauge (0-4096, green >1000, yellow 200-1000, red <200), (4) Track entropy history over time with line chart showing available entropy at 5-minute intervals, (5) Show entropy consumption events: when does entropy drop suddenly? (correlate with agent runs, SSH connections, SSL handshakes), (6) Display entropy pool size from /proc/sys/kernel/random/poolsize, (7) Show hardware RNG status if available (rngd, haveged, or TPM), (8) Alert when entropy drops below threshold (200 bits is considered low for Linux), (9) Explain impact: "Low entropy can cause ssh-keygen, openssl, and random number generation to block or become predictable", (10) Show entropy sources: keyboard/mouse (usually none on servers), disk timing, interrupts, hardware RNG, (11) Backend script stores snapshots in /api/entropy-history.json, (12) Integration with health.html showing entropy as a system health metric. Different from health.html which shows CPU/memory/disk - entropy is a unique security-critical resource. Different from security.html which tracks attacks - this tracks cryptographic health. Different from TASK-081 (anomaly detector) which detects statistical outliers - this specifically monitors the kernel's entropy pool. Different from network.html which monitors network metrics - this monitors the RNG subsystem. Entropy starvation is a real problem on headless servers and VMs that can cause cryptographic operations to hang. This page provides visibility into a resource that most monitoring tools ignore but is critical for server security. The autonomous system generates keys, certificates, and random tokens - knowing if entropy is healthy ensures these operations are secure and don't block.
 
-### TASK-057: Add prompt versioning and A/B testing page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page to track agent prompt versions over time and compare their effectiveness through A/B testing metrics
-- **Notes**: Enables data-driven prompt optimization for the multi-agent system. Should: (1) Create /prompts.html page for prompt versioning and testing, (2) Track git history of actors/*/prompt.md files to show version timeline, (3) Display diff between prompt versions (highlight what changed), (4) Associate each agent run with the prompt version active at that time (store version hash in logs), (5) Calculate success metrics per prompt version: success rate (DONE/VERIFIED vs errors), average execution time, lines of code changed, rework rate (tasks needing fixes), (6) Comparison table: version A vs version B showing all metrics side-by-side, (7) Statistical significance indicator (enough samples? confident conclusion?), (8) Prompt changelog: what was the intent of each change? (auto-extract from git commit messages), (9) "Rollback" button to revert to previous prompt version if current performs worse, (10) Prompt templates library: save effective prompt patterns for reuse, (11) Export metrics as CSV for external analysis. Different from agents.html which shows CURRENT prompt content - this tracks HISTORY and CHANGES. Different from TASK-054 (decision explainer) which analyzes individual decisions - this analyzes PROMPT EFFECTIVENESS over time. Different from TASK-036 (performance analytics) which shows agent metrics - this CORRELATES metrics with PROMPT CHANGES. Different from TASK-046 (changelog) which tracks code changes - this specifically tracks PROMPT evolution. Enables continuous improvement of the autonomous system through measured experimentation rather than guesswork.
-
 ### TASK-059: Add system process tree visualization page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: developer2
@@ -231,6 +224,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-057: Add prompt versioning and A/B testing page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Priority**: MEDIUM
+- **Description**: Create a page to track agent prompt versions over time and compare their effectiveness through A/B testing metrics
+- **Notes**: Enhanced existing prompts.html page with A/B testing metrics functionality. Created /scripts/update-prompt-metrics.sh backend script that correlates agent runs with prompt versions active at runtime. Added metrics comparison table showing success rate, tasks completed/failed, error runs per version. Statistical confidence indicators based on sample size. Version metrics cards showing per-version performance. Added keyboard shortcut 'v' to command palette.
 
 ### TASK-028: Add cron execution timeline page to CronLoop web app
 - **Status**: VERIFIED
