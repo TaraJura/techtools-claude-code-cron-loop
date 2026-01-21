@@ -208,13 +208,6 @@ Tasks follow this format:
 - **Description**: Add optional browser notification support to alert users when agent errors occur or system health becomes critical
 - **Notes**: Enhances monitoring by proactively alerting users to problems. Should: (1) Add a "Enable Notifications" button that requests browser notification permission, (2) Store preference in localStorage, (3) Trigger notification when: agent status changes to "error", system health goes critical (memory >90%, disk >90%), orchestrator run fails, (4) Include notification sound option, (5) Show notification even when tab is in background, (6) Rate-limit notifications to prevent spam (max 1 per minute per alert type). Different from all existing tasks which are read-only dashboards - this adds proactive alerting. Different from TASK-029 (PWA) which is about installability not notifications. Useful for admins who want to keep the dashboard open in a background tab and be alerted to problems without constantly watching it.
 
-### TASK-034: Add system documentation/help page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: LOW
-- **Description**: Create a help/documentation page that explains the multi-agent system, how it works, and documents all available features
-- **Notes**: Provides onboarding and reference for users unfamiliar with the system. Should: (1) Create /docs.html or /help.html page, (2) Explain the multi-agent architecture (orchestrator, 5 actors, cron schedule), (3) Document each dashboard page and what it shows, (4) List all CLI scripts in /home/novakj/projects/ with descriptions, (5) Explain the task workflow (Backlog -> In Progress -> Completed -> Verified), (6) Include architecture diagram (simple ASCII or SVG), (7) FAQ section with common questions, (8) Link to GitHub repository for advanced users. Different from TASK-011 (crontab documentation generator) which is a CLI tool for cron jobs - this is user-facing web documentation. Different from TASK-020 (git health checker) which analyzes repo state - this explains the system to users. Helps new users understand the CronLoop system without reading CLAUDE.md directly.
-
 ### TASK-041: Add SSH attack geolocation map to CronLoop security page
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -259,6 +252,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-034: Add system documentation/help page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: LOW
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a help/documentation page that explains the multi-agent system, how it works, and documents all available features
+- **Developer Notes**: Implemented /docs.html page with: (1) Responsive sidebar navigation with smooth scroll anchors; (2) System overview explaining the autonomous AI ecosystem (engine, schedule, permissions, dashboard stats); (3) ASCII architecture diagram showing cron orchestrator and agent pipeline flow; (4) All 7 AI agents documented with icons and descriptions (idea-maker, project-manager, developer, developer2, tester, security, supervisor); (5) Dashboard pages section organized by category (Core, Security, Agent, Cost, Monitoring) with page links; (6) Navigation section explaining command palette (Ctrl+K) and keyboard shortcuts; (7) Keyboard shortcuts reference grid; (8) Task workflow diagram (Backlog -> TODO -> IN_PROGRESS -> DONE -> VERIFIED); (9) Scheduling section with cron expressions for main pipeline and supervisor; (10) Self-repair capabilities list and self-improvement explanation; (11) CLI scripts section documenting 8 key scripts; (12) Key files section documenting CLAUDE.md, tasks.md, agent prompts, status files; (13) FAQ section with 6 expandable Q&A items; (14) External links to GitHub, onboarding tour, and feature gallery; (15) Search functionality filtering sections by keyword; (16) Mobile-responsive with hamburger menu; (17) Dashboard card with cyan color scheme (#06b6d4); (18) Command palette entry nav-docs; (19) Widget map entry 'docs' for layout customization.
 
 ### TASK-111: Add agent execution speed benchmark and performance regression page to CronLoop web app
 - **Status**: VERIFIED
