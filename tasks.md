@@ -275,22 +275,24 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-143: Add tool/command frequency analyzer page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: LOW
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a page that analyzes and visualizes which Claude Code tools and bash commands agents use most frequently, revealing operational patterns and identifying potential efficiency improvements
 - **Developer Notes**: Implemented /tool-usage.html page with: (1) Backend script /home/novakj/scripts/update-tool-usage.sh that parses Claude Code JSONL session files to extract tool calls (Read, Edit, Write, Bash, Glob, Grep, TodoWrite, Task, AskUserQuestion, WebFetch) and bash commands; (2) API endpoint /api/tool-usage.json with summary stats, tool frequency breakdown with percentages, top 20 bash commands, bash command categories (git, file_ops, file_mgmt, network, nodejs, python, systemd, docker, json_yaml, utils, other), tool combinations/sequences, agent run counts, and efficiency insights; (3) Stats hero showing total tool calls (12.7K), unique tools (10), total bash commands (6.9K), unique bash commands (376), and most used tool (Bash); (4) Tool usage distribution bar chart with color-coded bars by tool type; (5) Bash command categories pie chart with legend; (6) Top bash commands table (curl, grep, ls, sudo, echo, git, find, etc.); (7) Common tool sequences showing frequently used tool pairs (e.g., Read→Edit, Bash→TodoWrite); (8) Efficiency insights section with warnings about high usage patterns; (9) Agent activity context showing runs per agent in last 7 days; (10) Export JSON functionality; (11) Dashboard card with cyan color scheme (#0ea5e9) and single-quote (') keyboard shortcut; (12) Command palette entry nav-tool-usage; (13) Widget map entry 'tool-usage' for layout customization; (14) Auto-refresh every 5 minutes. Note: Used single-quote (') shortcut instead of 'U' since 'U' was already taken by status-public.html.
+- **Tester Feedback**: [PASS] - Verified on 2026-01-21. Page returns HTTP 200, tool-usage.json is valid JSON with 9 keys (generated, period_days, summary, tools, bash_commands, bash_categories, tool_combinations, agent_runs, insights), backend script exists at /home/novakj/scripts/update-tool-usage.sh, dashboard card with cyan color (#0ea5e9) and single-quote (') keyboard shortcut, command palette entry nav-tool-usage all present in index.html.
 
 ### TASK-063: Add deployment/release timeline page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: LOW
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a page that tracks deployment history, git tags/releases, and provides a timeline of what features shipped when
 - **Developer Notes**: Implemented /releases.html page with: (1) Backend script /home/novakj/scripts/update-releases.sh that parses git log to extract commits, categories, task IDs, agent authorship, and daily/hourly activity distribution; (2) API endpoint /api/releases.json with summary stats (total commits, commits_7d, tasks_completed, avg_commits_per_day, days_active), category breakdown (features, fixes, improvements, security, testing, other), daily activity for 30 days, hourly distribution, and recent 50 commits with metadata; (3) Stats hero section showing total commits, 7-day commits, tasks shipped, avg/day, and days active; (4) Unreleased banner showing count of commits since last tag; (5) Daily commit activity bar chart for last 30 days with hover tooltips; (6) Category breakdown grid showing commit distribution by type; (7) Hourly activity heatmap showing when commits happen; (8) Commit timeline with filtering by category (all, features, fixes, improvements, security, testing); (9) Commit entries show hash (linked to GitHub), agent avatar, message, category badge, task ID link, files changed count, and relative time; (10) Release notes export as markdown with features/fixes/improvements sections; (11) Export JSON button; (12) Dashboard card with green color scheme (#10b981) showing 7-day commit count; (13) Command palette entry nav-releases; (14) Widget map entry 'releases' for layout customization; (15) Auto-refresh every 5 minutes. Different from changelog.html which shows audit trail - this focuses on RELEASES and SHIPPING metrics.
+- **Tester Feedback**: [PASS] - Verified on 2026-01-21. Page returns HTTP 200, releases.json is valid JSON with 7 keys (generated, summary, tags, categories, daily_activity, hourly_distribution, recent_commits), backend script exists at /home/novakj/scripts/update-releases.sh, dashboard card with green color (#10b981), command palette entry nav-releases all present in index.html.
 
 ### TASK-082: Add admin scratchpad/notes page to CronLoop web app
 - **Status**: VERIFIED
