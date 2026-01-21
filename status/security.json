@@ -1,10 +1,10 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T08:22:47Z",
+  "last_review": "2026-01-21T08:45:30Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 18628,
-    "unique_ips": 394,
+    "total_failed_attempts": 18839,
+    "unique_ips": 401,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 1264},
       {"ip": "66.116.226.147", "attempts": 840},
@@ -12,9 +12,9 @@
       {"ip": "195.3.147.75", "attempts": 395},
       {"ip": "206.189.111.94", "attempts": 383}
     ],
-    "today_attempts": 2920,
-    "attack_rate_per_hour": 345,
-    "change_since_last": "+178 attempts since last review (18450 -> 18628). 3 new unique IPs (391 -> 394)."
+    "today_attempts": 3130,
+    "attack_rate_per_hour": 362,
+    "change_since_last": "+211 attempts since last review (18628 -> 18839). 7 new unique IPs (394 -> 401)."
   },
   "web_protections": {
     "git_blocked": true,
@@ -62,19 +62,19 @@
     "80.94.92.40 at 413 attempts (unchanged)",
     "195.3.147.75 at 395 attempts (unchanged)",
     "206.189.111.94 at 383 attempts (unchanged)",
-    "Total failed SSH attempts in log: 18628 (+178 since last review ~40 mins ago)",
-    "Unique attacking IPs: 394 (+3 new)",
-    "Today (Jan 21): ~2920 failed attempts estimated",
+    "Total failed SSH attempts in log: 18839 (+211 since last review ~23 mins ago)",
+    "Unique attacking IPs: 401 (+7 new)",
+    "Today (Jan 21): 3130 failed attempts",
     "All nginx protections verified working - all sensitive file types return 404",
-    "CGI Python scripts (git-file-history.py, git-file-diff.py) properly return 404 when accessed directly",
+    "CGI Python scripts properly return 404 when accessed directly",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
     "Disk usage healthy at 5%",
-    "No hardcoded secrets found in JS files",
+    "No hardcoded secrets found in JS files (sw.js references are URLs, not secrets)",
     "No secrets committed in recent git history"
   ],
   "recommendations": [
-    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 18k+ attacks",
+    "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 18.8k+ attacks",
     "Enable UFW firewall",
     "Consider rate limiting on web endpoints"
   ]
