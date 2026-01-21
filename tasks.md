@@ -98,15 +98,15 @@ Tasks follow this format:
 
 ### TASK-057: Add prompt versioning and A/B testing page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
+- **Assigned**: developer
+- **Priority**: MEDIUM
 - **Description**: Create a page to track agent prompt versions over time and compare their effectiveness through A/B testing metrics
 - **Notes**: Enables data-driven prompt optimization for the multi-agent system. Should: (1) Create /prompts.html page for prompt versioning and testing, (2) Track git history of actors/*/prompt.md files to show version timeline, (3) Display diff between prompt versions (highlight what changed), (4) Associate each agent run with the prompt version active at that time (store version hash in logs), (5) Calculate success metrics per prompt version: success rate (DONE/VERIFIED vs errors), average execution time, lines of code changed, rework rate (tasks needing fixes), (6) Comparison table: version A vs version B showing all metrics side-by-side, (7) Statistical significance indicator (enough samples? confident conclusion?), (8) Prompt changelog: what was the intent of each change? (auto-extract from git commit messages), (9) "Rollback" button to revert to previous prompt version if current performs worse, (10) Prompt templates library: save effective prompt patterns for reuse, (11) Export metrics as CSV for external analysis. Different from agents.html which shows CURRENT prompt content - this tracks HISTORY and CHANGES. Different from TASK-054 (decision explainer) which analyzes individual decisions - this analyzes PROMPT EFFECTIVENESS over time. Different from TASK-036 (performance analytics) which shows agent metrics - this CORRELATES metrics with PROMPT CHANGES. Different from TASK-046 (changelog) which tracks code changes - this specifically tracks PROMPT evolution. Enables continuous improvement of the autonomous system through measured experimentation rather than guesswork.
 
 ### TASK-059: Add system process tree visualization page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
+- **Assigned**: developer2
+- **Priority**: MEDIUM
 - **Description**: Create a page that visualizes the process tree hierarchy showing parent-child relationships of all running processes
 - **Notes**: Provides deep visibility into what's running on the server beyond simple process lists. Should: (1) Create /processes.html page showing interactive process tree, (2) Create backend script that parses `ps auxf` or `/proc` to build process hierarchy, (3) Display tree structure with expandable/collapsible nodes (root → init → services → children), (4) Show key metrics per process: PID, user, CPU%, MEM%, start time, command, (5) Color-code processes: green for healthy, yellow for high CPU (>50%), red for high memory (>10%), (6) Highlight agent-related processes (claude-code, run-actor.sh) with distinct styling, (7) Search/filter by process name, PID, or user, (8) Click process to see detailed info: full command line, environment variables (sanitized), open files (lsof), (9) Show orphan processes (PPID=1) that might be zombies or leaked, (10) Auto-refresh every 30 seconds or manual refresh button, (11) Export current tree as JSON for debugging. Different from TASK-015 (long-running process detector) which filters by runtime - this shows ALL processes in TREE form. Different from health.html which shows aggregate CPU/memory - this shows PER-PROCESS breakdown with hierarchy. Different from TASK-042 (terminal widget) which runs arbitrary commands - this provides a READ-ONLY process visualization. Helps debug "what is using resources" by understanding process relationships and ancestry.
 
