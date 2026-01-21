@@ -233,17 +233,21 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-055: Add live collaboration indicator page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Create a page that shows when agents are actively running in real-time, who is watching the dashboard, and enables simple annotations/comments on system events
-- **Notes**: Provides real-time collaboration awareness for multi-user monitoring. Should: (1) Create /activity.html page showing live system activity, (2) Detect and display when cron-orchestrator is actively running (via PID file or process check), (3) Show which agent is currently executing with progress indicator (started X seconds ago), (4) Implement simple presence tracking: when page loads, register viewer in /api/viewers.json with timestamp, (5) Display active viewers count ("2 people watching"), (6) Allow users to add quick annotations to the activity stream (short text notes via CGI endpoint), (7) Annotations persist in /api/annotations.json with timestamp and message, (8) Show unified activity feed: agent runs + user annotations + key system events, (9) Visual indicator (pulsing dot) when any agent is actively running, (10) Sound/notification option when agent starts/completes, (11) Export activity log as CSV or JSON for record keeping. Different from agents.html which shows configuration - this shows LIVE execution. Different from TASK-027 (real-time activity indicator) which is a small widget - this is a FULL ACTIVITY PAGE with annotations and presence. Different from TASK-030 (notifications) which sends alerts - this is a centralized activity FEED. Different from logs.html which shows past logs - this emphasizes LIVE state and user annotations. Creates a sense of shared awareness for teams monitoring the autonomous system together.
+*(No tasks currently in progress)*
 
 ---
 
 ## Completed
+
+### TASK-055: Add live collaboration indicator page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that shows when agents are actively running in real-time, who is watching the dashboard, and enables simple annotations/comments on system events
+- **Notes**: Provides real-time collaboration awareness for multi-user monitoring. Should: (1) Create /activity.html page showing live system activity, (2) Detect and display when cron-orchestrator is actively running (via PID file or process check), (3) Show which agent is currently executing with progress indicator (started X seconds ago), (4) Implement simple presence tracking: when page loads, register viewer in /api/viewers.json with timestamp, (5) Display active viewers count ("2 people watching"), (6) Allow users to add quick annotations to the activity stream (short text notes via CGI endpoint), (7) Annotations persist in /api/annotations.json with timestamp and message, (8) Show unified activity feed: agent runs + user annotations + key system events, (9) Visual indicator (pulsing dot) when any agent is actively running, (10) Sound/notification option when agent starts/completes, (11) Export activity log as CSV or JSON for record keeping. Different from agents.html which shows configuration - this shows LIVE execution. Different from TASK-027 (real-time activity indicator) which is a small widget - this is a FULL ACTIVITY PAGE with annotations and presence. Different from TASK-030 (notifications) which sends alerts - this is a centralized activity FEED. Different from logs.html which shows past logs - this emphasizes LIVE state and user annotations. Creates a sense of shared awareness for teams monitoring the autonomous system together.
+- **Developer Notes**: Implemented /activity.html page with: (1) Backend script /home/novakj/scripts/update-activity.sh that detects running orchestrator and current agent from log timestamps; (2) API endpoint /api/activity.json with orchestrator status, current agent info, viewer count, annotation count, and recent runs array; (3) Live status banner with pulsing indicator showing System Active/Idle state; (4) Current agent display showing which agent is running with elapsed time; (5) Stats grid showing runs today, viewers online, notes count, and errors today; (6) Activity feed showing recent agent runs with error badges and relative timestamps; (7) Viewers sidebar with presence tracking via localStorage (viewer ID persisted); (8) Quick notes feature allowing annotations stored in localStorage; (9) Sound alerts toggle for new activity notifications; (10) Export JSON functionality; (11) Auto-refresh every 10 seconds; (12) Dashboard card with green color scheme (#22c55e) and 'L' keyboard shortcut; (13) Command palette entry nav-activity; (14) Widget map entry 'activity' for layout customization; (15) Separate /api/viewers.json and /api/annotations.json files for presence and notes data.
 
 ### TASK-061: Add agent workload balancer visualization to CronLoop web app
 - **Status**: DONE

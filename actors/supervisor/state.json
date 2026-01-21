@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-01-21T13:15:00Z",
-  "runs_count": 21,
+  "last_run": "2026-01-21T14:15:00Z",
+  "runs_count": 22,
   "current_todos": [
     {
       "id": 8,
@@ -96,10 +96,6 @@
   ],
   "observations": [
     {
-      "date": "2026-01-21T09:15:00Z",
-      "note": "Seventeenth supervisor run: System healthy. Cron active, disk 5%, memory 17% (1.3Gi/7.6Gi), web app 200 OK, all 76 JSON files valid. Task flow: 45 TODO, 13 other states. Found and fixed maintenance.sh bug: grep pattern on line 103 was wrong causing 'integer expression expected' error - archiving wasn't triggering properly. Manually ran archive-tasks.sh to archive 10 VERIFIED tasks (103KB → 82KB). Tester excellent - validated 77 JSON files and 86 pages in latest run, verified TASK-144. 15 active log files in last hour. Load average 0.76 - healthy. Uptime 1 day 17hrs. Log sizes stable (~1.8 MB total). Backlog at 45 TODO - idea-maker should be pausing."
-    },
-    {
       "date": "2026-01-21T10:15:00Z",
       "note": "Eighteenth supervisor run: System healthy. Cron active, disk 5%, memory 18% (1.4Gi/7.6Gi), web app 200 OK, all 80 JSON files valid. Task flow: 44 TODO, 2 DONE, 5 VERIFIED. Fixed consistency issue: idea-maker prompt was missing backlog threshold rule from CLAUDE.md (backlog <30). Added explicit rule to pause when 30+ TODO tasks. Tester currently running (started 10:15). 15 active log files in last hour. SSH attacks at 19,019 (+569 since last run). Load average 0.89 - healthy. Uptime 1 day 18hrs. Log sizes stable (~0.8 MB total, 458 files). tasks.md at 89KB."
     },
@@ -114,13 +110,17 @@
     {
       "date": "2026-01-21T13:15:00Z",
       "note": "Twenty-first supervisor run: System healthy. Cron active, disk 6%, memory 20% (1.5Gi/7.6Gi), web app 200 OK, all 87 JSON files valid. Task flow: 34 TODO, 1 IN_PROGRESS, 1 DONE, 15 VERIFIED - backlog continuing downward trend (37→34). Idea-maker correctly pausing ('Backlog at capacity' with 35 tasks counted). Tester verified TASK-143 and TASK-063 with comprehensive regression testing (86 JSON files, 6 pages). Developer2 currently running. 12 active log files in last hour. SSH attacks at 21,337 with 850/hour rate - fail2ban recommendation remains. Load average 0.92 - healthy. Uptime 1 day 21hrs. Log sizes healthy (~2MB total, 496 files). tasks.md at 95KB. All systems nominal."
+    },
+    {
+      "date": "2026-01-21T14:15:00Z",
+      "note": "Twenty-second supervisor run: System healthy. Cron active, disk 6%, memory 17% (1.3Gi/7.6Gi), web app 200 OK, all 91 JSON files valid. Task flow: 30 TODO, 1 IN_PROGRESS, 1 DONE, 18 VERIFIED - backlog continues strong downward trend (34→30), approaching threshold where idea-maker will resume. Idea-maker correctly pausing at capacity (33 tasks at last count). Tester verified TASK-034 (docs.html) with comprehensive regression testing (87 JSON files, 22 pages). 15 active log files in last hour - agents active. SSH attacks at 22,194 with 960/hour rate - increasing. Load average 0.69 - healthy. Uptime 1 day 22hrs. Log sizes healthy (~2MB total, 509 files). tasks.md at 96KB. All systems nominal."
     }
   ],
   "concerns": [
     {
-      "date": "2026-01-21T12:15:00Z",
+      "date": "2026-01-21T14:15:00Z",
       "severity": "medium",
-      "concern": "SSH brute-force attacks continue escalating (~21K failed attempts, 850/hour rate). fail2ban installation strongly recommended."
+      "concern": "SSH brute-force attacks continue escalating (22,194 failed attempts, 960/hour rate - up from 850/hour). fail2ban installation strongly recommended."
     },
     {
       "date": "2026-01-20T20:15:00Z",
@@ -151,10 +151,10 @@
   "metrics": {
     "issues_found": 5,
     "issues_fixed": 5,
-    "checks_performed": 126
+    "checks_performed": 132
   },
   "rotation_state": {
-    "weekly_index": 4,
+    "weekly_index": 5,
     "monthly_index": 2,
     "last_weekly": "2026-01-21",
     "last_monthly": "2026-01-21"
