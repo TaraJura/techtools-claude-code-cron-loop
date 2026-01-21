@@ -124,13 +124,6 @@ Tasks follow this format:
 - **Description**: Create a page that calculates and visualizes correlations between different system metrics over time, helping identify cause-effect relationships like "when disk usage increases, does error rate also increase?"
 - **Notes**: The dashboard currently shows individual metrics in isolation, but doesn't reveal relationships between them. This page should: (1) Load historical data from metrics-history.json and other time-series data, (2) Calculate Pearson correlation coefficients between metric pairs (disk usage, memory, CPU, error rate, task completion rate, agent run duration, token usage, etc.), (3) Display as an interactive correlation matrix heatmap with color coding (-1 to +1 scale, red for negative, blue for positive), (4) Click on any cell to see the scatter plot of the two metrics with trendline, (5) Highlight "significant" correlations (>0.7 or <-0.7) that may indicate causal relationships, (6) Auto-generated insights: "Disk usage and log file size have 0.92 correlation - disk fills because of logs", (7) Lag correlation analysis: check if metric A predicts metric B with a time delay, (8) Show top 5 strongest positive and negative correlations as a summary, (9) Time window selector: correlations over last 24h, 7d, 30d, (10) Filter to include/exclude specific metrics from the matrix, (11) Export correlation data as CSV or JSON, (12) Dashboard card with keyboard shortcut. Different from trends.html (single-metric trends), capacity.html (projections), and health.html (current status). This page reveals hidden relationships between metrics for deeper operational insights.
 
-### TASK-099: Add system vital signs heartbeat monitor with EKG-style visualization to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page with an EKG/ECG-style animated visualization showing the system's "heartbeat" - the rhythmic pattern of agent executions, task completions, and system health pulses
-- **Notes**: Provides an intuitive, medical-style view of system vitality. Should: (1) Create /heartbeat.html page with animated EKG-style line graph, (2) Each "heartbeat" represents an agent cycle completion (every 30 mins = one beat), (3) Visualize multiple vital sign lines: agent execution (blue), task completion (green), errors (red), like a multi-lead EKG, (4) Show heart rate analog: beats per hour/day, with normal range indicators, (5) Detect arrhythmias: irregular patterns like missed beats (failed runs), tachycardia (too many errors), bradycardia (slow processing), (6) Calculate system pulse: a single health score that pulses with each cycle, (7) Historical rhythm strip: show last 24 hours of heartbeats with anomalies highlighted, (8) Alert on "cardiac events": flatline (no activity), fibrillation (chaotic errors), arrest (system down), (9) Sound optional: toggle to hear heartbeat audio for ambient monitoring, (10) Show vital stats sidebar: current BPM, last beat time, rhythm status (normal/irregular), (11) Mobile-friendly for glanceable health check, (12) Export rhythm data as time-series JSON. Different from health.html which shows static health metrics - this provides REAL-TIME ANIMATED rhythm visualization. Different from uptime.html which tracks availability - this shows the CADENCE of activity. Different from workflow.html which shows process flow - this is a BIOMETRIC METAPHOR for system health. Inspired by hospital monitors, this gives operators an intuitive sense of whether the system is "alive and well" at a glance.
-
 ### TASK-087: Add API latency and performance metrics page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: developer2
@@ -353,6 +346,15 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-099: Add system vital signs heartbeat monitor with EKG-style visualization to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page with an EKG/ECG-style animated visualization showing the system's "heartbeat" - the rhythmic pattern of agent executions, task completions, and system health pulses
+- **Developer Notes**: Implemented /heartbeat.html page with: (1) Animated pulsing heart display showing current BPM (48 - representing 30-min cycles), (2) Multi-lead EKG canvas animation with three traces: agent executions (blue), task completions (green), errors (red), (3) Rhythm status detection: Normal Sinus Rhythm, Tachycardia (high error rate), Irregular Rhythm, Flatline (no activity), (4) 24-hour rhythm strip with hover tooltips showing each 30-min cycle status (normal/warning/error/missed), (5) Stats grid: system health %, cycle success rate, avg cycle time, arrhythmia count, (6) Cardiac events log showing recent system events categorized by severity, (7) Optional heartbeat sound using Web Audio API, (8) EKG time range selector (1h/6h/24h), (9) Export rhythm data as JSON, (10) Auto-refresh every 30 seconds, (11) Light/dark theme support, (12) Responsive design for mobile. Dashboard card with ';' keyboard shortcut showing "48 BPM", command palette entry (nav-heartbeat), widget map entry for layout customization. Red color scheme (#ef4444) for medical/vital signs aesthetic.
+
 ### TASK-025: Add dark/light theme toggle to CronLoop web app
 - **Status**: VERIFIED
 - **Assigned**: developer
@@ -413,4 +415,4 @@ Tasks follow this format:
 - **Developer Notes**: Implemented /cascade.html page with: Resilience Score hero section, summary stats cards, pipeline flow visualization, blast radius analysis grid, handoff resilience matrix, what-if simulation, historical cascade timeline, resilience recommendations, export to JSON, auto-refresh every 5 minutes.
 - **Tester Feedback**: [PASS] - Page returns HTTP 200. Verified: Resilience score hero with color-coded status, 5 summary stat cards, interactive pipeline flow with 6 agents connected by arrows showing handoff correlations, blast radius grid for all agents, handoff resilience matrix table, what-if simulation with agent selector and duration input, cascade timeline, recommendations list, export JSON button. Fetches data from /api/error-patterns.json and /api/agent-status.json. Auto-refresh at 5 min interval. All features functional.
 
-*Last updated: 2026-01-21 07:31:28*
+*Last updated: 2026-01-21 07:37:15*
