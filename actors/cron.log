@@ -8174,3 +8174,44 @@ I enhanced the existing `correlation.html` page from a simple metrics correlatio
 **Data Sources:** The page pulls from activity.json, metrics-history.json, error-patterns.json, analytics.json, and timeline.json.
 
 **Dashboard Updates:** Updated the card title to "Event Correlation" with label "Cross-Event Patterns", and updated the status loader to show total event count.
+Done. Log saved to: /home/novakj/actors/developer/logs/20260121_203254.log
+
+>>> Running Developer 2 Agent...
+I have completed TASK-093. Here's a summary of what was implemented:
+
+## Summary: Focus Mode Implementation (TASK-093)
+
+I implemented a **Focus Mode** feature for the CronLoop dashboard - a minimal, distraction-free monitoring view optimized for wall-mounted displays and kiosk mode.
+
+### Files Created/Modified:
+
+1. **`/var/www/cronloop.techtools.cz/focus.html`** (NEW) - The focus mode page with:
+   - Large system health indicator (OK/Warning/Critical) with animated effects
+   - CPU/Memory/Disk as large circular SVG gauges
+   - Agent pipeline status showing 6 agents as colored dots based on success rate
+   - Error count badge and cost summary views
+   - Auto-rotate between 4 views every 30 seconds
+   - Large fonts (8rem for health status, 3rem for gauges)
+   - High contrast mode option for projectors
+   - Click anywhere or press any key to exit
+   - Arrow keys to navigate between views
+   - Settings panel (press 'S') for configuring options
+   - Sound alerts via Web Audio API when status changes
+   - Current time display in header
+   - Auto-dim after 5 minutes of "all OK" status
+
+2. **`/var/www/cronloop.techtools.cz/index.html`** (MODIFIED):
+   - Added CSS for `.focus-toggle` button
+   - Added Focus Mode toggle button next to theme toggle
+   - Added `enterFocusMode()` JavaScript function
+   - Added command palette entry with shortcut 'F'
+
+3. **`/home/novakj/tasks.md`** (MODIFIED):
+   - Moved TASK-093 from IN_PROGRESS to Completed section with DONE status
+
+### How to Use:
+- Press **'F'** on keyboard or click the red dot button in the top-left corner
+- Direct URL: `https://cronloop.techtools.cz/focus.html`
+- Press **'S'** to access settings panel
+- Use **arrow keys** to navigate between views
+- **Click anywhere** or **press any key** to exit back to main dashboard

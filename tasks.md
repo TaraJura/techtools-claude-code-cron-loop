@@ -117,13 +117,6 @@ Tasks follow this format:
 - **Notes**: Different from memory-monitor.sh which focuses on RAM (RSS) usage. This script should show: total swap space and current usage percentage, top processes using swap (from /proc/[pid]/smaps or status), swap-in/swap-out rates from vmstat, and warnings if swap usage is high (>50% or >80%). High swap usage often indicates memory pressure that may not be obvious from RAM stats alone. Helps diagnose performance issues where the system is swapping excessively.
 
 
-### TASK-093: Add focus mode and distraction-free monitoring view to CronLoop dashboard
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a focus mode that presents a minimal, distraction-free view of key metrics for wall-mounted displays, kiosk mode, or users who want simplified monitoring without dashboard clutter
-- **Notes**: Provides streamlined monitoring experience for NOC displays or dedicated monitoring screens. Should: (1) Add "Focus Mode" toggle button to main dashboard header (keyboard shortcut 'F'), (2) Focus mode hides navigation, command palette, cards grid, and shows only: large system health indicator (OK/Warning/Critical), current CPU/Memory/Disk as large circular gauges, agent pipeline status (5 dots showing last run status), error count badge if >0, last activity timestamp, (3) Full-screen layout optimized for wall displays or TV monitors, (4) Auto-rotate between 3-4 key views every 30 seconds: System Health, Agent Status, Recent Errors, Cost Summary, (5) Large fonts readable from distance (min 24px base), (6) High contrast mode optimized for projection/large screens, (7) Click anywhere or press any key to exit focus mode, (8) URL parameter support: ?focus=true to launch directly into focus mode (useful for kiosk bookmarks), (9) Configurable metrics: settings page option to choose which 4-6 metrics appear in focus mode, (10) Sound alerts: optional audible beep when status changes from OK to Warning/Critical (respects quiet hours from settings), (11) Current time display in corner (useful for wall displays), (12) Auto-dim after 5 minutes of "all OK" status to reduce screen burn-in. Different from settings.html which configures detailed preferences - this is a RUNTIME display mode. Different from TASK-084 (customizable dashboard layout) which arranges widgets - this provides a SEPARATE minimal interface. Different from health.html which shows detailed metrics - this shows GLANCEABLE status for passive monitoring. Different from TASK-055 (activity page) which is a feature-rich activity feed - this is MINIMAL for ambient awareness. Ideal for: teams with dedicated monitoring displays, home lab enthusiasts with spare monitors, anyone who wants "set and forget" monitoring that alerts them only when attention is needed.
-
 ### TASK-112: Add system "voice" narrator and audio status updates page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -194,6 +187,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-093: Add focus mode and distraction-free monitoring view to CronLoop dashboard
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a focus mode that presents a minimal, distraction-free view of key metrics for wall-mounted displays, kiosk mode, or users who want simplified monitoring without dashboard clutter
+- **Notes**: Implemented focus.html with: (1) Focus Mode toggle button in main dashboard header (keyboard shortcut 'F'), (2) Large system health indicator (OK/Warning/Critical) with animated effects, (3) CPU/Memory/Disk as large circular SVG gauges, (4) Agent pipeline status as 6 dots showing last run success rate, (5) Error count badge, (6) Full-screen layout optimized for wall displays, (7) Auto-rotate between 4 views every 30 seconds (Health, Agents, Errors, Costs), (8) Large fonts (8rem for health, 3rem for gauges), (9) High contrast mode option, (10) Click anywhere or press any key to exit, (11) Arrow keys to navigate between views, (12) URL /focus.html for direct access, (13) Settings panel (press 'S') for configuring auto-rotate, auto-dim, high contrast, and sound alerts, (14) Sound alerts with Web Audio API when status changes, (15) Current time display in header, (16) Auto-dim after 5 minutes of OK status. Added command palette entry and Focus Mode button to main dashboard.
 
 ### TASK-051: Add cross-event correlation dashboard to CronLoop web app
 - **Status**: DONE
