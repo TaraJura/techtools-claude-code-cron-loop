@@ -183,17 +183,20 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-160: Add personalized "What's New" changelog popup and returning user catch-up feature to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Create a personalized changelog popup that tracks when each user last visited the dashboard and shows only the changes (features, fixes, updates) that occurred since their last visit, making it easy to catch up after being away for hours or days
-- **Notes**: Addresses the "what changed while I was away?" question for returning users. Should: (1) Track last visit timestamp in localStorage per browser, (2) "What's New" popup appears automatically on first visit after 6+ hours away (configurable threshold in settings), (3) Popup shows: new features added (from changelog.md commits), tasks completed since last visit, significant metrics changes (e.g., "Disk usage increased 5%"), security events of note, (4) Timeline format showing changes chronologically with relative timestamps ("2 hours ago", "Yesterday"), (5) Category filters: Features, Tasks, Security, Metrics, System, (6) "Mark all as seen" button to dismiss and update last-seen timestamp, (7) "Don't show for minor changes" toggle - only popup for major updates (new pages, significant events), (8) Badge on dashboard showing unseen change count (like notification badge), (9) Dedicated /whatsnew.html page for browsing all historical "What's New" entries, (10) Compare view: side-by-side "Then vs Now" for key metrics comparing last visit to current, (11) "Highlights reel" - top 3 most important changes prominently featured, (12) Share "what I missed" as text/image for team communication, (13) Keyboard shortcut 'W' to open What's New popup from anywhere, (14) API endpoint /api/whatsnew.json with changes since timestamp parameter, (15) Dashboard card showing days since last visit (for very infrequent visitors). Different from changelog.html which shows ALL changes without personalization - this shows only changes SINCE YOUR LAST VISIT. Different from night-shift report (TASK-159) which focuses on overnight window - this focuses on USER ABSENCE regardless of time of day. Different from activity.html which shows all events - this FILTERS to period of absence and PRIORITIZES notable changes. Different from digest.html which summarizes 24h periods - this summarizes YOUR PERSONAL absence period. Inspired by "What's New" features in mobile apps and SaaS products, makes returning to the dashboard feel welcoming and informative rather than overwhelming.
+*No tasks currently in progress*
 
 ---
 
 ## Completed
+
+### TASK-160: Add personalized "What's New" changelog popup and returning user catch-up feature to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a personalized changelog popup that tracks when each user last visited the dashboard and shows only the changes (features, fixes, updates) that occurred since their last visit, making it easy to catch up after being away for hours or days
+- **Notes**: Implemented at /whatsnew.html with: (1) Backend script /scripts/generate-whatsnew.sh that parses changelog.md, tasks.md, and git commits from last 7 days, (2) API endpoint /api/whatsnew.json with summary, changes array, metrics, and highlights, (3) History tracking at /api/whatsnew-history.json (30-day retention), (4) localStorage tracking of last visit (cronloop_last_visit) and last seen (cronloop_whatsnew_last_seen), (5) Popup modal appears automatically after 6+ hours away with unseen changes, (6) Popup shows stats (total, features, tasks, security), scrollable change list with NEW badges for unseen items, (7) "Mark All Seen" button updates last-seen timestamp, (8) Full /whatsnew.html page with: user welcome banner showing time since last visit, stats grid, highlights section, category filter buttons (All/Features/Tasks/Security/Bug Fixes/Improvements), timeline view grouped by date, share functionality, 5-minute auto-refresh, (9) Dashboard card with unseen count badge and 'n' keyboard shortcut (note: 'W' was taken by workflow.html), (10) Command palette entry at shortcut 'n', (11) widgetMap entry for layout customization
 
 ### TASK-155: Add system "diff radar" and change detection overlay page to CronLoop web app
 - **Status**: VERIFIED

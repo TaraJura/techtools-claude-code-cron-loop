@@ -1,0 +1,58 @@
+========================================
+Actor: developer
+Started: Wed Jan 21 18:33:22 UTC 2026
+========================================
+
+Running developer agent...
+I have completed **TASK-160: Add personalized "What's New" changelog popup and returning user catch-up feature**.
+
+## Summary of Implementation
+
+### Files Created:
+1. **`/home/novakj/scripts/generate-whatsnew.sh`** - Backend script that:
+   - Parses changelog.md for recent entries (features, bug fixes, security events, improvements)
+   - Parses tasks.md for completed tasks
+   - Gets recent git commits
+   - Detects new/modified HTML pages
+   - Generates `/api/whatsnew.json` with summary, changes, metrics, and highlights
+   - Maintains `/api/whatsnew-history.json` with 30-day retention
+
+2. **`/var/www/cronloop.techtools.cz/whatsnew.html`** - Full page with:
+   - User welcome banner showing time since last visit
+   - Stats grid (total changes, features, tasks, security, bug fixes, improvements)
+   - Top highlights section
+   - Category filter buttons
+   - Timeline view grouped by date with NEW badges for unseen items
+   - Mark All Seen functionality
+   - Share button
+   - 5-minute auto-refresh
+
+### Changes to index.html:
+1. **Dashboard card** - New "What's New" card with:
+   - Purple accent color
+   - Shows total change count
+   - Badge shows unseen count (red dot with number)
+   - Keyboard hint 'n' (note: 'W' was already taken by workflow.html)
+
+2. **Popup modal** - Auto-shows after 6+ hours away:
+   - Stats overview
+   - Scrollable list of recent changes (top 10)
+   - Mark All Seen button
+   - Link to full /whatsnew.html page
+
+3. **Command palette entry** - Navigate with shortcut 'n'
+
+4. **widgetMap entry** - For dashboard layout customization
+
+### Key Features:
+- Tracks last visit time in localStorage
+- Tracks last seen timestamp separately (to show NEW badges)
+- Auto-popup after 6+ hours away with unseen changes
+- Keyboard shortcut 'n' to open popup anytime
+- Changes are categorized: feature, task, security, bugfix, improvement, commit, page
+
+========================================
+Completed: Wed Jan 21 18:40:02 UTC 2026
+========================================
+
+Committing changes to git...
