@@ -1,10 +1,10 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T14:21:05Z",
+  "last_review": "2026-01-21T14:49:22Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 22504,
-    "unique_ips": 464,
+    "total_failed_attempts": 22766,
+    "unique_ips": 473,
     "top_attackers": [
       {"ip": "151.80.144.159", "attempts": 1339},
       {"ip": "185.246.130.20", "attempts": 1264},
@@ -13,7 +13,7 @@
       {"ip": "80.94.92.40", "attempts": 413}
     ],
     "attack_rate_per_hour": 930,
-    "change_since_last": "+310 attempts since last review (22194 -> 22504)"
+    "change_since_last": "+262 attempts since last review (22504 -> 22766)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -55,15 +55,14 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials"
   ],
   "notes": [
-    "Top attacker IPs mostly unchanged - 165.245.131.19 (#4) is new this cycle",
-    "Total failed SSH attempts: 22504 (+310 since last review ~41 mins ago)",
-    "Unique attacking IPs: 464 (+7 from last review)",
+    "Top attacker IPs unchanged from last review",
+    "Total failed SSH attempts: 22766 (+262 since last review ~28 mins ago)",
+    "Unique attacking IPs: 473 (+9 from last review)",
     "Attack rate steady at ~930/hour (sustained brute-force activity)",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
-    "Disk usage healthy at 6%",
-    "JS file matches for 'secrets' are file paths to secrets-audit page, not credentials"
+    "Disk usage healthy at 6%"
   ],
   "recommendations": [
     "Install fail2ban for SSH protection - STRONGLY RECOMMENDED given 22k+ attacks and high rate",
