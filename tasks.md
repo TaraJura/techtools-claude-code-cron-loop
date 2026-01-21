@@ -183,17 +183,20 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-008: Create a user login history reporter
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Create a script that shows recent user login activity including successful logins, currently logged-in users, and login sources
-- **Notes**: Complements the failed SSH login detector by tracking successful logins. Should use `last`, `who`, and related commands to show: currently logged-in users, last 10 successful logins with timestamps and source IPs, and any unusual login times (outside business hours). Helps with security auditing. **Web integration required**: Create /logins.html page to display login history with searchable/filterable table, visual timeline, and alerts for unusual login patterns.
+*No tasks currently in progress*
 
 ---
 
 ## Completed
+
+### TASK-008: Create a user login history reporter
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a script that shows recent user login activity including successful logins, currently logged-in users, and login sources
+- **Notes**: Implemented at /logins.html with: (1) Backend script /scripts/update-login-history.sh that gathers data from `last`, `who`, and /var/log/auth.log, (2) Statistics overview showing current sessions, recent logins, failed attempts, unique sources, users today, (3) Currently logged in users with avatar display and live status, (4) 24-hour login timeline bar chart showing hourly distribution, (5) Searchable/filterable recent logins table with user, TTY, source, login time, duration, status columns, (6) Filter buttons for All/Active/Ended sessions, (7) Failed login attempts list from auth.log, (8) Most active users leaderboard with gold/silver/bronze rankings, (9) Alert banner for unusual login activity (off-hours logins), (10) Export as JSON functionality, (11) Auto-refresh every 60 seconds, (12) Dashboard card added to index.html with session count display, (13) Command palette entry added, (14) widgetMap entry for layout customization.
 
 ### TASK-105: Add system entropy and randomness health page to CronLoop web app
 - **Status**: DONE

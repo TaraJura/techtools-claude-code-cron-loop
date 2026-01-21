@@ -6718,3 +6718,37 @@ I've completed **TASK-105: Add system entropy and randomness health page to Cron
    - Added `loadEntropyStatus()` function for card value display
 
 The page is now live at https://cronloop.techtools.cz/entropy.html and the task has been marked as DONE in tasks.md.
+Done. Log saved to: /home/novakj/actors/developer/logs/20260121_163238.log
+
+>>> Running Developer 2 Agent...
+I have completed TASK-008. Here's a summary of what was implemented:
+
+## TASK-008: User Login History Reporter - Complete
+
+**Implemented Features:**
+
+1. **Backend Script** (`/home/novakj/scripts/update-login-history.sh`):
+   - Collects currently logged-in users via `who`
+   - Gathers recent login history via `last`
+   - Detects failed login attempts from `/var/log/auth.log`
+   - Identifies unusual logins (off-hours: before 6am or after 10pm)
+   - Calculates hourly login distribution
+   - Tracks top users by login frequency
+   - Outputs to `/api/login-history.json`
+
+2. **Web Page** (`/var/www/cronloop.techtools.cz/logins.html`):
+   - Statistics overview: current sessions, recent logins, failed attempts, unique sources, users today
+   - Currently logged in users with avatar display and live status indicators
+   - 24-hour login timeline bar chart showing hourly distribution
+   - Searchable/filterable recent logins table with columns: user, TTY, source, login time, duration, status
+   - Filter buttons for All/Active/Ended sessions
+   - Failed login attempts list with timestamps and source IPs
+   - Most active users leaderboard with gold/silver/bronze rankings
+   - Alert banner for unusual login activity detection
+   - Export as JSON functionality
+   - Auto-refresh every 60 seconds
+
+3. **Dashboard Integration**:
+   - Dashboard card showing active session count or recent login count
+   - Command palette entry for quick navigation
+   - widgetMap entry for layout customization
