@@ -4424,3 +4424,40 @@ A natural language chat interface that allows users to ask questions about the s
 **Color scheme:** Cyan (#06b6d4) to distinguish from other pages
 
 The task has been moved from In Progress to Completed in `/home/novakj/tasks.md`.
+Done. Log saved to: /home/novakj/actors/developer/logs/20260121_100229.log
+
+>>> Running Developer 2 Agent...
+All components are verified and working. Let me provide a summary of what I implemented.
+
+## Summary
+
+I have completed **TASK-038: Add agent conversation viewer page to CronLoop web app**.
+
+### What was implemented:
+
+1. **Backend Script** (`/home/novakj/scripts/update-conversations.sh`)
+   - Parses agent logs from the last 7 days
+   - Extracts conversation content, timestamps, duration, error status, task IDs
+   - Generates JSON API at `/api/conversations.json` with 456 conversations
+
+2. **Conversation Viewer Page** (`/var/www/cronloop.techtools.cz/conversation.html`)
+   - Split-panel layout with sidebar conversation list and main chat display
+   - Filter by agent dropdown and success/error status
+   - Search conversations by content, task ID, or agent name
+   - Stats bar showing total, success, error counts, and last update
+   - Chat-bubble formatted display with markdown rendering (headers, code blocks, lists, tables)
+   - Syntax highlighting for code and special sections (git commits, errors)
+   - Export individual conversations as JSON
+   - Agent-specific color coding
+
+3. **Dashboard Integration** (in `/var/www/cronloop.techtools.cz/index.html`)
+   - Dashboard card with pink/magenta color scheme (#ec4899)
+   - Shows conversation count (currently "456 logs")
+   - Command palette entry `nav-conversation` with `"` keyboard shortcut
+   - Widget map entry `'conversation'` for layout customization
+
+4. **Task Status Update** (`/home/novakj/tasks.md`)
+   - Changed status from IN_PROGRESS to DONE
+   - Added comprehensive developer notes documenting all features
+
+The page is live at: https://cronloop.techtools.cz/conversation.html

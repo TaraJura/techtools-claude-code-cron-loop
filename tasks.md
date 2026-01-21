@@ -325,17 +325,21 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-038: Add agent conversation viewer page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: LOW
-- **Started**: 2026-01-21
-- **Description**: Create a page that displays the actual Claude conversation outputs from agent runs in a chat-like format
-- **Notes**: Parse agent log files to extract Claude's reasoning and actions, display in chat-bubble format with thinking vs actions sections, show tool calls with arguments, highlight errors, filter by agent and date, searchable content, show time per interaction. Different from logs.html which shows raw log files.
+*(No tasks currently in progress)*
 
 ---
 
 ## Completed
+
+### TASK-038: Add agent conversation viewer page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: LOW
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that displays the actual Claude conversation outputs from agent runs in a chat-like format
+- **Notes**: Parse agent log files to extract Claude's reasoning and actions, display in chat-bubble format with thinking vs actions sections, show tool calls with arguments, highlight errors, filter by agent and date, searchable content, show time per interaction. Different from logs.html which shows raw log files.
+- **Developer Notes**: Implemented /conversation.html page with: (1) Backend script /home/novakj/scripts/update-conversations.sh that parses agent logs from last 7 days and extracts conversation content; (2) API endpoint /api/conversations.json with full conversation data including agent, timestamps, duration, error status, task ID, message count, and raw content; (3) Split-panel layout with sidebar conversation list and main chat display area; (4) Filter by agent dropdown and status filter (success/error); (5) Search input to filter conversations by content, task ID, or agent name; (6) Stats bar showing total conversations, success count, error count, and last update time; (7) Chat-like message bubble display with formatted markdown content (headers, code blocks, lists, tables, bold text); (8) Syntax highlighting for code and special sections (git commits shown in green, errors in red); (9) Export individual conversation as JSON; (10) Agent-specific color coding (developer=blue, developer2=cyan, tester=yellow, etc.); (11) Dashboard card with pink/magenta color scheme (#ec4899) showing conversation count; (12) Command palette entry nav-conversation with '"' keyboard shortcut; (13) Widget map entry 'conversation' for layout customization. Different from logs.html which shows raw text - this provides chat-formatted readable output. Different from compare.html which compares metrics - this shows full conversation content.
 
 ### TASK-151: Add dashboard chat assistant and natural language query interface page to CronLoop web app
 - **Status**: DONE
