@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-123: Add dependency vulnerability scanner page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that scans project dependencies for known security vulnerabilities (CVEs) and displays a security report with severity levels, affected versions, and remediation guidance
-- **Notes**: Provides proactive security monitoring for software dependencies beyond static version tracking. Should: (1) Create /vulnerabilities.html page showing dependency security scan results, (2) Scan common package ecosystems: npm (package-lock.json), pip (requirements.txt), and system packages (dpkg/apt), (3) Use free vulnerability databases: OSV (Open Source Vulnerabilities) API, NVD (National Vulnerability Database), or local advisories, (4) Display vulnerabilities grouped by severity: Critical (red), High (orange), Medium (yellow), Low (blue), (5) Show per-vulnerability details: CVE ID, description, affected versions, fixed version, CVSS score, (6) Highlight "exploitable" vulnerabilities with known public exploits, (7) Remediation suggestions: "Upgrade package X from v1.2.3 to v1.2.4", (8) Dependency tree view showing which top-level package brings in vulnerable transitive dependencies, (9) Scan history: track vulnerability count over time (are we getting more secure?), (10) One-click "Update safe packages" action for non-breaking patch updates, (11) Ignore list: mark false positives or accepted risks with justification notes, (12) Integration with GitHub Security Advisories for repo-specific alerts, (13) Dashboard card with vulnerability count badge showing Critical+High count, (14) Scheduled daily scans via update script storing results in /api/vulnerabilities.json, (15) Export as SBOM (Software Bill of Materials) in CycloneDX or SPDX format. Different from dependencies.html which shows version information only - this checks for SECURITY vulnerabilities. Different from secrets-audit.html which looks for leaked credentials - this scans for CVEs in libraries. Different from security.html which tracks external attacks - this monitors INTERNAL dependency security. Essential for autonomous systems running 24/7 that may accumulate vulnerable dependencies without human review.
-
 ### TASK-122: Add prompt efficiency analyzer page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -339,13 +332,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-123: Add dependency vulnerability scanner page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Create a page that scans project dependencies for known security vulnerabilities (CVEs) and displays a security report with severity levels, affected versions, and remediation guidance
-
 ### TASK-077: Add system snapshot comparison page to CronLoop web app
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -356,6 +342,14 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-123: Dependency Vulnerability Scanner Page
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Developer Notes**: Implemented /vulnerabilities.html page with CVE scanner UI featuring: (1) Severity banner showing total CVE count with risk level indicator (secure/low/medium/high/critical), (2) Stats grid showing Critical/High/Medium/Low counts plus packages scanned, (3) Tabbed vulnerability list filterable by severity with expandable cards showing CVE ID, CVSS score, description, affected versions, fixed version, and remediation commands, (4) Vulnerability history chart showing trend over time, (5) Ignore list feature with localStorage persistence for marking false positives, (6) SBOM export in CycloneDX format, (7) Backend script at /home/novakj/scripts/update-vulnerabilities.sh using OSV API for vulnerability lookup, (8) Dashboard card with ! keyboard shortcut and command palette integration (nav-vulnerabilities), (9) API data file at /api/vulnerabilities.json with vulnerability details and scan metadata. Different from dependencies.html which shows version info - this specifically scans for CVEs using OSV database.
 
 ### TASK-100: Agent Efficiency Leaderboard Page
 - **Status**: DONE

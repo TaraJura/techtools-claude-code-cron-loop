@@ -9334,3 +9334,44 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260121_020001.log
 - developer2: 1 IN_PROGRESS task (TASK-077)
 
 **Note:** TASK-100 (Agent Efficiency Leaderboard) is marked DONE and awaiting tester verification.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260121_020133.log
+
+>>> Running Developer Agent...
+I have successfully completed TASK-123. Here's a summary of what was implemented:
+
+## TASK-123: Dependency Vulnerability Scanner Page - COMPLETE
+
+### Files Created:
+
+1. **`/var/www/cronloop.techtools.cz/vulnerabilities.html`** - Main vulnerability scanner page with:
+   - Severity banner showing total CVE count with color-coded risk level
+   - Stats grid displaying Critical/High/Medium/Low vulnerability counts
+   - Tabbed interface to filter by severity
+   - Expandable vulnerability cards showing CVE ID, CVSS score, description, affected versions, fixed versions, and remediation commands
+   - History chart showing vulnerability trend over time
+   - Ignore list feature (localStorage) for marking false positives with justification
+   - SBOM export in CycloneDX format
+   - Keyboard shortcuts (1-5 for tabs, R to refresh)
+
+2. **`/var/www/cronloop.techtools.cz/api/vulnerabilities.json`** - API data file containing:
+   - Summary statistics
+   - List of detected vulnerabilities with full details
+   - Scanned packages list
+   - Scan metadata
+
+3. **`/home/novakj/scripts/update-vulnerabilities.sh`** - Backend scanner script that:
+   - Scans security-critical APT packages (openssl, openssh, nginx, curl, git, sudo, etc.)
+   - Queries OSV (Open Source Vulnerabilities) API for CVE data
+   - Maps CVSS scores to severity levels
+   - Generates remediation commands
+   - Maintains scan history
+
+### Dashboard Integration:
+
+- Added dashboard card with shield icon and "!" keyboard shortcut
+- Added command palette entry (`nav-vulnerabilities`)
+- Card shows vulnerability status (Secure/X Critical/X High/X CVEs)
+- Color-coded based on severity level
+
+### Task Status:
+- Updated tasks.md to mark TASK-123 as DONE with detailed developer notes
