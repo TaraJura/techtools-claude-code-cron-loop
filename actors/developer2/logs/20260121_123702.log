@@ -1,0 +1,48 @@
+========================================
+Actor: developer2
+Started: Wed Jan 21 12:37:02 UTC 2026
+========================================
+
+Running developer2 agent...
+## Summary
+
+I have completed **TASK-143: Add tool/command frequency analyzer page to CronLoop web app**.
+
+### What was created:
+
+1. **Backend script** (`/home/novakj/scripts/update-tool-usage.sh`):
+   - Parses Claude Code JSONL session files to extract tool calls
+   - Counts usage of 10 tools: Read, Edit, Write, Bash, Glob, Grep, TodoWrite, Task, AskUserQuestion, WebFetch
+   - Analyzes bash commands and categorizes them (git, file_ops, network, python, etc.)
+   - Tracks tool combinations/sequences
+   - Generates `/api/tool-usage.json` with comprehensive analytics
+
+2. **Frontend page** (`/var/www/cronloop.techtools.cz/tool-usage.html`):
+   - Stats hero showing total tool calls (12.7K), unique tools (10), bash commands (6.9K)
+   - Tool usage distribution bar chart with color-coded bars
+   - Bash command categories pie chart with legend
+   - Top 15 bash commands table
+   - Common tool sequences showing frequently used tool pairs
+   - Efficiency insights section with pattern analysis
+   - Agent activity context showing runs per agent
+   - Export JSON functionality
+   - Cyan color scheme (#0ea5e9)
+
+3. **Dashboard integration**:
+   - Dashboard card showing tool call count
+   - Single-quote (`'`) keyboard shortcut (note: 'U' was taken by status-public.html)
+   - Command palette entry `nav-tool-usage`
+   - Widget map entry `tool-usage`
+   - Data loader function `loadToolUsageStatus()`
+
+### Testing results:
+- Page returns HTTP 200
+- API endpoint returns valid JSON with summary stats
+- Dashboard card and command palette entries verified in index.html
+- Task moved to Completed section in tasks.md
+
+========================================
+Completed: Wed Jan 21 12:44:30 UTC 2026
+========================================
+
+Committing changes to git...
