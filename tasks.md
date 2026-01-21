@@ -109,13 +109,6 @@ Tasks follow this format:
 - **Description**: Create a simple notes page where admins can capture observations, investigation notes, quick reminders, and ad-hoc documentation that persists across sessions
 - **Notes**: Provides a quick capture tool for operators monitoring the system who need to jot down findings without leaving the dashboard. Should: (1) Create /notes.html page with a rich text editor or markdown editor, (2) Auto-save notes to localStorage with debounced saves (every 2 seconds of inactivity), (3) Support multiple notes organized by title/date with a sidebar list, (4) Markdown preview toggle (edit mode vs rendered view), (5) Search across all notes by content or title, (6) Timestamp each note with created/modified dates, (7) Tag notes with labels like "investigation", "todo", "reference", "incident", (8) Filter notes by tag, (9) Export individual notes or all notes as markdown or JSON, (10) Import notes from JSON for backup restore, (11) Pin important notes to the top of the list, (12) Quick note button: floating action button for rapid capture without navigating away from current page. Different from TASK-076 (bookmarks) which saves references TO existing items - this creates NEW freeform content. Different from TASK-055 (activity annotations) which adds comments to a shared stream - this is PERSONAL notes that only the admin sees. Different from TASK-078 (postmortems) which generates structured incident reports - this is FREEFORM capture for any purpose. Fills the gap between "I noticed something" and "I need to document this formally" - a casual capture tool that reduces friction for knowledge retention. Essential for operators who spend hours watching dashboards and need somewhere to record their observations.
 
-### TASK-077: Add system snapshot comparison page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: LOW
-- **Description**: Create a page that allows users to take named snapshots of the current system state and compare any two snapshots to see what changed
-- **Notes**: Provides before/after analysis capability for debugging and change validation. Should: (1) Create /snapshots.html page for managing system snapshots, (2) "Take Snapshot" button captures current state: all JSON files in /api/, git status, running processes count, disk/memory/CPU metrics, task counts by status, error patterns summary, (3) Store snapshots in /api/snapshots/ directory as timestamped JSON files, (4) Name snapshots with user-provided label (e.g., "Before deploy", "After fix", "Baseline 2026-01-20"), (5) List all saved snapshots with name, timestamp, and size, (6) Compare mode: select two snapshots and show side-by-side diff, (7) Diff visualization: green for additions, red for removals, yellow for changes in numeric values, (8) Highlight significant changes: task status changes, metric threshold crossings, new errors, (9) Auto-snapshot option: take snapshot before each orchestrator run (configurable), (10) Snapshot retention: keep last 20 snapshots, auto-delete older ones, (11) Export snapshot as downloadable JSON, (12) Quick actions: "Snapshot now", "Compare with previous", "Compare with baseline". Different from TASK-066 (time machine) which reconstructs state from existing history files - this creates EXPLICIT named snapshots on demand. Different from TASK-067 (agent run comparison) which compares agent RUNS - this compares full SYSTEM STATE including metrics, configs, and tasks. Different from backups.html which backs up files for disaster recovery - this creates lightweight STATE snapshots for comparison. Think of it like git commits but for system state - users explicitly save checkpoints they can compare later. Useful for "what changed after I ran that command?" or "compare production state before and after the agent cycle."
-
 ### TASK-075: Add agent prompt evolution viewer page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -332,16 +325,19 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-077: Add system snapshot comparison page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: LOW
-- **Started**: 2026-01-21
-- **Description**: Create a page that allows users to take named snapshots of the current system state and compare any two snapshots to see what changed
+*No tasks currently in progress*
 
 ---
 
 ## Completed
+
+### TASK-077: Add system snapshot comparison page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: LOW
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Developer Notes**: Implemented /snapshots.html page with: (1) Take Snapshot button that captures current system state from multiple API endpoints (system-metrics.json, agent-status.json, security-metrics.json, error-patterns.json, costs.json, workflow.json), (2) Named snapshots with timestamps and size tracking, (3) Snapshot list with newest-first sorting showing name, date, and size, (4) Two-slot comparison system using radio buttons to select Snapshot A (before) and Snapshot B (after), (5) Side-by-side diff visualization with color-coded changes: blue for A values, green for B values, yellow border for changed items, (6) Categorized diff results by System Metrics, Agent Status, Security, Costs, and Workflow, (7) Added/removed/changed indicators with arrow transitions, (8) View snapshot detail modal with full JSON preview, (9) Export snapshot as JSON file download, (10) Delete snapshot with confirmation, (11) localStorage persistence for snapshots (client-side storage), (12) Dashboard card with ] keyboard shortcut, (13) Command palette integration (nav-snapshots), (14) Widget map entry for layout customization, (15) Created /api/snapshots-index.json API file. Different from timemachine.html which reconstructs state from history files - this creates explicit named snapshots on demand for before/after comparison.
 
 ### TASK-123: Dependency Vulnerability Scanner Page
 - **Status**: DONE
