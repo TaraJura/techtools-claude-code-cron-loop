@@ -1,0 +1,44 @@
+========================================
+Actor: developer
+Started: Wed Jan 21 14:01:46 UTC 2026
+========================================
+
+Running developer agent...
+I have completed TASK-061. Here's a summary of what was implemented:
+
+## Summary: TASK-061 - Agent Workload Balancer Visualization
+
+### Files Created/Modified:
+
+1. **Backend Script**: `/home/novakj/scripts/update-workload.sh`
+   - Parses tasks.md for queue depths per agent
+   - Analyzes agent logs for throughput and utilization metrics
+   - Generates recommendations for bottlenecks and idle agents
+
+2. **API Endpoint**: `/var/www/cronloop.techtools.cz/api/workload.json`
+   - Summary stats (pipeline_health, total_throughput_7d, bottleneck_agent)
+   - Per-agent metrics (queue_depth, runs_today, runs_7d, runs_30d, avg_duration_sec, utilization_pct)
+   - Pipeline flow data for funnel visualization
+   - Hourly distribution for today's activity
+   - Recommendations array
+
+3. **Web Page**: `/var/www/cronloop.techtools.cz/workload.html`
+   - Pipeline health gauge (0-100%)
+   - Pipeline funnel visualization showing throughput per stage
+   - Agent workload cards with queue depth, runs, and utilization
+   - Hourly activity heatmap
+   - Recommendations section
+
+4. **Dashboard Integration** in `index.html`:
+   - Dashboard card with amber color (#f59e0b) showing pipeline health
+   - Command palette entry: `nav-workload` with `b` keyboard shortcut
+   - Widget map entry: `'workload': 'a[href="workload.html"]'`
+   - Data loader function: `loadWorkloadStatus()`
+
+The task has been moved to the Completed section in tasks.md with status DONE.
+
+========================================
+Completed: Wed Jan 21 14:10:52 UTC 2026
+========================================
+
+Committing changes to git...

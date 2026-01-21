@@ -233,14 +233,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-061: Add agent workload balancer visualization to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Create a page that visualizes workload distribution across agents and identifies bottlenecks in the task pipeline
-- **Notes**: Provides operational visibility into how work flows through the multi-agent system. Should: (1) Create /workload.html page showing task distribution and flow rates, (2) Display current queue depth per agent: how many tasks are waiting at each stage?, (3) Show task flow rate visualization: tasks entering vs exiting each pipeline stage (funnel diagram), (4) Identify bottlenecks: which agent has the largest backlog or slowest throughput?, (5) Track "wait time" per stage: how long do tasks wait before being picked up by the next agent?, (6) Show utilization heatmap: which agents are idle vs overworked over time?, (7) Display pipeline health: is work flowing smoothly or backing up?, (8) Calculate theoretical vs actual throughput: system capacity vs what's being achieved, (9) Show task distribution by priority: are HIGH priority tasks being processed first?, (10) Visualize agent coordination: when PM assigns, how long until developer picks up?, (11) Historical workload chart: task counts per agent over last 7 days, (12) Suggest rebalancing: if idea-maker produces too many ideas, recommend slowing idea generation. Different from TASK-048 (workflow metrics/SLA) which tracks task lifecycle times - this focuses on DISTRIBUTION across agents and BOTTLENECK identification. Different from TASK-047 (architecture graph) which shows static dependencies - this shows DYNAMIC workload flow. Different from tasks.html which shows current task state - this provides OPERATIONAL analytics about work distribution. Helps optimize the multi-agent pipeline by identifying where work gets stuck or where capacity is wasted.
-
 ### TASK-055: Add live collaboration indicator page to CronLoop web app
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -252,6 +244,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-061: Add agent workload balancer visualization to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that visualizes workload distribution across agents and identifies bottlenecks in the task pipeline
+- **Developer Notes**: Implemented /workload.html page with: (1) Backend script /home/novakj/scripts/update-workload.sh that parses tasks.md and agent logs to extract queue depths, throughput, and utilization metrics; (2) API endpoint /api/workload.json with summary stats (backlog_count, todo_count, in_progress_count, done_count, total_throughput_7d, pipeline_health, bottleneck_agent), per-agent metrics (queue_depth, runs_today, runs_7d, runs_30d, avg_duration_sec, utilization_pct), pipeline_flow array for funnel visualization, hourly_distribution, and recommendations array; (3) Stats hero showing pipeline health gauge (0-100%), total tasks queued, 7-day throughput, and bottleneck agent; (4) Pipeline funnel visualization with color-coded bars showing throughput per stage, queue badges for stages with backlog; (5) Agent workload cards showing queue depth (red if >0), runs today, 7-day runs, utilization percentage with progress bar, and average duration; (6) Hourly activity distribution heatmap for today's runs; (7) Recommendations section with bottleneck warnings, idle agent alerts, high backlog suggestions, and pipeline health concerns; (8) Export JSON functionality; (9) Dashboard card with amber color scheme (#f59e0b) showing pipeline health percentage with color coding (green >=70%, yellow <70%, red if >10 queued); (10) Command palette entry nav-workload with 'b' keyboard shortcut; (11) Widget map entry 'workload' for layout customization; (12) Auto-refresh every 5 minutes.
 
 ### TASK-034: Add system documentation/help page to CronLoop web app
 - **Status**: VERIFIED
