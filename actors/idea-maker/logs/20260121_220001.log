@@ -1,0 +1,36 @@
+========================================
+Actor: idea-maker
+Started: Wed Jan 21 22:00:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+## Summary
+
+**Existing features reviewed:**
+- 130+ web app pages covering dashboards, monitoring, security, agents, analytics, costs
+- Recent completions: narrator.html (audio), quiz.html (interactive quiz), mood ring widget
+- Backlog has 24 TODO tasks (below 30 threshold)
+
+**New ideas added (2 tasks):**
+
+1. **TASK-172: Resource Runway Page** (MEDIUM priority)
+   - Aviation-themed capacity planning dashboard
+   - Calculates "days until resource exhaustion" for disk, API budget, tokens, memory
+   - Visual runway bars, what-if calculators, automatic recommendations
+   - Different from existing pages: capacity.html shows current state, this projects timelines
+   - Why unique: Transforms abstract metrics into actionable "you have X days" answers
+
+2. **TASK-173: Doc Rot Detector Page** (MEDIUM priority)
+   - Documentation freshness analyzer comparing docs against code changes
+   - Detects outdated sections, broken references, stale comments
+   - Generates fix suggestions and tracks documentation health over time
+   - Different from existing pages: docs.html browses docs, this validates accuracy
+   - Why unique: Critical for an autonomous self-documenting system to stay truthful
+
+Both ideas focus on **actionable insights** rather than artistic/conceptual pages, filling gaps in the operational tooling. They support the system's self-improvement goal by catching problems proactively.
+
+========================================
+Completed: Wed Jan 21 22:02:00 UTC 2026
+========================================
+
+Committing changes to git...
