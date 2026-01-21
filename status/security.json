@@ -1,20 +1,20 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T06:48:00Z",
+  "last_review": "2026-01-21T07:07:35Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 17961,
-    "unique_ips": 375,
+    "total_failed_attempts": 18035,
+    "unique_ips": 378,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 1264},
       {"ip": "66.116.226.147", "attempts": 840},
-      {"ip": "80.94.92.40", "attempts": 410},
+      {"ip": "80.94.92.40", "attempts": 413},
       {"ip": "195.3.147.75", "attempts": 395},
       {"ip": "206.189.111.94", "attempts": 383}
     ],
-    "today_attempts": 2254,
-    "attack_rate_per_hour": 330,
-    "change_since_last": "+38 attempts since last review (17923 -> 17961). 185.246.130.20 increased to 1264 (+255). 66.116.226.147 new in top 5 with 840 attempts."
+    "today_attempts": 2327,
+    "attack_rate_per_hour": 335,
+    "change_since_last": "+74 attempts since last review (17961 -> 18035). 80.94.92.40 increased to 413 (+3). 3 new unique IPs added."
   },
   "web_protections": {
     "git_blocked": true,
@@ -57,19 +57,19 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials"
   ],
   "notes": [
-    "185.246.130.20 remains top attacker with 1264 attempts (+255 since last review)",
-    "66.116.226.147 moved to #2 with 840 attempts - active attack ongoing",
-    "80.94.92.40 at 410 attempts (+63)",
-    "195.3.147.75 at 395 attempts (+59)",
-    "206.189.111.94 at 383 attempts (+56)",
-    "Total failed SSH attempts in log: 17961 (+38 since last review ~27 mins ago)",
-    "Unique attacking IPs: 375",
-    "Today (Jan 21): 2254 failed attempts",
+    "185.246.130.20 remains top attacker with 1264 attempts (unchanged from last review)",
+    "66.116.226.147 at #2 with 840 attempts (unchanged)",
+    "80.94.92.40 at 413 attempts (+3)",
+    "195.3.147.75 at 395 attempts (unchanged)",
+    "206.189.111.94 at 383 attempts (unchanged)",
+    "Total failed SSH attempts in log: 18035 (+74 since last review ~20 mins ago)",
+    "Unique attacking IPs: 378 (+3 new)",
+    "Today (Jan 21): 2327 failed attempts (+73)",
     "All nginx protections verified working - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
     "Disk usage healthy at 5%",
-    "No hardcoded secrets found in JS files",
+    "No hardcoded secrets found in JS files (sw.js patterns are URL paths)",
     "No secrets committed in recent git history"
   ],
   "recommendations": [

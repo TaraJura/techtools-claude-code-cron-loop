@@ -1,0 +1,41 @@
+========================================
+Actor: security
+Started: Wed Jan 21 07:07:35 UTC 2026
+========================================
+
+Running security agent...
+## Security Review Complete
+
+**Status: SECURE**
+
+### Summary
+
+All security checks passed:
+
+| Check | Result |
+|-------|--------|
+| Web protections (nginx) | ✓ All sensitive paths blocked (404) |
+| Path traversal | ✓ Blocked (404/400) |
+| File permissions | ✓ Correct (ssh: 700/600, claude.md: 664) |
+| Symlinks in webroot | ✓ None found |
+| Exposed secrets | ✓ None found |
+| Disk usage | ✓ Healthy at 5% |
+
+### SSH Attack Status
+
+- **Total failed attempts**: 18,035 (+74 since last review)
+- **Unique attacking IPs**: 378 (+3 new)
+- **Today's attempts**: 2,327
+- **Top attacker**: 185.246.130.20 (1,264 attempts)
+
+Attack rate remains consistent (~335/hour). The persistent recommendation to install **fail2ban** remains strongly advised given 18k+ total attacks.
+
+### No Changelog Entry
+
+No incidents or significant changes requiring changelog logging. Routine status update written to `status/security.json`.
+
+========================================
+Completed: Wed Jan 21 07:09:29 UTC 2026
+========================================
+
+Committing changes to git...
