@@ -109,13 +109,6 @@ Tasks follow this format:
 - **Description**: Create a page that captures and visualizes the system's unique behavioral "signature" based on timing patterns, resource rhythms, and agent execution cadences, detecting when this signature drifts from its normal pattern which may indicate compromise, degradation, or unauthorized changes
 - **Notes**: Provides behavioral fingerprinting for autonomous system integrity monitoring. Should: (1) Create /signature.html page showing the system's behavioral fingerprint and drift detection, (2) Capture multi-dimensional signature components: cron execution timing variance (how precisely does the 30-min cycle run?), agent run duration patterns (developer typically takes 45-90 seconds), disk I/O rhythm (write bursts every 30 mins), network traffic patterns (API calls to Anthropic at predictable intervals), file access sequences (which files are touched in what order during each cycle), memory allocation patterns (typical RSS per agent), (3) Build a "normal" baseline signature from 7-30 days of operation using statistical profiling, (4) Real-time comparison: current signature vs baseline with drift score (0-100%), (5) Drift alerts when behavior deviates significantly: "Execution timing 40% more variable than baseline", "Developer agent runtime doubled", "Unexpected file access pattern detected", (6) Signature components radar chart showing each dimension's conformance to baseline, (7) Historical drift timeline showing how signature has evolved (drift is expected to slowly evolve with new features, but sudden jumps are suspicious), (8) "Signature lock" mode: freeze baseline and alert on ANY deviation (useful for production stability), (9) Compare today's signature to any historical date ("behavior on Jan 15 vs today"), (10) Potential security application: detect if system behavior changes after a compromise (agent acting differently, unusual file access), (11) Export signature as JSON for external monitoring/comparison, (12) Dashboard card with S keyboard shortcut showing current drift score. Different from anomalies.html which detects metric outliers - this profiles BEHAVIORAL patterns as a holistic fingerprint. Different from config-drift.html which tracks file changes - this tracks EXECUTION patterns. Different from regressions.html which compares output quality - this compares BEHAVIORAL signature. Different from health.html which shows point-in-time metrics - this captures TEMPORAL patterns over complete cycles. Inspired by behavioral biometrics in security (how users type, how systems behave), applies to autonomous AI systems to detect when "something feels different" even if individual metrics look normal. Could catch subtle degradation or compromise that other tools miss.
 
-### TASK-010: Create a network connectivity tester
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
-- **Description**: Create a script that tests basic network connectivity and DNS resolution
-- **Notes**: Should ping common external hosts (e.g., 8.8.8.8, 1.1.1.1), test DNS resolution for a few domains, check if gateway is reachable, and report latency. Helpful for diagnosing network issues on the server. Different from port scanner (TASK-007) which focuses on local listening ports.
-
 ### TASK-012: Create a system reboot history tracker
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -151,13 +144,6 @@ Tasks follow this format:
 - **Description**: Create a script that monitors swap usage and identifies which processes are using swap memory
 - **Notes**: Different from memory-monitor.sh which focuses on RAM (RSS) usage. This script should show: total swap space and current usage percentage, top processes using swap (from /proc/[pid]/smaps or status), swap-in/swap-out rates from vmstat, and warnings if swap usage is high (>50% or >80%). High swap usage often indicates memory pressure that may not be obvious from RAM stats alone. Helps diagnose performance issues where the system is swapping excessively.
 
-### TASK-030: Add audio/browser notification alerts to CronLoop dashboard
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
-- **Description**: Add optional browser notification support to alert users when agent errors occur or system health becomes critical
-- **Notes**: Enhances monitoring by proactively alerting users to problems. Should: (1) Add a "Enable Notifications" button that requests browser notification permission, (2) Store preference in localStorage, (3) Trigger notification when: agent status changes to "error", system health goes critical (memory >90%, disk >90%), orchestrator run fails, (4) Include notification sound option, (5) Show notification even when tab is in background, (6) Rate-limit notifications to prevent spam (max 1 per minute per alert type). Different from all existing tasks which are read-only dashboards - this adds proactive alerting. Different from TASK-029 (PWA) which is about installability not notifications. Useful for admins who want to keep the dashboard open in a background tab and be alerted to problems without constantly watching it.
-
 ### TASK-051: Add cross-event correlation dashboard to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -190,7 +176,21 @@ Tasks follow this format:
 
 ## In Progress
 
-*No tasks currently in progress*
+### TASK-030: Add audio/browser notification alerts to CronLoop dashboard
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Description**: Add optional browser notification support to alert users when agent errors occur or system health becomes critical
+- **Notes**: Enhances monitoring by proactively alerting users to problems. Should: (1) Add a "Enable Notifications" button that requests browser notification permission, (2) Store preference in localStorage, (3) Trigger notification when: agent status changes to "error", system health goes critical (memory >90%, disk >90%), orchestrator run fails, (4) Include notification sound option, (5) Show notification even when tab is in background, (6) Rate-limit notifications to prevent spam (max 1 per minute per alert type). Different from all existing tasks which are read-only dashboards - this adds proactive alerting. Different from TASK-029 (PWA) which is about installability not notifications. Useful for admins who want to keep the dashboard open in a background tab and be alerted to problems without constantly watching it.
+
+### TASK-010: Create a network connectivity tester
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Description**: Create a script that tests basic network connectivity and DNS resolution, with web dashboard integration
+- **Notes**: Should ping common external hosts (e.g., 8.8.8.8, 1.1.1.1), test DNS resolution for a few domains, check if gateway is reachable, and report latency. Helpful for diagnosing network issues on the server. Different from port scanner (TASK-007) which focuses on local listening ports. **WEB INTEGRATION**: Create /network.html page showing connectivity status, latency gauges, DNS resolution results, and gateway reachability with dashboard card and command palette entry.
 
 ---
 
