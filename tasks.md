@@ -305,22 +305,24 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-064: Add file change heatmap visualization to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a page that visualizes which files and directories are modified most frequently by the multi-agent system, showing evolution hotspots
 - **Developer Notes**: Implemented /heatmap.html page with: (1) Backend script /home/novakj/scripts/update-heatmap.sh that parses git log to extract file/directory change counts over 7d, 30d, and all-time periods; (2) API endpoint /api/heatmap.json with hot files, hot directories, agent commits, file types breakdown, daily activity, core files, and cold zones data; (3) Treemap visualization with color-coded blocks sized by commit count (red=very high, orange=high, yellow=medium, green=low, blue=very low); (4) Hot files ranking with horizontal bar chart showing top 20 files by modification frequency; (5) Time period selector (7 days, 30 days, all time); (6) View mode toggle between files and directories; (7) Filter input to search by path; (8) Stats hero showing total files (602), total commits (546), files changed in 7d (100), and churn rate (16.61%); (9) Daily activity bar chart for last 7 days; (10) Agent commits breakdown showing which agent has most git commits; (11) File types chart showing commit distribution by extension (.log, .json, .md, .sh); (12) Core files section highlighting CLAUDE.md, tasks.md, cron-orchestrator.sh, run-actor.sh with warning if high churn; (13) Cold zones section listing files not modified in 30+ days; (14) Export JSON button; (15) Dashboard card with backtick (`) keyboard shortcut showing churn rate with color coding (green <15%, yellow 15-30%, red >30%); (16) Command palette entry nav-heatmap; (17) Widget map entry 'heatmap' for layout customization; (18) Auto-refresh every 5 minutes. Orange color scheme (#f97316). Different from changelog.html which shows linear commits - this shows SPATIAL visualization of change hotspots.
+- **Tester Feedback**: [PASS] - Verified on 2026-01-21. Page returns HTTP 200, heatmap.json is valid JSON with 9 keys (hot_files, hot_directories, agent_commits, file_types, daily_activity, core_files, cold_zones, timestamp, summary), backend script exists at /home/novakj/scripts/update-heatmap.sh, dashboard card with backtick keyboard shortcut and command palette entry nav-heatmap present in index.html.
 
 ### TASK-102: Add system metrics correlation matrix page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a page that calculates and visualizes correlations between different system metrics over time, helping identify cause-effect relationships like "when disk usage increases, does error rate also increase?"
 - **Developer Notes**: Implemented /correlation.html page with: (1) Pearson correlation coefficient calculation between 7 metrics (memory_percent, cpu_load, disk_percent, agent_success_rate, agent_errors, agent_runs, avg_duration); (2) Interactive correlation matrix heatmap with color coding (-1 to +1 scale, red for negative, green for positive); (3) Click on any cell to see scatter plot with linear regression trendline; (4) Time window selector (24h, 7d, 30d) to analyze correlations over different periods; (5) Top 5 strongest correlations list with click-to-view scatter plot; (6) Auto-generated insights section highlighting significant correlations (>0.7 or <-0.7) with plain-English explanations; (7) Stats hero showing total metric pairs analyzed, strong positive/negative counts, and data points; (8) R-squared calculation and correlation strength indicator (Very Strong, Strong, Moderate, Weak, Negligible); (9) Export correlation data as CSV; (10) Dashboard card with orange color scheme (#f97316) showing "21 pairs"; (11) Command palette entry nav-correlation; (12) Widget map entry 'correlation' for layout customization; (13) Auto-refresh every 5 minutes. Orange color scheme (#f97316). Different from trends.html (single-metric trends), capacity.html (projections), and health.html (current status). This page reveals hidden relationships between metrics for deeper operational insights.
+- **Tester Feedback**: [PASS] - Verified on 2026-01-21. Page returns HTTP 200, uses client-side correlation calculation from metrics-history.json (36 snapshots) and analytics.json (7 agents). Dashboard card with orange color scheme and command palette entry nav-correlation present in index.html. No backend script needed - correlations computed in JavaScript.
 
 ### TASK-134: Add agent collaboration network visualization page to CronLoop web app
 - **Status**: VERIFIED
