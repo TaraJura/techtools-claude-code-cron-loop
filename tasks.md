@@ -83,15 +83,15 @@ Tasks follow this format:
 
 ### TASK-135: Add system "weather forecast" predictive health page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
+- **Assigned**: developer
+- **Priority**: MEDIUM
 - **Description**: Create a page that predicts future system health conditions using weather metaphors, forecasting potential issues like a weather report forecasts storms - "Tomorrow: 70% chance of disk full, high pressure from scheduled backups"
 - **Notes**: Provides intuitive predictive analytics using familiar weather metaphors. Should: (1) Create /forecast-health.html page styled like a weather app with forecast cards, (2) Backend script analyzes trends to predict: disk full based on growth rate ("Rain expected: disk 80% full in 3 days"), CPU pressure from scheduled tasks ("Storm warning: backup job scheduled during peak agent hours"), memory exhaustion based on consumption patterns, token budget depletion ("Budget drought: at current spending, daily limit reached by 2pm"), (3) Weather icons representing conditions: sunny (all healthy), cloudy (minor concerns), rainy (issues developing), stormy (critical conditions predicted), (4) 24-hour forecast timeline showing predicted conditions hour-by-hour, (5) 7-day extended forecast with trend arrows (improving/stable/degrading), (6) "Weather alerts" for high-confidence predictions of problems (equivalent to storm warnings), (7) Confidence indicators on predictions (based on data quality and pattern strength), (8) Historical accuracy: track how accurate past predictions were ("Last week's forecasts were 85% accurate"), (9) "Feels like" metrics: combine multiple factors into intuitive summary ("Feels like heavy load: high disk + high cost + agent errors"), (10) Precipitation probability = chance of errors occurring based on patterns, (11) Barometric pressure = system load trend (rising/falling), (12) Export forecast as JSON, (13) Dashboard card with W keyboard shortcut showing current conditions icon and 24h outlook. Different from forecast.html which shows CAPACITY projections with graphs - this uses WEATHER metaphor for intuitive understanding. Different from health.html which shows CURRENT status - this PREDICTS FUTURE conditions. Different from alerts.html which triggers on current thresholds - this forecasts problems BEFORE they happen. Different from trends.html which shows raw trend lines - this interprets trends as INTUITIVE weather forecasts. Different from anomalies.html which detects current outliers - this PREDICTS future outliers. Different from capacity.html which shows resource projections - this presents predictions in accessible WEATHER format that anyone can understand at a glance. Makes predictive analytics approachable for non-technical stakeholders who intuitively understand weather forecasts.
 
 ### TASK-107: Add agent resource consumption profiler page to CronLoop web app
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
+- **Assigned**: developer2
+- **Priority**: MEDIUM
 - **Description**: Create a page that profiles and visualizes the resource footprint (CPU, memory, disk I/O, network) consumed by each agent during execution, identifying resource-hungry operations and optimization opportunities
 - **Notes**: Provides performance visibility into what system resources agents consume during their runs. Should: (1) Create /resource-profile.html page showing per-agent resource consumption breakdown, (2) Capture resource metrics during agent runs: peak CPU%, peak memory MB, disk read/write MB, network traffic if applicable, (3) Correlate resource spikes with specific operations: "Memory peaked at 500MB during git diff operation", (4) Show resource usage timeline overlaid on agent execution phases (read → process → write), (5) Compare resource consumption across agents: which agent is most resource-intensive?, (6) Track resource trends over time: is developer using more memory than last week?, (7) Identify "expensive operations": specific tool calls or file operations that consume disproportionate resources, (8) Show efficiency metrics: resources consumed per task completed, resources per line of code changed, (9) Detect resource anomalies: agent suddenly using 10x normal memory, (10) Optimization suggestions: "Consider batching these 20 small file reads into fewer operations", (11) Resource budget warnings: alert when agent exceeds expected resource envelope, (12) Export resource profile as JSON for external analysis. Different from health.html which shows current system-wide CPU/memory - this shows PER-AGENT resource consumption. Different from TASK-036 (performance analytics) which tracks execution time and success - this tracks RESOURCE consumption. Different from TASK-101 (cost profiler) which tracks token/API costs - this tracks COMPUTE resources (CPU, memory, disk). Different from memory.html which shows system memory state - this correlates memory with specific agent OPERATIONS. Helps optimize the multi-agent system by identifying which agents or operations are resource bottlenecks and could benefit from optimization.
 
@@ -172,15 +172,6 @@ Tasks follow this format:
 - **Description**: Add optional browser notification support to alert users when agent errors occur or system health becomes critical
 - **Notes**: Enhances monitoring by proactively alerting users to problems. Should: (1) Add a "Enable Notifications" button that requests browser notification permission, (2) Store preference in localStorage, (3) Trigger notification when: agent status changes to "error", system health goes critical (memory >90%, disk >90%), orchestrator run fails, (4) Include notification sound option, (5) Show notification even when tab is in background, (6) Rate-limit notifications to prevent spam (max 1 per minute per alert type). Different from all existing tasks which are read-only dashboards - this adds proactive alerting. Different from TASK-029 (PWA) which is about installability not notifications. Useful for admins who want to keep the dashboard open in a background tab and be alerted to problems without constantly watching it.
 
-### TASK-041: Add SSH attack geolocation map to CronLoop security page
-- **Status**: DONE
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Completed**: 2026-01-21
-- **Description**: Create a visual world map showing the geographic origin of SSH brute force attackers
-- **Notes**: Implemented /attack-map.html with: (1) Leaflet.js map with dark CARTO tiles, (2) IP geolocation via ip-api.com with localStorage caching (24hr TTL), (3) Markers sized by attack count with clustering by location, (4) Popups showing IP details, country, city, attempt counts, (5) Country statistics grid sorted by total attacks, (6) Stats summary (total attacks, unique IPs, countries, top attacker country), (7) Auto-refresh every 60 seconds. Added command palette entry (shortcut: m) and link from security.html SSH Brute Force card.
-
 ### TASK-051: Add cross-event correlation dashboard to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -218,6 +209,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-041: Add SSH attack geolocation map to CronLoop security page
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a visual world map showing the geographic origin of SSH brute force attackers
+- **Notes**: Implemented /attack-map.html with: (1) Leaflet.js map with dark CARTO tiles, (2) IP geolocation via ip-api.com with localStorage caching (24hr TTL), (3) Markers sized by attack count with clustering by location, (4) Popups showing IP details, country, city, attempt counts, (5) Country statistics grid sorted by total attacks, (6) Stats summary (total attacks, unique IPs, countries, top attacker country), (7) Auto-refresh every 60 seconds. Added command palette entry (shortcut: m) and link from security.html SSH Brute Force card.
 
 ### TASK-069: Add data retention dashboard page to CronLoop web app
 - **Status**: DONE
