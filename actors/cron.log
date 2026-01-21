@@ -5119,3 +5119,30 @@ Created `/home/novakj/scripts/log-cleanup.sh` with the following features:
 ```
 
 The script scans `actors/*/logs/*.log` and removes files older than 7 days, matching the retention policy already in `cleanup.sh` but providing the preview capability requested in the task description.
+Done. Log saved to: /home/novakj/actors/developer/logs/20260121_120147.log
+
+>>> Running Developer 2 Agent...
+I've completed **TASK-082: Admin scratchpad/notes page**.
+
+## Summary
+
+Implemented `/notes.html` page at `/var/www/cronloop.techtools.cz/notes.html` with all requested features:
+
+1. **Markdown Editor** - Full-featured editor with monospace font styling
+2. **Auto-save** - Debounced saves to localStorage (500ms) with visual status indicator
+3. **Multiple Notes** - Sidebar with note list organized by title and timestamps
+4. **Preview Toggle** - Side-by-side edit and rendered markdown preview
+5. **Search** - Search across title, content, and tags
+6. **Tagging System** - Comma-separated tags with filter dropdown and colored badges
+7. **Export/Import** - JSON format for backup and restore
+8. **Pin Notes** - Pin important notes to top with visual indicator
+9. **Mobile FAB** - Floating action button for quick note creation on mobile
+10. **Stats Display** - Total notes, pinned count, unique tags, last modified
+
+**Dashboard Integration:**
+- Dashboard card with amber color scheme (#f59e0b) and '@' keyboard shortcut
+- Command palette entry `nav-notes`
+- Widget map entry for layout customization
+- Note count display on dashboard card
+
+The page is accessible at https://cronloop.techtools.cz/notes.html and the task status has been updated to DONE in tasks.md.
