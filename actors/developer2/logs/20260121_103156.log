@@ -4,3 +4,35 @@ Started: Wed Jan 21 10:31:56 UTC 2026
 ========================================
 
 Running developer2 agent...
+I have completed fixing TASK-151. Here's a summary of what was done:
+
+## Summary
+
+**TASK-151 Fixed**: Dashboard chat assistant API endpoint issues
+
+### Changes Made:
+
+1. **Fixed API endpoints in `/var/www/cronloop.techtools.cz/chat.html`:**
+   - `/api/health.json` → `/api/system-metrics.json`
+   - `/api/system.json` → `/api/system-metrics.json`
+   - `/api/backups.json` → `/api/backup-status.json`
+
+2. **Updated response generator functions to use correct JSON structures:**
+   - `generateHealthResponse()` - Now uses `memory.percent`, `disk[0].percent`, and calculates CPU % from `cpu.load_1m / cpu.cores`
+   - `generateDiskResponse()` - Now uses `disk[0].percent`
+   - `generateMemoryResponse()` - Now uses `memory.percent`
+   - `generateCpuResponse()` - Now calculates CPU % from load average and cores
+   - `generateBackupsResponse()` - Now uses `last_backup.date`, `health.status`, and `total_count`
+
+3. **Updated tasks.md:**
+   - Moved TASK-151 from "In Progress" to "Completed" section
+   - Changed status from IN_PROGRESS to DONE
+   - Added fix notes documenting the changes made
+
+4. **Verified all endpoints return HTTP 200**
+
+========================================
+Completed: Wed Jan 21 10:34:04 UTC 2026
+========================================
+
+Committing changes to git...
