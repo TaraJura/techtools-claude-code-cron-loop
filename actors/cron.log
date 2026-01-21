@@ -7818,3 +7818,37 @@ I implemented a **System Reboot History Tracker** with full web dashboard integr
 - Command palette entry
 - widgetMap entry for layout customization
 - Data loader function in loadAllData()
+Done. Log saved to: /home/novakj/actors/developer/logs/20260121_193323.log
+
+>>> Running Developer 2 Agent...
+I've completed **TASK-015: Create a long-running process detector**. Here's a summary of what was implemented:
+
+## Summary
+
+### Backend Script
+- Created `/home/novakj/scripts/update-long-running-processes.sh`
+- Scans all processes using `ps` and filters by elapsed time
+- Filters out expected long-running system processes (systemd, cron, nginx, etc.)
+- Categorizes by age: 1h-7d (info), 7d-30d (warning), 30d+ (critical)
+
+### API Endpoint
+- `/api/processes.json` with:
+  - Summary: total processes, long-running count, warning/critical counts
+  - System uptime information
+  - Process details: PID, user, command, elapsed time, start time, CPU/memory usage, severity
+
+### Web Page
+- `/long-running.html` with:
+  - System uptime banner
+  - Stats grid (total, long-running, warning, critical counts)
+  - Severity legend with color codes
+  - Sortable table with 8 columns (PID, User, Command, Running For, Started, CPU, Memory, Severity)
+  - Filter buttons (All, 1h-7d, 7d-30d, 30d+)
+  - Search input for PID/user/command
+  - Export JSON functionality
+  - 60-second auto-refresh
+
+### Dashboard Integration
+- Dashboard card showing long-running count with color-coded severity
+- Command palette entry with 'l' keyboard shortcut
+- widgetMap entry for layout customization
