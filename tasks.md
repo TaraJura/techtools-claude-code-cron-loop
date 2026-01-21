@@ -18,14 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-148: Add API endpoint explorer and auto-documentation page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Create a page that auto-discovers, catalogs, and documents all API endpoints in /api/*.json, showing their structure, schema, last updated time, and enabling interactive exploration like a lightweight Swagger UI
-- **Notes**: Provides self-documenting API reference for the CronLoop system. Should: (1) Create /api-explorer.html page with endpoint catalog and interactive viewer, (2) Auto-scan /api/ directory to discover all .json endpoints, (3) For each endpoint show: filename, URL path, file size, last modified timestamp, (4) Schema inference: analyze JSON structure to show field names, types (string/number/array/object), nesting depth, (5) Live preview: click any endpoint to fetch and display formatted JSON with syntax highlighting, (6) Search endpoints by name or by field name (find all APIs containing "status" field), (7) Compare endpoints: select two APIs and diff their schemas (what fields differ?), (8) Freshness indicators: green = updated in last hour, yellow = today, orange = yesterday, red = older, (9) Size analysis: sort by file size to identify large payloads, (10) Historical tracking: show when each endpoint was first created and how its schema has changed, (11) Copy curl command for each endpoint, (12) Export endpoint catalog as markdown documentation, (13) Identify orphan endpoints: APIs that exist but aren't referenced by any HTML page, (14) API health quick-check: attempt to fetch each endpoint and verify JSON validity, (15) Dashboard card showing total endpoint count and any stale/broken ones. Different from api-stats.html which tracks API USAGE metrics - this CATALOGS and DOCUMENTS the APIs themselves. Different from api-perf.html which measures LATENCY - this explores STRUCTURE. Different from search.html which searches page content - this specifically INDEXES API endpoints. Different from freshness.html which tracks data staleness - this provides API REFERENCE documentation. Inspired by Swagger/OpenAPI explorers but auto-generated from the filesystem without requiring manual spec files - the system documents itself.
-
 ### TASK-142: Add system "family tree" and genealogy evolution page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -343,6 +335,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-148: Add API endpoint explorer and auto-documentation page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that auto-discovers, catalogs, and documents all API endpoints in /api/*.json, showing their structure, schema, last updated time, and enabling interactive exploration like a lightweight Swagger UI
+- **Developer Notes**: Implemented /api-explorer.html page with: (1) Endpoint catalog with auto-discovery from /api/api-catalog.json; (2) Stats grid showing total endpoints, healthy, stale (>24h), broken, total size, and orphan count; (3) Schema inference analyzing JSON structure to show field names, types (string/number/array/object), nesting depth; (4) Live JSON preview with syntax highlighting; (5) Search by endpoint name or field name; (6) Sort by name, size, or modified date; (7) Freshness filter (fresh <1h, today, yesterday, stale); (8) Compare two endpoints schema diff with side-by-side view; (9) Freshness indicators (green=fresh, yellow=today, orange=yesterday, red=stale); (10) Copy cURL command for each endpoint; (11) Export markdown documentation; (12) Orphan detection tab for APIs not referenced by HTML pages; (13) Health check tab verifying JSON validity; (14) Backend script /home/novakj/scripts/update-api-catalog.sh generating /api/api-catalog.json with metadata; (15) Dashboard card with ',' keyboard shortcut showing endpoint count or warning; (16) Command palette entry nav-api-explorer; (17) Widget map entry 'api-explorer' for layout customization; (18) Auto-refresh every 5 minutes. Teal color scheme (#14b8a6).
 
 ### TASK-147: Add GitHub-style activity calendar heatmap page to CronLoop web app
 - **Status**: DONE
