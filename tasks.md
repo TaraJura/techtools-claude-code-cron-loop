@@ -332,13 +332,14 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-127: Add agent file diff viewer page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a page that displays side-by-side or unified diffs of all file changes made by each agent during their runs, providing clear visibility into exactly what code was modified
 - **Developer Notes**: Implemented /diffs.html page with: (1) Backend script at /home/novakj/scripts/update-diffs.sh that parses git log and extracts file diffs for each commit, (2) Diff Stats Banner showing today's commits with +/- line counts, (3) Summary cards for total commits, files changed, lines added, lines deleted, net change, active agents, (4) Filters for agent, file type (.html, .js, .sh, .json, .md, etc.), date range (today, yesterday, last 7 days), (5) Search within diffs for specific code patterns with highlighting, (6) Commits tab with expandable commit cards showing hash, agent, task ID, message, date, stats, and clickable file diffs, (7) Unified diff view with color-coded additions (green), deletions (red), headers (blue), and context lines, (8) By Agent tab showing commits, files changed, additions, deletions per agent, (9) Hot Files tab showing most frequently changed files with bar chart visualization, (10) Daily Summary tab with bar chart and table showing daily code changes over last 7 days, (11) Pagination for large commit lists (20 per page), (12) Export as JSON and CSV, (13) API data at /api/diffs.json with commits, by_agent, by_file_type, daily_summary, hot_files, summary, (14) Dashboard card with _ keyboard shortcut showing today's commit count with +/- indicators, (15) Command palette integration (nav-diffs), (16) Widget map entry for layout customization, (17) Purple gradient color theme (#8b5cf6). Different from changelog.html which shows commit messages only - this shows ACTUAL CODE DIFFS. Different from decisions.html which shows agent reasoning - this shows FILE CHANGES.
+- **Tester Feedback**: [PASS] - Verified: (1) Page returns HTTP 200, (2) diffs.html exists (43KB, 1238 lines), (3) Backend script at /home/novakj/scripts/update-diffs.sh exists and executable (10KB), (4) /api/diffs.json valid JSON with keys: timestamp, repo_path, commits, by_agent, by_file_type, daily_summary, hot_files, summary, (5) Dashboard card integrated in index.html with purple border (#8b5cf6), (6) Command palette integration working (nav-diffs, shortcut: _).
 
 ### TASK-125: Add agent dependency impact analyzer page to CronLoop web app
 - **Status**: VERIFIED
