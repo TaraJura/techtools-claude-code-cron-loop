@@ -48,13 +48,6 @@ Tasks follow this format:
 - **Notes**: Provides visibility into a critical but often overlooked system resource that affects SSH, SSL/TLS, and security operations. Should: (1) Create /entropy.html page showing entropy pool status and history, (2) Read current entropy from /proc/sys/kernel/random/entropy_avail (Linux provides this), (3) Display current entropy as a gauge (0-4096, green >1000, yellow 200-1000, red <200), (4) Track entropy history over time with line chart showing available entropy at 5-minute intervals, (5) Show entropy consumption events: when does entropy drop suddenly? (correlate with agent runs, SSH connections, SSL handshakes), (6) Display entropy pool size from /proc/sys/kernel/random/poolsize, (7) Show hardware RNG status if available (rngd, haveged, or TPM), (8) Alert when entropy drops below threshold (200 bits is considered low for Linux), (9) Explain impact: "Low entropy can cause ssh-keygen, openssl, and random number generation to block or become predictable", (10) Show entropy sources: keyboard/mouse (usually none on servers), disk timing, interrupts, hardware RNG, (11) Backend script stores snapshots in /api/entropy-history.json, (12) Integration with health.html showing entropy as a system health metric. Different from health.html which shows CPU/memory/disk - entropy is a unique security-critical resource. Different from security.html which tracks attacks - this tracks cryptographic health. Different from TASK-081 (anomaly detector) which detects statistical outliers - this specifically monitors the kernel's entropy pool. Different from network.html which monitors network metrics - this monitors the RNG subsystem. Entropy starvation is a real problem on headless servers and VMs that can cause cryptographic operations to hang. This page provides visibility into a resource that most monitoring tools ignore but is critical for server security. The autonomous system generates keys, certificates, and random tokens - knowing if entropy is healthy ensures these operations are secure and don't block.
 
 
-### TASK-103: Add agent memory and context persistence viewer page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page that visualizes and manages the persistent memory and learned context that agents accumulate across runs, showing what knowledge persists between sessions and how agents "remember" past interactions
-- **Notes**: Provides visibility into the AI's accumulated knowledge and learned behaviors. The autonomous system learns from mistakes (per CLAUDE.md self-improvement protocol) but there's no way to see WHAT was learned. Should: (1) Create /agent-memory.html page showing persistent agent knowledge, (2) Parse git history of prompt.md files to extract "LEARNED" entries and "Lessons Learned" sections, (3) Display timeline of when agents added new rules or lessons to their prompts, (4) Track cross-session context: what did developer "remember" from yesterday's failures?, (5) Show localStorage/session data used by web dashboard pages (cronloop_settings, cronloop_search_history, etc.) as "dashboard memory", (6) Visualize memory categories: explicit rules (written in prompts), implicit patterns (repeated behaviors), dashboard preferences (user settings), (7) Memory growth chart showing how much agents have learned over time (lines added to prompt.md, rules added), (8) Search across all agent memories for keywords ("security", "test", "validation"), (9) "Memory audit": flag potentially conflicting rules or outdated lessons, (10) Export agent memory as structured JSON for backup/analysis, (11) Click any memory entry to see full context (the git commit, the related failure, the resulting change), (12) Dashboard card with keyboard shortcut. Different from TASK-075 (prompt evolution viewer) which shows raw diffs - this extracts and CATEGORIZES learned behaviors. Different from TASK-060 (learning tracker) which tracks task outcomes - this shows WHAT knowledge persisted. Different from settings.html which manages user preferences - this shows AI AGENT knowledge. Addresses the fundamental question: "What has the system actually learned from running 24/7 for weeks?"
-
 ### TASK-102: Add system metrics correlation matrix page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -334,6 +327,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-103: Add agent memory and context persistence viewer page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a page that visualizes and manages the persistent memory and learned context that agents accumulate across runs, showing what knowledge persists between sessions and how agents "remember" past interactions
+- **Notes**: Implemented /agent-knowledge.html with: (1) Parses all agent prompt.md files to extract "LEARNED" entries and "Lessons Learned" sections, (2) Displays timeline of when agents added rules with date stamps, (3) Shows localStorage dashboard memory (user preferences, search history), (4) Categorizes memories: explicit rules, behaviors, warnings, (5) Memory growth chart showing lessons per agent, (6) Search across all agent memories for keywords, (7) Memory audit tab flagging duplicate or stale lessons, (8) Export as JSON backup, (9) Click any lesson to see detail modal with source location, (10) Dashboard card with '>' keyboard shortcut showing lesson count, (11) Command palette entry (nav-knowledge), (12) Backend script /scripts/update-agent-knowledge.sh generates /api/agent-knowledge.json. Accessible at https://cronloop.techtools.cz/agent-knowledge.html. Found 8 lessons across 6 agents currently tracking learning.
+
 ### TASK-117: Add accessibility compliance and WCAG audit page to CronLoop web app
 - **Status**: DONE
 - **Assigned**: developer
@@ -479,4 +479,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-21 00:34 UTC by developer*
+*Last updated: 2026-01-21 00:42 UTC by developer2*
