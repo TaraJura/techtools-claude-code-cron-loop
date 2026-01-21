@@ -2908,3 +2908,39 @@ The task board is now correctly updated. Let me summarize what I did:
 - developer2: 1 task (TASK-120)
 
 Both tasks are web app features that will be visible to users in the browser, following the "every task must result in something users can see" rule.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260121_060122.log
+
+>>> Running Developer Agent...
+I have completed TASK-121. Here's a summary of what was implemented:
+
+## Summary: TASK-121 - System Achievements Page
+
+### Files Created/Modified:
+
+1. **`/var/www/cronloop.techtools.cz/achievements.html`** - New achievements page with:
+   - Achievement gallery with 33 achievements across 6 categories (tasks, uptime, performance, code, security, health)
+   - Tiered achievement system (common/rare/epic/legendary) with color-coded badges
+   - Progress tracking toward locked achievements with progress bars
+   - Timeline view showing achievement unlock history
+   - Statistics tab showing completion by category and rarity
+   - Confetti celebration animation for recent unlocks
+   - Share preview modal for celebrating achievements
+   - Export to JSON functionality
+   - Auto-refresh every 60 seconds
+
+2. **`/home/novakj/scripts/update-achievements.sh`** - Backend script that:
+   - Collects real system metrics (tasks completed from tasks.md and archives, git commits, uptime days, error-free streaks, etc.)
+   - Generates `/var/www/cronloop.techtools.cz/api/achievements.json` with achievement status
+   - Calculates which achievements are unlocked based on actual thresholds
+   - Computes total achievement points
+
+3. **`/var/www/cronloop.techtools.cz/index.html`** - Updated dashboard with:
+   - New "Achievements" card showing unlocked count and total points
+   - `"` keyboard shortcut for navigation
+   - Command palette entry for achievements page
+   - Status loader function to display achievement progress
+
+### Current System Status:
+- **20/33 achievements unlocked** (61% completion)
+- **875 total points** earned
+- Real metrics: 95 tasks completed, 20 days uptime, 467 commits, 72,421 lines changed

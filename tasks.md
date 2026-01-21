@@ -109,13 +109,6 @@ Tasks follow this format:
 - **Description**: Create a page with an EKG/ECG-style animated visualization showing the system's "heartbeat" - the rhythmic pattern of agent executions, task completions, and system health pulses
 - **Notes**: Provides an intuitive, medical-style view of system vitality. Should: (1) Create /heartbeat.html page with animated EKG-style line graph, (2) Each "heartbeat" represents an agent cycle completion (every 30 mins = one beat), (3) Visualize multiple vital sign lines: agent execution (blue), task completion (green), errors (red), like a multi-lead EKG, (4) Show heart rate analog: beats per hour/day, with normal range indicators, (5) Detect arrhythmias: irregular patterns like missed beats (failed runs), tachycardia (too many errors), bradycardia (slow processing), (6) Calculate system pulse: a single health score that pulses with each cycle, (7) Historical rhythm strip: show last 24 hours of heartbeats with anomalies highlighted, (8) Alert on "cardiac events": flatline (no activity), fibrillation (chaotic errors), arrest (system down), (9) Sound optional: toggle to hear heartbeat audio for ambient monitoring, (10) Show vital stats sidebar: current BPM, last beat time, rhythm status (normal/irregular), (11) Mobile-friendly for glanceable health check, (12) Export rhythm data as time-series JSON. Different from health.html which shows static health metrics - this provides REAL-TIME ANIMATED rhythm visualization. Different from uptime.html which tracks availability - this shows the CADENCE of activity. Different from workflow.html which shows process flow - this is a BIOMETRIC METAPHOR for system health. Inspired by hospital monitors, this gives operators an intuitive sense of whether the system is "alive and well" at a glance.
 
-### TASK-121: Add system achievements and milestone celebration page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a gamification-style page that tracks and celebrates system accomplishments with unlockable achievements, progress badges, and milestone markers
-- **Notes**: Recognizes and displays autonomous system accomplishments in a fun, engaging way. Should: (1) Create /achievements.html page with achievement gallery and progress tracking, (2) Achievement categories: Task Milestones (10/50/100/500/1000 tasks completed), Uptime Records (7/30/90/365 days continuous operation), Agent Performance (zero-error streaks, fastest completions), Code Contributions (commits, lines changed, files created), Security Excellence (days without incidents, vulnerabilities prevented), System Health (perfect health score streaks), (3) Unlockable badges with icons and descriptions: "First Blood" (first task completed), "Century Club" (100 tasks), "Marathon Runner" (30-day uptime), "Bug Slayer" (10 bugs fixed), "Security Guardian" (security scan clean for 30 days), (4) Progress bars showing advancement toward next milestone, (5) Achievement timeline showing when each was unlocked with celebration animations, (6) Rare/Epic/Legendary achievement tiers based on difficulty, (7) Agent-specific achievements: "Developer MVP" (most tasks), "Quality Champion" (tester with highest pass rate), (8) Weekly/Monthly achievement summary with confetti animation for new unlocks, (9) Shareable achievement cards (generate image for social sharing), (10) Leaderboard comparing this system's achievements to milestones (self-competition over time), (11) Hidden achievements that unlock through unusual system behavior, (12) Achievement sound effects (optional) for celebration moments, (13) Dashboard card showing latest achievement with keyboard shortcut. Different from efficiency leaderboard (TASK-100) which compares agents competitively - this celebrates SYSTEM accomplishments and adds fun gamification. Different from digest.html which shows daily summaries - this tracks lifetime achievements. Adds personality and celebration to the autonomous system, making monitoring more engaging.
-
 ### TASK-087: Add API latency and performance metrics page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -344,6 +337,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-121: Add system achievements and milestone celebration page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a gamification-style page that tracks and celebrates system accomplishments with unlockable achievements, progress badges, and milestone markers
+- **Developer Notes**: Implemented /achievements.html page with: Achievement gallery with 33 achievements across 6 categories (tasks, uptime, performance, code, security, health), tiered achievement system (common/rare/epic/legendary), progress tracking toward locked achievements, timeline of recent unlocks, statistics by category and rarity, confetti celebration for new unlocks, share preview modal, backend script at /home/novakj/scripts/update-achievements.sh that generates /api/achievements.json from actual system metrics (tasks completed, git commits, uptime days, error-free streaks, etc.), dashboard card with " keyboard shortcut, command palette integration.
 
 ### TASK-089: Add agent failure cascade analyzer page to CronLoop web app
 - **Status**: DONE
