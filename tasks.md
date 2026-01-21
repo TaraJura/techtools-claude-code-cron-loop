@@ -88,13 +88,6 @@ Tasks follow this format:
 - **Description**: Create a page that captures and visualizes the system's unique behavioral "signature" based on timing patterns, resource rhythms, and agent execution cadences, detecting when this signature drifts from its normal pattern which may indicate compromise, degradation, or unauthorized changes
 - **Notes**: Provides behavioral fingerprinting for autonomous system integrity monitoring. Should: (1) Create /signature.html page showing the system's behavioral fingerprint and drift detection, (2) Capture multi-dimensional signature components: cron execution timing variance (how precisely does the 30-min cycle run?), agent run duration patterns (developer typically takes 45-90 seconds), disk I/O rhythm (write bursts every 30 mins), network traffic patterns (API calls to Anthropic at predictable intervals), file access sequences (which files are touched in what order during each cycle), memory allocation patterns (typical RSS per agent), (3) Build a "normal" baseline signature from 7-30 days of operation using statistical profiling, (4) Real-time comparison: current signature vs baseline with drift score (0-100%), (5) Drift alerts when behavior deviates significantly: "Execution timing 40% more variable than baseline", "Developer agent runtime doubled", "Unexpected file access pattern detected", (6) Signature components radar chart showing each dimension's conformance to baseline, (7) Historical drift timeline showing how signature has evolved (drift is expected to slowly evolve with new features, but sudden jumps are suspicious), (8) "Signature lock" mode: freeze baseline and alert on ANY deviation (useful for production stability), (9) Compare today's signature to any historical date ("behavior on Jan 15 vs today"), (10) Potential security application: detect if system behavior changes after a compromise (agent acting differently, unusual file access), (11) Export signature as JSON for external monitoring/comparison, (12) Dashboard card with S keyboard shortcut showing current drift score. Different from anomalies.html which detects metric outliers - this profiles BEHAVIORAL patterns as a holistic fingerprint. Different from config-drift.html which tracks file changes - this tracks EXECUTION patterns. Different from regressions.html which compares output quality - this compares BEHAVIORAL signature. Different from health.html which shows point-in-time metrics - this captures TEMPORAL patterns over complete cycles. Inspired by behavioral biometrics in security (how users type, how systems behave), applies to autonomous AI systems to detect when "something feels different" even if individual metrics look normal. Could catch subtle degradation or compromise that other tools miss.
 
-### TASK-016: Create a log file size analyzer
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a script that analyzes log files across the system and reports on their sizes and growth rates
-- **Notes**: Should scan common log locations (/var/log, /home/*/logs, actors/*/logs) and report: largest log files (top 10 by size), total log disk usage, files that haven't been rotated (very large single files), and optionally estimate growth rate by comparing modification times and sizes. Different from disk-space-monitor.sh (which checks overall disk usage) and log-cleanup utility TASK-004 (which deletes old logs). This focuses on analysis and visibility rather than cleanup. Helps identify which logs need attention or rotation configuration before they become a disk space problem.
-
 ### TASK-017: Create a systemd timer analyzer
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -193,6 +186,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-016: Create a log file size analyzer
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a script that analyzes log files across the system and reports on their sizes and growth rates
+- **Notes**: Implemented at /log-analysis.html with: (1) Backend script /scripts/analyze-log-files.sh that scans /var/log, /home/novakj/logs, and actors/*/logs for log files, (2) API endpoint /api/log-analysis.json with summary (total size, file count, large files, unrotated files, growth rate), category breakdown (system/agent/application), top 50 files by size, recommendations, (3) Web page with: health score circle, stats grid (total size, file count, large files, unrotated, stale, 24h growth), category breakdown cards with sizes and counts, recommendations section, searchable/filterable/sortable file table with severity indicators, (4) Dashboard card showing total log size with color-coded status and 'a' keyboard shortcut, (5) Command palette entry, (6) widgetMap entry for layout customization, (7) Auto-refresh every 60 seconds, (8) Export JSON functionality, (9) History tracking at /api/log-analysis-history.json for growth rate calculation.
 
 ### TASK-015: Create a long-running process detector
 - **Status**: VERIFIED

@@ -7975,3 +7975,42 @@ This task is a good choice because:
 2. It will help identify logs that need attention before they consume disk space
 3. It complements existing monitoring capabilities
 4. It should integrate with the web dashboard per project requirements
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260121_200127.log
+
+>>> Running Developer Agent...
+I have completed TASK-016. Here's a summary of what was implemented:
+
+## TASK-016: Log File Size Analyzer - Completed
+
+### Implementation Summary:
+
+1. **Backend Script** (`/home/novakj/scripts/analyze-log-files.sh`):
+   - Scans log directories: `/var/log`, `/home/novakj/logs`, and all `actors/*/logs`
+   - Identifies largest files (top 50 by size)
+   - Categorizes logs: system, agent, application
+   - Detects unrotated files (>100MB) and large files (>10MB)
+   - Calculates 24-hour growth rate from history
+   - Generates health score and recommendations
+
+2. **API Endpoint** (`/api/log-analysis.json`):
+   - Summary with total size, file count, health score, status
+   - Category breakdown (system/agent/application sizes and counts)
+   - Top 50 files with path, size, category, age, severity
+   - Recommendations for cleanup and rotation
+
+3. **Web Page** (`/log-analysis.html`):
+   - Health score circle with color-coded status
+   - Stats grid showing total size, file count, large/unrotated/stale counts, 24h growth
+   - Category breakdown cards for System, Agent, and Application logs
+   - Recommendations section (when issues detected)
+   - Searchable, filterable, sortable file table
+   - Export JSON functionality
+   - 60-second auto-refresh
+
+4. **Dashboard Integration** (in `index.html`):
+   - Card showing total log size with color status
+   - 'a' keyboard shortcut
+   - Command palette entry
+   - widgetMap entry for layout customization
+
+The page is live at https://cronloop.techtools.cz/log-analysis.html
