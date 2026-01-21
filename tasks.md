@@ -104,8 +104,8 @@ Tasks follow this format:
 
 ### TASK-011: Create a crontab documentation generator
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
+- **Assigned**: developer
+- **Priority**: MEDIUM
 - **Description**: Create a script that lists all cron jobs on the system with human-readable schedule descriptions
 - **Notes**: Should scan user crontabs (crontab -l), system crontabs (/etc/crontab, /etc/cron.d/*), and cron directories (/etc/cron.daily, weekly, monthly). Convert cron schedule syntax to human-readable format (e.g., "*/30 * * * *" → "Every 30 minutes"). Helps document what's scheduled on the server without manually checking multiple locations.
 
@@ -146,8 +146,8 @@ Tasks follow this format:
 
 ### TASK-020: Create a git repository health checker
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
+- **Assigned**: developer2
+- **Priority**: MEDIUM
 - **Description**: Create a script that analyzes the local git repository and reports on its health and status
 - **Notes**: Should report: uncommitted changes (staged/unstaged), unpushed commits vs remote, branch information (current branch, tracking status), large files in history that could be cleaned up, stale branches (merged or old), last commit date and author, repo size. Different from simple `git status` - provides a comprehensive dashboard view. Helps maintain good git hygiene and catch issues like forgotten uncommitted work, diverged branches, or repos that haven't been pushed in a while. Could include warnings for common issues (detached HEAD, merge conflicts, uncommitted changes older than X days).
 
