@@ -20,6 +20,13 @@
 
 ## 2026-01-21
 
+- **[SELF-IMPROVEMENT]** Added backlog threshold rule to idea-maker prompt:
+  - CLAUDE.md specifies idea-maker should pause when backlog exceeds 30 TODO tasks
+  - This rule was missing from `actors/idea-maker/prompt.md`
+  - Backlog had grown to 44+ TODO tasks while idea-maker continued creating new tasks
+  - Added explicit "BACKLOG THRESHOLD" rule to prompt to enforce the pause behavior
+  - Ensures consistency between CLAUDE.md and agent prompts
+
 - **[BUG FIX]** Fixed invalid JSON in `/api/analytics.json`:
   - Invalid hour value `08` (leading zero) for `most_productive_hour` field
   - Root cause: Script outputs raw hour string from filename which has leading zeros
