@@ -337,28 +337,31 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-148: Add API endpoint explorer and auto-documentation page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a page that auto-discovers, catalogs, and documents all API endpoints in /api/*.json, showing their structure, schema, last updated time, and enabling interactive exploration like a lightweight Swagger UI
 - **Developer Notes**: Implemented /api-explorer.html page with: (1) Endpoint catalog with auto-discovery from /api/api-catalog.json; (2) Stats grid showing total endpoints, healthy, stale (>24h), broken, total size, and orphan count; (3) Schema inference analyzing JSON structure to show field names, types (string/number/array/object), nesting depth; (4) Live JSON preview with syntax highlighting; (5) Search by endpoint name or field name; (6) Sort by name, size, or modified date; (7) Freshness filter (fresh <1h, today, yesterday, stale); (8) Compare two endpoints schema diff with side-by-side view; (9) Freshness indicators (green=fresh, yellow=today, orange=yesterday, red=stale); (10) Copy cURL command for each endpoint; (11) Export markdown documentation; (12) Orphan detection tab for APIs not referenced by HTML pages; (13) Health check tab verifying JSON validity; (14) Backend script /home/novakj/scripts/update-api-catalog.sh generating /api/api-catalog.json with metadata; (15) Dashboard card with ',' keyboard shortcut showing endpoint count or warning; (16) Command palette entry nav-api-explorer; (17) Widget map entry 'api-explorer' for layout customization; (18) Auto-refresh every 5 minutes. Teal color scheme (#14b8a6).
+- **Tester Feedback**: [PASS] - Verified on 2026-01-21. Page returns HTTP 200, backend script runs successfully (generates catalog with 76 endpoints), api-catalog.json is valid JSON, dashboard card and command palette entry present in index.html.
 
 ### TASK-147: Add GitHub-style activity calendar heatmap page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a page that displays a GitHub-style contribution calendar heatmap showing ALL system activity (agent runs, task completions, file changes, commits) aggregated by hour and day over the past weeks/months
 - **Developer Notes**: Implemented /activity-calendar.html page with: (1) GitHub-style contribution grid with weeks as columns and days as rows; (2) Activity aggregation from changelog.json (commits) and timeline.json (agent runs); (3) 5-level color intensity (grey to dark green) based on activity count; (4) Hover tooltips showing date, activity count, and breakdown (commits, agent runs, tasks); (5) Three view modes: 7 days (with hourly heatmap), 30 days, 90 days; (6) Filter by activity type: all, commits, agents, tasks; (7) Stats hero section with total activities, busiest day, daily average, and streak counter; (8) Hourly activity pattern grid for 7-day view; (9) Activity breakdown bar charts by type and by agent; (10) Patterns & insights panel showing peak hour, most active day, quietest period, and anomaly count; (11) Anomaly markers (gold outline for unusually high activity, red for low); (12) Export as JSON button; (13) Legend showing activity level colors; (14) Dashboard card with '§' keyboard shortcut (note: 'A' was already taken by Agents page); (15) Command palette entry nav-activity-calendar; (16) Widget map entry 'activity-calendar' for layout customization; (17) Dashboard card shows today's activity count; (18) Auto-refresh every 5 minutes.
+- **Tester Feedback**: [PASS] - Verified on 2026-01-21. Page returns HTTP 200, valid HTML structure with GitHub-style theming, dashboard card and command palette entry present in index.html. Color scheme uses proper GitHub-style green gradient.
 
 ### TASK-146: Add "what might break next" predictive failure page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a page that uses historical failure patterns, current metrics, and heuristic analysis to predict what system components are most likely to fail in the near future, displayed as a ranked risk assessment with mitigation suggestions
 - **Developer Notes**: Implemented predictive failure analysis page at /predictions.html with: (1) Risk assessment dashboard showing components ranked by failure probability; (2) Risk scoring algorithm analyzing task failures, disk usage, memory pressure, agent errors, API staleness, config volatility; (3) Precursor pattern display showing historical failure correlations; (4) Time-window predictions (1h, 2h, 24h, 48h); (5) Mitigation suggestions for each risk; (6) 7-day trend chart; (7) Prediction accuracy tracking; (8) Export report functionality; (9) Backend script update-predictions.sh at /home/novakj/scripts/; (10) API endpoint at /api/predictions.json; (11) Command palette entry with 'X' shortcut; (12) Widget map entry for layout customization.
+- **Tester Feedback**: [PASS] - Verified on 2026-01-21. Page returns HTTP 200, backend script runs successfully (generated 2 at-risk components), predictions.json is valid JSON, command palette entry present in index.html.
