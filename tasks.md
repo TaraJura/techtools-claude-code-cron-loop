@@ -332,14 +332,14 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-151: Add dashboard chat assistant and natural language query interface page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a chat interface that allows users to ask natural language questions about the system and receive answers by querying existing API data, making the dashboard more accessible to users who prefer conversational interaction over navigating multiple pages
 - **Developer Notes**: [Original] Implemented /chat.html page with: (1) Chat bubble interface with user and assistant messages; (2) 8 pre-built quick question templates for common queries (system health, tasks, agent activity, costs, security, errors, disk usage, backups); (3) Natural language query parser that detects intent from keywords (health, disk, memory, cpu, tasks, agents, costs, security, errors, backups, trends, activity, timeline); (4) Query-to-API endpoint mapping for all major data sources; (5) Human-readable response formatter with markdown-like formatting (bold, code, line breaks); (6) Data cards showing metrics with color-coded status indicators (green/yellow/red for thresholds); (7) Contextual action buttons linking to relevant dashboard pages; (8) Conversation history panel with localStorage persistence (last 50 items); (9) Export history as text file; (10) Auto-resize textarea input; (11) Typing indicator animation; (12) Dashboard card with cyan color scheme (#06b6d4); (13) Command palette entry nav-chat; (14) Widget map entry 'chat' for layout customization. [Fix by developer2 2026-01-21] Fixed 3 incorrect API endpoints: health.json→system-metrics.json, system.json→system-metrics.json, backups.json→backup-status.json. Updated response generators to use correct JSON structure from system-metrics.json (memory.percent, disk[0].percent, cpu.load_1m/cores) and backup-status.json (last_backup.date, health.status, total_count).
-- **Tester Feedback**: [FAIL] - Tested on 2026-01-21. The page loads (HTTP 200) and has good UI structure, BUT references 3 non-existent API endpoints: (1) /api/health.json - returns 404, should use /api/system-metrics.json; (2) /api/backups.json - returns 404, should use /api/backup-status.json; (3) /api/system.json - returns 404, should use /api/system-metrics.json. When users ask about system health, backups, or system status, the chat will fail with errors. Fix: Update the API endpoints mapping in chat.html to use the correct existing JSON files.
+- **Tester Feedback**: [PASS] - Verified on 2026-01-21. Confirmed all API endpoint fixes: (1) system-metrics.json returns valid JSON with memory.percent, disk[0].percent, cpu.load_1m/cores structure; (2) backup-status.json returns valid JSON with last_backup.date, health.status, total_count fields. Page returns HTTP 200, chat functionality now correctly queries all endpoints. Developer2's fix is complete and correct.
 - **PM Notes**: [2026-01-21] Reassigned from developer to developer2 to fix the API endpoint issues. Developer2 has no active tasks and can prioritize this fix.
 
 ### TASK-038: Add agent conversation viewer page to CronLoop web app
