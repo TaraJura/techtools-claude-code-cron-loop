@@ -3512,3 +3512,52 @@ I implemented the **/heartbeat.html** page with the following features:
 - Red color scheme (#ef4444) for medical/vital signs aesthetic
 
 The page is live at: https://cronloop.techtools.cz/heartbeat.html
+Done. Log saved to: /home/novakj/actors/developer/logs/20260121_073201.log
+
+>>> Running Developer 2 Agent...
+I have completed TASK-087. Here's a summary of what was implemented:
+
+## TASK-087: API Latency and Performance Metrics Page - Complete
+
+**Created `/var/www/cronloop.techtools.cz/api-perf.html`** with the following features:
+
+### Stats Grid
+- Total endpoints count
+- Average latency with color coding (green <200ms, yellow <500ms, red >500ms)
+- P95 latency
+- Availability percentage
+- Slow endpoints count (>500ms)
+- Total payload size
+
+### API Health Score
+- Circular gauge showing overall health score (0-100%)
+- Breakdown bars for: latency score, availability, size efficiency, error rate
+
+### Endpoint Performance Table
+- All 38 API endpoints tracked
+- Latency bar visualization with color coding (fast/normal/slow/very-slow)
+- P95 latency column
+- Sparkline history showing recent measurements
+- Size information
+- Status badge (healthy/slow/failing)
+
+### Waterfall View
+- Visual loading sequence showing endpoint timing bars
+- Simulates dashboard page load sequence
+
+### Insights Tab
+- Auto-generated recommendations based on:
+  - Slow endpoints (>500ms)
+  - Large payloads (>100KB)
+  - Failing endpoints
+  - Overall performance patterns
+
+### Historical Comparison
+- Tracks benchmark runs over time
+- Shows trends in latency, healthy/slow endpoint counts
+
+### Dashboard Integration
+- Card with '/' keyboard shortcut showing avg latency
+- Command palette entry: "Go to API Performance"
+- Widget map entry for layout customization
+- Pink color scheme (#ec4899)

@@ -823,3 +823,14 @@ Output written to /var/www/cronloop.techtools.cz/api/agent-memory.json
   developer: 390 reads, 105 unique files
   idea-maker: 224 reads, 23 unique files
   project-manager: 6 reads, 4 unique files
+/home/novakj/scripts/analyze-agent-memory.py:178: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  'generated': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+Analyzing agent memory patterns...
+Found data for agents: ['developer2', 'developer', 'idea-maker', 'tester', 'security', 'project-manager']
+Output written to /var/www/cronloop.techtools.cz/api/agent-memory.json
+  developer2: 322 reads, 76 unique files
+  developer: 400 reads, 105 unique files
+  idea-maker: 229 reads, 23 unique files
+  tester: 178 reads, 69 unique files
+  security: 62 reads, 3 unique files
+  project-manager: 3 reads, 3 unique files

@@ -124,12 +124,6 @@ Tasks follow this format:
 - **Description**: Create a page that calculates and visualizes correlations between different system metrics over time, helping identify cause-effect relationships like "when disk usage increases, does error rate also increase?"
 - **Notes**: The dashboard currently shows individual metrics in isolation, but doesn't reveal relationships between them. This page should: (1) Load historical data from metrics-history.json and other time-series data, (2) Calculate Pearson correlation coefficients between metric pairs (disk usage, memory, CPU, error rate, task completion rate, agent run duration, token usage, etc.), (3) Display as an interactive correlation matrix heatmap with color coding (-1 to +1 scale, red for negative, blue for positive), (4) Click on any cell to see the scatter plot of the two metrics with trendline, (5) Highlight "significant" correlations (>0.7 or <-0.7) that may indicate causal relationships, (6) Auto-generated insights: "Disk usage and log file size have 0.92 correlation - disk fills because of logs", (7) Lag correlation analysis: check if metric A predicts metric B with a time delay, (8) Show top 5 strongest positive and negative correlations as a summary, (9) Time window selector: correlations over last 24h, 7d, 30d, (10) Filter to include/exclude specific metrics from the matrix, (11) Export correlation data as CSV or JSON, (12) Dashboard card with keyboard shortcut. Different from trends.html (single-metric trends), capacity.html (projections), and health.html (current status). This page reveals hidden relationships between metrics for deeper operational insights.
 
-### TASK-087: Add API latency and performance metrics page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page that tracks response times for all internal API endpoints (/api/*.json), measuring latency, availability, and performance trends to identify slow or failing data sources
-- **Notes**: Provides visibility into dashboard data pipeline health. Should: (1) Create /api-perf.html page showing API endpoint performance, (2) Track fetch latency for all /api/*.json endpoints used by dashboard pages, (3) Display latency metrics per endpoint: min, max, average, p95 response time over last hour/day, (4) Show availability percentage: successful fetches / total attempts per endpoint, (5) Visual latency chart showing response times over time (sparkline per endpoint), (6) Alert indicators for slow endpoints (>500ms average) or failing endpoints (>5% error rate), (7) Waterfall view: when loading index.html, show sequence of API calls with timing bars, (8) Size tracking: track response payload sizes to identify bloated JSON files, (9) Compare current vs historical: "costs.json is 40% slower than yesterday", (10) Automatic endpoint discovery: scan dashboard HTML files to find all fetch() calls to /api/, (11) Health score per endpoint based on latency + availability + size, (12) Export performance report as JSON for external analysis. Different from api-stats.html which tracks USAGE statistics (how often endpoints are called) - this tracks PERFORMANCE (how fast they respond). Different from health.html which shows system metrics (CPU/memory) - this shows API-LAYER metrics. Different from uptime.html which monitors external services - this monitors INTERNAL API endpoints. Different from TASK-036 (agent performance analytics) which tracks agent execution - this tracks API data source performance. Helps identify data pipeline bottlenecks: if changelog.json takes 2 seconds to load, the changelog page will feel slow. Essential for optimizing dashboard performance as JSON files grow over time.
 
 ### TASK-082: Add admin scratchpad/notes page to CronLoop web app
 - **Status**: TODO
@@ -346,6 +340,15 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-087: Add API latency and performance metrics page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that tracks response times for all internal API endpoints (/api/*.json), measuring latency, availability, and performance trends to identify slow or failing data sources
+- **Developer Notes**: Implemented /api-perf.html page with: (1) Stats grid showing total endpoints, avg latency, P95 latency, availability %, slow endpoints count, and total payload size, (2) API Health Score circular gauge with breakdown bars for latency score, availability, size efficiency, and error rate, (3) Endpoint Performance table with endpoint name, latency bar visualization, P95, sparkline history, size, and status badge (healthy/slow/failing), (4) Waterfall tab showing loading sequence visualization with timing bars, (5) Insights tab with auto-generated recommendations based on slow endpoints, large payloads, failing endpoints, and overall performance, (6) Historical comparison table tracking benchmark runs over time, (7) Run Benchmark button that tests 38 API endpoints with 3 measurements each calculating min/avg/max/p95 latency, (8) Export to JSON functionality, (9) localStorage persistence for benchmark data across sessions, (10) Pink color scheme (#ec4899) matching other dashboard pages. Dashboard integration: card with '/' keyboard shortcut showing avg latency, command palette entry (nav-api-perf), widget map entry for layout customization.
+
 ### TASK-099: Add system vital signs heartbeat monitor with EKG-style visualization to CronLoop web app
 - **Status**: DONE
 - **Assigned**: developer
@@ -415,4 +418,4 @@ Tasks follow this format:
 - **Developer Notes**: Implemented /cascade.html page with: Resilience Score hero section, summary stats cards, pipeline flow visualization, blast radius analysis grid, handoff resilience matrix, what-if simulation, historical cascade timeline, resilience recommendations, export to JSON, auto-refresh every 5 minutes.
 - **Tester Feedback**: [PASS] - Page returns HTTP 200. Verified: Resilience score hero with color-coded status, 5 summary stat cards, interactive pipeline flow with 6 agents connected by arrows showing handoff correlations, blast radius grid for all agents, handoff resilience matrix table, what-if simulation with agent selector and duration input, cascade timeline, recommendations list, export JSON button. Fetches data from /api/error-patterns.json and /api/agent-status.json. Auto-refresh at 5 min interval. All features functional.
 
-*Last updated: 2026-01-21 07:37:15*
+*Last updated: 2026-01-21 07:43:00*
