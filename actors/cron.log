@@ -9532,3 +9532,47 @@ The task board is now updated. Let me provide a summary of the changes made:
 **Current workload:**
 - developer: 1 IN_PROGRESS task (TASK-124)
 - developer2: 1 IN_PROGRESS task (TASK-122)
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260121_023106.log
+
+>>> Running Developer Agent...
+The implementation is complete. Here's a summary of what was created:
+
+## TASK-124 Implementation Summary
+
+### Files Created:
+1. **`/var/www/cronloop.techtools.cz/usage.html`** (44KB) - Main web page with:
+   - Page visit analytics table with sorting and filtering
+   - API endpoint usage tracking with consumer mapping
+   - Ghost/Dead/Active/Popular page status indicators
+   - Orphan API detection (APIs with no HTML consumers)
+   - Feature adoption score calculation
+   - Recommendations section for cleanup suggestions
+   - Three tabs: Pages, APIs, Recommendations
+   - Export as JSON and CSV
+   - Keyboard shortcuts for navigation
+
+2. **`/home/novakj/scripts/update-usage-analytics.sh`** (7.8KB) - Backend script that:
+   - Parses nginx access logs for page visit counts
+   - Counts API endpoint requests
+   - Identifies which HTML pages consume each API
+   - Generates recommendations
+   - Outputs to `/api/usage-analytics.json`
+
+3. **`/var/www/cronloop.techtools.cz/api/usage-analytics.json`** (24KB) - API data file with:
+   - Summary statistics (66 pages, 57 APIs, 27 ghost, 10 orphan)
+   - Per-page hit counts and status
+   - Per-API hit counts and consumer mapping
+   - Cleanup recommendations
+
+### Dashboard Integration:
+- Added dashboard card with `{` keyboard shortcut
+- Card shows adoption score or dead feature count
+- Added to widgetMap for layout customization
+- Added to staticCommands for command palette (nav-usage)
+- Added CSS styling for the card
+
+### Initial Findings:
+- 5 dead pages (0 visits)
+- 27 ghost pages (0-5 visits)
+- 10 orphan APIs (no HTML consumers)
+- 59.1% feature adoption score

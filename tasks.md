@@ -318,14 +318,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-124: Add dead feature and unused page detector page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Create a page that analyzes which web app features and pages are actually being used vs abandoned, helping identify dead code and unused functionality that can be cleaned up or promoted
-- **Notes**: Provides visibility into feature adoption and helps maintain a lean codebase. Should: (1) Create /usage.html page showing feature usage analytics and dead code detection, (2) Track page visits by parsing nginx access logs for all .html pages - count hits per page over last 7/30/90 days, (3) Identify "ghost pages": pages with 0-5 visits in 30 days that may be forgotten or undiscoverable, (4) Track API endpoint usage: which /api/*.json files are fetched and how often, (5) Detect orphan APIs: JSON files that exist but no HTML page fetches them, (6) Navigation analysis: which pages are linked from index.html vs hidden/unlinked, (7) Feature discovery score: pages accessible via navigation/command palette vs buried, (8) Last-modified vs last-accessed: pages updated recently but never viewed may indicate wasted dev effort, (9) Click heatmap approximation: based on referrer data, which pages lead to which other pages, (10) Recommendations: "Consider removing /foo.html - 0 visits in 90 days" or "Consider promoting /bar.html - high engagement but hard to find", (11) Cleanup candidates list: pages safe to deprecate with zero dependencies, (12) Cost-benefit analysis: estimate tokens spent building unused features, (13) Dashboard card showing "X unused features detected" with keyboard shortcut, (14) Export usage report as CSV for auditing. Different from api-stats.html which tracks API call patterns - this tracks PAGE VISIT patterns and feature adoption. Different from freshness.html which monitors data staleness - this monitors USER ENGAGEMENT with features. Different from TASK-087 (API latency) which measures performance - this measures USAGE frequency. Different from retention.html which tracks data storage - this tracks feature ADOPTION. Helps answer: "Which features should we promote?" and "Which features are dead weight?" Essential for maintaining a high-quality web app that doesn't accumulate unused complexity over time. The autonomous system builds many features - this ensures they're actually useful.
-
 ### TASK-122: Add prompt efficiency analyzer page to CronLoop web app
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -337,6 +329,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-124: Add dead feature and unused page detector page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that analyzes which web app features and pages are actually being used vs abandoned, helping identify dead code and unused functionality that can be cleaned up or promoted
+- **Developer Notes**: Implemented /usage.html page with: (1) Page visit analytics parsing nginx access logs (cronloop.techtools.cz.access.log and rotated log), (2) Ghost page detection (0-5 hits), dead page detection (0 hits), popular page tracking, (3) API endpoint usage tracking with consumer mapping showing which HTML pages use each JSON API, (4) Orphan API detection (APIs with no HTML consumers), (5) Feature adoption score calculation (percentage of pages with >5 hits), (6) Navigation analysis checking if pages are linked from index.html, (7) Recommendations section with cleanup suggestions: remove dead pages, promote ghost pages, cleanup orphan APIs, (8) Three tabs: Pages, APIs, Recommendations with filtering and sorting, (9) Summary cards showing total pages, ghost/dead counts, orphan APIs, adoption score, (10) Export as JSON and CSV, (11) Backend script at /home/novakj/scripts/update-usage-analytics.sh, (12) API data at /api/usage-analytics.json, (13) Dashboard card with { keyboard shortcut showing adoption score or dead feature count, (14) Command palette integration (nav-usage), (15) Widget map entry for layout customization. Different from api-stats.html which tracks API call patterns - this tracks PAGE VISIT patterns. Different from freshness.html which monitors data staleness - this monitors USER ENGAGEMENT. Found 5 dead pages, 27 ghost pages, 10 orphan APIs in initial scan.
 
 ### TASK-077: Add system snapshot comparison page to CronLoop web app
 - **Status**: VERIFIED
