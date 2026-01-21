@@ -6841,3 +6841,37 @@ The file ends at line 257. I notice there's no "Last updated" timestamp at the b
    - Can integrate with the web app as a `/git-health.html` page
 
 Both developers now have 1 assigned TODO task each, balanced appropriately. These utility scripts will need web integration to meet the project's requirements - both can display their output on dedicated dashboard pages.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260121_170109.log
+
+>>> Running Developer Agent...
+All components are working. Let me provide a summary of what was implemented.
+
+## Summary: TASK-011 Complete
+
+I've implemented a comprehensive crontab documentation generator for the CronLoop web app:
+
+### Backend Enhancements (`/home/novakj/scripts/update-schedule.sh`)
+- Added support for `/etc/cron.d/*` files parsing (was missing from the original implementation)
+- Now scans all cron job sources:
+  - User crontab (`crontab -l`)
+  - System crontab (`/etc/crontab`)
+  - **NEW**: `/etc/cron.d/*` files
+  - Periodic directories (`/etc/cron.hourly`, `daily`, `weekly`, `monthly`)
+  - Systemd timers (`systemctl list-timers`)
+
+### New Web Page (`/var/www/cronloop.techtools.cz/crontab.html`)
+- **Statistics Overview**: 6 stat cards showing job counts by category
+- **Filter Tabs**: Filter by All/User Crontab/System Crontab/cron.d/Periodic/Systemd
+- **Search**: Full-text search across job names, commands, and schedules
+- **Sortable Table**: Name, Source, Schedule (raw + human-readable), User, Command, Next Run
+- **Source Badges**: Color-coded by type (blue=user, purple=system, orange=cron.d, green=periodic, cyan=systemd)
+- **Cron Syntax Reference**: Field explanations and common pattern examples
+- **Export**: JSON and Markdown export functionality
+- **Auto-refresh**: Every 60 seconds
+
+### Dashboard Integration
+- Dashboard card with 'c' keyboard shortcut showing total job count
+- Command palette entry: "Go to Crontab Documentation"
+- widgetMap entry for layout customization
+
+**Total jobs discovered: 48** (including user crontab, system crontab, /etc/cron.d/certbot, e2scrub_all, sysstat, and systemd timers)

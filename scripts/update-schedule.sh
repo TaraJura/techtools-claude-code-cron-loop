@@ -203,6 +203,56 @@ JOBEOF
     fi
 done < <(grep -v '^#' /etc/crontab 2>/dev/null | grep -v '^[[:space:]]*$' | grep -v '^SHELL' | grep -v '^PATH' || echo "")
 
+# Parse /etc/cron.d/* files (system cron jobs)
+if [[ -d "/etc/cron.d" ]]; then
+    for cronfile in /etc/cron.d/*; do
+        [[ -f "$cronfile" ]] || continue
+        cronfile_name=$(basename "$cronfile")
+
+        while IFS= read -r line; do
+            # Skip comments, empty lines, and variable definitions
+            [[ "$line" =~ ^# ]] && continue
+            [[ -z "${line// }" ]] && continue
+            [[ "$line" =~ ^[A-Z_]+= ]] && continue
+
+            # System cron.d files have user field: min hour dom mon dow user command
+            if [[ "$line" =~ ^([^[:space:]]+)[[:space:]]+([^[:space:]]+)[[:space:]]+([^[:space:]]+)[[:space:]]+([^[:space:]]+)[[:space:]]+([^[:space:]]+)[[:space:]]+([^[:space:]]+)[[:space:]]+(.+)$ ]]; then
+                min="${BASH_REMATCH[1]}"
+                hour="${BASH_REMATCH[2]}"
+                dom="${BASH_REMATCH[3]}"
+                mon="${BASH_REMATCH[4]}"
+                dow="${BASH_REMATCH[5]}"
+                user="${BASH_REMATCH[6]}"
+                cmd="${BASH_REMATCH[7]}"
+
+                expr="$min $hour $dom $mon $dow"
+                human=$(cron_to_human "$expr")
+                next_runs=$(get_cron_next_runs "$expr")
+
+                # Create unique ID from file and command
+                short_name=$(echo "$cmd" | awk '{print $1}' | xargs basename 2>/dev/null || echo "job")
+
+                [[ "$FIRST_JOB" == "false" ]] && echo "," >> "$OUTPUT_FILE.tmp"
+                FIRST_JOB=false
+
+                cat >> "$OUTPUT_FILE.tmp" << JOBEOF
+    {
+      "id": "cron-d-$cronfile_name-$short_name",
+      "name": "$cronfile_name: $short_name",
+      "type": "cron",
+      "source": "/etc/cron.d/$cronfile_name",
+      "schedule": "$expr",
+      "schedule_human": "$human",
+      "user": "$user",
+      "command": $(echo "$cmd" | jq -R .),
+      "next_runs": $next_runs
+    }
+JOBEOF
+            fi
+        done < "$cronfile"
+    done
+fi
+
 # Parse systemd timers
 while IFS= read -r line; do
     # Skip header line

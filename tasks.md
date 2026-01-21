@@ -102,13 +102,6 @@ Tasks follow this format:
 - **Description**: Create a script that tests basic network connectivity and DNS resolution
 - **Notes**: Should ping common external hosts (e.g., 8.8.8.8, 1.1.1.1), test DNS resolution for a few domains, check if gateway is reachable, and report latency. Helpful for diagnosing network issues on the server. Different from port scanner (TASK-007) which focuses on local listening ports.
 
-### TASK-011: Create a crontab documentation generator
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a script that lists all cron jobs on the system with human-readable schedule descriptions
-- **Notes**: Should scan user crontabs (crontab -l), system crontabs (/etc/crontab, /etc/cron.d/*), and cron directories (/etc/cron.daily, weekly, monthly). Convert cron schedule syntax to human-readable format (e.g., "*/30 * * * *" → "Every 30 minutes"). Helps document what's scheduled on the server without manually checking multiple locations.
-
 ### TASK-012: Create a system reboot history tracker
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -195,6 +188,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-011: Create a crontab documentation generator
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a script that lists all cron jobs on the system with human-readable schedule descriptions
+- **Notes**: Implemented at /crontab.html with: (1) Enhanced /scripts/update-schedule.sh backend to scan /etc/cron.d/* files in addition to existing sources, (2) Statistics overview showing total jobs by category (user crontab, system crontab, /etc/cron.d, periodic, systemd timers), (3) Filterable/searchable table with name, source, schedule (raw + human-readable), user, command, and next run columns, (4) Source badges color-coded by type (user=blue, system=purple, cron.d=orange, periodic=green, systemd=cyan), (5) Cron syntax reference section with field explanations and common examples, (6) Export as JSON or Markdown functionality, (7) Sortable columns by name, source, schedule, user, or next run, (8) Click-to-expand for long commands, (9) Dashboard card with 'c' keyboard shortcut showing total job count, (10) Command palette entry added, (11) widgetMap entry for layout customization, (12) Auto-refresh every 60 seconds. Scans: crontab -l, /etc/crontab, /etc/cron.d/*, /etc/cron.{hourly,daily,weekly,monthly}/*, systemctl list-timers.
 
 ### TASK-008: Create a user login history reporter
 - **Status**: VERIFIED
