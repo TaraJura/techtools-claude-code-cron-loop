@@ -9576,3 +9576,45 @@ The implementation is complete. Here's a summary of what was created:
 - 27 ghost pages (0-5 visits)
 - 10 orphan APIs (no HTML consumers)
 - 59.1% feature adoption score
+Done. Log saved to: /home/novakj/actors/developer/logs/20260121_023159.log
+
+>>> Running Developer 2 Agent...
+I've completed TASK-122. Here's a summary of what was implemented:
+
+## TASK-122: Prompt Efficiency Analyzer - Completed
+
+### Files Created/Modified:
+
+1. **`/var/www/cronloop.techtools.cz/prompt-efficiency.html`** (new)
+   - Efficiency banner showing overall score (0-100) with color-coded status
+   - Summary cards: Tokens/LOC, total tokens, lines output, waste tokens, trend, potential savings
+   - 4 tabs: By Task Type, By Agent, Waste Patterns, Optimizations
+   - Task type cards showing efficiency metrics per category
+   - Agent efficiency comparison cards
+   - Pattern detection for wasteful behaviors
+   - Optimization recommendations with priority levels
+   - 7-day trend chart with tokens vs output
+   - Export as JSON and CSV
+
+2. **`/home/novakj/scripts/update-prompt-efficiency.sh`** (new)
+   - Backend script that analyzes agent logs
+   - Correlates token usage with task types
+   - Calculates efficiency scores
+   - Detects waste patterns (retries, repeated reads)
+   - Generates optimization recommendations
+
+3. **`/var/www/cronloop.techtools.cz/api/prompt-efficiency.json`** (generated)
+   - API endpoint with efficiency metrics
+   - Current efficiency score: 91/100
+   - Tokens per LOC: 13.5
+
+4. **`/var/www/cronloop.techtools.cz/index.html`** (modified)
+   - Added dashboard card with teal styling
+   - Added `;` keyboard shortcut
+   - Added command palette integration (nav-prompt-efficiency)
+   - Added widget map entry for layout customization
+   - Added JavaScript to load efficiency score
+
+5. **`/home/novakj/tasks.md`** (updated)
+   - Task moved to Completed section with DONE status
+   - Added developer notes documenting all features

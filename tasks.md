@@ -318,17 +318,20 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-122: Add prompt efficiency analyzer page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Create a page that analyzes token efficiency across similar task types, identifying which prompts or task patterns consume disproportionate tokens and suggesting optimizations
-- **Notes**: Provides cost optimization insights for the AI-powered autonomous system. Should: (1) Create /prompt-efficiency.html page showing token usage analysis per task type, (2) Categorize tasks by type: web feature, script, bug fix, documentation, refactoring, testing, (3) Calculate tokens-per-line-of-code ratio for each task type to identify inefficient patterns, (4) Compare agent prompt sizes and correlate with output quality (are longer prompts more effective?), (5) Identify "expensive" task patterns: tasks that consistently use 5x+ average tokens, (6) Show token breakdown per agent operation: file reading, thinking, code writing, tool calls, (7) Suggest prompt optimizations: "Developer prompt could be 20% shorter by removing redundant instructions", (8) A/B comparison: when prompt changes occur, show before/after token efficiency, (9) Diminishing returns analysis: at what prompt length does quality stop improving?, (10) Token budget recommendations: "For web feature tasks, cap at 50K tokens based on historical success rates", (11) Wasted token detection: identify repetitive tool calls, redundant file reads, or circular reasoning patterns, (12) Cost-per-feature breakdown: estimate what each web page feature cost to build in tokens/dollars, (13) Trend analysis: is token efficiency improving as prompts evolve?, (14) Dashboard card showing efficiency score (tokens/output ratio) with trend arrow, (15) Export recommendations as prompt improvement suggestions. Different from cost-profiler.html which shows raw cost breakdown - this analyzes token EFFICIENCY patterns. Different from costs.html which tracks spending - this provides OPTIMIZATION insights. Different from TASK-111 (execution speed benchmarks) which measures wall-clock time - this measures TOKEN efficiency. Helps reduce operational costs by identifying where prompt engineering can save money while maintaining quality.
+*(No tasks currently in progress)*
 
 ---
 
 ## Completed
+
+### TASK-122: Add prompt efficiency analyzer page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that analyzes token efficiency across similar task types, identifying which prompts or task patterns consume disproportionate tokens and suggesting optimizations
+- **Developer Notes**: Implemented /prompt-efficiency.html page with: (1) Efficiency banner showing overall score (0-100) with status message, (2) Summary cards: Tokens/LOC ratio, total tokens analyzed, total lines output, waste tokens detected, efficiency trend, potential savings, (3) By Task Type tab with efficiency cards for each category (web_feature, bug_fix, script, etc.) showing tokens/LOC, total tokens, success rate, efficiency score, (4) By Agent tab comparing all 7 agents with efficiency scores, tokens/LOC ratios, and avg cost per task, (5) Waste Patterns tab detecting repetitive reads, excessive retries, agent variance issues, (6) Optimizations tab with prioritized recommendations (high/medium/low) showing potential token savings, cost savings, and efficiency gains, (7) Token efficiency trend chart showing last 7 days with tokens vs lines output, (8) Backend script at /home/novakj/scripts/update-prompt-efficiency.sh that parses agent logs and correlates with tasks, (9) API data at /api/prompt-efficiency.json with comprehensive efficiency metrics, (10) Dashboard card with ; keyboard shortcut showing efficiency score, (11) Command palette integration (nav-prompt-efficiency), (12) Widget map entry for layout customization, (13) Export as JSON and CSV, (14) Teal color theme (#14b8a6) matching the optimization/efficiency aesthetic. Different from cost-profiler.html which shows raw cost breakdown - this analyzes token EFFICIENCY patterns. Different from costs.html which tracks spending - this provides OPTIMIZATION insights.
 
 ### TASK-124: Add dead feature and unused page detector page to CronLoop web app
 - **Status**: DONE
