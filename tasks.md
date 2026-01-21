@@ -325,14 +325,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-129: Add agent communication log and inter-agent messaging page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Create a page that visualizes and analyzes how information flows between agents in the pipeline, showing what data each agent passes to the next and identifying communication bottlenecks or data loss
-- **Notes**: Provides visibility into the implicit "conversation" between agents via tasks.md and shared files. Should: (1) Create /communications.html page showing inter-agent data flow, (2) Parse agent logs to extract what each agent READ from tasks.md vs what it WROTE, (3) Track data handoffs: what information does idea-maker put in a task that PM uses? What does PM add that developer needs?, (4) Identify "lost in translation" moments: information present in one agent's output that wasn't used by the next agent, (5) Show communication timeline: sequential visualization of task state changes as each agent touches it, (6) Calculate "signal clarity" score: how complete and usable is the information passed between agents?, (7) Detect communication anti-patterns: vague descriptions, missing context, incomplete specifications, (8) Show which task fields are most frequently read vs written by each agent, (9) Recommendations: "Developer often needs X information that PM doesn't include - consider adding to PM prompt", (10) Compare communication efficiency across different task types - which task patterns have clearest handoffs?, (11) Export communication analysis as JSON for prompt engineering insights. Different from handoffs.html which tracks task STATE transitions - this tracks INFORMATION flow and data quality. Different from decisions.html which shows individual agent reasoning - this shows INTER-AGENT data transfer. Different from cascade.html which tracks failure propagation - this tracks INFORMATION propagation in successful flows. Helps optimize the multi-agent pipeline by identifying where context is lost between agents.
-
 ### TASK-130: Add system self-modification audit trail page to CronLoop web app
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -344,6 +336,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-129: Add agent communication log and inter-agent messaging page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that visualizes and analyzes how information flows between agents in the pipeline, showing what data each agent passes to the next and identifying communication bottlenecks or data loss
+- **Developer Notes**: Implemented /communications.html page with: (1) Backend script at /home/novakj/scripts/update-communications.sh that parses agent logs to extract read/write patterns for each agent, (2) Summary banner showing average signal clarity score (0-100%), (3) Summary cards for tasks analyzed, total handoffs, active agents, and recommendations count, (4) Pipeline Flow tab with interactive agent pipeline visualization showing handoff clarity between adjacent agents, task flow cards with expandable details showing each handoff's info passed, delay time, and detected patterns, (5) Task Timelines tab with filters by agent and clarity level, showing sequential agent touches on each task, (6) Agent Stats tab with per-agent metrics: tasks touched, avg reads/writes, common patterns like missing_info or multiple_retries, (7) Recommendations tab with prioritized suggestions for improving communication clarity based on detected anti-patterns, (8) Signal clarity scoring based on: info passed between agents, missing_info patterns, vague_spec patterns, retry patterns, (9) Export to JSON and CSV, (10) Dashboard card with = keyboard shortcut showing clarity percentage with color coding (excellent/good/average/poor), (11) Command palette integration (nav-communications), (12) Widget map entry for layout customization, (13) Cyan color theme (#06b6d4). Found 111 tasks, 359 handoffs, 72.5% avg clarity in initial analysis. Different from handoffs.html which tracks task STATE transitions - this tracks INFORMATION flow and data quality. Different from decisions.html which shows agent reasoning - this shows INTER-AGENT data transfer.
 
 ### TASK-127: Add agent file diff viewer page to CronLoop web app
 - **Status**: VERIFIED
