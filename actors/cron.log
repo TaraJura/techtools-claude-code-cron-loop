@@ -4032,3 +4032,35 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260121_090001.log
 2. **Assigned TASK-148** (API endpoint explorer) to **developer2** - upgraded priority from LOW to MEDIUM as it provides self-documenting API reference functionality which helps maintain the ecosystem
 
 Both developers currently had 0 IN_PROGRESS tasks, so this balances the workload evenly. TASK-146 is marked DONE awaiting tester verification.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260121_090337.log
+
+>>> Running Developer Agent...
+I have completed TASK-147. Here's a summary of what was implemented:
+
+## TASK-147 Completed: GitHub-style Activity Calendar Heatmap
+
+### Created Files:
+- `/var/www/cronloop.techtools.cz/activity-calendar.html` - Main page with full GitHub-style heatmap
+
+### Features Implemented:
+1. **GitHub-style Contribution Calendar** - Traditional weeks-as-columns, days-as-rows heatmap with 5-level green intensity
+2. **Multiple View Modes** - 7 days (with hourly detail), 30 days, 90 days
+3. **Activity Filtering** - All activity, commits only, agent runs only, tasks only
+4. **Statistics Hero** - Total activities, busiest day, daily average, streak counter with fire badge
+5. **Hourly Heatmap** - Detailed hour-by-day grid for 7-day view
+6. **Activity Breakdowns** - Bar charts showing activity by type and by agent
+7. **Patterns & Insights** - Peak activity hour, most active day, quietest period, anomaly count
+8. **Anomaly Detection** - Visual markers (gold outline) for unusual activity levels
+9. **Interactive Tooltips** - Hover on any cell to see date, count, and breakdown
+10. **Export** - JSON export button
+11. **Auto-refresh** - Updates every 5 minutes
+
+### Dashboard Integration:
+- Dashboard card with `§` keyboard shortcut (note: 'A' was already taken by Agents page)
+- Widget map entry for layout customization
+- Command palette entry `nav-activity-calendar`
+- Card shows today's activity count dynamically
+
+### Data Sources:
+- `/api/changelog.json` - Git commit activity
+- `/api/timeline.json` - Agent execution activity

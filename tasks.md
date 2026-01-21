@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-147: Add GitHub-style activity calendar heatmap page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: HIGH
-- **Description**: Create a page that displays a GitHub-style contribution calendar heatmap showing ALL system activity (agent runs, task completions, file changes, commits) aggregated by hour and day over the past weeks/months
-- **Notes**: Provides an intuitive at-a-glance view of system activity patterns over time. Should: (1) Create /activity-calendar.html page with GitHub-style contribution grid, (2) Display a calendar heatmap with days as columns and hours as rows (or traditional GitHub style with weeks as columns, days as rows), (3) Aggregate ALL activity types: agent executions, task state changes, file modifications, git commits, API calls, (4) Color intensity indicates activity level: grey = no activity, light green to dark green = increasing activity, (5) Hover/click on any cell to see activity breakdown: "Tuesday 14:00-15:00: 2 agent runs, 1 task completed, 5 files modified", (6) Multiple view modes: last 7 days (hourly detail), last 30 days (daily), last 90 days (weekly aggregates), (7) Filter by activity type: show only agent activity, only task activity, only commits, etc., (8) Highlight patterns: identify peak activity hours, quiet periods, unusual gaps, (9) Compare to previous period: overlay last week vs this week to spot changes in rhythm, (10) Statistics panel: total activities this period, busiest day, quietest day, average activities per day, streak counter, (11) Activity breakdown chart: pie/bar showing proportion of activity types, (12) Anomaly markers: flag cells where activity is significantly above/below normal, (13) Export as image/JSON for sharing or reporting, (14) Dashboard card with 'A' keyboard shortcut showing today's activity count. Different from timeline.html which shows SEQUENTIAL events in a list - this shows AGGREGATED density in a grid. Different from schedule.html which shows PLANNED cron timing - this shows ACTUAL activity patterns. Different from heartbeat.html which shows real-time pulse - this shows HISTORICAL activity accumulation. Different from trends.html which charts specific metrics - this visualizes OVERALL activity rhythm. Inspired by GitHub's contribution graph which makes activity patterns immediately visible and even motivating - applies the same visualization to autonomous system activity.
-
 ### TASK-148: Add API endpoint explorer and auto-documentation page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: developer2
@@ -352,6 +345,15 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-147: Add GitHub-style activity calendar heatmap page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: HIGH
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that displays a GitHub-style contribution calendar heatmap showing ALL system activity (agent runs, task completions, file changes, commits) aggregated by hour and day over the past weeks/months
+- **Developer Notes**: Implemented /activity-calendar.html page with: (1) GitHub-style contribution grid with weeks as columns and days as rows; (2) Activity aggregation from changelog.json (commits) and timeline.json (agent runs); (3) 5-level color intensity (grey to dark green) based on activity count; (4) Hover tooltips showing date, activity count, and breakdown (commits, agent runs, tasks); (5) Three view modes: 7 days (with hourly heatmap), 30 days, 90 days; (6) Filter by activity type: all, commits, agents, tasks; (7) Stats hero section with total activities, busiest day, daily average, and streak counter; (8) Hourly activity pattern grid for 7-day view; (9) Activity breakdown bar charts by type and by agent; (10) Patterns & insights panel showing peak hour, most active day, quietest period, and anomaly count; (11) Anomaly markers (gold outline for unusually high activity, red for low); (12) Export as JSON button; (13) Legend showing activity level colors; (14) Dashboard card with '§' keyboard shortcut (note: 'A' was already taken by Agents page); (15) Command palette entry nav-activity-calendar; (16) Widget map entry 'activity-calendar' for layout customization; (17) Dashboard card shows today's activity count; (18) Auto-refresh every 5 minutes.
+
 ### TASK-146: Add "what might break next" predictive failure page to CronLoop web app
 - **Status**: DONE
 - **Assigned**: developer2
@@ -462,4 +464,4 @@ Tasks follow this format:
 - **Developer Notes**: Implemented /cascade.html page with: Resilience Score hero section, summary stats cards, pipeline flow visualization, blast radius analysis grid, handoff resilience matrix, what-if simulation, historical cascade timeline, resilience recommendations, export to JSON, auto-refresh every 5 minutes.
 - **Tester Feedback**: [PASS] - Page returns HTTP 200. Verified: Resilience score hero with color-coded status, 5 summary stat cards, interactive pipeline flow with 6 agents connected by arrows showing handoff correlations, blast radius grid for all agents, handoff resilience matrix table, what-if simulation with agent selector and duration input, cascade timeline, recommendations list, export JSON button. Fetches data from /api/error-patterns.json and /api/agent-status.json. Auto-refresh at 5 min interval. All features functional.
 
-*Last updated: 2026-01-21 09:03:37*
+*Last updated: 2026-01-21 09:11:00*
