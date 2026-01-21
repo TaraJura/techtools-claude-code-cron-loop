@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-125: Add agent dependency impact analyzer page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page that visualizes dependencies between system components and predicts the blast radius of changes, showing what might break when a file, API, or configuration is modified
-- **Notes**: Enables safe refactoring and change planning by understanding ripple effects. Should: (1) Create /impact.html page showing dependency graph and change impact analysis, (2) Map dependencies: which HTML pages depend on which API JSON files, which scripts update which JSON files, which agent prompts reference which configs, (3) Build dependency graph visualization: nodes are files/components, edges are dependencies (imports, fetches, reads, writes), (4) "What if" analysis: select a file and see all downstream dependents that could be affected by changes, (5) Color-code by risk level: red for high-impact files (many dependents), green for isolated files (safe to change), (6) Track actual breakage history: when file X changed, did dependents Y/Z actually break? (parse from error logs and git), (7) Identify fragile dependencies: components with many dependents that change frequently (high churn + high impact = risk), (8) Suggest decoupling opportunities: "API file X has 15 dependents - consider versioning or abstraction", (9) Safe change score: for any proposed change, calculate confidence that it won't break things, (10) Pre-flight check: before agent modifies a file, show what depends on it (could integrate with agent prompts eventually), (11) Dependency health metrics: cyclic dependencies, orphan files, overly coupled modules, (12) Export dependency graph as JSON, (13) Dashboard card with I keyboard shortcut. Different from architecture.html which shows static system structure - this shows dynamic DEPENDENCIES between components. Different from cascade.html (TASK-089) which analyzes failure propagation after the fact - this predicts impact BEFORE changes. Different from heatmap.html (TASK-064) which shows modification frequency - this shows modification RISK. Essential for an autonomous system making daily code changes to understand the consequences of those changes.
-
 ### TASK-121: Add system achievements and milestone celebration page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -330,6 +323,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-125: Add agent dependency impact analyzer page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that visualizes dependencies between system components and predicts the blast radius of changes, showing what might break when a file, API, or configuration is modified
+- **Developer Notes**: Implemented /impact.html page with: (1) Backend script at /home/novakj/scripts/update-impact-analyzer.sh that analyzes HTML->API dependencies (fetch calls), script->API dependencies (OUTPUT_FILE patterns), and prompt->config references, (2) Summary banner showing system coupling score (edges per node), (3) Summary cards for total components, dependencies, and risk distribution (critical/high/medium/low), (4) Risk distribution bar with visual segments showing component risk levels, (5) What-If Analysis panel: select any file and see its blast radius (direct dependents, risk level, file type, recent changes), (6) Tabbed views for: High Impact Files (files with most dependents), Fragile Dependencies (high churn + many dependents), Decoupling Suggestions (recommendations for files with 8+ dependents), All Components (filterable/sortable by type, risk, dependents), All Dependencies (filterable edge list showing from->to->type), (7) File cards showing dependents count, dependencies count, churn (30-day changes), and risk badge, (8) Export to JSON for each tab, (9) API data at /api/impact-analysis.json with nodes, edges, high_impact_files, fragile_dependencies, decoupling_suggestions, dependency_types, (10) Dashboard card with I keyboard shortcut showing coupling score, (11) Command palette integration (nav-impact), (12) Widget map entry for layout customization. Found 170 components, 262 dependencies, 4 critical risk files, 20 high-impact files. Different from architecture.html (static structure) - this shows dynamic dependencies. Different from cascade.html (failure propagation) - this predicts impact BEFORE changes.
 
 ### TASK-126: Add feature ROI calculator and value tracker page to CronLoop web app
 - **Status**: DONE
