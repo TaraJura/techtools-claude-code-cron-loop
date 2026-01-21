@@ -183,16 +183,18 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-015: Create a long-running process detector
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a script that identifies processes that have been running for extended periods (e.g., >24 hours, >7 days), with web dashboard integration
-- **Notes**: Helps identify forgotten background processes, zombie services, or runaway scripts that may consume resources over time. Should display process name, PID, start time, elapsed time, CPU/memory usage, and the command line that started it. Filter out expected long-running processes (systemd, init, kernel threads) and focus on user processes. Complements memory-monitor.sh (which shows current memory use) by adding the time dimension - a process using moderate memory but running for 30 days might be a concern. Different from service-status-checker.sh which only checks systemd services. **Must integrate with the web dashboard** - create /processes.html page showing long-running processes with sortable table, age indicators, and resource usage.
-
 ---
 
 ## Completed
+
+### TASK-015: Create a long-running process detector
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a script that identifies processes that have been running for extended periods (e.g., >24 hours, >7 days), with web dashboard integration
+- **Notes**: Implemented at /long-running.html with: (1) Backend script /scripts/update-long-running-processes.sh that scans all processes, filters expected system processes, and categorizes by age (1h-7d=info, 7d-30d=warning, 30d+=critical), (2) API endpoint /api/processes.json with summary stats, system uptime, and process details including PID, user, command, elapsed time, start time, CPU/memory usage, and severity, (3) Web page with system uptime banner, stats grid showing total/long-running/warning/critical counts, severity legend, sortable and filterable table with search, (4) Dashboard card showing long-running process count with color-coded status, (5) Command palette entry with 'l' keyboard shortcut, (6) widgetMap entry for layout customization, (7) Auto-refresh every 60 seconds, (8) Export JSON functionality. Filters out expected long-running processes like systemd, cron, nginx, etc. Helps identify forgotten background tasks or runaway scripts.
 
 ### TASK-012: Create a system reboot history tracker
 - **Status**: DONE
