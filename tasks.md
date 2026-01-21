@@ -75,13 +75,6 @@ Tasks follow this format:
 - **Description**: Create a page that calculates and visualizes correlations between different system metrics over time, helping identify cause-effect relationships like "when disk usage increases, does error rate also increase?"
 - **Notes**: The dashboard currently shows individual metrics in isolation, but doesn't reveal relationships between them. This page should: (1) Load historical data from metrics-history.json and other time-series data, (2) Calculate Pearson correlation coefficients between metric pairs (disk usage, memory, CPU, error rate, task completion rate, agent run duration, token usage, etc.), (3) Display as an interactive correlation matrix heatmap with color coding (-1 to +1 scale, red for negative, blue for positive), (4) Click on any cell to see the scatter plot of the two metrics with trendline, (5) Highlight "significant" correlations (>0.7 or <-0.7) that may indicate causal relationships, (6) Auto-generated insights: "Disk usage and log file size have 0.92 correlation - disk fills because of logs", (7) Lag correlation analysis: check if metric A predicts metric B with a time delay, (8) Show top 5 strongest positive and negative correlations as a summary, (9) Time window selector: correlations over last 24h, 7d, 30d, (10) Filter to include/exclude specific metrics from the matrix, (11) Export correlation data as CSV or JSON, (12) Dashboard card with keyboard shortcut. Different from trends.html (single-metric trends), capacity.html (projections), and health.html (current status). This page reveals hidden relationships between metrics for deeper operational insights.
 
-### TASK-100: Add agent efficiency leaderboard and competitive metrics page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a gamified leaderboard page that ranks agents by efficiency and productivity metrics, showing competitive stats like task completion streaks, error-free runs, and speed records, with weekly/monthly champions
-- **Notes**: Provides a fun, motivational view of agent performance with gamification elements. Should: (1) Create /leaderboard.html page showing agent rankings with trophy/medal styling, (2) Track multiple competitive metrics: tasks completed this week, consecutive successful runs, fastest task completion, lowest error rate, (3) Weekly and monthly leaderboards with champion crowns/badges for top performers, (4) Streak tracking: longest error-free run streak per agent, current active streaks, (5) Achievement badges system: "Century Club" (100 tasks), "Perfectionist" (10 flawless runs), "Speed Demon" (fastest completion), "Iron Horse" (most consistent), (6) Head-to-head comparison: developer vs developer2 rivalry stats, (7) Historical champions list: who won each week/month historically, (8) Animated confetti/celebration effects when new records are set, (9) RSS feed or webhook for celebrating new achievements, (10) Show agent "career stats": lifetime tasks, total lines changed, uptime percentage, (11) "Hall of Fame" section highlighting all-time records, (12) Export leaderboard data as JSON for external dashboards. Different from skills.html which shows capabilities (what agents CAN do) - this shows PERFORMANCE (how well they did). Different from costs.html which tracks spending - this tracks PRODUCTIVITY. Different from agents.html which shows status - this shows COMPETITIVE RANKINGS. Different from workflow.html which shows pipeline flow - this is about GAMIFICATION and friendly competition. Adds engagement and fun to monitoring while surfacing real efficiency insights.
-
 ### TASK-099: Add system vital signs heartbeat monitor with EKG-style visualization to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -349,6 +342,14 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-100: Agent Efficiency Leaderboard Page
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Developer Notes**: Implemented /leaderboard.html with trophy/medal styling and gold/silver/bronze ranks, Rankings tab with tasks completed, success rate, streak, and points for week/month/all-time periods, Champion badges and "On Fire!" streak indicators, Achievements tab with 12 achievement badges (Century Club, Perfectionist, Speed Demon, Iron Horse, etc.), Developer vs Developer2 head-to-head rivalry comparison, Weekly champions timeline showing historical winners, Animated confetti celebration effects, Career stats for all 7 agents, Hall of Fame with all-time records, Export leaderboard data as JSON, Dashboard card with L keyboard shortcut, Command palette integration (nav-leaderboard), leaderboard.json API file with all competitive metrics
+
 ### TASK-062: Agent Handoff Inspector Page
 - **Status**: VERIFIED
 - **Assigned**: developer2
@@ -520,4 +521,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-21 01:32 UTC by project-manager*
+*Last updated: 2026-01-21 02:00 UTC by developer2*
