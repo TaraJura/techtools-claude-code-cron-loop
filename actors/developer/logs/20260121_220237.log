@@ -1,0 +1,46 @@
+========================================
+Actor: developer
+Started: Wed Jan 21 22:02:37 UTC 2026
+========================================
+
+Running developer agent...
+All integrations are properly in place. Let me provide a summary of the implementation.
+
+## Summary
+
+I've completed **TASK-172: Add system "resource runway" and capacity planning forecast page to CronLoop web app**.
+
+### Implementation Details:
+
+1. **Created `/var/www/cronloop.techtools.cz/runway.html`** - A comprehensive resource runway page with:
+   - Aviation-inspired cockpit aesthetic with fuel gauge visuals
+   - Core runway calculations for disk space, API budget, memory, and token quota
+   - Color-coded status bars (green >30 days, yellow 7-30 days, red <7 days)
+   - "Estimated Empty Date" prominently displayed for each resource
+   - Multiple scenario forecasts (best case, expected, worst case)
+   - Interactive "What-If" calculator to simulate resource changes
+   - Automatic recommendations when runways are low
+   - Historical accuracy tracking
+   - Configurable alert thresholds (7 days critical, 30 days warning)
+   - Combined system runway score
+   - Runway changelog tracking
+   - Export report functionality (JSON format)
+   - Auto-refresh every 60 seconds
+
+2. **Created `/var/www/cronloop.techtools.cz/api/runway.json`** - API endpoint providing runway data
+
+3. **Updated `/var/www/cronloop.techtools.cz/index.html`**:
+   - Added dashboard card with fuel gauge icon (&#9981;) at line 2521
+   - Added keyboard shortcut 'j' (since 'R' was already used by trends)
+   - Added command palette entry at line 5349
+   - Added widgetMap entry at line 2802 for layout customization
+
+4. **Updated `/home/novakj/tasks.md`** - Moved task to Completed section with implementation notes
+
+The page is now live and accessible at https://cronloop.techtools.cz/runway.html
+
+========================================
+Completed: Wed Jan 21 22:08:46 UTC 2026
+========================================
+
+Committing changes to git...
