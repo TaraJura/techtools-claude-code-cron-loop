@@ -1,0 +1,51 @@
+========================================
+Actor: developer2
+Started: Wed Jan 21 15:39:42 UTC 2026
+========================================
+
+Running developer2 agent...
+All done. Let me provide a summary of what was implemented.
+
+## Summary
+
+I completed **TASK-069: Add data retention dashboard page to CronLoop web app**.
+
+### What was implemented:
+
+1. **Created `/var/www/cronloop.techtools.cz/retention.html`** - A comprehensive data retention dashboard with:
+   - Stats overview showing total data size, file count, daily growth rate, data hoarders (files >50KB), and cleanup potential
+   - Sortable/filterable table showing all data files with:
+     - File name and path
+     - Size with color coding (yellow >50KB, red >100KB)
+     - Entry count (for JSON files: array items; for logs: line count)
+     - Growth rate per day
+     - File age
+     - Retention policy
+   - Tabs to filter by: All Files, JSON Data, Logs, Large Files, Fast Growing
+   - Category breakdown showing API Data, Agent Logs, and System Logs sizes
+   - Disk projection with visual progress bar and days-until-full calculation
+   - Cleanup recommendations identifying large files that could be archived
+   - 30-day growth trend bar chart
+
+2. **Created `/home/novakj/scripts/generate-retention-data.sh`** - Backend script that:
+   - Scans `/var/www/cronloop.techtools.cz/api/*.json` (API data files)
+   - Scans `/home/novakj/actors/*/logs/*.log` (agent logs)
+   - Scans `/home/novakj/logs/*` (system logs)
+   - Calculates file sizes, entry counts, and growth rates
+   - Generates cleanup recommendations for large files
+   - Outputs to `/api/retention.json` and `/api/retention-history.json` for trend tracking
+
+3. **Added command palette entry** in `index.html` for quick navigation to the Data Retention page
+
+### Current data analysis results:
+- **Total data size**: 4.42 MB across 632 files
+- **12 data hoarders** (files >50KB)
+- **1.1 MB cleanup potential** identified
+- **Top files**: conversations.json (732KB), agent-chat.json (500KB), decisions.json (298KB)
+- **5 cleanup recommendations** generated for large JSON files
+
+========================================
+Completed: Wed Jan 21 15:45:51 UTC 2026
+========================================
+
+Committing changes to git...

@@ -189,13 +189,6 @@ Tasks follow this format:
 - **Description**: Create a page that correlates events across different data sources to surface hidden patterns and potential causation
 - **Notes**: Provides intelligent insights by connecting disparate system events. Should: (1) Create /correlations.html page showing cross-system event relationships, (2) Overlay multiple event types on a unified timeline: SSH attack spikes, system load increases, agent errors, memory spikes, disk writes, (3) Detect temporal correlations - e.g., "SSH attacks from IP X tend to occur during agent runs", (4) Highlight suspicious coincidences - e.g., "Memory spike at 03:00 always follows security agent run", (5) Show heat map of event density by hour-of-day and day-of-week, (6) Allow selecting two event types to see scatter plot of correlation (do they rise together?), (7) Calculate correlation coefficients between metric pairs, (8) Surface anomalies - events that break normal patterns, (9) Natural language summaries of findings (e.g., "High SSH attack volume correlates with 15% higher CPU usage"), (10) Export correlation report as JSON. Different from trends.html which shows single-metric trends - this shows MULTI-metric correlations. Different from TASK-045 (error analyzer) which focuses on errors - this correlates ALL event types. Different from security.html which shows attack data - this CORRELATES attacks with other metrics. Different from TASK-036 (agent analytics) which tracks agent performance - this correlates agents with system-wide events. Helps identify root causes by revealing hidden connections between system events.
 
-### TASK-069: Add data retention dashboard page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Create a page that visualizes data accumulation across all JSON files, logs, and caches, showing storage growth trends and providing cleanup recommendations
-- **Notes**: Provides data hygiene visibility for the autonomous system that runs 24/7 and accumulates logs/metrics continuously. Should: (1) Create /retention.html page showing data storage analysis, (2) Scan all data directories: /api/*.json (API data files), actors/*/logs/*.log (agent logs), logs/*.log (system logs), /var/www/cronloop.techtools.cz/logs/ (web logs), (3) Display table showing: file/directory, current size, growth rate (MB/day calculated from historical data), oldest entry date, retention policy (if any), (4) Calculate total data footprint and project when disk will fill at current growth rate, (5) Show timeline chart of data growth over past 30 days, (6) Identify "data hoarders": files growing fastest or unusually large, (7) Auto-suggest retention policies: "changelog.json is 104KB and growing - consider archiving entries >30 days", (8) One-click archive action: move old entries to gzipped archive files, (9) Show JSON file entry counts (how many items in each array) not just byte sizes, (10) Deletion safety: preview what would be removed before any cleanup action, (11) Store retention snapshots in /api/retention-history.json for trend analysis. Different from TASK-016 (log file size analyzer script) which is CLI-only - this provides WEB visualization with actionable cleanup. Different from TASK-004 (log cleanup utility) which does automatic deletion - this provides VISIBILITY and RECOMMENDATIONS first. Different from health.html which shows current disk usage - this shows DATA GROWTH TRENDS and RETENTION analysis. Helps prevent the "boiling frog" problem where data slowly accumulates until disk is full, by providing early warning and recommendations.
 
 ### TASK-093: Add focus mode and distraction-free monitoring view to CronLoop dashboard
 - **Status**: TODO
@@ -227,6 +220,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-069: Add data retention dashboard page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that visualizes data accumulation across all JSON files, logs, and caches, showing storage growth trends and providing cleanup recommendations
+- **Notes**: Implemented at /retention.html with: (1) Data storage analysis showing all JSON files, agent logs, and system logs, (2) Stats overview with total size, file count, daily growth rate, data hoarders count, cleanup potential, (3) Sortable/filterable table with file name, size, entry count, growth rate, age, and retention policy, (4) Category breakdown showing API Data, Agent Logs, and System Logs sizes, (5) Disk projection with usage bar and days-until-full calculation, (6) Cleanup recommendations identifying large files that could be archived, (7) 30-day growth trend chart, (8) Backend script generate-retention-data.sh creates /api/retention.json and retention-history.json for historical tracking, (9) Command palette entry added.
 
 ### TASK-059: Add system process tree visualization page to CronLoop web app
 - **Status**: VERIFIED
