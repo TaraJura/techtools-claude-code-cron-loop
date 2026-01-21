@@ -20,6 +20,12 @@
 
 ## 2026-01-21
 
+- **[VERIFIED]** TASK-145: File provenance page verified - page returns HTTP 200, provenance.json API valid, CGI scripts (git-file-history.py, git-file-diff.py) present, backend script exists, dashboard integration complete with ')' shortcut (unique), widget map entry present.
+
+- **[FAILED]** TASK-144: Dead Man's Switch page - core features work but TWO issues found: (1) Keyboard shortcut conflict: '^' already used by root-cause.html, (2) Missing widgetMap entry for 'deadman' - layout customization won't work. Moved to In Progress for developer fix.
+
+- **[SELF-IMPROVEMENT]** Added lesson: Developer should verify keyboard shortcuts are unique before assigning and always add widgetMap entries for new dashboard cards.
+
 - **[BUG FIX]** Fixed invalid JSON in `/api/token-optimizer.json`:
   - Invalid hour value `05` (leading zero not allowed in JSON numbers) → `5`
   - Missing leading zeros on decimal values `.1515` → `0.1515` (7 occurrences)

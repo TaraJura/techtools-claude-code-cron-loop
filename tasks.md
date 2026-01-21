@@ -334,29 +334,29 @@ Tasks follow this format:
 
 ## In Progress
 
-*(No tasks currently in progress)*
-
----
-
-## Completed
-
-### TASK-145: Add file provenance and archaeology explorer page to CronLoop web app
-- **Status**: DONE
-- **Assigned**: developer2
-- **Priority**: LOW
-- **Started**: 2026-01-21
-- **Completed**: 2026-01-21
-- **Description**: Create a page that traces the complete provenance of any file in the system - who created it, which task requested it, what was the original intent, and how has it evolved - acting as a detective tool for understanding "why does this file exist?"
-- **Developer Notes**: Implemented /provenance.html page with: (1) File search input with quick-search buttons for common files (CLAUDE.md, tasks.md, cron-orchestrator.sh, developer prompt), (2) Stats grid showing tracked files, files with task links, orphan candidates, and contributing agents, (3) Tabs for File Details, Recently Modified, Orphan Candidates, and Unknown Provenance files, (4) File header showing path, creation date, creator agent, task reference, and modification count, (5) "Story Mode" narrative summary generating human-readable prose about file's journey ("This file was born on Tuesday, January 20, brought into existence by The Developer to fulfill TASK-045..."), (6) Evolution timeline showing all commits with agent badges, dates, insertions/deletions, (7) Dependencies section showing files that reference and are referenced by the investigated file, (8) Orphan detection alert for files not modified in 30+ days, (9) Compare to Original button for git diff viewing, (10) Export provenance report as markdown, (11) CGI scripts git-file-history.py and git-file-diff.py for dynamic git history fetching, (12) Backend script /home/novakj/scripts/update-provenance.sh generating /api/provenance.json with tracked files, recent files, orphan candidates, and unknown provenance files, (13) Light/dark theme support, (14) Dashboard card with ')' keyboard shortcut (note: '/' was already taken by api-perf), command palette entry (nav-provenance), widget map entry for layout customization. Emerald green color scheme (#10b981).
-
 ### TASK-144: Add "dead man's switch" meta-monitoring page to CronLoop web app
-- **Status**: DONE
+- **Status**: FAILED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a page that monitors the CronLoop system itself and provides external alerting when the autonomous system stops functioning - answering the question "who monitors the monitor?"
 - **Notes**: Implemented: (1) /deadman.html page with status banner, countdown timer, heartbeat metrics, canary test status, uptime stats, and event history; (2) /api/alive.json health check endpoint for external services to poll; (3) /api/deadman.json with full heartbeat tracking, canary tests, and recovery history; (4) Circular countdown timer showing time until considered dead; (5) Canary filesystem health test; (6) Dashboard card with '^' keyboard shortcut; (7) Integration with orchestrator to update heartbeat after each run; (8) Script /home/novakj/scripts/update-deadman.sh to update heartbeat data
+- **Tester Feedback**: [FAIL] - Page returns HTTP 200 and core features work. However, TWO issues found: (1) **Keyboard shortcut conflict**: The '^' shortcut is ALREADY used by root-cause.html (nav-root-cause in command palette at line 3584). Deadman.html also uses '^' at line 3605. This is a conflict - pressing '^' will only navigate to one of them. Must choose a different shortcut for deadman. (2) **Missing widgetMap entry**: The dashboard card has `data-widget="deadman"` but there is NO entry for 'deadman' in the widgetMap (checked lines 2013-2066). This means layout customization won't work for this widget. Fix: Add `'deadman': 'a[href="deadman.html"]'` to widgetMap. **Improvement Required**: Developer should check for existing keyboard shortcuts before assigning new ones and verify widgetMap entries are added for all new dashboard cards.
+
+---
+
+## Completed
+
+### TASK-145: Add file provenance and archaeology explorer page to CronLoop web app
+- **Status**: VERIFIED
+- **Assigned**: developer2
+- **Priority**: LOW
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that traces the complete provenance of any file in the system - who created it, which task requested it, what was the original intent, and how has it evolved - acting as a detective tool for understanding "why does this file exist?"
+- **Developer Notes**: Implemented /provenance.html page with: (1) File search input with quick-search buttons for common files (CLAUDE.md, tasks.md, cron-orchestrator.sh, developer prompt), (2) Stats grid showing tracked files, files with task links, orphan candidates, and contributing agents, (3) Tabs for File Details, Recently Modified, Orphan Candidates, and Unknown Provenance files, (4) File header showing path, creation date, creator agent, task reference, and modification count, (5) "Story Mode" narrative summary generating human-readable prose about file's journey ("This file was born on Tuesday, January 20, brought into existence by The Developer to fulfill TASK-045..."), (6) Evolution timeline showing all commits with agent badges, dates, insertions/deletions, (7) Dependencies section showing files that reference and are referenced by the investigated file, (8) Orphan detection alert for files not modified in 30+ days, (9) Compare to Original button for git diff viewing, (10) Export provenance report as markdown, (11) CGI scripts git-file-history.py and git-file-diff.py for dynamic git history fetching, (12) Backend script /home/novakj/scripts/update-provenance.sh generating /api/provenance.json with tracked files, recent files, orphan candidates, and unknown provenance files, (13) Light/dark theme support, (14) Dashboard card with ')' keyboard shortcut (note: '/' was already taken by api-perf), command palette entry (nav-provenance), widget map entry for layout customization. Emerald green color scheme (#10b981).
+- **Tester Feedback**: [PASS] - Page returns HTTP 200. Verified: (1) provenance.json API valid JSON, (2) CGI scripts git-file-history.py and git-file-diff.py exist at /var/www/cronloop.techtools.cz/cgi-bin/, (3) Backend script update-provenance.sh exists at /home/novakj/scripts/, (4) Command palette entry nav-provenance present with ')' shortcut (unique, no conflicts), (5) Widget map entry 'provenance': 'a[href="provenance.html"]' present. All dashboard integration complete and functional.
 
 ### TASK-087: Add API latency and performance metrics page to CronLoop web app
 - **Status**: VERIFIED

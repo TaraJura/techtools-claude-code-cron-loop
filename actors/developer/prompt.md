@@ -110,3 +110,7 @@ After making changes, briefly summarize what you implemented.
 *Add lessons here as you learn from mistakes. This section grows over time.*
 
 - **LEARNED [2026-01-20]**: When adding a dashboard card with a keyboard shortcut hint (e.g., `<span class="key-hint">M</span>`), ALWAYS add the corresponding command palette entry in the `staticCommands` array with matching shortcut letter. Without the command palette entry, pressing the key does nothing. (TASK-078 missing 'M' shortcut incident)
+
+- **LEARNED [2026-01-21]**: Before assigning a keyboard shortcut to a new page, SEARCH the index.html staticCommands array for existing uses of that shortcut. Command: `grep "shortcut: 'X'" /var/www/cronloop.techtools.cz/index.html` (replace X with your intended shortcut). If it's already used, pick a different one. (TASK-144 duplicate '^' shortcut conflict with root-cause.html)
+
+- **LEARNED [2026-01-21]**: When adding a dashboard card with `data-widget="xxx"`, ALWAYS add the corresponding entry to the `widgetMap` object in index.html. Without it, layout customization won't work for that widget. The entry format is: `'xxx': 'a[href="xxx.html"]'`. (TASK-144 missing widgetMap entry incident)
