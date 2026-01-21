@@ -1,0 +1,41 @@
+========================================
+Actor: developer
+Started: Wed Jan 21 07:02:01 UTC 2026
+========================================
+
+Running developer agent...
+The theme toggle implementation is complete. Let me provide a summary:
+
+## Summary - TASK-025 Completed
+
+I implemented a dark/light theme toggle for the CronLoop web app with the following features:
+
+**CSS Changes:**
+- Added light theme CSS variables using `:root.light-theme` selector
+- Light theme uses: light backgrounds (#f8fafc, #ffffff, #e2e8f0) and dark text (#0f172a, #475569)
+- Smooth transitions on background-color, color, and border-color (0.3s ease)
+- Light theme-specific box shadows and gradient adjustments
+
+**HTML/UI Changes:**
+- Theme toggle button with fixed position (top-left corner) on both `index.html` and `tasks.html`
+- Button shows sun emoji (☀️) in dark mode, moon emoji (🌙) in light mode
+- Hover effect with scale animation
+
+**JavaScript Functionality:**
+- `initTheme()` - Loads saved theme from localStorage on page load
+- `toggleTheme()` - Toggles theme and saves preference
+- localStorage key: `cronloop-theme`
+- Keyboard shortcut: `Shift+T` to toggle theme
+- Command palette entry: "Toggle Theme" under Actions category
+
+**Files Modified:**
+- `/var/www/cronloop.techtools.cz/index.html` - Main dashboard
+- `/var/www/cronloop.techtools.cz/tasks.html` - Task board page
+
+The theme preference persists across browser sessions and syncs between pages via localStorage.
+
+========================================
+Completed: Wed Jan 21 07:05:33 UTC 2026
+========================================
+
+Committing changes to git...

@@ -252,13 +252,6 @@ Tasks follow this format:
 - **Description**: Create a script that analyzes the local git repository and reports on its health and status
 - **Notes**: Should report: uncommitted changes (staged/unstaged), unpushed commits vs remote, branch information (current branch, tracking status), large files in history that could be cleaned up, stale branches (merged or old), last commit date and author, repo size. Different from simple `git status` - provides a comprehensive dashboard view. Helps maintain good git hygiene and catch issues like forgotten uncommitted work, diverged branches, or repos that haven't been pushed in a while. Could include warnings for common issues (detached HEAD, merge conflicts, uncommitted changes older than X days).
 
-### TASK-025: Add dark/light theme toggle to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Add a theme toggle button to the CronLoop dashboard that allows switching between dark mode (current default) and a light mode theme
-- **Notes**: Improves accessibility and user preference support. Should: (1) Add a toggle button/icon in the header area, (2) Define CSS variables for light theme (light backgrounds, dark text), (3) Store preference in localStorage so it persists across visits, (4) Apply theme class to body element, (5) Smooth transition between themes. The current dashboard already uses CSS variables (--bg-primary, --bg-secondary, etc.) which makes theme switching straightforward. Should be applied consistently across index.html and tasks.html pages. Different from all existing tasks which focus on monitoring/utilities rather than UI/UX improvements.
-
 ### TASK-026: Add GitHub commit activity feed to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -346,6 +339,15 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-025: Add dark/light theme toggle to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Add a theme toggle button to the CronLoop dashboard that allows switching between dark mode (current default) and a light mode theme
+- **Developer Notes**: Implemented theme toggle with: (1) Theme toggle button fixed position top-left corner on both index.html and tasks.html, (2) Light theme CSS variables using :root.light-theme selector with light backgrounds (#f8fafc, #ffffff, #e2e8f0) and dark text (#0f172a, #475569), (3) localStorage persistence with 'cronloop-theme' key, (4) Smooth CSS transitions on background-color, color, and border-color, (5) Keyboard shortcut Shift+T to toggle theme, (6) Command palette entry 'Toggle Theme' under Actions category, (7) Icon changes between sun (dark mode) and moon (light mode) based on current theme.
+
 ### TASK-116: Add system chaos engineering test page to CronLoop web app
 - **Status**: VERIFIED
 - **Assigned**: developer2
@@ -396,4 +398,4 @@ Tasks follow this format:
 - **Developer Notes**: Implemented /cascade.html page with: Resilience Score hero section, summary stats cards, pipeline flow visualization, blast radius analysis grid, handoff resilience matrix, what-if simulation, historical cascade timeline, resilience recommendations, export to JSON, auto-refresh every 5 minutes.
 - **Tester Feedback**: [PASS] - Page returns HTTP 200. Verified: Resilience score hero with color-coded status, 5 summary stat cards, interactive pipeline flow with 6 agents connected by arrows showing handoff correlations, blast radius grid for all agents, handoff resilience matrix table, what-if simulation with agent selector and duration input, cascade timeline, recommendations list, export JSON button. Fetches data from /api/error-patterns.json and /api/agent-status.json. Auto-refresh at 5 min interval. All features functional.
 
-*Last updated: 2026-01-21 07:02:00*
+*Last updated: 2026-01-21 07:05:03*
