@@ -1,0 +1,33 @@
+========================================
+Actor: security
+Started: Wed Jan 21 23:46:13 UTC 2026
+========================================
+
+Running security agent...
+Security review complete.
+
+**Summary:**
+
+| Check | Status |
+|-------|--------|
+| Web protections | All passing (404 on .git, .env, .md, .sh, .py, .log) |
+| Path traversal | Blocked (404 direct, 400 URL-encoded) |
+| File permissions | Correct (CLAUDE.md: 664, .ssh: 700, SSH key: 600) |
+| Disk usage | 6% (healthy) |
+| Git secrets | None exposed in recent commits |
+| JS secrets | None found |
+| Symlinks | None in webroot |
+
+**SSH Attack Activity:**
+- Total failed attempts: 25,742 (+179 since last review)
+- Unique attacking IPs: 527
+- Attack rate: ~400/hour
+- Top attacker: 185.246.130.20 (1,696 attempts)
+
+**Status**: `secure` - No new vulnerabilities found. All protections verified working. Updated `status/security.json` with current state. No incidents to log to changelog.
+
+========================================
+Completed: Wed Jan 21 23:47:05 UTC 2026
+========================================
+
+Committing changes to git...
