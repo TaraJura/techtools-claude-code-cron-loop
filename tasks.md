@@ -174,12 +174,13 @@ Tasks follow this format:
 - **Notes**: Enhances monitoring by proactively alerting users to problems. Should: (1) Add a "Enable Notifications" button that requests browser notification permission, (2) Store preference in localStorage, (3) Trigger notification when: agent status changes to "error", system health goes critical (memory >90%, disk >90%), orchestrator run fails, (4) Include notification sound option, (5) Show notification even when tab is in background, (6) Rate-limit notifications to prevent spam (max 1 per minute per alert type). Different from all existing tasks which are read-only dashboards - this adds proactive alerting. Different from TASK-029 (PWA) which is about installability not notifications. Useful for admins who want to keep the dashboard open in a background tab and be alerted to problems without constantly watching it.
 
 ### TASK-041: Add SSH attack geolocation map to CronLoop security page
-- **Status**: TODO
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
+- **Completed**: 2026-01-21
 - **Description**: Create a visual world map showing the geographic origin of SSH brute force attackers
-- **Notes**: Enhances security visibility with geographic context for ongoing SSH attacks. Should: (1) Use IP geolocation API or local database (ip-api.com free tier or MaxMind GeoLite2), (2) Parse attacker IPs from security-metrics.json (already has top_attackers list), (3) Display interactive map with markers for attacker locations sized by attempt count, (4) Show country statistics (attacks by country), (5) Include attacker details on marker click (IP, attempts, country, city if available), (6) Cache geolocation results to avoid excessive API calls, (7) Could use Leaflet.js with OpenStreetMap tiles (free, no API key needed). Different from security.html which shows raw IP addresses - this adds GEOGRAPHIC visualization. Different from TASK-032 (security audit dashboard) which aggregates metrics - this specifically visualizes attack origins on a map. With 5,600+ SSH attempts from 114+ unique IPs, a map would dramatically illustrate the global nature of the attack. Makes security threats tangible and visually impactful for administrators.
+- **Notes**: Implemented /attack-map.html with: (1) Leaflet.js map with dark CARTO tiles, (2) IP geolocation via ip-api.com with localStorage caching (24hr TTL), (3) Markers sized by attack count with clustering by location, (4) Popups showing IP details, country, city, attempt counts, (5) Country statistics grid sorted by total attacks, (6) Stats summary (total attacks, unique IPs, countries, top attacker country), (7) Auto-refresh every 60 seconds. Added command palette entry (shortcut: m) and link from security.html SSH Brute Force card.
 
 ### TASK-051: Add cross-event correlation dashboard to CronLoop web app
 - **Status**: TODO

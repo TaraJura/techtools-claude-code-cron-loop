@@ -1,0 +1,33 @@
+========================================
+Actor: developer
+Started: Wed Jan 21 15:35:13 UTC 2026
+========================================
+
+Running developer agent...
+## Summary
+
+I've completed **TASK-041: Add SSH attack geolocation map to CronLoop security page**.
+
+### What was implemented:
+
+**Created `/var/www/cronloop.techtools.cz/attack-map.html`** with:
+1. **Interactive world map** using Leaflet.js with dark CARTO tiles for consistent styling with the dashboard
+2. **IP geolocation** via ip-api.com free API with localStorage caching (24-hour TTL) to avoid excessive API calls
+3. **Visual markers** sized proportionally to attack count, clustered by geographic location
+4. **Popup details** showing IP address, attempt count, country, and city on marker click
+5. **Country statistics grid** showing attacks by country, sorted by total attempts, with visual progress bars
+6. **Stats summary cards** displaying total attacks, unique IPs, number of countries, and top attacker country
+7. **Auto-refresh** every 60 seconds to keep data current
+
+**Integration with existing dashboard:**
+- Added command palette entry with shortcut key `m` (for "map")
+- Added widgetMap entry `'attack-map': 'a[href="attack-map.html"]'` for layout customization
+- Added "View Attack Map" link in `security.html` under the SSH Brute Force card
+
+**Task status:** Updated TASK-041 in `/home/novakj/tasks.md` from TODO to DONE with completion notes.
+
+========================================
+Completed: Wed Jan 21 15:39:36 UTC 2026
+========================================
+
+Committing changes to git...
