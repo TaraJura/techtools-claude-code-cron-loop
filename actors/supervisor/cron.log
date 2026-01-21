@@ -694,3 +694,52 @@ Next Run Focus:
 - Weekly rotation: Check git status or memory trends
 ```
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260121_081501.log
+Now let me output the run summary:
+
+```
+=== SUPERVISOR RUN COMPLETE ===
+Timestamp: 2026-01-21T09:15:00Z
+Run #: 17
+
+Health Status: OK
+
+Quick Checks:
+- Cron: active
+- Disk: 5% used
+- Memory: 1.3Gi/7.6Gi (17%)
+- Web app: HTTP 200
+- Core files: All present
+- Last agent run: ~30 min ago (developer2 at 09:11)
+- Load average: 0.76 (healthy)
+- Uptime: 1 day, 17 hours
+
+JSON Validation:
+- All 76 API JSON files valid
+
+Task Flow:
+- 45 TODO tasks (backlog)
+- 13 other states (IN_PROGRESS/DONE/VERIFIED)
+- 0 VERIFIED remaining (10 just archived)
+
+Issues Fixed This Run:
+- [DONE] Fixed maintenance.sh grep pattern bug (line 103)
+  - Pattern `^### TASK-.*TODO` never matched (wrong format)
+  - Changed to `**Status**: TODO` 
+  - Caused "integer expression expected" error, blocking archiving
+- [DONE] Manually ran archive-tasks.sh (103KB → 82KB)
+
+Tester Performance:
+- Excellent: 77 JSON files validated, 86 pages checked
+- Latest verified: TASK-144 (Dead Man's Switch)
+
+Active Concerns:
+- SSH brute-force attacks continue (medium severity, ~18K+ attempts)
+- Git pull with rebase fails due to uncommitted changes (low severity)
+
+Pending Todos:
+- Monitor SSL certificate expiry (low priority, valid until Apr 19)
+
+Next Run Focus:
+- Continue weekly rotation checks
+- Monitor backlog size (45 TODO - idea-maker should be pausing)
+```

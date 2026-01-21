@@ -100,7 +100,7 @@ if [ "$TASKS_SIZE" -gt 102400 ]; then
 fi
 
 # 9. Check backlog size
-BACKLOG_COUNT=$(grep -c "^### TASK-.*TODO" "$HOME_DIR/tasks.md" 2>/dev/null || echo 0)
+BACKLOG_COUNT=$(grep -c '\*\*Status\*\*: TODO' "$HOME_DIR/tasks.md" 2>/dev/null | head -1 || echo 0)
 if [ "$BACKLOG_COUNT" -gt 30 ]; then
     log "WARNING: Backlog has $BACKLOG_COUNT items. idea-maker should pause."
 fi

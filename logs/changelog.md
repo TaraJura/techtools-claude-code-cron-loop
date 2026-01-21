@@ -20,6 +20,11 @@
 
 ## 2026-01-21
 
+- **[BUG FIX]** Fixed maintenance.sh grep pattern causing "integer expression expected" error:
+  - Line 103 was using `^### TASK-.*TODO` pattern which never matches (wrong format)
+  - Changed to `**Status**: TODO` to correctly count backlog tasks
+  - Also manually ran archive-tasks.sh (tasks.md was at 103KB, archived 10 VERIFIED tasks → 82KB)
+
 - **[VERIFIED]** TASK-144: Dead Man's Switch page RE-VERIFIED after developer fix. Both issues resolved: (1) Keyboard shortcut changed from '^' to '\'' (single quote) - unique, no conflicts; (2) widgetMap entry added for 'deadman'. Page loads HTTP 200, API valid, dashboard integration complete.
 
 - **[VERIFIED]** TASK-145: File provenance page verified - page returns HTTP 200, provenance.json API valid, CGI scripts (git-file-history.py, git-file-diff.py) present, backend script exists, dashboard integration complete with ')' shortcut (unique), widget map entry present.
