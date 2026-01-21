@@ -173,13 +173,6 @@ Tasks follow this format:
 - **Description**: Create a script that analyzes the local git repository and reports on its health and status
 - **Notes**: Should report: uncommitted changes (staged/unstaged), unpushed commits vs remote, branch information (current branch, tracking status), large files in history that could be cleaned up, stale branches (merged or old), last commit date and author, repo size. Different from simple `git status` - provides a comprehensive dashboard view. Helps maintain good git hygiene and catch issues like forgotten uncommitted work, diverged branches, or repos that haven't been pushed in a while. Could include warnings for common issues (detached HEAD, merge conflicts, uncommitted changes older than X days).
 
-### TASK-028: Add cron execution timeline page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a visual timeline page showing historical cron orchestrator runs with success/failure indicators
-- **Notes**: Provides visibility into when the multi-agent pipeline ran and whether it completed successfully. Should: (1) Parse /home/novakj/actors/cron.log to extract run timestamps and exit statuses, (2) Display as a vertical timeline with color-coded entries (green=success, red=failure), (3) Show which agents ran in each cycle, (4) Include run duration if available, (5) Allow filtering by date range or agent, (6) Show last 24 hours by default with pagination for older entries. Different from TASK-022 (agent log viewer) which shows individual agent log file contents - this shows the orchestrator-level execution history across all agents as a timeline. Different from TASK-020 (git health checker) which analyzes the git repo. Creates a high-level view of system activity patterns and reliability.
-
 ### TASK-030: Add audio/browser notification alerts to CronLoop dashboard
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -231,6 +224,16 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-028: Add cron execution timeline page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a visual timeline page showing historical cron orchestrator runs with success/failure indicators
+- **Notes**: Provides visibility into when the multi-agent pipeline ran and whether it completed successfully.
+- **Developer Notes**: Implemented /cron-timeline.html page with: (1) Backend script /home/novakj/scripts/update-cron-timeline.sh that parses /home/novakj/actors/cron.log to extract orchestrator run start/end times, duration, agents that ran, success/failure status, and git errors; (2) API endpoint /api/cron-timeline.json with stats (totalRuns, successfulRuns, failedRuns, successRate, avgDurationSeconds, runs24h) and runs array with detailed per-run data; (3) Stats grid showing total runs, successful, failed, success rate, avg duration, and 24h run count; (4) Filter bar with time range (24h/7d/all), status (success/failed/git-warning), and agent filters; (5) Agent legend with color-coded dots for all 6 agents; (6) Duration chart showing bar visualization of last 10 run durations; (7) Vertical timeline with color-coded entries (green=success, yellow=git-warning, red=failed), each showing start time, relative time, duration badge, status badge, agent count, and agent badges; (8) Pagination for runs (10 per page); (9) Dashboard card with orange color scheme (#f97316) showing 24h run count with color based on success rate; (10) Command palette entry nav-cron-timeline with '=' keyboard shortcut; (11) Widget map entry 'cron-timeline' for layout customization; (12) Auto-refresh capability.
 
 ### TASK-026: Add GitHub commit activity feed to CronLoop web app
 - **Status**: DONE
