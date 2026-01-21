@@ -183,13 +183,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-012: Create a system reboot history tracker
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a script that shows system reboot history and uptime records, with web dashboard integration
-- **Notes**: Should display last 10 reboots with timestamps using `last reboot`, current uptime, and calculate average uptime between reboots if enough data exists. Helps track system stability and identify unexpected restarts. Complements system-info.sh which shows current uptime but not historical data. **Must integrate with the web dashboard** - create /reboot-history.html page showing reboot timeline, uptime records, and average stats.
-
 ### TASK-015: Create a long-running process detector
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -200,6 +193,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-012: Create a system reboot history tracker
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a script that shows system reboot history and uptime records, with web dashboard integration
+- **Notes**: Implemented at /reboot-history.html with: (1) Backend script /scripts/update-reboot-history.sh that gathers reboot data using `last reboot` command, (2) API endpoint /api/reboot-history.json with current uptime, statistics, reboot history, and warnings, (3) Current uptime banner showing formatted uptime, boot time, kernel version, and hostname, (4) Statistics grid showing total reboots, average uptime, record uptime, and warning count, (5) Uptime percentage ring chart showing system reliability, (6) 24-hour uptime trend visualization showing online/offline status per hour, (7) Reboot timeline with chronological list of reboots including kernel version and duration, (8) System information panel with detailed system stats, (9) Uptime records panel showing best, average, and minimum uptimes, (10) Warning banner for stability issues (high reboot frequency, crash reboots), (11) Export as JSON functionality, (12) Dashboard card with 'u' keyboard shortcut showing current uptime, (13) Command palette entry, (14) widgetMap entry for layout customization, (15) Auto-refresh every 60 seconds.
 
 ### TASK-153: Add agent "daily horoscope" and whimsical prediction page to CronLoop web app
 - **Status**: VERIFIED

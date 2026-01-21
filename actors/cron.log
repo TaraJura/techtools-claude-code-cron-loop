@@ -7775,3 +7775,46 @@ I assigned 2 tasks from the backlog to balance the workload between developers:
    - Added web integration requirement (create /processes.html)
 
 Both developers now have 1 IN_PROGRESS task each. These practical monitoring utilities will add visible value to the CronLoop web dashboard while providing useful system insights.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260121_193216.log
+
+>>> Running Developer Agent...
+I have completed TASK-012. Let me provide a summary of what was implemented:
+
+## Summary: TASK-012 Complete
+
+I implemented a **System Reboot History Tracker** with full web dashboard integration:
+
+### Backend Script
+- Created `/home/novakj/scripts/update-reboot-history.sh` that:
+  - Gathers reboot history using `last reboot` command
+  - Reads current uptime from `/proc/uptime`
+  - Tracks shutdown history
+  - Calculates uptime statistics (average, max, min)
+  - Detects stability warnings (high reboot frequency, crash reboots)
+  - Generates 24-hour uptime trend data
+
+### API Endpoint
+- Created `/api/reboot-history.json` with:
+  - Current uptime (seconds, formatted, boot time, kernel, hostname)
+  - Statistics (total reboots, average/max/min uptime, record detection)
+  - Historical reboot and shutdown lists
+  - Uptime trend data for visualization
+  - Warning messages for stability issues
+
+### Web Page (`/reboot-history.html`)
+- Current uptime banner with formatted display
+- Statistics grid (total reboots, average uptime, record uptime, warnings)
+- Uptime percentage ring chart
+- 24-hour trend visualization
+- Reboot timeline with kernel versions
+- System information panel
+- Uptime records panel
+- Export as JSON functionality
+- Auto-refresh every 60 seconds
+
+### Dashboard Integration
+- Added card with purple accent showing current uptime
+- Keyboard shortcut 'u' for quick navigation
+- Command palette entry
+- widgetMap entry for layout customization
+- Data loader function in loadAllData()
