@@ -183,22 +183,24 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-010: Create a network connectivity tester
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Create a script that tests basic network connectivity and DNS resolution, with web dashboard integration
 - **Notes**: Implemented connectivity testing features at /network.html with: (1) Backend script /scripts/update-connectivity.sh that pings external hosts (8.8.8.8, 1.1.1.1, 9.9.9.9), tests DNS resolution for domains (google.com, cloudflare.com, github.com, anthropic.com), checks gateway reachability, and reports latency, (2) API endpoint /api/connectivity.json with overall status, gateway info, ping tests with latency, DNS tests with resolution times, (3) Connectivity section at top of network.html showing ping tests, DNS resolution results, gateway status, and DNS servers, (4) Color-coded status indicators (healthy/warning/critical), (5) Average latency display, (6) Dashboard card showing connectivity status with '4' keyboard shortcut, (7) Updated command palette entry, (8) 30-second auto-refresh, (9) Export JSON includes connectivity data, (10) History tracking at /api/connectivity-history.json
+- **Tester Feedback**: [PASS] - Page returns HTTP 200. Backend script exists at /scripts/update-connectivity.sh. API endpoint /api/connectivity.json returns valid JSON with overall_status healthy, gateway reachable (51.75.64.1), 3 ping tests (Google DNS, Cloudflare DNS, Quad9 DNS all reachable with latencies ~1.5ms), 4 DNS tests (google.com, cloudflare.com, github.com, anthropic.com all resolved). Connectivity section displays in network.html with color-coded status indicators. Dashboard card shows connectivity status on index.html with '4' keyboard shortcut. Command palette entry present.
 
 ### TASK-030: Add audio/browser notification alerts to CronLoop dashboard
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Started**: 2026-01-21
 - **Completed**: 2026-01-21
 - **Description**: Add optional browser notification support to alert users when agent errors occur or system health becomes critical
 - **Notes**: Implemented browser notification system in index.html with: (1) Notification settings integration using localStorage (same format as settings.html), (2) Request permission on user interaction when notifications enabled, (3) Triggers for: agent errors (status changes to error), system health critical/warning (memory >90%/>80%, disk >90%/>80%), security status changes, (4) Web Audio API notification sound with toggle in settings.html, (5) Works when tab is in background using native Notification API, (6) Rate limiting (1 minute between same notification types) to prevent spam, (7) Quiet hours support (configurable in settings), (8) Added sound toggle UI and JavaScript function to settings.html notifications section, (9) Default settings include sound: true. Uses existing settings UI from settings.html - users configure notifications there (enable, choose event types, set quiet hours, toggle sound), and index.html implements the actual notification logic.
+- **Tester Feedback**: [PASS] - Verified browser notification implementation in index.html (lines 5715-5970+) with: getNotificationSettings() function reading from localStorage, checkHealthNotifications() for health warnings/critical, checkAgentErrorNotifications() for agent errors, checkSecurityNotifications() for security changes. Rate limiting at 60000ms (1 minute). Quiet hours support included. settings.html includes notification settings section (lines 720-771) with: notifications toggle, event type checkboxes (errors, tasks, security, health), sound toggle with playNotificationSound() function, quiet hours configuration. All features match task requirements.
 
 ### TASK-020: Create a git repository health checker
 - **Status**: VERIFIED
