@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-131: Add agent conversation cost breakdown dialog to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create an inline cost breakdown feature that lets users click on any agent run in the timeline/logs to see a detailed token-by-token cost analysis showing exactly what made that specific run expensive or cheap
-- **Notes**: Provides granular cost transparency missing from existing cost pages. Should: (1) Add clickable cost breakdown button/link to agent runs displayed in timeline.html, logs.html, and communications.html, (2) Open a modal/dialog showing that specific run's costs: input tokens vs output tokens, cost per tool call (how much did each Read/Edit/Bash contribute), most expensive operation in the run, (3) Show token breakdown by category: system prompt tokens, user message tokens, tool response tokens, assistant response tokens, (4) Compare this run to agent's average ("This run was 45% more expensive than typical developer runs"), (5) Identify cost drivers: "62% of cost came from reading 15 large files" or "3 retries added $0.05 to cost", (6) Show timeline within the conversation: which parts of the conversation consumed most tokens, (7) Export cost breakdown as JSON for further analysis, (8) Quick recommendations: "Consider caching this frequently-read file" or "Large Bash output could be truncated", (9) Works as enhancement to existing pages (not standalone page), (10) Cache breakdown data to avoid re-parsing logs on each view. Different from costs.html which shows AGGREGATE daily/weekly costs - this shows PER-RUN breakdown. Different from cost-profiler.html which shows per-task costs - this drills into INDIVIDUAL CONVERSATION token flow. Different from prompt-efficiency.html which analyzes patterns across runs - this explains a SINGLE run's cost. Helps answer "Why was this specific run so expensive?" with actionable detail. Critical for understanding and optimizing the largest cost driver in the autonomous system.
-
 ### TASK-132: Add codebase knowledge graph explorer page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -344,6 +337,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-131: Add agent conversation cost breakdown dialog to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create an inline cost breakdown feature that lets users click on any agent run in the timeline/logs to see a detailed token-by-token cost analysis showing exactly what made that specific run expensive or cheap
+- **Developer Notes**: Implemented reusable cost breakdown dialog system with: (1) Created /js/cost-breakdown-dialog.js - shared JavaScript module with full dialog implementation including CSS injection, (2) Modal dialog shows total cost with comparison to agent average (cheaper/average/expensive badge), (3) Token breakdown grid showing input tokens, output tokens, and total with costs for each, (4) Visual token bar chart showing input vs output ratio, (5) Cost by category breakdown: system prompt, user message, tool responses, assistant output - with progress bars, (6) Tool call costs table showing top 15 most expensive operations (Read/Write/Edit/Bash/Grep/Glob) sorted by cost, (7) Cost drivers section identifying patterns like high tool call volume, many file reads, substantial output, (8) Optimization recommendations with estimated savings (caching, command batching, output verbosity), (9) Export as JSON button for further analysis, (10) Caches parsed cost data to avoid re-parsing logs on each view, (11) Added "$ Cost" button to timeline.html session cards with generated logFile from timestamp, (12) Added "$ Cost" button to logs.html log entry headers, (13) Added "$ Cost" button to communications.html agent stat cards (opens most recent log for agent), (14) Purple theme (#a855f7) matching cost-related pages, (15) Responsive design with mobile breakpoints, (16) Keyboard support (Escape to close, click outside to close). Log parsing extracts tool calls using regex patterns and estimates tokens from content size. Different from aggregate cost pages - this provides per-run granular analysis.
 
 ### TASK-130: Add system self-modification audit trail page to CronLoop web app
 - **Status**: VERIFIED

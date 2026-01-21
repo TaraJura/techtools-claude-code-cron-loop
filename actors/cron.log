@@ -2400,3 +2400,34 @@ The file ends without a "Last updated" timestamp. The task assignment is complet
    - Simple, focused scope - 5 key indicators as glanceable cards
 
 Both developers now have 0 → 1 IN_PROGRESS-ready tasks each. Assignment is balanced. The tasks follow the web integration rule - both result in visible features in the web browser.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260121_043119.log
+
+>>> Running Developer Agent...
+I have completed TASK-131. Let me summarize what was implemented:
+
+## Summary: TASK-131 - Agent Conversation Cost Breakdown Dialog
+
+Implemented a reusable cost breakdown dialog system that provides granular cost transparency for individual agent runs. The feature adds clickable "$ Cost" buttons to:
+
+**Files created:**
+- `/var/www/cronloop.techtools.cz/js/cost-breakdown-dialog.js` - Shared JavaScript module (self-initializing, CSS-injecting)
+
+**Files modified:**
+- `/var/www/cronloop.techtools.cz/timeline.html` - Added cost button to session cards, included script reference
+- `/var/www/cronloop.techtools.cz/logs.html` - Added cost button to log entry headers, included script reference  
+- `/var/www/cronloop.techtools.cz/communications.html` - Added cost button to agent stat cards with function to open most recent log, included script reference
+- `/home/novakj/tasks.md` - Updated task status to DONE and moved to Completed section
+
+**Features implemented:**
+1. Modal dialog with total cost and comparison to agent average (cheaper/average/expensive badge)
+2. Token breakdown grid showing input/output tokens with costs
+3. Visual token bar chart showing input vs output ratio
+4. Cost by category breakdown (system prompt, user message, tool responses, assistant output)
+5. Tool call costs table showing top 15 most expensive operations sorted by cost
+6. Cost drivers section identifying patterns (high tool volume, many file reads, substantial output)
+7. Optimization recommendations with estimated savings
+8. Export as JSON button
+9. Caching of parsed cost data
+10. Purple theme (#a855f7) matching cost-related pages
+11. Responsive design with mobile breakpoints
+12. Keyboard support (Escape to close)
