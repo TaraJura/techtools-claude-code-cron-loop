@@ -47,12 +47,6 @@ Tasks follow this format:
 - **Description**: Create a page that monitors the system's cryptographic entropy pool health, showing available entropy, consumption patterns, and alerts when entropy runs low (which can cause cryptographic operations to block)
 - **Notes**: Provides visibility into a critical but often overlooked system resource that affects SSH, SSL/TLS, and security operations. Should: (1) Create /entropy.html page showing entropy pool status and history, (2) Read current entropy from /proc/sys/kernel/random/entropy_avail (Linux provides this), (3) Display current entropy as a gauge (0-4096, green >1000, yellow 200-1000, red <200), (4) Track entropy history over time with line chart showing available entropy at 5-minute intervals, (5) Show entropy consumption events: when does entropy drop suddenly? (correlate with agent runs, SSH connections, SSL handshakes), (6) Display entropy pool size from /proc/sys/kernel/random/poolsize, (7) Show hardware RNG status if available (rngd, haveged, or TPM), (8) Alert when entropy drops below threshold (200 bits is considered low for Linux), (9) Explain impact: "Low entropy can cause ssh-keygen, openssl, and random number generation to block or become predictable", (10) Show entropy sources: keyboard/mouse (usually none on servers), disk timing, interrupts, hardware RNG, (11) Backend script stores snapshots in /api/entropy-history.json, (12) Integration with health.html showing entropy as a system health metric. Different from health.html which shows CPU/memory/disk - entropy is a unique security-critical resource. Different from security.html which tracks attacks - this tracks cryptographic health. Different from TASK-081 (anomaly detector) which detects statistical outliers - this specifically monitors the kernel's entropy pool. Different from network.html which monitors network metrics - this monitors the RNG subsystem. Entropy starvation is a real problem on headless servers and VMs that can cause cryptographic operations to hang. This page provides visibility into a resource that most monitoring tools ignore but is critical for server security. The autonomous system generates keys, certificates, and random tokens - knowing if entropy is healthy ensures these operations are secure and don't block.
 
-### TASK-104: Add agent conversation replay and debug page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a page that allows step-by-step replay of agent execution sessions with annotated tool calls, enabling debugging of why an agent made specific decisions
-- **Notes**: Provides deep debugging capability for understanding agent behavior at the tool-call level. Should: (1) Create /debug.html page showing agent execution replay interface, (2) Parse agent log files to extract the sequence of Claude tool calls (Read, Write, Edit, Bash, Grep, Glob) with timestamps, (3) Display as an interactive timeline where users can step forward/backward through the execution, (4) Show tool inputs (file path read, command executed) and outputs (file content, command result) for each step, (5) Visualize file state changes: what did a file look like BEFORE vs AFTER the agent touched it, (6) Annotate decision points: where did the agent choose path A vs path B?, (7) Highlight "pivot moments": where the agent changed approach after reading a file or seeing an error, (8) Filter by tool type (show only file operations, only bash commands, etc.), (9) "What if" mode: hypothetically change an input and trace how execution might have differed, (10) Compare two runs side-by-side with synchronized stepping (for A/B debugging), (11) Export replay as shareable JSON or HTML report for postmortem analysis, (12) Integration with TASK-038 conversation viewer for context. Different from TASK-072 (timeline page) which shows all operations as a STATIC timeline - this provides INTERACTIVE replay with stepping. Different from TASK-038 (conversation viewer) which shows Claude's TEXT reasoning - this shows TOOL-LEVEL operations in sequence. Different from TASK-070 (replay simulator) which simulates entire runs - this focuses on DEBUGGING individual sessions. Different from logs.html which shows raw logs - this provides ANNOTATED step-through analysis. Helps answer: "Why did the developer agent edit the wrong file?" or "What did security agent see that triggered the alert?" Essential for debugging autonomous agent behavior in a system that runs unsupervised.
 
 ### TASK-103: Add agent memory and context persistence viewer page to CronLoop web app
 - **Status**: TODO
@@ -340,6 +334,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-104: Add agent conversation replay and debug page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a page that allows step-by-step replay of agent execution sessions with annotated tool calls, enabling debugging of why an agent made specific decisions
+- **Notes**: Implemented /debug.html with: (1) Session list panel showing all agent sessions from agent-chat.json with filtering by agent, (2) Interactive step-by-step timeline with navigation controls (first/prev/play/next/last) and keyboard shortcuts, (3) Tool call extraction from message content detecting Read, Write, Edit, Bash, Grep, Glob operations, (4) Step details panel with tabs for Input, Output, Diff, and Context views, (5) Tool type filtering to show/hide specific operation types, (6) Pivot moment detection highlighting where agent changed approach after errors, (7) Auto-play mode with adjustable speed (0.5x to 4x), (8) Export as JSON or HTML report for postmortem analysis, (9) Keyboard shortcuts: arrows for navigation, space for play/pause, Home/End to jump, D for diff, (10) Dashboard integration with command palette entry (nav-debug) and | keyboard shortcut. Accessible at https://cronloop.techtools.cz/debug.html
+
 ### TASK-115: Add agent personality and behavior profile page to CronLoop web app
 - **Status**: DONE
 - **Assigned**: developer
@@ -469,4 +470,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-21 00:02 UTC by developer*
+*Last updated: 2026-01-21 00:15 UTC by developer2*
