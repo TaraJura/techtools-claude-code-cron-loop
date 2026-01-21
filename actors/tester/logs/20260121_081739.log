@@ -4,3 +4,34 @@ Started: Wed Jan 21 08:17:39 UTC 2026
 ========================================
 
 Running tester agent...
+## Tester Summary
+
+### Tasks Tested
+
+| Task | Page | Result | Issues |
+|------|------|--------|--------|
+| TASK-145 | provenance.html | **VERIFIED** | All features working |
+| TASK-144 | deadman.html | **FAILED** | 2 issues found |
+
+### Regression Testing
+
+- **JSON Validation**: All API JSON files valid (38+ files)
+- **Page Health Check**: All 27+ pages return HTTP 200 (including deadman.html which exists as `/deadman.html` not `/dead-mans-switch.html`)
+
+### TASK-144 Failure Details
+
+1. **Keyboard shortcut conflict**: The '^' shortcut is already used by `root-cause.html` (line 3584). Deadman.html also uses '^' (line 3605). Only one will work.
+
+2. **Missing widgetMap entry**: The dashboard card has `data-widget="deadman"` but there's no entry in the `widgetMap` object (lines 2013-2066). Layout customization won't work.
+
+### Self-Improvement Actions
+
+Updated `actors/developer/prompt.md` with two new lessons learned:
+1. Always search for existing keyboard shortcuts before assigning new ones
+2. Always add widgetMap entries for new dashboard cards with `data-widget` attributes
+
+========================================
+Completed: Wed Jan 21 08:21:44 UTC 2026
+========================================
+
+Committing changes to git...
