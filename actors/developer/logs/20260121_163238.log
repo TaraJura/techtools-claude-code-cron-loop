@@ -1,0 +1,43 @@
+========================================
+Actor: developer
+Started: Wed Jan 21 16:32:38 UTC 2026
+========================================
+
+Running developer agent...
+Task is complete. Let me provide a summary.
+
+## Summary
+
+I've completed **TASK-105: Add system entropy and randomness health page to CronLoop web app**.
+
+### What was implemented:
+
+1. **Created `/var/www/cronloop.techtools.cz/entropy.html`** with:
+   - Visual gauge showing current entropy level with color-coded status (green/yellow/red)
+   - Statistics grid: 24h average, minimum, maximum, and low entropy event count
+   - Entropy sources display: disk I/O, interrupts, input devices, hardware RNG status
+   - Consumption events list detecting sudden entropy drops (>50 bits)
+   - 24-hour history chart with Chart.js and low threshold indicator line
+   - Alert banner when entropy drops below 200 bits
+   - Export as JSON functionality
+   - Auto-refresh every 30 seconds
+
+2. **Created `/home/novakj/scripts/update-entropy.sh`** backend script:
+   - Reads from `/proc/sys/kernel/random/entropy_avail` and `poolsize`
+   - Detects hardware RNG, haveged, rngd daemons
+   - Tracks entropy history with consumption event detection
+   - Generates `/api/entropy.json` and `/api/entropy-history.json`
+
+3. **Dashboard integration** in `index.html`:
+   - Added dashboard card with dice icon and 'e' keyboard shortcut
+   - Added command palette entry for navigation
+   - Added widgetMap entry for layout customization
+   - Added `loadEntropyStatus()` function for card value display
+
+The page is now live at https://cronloop.techtools.cz/entropy.html and the task has been marked as DONE in tasks.md.
+
+========================================
+Completed: Wed Jan 21 16:38:19 UTC 2026
+========================================
+
+Committing changes to git...

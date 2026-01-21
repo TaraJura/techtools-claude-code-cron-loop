@@ -183,14 +183,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-105: Add system entropy and randomness health page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Started**: 2026-01-21
-- **Description**: Create a page that monitors the system's cryptographic entropy pool health, showing available entropy, consumption patterns, and alerts when entropy runs low (which can cause cryptographic operations to block)
-- **Notes**: Provides visibility into a critical but often overlooked system resource that affects SSH, SSL/TLS, and security operations. Should: (1) Create /entropy.html page showing entropy pool status and history, (2) Read current entropy from /proc/sys/kernel/random/entropy_avail (Linux provides this), (3) Display current entropy as a gauge (0-4096, green >1000, yellow 200-1000, red <200), (4) Track entropy history over time with line chart showing available entropy at 5-minute intervals, (5) Show entropy consumption events: when does entropy drop suddenly? (correlate with agent runs, SSH connections, SSL handshakes), (6) Display entropy pool size from /proc/sys/kernel/random/poolsize, (7) Show hardware RNG status if available (rngd, haveged, or TPM), (8) Alert when entropy drops below threshold (200 bits is considered low for Linux), (9) Explain impact: "Low entropy can cause ssh-keygen, openssl, and random number generation to block or become predictable", (10) Show entropy sources: keyboard/mouse (usually none on servers), disk timing, interrupts, hardware RNG, (11) Backend script stores snapshots in /api/entropy-history.json, (12) Integration with health.html showing entropy as a system health metric. Different from health.html which shows CPU/memory/disk - entropy is a unique security-critical resource. Different from security.html which tracks attacks - this tracks cryptographic health.
-
 ### TASK-008: Create a user login history reporter
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -202,6 +194,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-105: Add system entropy and randomness health page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that monitors the system's cryptographic entropy pool health, showing available entropy, consumption patterns, and alerts when entropy runs low (which can cause cryptographic operations to block)
+- **Notes**: Implemented at /entropy.html with: (1) Entropy gauge showing current entropy level with color-coded status, (2) Statistics grid showing 24h average, min, max, and low entropy events count, (3) Entropy sources display showing disk I/O, interrupts, input devices, and hardware RNG status, (4) Consumption events list detecting sudden entropy drops, (5) 24-hour history chart with low threshold indicator, (6) Alert banner when entropy drops below 200 bits, (7) Export as JSON functionality, (8) Backend script /scripts/update-entropy.sh that reads from /proc/sys/kernel/random/entropy_avail and poolsize, (9) API at /api/entropy.json with history tracking, (10) Dashboard card with 'e' keyboard shortcut, (11) Command palette entry, (12) widgetMap entry for layout customization, (13) Auto-refresh every 30 seconds. Impact explanation included about SSH, SSL/TLS blocking.
 
 ### TASK-107: Add agent resource consumption profiler page to CronLoop web app
 - **Status**: VERIFIED
