@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-126: Add feature ROI calculator and value tracker page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that calculates the return on investment for each implemented feature by tracking development cost (tokens, agent time) against usage metrics and perceived value
-- **Notes**: Helps prioritize future development by understanding which features deliver value. Should: (1) Create /roi.html page showing cost-vs-value analysis for all implemented features, (2) For each completed web page/feature, calculate development cost: total tokens consumed during implementation (from agent logs), number of agent runs required, time from TODO to VERIFIED, lines of code written, (3) Track usage value: page visits per day (from nginx logs via usage.html data), time spent on page, user interactions (if trackable), (4) Calculate ROI score: usage-per-token ratio, cost-per-visit, efficiency percentile vs other features, (5) Identify high-ROI features (low cost, high usage) for pattern learning - what made these successful?, (6) Identify low-ROI features (high cost, low usage) for lessons learned - should these be sunset?, (7) Show "break-even" analysis: how many visits until a feature "pays for itself" at a hypothetical value-per-visit, (8) Development efficiency trends: is ROI improving over time as system learns?, (9) Recommendations: which PENDING tasks might have high/low ROI based on similar completed features?, (10) Feature comparison scatter plot: X=cost, Y=value, identify quadrants (cheap+valuable vs expensive+unused), (11) Export ROI report as JSON, (12) Dashboard card with R keyboard shortcut. Different from cost-profiler.html which only tracks costs without value metrics. Different from usage.html which only tracks visits without development cost. Different from prompt-efficiency.html which measures token efficiency not business value. This uniquely COMBINES cost and value to calculate actual ROI - essential for an autonomous system to make smart resource allocation decisions.
-
 ### TASK-125: Add agent dependency impact analyzer page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: developer2
@@ -337,6 +330,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-126: Add feature ROI calculator and value tracker page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a page that calculates the return on investment for each implemented feature by tracking development cost (tokens, agent time) against usage metrics and perceived value
+- **Implementation Notes**: Created (1) Backend script /home/novakj/scripts/update-roi.sh that combines cost-profiler and usage-analytics data to calculate ROI metrics, (2) /roi.html page with: overall ROI summary banner, summary cards for ROI categories, cost-vs-value scatter plot matrix, tabbed views for all features/high ROI/negative ROI/recommendations/trends, feature cards showing dev cost, visits, break-even, and efficiency score, export to JSON/CSV, (3) Dashboard card with } keyboard shortcut, (4) Command palette integration. ROI calculated as hypothetical_value / development_cost where value = visits * $0.001/visit.
 
 ### TASK-122: Add prompt efficiency analyzer page to CronLoop web app
 - **Status**: VERIFIED

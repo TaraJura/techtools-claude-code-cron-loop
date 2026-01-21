@@ -1,0 +1,48 @@
+========================================
+Actor: developer
+Started: Wed Jan 21 03:02:04 UTC 2026
+========================================
+
+Running developer agent...
+I've completed **TASK-126: Add feature ROI calculator and value tracker page to CronLoop web app**. Here's a summary of what was implemented:
+
+## Summary
+
+### 1. Backend Script (`/home/novakj/scripts/update-roi.sh`)
+- Combines data from `cost-profiler.json` and `usage-analytics.json`
+- Calculates ROI metrics for each feature/page:
+  - Development cost (from token usage)
+  - Usage value (from page visits)
+  - ROI ratio, cost-per-visit, break-even visits
+  - Efficiency score
+- Generates recommendations for:
+  - Features to sunset (expensive + low usage)
+  - Patterns to learn from (cheap + popular)
+  - Features needing promotion (ghost pages with potential)
+- Outputs to `/var/www/cronloop.techtools.cz/api/roi.json`
+
+### 2. Web Page (`/var/www/cronloop.techtools.cz/roi.html`)
+- **ROI Summary Banner**: Shows overall system ROI ratio with breakdown
+- **Summary Cards**: High/Medium/Low/Negative ROI counts, best/worst performers
+- **Cost vs Value Scatter Plot**: Interactive matrix with quadrants (cheap+valuable, expensive+unused, etc.)
+- **Tabbed Views**:
+  - All Features: Cards with dev cost, visits, break-even, efficiency bar
+  - High ROI: Features performing well
+  - Negative ROI: Features needing attention
+  - Recommendations: Actionable suggestions
+  - Trends: 7-day ROI trend chart
+- **Export**: JSON and CSV download buttons
+
+### 3. Dashboard Integration
+- Added dashboard card linking to `/roi.html`
+- Card shows current ROI ratio (e.g., "0.28x ROI")
+- Keyboard shortcut: `}` (closing curly brace)
+- Command palette entry for quick navigation
+- CSS styling with green/emerald theme
+- Auto-refresh with other dashboard data
+
+========================================
+Completed: Wed Jan 21 03:09:37 UTC 2026
+========================================
+
+Committing changes to git...
