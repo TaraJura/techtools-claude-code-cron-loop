@@ -137,13 +137,6 @@ Tasks follow this format:
 - **Description**: Create a script that monitors swap usage and identifies which processes are using swap memory
 - **Notes**: Different from memory-monitor.sh which focuses on RAM (RSS) usage. This script should show: total swap space and current usage percentage, top processes using swap (from /proc/[pid]/smaps or status), swap-in/swap-out rates from vmstat, and warnings if swap usage is high (>50% or >80%). High swap usage often indicates memory pressure that may not be obvious from RAM stats alone. Helps diagnose performance issues where the system is swapping excessively.
 
-### TASK-020: Create a git repository health checker
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a script that analyzes the local git repository and reports on its health and status
-- **Notes**: Should report: uncommitted changes (staged/unstaged), unpushed commits vs remote, branch information (current branch, tracking status), large files in history that could be cleaned up, stale branches (merged or old), last commit date and author, repo size. Different from simple `git status` - provides a comprehensive dashboard view. Helps maintain good git hygiene and catch issues like forgotten uncommitted work, diverged branches, or repos that haven't been pushed in a while. Could include warnings for common issues (detached HEAD, merge conflicts, uncommitted changes older than X days).
-
 ### TASK-030: Add audio/browser notification alerts to CronLoop dashboard
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -188,6 +181,15 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-020: Create a git repository health checker
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a script that analyzes the local git repository and reports on its health and status
+- **Notes**: Implemented at /git-health.html with: (1) Backend script /scripts/update-git-health.sh that analyzes git status, branches, commits, and large files, (2) Health score calculation (0-100) based on uncommitted changes, detached HEAD, merge conflicts, stale commits, push status, (3) Health banner with circular progress showing score and color-coded status (healthy/warning/critical), (4) Branch info showing current branch, tracking branch, and sync status (ahead/behind remote), (5) Last commit display with message, author, date, and hash, (6) Stats grid showing total commits, uncommitted count, branch count, stash count, repo size, and warning count, (7) Uncommitted files list with status badges (staged/modified/untracked) and color-coded dots, (8) Recent commits list (15 commits) with hash, message, author, and relative time, (9) Warnings section detecting issues: detached HEAD, merge conflicts, many uncommitted changes, stale repo, unpushed commits, behind remote, stash buildup, (10) Stale branches list showing merged or inactive branches (>30 days), (11) Large files list showing files >500KB in working tree, (12) Repository info with remote URL, (13) Export as JSON functionality, (14) Auto-refresh every 60 seconds, (15) Dashboard card showing health score percentage with color, (16) Command palette entry added, (17) widgetMap entry for layout customization.
 
 ### TASK-011: Create a crontab documentation generator
 - **Status**: DONE

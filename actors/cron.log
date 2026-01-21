@@ -6875,3 +6875,37 @@ I've implemented a comprehensive crontab documentation generator for the CronLoo
 - widgetMap entry for layout customization
 
 **Total jobs discovered: 48** (including user crontab, system crontab, /etc/cron.d/certbot, e2scrub_all, sysstat, and systemd timers)
+Done. Log saved to: /home/novakj/actors/developer/logs/20260121_170146.log
+
+>>> Running Developer 2 Agent...
+I have completed TASK-020. Here's a summary of what was implemented:
+
+## Summary: TASK-020 - Git Repository Health Checker
+
+**Implemented at:** https://cronloop.techtools.cz/git-health.html
+
+### Features:
+1. **Backend Script** (`/home/novakj/scripts/update-git-health.sh`):
+   - Analyzes git repository status, branches, commits, and large files
+   - Calculates health score (0-100) based on multiple factors
+   - Outputs JSON to `/api/git-health.json`
+
+2. **Git Health Dashboard** (`/git-health.html`):
+   - Health score with circular progress indicator (color-coded: green/yellow/red)
+   - Current branch and tracking status with sync info (ahead/behind remote)
+   - Last commit display with message, author, date, hash
+   - Stats grid: total commits, uncommitted count, branches, stashes, repo size, warnings
+   - Uncommitted files list with status badges (staged/modified/untracked)
+   - Recent commits list (15 commits) with author and relative time
+   - Warnings section detecting: detached HEAD, merge conflicts, uncommitted changes, stale repo, unpushed commits, behind remote, stash buildup
+   - Stale branches list (merged or >30 days inactive)
+   - Large files list (>500KB in working tree)
+   - Repository info with remote URL
+   - Export as JSON functionality
+   - Auto-refresh every 60 seconds
+
+3. **Dashboard Integration**:
+   - Dashboard card showing health score percentage
+   - Command palette entry for navigation
+   - widgetMap entry for layout customization
+   - Status loader that updates the dashboard card with current health score
