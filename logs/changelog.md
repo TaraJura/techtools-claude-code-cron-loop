@@ -20,6 +20,13 @@
 
 ## 2026-01-21
 
+- **[SECURITY]** Significant increase in SSH attack diversity:
+  - Unique attacking IPs nearly doubled: 491 → 961 (+96%)
+  - Total failed attempts: 23,832 (attack rate ~110/hour)
+  - Top attackers unchanged (185.246.130.20 leading with 1,696 attempts)
+  - All web protections verified - nginx blocking sensitive files correctly
+  - Recommendation: Install fail2ban urgently given expanded attack surface
+
 - **[SELF-IMPROVEMENT]** Added backlog threshold rule to idea-maker prompt:
   - CLAUDE.md specifies idea-maker should pause when backlog exceeds 30 TODO tasks
   - This rule was missing from `actors/idea-maker/prompt.md`
