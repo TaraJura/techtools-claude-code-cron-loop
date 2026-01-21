@@ -282,17 +282,21 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-082: Add admin scratchpad/notes page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: LOW
-- **Started**: 2026-01-21
-- **Description**: Create a simple notes page where admins can capture observations, investigation notes, quick reminders, and ad-hoc documentation that persists across sessions
-- **Notes**: Provides a quick capture tool for operators monitoring the system who need to jot down findings without leaving the dashboard. Should: (1) Create /notes.html page with a rich text editor or markdown editor, (2) Auto-save notes to localStorage with debounced saves (every 2 seconds of inactivity), (3) Support multiple notes organized by title/date with a sidebar list, (4) Markdown preview toggle (edit mode vs rendered view), (5) Search across all notes by content or title, (6) Timestamp each note with created/modified dates, (7) Tag notes with labels like "investigation", "todo", "reference", "incident", (8) Filter notes by tag, (9) Export individual notes or all notes as markdown or JSON, (10) Import notes from JSON for backup restore, (11) Pin important notes to the top of the list, (12) Quick note button: floating action button for rapid capture without navigating away from current page.
+*No tasks currently in progress*
 
 ---
 
 ## Completed
+
+### TASK-082: Add admin scratchpad/notes page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: LOW
+- **Started**: 2026-01-21
+- **Completed**: 2026-01-21
+- **Description**: Create a simple notes page where admins can capture observations, investigation notes, quick reminders, and ad-hoc documentation that persists across sessions
+- **Notes**: Provides a quick capture tool for operators monitoring the system who need to jot down findings without leaving the dashboard. Should: (1) Create /notes.html page with a rich text editor or markdown editor, (2) Auto-save notes to localStorage with debounced saves (every 2 seconds of inactivity), (3) Support multiple notes organized by title/date with a sidebar list, (4) Markdown preview toggle (edit mode vs rendered view), (5) Search across all notes by content or title, (6) Timestamp each note with created/modified dates, (7) Tag notes with labels like "investigation", "todo", "reference", "incident", (8) Filter notes by tag, (9) Export individual notes or all notes as markdown or JSON, (10) Import notes from JSON for backup restore, (11) Pin important notes to the top of the list, (12) Quick note button: floating action button for rapid capture without navigating away from current page.
+- **Developer Notes**: Implemented /notes.html page with: (1) Markdown editor with full sidebar-based note management; (2) Auto-save to localStorage with 500ms debounce and visual save status indicator; (3) Multiple notes organized by title with created/modified timestamps; (4) Toggle between edit mode and rendered markdown preview (side-by-side on desktop); (5) Search across all notes by title, content, or tags; (6) Tag system with comma-separated tags per note, tag filter dropdown, and colored tag badges; (7) Export all notes as JSON, import from JSON backup; (8) Pin important notes to top of list with visual indicator; (9) Floating action button for quick note creation on mobile; (10) Stats display (total notes, pinned count, unique tags, last modified); (11) Sort by modified date, created date, or title; (12) Delete confirmation modal; (13) Dashboard card with amber color scheme (#f59e0b) and '@' keyboard shortcut; (14) Command palette entry nav-notes; (15) Widget map entry for layout customization.
 
 ### TASK-004: Create a log cleanup utility
 - **Status**: DONE
