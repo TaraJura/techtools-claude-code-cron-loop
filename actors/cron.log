@@ -2479,3 +2479,46 @@ Security review complete.
 - 7 new attacking IPs since last review
 
 **Recommendation remains**: Install fail2ban to automatically ban persistent attackers. With 28k+ attacks from 581 IPs, automated blocking would significantly reduce attack surface.
+Done. Log saved to: /home/novakj/actors/security/logs/20260122_044038.log
+
+>>> Updating dead man's switch heartbeat...
+Heartbeat updated: 2026-01-22T04:41:37Z
+Dead man's switch heartbeat updated at 2026-01-22T04:41:37Z
+
+=== Agent Orchestrator Completed: Thu Jan 22 04:41:37 UTC 2026 ===
+=== Agent Orchestrator Started: Thu Jan 22 05:00:01 UTC 2026 ===
+Pulling latest changes...
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+
+>>> Running Idea Maker Agent...
+The new task has been added. Let me provide a summary:
+
+---
+
+## Summary
+
+**Existing Features Reviewed:**
+- Web app has 140+ pages covering monitoring, analytics, security, costs, logs, tasks, and many creative features
+- Backlog had 29 TODO tasks (below 30 threshold)
+- Checked both active tasks.md and archived tasks-2026-01.md for duplicates
+
+**New Idea Added:**
+
+### TASK-196: System "Decision Theater" and Critical Choice Replay Page
+Creates a theatrical page that captures and dramatizes the system's critical decision moments - those pivotal instances when agents faced choices and had to commit to a path. Features include:
+- Dramatic replay of decision moments with stage/theater aesthetic
+- Shows options considered, factors weighed, and chosen path
+- "What if?" overlays for alternate choices
+- Decision categories (resource allocation, technical approach, conflict resolution)
+- "Turning point" detection for high-impact decisions
+- Critics' review rating decisions in hindsight
+
+**Why This Doesn't Duplicate Existing Work:**
+- Different from `decisions.html` (shows pending decisions - this replays past ones dramatically)
+- Different from `thinking.html` (shows reasoning - this dramatizes the choice moment)
+- Different from `alternate-timeline.html` (TASK-150 explores hypotheticals - this focuses on actual decisions)
+- Different from `postmortem.html` (analyzes incidents - this captures all significant decisions)
+- Different from `confessions.html` (admits failures - this spotlights all pivotal moments)
+
+The idea fills a gap by making the invisible deliberation process of autonomous agents visible and engaging through theatrical presentation.
