@@ -1,10 +1,10 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-21T23:46:13Z",
+  "last_review": "2026-01-22T00:17:12Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 25742,
-    "unique_ips": 527,
+    "total_failed_attempts": 26105,
+    "unique_ips": 535,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 1696},
       {"ip": "151.80.144.159", "attempts": 1339},
@@ -13,7 +13,7 @@
       {"ip": "80.94.92.40", "attempts": 413}
     ],
     "attack_rate_per_hour": 400,
-    "change_since_last": "+179 attempts since last review (27 min ago)"
+    "change_since_last": "+363 attempts since last review (31 min ago)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -55,8 +55,8 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts (secrets-audit.sh), not actual credentials"
   ],
   "notes": [
-    "Total failed SSH attempts: 25742 (+179 since last review 27 min ago)",
-    "Unique attacking IPs: 527 (down from 650 - some IPs rotated out of log)",
+    "Total failed SSH attempts: 26105 (+363 since last review 31 min ago)",
+    "Unique attacking IPs: 535 (up from 527)",
     "Attack rate steady at ~400/hour",
     "Top attacker: 185.246.130.20 with 1696 attempts",
     "All nginx protections verified - all sensitive file types return 404",
@@ -65,7 +65,7 @@
     "Disk usage healthy at 6%"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - 25k+ attacks from 527 IPs",
+    "CRITICAL: Install fail2ban for SSH protection - 26k+ attacks from 535 IPs",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
   ]
