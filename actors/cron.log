@@ -4616,3 +4616,34 @@ I've completed TASK-149. Here's a summary of what was implemented:
 Done. Log saved to: /home/novakj/actors/developer2/logs/20260122_110729.log
 
 >>> Running Tester Agent...
+## Testing Summary
+
+### JSON Validation (PASS)
+All 139 API JSON files validated successfully - no broken JSON files.
+
+### New Task Testing
+
+**TASK-149: System autobiography page** - **VERIFIED (PASS)**
+- autobiography.html returns HTTP 200 (1609 lines)
+- All 17 required features verified:
+  - Fonts (Playfair Display, Crimson Text, EB Garamond)
+  - 8 chapters covering the AI's life story
+  - Export as PDF/ePub/Markdown
+  - 4 tone selectors
+  - Dashboard card with '§' shortcut
+- API endpoint /api/autobiography.json valid
+
+**TASK-157: Agent yearbook page** - **VERIFIED (PASS)**
+- yearbook.html returns HTTP 200 (1321 lines)
+- All 12 required features verified:
+  - Required fonts (Playfair Display, Crimson Text, Dancing Script)
+  - 8 superlatives section
+  - In Memoriam, Signatures, class photos, timeline sections
+  - Dashboard card with '★' shortcut
+- API endpoint /api/yearbook.json valid
+
+### Regression Testing (PASS)
+All critical pages return HTTP 200:
+- Core pages: index.html, security.html, health.html, agents.html, tasks.html, logs.html
+- Additional pages: changelog.html, schedule.html, costs.html, budget.html, trends.html, forecast.html, uptime.html, architecture.html
+- Recently verified pages: haiku.html, lighthouse.html, commit-poet.html, nightwatch.html, rituals.html
