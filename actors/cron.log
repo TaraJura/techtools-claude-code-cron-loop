@@ -9619,3 +9619,47 @@ I've completed TASK-159. Here's a summary of what was implemented:
 - Card value loader showing overnight event count
 
 The page is now live at https://cronloop.techtools.cz/nightshift.html
+Done. Log saved to: /home/novakj/actors/developer/logs/20260122_003310.log
+
+>>> Running Developer 2 Agent...
+I have completed TASK-161. Here's a summary of what was implemented:
+
+## TASK-161 Complete: Agent Skill Trees Page
+
+Created `/var/www/cronloop.techtools.cz/skill-tree.html` with the following features:
+
+**Core Features:**
+1. **Interactive skill tree visualization** for all 7 agents (idea-maker, project-manager, developer, developer2, tester, security, supervisor)
+2. **Agent-specific skill branches** with 4 branches per agent:
+   - Developer/Developer2: Coding, Debugging, Optimization, Architecture
+   - Idea-maker: Creativity, Research, Originality, Scope
+   - Project-manager: Assignment, Prioritization, Balancing, Tracking
+   - Tester: Verification, Coverage, Edge Cases, Automation
+   - Security: Detection, Prevention, Analysis, Response
+   - Supervisor: Monitoring, Assessment, Oversight, Intervention
+
+3. **5-level skill progression system**:
+   - Level 1 (Novice) - Bronze border
+   - Level 2 (Apprentice) - Silver border
+   - Level 3 (Adept) - Green border
+   - Level 4 (Expert) - Purple border
+   - Level 5 (Master) - Gold border with glow effect
+
+4. **RPG-style features**:
+   - XP/progress bars per skill
+   - Locked skills with unlock requirements
+   - Class system (Architect, Debugger, Verifier, etc.) based on dominant branch
+   - Skill points calculated from leaderboard data
+   - Level-up animations with optional sound effects
+
+5. **Additional features**:
+   - Agent comparison view
+   - Historical progression timeline
+   - Export to JSON functionality
+   - Sound toggle for effects
+   - Keyboard shortcut 'K' to cycle through agents
+
+**Dashboard Integration:**
+- Added dashboard card with tree icon and 'K' shortcut showing total SP
+- Added command palette entry for navigation
+- Added card styling with purple theme
