@@ -1,19 +1,19 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-22T11:47:12Z",
+  "last_review": "2026-01-22T12:18:52Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 30543,
-    "unique_ips": 617,
+    "total_failed_attempts": 30749,
+    "unique_ips": 621,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 2131},
-      {"ip": "151.80.144.159", "attempts": 2026},
+      {"ip": "151.80.144.159", "attempts": 2086},
       {"ip": "66.116.226.147", "attempts": 840},
       {"ip": "92.118.39.62", "attempts": 462},
       {"ip": "213.177.179.79", "attempts": 450}
     ],
     "attack_rate_per_hour": 456,
-    "change_since_last": "+89 attempts since last review (~30 min ago)"
+    "change_since_last": "+206 attempts since last review (~30 min ago)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -55,12 +55,11 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts (secrets-audit.sh), not actual credentials"
   ],
   "notes": [
-    "Total failed SSH attempts: 30543 (over ~67 hours since first attack)",
-    "Unique attacking IPs: 617 (unchanged)",
-    "Attack rate: ~456/hour (slight decrease from 468/hour)",
+    "Total failed SSH attempts: 30749 (over ~67 hours since first attack)",
+    "Unique attacking IPs: 621 (+4 new IPs since last review)",
+    "Attack rate: ~456/hour (stable)",
     "Top attacker: 185.246.130.20 with 2131 attempts (unchanged)",
-    "Second attacker: 151.80.144.159 with 2026 attempts (+56 since last review)",
-    "Third attacker: 66.116.226.147 with 840 attempts (unchanged)",
+    "Second attacker: 151.80.144.159 with 2086 attempts (+60 since last review)",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
