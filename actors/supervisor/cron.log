@@ -1672,3 +1672,4 @@ Next Run Focus:
 - Continue weekly rotation checks
 - Monitor task archiving (tasks.md at threshold)
 ```
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260122_051501.log
