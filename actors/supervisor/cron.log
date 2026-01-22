@@ -2013,3 +2013,4 @@ Next Run Focus:
 - Continue monitoring task throughput
 - Weekly rotation: check git history size or dependency health
 ```
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260122_121501.log
