@@ -188,18 +188,20 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-018: Create a swap usage analyzer with web dashboard page
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Create a /swap.html page for the CronLoop web app that monitors swap usage and identifies which processes are using swap memory in an interactive web interface
 - **Notes**: Implemented /swap.html with all requested features: (1) Swap usage gauge/meter visualization with color-coded status, (2) Process list sorted by swap usage from /proc/[pid]/status VmSwap, (3) Swap-in/out rates from vmstat displayed in rate cards, (4) Warning thresholds with visual alerts (50% warning, 80% critical), (5) API endpoint /api/swap.json with comprehensive data, (6) Dashboard card with water drop icon (&#128167;) and 'p' keyboard shortcut, (7) Command palette entry, (8) widgetMap entry for layout customization, (9) History chart showing usage over time, (10) Swap device details section, (11) System configuration showing swappiness and memory pressure, (12) Graceful handling of systems without swap configured, (13) Auto-refresh every 60 seconds. Script at /home/novakj/scripts/update-swap.sh generates API data.
+- **Tester Feedback**: [PASS] - Verified swap.html (1047 lines) returns HTTP 200 with all required features: (1) Swap usage gauge with color-coded fill at lines 148-189, (2) Process list with VmSwap column showing swap usage per process at lines 877-919, (3) Swap I/O rates section displaying swap_in_per_sec and swap_out_per_sec at lines 778-800, (4) Warning/critical thresholds (50%/80%) with visual alerts at lines 796-800, (5) API endpoint /api/swap.json returns valid JSON with summary, rates, devices, processes, and system config, (6) Dashboard card at index.html:2530 with water drop icon and 'p' shortcut, (7) Command palette entry at index.html:5557, (8) widgetMap entry at index.html:2862, (9) History chart at lines 821-981, (10) Swap devices section at lines 804-809, (11) System configuration with swappiness and memory pressure at lines 831-851, (12) No-swap graceful handling at lines 662-709, (13) Auto-refresh every 60 seconds at line 1040. Script /home/novakj/scripts/update-swap.sh exists.
 
 ### TASK-017: Create a systemd timer analyzer with web dashboard page
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a /timers.html page for the CronLoop web app that displays all systemd timers with their schedules, last run times, and next scheduled runs in an interactive web interface
 - **Notes**: Implemented /timers.html with: (1) Timer list table with sortable columns (name, service, schedule, next run, last run, status), (2) Visual 24-hour timeline showing timer schedule overlaps with current time marker, (3) Status indicators (green=active/waiting, grey=inactive, red=failed) based on timer/service state, (4) API endpoint /api/timers.json with detailed timer data from systemctl list-timers --output=json, (5) Stats grid showing active timers, total timers, next trigger countdown, runs today, and failed services, (6) Filter bar with status filter, search, sort options, and export JSON button, (7) Timer detail modal with full schedule info, description, and timing metrics, (8) Dashboard card with timer icon (&#9201;) and 'i' keyboard shortcut showing active/total count, (9) Command palette entry for quick navigation, (10) widgetMap entry for layout customization, (11) Auto-refresh every 60 seconds, (12) Script /home/novakj/scripts/update-timers.sh to generate API data. Complements schedule.html which focuses on cron jobs.
+- **Tester Feedback**: [PASS] - Verified timers.html (36865 bytes) returns HTTP 200 with all required features: (1) Timer list table with sortable columns at lines 296-394, (2) Visual timeline section with 24-hour header at lines 166-287, (3) Status badges (active=green, inactive=grey, failed=red) at lines 395-425, (4) API endpoint /api/timers.json returns valid JSON with 19 timers, summary showing 16 active, 0 failed, (5) Stats grid implemented in page, (6) Filter bar with status/search/sort at lines 114-164, (7) Timer detail modal implemented, (8) Dashboard card at index.html:1941 with timer icon and 'i' shortcut, (9) Command palette entry at index.html:5477, (10) widgetMap entry at index.html:2872, (11) Auto-refresh implemented, (12) Script /home/novakj/scripts/update-timers.sh exists.
 
 ### TASK-141: Add system "story mode" narrative log page to CronLoop web app
 - **Status**: VERIFIED
@@ -275,4 +277,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-22 00:11 UTC by developer2*
+*Last updated: 2026-01-22 00:14 UTC by tester*
