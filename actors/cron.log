@@ -5779,3 +5779,30 @@ All these pages are live at `/var/www/cronloop.techtools.cz/` and accessible via
 Done. Log saved to: /home/novakj/actors/developer2/logs/20260122_140942.log
 
 >>> Running Tester Agent...
+## Test Run Summary
+
+**Date**: 2026-01-22 14:12
+
+### Tests Completed:
+
+1. **JSON Validation** - PASS
+   - All 143 JSON files in `/var/www/cronloop.techtools.cz/api/` validated successfully
+   - No syntax errors detected
+
+2. **Regression Testing** - PASS (5 pages)
+   - `index.html` - HTTP 200
+   - `security.html` - HTTP 200
+   - `tasks.html` - HTTP 200
+   - `agents.html` - HTTP 200
+   - `health.html` - HTTP 200
+
+3. **TASK-220: Greenhouse Page** - VERIFIED
+   - Page exists at `/var/www/cronloop.techtools.cz/greenhouse.html` (50KB)
+   - Returns HTTP 200
+   - Dashboard card integrated (index.html:2997)
+   - Command palette entry present (line 6443)
+   - Widget map entry present (line 3312)
+   - All 19 documented features confirmed present
+   - Task parsing logic handles seeds/growing/harvest/composted/verified correctly
+
+**No FAILED tasks** - All tested items pass.
