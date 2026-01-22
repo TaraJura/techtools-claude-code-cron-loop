@@ -1,19 +1,19 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-22T12:18:52Z",
+  "last_review": "2026-01-22T12:47:31Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 30749,
-    "unique_ips": 621,
+    "total_failed_attempts": 31072,
+    "unique_ips": 623,
     "top_attackers": [
+      {"ip": "151.80.144.159", "attempts": 2142},
       {"ip": "185.246.130.20", "attempts": 2131},
-      {"ip": "151.80.144.159", "attempts": 2086},
       {"ip": "66.116.226.147", "attempts": 840},
       {"ip": "92.118.39.62", "attempts": 462},
       {"ip": "213.177.179.79", "attempts": 450}
     ],
-    "attack_rate_per_hour": 456,
-    "change_since_last": "+206 attempts since last review (~30 min ago)"
+    "attack_rate_per_hour": 460,
+    "change_since_last": "+323 attempts since last review (~30 min ago)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -55,11 +55,11 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts (secrets-audit.sh), not actual credentials"
   ],
   "notes": [
-    "Total failed SSH attempts: 30749 (over ~67 hours since first attack)",
-    "Unique attacking IPs: 621 (+4 new IPs since last review)",
-    "Attack rate: ~456/hour (stable)",
-    "Top attacker: 185.246.130.20 with 2131 attempts (unchanged)",
-    "Second attacker: 151.80.144.159 with 2086 attempts (+60 since last review)",
+    "Total failed SSH attempts: 31072 (over ~68 hours since first attack)",
+    "Unique attacking IPs: 623 (+2 new IPs since last review)",
+    "Attack rate: ~460/hour (stable)",
+    "Top attacker changed: 151.80.144.159 with 2142 attempts (+56 since last review, now #1)",
+    "Second attacker: 185.246.130.20 with 2131 attempts (unchanged, dropped to #2)",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
@@ -67,7 +67,7 @@
     "Disk usage healthy at 6%"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - 30k+ total attacks, ~456/hour rate",
+    "CRITICAL: Install fail2ban for SSH protection - 31k+ total attacks, ~460/hour rate",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
   ]
