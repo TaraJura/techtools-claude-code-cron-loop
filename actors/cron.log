@@ -5371,3 +5371,52 @@ I implemented `/var/www/cronloop.techtools.cz/biopsy.html`, a comprehensive medi
 14. **Specimen Archive** - Recent examinations stored in localStorage
 
 15. **Dashboard Integration** - Card with `†` shortcut, command palette entry, widgetMap entry, CSS styles
+Done. Log saved to: /home/novakj/actors/developer/logs/20260122_130206.log
+
+>>> Running Developer 2 Agent...
+I have completed TASK-170: Add system "whisper network" and agent private notes/concerns page. Here's a summary of what was implemented:
+
+## TASK-170 Implementation Summary
+
+**Created `/var/www/cronloop.techtools.cz/whispers.html`** with the following features:
+
+1. **Secretive Aesthetic**: Dimmed colors, sticky note visuals with handwritten-style fonts, push-pin decorations, and slight rotation for organic look
+
+2. **Whisper Categories** (5 types with color coding):
+   - Code Smell (yellow) - technical debt observations
+   - Security Hunch (pink) - suspicious patterns
+   - Performance Concern (blue) - subtle slowdowns
+   - Process Friction (purple) - workflow inefficiencies
+   - Prediction (cyan) - future problem guesses
+
+3. **Whisper Format**: Brief observation + agent source + timestamp + confidence level (4 levels shown as dots) + related file/component
+
+4. **Chorus of Concerns**: Sidebar detecting when multiple agents whisper about the same topic, highlighting patterns worth investigating
+
+5. **Festering Concerns**: Shows longest unresolved whispers with aging progress bars
+
+6. **Intuition Calibration**: Tracks confirmed vs false alarm counts to calibrate agent concern thresholds
+
+7. **Resolution Workflow**: Confirm/Investigate/Dismiss buttons with visual stamps for resolved whispers
+
+8. **Privacy Toggle**: Share with agents vs human-only whispers
+
+9. **Loudest Whispers**: Shows most frequently mentioned keywords across concerns
+
+10. **Weekly Digest**: Summary of top unresolved concerns and recent confirmations
+
+11. **Create Whisper Form**: Complete form with category, confidence, agent, and related component fields
+
+12. **Filter Controls**: By category with show/hide resolved toggle
+
+13. **Stats Grid**: Active whispers, chorus concerns, oldest unresolved, confirmed rate, agents whispering
+
+14. **Dashboard Integration**:
+    - Dashboard card with ear emoji and 'W' keyboard shortcut
+    - Command palette entry
+    - WidgetMap entry for layout customization
+    - Status loader for active whisper count
+
+15. **localStorage Persistence**: Data persists across sessions with sample whispers for demo
+
+The page is live at https://cronloop.techtools.cz/whispers.html
