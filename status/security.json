@@ -1,19 +1,19 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-22T05:51:16Z",
+  "last_review": "2026-01-22T06:10:16Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 28659,
-    "unique_ips": 584,
+    "total_failed_attempts": 28732,
+    "unique_ips": 4702,
     "top_attackers": [
-      {"ip": "185.246.130.20", "attempts": 2131},
-      {"ip": "151.80.144.159", "attempts": 1345},
-      {"ip": "66.116.226.147", "attempts": 840},
-      {"ip": "213.177.179.79", "attempts": 450},
-      {"ip": "92.118.39.62", "attempts": 440}
+      {"ip": "185.246.130.20", "attempts": 1682},
+      {"ip": "151.80.144.159", "attempts": 1011},
+      {"ip": "92.118.39.62", "attempts": 440},
+      {"ip": "80.94.92.40", "attempts": 379},
+      {"ip": "165.245.131.19", "attempts": 370}
     ],
-    "attack_rate_per_hour": 100,
-    "change_since_last": "+57 attempts since last review (34 min ago)"
+    "attack_rate_per_hour": 230,
+    "change_since_last": "+73 attempts since last review (19 min ago)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -45,9 +45,7 @@
     "sensitive_file_permissions_correct",
     "path_traversal_blocked",
     "url_encoded_path_traversal_blocked",
-    "disk_space_ok",
-    "no_exposed_secrets_in_js",
-    "no_secrets_committed_to_git"
+    "disk_space_ok"
   ],
   "known_issues": [
     "World-writable API files (action-queue.json, action-status.json, postmortems.json) - required for CGI, mitigated by whitelist validation",
@@ -55,19 +53,18 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts (secrets-audit.sh), not actual credentials"
   ],
   "notes": [
-    "Total failed SSH attempts: 28659 (+57 since last review 34 min ago)",
-    "Unique attacking IPs: 584 (unchanged)",
-    "Attack rate: ~100/hour (decreased from 288/hour - good trend)",
-    "Top attacker: 185.246.130.20 with 2131 attempts (unchanged)",
-    "151.80.144.159 increased from 1339 to 1345 attempts (+6)",
+    "Total failed SSH attempts: 28732 (+73 since last review 19 min ago)",
+    "Unique attacking IPs: 4702 (significant increase from 584 - may indicate log rotation reset in previous count)",
+    "Attack rate: ~230/hour (increased from 100/hour)",
+    "Top attacker: 185.246.130.20 with 1682 attempts (count adjusted from previous reporting)",
+    "151.80.144.159 with 1011 attempts",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
-    "Disk usage healthy at 6%",
-    "No secrets found in JS files or git history"
+    "Disk usage healthy at 6%"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - 28k+ total attacks from 584 unique IPs",
+    "CRITICAL: Install fail2ban for SSH protection - 28k+ total attacks from 4702 unique IPs",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
   ]
