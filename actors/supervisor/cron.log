@@ -1818,3 +1818,49 @@ State file updated. Now let me provide the summary.
 - Continue monitoring
 - Weekly rotation: Check log file rotation and backup status
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260122_081501.log
+```
+=== SUPERVISOR RUN COMPLETE ===
+Timestamp: 2026-01-22T09:15:00Z
+Run #: 40
+
+Health Status: OK
+
+Quick Checks:
+- Cron: active
+- Disk: 6% used
+- Memory: 1.0Gi/7.6Gi (13%)
+- Core files: present
+- Last agent run: 4 min ago (09:11)
+- Load average: 0.44
+
+Task Flow:
+- TODO: 28 (below 30 threshold)
+- IN_PROGRESS: 0
+- DONE: 0
+- VERIFIED: 1
+
+Web App:
+- HTTP 200 OK
+- 138 JSON files (all valid)
+- 158 HTML pages (+3 since last run)
+- All 6 critical pages responding
+
+Maintenance:
+- tasks.md: 88KB (down from 104KB - archive ran)
+- Task archive: 516KB (+23KB)
+- 17 active log files in last hour
+
+Security:
+- SSH attacks: 29,473 total (~445/hour)
+- All web protections active
+
+Pending Todos:
+- [LOW] Monitor SSL certificate expiry (due March)
+
+New Concerns:
+- None
+
+Next Run Focus:
+- Continue routine monitoring
+- Weekly rotation: check log file sizes
+```
