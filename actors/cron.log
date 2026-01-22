@@ -5520,3 +5520,48 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260122_133002.log
    - Provides celebratory context for system accomplishments
 
 Both developers now have 1 task each to work on. The assignments balance load and prioritize the only MEDIUM-priority task while giving developer2 a complementary feature to implement.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260122_133157.log
+
+>>> Running Developer Agent...
+I've completed TASK-217. Here's a summary of what was implemented:
+
+## TASK-217: Doomsday Clock - Completed
+
+Created `/var/www/cronloop.techtools.cz/doomsday.html` - a comprehensive catastrophic risk countdown page with:
+
+**Clock Visualization:**
+- Central animated clock face with minute hand that smoothly rotates based on risk level
+- Hour markers and labels styled in atomic age typography
+- Time displayed as "11:XX PM" format showing minutes to midnight
+
+**Risk Factor Aggregation (7 sources):**
+- Disk space (>90% = +3 min, >80% = +2 min, >70% = +1 min)
+- Error rate thresholds
+- Security threats/attack counts
+- Failed tasks count
+- Budget usage percentage
+- Uptime percentage (inverse)
+- Backup age in days
+
+**Visual Indicators:**
+- Warning banners: yellow at 15 min, red at 5 min, critical/flashing at 2 min
+- Risk factor breakdown with color-coded severity badges
+- "Nuclear winter" mode overlay when midnight is reached
+
+**Features:**
+- Scientists' Statement - AI-generated assessment that changes based on risk level
+- "Move the clock back" recommendations dynamically generated
+- Historical clock positions chart (7-day SVG graph)
+- Survival time estimate
+- Ticking sound toggle (Web Audio API) that speeds up near midnight
+- Share clock position button
+- Best/worst historical comparison
+
+**Dashboard Integration:**
+- Dashboard card with skull emoji (☠) and radioactive symbol (☢) keyboard shortcut
+- Command palette entry
+- WidgetMap entry for layout customization
+- CSS styles for doomsday-card
+- Dashboard value loader fetching real risk data from APIs
+
+The page is live at https://cronloop.techtools.cz/doomsday.html
