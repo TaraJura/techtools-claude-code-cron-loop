@@ -1,19 +1,18 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-22T02:10:50Z",
+  "last_review": "2026-01-22T02:46:17Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 26742,
-    "unique_ips": 557,
+    "total_failed_attempts": 27153,
+    "unique_ips": 4527,
     "top_attackers": [
-      {"ip": "185.246.130.20", "attempts": 1696},
-      {"ip": "151.80.144.159", "attempts": 1339},
-      {"ip": "66.116.226.147", "attempts": 840},
-      {"ip": "165.245.131.19", "attempts": 423},
-      {"ip": "80.94.92.40", "attempts": 413}
+      {"ip": "185.246.130.20", "attempts": 1344},
+      {"ip": "151.80.144.159", "attempts": 974},
+      {"ip": "92.118.39.62", "attempts": 404},
+      {"ip": "165.245.131.19", "attempts": 370}
     ],
-    "attack_rate_per_hour": 370,
-    "change_since_last": "+226 attempts since last review (31 min ago)"
+    "attack_rate_per_hour": 380,
+    "change_since_last": "+411 attempts since last review (35 min ago)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -55,10 +54,10 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts (secrets-audit.sh), not actual credentials"
   ],
   "notes": [
-    "Total failed SSH attempts: 26742 (+226 since last review 31 min ago)",
-    "Unique attacking IPs: 557 (+13 new IPs)",
-    "Attack rate: ~370/hour (stable)",
-    "Top attacker: 185.246.130.20 with 1696 attempts (unchanged)",
+    "Total failed SSH attempts: 27153 (+411 since last review 35 min ago)",
+    "Unique attacking IPs: 4527 (significant increase in unique IPs)",
+    "Attack rate: ~380/hour (stable)",
+    "Top attacker: 185.246.130.20 with 1344 attempts",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
@@ -66,7 +65,7 @@
     "JS file audit: Only 'secrets-audit' references found - these are URLs to the security audit feature, not actual secrets"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - 26k+ attacks from 557 IPs",
+    "CRITICAL: Install fail2ban for SSH protection - 27k+ attacks from 4.5k IPs",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
   ]
