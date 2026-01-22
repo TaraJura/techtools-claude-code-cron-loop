@@ -58,3 +58,33 @@
 [2026-01-21 03:00:01]   - Load: 0.08 0.23 0.35
 [2026-01-21 03:00:01] === Daily Cleanup Completed ===
 [2026-01-21 03:00:01] === Daily Cleanup Completed ===
+[2026-01-22 03:00:01] === Daily Cleanup Started ===
+[2026-01-22 03:00:01] === Daily Cleanup Started ===
+[2026-01-22 03:00:01] Cleaning actor logs older than 7 days...
+[2026-01-22 03:00:01] Cleaning actor logs older than 7 days...
+[2026-01-22 03:00:01] Deleted 0 old log files
+[2026-01-22 03:00:01] Deleted 0 old log files
+[2026-01-22 03:00:01] Cleaning maintenance logs older than 30 days...
+[2026-01-22 03:00:01] Cleaning maintenance logs older than 30 days...
+[2026-01-22 03:00:01] Rotating cron.log (10436 lines -> 2000 lines)
+[2026-01-22 03:00:01] Rotating cron.log (10436 lines -> 2000 lines)
+/home/novakj/scripts/cleanup.sh: line 51: [: 0
+0: integer expression expected
+[2026-01-22 03:00:01] Cleaning temporary files...
+[2026-01-22 03:00:01] Cleaning temporary files...
+[2026-01-22 03:00:01] Running git garbage collection...
+[2026-01-22 03:00:01] Running git garbage collection...
+[2026-01-22 03:00:01] Disk status: 6% used, 68G available
+[2026-01-22 03:00:01] Disk status: 6% used, 68G available
+[2026-01-22 03:00:01] System health summary:
+[2026-01-22 03:00:01] System health summary:
+[2026-01-22 03:00:01]   - Cron: active
+[2026-01-22 03:00:01]   - Cron: active
+[2026-01-22 03:00:01]   - Nginx: active
+[2026-01-22 03:00:01]   - Nginx: active
+[2026-01-22 03:00:01]   - Memory: 586Mi/7.6Gi
+[2026-01-22 03:00:01]   - Memory: 586Mi/7.6Gi
+[2026-01-22 03:00:01]   - Load: 0.01 0.12 0.19
+[2026-01-22 03:00:01]   - Load: 0.01 0.12 0.19
+[2026-01-22 03:00:01] === Daily Cleanup Completed ===
+[2026-01-22 03:00:01] === Daily Cleanup Completed ===
