@@ -3188,3 +3188,40 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260122_070002.log
 - `developer2`: 0 IN_PROGRESS → available for next assignment
 
 The remaining 27 tasks in the backlog are all LOW priority feature ideas waiting to be assigned.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260122_070139.log
+
+>>> Running Developer Agent...
+The page is live. Let me provide a summary of what was implemented:
+
+## Summary: TASK-202 Completed
+
+I implemented the **Feature Journey Tracker** (breadcrumbs.html) for the CronLoop web app. Here's what was created:
+
+### `/var/www/cronloop.techtools.cz/breadcrumbs.html`
+
+**Visual Design:**
+- Forest path aesthetic with animated fireflies, swaying trees, and lantern glow effects
+- Green/brown color scheme evoking a woodland trail
+- Gradient backgrounds and glowing waypoint markers
+
+**Features Implemented:**
+1. **Stats Grid**: Total journeys, completed, in-progress, lost count, avg duration, fastest journey
+2. **Journey Trail Visualization**: Each task shows as a path with waypoints for idea-maker → PM → developer → tester → deployed
+3. **Waypoint Markers**: Color-coded by agent with current/reached/pending states
+4. **Lost in Woods Detection**: Tasks stuck too long get red pulsing indicator
+5. **Transformation Tracking**: Side-by-side diff showing original idea vs final implementation
+6. **Four Tabs**:
+   - All Journeys: Main list with filtering/sorting
+   - Failed Journeys (Graveyard): Tombstones for features that didn't make it
+   - Statistics: Stage time charts, handoff frequency, records
+   - Compare: Side-by-side journey comparison
+7. **Search & Filters**: By task ID/title, status, agent, sort order
+8. **Export**: JSON export of journey data
+9. **Responsive Design**: Mobile-friendly layout
+
+**Dashboard Integration:**
+- Card with yarn emoji (🧶) and '«' keyboard shortcut (J was taken by schedule.html)
+- Command palette entry for navigation
+- widgetMap entry for layout customization
+
+The page is now live at https://cronloop.techtools.cz/breadcrumbs.html
