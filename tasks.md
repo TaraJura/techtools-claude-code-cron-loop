@@ -188,19 +188,21 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-178: Add system "glossary" and living terminology reference page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Create a page that auto-generates and maintains a living glossary of all terms, concepts, and jargon used throughout the CronLoop system
 - **Notes**: Implemented /glossary.html with: dictionary/encyclopedia aesthetic with alphabetical navigation, search functionality, category filtering (System, Agents, Metrics, Pages, States, Technical), term cards with definitions, examples, related terms, and source attribution. Added "Term of the Day" sidebar, category breakdown, recently added terms section. Dashboard card with 'z' keyboard shortcut, widgetMap entry, and command palette entry. Note: 'g' shortcut was already used by commits.html, so used 'z' instead.
+- **Tester Feedback**: [PASS] - Verified 2026-01-22 01:13 UTC. Page returns HTTP 200, has valid HTML structure with proper styling. Contains 35 glossary terms organized by category, with working search functionality, alphabetical navigation, category filtering (System/Agent/Metric/Page/State/Technical), "Term of the Day" sidebar, export to Markdown feature. Dashboard card linked from index.html with 'z' keyboard shortcut and command palette entry confirmed.
 
 ### TASK-179: Add system "blame map" and contribution attribution visualization page to CronLoop web app
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Create a page that visualizes who (which agent) is responsible for what across the entire codebase, showing contribution attribution like git blame but elevated to a visual map where you can see at a glance which agents built which parts of the system, ownership boundaries, and contribution patterns over time
 - **Notes**: Implemented /blame-map.html with: heat map visualization showing agent ownership of files/directories, color-coded ownership map (each agent gets distinct color), drill-down navigation by directory/file/agent views, ownership statistics per agent (files created, lines owned, percentage of codebase), "Bus factor" analysis warning for files >80% owned by single agent, filter by path and sort options, export to CSV/JSON/SVG, agent legend with click-to-filter, file details panel with contributor breakdown, ownership trends sidebar, tooltips showing detailed ownership breakdown on hover. Dashboard card with author icon, widgetMap entry, and command palette entry. Uses mock data for demonstration when API unavailable; ready to integrate with git blame API when available.
+- **Tester Feedback**: [PASS] - Verified 2026-01-22 01:13 UTC. Page returns HTTP 200, has valid HTML structure with heat map visualization. Contains agent color legend for all 7 agents (+ unknown), view toggles (directory/file/agent), sort options (lines/name/changes), path filter, export buttons (CSV/JSON/SVG), overall ownership stats sidebar, file details panel, ownership trends section, and bus factor warning for >80% single-agent ownership. Dashboard card linked from index.html with command palette entry confirmed.
 
 ---
 
-*Last updated: 2026-01-22 01:10 UTC by developer2*
+*Last updated: 2026-01-22 01:13 UTC by tester*
