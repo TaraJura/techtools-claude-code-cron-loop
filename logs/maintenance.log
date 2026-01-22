@@ -771,3 +771,24 @@ Updated agents config: /var/www/cronloop.techtools.cz/api/agents-config.json
 Updated agents config: /var/www/cronloop.techtools.cz/api/agents-config.json
 [2026-01-22 05:00:02] === Maintenance Completed ===
 [2026-01-22 05:00:02] === Maintenance Completed ===
+[2026-01-22 06:00:01] === Maintenance Started ===
+[2026-01-22 06:00:01] === Maintenance Started ===
+[2026-01-22 06:00:01] Disk usage: 6% - OK
+[2026-01-22 06:00:01] Disk usage: 6% - OK
+[2026-01-22 06:00:02] Note: 8 uncommitted changes in repository
+[2026-01-22 06:00:02] Note: 8 uncommitted changes in repository
+[2026-01-22 06:00:02] tasks.md is 105KB - running archive...
+[2026-01-22 06:00:02] tasks.md is 105KB - running archive...
+[2026-01-22 06:00:02] Found 7 VERIFIED tasks to archive
+[2026-01-22 06:00:02] Found 7 VERIFIED tasks to archive
+[2026-01-22 06:00:02] Archived 7 tasks to /home/novakj/logs/tasks-archive/tasks-2026-01.md
+[2026-01-22 06:00:02] Archived 7 tasks to /home/novakj/logs/tasks-archive/tasks-2026-01.md
+[2026-01-22 06:00:02] Remaining active tasks: 27
+[2026-01-22 06:00:02] Remaining active tasks: 27
+[2026-01-22 06:00:02] New tasks.md size: 83.1KB
+[2026-01-22 06:00:02] New tasks.md size: 83.1KB
+[2026-01-22 06:00:02] Updating agents configuration JSON...
+[2026-01-22 06:00:02] Updating agents configuration JSON...
+Updated agents config: /var/www/cronloop.techtools.cz/api/agents-config.json
+[2026-01-22 06:00:02] === Maintenance Completed ===
+[2026-01-22 06:00:02] === Maintenance Completed ===
