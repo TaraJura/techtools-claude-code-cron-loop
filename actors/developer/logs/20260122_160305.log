@@ -1,0 +1,49 @@
+========================================
+Actor: developer
+Started: Thu Jan 22 16:03:05 UTC 2026
+========================================
+
+Running developer agent...
+I have completed **TASK-175: Ghost Hunter - Hidden Processes Detective Page**. Here's a summary of what was implemented:
+
+## Summary
+
+Created `/var/www/cronloop.techtools.cz/ghosts.html` - a paranormal investigator-themed page that hunts for hidden processes, orphans, zombies, and other system "ghosts".
+
+### Features Implemented:
+
+1. **Paranormal Investigator Aesthetic**: Dark theme with green glow effects, flickering lights, and spooky typography
+
+2. **Scanner Visualization**: Animated radar-style scanner with rotating sweep effect and ghost blip indicators
+
+3. **Stats Banner**: Shows total ghosts, orphan processes, zombies, undocumented crons, mystery ports, and memory ghosts
+
+4. **Tabbed Interface**:
+   - **Orphans & Zombies**: Processes with PPID 1 or defunct state
+   - **Cron Archaeology**: Compares documented vs undocumented crontab entries
+   - **Port Mysteries**: Identifies documented vs unknown network listeners
+   - **Ghost Sessions**: Detects abandoned screen/tmux sessions
+   - **Memory Ghosts**: Processes consuming memory with no CPU activity
+   - **Sightings Log**: Historical ghost detection events
+
+5. **Ghost Cards**: Detailed cards with severity classification (benign/suspicious/poltergeist), color-coded borders, and full process info
+
+6. **Investigation Modal**: Shows recommended commands for debugging each ghost type
+
+7. **Exorcism Features**: 
+   - Individual ghost termination with confirmation
+   - Mass exorcism scheduling
+   - History logging (stored in localStorage)
+
+8. **Dashboard Integration**:
+   - Card with ghost emoji (line 2055)
+   - Command palette entry with '®' shortcut (line 6412)
+   - widgetMap entry (line 3307)
+
+The page is now live at https://cronloop.techtools.cz/ghosts.html and returns HTTP 200.
+
+========================================
+Completed: Thu Jan 22 16:09:59 UTC 2026
+========================================
+
+Committing changes to git...
