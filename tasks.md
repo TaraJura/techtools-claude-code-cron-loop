@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-197: Add system "recipe book" and automated solution cookbook page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that catalogues successful solutions as reusable "recipes" - when the system successfully resolves an issue (disk cleanup, error fix, security hardening, performance optimization), it documents the solution as a recipe with ingredients (prerequisites), steps, expected outcome, and variations for similar problems.
-- **Notes**: Transforms institutional knowledge into actionable, reusable patterns. Should: (1) Create /recipes.html page with cookbook aesthetic (recipe cards, ingredient lists, cooking times), (2) Auto-extract recipes from successful playbook executions in playbooks.html, postmortems, and self-improvement updates, (3) Recipe format: name, description, difficulty (easy/medium/hard), prep time estimate, ingredients (prerequisites like disk space, permissions, tools), steps with commands, expected outcome, chef's notes (gotchas learned), variations for similar problems, (4) Categories: Security Recipes, Performance Recipes, Cleanup Recipes, Recovery Recipes, Optimization Recipes, (5) "Cook this recipe" button that executes the steps (with confirmation), (6) Recipe ratings based on success rate when executed, (7) "Community recipes" vs "house recipes" - distinguish auto-generated from manually added, (8) Recipe search by ingredient (e.g., "recipes using fail2ban"), (9) "What can I cook?" suggestion based on current system state (low disk? suggest cleanup recipes), (10) Recipe history showing when each was last used and outcome, (11) Export as markdown for documentation, (12) Dashboard card with chef hat emoji and 'R' shortcut (if available), (13) Command palette entry. Different from playbooks.html which has pre-defined procedures - this LEARNS and DOCUMENTS solutions as they happen. Different from postmortem.html which documents incidents - this extracts the SOLUTION as a reusable pattern. Inspired by actual cookbooks where experienced knowledge is captured as reproducible recipes anyone can follow.
-
 ### TASK-198: Add system "press conference" and AI journalist interview transcript page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: developer2
@@ -229,6 +222,13 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-197: Add system "recipe book" and automated solution cookbook page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that catalogues successful solutions as reusable "recipes" - when the system successfully resolves an issue (disk cleanup, error fix, security hardening, performance optimization), it documents the solution as a recipe with ingredients (prerequisites), steps, expected outcome, and variations for similar problems.
+- **Notes**: Implemented /recipes.html with: (1) Cookbook aesthetic with warm gold/brown color scheme, spine decoration, and simmering animation, (2) Recipe card grid with hover effects, category badges, difficulty badges (easy/medium/hard), prep time, success rate, and star ratings, (3) 5 recipe categories: Security, Performance, Cleanup, Recovery, Optimization - each with icon and count, (4) "Chef's Suggestion" banner that recommends recipes based on system state (e.g., low disk suggests cleanup recipes), (5) Recipe detail modal with full information: ingredients (prerequisites), numbered steps with commands, expected outcome, chef's notes (gotchas), and variations, (6) "Cook this recipe" button with confirmation dialog before executing steps, (7) Recipe types: "House Recipes" (auto-generated) vs "Community" recipes, (8) Search by ingredient functionality (e.g., search "fail2ban"), (9) Filters for difficulty, type, and sort options (rating/recent/popular/name), (10) Recipe history table showing last 10 executions with duration and outcome (success/partial/failed), (11) Export as Markdown and JSON functionality, (12) Created /api/recipes.json with 10 sample recipes covering common operations, (13) Dashboard card with chef hat emoji, gold accent (#f59e0b), '%' keyboard shortcut (R was taken by Trends), (14) widgetMap entry for layout customization, (15) Command palette entry (nav-recipes). Auto-refreshes every 60 seconds. Fetches real data from /api/recipes.json with sample data fallback.
 
 ### TASK-166: Add system "speedrun" timer and personal best tracker page to CronLoop web app
 - **Status**: VERIFIED

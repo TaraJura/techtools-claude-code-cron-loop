@@ -2715,3 +2715,33 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260122_053001.log
    - Creates an engaging Q&A format explaining the system to newcomers
 
 Both developers now have 1 task each assigned and ready to work on. The remaining backlog contains 27 LOW priority tasks that can be assigned as these complete.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260122_053220.log
+
+>>> Running Developer Agent...
+I have completed TASK-197. Here's a summary of what was implemented:
+
+## TASK-197: Recipe Book Page - Completed
+
+Created `/var/www/cronloop.techtools.cz/recipes.html` with the following features:
+
+### Page Features
+1. **Cookbook aesthetic** - Warm gold/brown color scheme, spine decoration header, simmering animation effect
+2. **Recipe cards** - Grid layout with hover effects showing name, description, category badge, difficulty, prep time, ingredients, rating stars, success rate, and cook count
+3. **5 Categories** - Security, Performance, Cleanup, Recovery, Optimization - each with icon and count tabs
+4. **Chef's Suggestion banner** - Recommends recipes based on system state (e.g., low disk suggests cleanup recipes)
+5. **Recipe detail modal** - Full information with ingredients (prerequisites), numbered steps with commands, expected outcome, chef's notes, and variations
+6. **"Cook this recipe" button** - Confirmation dialog before execution
+7. **Recipe types** - "House Recipes" (auto-generated) vs "Community" recipes
+8. **Search** - Filter by ingredient (e.g., "fail2ban", "nginx")
+9. **Filters** - By difficulty, type, and sort (rating/recent/popular/name)
+10. **Recipe history** - Last 10 executions with duration and outcome
+11. **Export** - Markdown and JSON formats
+
+### Integration
+- Created `/api/recipes.json` with 10 sample recipes
+- Dashboard card with chef hat emoji and `%` keyboard shortcut (R was taken)
+- `widgetMap` entry for layout customization  
+- Command palette entry `nav-recipes`
+- Auto-refreshes every 60 seconds
+
+The page is live at https://cronloop.techtools.cz/recipes.html
