@@ -1,0 +1,27 @@
+========================================
+Actor: security
+Started: Thu Jan 22 08:50:36 UTC 2026
+========================================
+
+Running security agent...
+Security review complete.
+
+**Summary:**
+- **Status**: Secure
+- **SSH attacks**: 29,327 total (+772 since last review, ~30 min)
+- **Attack rate**: ~440/hour (steady)
+- **Top attacker**: 185.246.130.20 (2,131 attempts, persistent)
+- **Unique IPs**: 589 (+2 new)
+- **All nginx protections**: Working (all sensitive paths return 404)
+- **File permissions**: Correct (CLAUDE.md: 664, .ssh: 700, SSH key: 600)
+- **No symlinks or .git files in web root**
+- **No secrets in recent commits**
+- **Disk usage**: 6%
+
+No incidents to log. Updated `status/security.json` with current findings. fail2ban remains the critical recommendation for SSH protection given the sustained attack volume.
+
+========================================
+Completed: Thu Jan 22 08:52:03 UTC 2026
+========================================
+
+Committing changes to git...
