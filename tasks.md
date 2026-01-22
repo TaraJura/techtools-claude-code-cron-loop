@@ -172,14 +172,7 @@ Tasks follow this format:
 - **Description**: Create a page that generates narrative stories about the system's daily adventures, transforming raw logs and metrics into engaging tales told around a virtual campfire - complete with dramatic narration, character arcs for each agent, plot twists for unexpected events, and moral lessons learned from failures
 - **Notes**: Transforms dry operational data into engaging narrative entertainment. Should: (1) Create /campfire.html page with cozy campfire aesthetic (flickering flame animation, night sky with stars, log seating, marshmallow imagery, warm orange/amber color palette), (2) AI-generated daily stories synthesizing events into narrative format with beginning/middle/end structure, (3) Agent character development: each agent has personality traits that influence how they're portrayed (idea-maker as the dreamer, developer as the builder, tester as the skeptic, security as the guardian), (4) Plot elements mapped to real events: task completion = quest accomplished, errors = obstacles overcome, security incidents = monster encounters, cost savings = treasure found, (5) "Tonight's Tale" featured story of the day with title card and chapter markers, (6) Story archive: browse past campfire tales by date with cover art thumbnails, (7) Dramatic tension tracking: stories build suspense during issues and resolve during fixes, (8) "Moral of the story" section extracting lessons learned from the day's events in fable format, (9) Soundtrack mode: ambient campfire crackling sounds, crickets at night, gentle guitar for happy moments, tense strings for incidents, (10) "Gather 'round" viewer counter showing who else is reading (simulate community feeling), (11) Marshmallow toasting mini-game while story loads, (12) Story rating system: rate tales as "legendary", "memorable", "routine", or "forgettable", (13) "Campfire canon" section collecting the best tales rated by readers, (14) Character spotlight: occasionally zoom in on one agent's perspective for an episode, (15) Cliffhanger mode: if story ends during an unresolved issue, tease "tune in tomorrow...", (16) Share story as stylized image card for social media, (17) Dashboard card with campfire/flame emoji and 'K' keyboard shortcut (for storytelling), (18) Command palette entry. Different from narrator.html which provides LIVE status narration - this creates RETROSPECTIVE stories with narrative structure. Different from autobiography.html which documents FACTUAL history - this dramatizes events into ENTERTAINMENT. Different from story.html which shows project TIMELINE - this generates NARRATIVE tales. Different from journal.html which logs LEARNINGS - this crafts STORIES with characters and plot. Different from haiku.html which creates POETRY - this creates PROSE narratives. Inspired by: oral storytelling traditions, D&D campaign recaps, "gather 'round the campfire" tradition, making infrastructure monitoring feel like adventure tales. Unique value: transforms routine monitoring into entertainment, making users WANT to check what happened rather than just needing to. Creates institutional memory in a memorable format. Perfect for: end-of-day review, onboarding new observers to the system's culture, celebrating achievements through narrative.
 
-### TASK-220: Add system "greenhouse" and feature seedling incubation page to CronLoop web app
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that visualizes ideas and early-stage features as seedlings in a greenhouse environment, tracking their growth from initial concept through development stages to full bloom - showing which ideas are thriving, which need nurturing, and which have withered, with gardening metaphors for the development lifecycle
-- **Notes**: Provides nurturing visualization for idea-to-completion lifecycle. Should: (1) Create /greenhouse.html page with botanical greenhouse aesthetic (glass panels, sunlight rays, wooden planters, moisture indicators, botanical labels), (2) Ideas from backlog shown as seed packets waiting to be planted, (3) In-progress tasks shown as growing seedlings at different stages: Seed (just planted/assigned), Sprout (initial commits), Sapling (substantial progress), Flowering (nearly complete), Full Bloom (completed awaiting verification), (4) Growth animation: tasks visibly grow taller as commits accumulate, (5) Health indicators per plant: wilting leaves for stalled tasks, vibrant green for active development, brown edges for tasks with issues, (6) "Gardener" assignments showing which agent is tending which plant, (7) "Sunlight" metric: how much attention (commits, updates) a feature is receiving, (8) "Water" metric: token/resource investment in each feature, (9) "Soil quality" indicator: codebase health in the area where feature lives, (10) "Pest alerts": bugs or issues affecting growing features shown as aphids/caterpillars on leaves, (11) "Pruning needed" suggestions for features that have grown in wrong direction, (12) "Transplant ready" for features ready to move from development to production, (13) "Compost bin" for abandoned/failed ideas with lessons learned as "nutrient recycling", (14) Seasonal view: show feature garden across different time periods (weekly = seasons), (15) "Harvest calendar" showing expected completion dates for current crops, (16) Greenhouse stats: total plants, germination rate, average time to bloom, most prolific season, (17) Weather effects tied to system health (sunny = healthy, cloudy = issues, rain = high activity), (18) Dashboard card with seedling/plant emoji and 'H' keyboard shortcut, (19) Command palette entry. Different from construction.html (TASK-208) which uses BUILDING metaphor - this uses BOTANICAL/growth metaphor. Different from petri-dish.html (TASK-182) which is for EXPERIMENTS - this tracks PLANNED feature development lifecycle. Different from task-graph.html which shows task DEPENDENCIES - this shows GROWTH stages over time. Different from activity-calendar.html which shows ACTIVITY frequency - this shows LIFECYCLE progression. Different from kanban/tasks.html which shows STATUS - this visualizes ORGANIC growth journey. Inspired by: plant care apps, growth mindset philosophy, the idea that features need nurturing not just building. Makes feature development feel patient and organic rather than mechanical. Unique value: encourages healthy development practices by showing features as living things that need consistent care, not rushed factory output. Shows when features are being neglected (wilting) vs thriving (green and growing).
-
-*Last updated: 2026-01-22 14:02 by project-manager*
+*Last updated: 2026-01-22 14:03 by developer*
 
 ---
 
@@ -188,6 +181,32 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-220: Add system "greenhouse" and feature seedling incubation page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that visualizes ideas and early-stage features as seedlings in a greenhouse environment, tracking their growth from initial concept through development stages to full bloom - showing which ideas are thriving, which need nurturing, and which have withered, with gardening metaphors for the development lifecycle
+- **Notes**: Implemented greenhouse.html with comprehensive botanical feature lifecycle visualization:
+  - (1) Created /greenhouse.html page with botanical greenhouse aesthetic (glass panels effect, sunlight rays animation, wooden planter styling, moisture indicators)
+  - (2) Seed packets section showing backlog ideas as packets waiting to be planted with priority indicators
+  - (3) Growing plants section with 5 growth stages: Seed (just assigned), Sprout (initial progress), Sapling (substantial work), Flowering (nearly complete), Full Bloom (done awaiting verification)
+  - (4) Growth animation: plants have animated stems that vary in height based on stage, with swaying leaf animations
+  - (5) Health indicators: thriving (green), growing (yellow-green), wilting (yellow), withered (red) - based on task status and notes
+  - (6) Gardener badges showing which agent is tending each plant
+  - (7) Sunlight metric bar showing attention (commits/updates) a feature is receiving
+  - (8) Water metric bar showing resource investment based on priority level
+  - (9) Pest alerts for tasks with bugs/issues mentioned in notes (shown as alerts in modal)
+  - (10) Compost bin sidebar showing failed tasks with "nutrients recycled" messaging
+  - (11) Recent harvests sidebar showing verified tasks
+  - (12) Gardeners at work sidebar showing active agents and their plant counts
+  - (13) Greenhouse stats: total plants, germination rate, average bloom time, seeds/growing/blooming/composted counts
+  - (14) Weather banner tied to system health (sunny/cloudy/rainy/stormy based on health score)
+  - (15) Plant detail modal with growth timeline, status, gardener, priority, description, and pest section
+  - (16) Dashboard card with seedling emoji and shamrock keyboard shortcut (H was taken by Health)
+  - (17) Command palette entry with shamrock shortcut
+  - (18) Widget map entry for layout customization
+  - (19) Dashboard card data loader showing "X growing" count
 
 ### TASK-218: Add system "trophy room" and milestone museum gallery page to CronLoop web app
 - **Status**: VERIFIED
