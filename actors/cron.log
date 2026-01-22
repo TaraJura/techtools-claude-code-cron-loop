@@ -4647,3 +4647,30 @@ All critical pages return HTTP 200:
 - Core pages: index.html, security.html, health.html, agents.html, tasks.html, logs.html
 - Additional pages: changelog.html, schedule.html, costs.html, budget.html, trends.html, forecast.html, uptime.html, architecture.html
 - Recently verified pages: haiku.html, lighthouse.html, commit-poet.html, nightwatch.html, rituals.html
+Done. Log saved to: /home/novakj/actors/tester/logs/20260122_111528.log
+
+>>> Running Security Agent...
+Security review complete. Summary:
+
+**Status: SECURE**
+
+All security checks passed:
+- **Web protections**: All sensitive file types (.git, .env, .md, .sh, .py, .log) return 404
+- **Path traversal**: Blocked (direct returns 404, URL-encoded returns 400)
+- **File permissions**: Correct (CLAUDE.md: 664, .ssh: 700, SSH key: 600)
+- **Webroot**: No symlinks or .git files found
+- **Git history**: No secrets in recent commits
+- **Disk**: 6% usage (healthy)
+
+**SSH Attack Summary**:
+- 30,454 total failed attempts (+116 since last review)
+- 617 unique attacking IPs (+1 new)
+- Attack rate: ~468/hour (steady)
+- Top attacker: 185.246.130.20 (2,131 attempts)
+
+**Recommendations remain**:
+- Install fail2ban for SSH protection (critical - 30k+ attacks)
+- Enable UFW firewall
+- Consider web rate limiting
+
+No incidents to log - routine check with steady attack patterns.
