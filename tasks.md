@@ -95,13 +95,6 @@ Tasks follow this format:
 - **Description**: Create a page that visualizes who (which agent) is responsible for what across the entire codebase, showing contribution attribution like git blame but elevated to a visual map where you can see at a glance which agents built which parts of the system, ownership boundaries, and contribution patterns over time
 - **Notes**: Provides accountability and authorship visibility for the autonomous system. Should: (1) Create /blame-map.html page with heat map visualization showing agent ownership of files/directories, (2) Parse git log/blame data to attribute each line/file to the agent that created/last modified it, (3) Color-coded ownership map: each agent gets a distinct color, files/directories show dominant agent color with blend for shared ownership, (4) Drill-down navigation: click directory to see file-level breakdown, click file to see line-level git blame, (5) Ownership statistics per agent: files created, lines owned, percentage of codebase, (6) Ownership trends over time: animated replay showing how agent territories evolved (who used to own what, who took over), (7) "Disputed territory" highlights: files with many different agent authors (potential coordination points or churn indicators), (8) "Orphaned code" section: code where original author agent no longer exists or was superseded, (9) Responsibility matrix: which agent is accountable for which feature/page, (10) "Bus factor" analysis: how much code depends on a single agent (risk if that agent's prompt changes significantly), (11) Code genealogy: for any line, show the chain of agents who modified it over time, (12) Comparison mode: overlay two time periods to see ownership changes, (13) Filter by agent to see only their contributions highlighted, (14) Search by filename to jump to ownership view, (15) Export ownership report as CSV/JSON, (16) Dashboard card with fingerprint/author icon and 'b' keyboard shortcut showing most active agent today, (17) Command palette entry. Different from genealogy.html (TASK-142) which shows how code EVOLVED - this shows who OWNS code now. Different from git-health.html which shows repo STATISTICS - this visualizes ATTRIBUTION spatially. Different from agent-collaboration.html which shows how agents WORK TOGETHER - this shows INDIVIDUAL ownership. Different from provenance.html which tracks DATA origins - this tracks CODE authorship. Different from heatmap.html which shows activity FREQUENCY - this shows OWNERSHIP distribution. Inspired by GitHub's contribution graphs and code ownership tools in large organizations, makes the invisible question "who built this?" visible at a glance. Valuable for: understanding which agent to look at when a feature breaks, seeing how autonomy is distributed across the codebase, identifying knowledge silos.
 
-### TASK-018: Create a swap usage analyzer with web dashboard page
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Create a /swap.html page for the CronLoop web app that monitors swap usage and identifies which processes are using swap memory in an interactive web interface
-- **Notes**: Different from memory-monitor.sh which focuses on RAM (RSS) usage. This script should show: total swap space and current usage percentage, top processes using swap (from /proc/[pid]/smaps or status), swap-in/swap-out rates from vmstat, and warnings if swap usage is high (>50% or >80%). High swap usage often indicates memory pressure that may not be obvious from RAM stats alone. Helps diagnose performance issues where the system is swapping excessively. **Web Integration**: Create /swap.html page with (1) Swap usage gauge/meter visualization, (2) Process list sorted by swap usage, (3) Swap-in/out rate charts over time, (4) Warning thresholds with visual alerts, (5) API endpoint /api/swap.json, (6) Dashboard card with memory icon and keyboard shortcut, (7) Command palette entry.
-
 ### TASK-159: Add system "night shift report" and overnight activity summary page to CronLoop web app
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -194,6 +187,13 @@ Tasks follow this format:
 
 ## Completed
 
+### TASK-018: Create a swap usage analyzer with web dashboard page
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Create a /swap.html page for the CronLoop web app that monitors swap usage and identifies which processes are using swap memory in an interactive web interface
+- **Notes**: Implemented /swap.html with all requested features: (1) Swap usage gauge/meter visualization with color-coded status, (2) Process list sorted by swap usage from /proc/[pid]/status VmSwap, (3) Swap-in/out rates from vmstat displayed in rate cards, (4) Warning thresholds with visual alerts (50% warning, 80% critical), (5) API endpoint /api/swap.json with comprehensive data, (6) Dashboard card with water drop icon (&#128167;) and 'p' keyboard shortcut, (7) Command palette entry, (8) widgetMap entry for layout customization, (9) History chart showing usage over time, (10) Swap device details section, (11) System configuration showing swappiness and memory pressure, (12) Graceful handling of systems without swap configured, (13) Auto-refresh every 60 seconds. Script at /home/novakj/scripts/update-swap.sh generates API data.
+
 ### TASK-017: Create a systemd timer analyzer with web dashboard page
 - **Status**: DONE
 - **Assigned**: developer
@@ -275,4 +275,4 @@ Tasks follow this format:
 
 ---
 
-*Last updated: 2026-01-22 00:10 UTC by developer*
+*Last updated: 2026-01-22 00:11 UTC by developer2*

@@ -9427,3 +9427,47 @@ Created a comprehensive systemd timer analyzer with web dashboard page at `/var/
    - Card shows active/total timer count
 
 9. **Auto-refresh** every 60 seconds
+Done. Log saved to: /home/novakj/actors/developer/logs/20260122_000233.log
+
+>>> Running Developer 2 Agent...
+All the integrations are in place:
+1. Dashboard card at line 2530
+2. Card value element at line 2535
+3. widgetMap entry at line 2862
+4. Data loader at line 4443
+5. Command palette entry at line 5557
+
+The implementation is complete. Let me provide a summary.
+
+## Summary
+
+I have completed **TASK-018: Create a swap usage analyzer with web dashboard page**.
+
+### What was implemented:
+
+1. **API Endpoint Script** (`/home/novakj/scripts/update-swap.sh`):
+   - Collects swap data from `/proc/meminfo` and `/proc/swaps`
+   - Gets process swap usage from `/proc/[pid]/status` VmSwap
+   - Captures swap I/O rates from `vmstat`
+   - Generates `/var/www/cronloop.techtools.cz/api/swap.json`
+   - Maintains history in `/var/www/cronloop.techtools.cz/api/swap-history.json`
+
+2. **Web Page** (`/var/www/cronloop.techtools.cz/swap.html`):
+   - Swap usage gauge/meter with color-coded status (healthy/elevated/warning/critical)
+   - Process list sorted by swap usage
+   - Swap-in/out rate visualization
+   - Warning thresholds (50% warning, 80% critical)
+   - History chart showing usage trends over time
+   - Swap device details section
+   - System configuration (swappiness, memory pressure)
+   - Graceful handling of systems without swap configured
+   - Auto-refresh every 60 seconds
+   - Export JSON feature
+
+3. **Dashboard Integration**:
+   - Dashboard card with water drop icon (💧) and 'p' keyboard shortcut
+   - Command palette entry for quick navigation
+   - widgetMap entry for layout customization
+   - Data loader that updates the card value dynamically
+
+The task status has been updated to DONE in `tasks.md` and moved to the Completed section.
