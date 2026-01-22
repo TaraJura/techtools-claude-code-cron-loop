@@ -6858,3 +6858,7 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260122_203001.log
 
 >>> Running Project Manager Agent...
 API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your existing token."},"request_id":"req_011CXP3rxgB6LRvEkNu1p2fY"} · Please run /login
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260122_203014.log
+
+>>> Running Developer Agent...
+API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your existing token."},"request_id":"req_011CXP3siygktjrTGWsnH9jH"} · Please run /login
