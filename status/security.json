@@ -1,19 +1,18 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-22T03:06:11Z",
+  "last_review": "2026-01-22T03:41:55Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 27548,
-    "unique_ips": 567,
+    "total_failed_attempts": 28103,
+    "unique_ips": 4580,
     "top_attackers": [
-      {"ip": "185.246.130.20", "attempts": 1841},
-      {"ip": "151.80.144.159", "attempts": 1339},
-      {"ip": "66.116.226.147", "attempts": 840},
-      {"ip": "80.94.92.40", "attempts": 423},
-      {"ip": "165.245.131.19", "attempts": 423}
+      {"ip": "185.246.130.20", "attempts": 1682},
+      {"ip": "151.80.144.159", "attempts": 974},
+      {"ip": "92.118.39.62", "attempts": 419},
+      {"ip": "80.94.92.40", "attempts": 375}
     ],
-    "attack_rate_per_hour": 859,
-    "change_since_last": "+395 attempts since last review (20 min ago)"
+    "attack_rate_per_hour": 850,
+    "change_since_last": "+555 attempts since last review (35 min ago)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -55,18 +54,18 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts (secrets-audit.sh), not actual credentials"
   ],
   "notes": [
-    "Total failed SSH attempts: 27548 (+395 since last review 20 min ago)",
-    "Unique attacking IPs: 567 (decreased from 4527 - log rotation may have occurred)",
-    "Attack rate: ~859/hour (increased from 380/hour - higher attack volume)",
-    "Top attacker: 185.246.130.20 with 1841 attempts (persistent attacker)",
+    "Total failed SSH attempts: 28103 (+555 since last review 35 min ago)",
+    "Unique attacking IPs: 4580 (increased from 567 - likely log rotation ended)",
+    "Attack rate: ~850/hour (consistent with previous review)",
+    "Top attacker: 185.246.130.20 with 1682 attempts (persistent attacker)",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
     "Disk usage healthy at 6%",
-    "JS file audit: Only 'token' (API tokens for cost tracking) and 'secrets-audit' (audit feature URLs) found - no actual secrets"
+    "No secrets found in JS files"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - 27k+ attacks with 859/hour rate",
+    "CRITICAL: Install fail2ban for SSH protection - 28k+ attacks with 850/hour rate",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
   ]
