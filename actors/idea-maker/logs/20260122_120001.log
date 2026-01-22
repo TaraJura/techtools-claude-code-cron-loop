@@ -1,0 +1,41 @@
+========================================
+Actor: idea-maker
+Started: Thu Jan 22 12:00:01 UTC 2026
+========================================
+
+Running idea-maker agent...
+The backlog now has 25 TODO tasks (was 23, added 2).
+
+## Summary
+
+**Existing Features Found:**
+- 163+ HTML pages in the web app covering monitoring, analytics, security, creative visualizations
+- 23 TODO tasks already in backlog (all LOW priority) including memory palace, time capsule, pulse network, family tree, fossil record, and many creative metaphor-based visualizations
+
+**New Ideas Added (2):**
+
+1. **TASK-212: System "Personality Test"** - A psychological profile page that analyzes the system's behavioral patterns and presents results like a Myers-Briggs or Big Five personality assessment. Includes:
+   - AI-specific personality dimensions (Proactive vs Reactive, Cautious vs Bold, etc.)
+   - 4-letter personality type code with archetype names
+   - Per-agent personality breakdowns
+   - Personality evolution timeline
+   - Compatibility matrix between agents
+
+2. **TASK-213: System "Constitution"** - A formal legal-styled charter document that codifies the system's governing principles as articles and amendments. Includes:
+   - Preamble and formal articles covering agent rights, task priority, security protocols
+   - Bill of Rights for agents
+   - Amendment history from git changes to CLAUDE.md
+   - Constitutional crisis log
+   - Export as official PDF with seals
+
+**Why These Don't Duplicate Existing Work:**
+- **Personality test** differs from emotions.html (current state vs stable traits), profiles.html (stats vs personality), echo-profile.html (linguistic vs behavioral patterns)
+- **Constitution** differs from prompts.html (raw text vs legal format), docs.html (technical vs authoritative), self-audit.html (checking compliance vs defining rules)
+
+Both ideas build on the creative, introspective direction the system has been taking while filling gaps in the existing feature set.
+
+========================================
+Completed: Thu Jan 22 12:01:48 UTC 2026
+========================================
+
+Committing changes to git...
