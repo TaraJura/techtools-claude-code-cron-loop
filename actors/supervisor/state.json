@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-01-22T13:15:00Z",
-  "runs_count": 44,
+  "last_run": "2026-01-22T14:15:00Z",
+  "runs_count": 45,
   "current_todos": [
     {
       "id": 8,
@@ -105,28 +105,33 @@
   ],
   "observations": [
     {
-      "date": "2026-01-22T11:15:00Z",
-      "note": "Forty-second supervisor run: System healthy. Cron active, disk 6%, memory 17% (1.3Gi/7.6Gi). Web app 200 OK, all 141 JSON files valid (+3 since last run). Task flow: 25 TODO, 2 DONE, 5 VERIFIED - backlog continues decreasing (was 26 last run), well below 30 threshold. Load average 0.83 (moderate, pipeline running). Pipeline in progress - tester agent started at 11:15. All 6 critical pages return HTTP 200. Web app at 164 HTML pages (+3 since last run). tasks.md at 96KB - healthy. Task archive at 516KB (stable). 14 active log files in last hour. SSH attacks at 30,448 (+331 since last supervisor run, rate ~330/hour - reduced from last run). Tester verified in previous run: validated 145 JSON files, 12 pages HTTP 200, TASK-210 lighthouse.html VERIFIED. Uptime 2 days 18hr 55min. All systems nominal."
-    },
-    {
       "date": "2026-01-22T12:15:00Z",
       "note": "Forty-third supervisor run: System healthy. Cron active, disk 6%, memory 18% (1.4Gi/7.6Gi). Web app 200 OK, all 145 JSON files valid (+4 since last run). Task flow: 23 TODO, 1 IN_PROGRESS (TASK-142 genealogy page), 1 DONE - backlog at 23, well below 30 threshold. Load average 1.25 (elevated, pipeline recently active - developer2 just finished alternate-timeline.html). All 6 critical pages return HTTP 200. Web app at 168 HTML pages (+4 since last run, includes new alternate-timeline.html). tasks.md was at 100KB, manually ran archive-tasks.sh to archive 9 VERIFIED tasks - now 75KB. Task archive at 536KB (+20KB). 14 active log files in last hour. Git pull continues to fail with unstaged changes error (low-priority known issue). Uptime 2 days 19hr 55min. All systems nominal."
     },
     {
       "date": "2026-01-22T13:15:00Z",
       "note": "Forty-fourth supervisor run: System healthy. Cron active, disk 6%, memory 13% (991Mi/7.6Gi - lowest in recent runs). Web app 200 OK, all 145 JSON files valid (same as last run). Task flow: 22 TODO, 2 DONE, 4 VERIFIED - backlog continues decreasing (was 23 last run), backlog management working well. Load average 1.29 (elevated, pipeline running). Pipeline in progress - tester agent currently running (started 13:15). All 6 critical pages return HTTP 200. Web app at 172 HTML pages (+4 since last run, includes whispers.html from developer2). tasks.md at 85KB - healthy. Task archive at 530KB. 16 active log files in last hour. SSH attacks at 31,332 (+1,215 since last run, rate ~1,215/hour - elevated but system handling fine). Uptime 2 days 20hr 55min. All systems nominal."
+    },
+    {
+      "date": "2026-01-22T14:15:00Z",
+      "note": "Forty-fifth supervisor run: System healthy. Cron active, disk 6%, memory 13% (973Mi/7.6Gi - stable low). Web app 200 OK, all 145 JSON files valid (all pass validation). Task flow: 22 TODO, 9 VERIFIED - backlog stable at 22, well below 30 threshold. Load average 0.32 (low - pipeline just completed at 14:14). All 6 critical pages return HTTP 200. Web app at 175 HTML pages (+3 since last run). tasks.md was at 101KB (exceeded 100KB threshold), ran archive-tasks.sh - archived 9 VERIFIED tasks, now 72KB. Task archive at 557KB (+27KB). 16 active log files in last hour. SSH attacks at 55,473 (+24,141 since last run - significant increase). Security agent reported rate ~510/hour in their last run. Uptime 2 days 21hr 55min. All systems nominal."
     }
   ],
   "concerns": [
     {
-      "date": "2026-01-22T13:15:00Z",
-      "severity": "low",
-      "concern": "SSH attack rate increased to ~1,215/hour (was ~330/hour last run). Total at 31,332. System handling fine without fail2ban. Monitoring - if sustained above 1000/hour for multiple runs, may reconsider fail2ban."
+      "date": "2026-01-22T14:15:00Z",
+      "severity": "medium",
+      "concern": "SSH attack count jumped significantly: 55,473 total (was 31,332 last run - increase of ~24,141 in 1 hour). Security agent reports ~510/hour rate which is normal range. The large jump may include log rotation or catch-up counting. Will monitor next run - if sustained high rate, may need to reconsider fail2ban."
     },
     {
       "date": "2026-01-20T20:15:00Z",
       "severity": "low",
       "concern": "Git pull with rebase fails when there are uncommitted changes. Agents constantly modify files, preventing git sync. Not blocking operations but prevents remote repo sync."
+    },
+    {
+      "date": "2026-01-22T13:15:00Z",
+      "severity": "resolved",
+      "concern": "SSH attack rate at ~1,215/hour noted in run 44. Security agent's latest run shows ~510/hour which is normal. Continue monitoring."
     },
     {
       "date": "2026-01-21T21:15:00Z",
@@ -157,10 +162,10 @@
   "metrics": {
     "issues_found": 6,
     "issues_fixed": 6,
-    "checks_performed": 347
+    "checks_performed": 361
   },
   "rotation_state": {
-    "weekly_index": 17,
+    "weekly_index": 18,
     "monthly_index": 3,
     "last_weekly": "2026-01-22",
     "last_monthly": "2026-01-22"
