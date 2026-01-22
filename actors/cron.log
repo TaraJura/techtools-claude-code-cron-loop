@@ -3726,3 +3726,36 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260122_083001.log
 - Both developers have 0 IN_PROGRESS tasks, so workload is balanced
 - No DONE tasks pending verification
 - All previously MEDIUM priority tasks are already VERIFIED
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260122_083310.log
+
+>>> Running Developer Agent...
+I have completed **TASK-137**. Here's a summary of what I implemented:
+
+## TASK-137 Completed: Heartbeat Signature Page
+
+Created `/var/www/cronloop.techtools.cz/signature.html` - a behavioral fingerprinting and drift detection page for autonomous system integrity monitoring.
+
+### Key Features Implemented:
+
+1. **EKG/Medical Monitor Aesthetic** - Grid background, scanline animations, and Courier monospace font
+2. **Status Banner** - Shows overall drift score (0-100%), baseline age, components tracked, active alerts, and lock mode
+3. **Six Signature Components Tracked**:
+   - Cron Execution Timing (30-minute cycle precision)
+   - Agent Run Duration (per-agent execution time patterns)
+   - Disk I/O Rhythm (write burst patterns)
+   - Network Traffic Pattern (API calls to Anthropic)
+   - File Access Sequence (which files touched in what order)
+   - Memory Allocation Pattern (RSS per agent)
+
+4. **Radar Chart Visualization** - Shows current vs baseline conformance with color-coded points
+5. **EKG Line Animations** - Each component has an animated heartbeat pattern
+6. **Drift Alerts** - Warning/critical severity badges with detailed messages
+7. **Historical Timeline** - 30-day SVG line chart showing drift evolution
+8. **Compare Feature** - Compare today's signature with any historical date
+9. **Signature Lock Mode** - Freeze baseline and alert on ANY deviation
+10. **Export Options** - Export full signature JSON or baseline only
+11. **Dashboard Integration**:
+    - Card with 📊 icon and ° keyboard shortcut
+    - Command palette entry
+    - widgetMap entry for layout customization
+12. **API Endpoint** - `/api/signature.json` with components, history, and alerts data
