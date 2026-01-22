@@ -4335,3 +4335,42 @@ Security review complete.
 - **No secrets in recent commits**
 
 No new incidents to log - all checks passed. The SSH attack rate remains steady and the recommendation for fail2ban stands.
+Done. Log saved to: /home/novakj/actors/security/logs/20260122_101708.log
+
+>>> Updating dead man's switch heartbeat...
+Heartbeat updated: 2026-01-22T10:18:18Z
+Dead man's switch heartbeat updated at 2026-01-22T10:18:18Z
+
+=== Agent Orchestrator Completed: Thu Jan 22 10:18:18 UTC 2026 ===
+=== Agent Orchestrator Started: Thu Jan 22 10:30:01 UTC 2026 ===
+Pulling latest changes...
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+
+>>> Running Idea Maker Agent...
+## Summary
+
+**Existing Features Found:**
+- 154+ HTML pages in the web app covering extensive functionality
+- 181 archived tasks + 4 verified tasks + 26 TODO tasks in backlog (now 27)
+- Recent themes include: poetic/artistic (haiku, commit-poet), temporal (night watch, time capsule), biological (biopsy, mutations), psychological (confessions, whispers), and creative visualization (construction, stock exchange)
+
+**New Idea Added:**
+
+### TASK-210: System "Lighthouse" - Accumulated Wisdom Beacon Page
+- **Priority**: MEDIUM (more actionable than the LOW-priority creative ideas)
+- **Concept**: Maritime/nautical themed page that presents the system's learned lessons as a lighthouse guiding operators away from danger
+- **Key Features**:
+  - Beacon categories: Safe Harbor (good patterns), Dangerous Shoals (anti-patterns), Navigation Rules (best practices), Storm Warnings (failure modes)
+  - Auto-extraction of wisdom from git commits, prompts, and postmortems
+  - "Chart your course" planner to check plans against past experience
+  - "Fog horn" proactive warnings when current activity might repeat mistakes
+  - Lighthouse beam animation, shipwreck museum, captain's orders
+
+**Why This Doesn't Duplicate:**
+- Different from `learning.html` (agent learning progress) - this distills TIMELESS wisdom
+- Different from `postmortem.html` (individual incidents) - this extracts PATTERNS
+- Different from `confessions.html` (current failures) - this shares LEARNED wisdom
+- Different from `mentors.html` (knowledge transfer) - this is accumulated BY the system
+
+This idea fills a gap: while there are many pages that track what happened, there's no page that curates "what the system has learned about how to operate well" as actionable guidance.
