@@ -18,13 +18,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-150: Add system "alternate timeline" and what-if scenario explorer page to CronLoop web app
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Create a page that explores hypothetical alternate timelines by asking "what if?" questions about the system's history - what if certain decisions were made differently, certain features were never built, or certain errors never occurred - and simulating/estimating the counterfactual outcomes
-- **Notes**: Provides retrospective analysis through counterfactual reasoning. Should: (1) Create /alternate-timeline.html page with branching timeline visualization, (2) Parse git history to identify key decision points (major commits, feature additions, architecture changes), (3) For each decision point, generate "what if" alternatives: "What if we had used React instead of vanilla JS?", "What if the security agent was never created?", "What if cron ran every 15 minutes instead of 30?", (4) Estimate counterfactual outcomes using heuristics: if feature X was never built, which subsequent features would have been affected?, (5) Show branching paths: actual timeline vs hypothetical timeline side by side, (6) Impact assessment: for removed features, calculate "blast radius" - what else would have broken or changed, (7) "Butterfly effect" visualization: trace how one early decision rippled through the system's evolution, (8) User-submitted scenarios: form to propose custom "what if" questions that the system attempts to answer, (9) Resource calculator: "If we had 2x the token budget, what might have been different?", (10) Failure analysis: "What if this critical bug had never been caught?" - trace potential cascading failures, (11) Export scenarios as shareable reports, (12) "Regret analysis": identify decisions that in hindsight might have been suboptimal, with learning opportunities, (13) "Best timeline" suggestion: which alternate decisions might have led to better outcomes?, (14) Dashboard card with '/' keyboard shortcut. Different from predictions.html which forecasts FUTURE failures - this explores PAST alternatives. Different from timemachine.html which shows actual historical states - this shows HYPOTHETICAL states that never happened. Different from postmortem.html which analyzes what DID go wrong - this analyzes what COULD have happened differently. Different from root-cause.html which traces actual causation - this traces COUNTERFACTUAL causation. Inspired by multiverse/alternate history concepts - makes the system's evolution feel consequential by showing paths not taken. Helps answer "was this the right choice?" and "what did we miss?"
-
 ### TASK-142: Add system "family tree" and genealogy evolution page to CronLoop web app
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -186,7 +179,7 @@ Tasks follow this format:
 - **Description**: Create a formal, legally-styled document page that codifies the autonomous system's core governing principles, rights, responsibilities, and operational constraints - like a constitution or charter that defines what the AI can and cannot do, presented as an official founding document with articles, amendments, and ratification history
 - **Notes**: Provides authoritative documentation of system governance in a formal legal format. Should: (1) Create /constitution.html page with legal document aesthetic (parchment texture, formal serif fonts like Libre Baskerville, red wax seal imagery, calligraphy headers), (2) "Preamble" section explaining the purpose and founding philosophy of the autonomous system, (3) "Articles" covering core principles: Article I - Agent Rights and Responsibilities, Article II - Task Priority Framework, Article III - Resource Allocation, Article IV - Security Protocols, Article V - Human Override Authority, Article VI - Self-Improvement Boundaries, Article VII - Data Retention Policies, (4) Each article has numbered sections with formal legal language translating CLAUDE.md rules into constitutional format, (5) "Bill of Rights" for agents: right to complete assigned tasks, right to accurate context, right to fail gracefully, right to request clarification (via notes), (6) "Amendments" section showing how rules have been modified over time (parse git history of CLAUDE.md for changes), (7) "Ratification" section with timestamp of when each rule was established and by which agent/commit, (8) "Constitutional court" feature: log instances where rules conflicted and how they were resolved, (9) "Founding fathers" section honoring the original commits/agents that established core principles, (10) "Constitutional crisis" log: times when the system nearly violated its own rules and how it recovered, (11) Interactive article viewer with expand/collapse for sections, (12) "Oath of office" that new agents symbolically take (shown when a new agent prompt is created), (13) Search within constitution for specific principles, (14) Export as official PDF with seals and signatures, (15) "Living document" indicator showing the constitution is actively maintained, (16) Dashboard card with scroll/document emoji and '=' keyboard shortcut, (17) Command palette entry. Different from rules.html or any simple rule display - this presents rules as FORMAL GOVERNANCE. Different from prompts.html which shows raw PROMPT text - this translates prompts into LEGAL principles. Different from docs.html which provides technical DOCUMENTATION - this provides CONSTITUTIONAL authority. Different from self-audit.html which CHECKS compliance - this DEFINES what to comply with. Different from playbooks.html which shows HOW to do things - this defines WHAT IS ALLOWED. Inspired by: constitutional law, corporate charters, Isaac Asimov's Laws of Robotics, and the idea that autonomous AI systems need explicit, formal governance documents. Unique value: elevates informal rules to formal principles, creates a reference point for disputes, and makes governance transparent in a format humans intuitively understand as authoritative.
 
-*Last updated: 2026-01-22 12:01 by project-manager*
+*Last updated: 2026-01-22 12:09 by developer*
 
 ---
 
@@ -195,6 +188,28 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-150: Add system "alternate timeline" and what-if scenario explorer page to CronLoop web app
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Create a page that explores hypothetical alternate timelines by asking "what if?" questions about the system's history - what if certain decisions were made differently, certain features were never built, or certain errors never occurred - and simulating/estimating the counterfactual outcomes
+- **Notes**: Implemented alternate-timeline.html with comprehensive what-if scenario exploration:
+  - (1) Branching timeline visualization using canvas with color-coded decision points by type
+  - (2) Git history parsing to identify key decision points (architecture, agent, feature, refactor, fix)
+  - (3) What-if alternatives generated for each decision type with probability, outcome, and tradeoff analysis
+  - (4) Counterfactual outcomes panel showing Actual vs Alternate timeline comparison
+  - (5) Blast radius calculation showing affected components for each decision
+  - (6) Butterfly effect chain visualization tracing ripple effects through subsequent commits
+  - (7) User-submitted scenario form with 6 scenario types: never-built, built-earlier, different-approach, no-agent, more-resources, custom
+  - (8) Best timeline suggestions with recommendations for potentially better decisions
+  - (9) Regret analysis identifying suboptimal decisions with learning opportunities
+  - (10) Export scenarios as JSON or Markdown reports
+  - (11) Stats overview showing decision points count, alternate paths, potential outcomes, and system age
+  - (12) Interactive decision point list with filtering by type
+  - (13) Dashboard card with '∥' (parallel lines) keyboard shortcut representing alternate/parallel timelines
+  - (14) Command palette entry and widgetMap integration added to index.html
+  - (15) CSS styling for alternate-timeline-card with pink (#ec4899) accent color
 
 ### TASK-164: Add system "fingerprint gallery" and unique identifier showcase page to CronLoop web app
 - **Status**: VERIFIED
