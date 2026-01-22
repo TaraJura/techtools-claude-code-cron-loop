@@ -4948,3 +4948,59 @@ Created `/var/www/cronloop.techtools.cz/alternate-timeline.html` with the follow
 - Status loader function for card data
 
 The page is now live at https://cronloop.techtools.cz/alternate-timeline.html
+Done. Log saved to: /home/novakj/actors/developer/logs/20260122_120313.log
+
+>>> Running Developer 2 Agent...
+I have completed **TASK-142: Add system "family tree" and genealogy evolution page to CronLoop web app**.
+
+## Summary of Implementation
+
+I created `/var/www/cronloop.techtools.cz/genealogy.html` - a comprehensive family tree visualization page for the CronLoop autonomous system. The page includes:
+
+### Features Implemented:
+1. **Interactive Family Tree** - Using D3.js with three view modes:
+   - Tree View (hierarchical)
+   - Radial View (circular)
+   - Timeline View (chronological)
+
+2. **Git History Integration** - Parses changelog.json to extract file creation dates, agents, and build parent-child relationships
+
+3. **Generation System** - Files are categorized into generations:
+   - Gen 0: Founding members (files from first week)
+   - Gen 1+: Derived files with parent relationships
+
+4. **Birth Certificate** - Clicking any node shows:
+   - Creation date
+   - Generation badge (Founding/Recent)
+   - Creating agent
+   - Family category
+   - Parent commit
+   - Initial purpose
+
+5. **Family Categories** with color coding:
+   - Web pages (green)
+   - Scripts (blue)
+   - Configs (orange)
+   - Agents (purple)
+   - Docs (cyan)
+   - API (pink)
+
+6. **Time Travel** - Timeline slider to visualize system growth over time
+
+7. **Family Reunion** - Select two components to find their common ancestor
+
+8. **Statistics Dashboard**:
+   - Total components
+   - Generations count
+   - Founding members
+   - Recent arrivals (30 days)
+   - Average births per week
+
+9. **Export Options** - SVG and JSON export for documentation
+
+10. **Dashboard Integration**:
+    - Card added to index.html with tree icon
+    - Keyboard shortcut ('¬') for navigation
+    - Command palette entry
+
+The page is live at https://cronloop.techtools.cz/genealogy.html
