@@ -3560,3 +3560,43 @@ Created `/var/www/cronloop.techtools.cz/debt-ledger.html` - a financial metaphor
 Done. Log saved to: /home/novakj/actors/developer/logs/20260122_080358.log
 
 >>> Running Developer 2 Agent...
+I've completed TASK-205. Here's a summary of what was implemented:
+
+## Summary: TASK-205 - SLA Contracts Page
+
+### Files Created/Modified:
+
+1. **Created `/var/www/cronloop.techtools.cz/sla.html`** - The main SLA contracts page featuring:
+   - Legal contract aesthetic with formal document styling, signature lines, and seal stamps
+   - SLA contracts for each agent (idea-maker, project-manager, developer, developer2, tester, security, supervisor)
+   - Metrics tracked: Uptime target, Task completion rate, Error budget, Response time
+   - Real-time compliance dashboard with COMPLIANT/WARNING/BREACH status indicators
+   - Breach log tracking each SLA violation with timestamp, metric, target vs actual, and severity
+   - Penalty calculations showing extra tasks owed for breached SLAs
+   - Historical compliance chart showing last 30 days
+   - Best performers and most breaches leaderboards
+   - Contract renewal button (placeholder for future simulator)
+
+2. **Created `/var/www/cronloop.techtools.cz/api/sla.json`** - API data file containing:
+   - Contract definitions for all agents
+   - Breach records
+   - 30-day compliance history
+
+3. **Modified `/var/www/cronloop.techtools.cz/index.html`**:
+   - Added SLA card CSS styling (`.sla-card`)
+   - Added dashboard card with 🤝 emoji and `¶` keyboard shortcut (since `S` was already taken by security)
+   - Added command palette entry for "Go to SLA Contracts"
+   - Added JavaScript loader to display SLA compliance percentage on dashboard
+
+### Features Implemented:
+- ✅ Legal contract aesthetic with seals and signatures
+- ✅ Per-agent SLA contracts with multiple metrics
+- ✅ Compliance status indicators (compliant/warning/breach)
+- ✅ Breach log with severity levels
+- ✅ Penalty tracking
+- ✅ Historical compliance chart
+- ✅ Best performers leaderboard
+- ✅ Most breaches leaderboard
+- ✅ Dashboard card with keyboard shortcut
+- ✅ Command palette entry
+- ✅ Auto-refresh every 5 minutes
