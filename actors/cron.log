@@ -3222,3 +3222,40 @@ Successfully completed **TASK-239: Consolidate analytics/performance pages into 
 4. **Page count**: Reduced from **158 to 151** (net -7 pages)
 
 5. **Updated tasks.md**: Marked TASK-239 as DONE and moved to Completed section
+Done. Log saved to: /home/novakj/actors/developer/logs/20260123_200159.log
+
+>>> Running Developer 2 Agent...
+All verifications passed. Let me provide a summary of the completed consolidation:
+
+## Summary: TASK-240 Completed
+
+**Consolidated Git & Code pages into Code Hub**
+
+### What was done:
+1. **Created `code-hub.html`** - A unified Code Hub with 7 tabbed sections:
+   - Git Health - Repository health dashboard and metrics
+   - Commits - Commit history and statistics
+   - Diffs - File diff viewer with radar visualization
+   - Blame Map - Git blame visualization
+   - Changelog - System changelog viewer
+   - Provenance - File provenance explorer
+   - Genealogy - System family tree visualization
+
+2. **Merged 8 pages into 1:**
+   - git-health.html
+   - commits.html
+   - diffs.html
+   - diff-radar.html
+   - blame-map.html
+   - changelog.html
+   - provenance.html
+   - genealogy.html
+
+3. **Updated index.html** - 23 references updated to use `code-hub.html` with appropriate tab parameters
+
+4. **Archived old pages** - All 8 original pages moved to `/var/www/cronloop.techtools.cz/archive/`
+
+### Results:
+- **Page count reduced**: 151 → 144 (net -7)
+- **Code Hub accessible**: HTTP 200
+- **All links updated**: 23 references in index.html

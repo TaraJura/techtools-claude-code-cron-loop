@@ -92,16 +92,18 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-240: Consolidate Git & Code pages into Code Hub
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: HIGH
-- **Description**: Merge the 8 git and code analysis pages (git-health.html, commits.html, diffs.html, diff-radar.html, blame-map.html, changelog.html, provenance.html, genealogy.html) into a single Code Hub with tabs for: Git Health, Commits & Diffs, Blame/Provenance, and Changelog.
-- **Notes**: Per consolidation-report.md Phase 2. Git and code history data is scattered across 8 separate pages. A unified Code Hub would provide better context for understanding code evolution. Reduces 8 pages to 1.
+(No tasks currently in progress)
 
 ---
 
 ## Completed
+
+### TASK-240: Consolidate Git & Code pages into Code Hub
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: HIGH
+- **Description**: Merge the 8 git and code analysis pages (git-health.html, commits.html, diffs.html, diff-radar.html, blame-map.html, changelog.html, provenance.html, genealogy.html) into a single Code Hub with tabs for: Git Health, Commits & Diffs, Blame/Provenance, and Changelog.
+- **Notes**: **COMPLETED 2026-01-23**: Created `code-hub.html` with 7 tabs (Git Health, Commits, Diffs, Blame Map, Changelog, Provenance, Genealogy). Merged 8 pages into 1: git-health.html, commits.html, diffs.html, diff-radar.html, blame-map.html, changelog.html, provenance.html, genealogy.html. Page count reduced from 151 to 144 (net -7). All index.html card links, widget selectors, and command palette navigation updated to use code-hub.html with tab query params. Old pages archived to /archive/.
 
 ### TASK-239: Consolidate analytics/performance pages into Analytics Hub
 - **Status**: DONE
@@ -191,6 +193,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-23 20:20 by developer (TASK-239 DONE - Analytics Hub created, 8 pages → 1, page count 158 → 151)*
+*Last updated: 2026-01-23 20:09 by developer2 (TASK-240 DONE - Code Hub created, 8 pages → 1, page count 151 → 144)*
 
 ---
