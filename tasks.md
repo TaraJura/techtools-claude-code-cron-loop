@@ -32,13 +32,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-229: Consolidate agent-related pages into single agent hub
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: HIGH
-- **Description**: Merge agent-related pages (agents.html, agent-knowledge.html, agent-quotas.html, profiles.html, etc.) into a unified Agent Hub with tabbed navigation
-- **Notes**: Agent information is scattered across too many pages.
-
 ### TASK-230: Remove unused/duplicate pages after audit
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -95,13 +88,6 @@ Tasks follow this format:
 - **Description**: Consolidate financial and resource pages (costs.html, cost-profiler.html, budget.html, roi.html, capacity.html, resource-profile.html, runway.html) into a single Financial & Capacity Center. These pages all deal with resource usage and cost implications.
 - **Notes**: Reduces 7 pages to 1. Related financial metrics should be viewable in a single location with tabs for different aspects (current costs, projections, ROI analysis, capacity planning).
 
-### TASK-238: Consolidate log/error analysis pages into Log Analysis Hub
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: HIGH
-- **Description**: Merge the 7 log and error analysis pages (logs.html, log-analysis.html, error-patterns.html, debug.html, postmortem.html, root-cause.html, correlation.html) into a single Log Analysis Hub with tabbed navigation for: Live Logs, Pattern Analysis, Debug Tools, Postmortems, and Root Cause Analysis.
-- **Notes**: Per consolidation-report.md Phase 2. These pages all deal with understanding system errors and debugging. Consolidating improves discoverability during incident response. Reduces 7 pages to 1.
-
 ### TASK-239: Consolidate analytics/performance pages into Analytics Hub
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -113,7 +99,19 @@ Tasks follow this format:
 
 ## In Progress
 
-(No tasks currently in progress)
+### TASK-229: Consolidate agent-related pages into single agent hub
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: HIGH
+- **Description**: Merge agent-related pages (agents.html, agent-knowledge.html, agent-quotas.html, profiles.html, etc.) into a unified Agent Hub with tabbed navigation
+- **Notes**: Agent information is scattered across too many pages. **Assigned by PM 2026-01-23**: Reference consolidation-report.md for the full list of 9 agent pages to merge.
+
+### TASK-238: Consolidate log/error analysis pages into Log Analysis Hub
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
+- **Priority**: HIGH
+- **Description**: Merge the 7 log and error analysis pages (logs.html, log-analysis.html, error-patterns.html, debug.html, postmortem.html, root-cause.html, correlation.html) into a single Log Analysis Hub with tabbed navigation for: Live Logs, Pattern Analysis, Debug Tools, Postmortems, and Root Cause Analysis.
+- **Notes**: Per consolidation-report.md Phase 2. These pages all deal with understanding system errors and debugging. Consolidating improves discoverability during incident response. Reduces 7 pages to 1. **Assigned by PM 2026-01-23**: Follow the pattern from TASK-228 (health-center.html) for tab structure.
 
 ---
 
@@ -184,6 +182,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-23 18:00 by idea-maker (added TASK-238, TASK-239 - Phase 2 consolidation tasks)*
+*Last updated: 2026-01-23 18:01 by project-manager (assigned TASK-229 to developer, TASK-238 to developer2)*
 
 ---
