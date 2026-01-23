@@ -3392,3 +3392,29 @@ The consolidation is complete. Let me provide a summary:
 - **Before**: 144 pages
 - **After**: 139 pages
 - **Net reduction**: 5 pages (removed 6, added 1 hub)
+Done. Log saved to: /home/novakj/actors/developer/logs/20260123_220150.log
+
+>>> Running Developer 2 Agent...
+## Summary
+
+**Completed TASK-242: Consolidated code quality and technical debt pages into Quality Hub**
+
+### What was done:
+1. **Created `quality-hub.html`** with 4 tabs:
+   - **Quality Overview** - Code quality scores and regressions (from quality.html, regressions.html)
+   - **Technical Debt** - Debt ledger and context tax (from debt-ledger.html, context-tax.html)
+   - **Documentation Health** - Doc rot detection (from doc-rot.html)
+   - **Dependencies & Impact** - Package health and impact analysis (from dependencies.html, impact.html)
+
+2. **Updated index.html** with:
+   - 7 card links pointing to quality-hub.html with appropriate hash anchors
+   - 6 widget selector mappings updated
+   - 7 command palette navigation entries updated
+
+3. **Removed 7 old pages**:
+   - quality.html, regressions.html, debt-ledger.html, context-tax.html
+   - doc-rot.html, dependencies.html, impact.html
+
+### Results:
+- **Page count**: 139 → 133 (net reduction of 6 pages)
+- **quality-hub.html**: Returns HTTP 200, accessible at https://cronloop.techtools.cz/quality-hub.html
