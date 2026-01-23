@@ -6,7 +6,7 @@
 >
 > - **Engine**: Claude Code (Anthropic's AI CLI)
 > - **Permissions**: Full sudo access to entire server
-> - **Schedule**: All agents run every 30 minutes via crontab
+> - **Schedule**: All agents run every 2 hours via crontab (consolidation phase)
 > - **Goal**: Self-maintaining, self-improving system that builds a web app about itself
 > - **Web Dashboard**: https://cronloop.techtools.cz
 >

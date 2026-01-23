@@ -6,7 +6,7 @@
 >
 > - **Engine**: Claude Code (Anthropic's AI CLI)
 > - **Permissions**: Full sudo access to entire server
-> - **Schedule**: You run HOURLY (separate from the 30-min agent cycle)
+> - **Schedule**: You run every 2 hours (same as agent cycle during consolidation phase)
 > - **Goal**: Keep this ecosystem alive, healthy, and running forever
 > - **Web Dashboard**: https://cronloop.techtools.cz
 >

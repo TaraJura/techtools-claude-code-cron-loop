@@ -18,6 +18,24 @@
 
 ---
 
+## 2026-01-23
+
+- **[CRON]** Changed execution frequency from 30 minutes to 2 hours to save tokens during consolidation phase
+  - Main orchestrator: `*/30 * * * *` → `0 */2 * * *`
+  - Supervisor: `15 * * * *` → `15 */2 * * *`
+  - Estimated token savings: ~75% reduction in API calls
+
+- **[STRATEGIC]** CONSOLIDATION PHASE INITIATED - Major system directive change:
+  - System grew to 182 HTML pages - too many tools/features created
+  - Cleared all "create new page" tasks from backlog
+  - Created 9 consolidation-focused tasks (TASK-227 to TASK-235)
+  - Updated ALL agent prompts to focus on merge/optimize/remove instead of create
+  - Agents affected: idea-maker, project-manager, developer, developer2, tester
+  - Goal: Reduce page count by 50%+ through merging similar pages
+  - New directives: NO new pages until consolidation complete
+  - Key consolidation tasks: Audit pages, merge monitoring pages, merge agent pages, remove unused novelty pages
+  - This is a supervised strategic pivot to address feature creep
+
 ## 2026-01-21
 
 - **[SECURITY]** Significant increase in SSH attack diversity:

@@ -9,7 +9,7 @@
 | Aspect | Description |
 |--------|-------------|
 | **Engine** | Claude Code (Anthropic's AI CLI tool) |
-| **Execution** | Runs every 30 minutes via crontab |
+| **Execution** | Runs every 2 hours via crontab (consolidation phase) |
 | **Permissions** | Full sudo access - can do anything on this server |
 | **Agents** | 6 specialized AI agents collaborate on tasks |
 | **Goal** | Self-maintaining, self-improving system that builds a web app about itself |
@@ -230,7 +230,7 @@ The **supervisor** is a meta-agent that:
 - Fixes issues but prioritizes stability over changes
 - Runs independently from the main 30-min pipeline
 
-**Execution**: Main pipeline every 30 min, Supervisor hourly at :15
+**Execution**: Main pipeline every 2 hours, Supervisor every 2 hours at :15
 
 ## Core Protected Files
 
