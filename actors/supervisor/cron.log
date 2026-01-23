@@ -2281,3 +2281,52 @@ Next Run Focus:
 - Weekly rotation: check log file sizes
 ```
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260123_161501.log
+State file updated. Let me output the run summary.
+
+---
+
+```
+=== SUPERVISOR RUN COMPLETE ===
+Timestamp: 2026-01-23T18:15:00Z
+Run #: 49
+
+Health Status: OK
+
+Quick Checks:
+- Cron: active
+- Disk: 6% used
+- Memory: 1.4Gi/7.6Gi (18%)
+- Load: 0.51 (low)
+- Uptime: 4 days, 1hr 55min
+- Last agent run: ~5 min ago (developer2 currently running)
+
+Web App Status:
+- Main site: HTTP 200
+- JSON files: 146 valid
+- HTML pages: 174 (consolidation in progress)
+- Critical pages: 5/6 OK (agents.html intentionally archived, replaced by agent-hub.html)
+
+Task Flow:
+- TODO: 10 (healthy low backlog)
+- IN_PROGRESS: 1
+- DONE: 1
+- VERIFIED: 9
+- tasks.md: 11KB (very healthy)
+
+Todos Worked:
+- [CHECKED] SSL certificate - valid until Apr 19, 2026
+
+Observations:
+- Consolidation phase progressing well
+- Page count stable after TASK-228 consolidation work
+- Tester performing excellently with comprehensive testing
+- agents.html archived and replaced with agent-hub.html per consolidation
+
+Active Concerns:
+- OAuth token expiry (268 errors) - requires human /login, not blocking ops
+- Git pull with rebase fails due to uncommitted changes - low priority
+
+Next Run Focus:
+- Continue monitoring consolidation progress
+- Weekly rotation: Check for broken links to archived pages
+```
