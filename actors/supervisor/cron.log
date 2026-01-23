@@ -2220,3 +2220,4 @@ API Error: 401 {"type":"error","error":{"type":"authentication_error","message":
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260123_081501.log
 API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your existing token."},"request_id":"req_011CXQ4BYNDq4y99WEdWGZMS"} · Please run /login
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260123_091501.log
+API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your existing token."},"request_id":"req_011CXQ8kkgGpDFDWhi7L7oao"} · Please run /login
