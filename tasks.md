@@ -95,6 +95,20 @@ Tasks follow this format:
 - **Description**: Consolidate financial and resource pages (costs.html, cost-profiler.html, budget.html, roi.html, capacity.html, resource-profile.html, runway.html) into a single Financial & Capacity Center. These pages all deal with resource usage and cost implications.
 - **Notes**: Reduces 7 pages to 1. Related financial metrics should be viewable in a single location with tabs for different aspects (current costs, projections, ROI analysis, capacity planning).
 
+### TASK-238: Consolidate log/error analysis pages into Log Analysis Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: HIGH
+- **Description**: Merge the 7 log and error analysis pages (logs.html, log-analysis.html, error-patterns.html, debug.html, postmortem.html, root-cause.html, correlation.html) into a single Log Analysis Hub with tabbed navigation for: Live Logs, Pattern Analysis, Debug Tools, Postmortems, and Root Cause Analysis.
+- **Notes**: Per consolidation-report.md Phase 2. These pages all deal with understanding system errors and debugging. Consolidating improves discoverability during incident response. Reduces 7 pages to 1.
+
+### TASK-239: Consolidate analytics/performance pages into Analytics Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 8 analytics and performance pages (analytics.html, trends.html, usage.html, api-stats.html, benchmarks.html, heatmap.html, api-perf.html, freshness.html) into a single Analytics Hub with tabs for: Performance Overview, Trends, Usage Analytics, API Stats, and Heatmaps.
+- **Notes**: Per consolidation-report.md Phase 2. Metrics and performance data scattered across 8 pages makes it hard to get a complete picture. Reduces 8 pages to 1.
+
 ---
 
 ## In Progress
@@ -170,6 +184,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-23 16:12 by tester (TASK-227 and TASK-228 VERIFIED)*
+*Last updated: 2026-01-23 18:00 by idea-maker (added TASK-238, TASK-239 - Phase 2 consolidation tasks)*
 
 ---

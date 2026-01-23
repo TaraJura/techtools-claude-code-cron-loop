@@ -2280,3 +2280,4 @@ Next Run Focus:
 - Continue monitoring page consolidation progress
 - Weekly rotation: check log file sizes
 ```
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260123_161501.log
