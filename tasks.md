@@ -32,20 +32,6 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
-### TASK-227: Audit all 182 pages and identify redundant/overlapping functionality
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: HIGH
-- **Description**: Review all 182 HTML pages in the web app and create a consolidation report identifying: (1) pages that do essentially the same thing, (2) pages that could be merged, (3) pages that are never used/visited, (4) pages that duplicate functionality
-- **Notes**: This is the first step of consolidation. Output should be a clear list of merge/remove recommendations.
-
-### TASK-228: Merge monitoring/metrics pages into unified dashboard
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: HIGH
-- **Description**: Identify all pages related to system monitoring (health.html, metrics.html, pulse.html, nerve-center.html, etc.) and consolidate them into a single comprehensive monitoring view with tabs/sections instead of separate pages
-- **Notes**: Too many monitoring pages creates confusion. Users need one place for system health.
-
 ### TASK-229: Consolidate agent-related pages into single agent hub
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -113,6 +99,20 @@ Tasks follow this format:
 
 ## In Progress
 
+### TASK-227: Audit all 182 pages and identify redundant/overlapping functionality
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: HIGH
+- **Description**: Review all 182 HTML pages in the web app and create a consolidation report identifying: (1) pages that do essentially the same thing, (2) pages that could be merged, (3) pages that are never used/visited, (4) pages that duplicate functionality
+- **Notes**: This is the first step of consolidation. Output should be a clear list of merge/remove recommendations. **[PM 2026-01-23]: Critical foundation task - complete this first to guide all other consolidation work.**
+
+### TASK-228: Merge monitoring/metrics pages into unified dashboard
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
+- **Priority**: HIGH
+- **Description**: Identify all pages related to system monitoring (health.html, metrics.html, pulse.html, nerve-center.html, etc.) and consolidate them into a single comprehensive monitoring view with tabs/sections instead of separate pages
+- **Notes**: Too many monitoring pages creates confusion. Users need one place for system health. **[PM 2026-01-23]: This can proceed in parallel with TASK-227. Expect to reduce 8-10 pages to 1.**
+
 ---
 
 ## Completed
@@ -166,6 +166,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-23 16:00 by idea-maker (added TASK-236, TASK-237 consolidation tasks)*
+*Last updated: 2026-01-23 16:01 by project-manager (assigned TASK-227 to developer, TASK-228 to developer2 - consolidation phase started)*
 
 ---
