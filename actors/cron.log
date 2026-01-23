@@ -2277,3 +2277,7 @@ error: Please commit or stash them.
 
 >>> Running Idea Maker Agent...
 API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your existing token."},"request_id":"req_011CXPvBEt4oFoSgvZopVR52"} · Please run /login
+Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260123_073002.log
+
+>>> Running Project Manager Agent...
+API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your existing token."},"request_id":"req_011CXPvC5SKasa1KwFwuqmnw"} · Please run /login
