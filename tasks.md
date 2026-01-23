@@ -100,11 +100,11 @@ Tasks follow this format:
 ## In Progress
 
 ### TASK-229: Consolidate agent-related pages into single agent hub
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Merge agent-related pages (agents.html, agent-knowledge.html, agent-quotas.html, profiles.html, etc.) into a unified Agent Hub with tabbed navigation
-- **Notes**: Agent information is scattered across too many pages. **Assigned by PM 2026-01-23**: Reference consolidation-report.md for the full list of 9 agent pages to merge.
+- **Notes**: **COMPLETED 2026-01-23**: Created `agent-hub.html` with 8 tabs (Overview, Profiles, Knowledge, Quotas, Collaboration, Mentors, Compare, Workload). Merged 9 pages into 1: agents.html, profiles.html, agent-knowledge.html, agent-quotas.html, agent-collaboration.html, collaboration-network.html, mentors.html, compare.html, workload.html. Page count reduced from 172 to 164 (net -8). All index.html card links, widget selectors, and command palette navigation updated. Old pages archived to /archive/.
 
 ### TASK-238: Consolidate log/error analysis pages into Log Analysis Hub
 - **Status**: IN_PROGRESS
