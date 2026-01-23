@@ -3837,3 +3837,8 @@ Output written to /var/www/cronloop.techtools.cz/api/agent-memory.json
 Analyzing agent memory patterns...
 No agent sessions found
 Output written to /var/www/cronloop.techtools.cz/api/agent-memory.json
+/home/novakj/scripts/analyze-agent-memory.py:285: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  'generated': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+Analyzing agent memory patterns...
+No agent sessions found
+Output written to /var/www/cronloop.techtools.cz/api/agent-memory.json
