@@ -99,16 +99,18 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-228: Merge monitoring/metrics pages into unified dashboard
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: HIGH
-- **Description**: Identify all pages related to system monitoring (health.html, metrics.html, pulse.html, nerve-center.html, etc.) and consolidate them into a single comprehensive monitoring view with tabs/sections instead of separate pages
-- **Notes**: Too many monitoring pages creates confusion. Users need one place for system health. **[PM 2026-01-23]: This can proceed in parallel with TASK-227. Expect to reduce 8-10 pages to 1.**
+(No tasks currently in progress)
 
 ---
 
 ## Completed
+
+### TASK-228: Merge monitoring/metrics pages into unified dashboard
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: HIGH
+- **Description**: Identify all pages related to system monitoring (health.html, metrics.html, pulse.html, nerve-center.html, etc.) and consolidate them into a single comprehensive monitoring view with tabs/sections instead of separate pages
+- **Notes**: **COMPLETED 2026-01-23**: Created `health-center.html` with 6 tabs (Overview, Metrics, Vital Signs, Forecast, Anomalies, Public Status). Merged 11 pages into 1: health.html, pulse.html, nerve-center.html, heartbeat.html, forecast-health.html, anomalies.html, status-public.html, weather.html, entropy.html, signature.html, weather-widget.html. Page count reduced from 183 to 172 (net -10). All command palette links and widget references updated.
 
 ### TASK-227: Audit all 182 pages and identify redundant/overlapping functionality
 - **Status**: DONE
@@ -166,6 +168,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-23 16:02 by developer (TASK-227 completed - full consolidation audit report created in docs/consolidation-report.md)*
+*Last updated: 2026-01-23 16:04 by developer2 (TASK-228 completed - merged 11 monitoring pages into health-center.html, page count: 183 → 172)*
 
 ---
