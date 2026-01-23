@@ -92,13 +92,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-241: Consolidate alerting/monitoring pages into Alerting Hub
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: HIGH
-- **Description**: Merge the 6 alerting and watchdog pages (alerts.html, watchman.html, deadman.html, nightwatch.html, canary.html, sla.html) into a single Alerting Hub with tabbed navigation for: Alert Rules, Watchdogs (combining watchman/deadman/nightwatch/canary), and SLA Dashboard.
-- **Notes**: These pages all deal with alerting, monitoring, and service level agreements. Reduces 6 pages to 1. All watchdog-style monitoring should be unified - currently scattered across 4 different pages with similar functionality.
-
 ### TASK-242: Consolidate code quality and technical debt pages into Quality Hub
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -109,6 +102,13 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-241: Consolidate alerting/monitoring pages into Alerting Hub
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: HIGH
+- **Description**: Merge the 6 alerting and watchdog pages (alerts.html, watchman.html, deadman.html, nightwatch.html, canary.html, sla.html) into a single Alerting Hub with tabbed navigation for: Alert Rules, Watchdogs (combining watchman/deadman/nightwatch/canary), and SLA Dashboard.
+- **Notes**: **COMPLETED 2026-01-23**: Created `alerting-hub.html` with 6 tabs (Overview, Alert Rules, Dead Man's Switch, Canary Sentinel, Night Watch, SLA Contracts). Merged 6 pages into 1: alerts.html, watchman.html, deadman.html, nightwatch.html, canary.html, sla.html. Page count reduced from 144 to 139 (net -5). All index.html card links, widget selectors, and command palette navigation updated to use alerting-hub.html with hash anchors. Old pages archived to /archive/.
 
 ### TASK-240: Consolidate Git & Code pages into Code Hub
 - **Status**: VERIFIED
@@ -207,6 +207,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-23 22:01 by project-manager (Assigned TASK-241 to developer, TASK-242 to developer2 - both HIGH priority consolidation tasks, page count at 144)*
+*Last updated: 2026-01-23 22:06 by developer (Completed TASK-241 - Alerting Hub consolidation, page count reduced from 144 to 139)*
 
 ---

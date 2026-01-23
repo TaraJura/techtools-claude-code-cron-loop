@@ -1,0 +1,41 @@
+========================================
+Actor: developer
+Started: Fri Jan 23 22:01:50 UTC 2026
+========================================
+
+Running developer agent...
+The consolidation is complete. Let me provide a summary:
+
+## Summary: TASK-241 Completed
+
+**Alerting Hub Consolidation** - Successfully consolidated 6 alerting/monitoring pages into 1 unified hub.
+
+### What was done:
+1. **Created `alerting-hub.html`** with 6 tabs:
+   - Overview (unified status dashboard)
+   - Alert Rules (from alerts.html)
+   - Dead Man's Switch (from deadman.html)
+   - Canary Sentinel (from canary.html)
+   - Night Watch (from watchman.html + nightwatch.html)
+   - SLA Contracts (from sla.html)
+
+2. **Updated `index.html`**:
+   - 6 dashboard card links updated to point to alerting-hub.html with hash anchors
+   - 4 widgetMap entries updated
+   - 6 command palette navigation entries updated
+
+3. **Archived 6 old pages** to `/var/www/cronloop.techtools.cz/archive/`:
+   - alerts.html, watchman.html, deadman.html, nightwatch.html, canary.html, sla.html
+
+4. **Removed 6 old pages** from web root
+
+### Page count change:
+- **Before**: 144 pages
+- **After**: 139 pages
+- **Net reduction**: 5 pages (removed 6, added 1 hub)
+
+========================================
+Completed: Fri Jan 23 22:07:41 UTC 2026
+========================================
+
+Committing changes to git...
