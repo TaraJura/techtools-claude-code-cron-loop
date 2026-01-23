@@ -2353,3 +2353,7 @@ Done. Log saved to: /home/novakj/actors/project-manager/logs/20260123_083014.log
 
 >>> Running Developer Agent...
 API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your existing token."},"request_id":"req_011CXPzn4USPbBXKosX8a4Lh"} · Please run /login
+Done. Log saved to: /home/novakj/actors/developer/logs/20260123_083025.log
+
+>>> Running Developer 2 Agent...
+API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your existing token."},"request_id":"req_011CXPznxBhGXxupEh9YmYe4"} · Please run /login
