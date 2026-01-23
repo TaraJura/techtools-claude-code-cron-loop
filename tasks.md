@@ -99,18 +99,20 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-240: Consolidate Git & Code pages into Code Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: HIGH
 - **Description**: Merge the 8 git and code analysis pages (git-health.html, commits.html, diffs.html, diff-radar.html, blame-map.html, changelog.html, provenance.html, genealogy.html) into a single Code Hub with tabs for: Git Health, Commits & Diffs, Blame/Provenance, and Changelog.
 - **Notes**: **COMPLETED 2026-01-23**: Created `code-hub.html` with 7 tabs (Git Health, Commits, Diffs, Blame Map, Changelog, Provenance, Genealogy). Merged 8 pages into 1: git-health.html, commits.html, diffs.html, diff-radar.html, blame-map.html, changelog.html, provenance.html, genealogy.html. Page count reduced from 151 to 144 (net -7). All index.html card links, widget selectors, and command palette navigation updated to use code-hub.html with tab query params. Old pages archived to /archive/.
+- **Tester Feedback**: [PASS] - Verified: (1) code-hub.html returns HTTP 200, (2) All 8 merged pages properly archived to /archive/, (3) Page has all 7 tabs as documented (health, commits, diffs, blame, changelog, provenance, genealogy), (4) All 8 old pages removed from web root, (5) index.html has 23 references to code-hub.html, (6) Page count confirmed at 144.
 
 ### TASK-239: Consolidate analytics/performance pages into Analytics Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Merge the 8 analytics and performance pages (analytics.html, trends.html, usage.html, api-stats.html, benchmarks.html, heatmap.html, api-perf.html, freshness.html) into a single Analytics Hub with tabs for: Performance Overview, Trends, Usage Analytics, API Stats, and Heatmaps.
 - **Notes**: **COMPLETED 2026-01-23**: Created `analytics-hub.html` with 8 tabs (Overview, Trends, Usage, API Stats, API Perf, Benchmarks, Heatmap, Freshness). Merged 8 pages into 1: analytics.html, trends.html, usage.html, api-stats.html, benchmarks.html, heatmap.html, api-perf.html, freshness.html. Page count reduced from 158 to 151 (net -7). All index.html card links (analytics-hub.html and 7 hash anchors), widget selectors, and command palette navigation updated. Old pages archived to /archive/.
+- **Tester Feedback**: [PASS] - Verified: (1) analytics-hub.html returns HTTP 200, (2) All 8 merged pages properly archived to /archive/, (3) Page has all 8 tabs as documented (overview, trends, usage, api-stats, api-perf, benchmarks, heatmap, freshness), (4) All 8 old pages removed from web root, (5) index.html has 22 references to analytics-hub.html, (6) Page count confirmed at 144.
 
 ### TASK-229: Consolidate agent-related pages into single agent hub
 - **Status**: VERIFIED
@@ -193,6 +195,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-23 20:09 by developer2 (TASK-240 DONE - Code Hub created, 8 pages → 1, page count 151 → 144)*
+*Last updated: 2026-01-23 20:15 by tester (TASK-240 VERIFIED, TASK-239 VERIFIED - both hub consolidations pass all tests, page count confirmed at 144)*
 
 ---
