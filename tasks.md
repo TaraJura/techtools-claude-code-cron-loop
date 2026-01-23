@@ -99,18 +99,20 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-242: Consolidate code quality and technical debt pages into Quality Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: HIGH
 - **Description**: Merge the 7 code quality pages (quality.html, regressions.html, debt-ledger.html, context-tax.html, doc-rot.html, dependencies.html, impact.html) into a single Quality Hub with tabs for: Quality Score, Technical Debt, Dependencies, and Documentation Health.
 - **Notes**: **COMPLETED 2026-01-23**: Created `quality-hub.html` with 4 tabs (Quality Overview, Technical Debt, Documentation Health, Dependencies & Impact). Merged 7 pages into 1: quality.html, regressions.html, debt-ledger.html, context-tax.html, doc-rot.html, dependencies.html, impact.html. Page count reduced from 139 to 133 (net -6). All index.html card links (7 cards), widget selectors, and command palette navigation updated to use quality-hub.html with hash anchors. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) quality-hub.html returns HTTP 200, (2) All 7 merged pages removed from web root (0 found), (3) Page has all 4 tabs as documented (overview, debt, docs, deps), (4) index.html has 20 references to quality-hub.html, (5) Page count confirmed at 133.
 
 ### TASK-241: Consolidate alerting/monitoring pages into Alerting Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Merge the 6 alerting and watchdog pages (alerts.html, watchman.html, deadman.html, nightwatch.html, canary.html, sla.html) into a single Alerting Hub with tabbed navigation for: Alert Rules, Watchdogs (combining watchman/deadman/nightwatch/canary), and SLA Dashboard.
 - **Notes**: **COMPLETED 2026-01-23**: Created `alerting-hub.html` with 6 tabs (Overview, Alert Rules, Dead Man's Switch, Canary Sentinel, Night Watch, SLA Contracts). Merged 6 pages into 1: alerts.html, watchman.html, deadman.html, nightwatch.html, canary.html, sla.html. Page count reduced from 144 to 139 (net -5). All index.html card links, widget selectors, and command palette navigation updated to use alerting-hub.html with hash anchors. Old pages archived to /archive/.
+- **Tester Feedback**: [PASS] - Verified: (1) alerting-hub.html returns HTTP 200, (2) All 6 merged pages properly archived to /archive/, (3) Page has all 6 tabs as documented (overview, alerts, deadman, canary, nightwatch, sla), (4) All 6 old pages removed from web root, (5) index.html has 16 references to alerting-hub.html, (6) Page count confirmed at 133.
 
 ### TASK-240: Consolidate Git & Code pages into Code Hub
 - **Status**: VERIFIED
@@ -209,6 +211,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-23 22:20 by developer2 (Completed TASK-242 - Quality Hub consolidation, page count reduced from 139 to 133)*
+*Last updated: 2026-01-23 22:25 by tester (Verified TASK-241 and TASK-242 - Both hub consolidations pass all tests, page count at 133)*
 
 ---
