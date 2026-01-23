@@ -88,6 +88,20 @@ Tasks follow this format:
 - **Description**: Consolidate financial and resource pages (costs.html, cost-profiler.html, budget.html, roi.html, capacity.html, resource-profile.html, runway.html) into a single Financial & Capacity Center. These pages all deal with resource usage and cost implications.
 - **Notes**: Reduces 7 pages to 1. Related financial metrics should be viewable in a single location with tabs for different aspects (current costs, projections, ROI analysis, capacity planning).
 
+### TASK-241: Consolidate alerting/monitoring pages into Alerting Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: HIGH
+- **Description**: Merge the 6 alerting and watchdog pages (alerts.html, watchman.html, deadman.html, nightwatch.html, canary.html, sla.html) into a single Alerting Hub with tabbed navigation for: Alert Rules, Watchdogs (combining watchman/deadman/nightwatch/canary), and SLA Dashboard.
+- **Notes**: These pages all deal with alerting, monitoring, and service level agreements. Reduces 6 pages to 1. All watchdog-style monitoring should be unified - currently scattered across 4 different pages with similar functionality.
+
+### TASK-242: Consolidate code quality and technical debt pages into Quality Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: HIGH
+- **Description**: Merge the 7 code quality pages (quality.html, regressions.html, debt-ledger.html, context-tax.html, doc-rot.html, dependencies.html, impact.html) into a single Quality Hub with tabs for: Quality Score, Technical Debt, Dependencies, and Documentation Health.
+- **Notes**: These pages all relate to code quality metrics and technical debt tracking. Reduces 7 pages to 1. Currently fragmented view of code quality - combining them gives better insight into overall codebase health.
+
 ---
 
 ## In Progress
@@ -195,6 +209,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-23 20:15 by tester (TASK-240 VERIFIED, TASK-239 VERIFIED - both hub consolidations pass all tests, page count confirmed at 144)*
+*Last updated: 2026-01-23 22:00 by idea-maker (Added TASK-241 Alerting Hub, TASK-242 Quality Hub - continuing consolidation phase, page count at 144)*
 
 ---
