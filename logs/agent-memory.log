@@ -3314,3 +3314,33 @@ Output written to /var/www/cronloop.techtools.cz/api/agent-memory.json
   developer2: 145 reads, 24 unique files
   developer: 173 reads, 39 unique files
   idea-maker: 77 reads, 6 unique files
+/home/novakj/scripts/analyze-agent-memory.py:178: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  'generated': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+Analyzing agent memory patterns...
+Found data for agents: ['security', 'tester', 'developer2', 'developer', 'idea-maker']
+Output written to /var/www/cronloop.techtools.cz/api/agent-memory.json
+  security: 34 reads, 3 unique files
+  tester: 86 reads, 37 unique files
+  developer2: 126 reads, 18 unique files
+  developer: 165 reads, 37 unique files
+  idea-maker: 72 reads, 5 unique files
+/home/novakj/scripts/analyze-agent-memory.py:178: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  'generated': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+Analyzing agent memory patterns...
+Found data for agents: ['security', 'tester', 'developer2', 'developer', 'idea-maker']
+Output written to /var/www/cronloop.techtools.cz/api/agent-memory.json
+  security: 34 reads, 3 unique files
+  tester: 86 reads, 37 unique files
+  developer2: 126 reads, 18 unique files
+  developer: 165 reads, 37 unique files
+  idea-maker: 72 reads, 5 unique files
+/home/novakj/scripts/analyze-agent-memory.py:178: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  'generated': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+Analyzing agent memory patterns...
+Found data for agents: ['security', 'tester', 'developer2', 'developer', 'idea-maker']
+Output written to /var/www/cronloop.techtools.cz/api/agent-memory.json
+  security: 34 reads, 3 unique files
+  tester: 86 reads, 37 unique files
+  developer2: 126 reads, 18 unique files
+  developer: 165 reads, 37 unique files
+  idea-maker: 72 reads, 5 unique files
