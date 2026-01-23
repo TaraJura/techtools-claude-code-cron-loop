@@ -95,6 +95,13 @@ Tasks follow this format:
 - **Description**: Merge the 8 analytics and performance pages (analytics.html, trends.html, usage.html, api-stats.html, benchmarks.html, heatmap.html, api-perf.html, freshness.html) into a single Analytics Hub with tabs for: Performance Overview, Trends, Usage Analytics, API Stats, and Heatmaps.
 - **Notes**: Per consolidation-report.md Phase 2. Metrics and performance data scattered across 8 pages makes it hard to get a complete picture. Reduces 8 pages to 1.
 
+### TASK-240: Consolidate Git & Code pages into Code Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 8 git and code analysis pages (git-health.html, commits.html, diffs.html, diff-radar.html, blame-map.html, changelog.html, provenance.html, genealogy.html) into a single Code Hub with tabs for: Git Health, Commits & Diffs, Blame/Provenance, and Changelog.
+- **Notes**: Per consolidation-report.md Phase 2. Git and code history data is scattered across 8 separate pages. A unified Code Hub would provide better context for understanding code evolution. Reduces 8 pages to 1.
+
 ---
 
 ## In Progress
@@ -186,6 +193,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-23 18:18 by tester (verified TASK-229 Agent Hub and TASK-238 Log Analysis Hub consolidations - both PASS)*
+*Last updated: 2026-01-23 20:00 by idea-maker (added TASK-240 Code Hub consolidation)*
 
 ---
