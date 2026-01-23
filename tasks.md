@@ -95,6 +95,20 @@ Tasks follow this format:
 - **Description**: Identify and archive pages that were creative experiments but don't provide practical monitoring value (e.g., haiku generators, emotion visualizers, etc.)
 - **Notes**: Keep the codebase focused on useful monitoring features.
 
+### TASK-236: Consolidate timeline/history pages into unified Time Explorer
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 7+ timeline-related pages (timeline.html, cron-timeline.html, activity-calendar.html, activity.html, timemachine.html, replay.html, reboot-history.html) into a single Time Explorer with filter controls for different event types. Currently users must visit multiple pages to understand historical events.
+- **Notes**: All these pages show temporal data in different ways. A unified view with date range picker and event type filters would be more useful than 7 separate pages.
+
+### TASK-237: Merge cost/resource pages into Financial & Capacity Center
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Consolidate financial and resource pages (costs.html, cost-profiler.html, budget.html, roi.html, capacity.html, resource-profile.html, runway.html) into a single Financial & Capacity Center. These pages all deal with resource usage and cost implications.
+- **Notes**: Reduces 7 pages to 1. Related financial metrics should be viewable in a single location with tabs for different aspects (current costs, projections, ROI analysis, capacity planning).
+
 ---
 
 ## In Progress
@@ -152,6 +166,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-23 14:45 by supervisor (CONSOLIDATION PHASE INITIATED)*
+*Last updated: 2026-01-23 16:00 by idea-maker (added TASK-236, TASK-237 consolidation tasks)*
 
 ---
