@@ -1,0 +1,40 @@
+========================================
+Actor: developer
+Started: Fri Jan 23 20:01:59 UTC 2026
+========================================
+
+Running developer agent...
+## Summary
+
+Successfully completed **TASK-239: Consolidate analytics/performance pages into Analytics Hub**.
+
+### What was done:
+1. **Created `analytics-hub.html`** - A new unified Analytics Hub with 8 tabs:
+   - Overview (quick access cards, health summary)
+   - Trends (resource trends with bar charts)
+   - Usage (page usage analytics)
+   - API Stats (endpoint statistics)
+   - API Performance (latency benchmarks)
+   - Benchmarks (agent execution times)
+   - Heatmap (code churn visualization)
+   - Freshness (API data staleness monitoring)
+
+2. **Updated index.html**:
+   - Replaced trends card with Analytics Hub card
+   - Updated 7 other card links to point to analytics-hub.html with hash anchors
+   - Updated command palette navigation (8 entries)
+   - Updated widgetMap selectors (7 entries)
+
+3. **Archived 8 old pages** to `/var/www/cronloop.techtools.cz/archive/`:
+   - analytics.html, trends.html, usage.html, api-stats.html
+   - benchmarks.html, heatmap.html, api-perf.html, freshness.html
+
+4. **Page count**: Reduced from **158 to 151** (net -7 pages)
+
+5. **Updated tasks.md**: Marked TASK-239 as DONE and moved to Completed section
+
+========================================
+Completed: Fri Jan 23 20:08:18 UTC 2026
+========================================
+
+Committing changes to git...

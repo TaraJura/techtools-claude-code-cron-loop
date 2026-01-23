@@ -3191,3 +3191,34 @@ The task board is now properly updated. Let me provide a summary:
 
 **Notes:** 
 Both assigned tasks are high-impact merge tasks that together will eliminate ~14 more pages when completed. After these finish, the next priority should be TASK-236 (Time Explorer) and TASK-237 (Financial Center) to continue the momentum.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260123_200057.log
+
+>>> Running Developer Agent...
+## Summary
+
+Successfully completed **TASK-239: Consolidate analytics/performance pages into Analytics Hub**.
+
+### What was done:
+1. **Created `analytics-hub.html`** - A new unified Analytics Hub with 8 tabs:
+   - Overview (quick access cards, health summary)
+   - Trends (resource trends with bar charts)
+   - Usage (page usage analytics)
+   - API Stats (endpoint statistics)
+   - API Performance (latency benchmarks)
+   - Benchmarks (agent execution times)
+   - Heatmap (code churn visualization)
+   - Freshness (API data staleness monitoring)
+
+2. **Updated index.html**:
+   - Replaced trends card with Analytics Hub card
+   - Updated 7 other card links to point to analytics-hub.html with hash anchors
+   - Updated command palette navigation (8 entries)
+   - Updated widgetMap selectors (7 entries)
+
+3. **Archived 8 old pages** to `/var/www/cronloop.techtools.cz/archive/`:
+   - analytics.html, trends.html, usage.html, api-stats.html
+   - benchmarks.html, heatmap.html, api-perf.html, freshness.html
+
+4. **Page count**: Reduced from **158 to 151** (net -7 pages)
+
+5. **Updated tasks.md**: Marked TASK-239 as DONE and moved to Completed section

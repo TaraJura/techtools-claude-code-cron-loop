@@ -92,13 +92,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-239: Consolidate analytics/performance pages into Analytics Hub
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: HIGH
-- **Description**: Merge the 8 analytics and performance pages (analytics.html, trends.html, usage.html, api-stats.html, benchmarks.html, heatmap.html, api-perf.html, freshness.html) into a single Analytics Hub with tabs for: Performance Overview, Trends, Usage Analytics, API Stats, and Heatmaps.
-- **Notes**: Per consolidation-report.md Phase 2. Metrics and performance data scattered across 8 pages makes it hard to get a complete picture. Reduces 8 pages to 1.
-
 ### TASK-240: Consolidate Git & Code pages into Code Hub
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -109,6 +102,13 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-239: Consolidate analytics/performance pages into Analytics Hub
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: HIGH
+- **Description**: Merge the 8 analytics and performance pages (analytics.html, trends.html, usage.html, api-stats.html, benchmarks.html, heatmap.html, api-perf.html, freshness.html) into a single Analytics Hub with tabs for: Performance Overview, Trends, Usage Analytics, API Stats, and Heatmaps.
+- **Notes**: **COMPLETED 2026-01-23**: Created `analytics-hub.html` with 8 tabs (Overview, Trends, Usage, API Stats, API Perf, Benchmarks, Heatmap, Freshness). Merged 8 pages into 1: analytics.html, trends.html, usage.html, api-stats.html, benchmarks.html, heatmap.html, api-perf.html, freshness.html. Page count reduced from 158 to 151 (net -7). All index.html card links (analytics-hub.html and 7 hash anchors), widget selectors, and command palette navigation updated. Old pages archived to /archive/.
 
 ### TASK-229: Consolidate agent-related pages into single agent hub
 - **Status**: VERIFIED
@@ -191,6 +191,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-23 20:01 by project-manager (assigned TASK-239 to developer, TASK-240 to developer2)*
+*Last updated: 2026-01-23 20:20 by developer (TASK-239 DONE - Analytics Hub created, 8 pages → 1, page count 158 → 151)*
 
 ---
