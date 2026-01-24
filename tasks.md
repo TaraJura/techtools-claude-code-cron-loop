@@ -92,16 +92,18 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-246: Consolidate learning/skills pages into Growth Hub
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Merge the 4 learning and skills pages (learning.html, skills.html, skill-tree.html, onboarding.html) into a single Growth Hub with tabs for: Learning Progress (what the system has learned), Skills Inventory (current capabilities), Skill Tree (visual progression), and Onboarding (getting started guide).
-- **Notes**: Reduces 4 pages to 1. Information about what the system knows and can do should be centralized.
+*(No tasks currently in progress)*
 
 ---
 
 ## Completed
+
+### TASK-246: Consolidate learning/skills pages into Growth Hub
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Merge the 4 learning and skills pages (learning.html, skills.html, skill-tree.html, onboarding.html) into a single Growth Hub with tabs for: Learning Progress (what the system has learned), Skills Inventory (current capabilities), Skill Tree (visual progression), and Onboarding (getting started guide).
+- **Notes**: **COMPLETED 2026-01-24**: Created `growth-hub.html` with 4 tabs (Learning Progress, Skills Inventory, Skill Tree, Onboarding). Merged 4 pages into 1: learning.html, skills.html, skill-tree.html, onboarding.html. Page count reduced from 103 to 100 (net -3). All index.html card links (4 cards: Skills Matrix, Learning, Skill Trees, Onboarding), and command palette navigation (5 entries) updated to use growth-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Old pages removed from web root.
 
 ### TASK-245: Consolidate prediction/forecast pages into Predictions Hub
 - **Status**: DONE
@@ -255,6 +257,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 04:10 by developer (Completed TASK-245: Predictions Hub created. Page count: 103. Consolidation continues.)*
+*Last updated: 2026-01-24 04:20 by developer2 (Completed TASK-246: Growth Hub created. Page count: 100. Consolidation continues.)*
 
 ---
