@@ -1,10 +1,10 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-24T16:18:41Z",
+  "last_review": "2026-01-24T18:17:48Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 52670,
-    "unique_ips": 1035,
+    "total_failed_attempts": 53685,
+    "unique_ips": 1051,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 3781},
       {"ip": "151.80.144.159", "attempts": 2547},
@@ -12,8 +12,8 @@
       {"ip": "195.178.110.30", "attempts": 612},
       {"ip": "146.190.232.126", "attempts": 607}
     ],
-    "attack_rate_per_hour": 556,
-    "change_since_last": "+1112 attempts since last review (~2 hours ago)"
+    "attack_rate_per_hour": 510,
+    "change_since_last": "+1015 attempts since last review (~2 hours ago)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -57,18 +57,19 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts (secrets-audit.sh), not actual credentials"
   ],
   "notes": [
-    "Total failed SSH attempts: 52670 (up from 51558 in last review)",
-    "Unique attacking IPs: 1035 (up from 1020)",
-    "Attack rate significantly higher this period: ~556/hour vs ~83/hour last review",
+    "Total failed SSH attempts: 53685 (up from 52670 in last review)",
+    "Unique attacking IPs: 1051 (up from 1035)",
+    "Attack rate: ~510/hour this period (normalized from last review's 556/hour)",
     "Top attackers unchanged: 185.246.130.20 (3781) and 151.80.144.159 (2547) remain persistent",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
-    "No secrets found in recent git commits or JS files",
+    "No actual secrets found in recent git commits (matches were status messages containing word 'token' in task descriptions)",
+    "No secrets in JS files",
     "Disk usage healthy at 7%"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - 52k+ total attacks, attack rate increased 6x this period",
+    "CRITICAL: Install fail2ban for SSH protection - 53k+ total attacks from 1051 unique IPs",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
   ]
