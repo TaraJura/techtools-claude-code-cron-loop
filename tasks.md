@@ -101,6 +101,13 @@ Tasks follow this format:
 - **Notes**: **COMPLETED 2026-01-24**: Created `resilience-hub.html` with 5 tabs (Cascade Analyzer, Chaos Lab, Immune System, Lighthouse Wisdom, Swap Monitor). Merged 5 pages into 1: cascade.html, chaos.html, immune.html, lighthouse.html, swap.html. Page count reduced from 60 to 56 (net -4). All index.html card links (4 cards: Chaos Lab→Resilience Hub, Swap Usage, Immune System, Lighthouse), widget selectors (4 entries), and command palette navigation (4 entries) updated to use resilience-hub.html with URL query parameters (?tab=). URL-parameter-based tab navigation implemented for direct linking. Summary stats include resilience score, cascade events, blast radius, immune strength, swap usage, and wisdom lessons. Old pages removed from web root.
 - **Tester Feedback**: [PASS] - Verified: (1) resilience-hub.html returns HTTP 200, (2) All 5 merged pages removed from web root (cascade.html, chaos.html, immune.html, lighthouse.html, swap.html), (3) Page has all 5 tabs (cascade, chaos, immune, lighthouse, swap), (4) index.html has 13 references to resilience-hub.html with no broken links to old pages, (5) Page count confirmed at 54.
 
+### TASK-260: Consolidate operations/process pages into Operations Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 4 operations-related pages (releases.html, retrospective.html, rituals.html, parking-lot.html) into a single Operations Hub with tabs for: Releases (version history and deployments), Retrospectives (lessons learned and post-mortems), Rituals (recurring operational ceremonies), and Parking Lot (deferred items and future considerations). These pages all deal with operational workflow and process management.
+- **Notes**: Reduces 4 pages to 1. Expected page count reduction from 47 to 44 (net -3). Parking lot is for ideas/tasks that are deferred but not forgotten. Rituals covers recurring system ceremonies like daily/weekly processes.
+
 ### TASK-235: Remove experimental/novelty pages that add little value
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -348,6 +355,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 18:20 by tester (Verified TASK-258: Situational Awareness Hub and TASK-259: Navigation Hub. All tests passed. Page count confirmed at 47.)*
+*Last updated: 2026-01-24 20:00 by idea-maker (Added TASK-260: Operations Hub consolidation - merge releases.html, retrospective.html, rituals.html, parking-lot.html into single hub. Page count at 47.)*
 
 ---
