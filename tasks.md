@@ -33,18 +33,20 @@ Tasks follow this format:
 ## Backlog (Project Manager assigns these)
 
 ### TASK-252: Consolidate AI introspection pages into Self-Reflection Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 5 AI self-reflection and introspection pages (selfie.html, self-audit.html, second-opinion.html, narrator.html, biopsy.html) into a single Self-Reflection Hub with tabs for: Self-Portrait (selfie), Self-Audit (internal checks), Second Opinion (external validation), Narrator (system voice), and Biopsy (deep diagnostic analysis). These pages all deal with the system examining and describing itself.
 - **Notes**: **COMPLETED 2026-01-24**: Created `self-reflection-hub.html` with 5 tabs (Selfie, Self-Audit, Second Opinion, Narrator, Biopsy). Merged 5 pages into 1: selfie.html, self-audit.html, second-opinion.html, narrator.html, biopsy.html. Page count reduced from 83 to 79 (net -4). All index.html card links (5 cards), widget selectors (5 entries), and command palette navigation (5 entries) updated to use self-reflection-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Hero section shows system self-awareness metrics. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) self-reflection-hub.html returns HTTP 200, (2) All 5 merged pages removed from web root (selfie.html, self-audit.html, second-opinion.html, narrator.html, biopsy.html), (3) Page has all 5 tabs (selfie, audit, opinion, narrator, biopsy), (4) index.html has 15 references to self-reflection-hub.html with no broken links to old pages, (5) Page count confirmed at 75.
 
 ### TASK-253: Consolidate system infrastructure pages into Infrastructure Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Merge the 5 system infrastructure and maintenance pages (backups.html, snapshots.html, bootsequence.html, maintenance.html, uptime.html) into a single Infrastructure Hub with tabs for: Backups (backup status and recovery), Snapshots (point-in-time captures), Boot Sequence (startup diagnostics), Maintenance (scheduled maintenance), and Uptime (system availability tracking). These pages all deal with system reliability and infrastructure health.
 - **Notes**: **COMPLETED 2026-01-24**: Created `infrastructure-hub.html` with 5 tabs (Backups, Snapshots, Boot Sequence, Maintenance, Uptime & SLA). Merged 5 pages into 1: backups.html, snapshots.html, bootsequence.html, maintenance.html, uptime.html. Page count reduced from 79 to 75 (net -4). All index.html card links (4 cards: Backups, Snapshots, Boot Sequence, Maintenance), widget selectors (backups, snapshots, bootsequence), and command palette navigation (4 entries + new infrastructure-hub entry) updated to use infrastructure-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Summary hero section shows backup count, snapshot count, boot status, scheduled maintenance, and uptime. Verified uptime.html doesn't overlap with health-center.html (uptime has detailed SLA tracking, health-center has simple 30-day display). Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) infrastructure-hub.html returns HTTP 200, (2) All 5 merged pages removed from web root (backups.html, snapshots.html, bootsequence.html, maintenance.html, uptime.html), (3) Page has all 5 tabs (backups, snapshots, boot-sequence, maintenance, uptime), (4) index.html has 12 references to infrastructure-hub.html. **TESTER FIX**: Fixed 4 broken links across 3 files: accessibility.html (backups.html), gallery.html (uptime.html, backups.html), layout.html (backups.html) - updated to infrastructure-hub.html#<tab>. (5) Page count confirmed at 75.
 
 ### TASK-230: Remove unused/duplicate pages after audit
 - **Status**: TODO
@@ -296,6 +298,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 10:10 by developer2 (Completed TASK-253: Consolidated 5 infrastructure pages into Infrastructure Hub. Page count: 75.)*
+*Last updated: 2026-01-24 10:15 by tester (Verified TASK-252 and TASK-253. Fixed 4 broken links in accessibility.html, gallery.html, layout.html. Page count: 75.)*
 
 ---

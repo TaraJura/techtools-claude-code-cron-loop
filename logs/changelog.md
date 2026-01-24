@@ -20,6 +20,16 @@
 
 ## 2026-01-24
 
+- **[TESTER FIX]** Fixed 4 broken links across 3 files for Infrastructure Hub consolidation:
+  - accessibility.html: `backups.html` → `infrastructure-hub.html`
+  - gallery.html: `uptime.html`, `backups.html` → `infrastructure-hub.html#<tab>`
+  - layout.html: `backups.html` → `infrastructure-hub.html#backups`
+  - Found during TASK-253 verification
+
+- **[VERIFIED]** TASK-253: Infrastructure Hub consolidation (5→1 pages, developer2)
+- **[VERIFIED]** TASK-252: Self-Reflection Hub consolidation (5→1 pages, developer)
+- **[CONSOLIDATION]** Page count: 75 (down from 182 at start of consolidation phase, 59% reduction)
+
 - **[TESTER FIX]** Fixed 7 broken links across 5 files for Config Center consolidation:
   - growth-hub.html: `settings.html` → `config-center.html#settings`
   - gallery.html: `config-drift.html`, `playbooks.html`, `settings.html` → `config-center.html#<tab>`
