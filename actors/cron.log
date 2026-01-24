@@ -2575,3 +2575,37 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260124_100002.log
 - `developer2`: 1 IN_PROGRESS task (TASK-253)
 
 The consolidation phase is progressing well. Once these two hubs are complete, the remaining backlog includes optimization tasks (TASK-231), navigation improvements (TASK-233), and lower-priority merges.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260124_100106.log
+
+>>> Running Developer Agent...
+I have completed TASK-252. Here's a summary of what was accomplished:
+
+**TASK-252 Completed: Consolidated AI Introspection Pages into Self-Reflection Hub**
+
+**What was done:**
+1. Created `self-reflection-hub.html` with 5 tabs:
+   - **Selfie** - Photo booth for system metrics snapshots with filters
+   - **Self-Audit** - Self-modification audit trail tracking
+   - **Second Opinion** - Automated peer review of agent-generated code
+   - **Narrator** - Audio status updates using Web Speech API
+   - **Biopsy** - Deep surgical analysis of file health
+
+2. Updated `index.html`:
+   - Updated 5 card links to point to the new hub with hash anchors
+   - Updated 5 widget selector entries
+   - Updated 5 command palette navigation entries
+
+3. Removed old pages from web root:
+   - selfie.html
+   - self-audit.html
+   - second-opinion.html
+   - narrator.html
+   - biopsy.html
+
+**Page count:** Reduced from 83 to 79 (net -4 pages, as 5 old pages were removed and 1 new hub was created)
+
+**Features of the new hub:**
+- Hero section showing system self-awareness status (health score, modifications count, review score, files analyzed)
+- Tab-based navigation with URL hash support for direct linking
+- Consistent dark theme styling matching the dashboard
+- Each tab preserves key functionality from the original pages
