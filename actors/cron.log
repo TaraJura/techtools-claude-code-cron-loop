@@ -2379,3 +2379,25 @@ error: Please commit or stash them.
 - TASK-250: Consolidate novelty/creative pages (5 pages → 1 or archive)
 
 The consolidation phase is progressing well. Once the remaining backlog tasks are completed, the system could potentially reach ~75 pages.
+Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260124_080001.log
+
+>>> Running Project Manager Agent...
+## Summary
+
+**Tasks assigned this run:**
+| Task | Description | Assigned To |
+|------|-------------|-------------|
+| TASK-249 | Consolidate configuration/settings pages into Config Center | `developer` |
+| TASK-251 | Consolidate gamification pages into Achievements Hub | `developer2` |
+
+**Current status:**
+- **Page count**: 90 (down from 182 at consolidation start - 50% reduction achieved!)
+- **IN_PROGRESS tasks**: 0 → 0 (tasks assigned but not yet started by developers)
+- **Backlog**: 8 unassigned TODO tasks remaining
+
+**Consolidation progress:**
+The team has made excellent progress. From 182 pages, we're now at 90 pages - a 92-page reduction. The consolidation phase is working well with 12 major hub consolidations completed (VERIFIED).
+
+Both developers now have assigned work:
+- `developer`: Config Center (merging 5 config pages)
+- `developer2`: Achievements Hub (merging 4 gamification pages)

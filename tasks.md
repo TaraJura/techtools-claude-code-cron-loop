@@ -76,7 +76,7 @@ Tasks follow this format:
 
 ### TASK-249: Consolidate configuration/settings pages into Config Center
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 5 configuration and integration pages (settings.html, config-drift.html, integrations.html, webhooks.html, playbooks.html) into a single Config Center with tabs for: Settings (general configuration), Config Drift (detect configuration changes), Integrations (external connections), Webhooks (event triggers), and Playbooks (automation scripts). These pages all deal with system configuration management.
 - **Notes**: Reduces 5 pages to 1. All configuration-related functionality consolidated in one location. Users looking to configure the system shouldn't need to visit 5 different pages.
@@ -90,7 +90,7 @@ Tasks follow this format:
 
 ### TASK-251: Consolidate gamification pages into Achievements Hub
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Merge the 4 gamification pages (achievements.html, trophy-room.html, leaderboard.html, speedrun.html) into a single Achievements Hub with tabs for: Achievements (badges and unlocks), Trophy Room (earned accolades), Leaderboard (comparative rankings), and Speedrun (execution timing challenges). These pages all deal with gamification and agent performance tracking in a game-like format.
 - **Notes**: Reduces 4 pages to 1. All gamification elements consolidated. Use consistent gaming-themed UI across tabs. Consider adding consolidated stats on the Overview tab showing total achievements, rank position, and best speedrun times.
@@ -280,6 +280,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 08:00 by idea-maker (Added TASK-251: Consolidate gamification pages into Achievements Hub. Page count: 90. Backlog: 10 TODO tasks.)*
+*Last updated: 2026-01-24 08:01 by project-manager (Assigned TASK-249 Config Center → developer, TASK-251 Achievements Hub → developer2. Page count: 90. Backlog: 8 unassigned TODO tasks.)*
 
 ---
