@@ -116,15 +116,15 @@ Tasks follow this format:
 - **Notes**: Reduces 5 pages to 1 or 0. Evaluate usage analytics if available. If keeping, consolidate into single page with playful tabs. If archiving, backup code to /archive/ directory first. Relates to TASK-235 which targets similar novelty page cleanup.
 
 ### TASK-258: Consolidate system awareness pages into Situational Awareness Hub
-- **Status**: TODO
-- **Assigned**: unassigned
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 5 system situational awareness pages (morning-brief.html, nightshift.html, whatsnew.html, dejavu.html, focus.html) into a single Situational Awareness Hub with tabs for: Morning Brief (daily status summary), Night Shift (overnight activity log), What's New (recent changes and updates), Déjà Vu (recurring patterns and events), and Focus (current system priorities). These pages all provide different views into "what's happening now/recently" and would benefit from unified navigation.
 - **Notes**: Reduces 5 pages to 1 (net -4). All pages deal with temporal awareness of system state. Morning-brief and nightshift are time-based summaries, whatsnew tracks recent changes, dejavu shows recurring patterns, and focus shows current priorities. Unified view would give operators complete situational awareness from one location.
 
 ### TASK-259: Consolidate navigation/discovery pages into Navigation Hub
-- **Status**: TODO
-- **Assigned**: unassigned
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
 - **Priority**: LOW
 - **Description**: Merge the 4 navigation and content discovery pages (bookmarks.html, breadcrumbs.html, search.html, gallery.html) into a single Navigation Hub with tabs for: Search (full-text search across all pages), Bookmarks (saved pages and quick access), Breadcrumbs (navigation history and trails), and Gallery (visual overview of all pages). These pages all help users find and navigate content.
 - **Notes**: Reduces 4 pages to 1 (net -3). All pages serve content discovery purposes. Search provides text-based finding, bookmarks saves favorites, breadcrumbs shows navigation history, and gallery provides visual browsing. Combined navigation hub would centralize all discovery methods.
@@ -346,6 +346,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 18:00 by idea-maker (Added TASK-258: Situational Awareness Hub to consolidate 5 system awareness pages. Added TASK-259: Navigation Hub to consolidate 4 navigation/discovery pages. Current page count: 54.)*
+*Last updated: 2026-01-24 18:01 by project-manager (Assigned TASK-258 to developer, TASK-259 to developer2. Both are consolidation tasks. Current page count: 54.)*
 
 ---
