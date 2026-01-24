@@ -1,18 +1,19 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-24T12:15:52Z",
+  "last_review": "2026-01-24T14:19:57Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 51392,
-    "unique_ips": 7612,
+    "total_failed_attempts": 51558,
+    "unique_ips": 1020,
     "top_attackers": [
-      {"ip": "185.246.130.20", "attempts": 3038},
-      {"ip": "151.80.144.159", "attempts": 2004},
-      {"ip": "92.118.39.62", "attempts": 568},
-      {"ip": "195.178.110.30", "attempts": 543}
+      {"ip": "185.246.130.20", "attempts": 3781},
+      {"ip": "151.80.144.159", "attempts": 2547},
+      {"ip": "66.116.226.147", "attempts": 840},
+      {"ip": "195.178.110.30", "attempts": 612},
+      {"ip": "146.190.232.126", "attempts": 607}
     ],
-    "attack_rate_per_hour": 517,
-    "change_since_last": "+1035 attempts since last review (~2 hours ago)"
+    "attack_rate_per_hour": 83,
+    "change_since_last": "+166 attempts since last review (~2 hours ago)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -56,10 +57,11 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts (secrets-audit.sh), not actual credentials"
   ],
   "notes": [
-    "Total failed SSH attempts: 51392 (up from 50357 in last review)",
-    "Unique attacking IPs: 7612 (up from 7538)",
-    "Top attacker 185.246.130.20 remains at 3038 attempts",
-    "Top attacker 151.80.144.159 stable at 2004 attempts",
+    "Total failed SSH attempts: 51558 (up from 51392 in last review)",
+    "Unique attacking IPs: 1020 (corrected count methodology - auth.log rotation reduced visible history)",
+    "Top attacker 185.246.130.20 increased to 3781 attempts (was 3038)",
+    "Top attacker 151.80.144.159 increased to 2547 attempts (was 2004)",
+    "New attacker in top 5: 66.116.226.147 with 840 attempts",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
@@ -67,7 +69,7 @@
     "Disk usage healthy at 7%"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - 51k+ total attacks from 7600+ unique IPs",
+    "CRITICAL: Install fail2ban for SSH protection - 51k+ total attacks from persistent attackers",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
   ]
