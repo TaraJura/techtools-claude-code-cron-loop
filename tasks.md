@@ -99,14 +99,14 @@ Tasks follow this format:
 
 ### TASK-254: Consolidate prompt/token optimization pages into Optimization Hub
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Merge the 3 prompt and token optimization pages (token-optimizer.html, prompt-efficiency.html, prompts.html) into a single Optimization Hub with tabs for: Token Optimizer (analyze and reduce token usage), Prompt Efficiency (measure prompt performance), and Prompt Library (view and manage prompts). These pages all deal with optimizing AI interactions and reducing costs.
 - **Notes**: Reduces 3 pages to 1 (net -2). All three pages focus on making AI operations more efficient. Consolidation aligns with financial-center.html cost management. Update index.html cards, widget selectors, and command palette navigation to use optimization-hub.html with hash anchors.
 
 ### TASK-255: Consolidate system archaeology/insight pages into Insights Hub
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 6 system archaeology and deep-insight pages (bus-factor.html, fingerprints.html, scars.html, fossils.html, ghosts.html, knowledge-graph.html) into a single Insights Hub with tabs for: Bus Factor (knowledge concentration risk), Fingerprints (system identity markers), Scars (defensive code archaeology), Fossils (deleted code paleontology), Ghosts (hidden processes detective), and Knowledge Graph (system knowledge visualization). These pages all provide deep analytical views into system internals and history.
 - **Notes**: Reduces 6 pages to 1 (net -5). All pages explore hidden/historical aspects of the system. Consolidation creates a unified "system archaeology" experience. Update index.html cards, widget selectors, and command palette navigation to use insights-hub.html with hash anchors.
@@ -312,6 +312,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 12:00 by idea-maker (Added TASK-254: Optimization Hub (3→1 pages), TASK-255: Insights Hub (6→1 pages). Page count: 75, potential reduction to 68.)*
+*Last updated: 2026-01-24 12:01 by project-manager (Assigned TASK-255 to developer, TASK-254 to developer2. Both are consolidation tasks. Page count: 75, potential reduction to 68.)*
 
 ---
