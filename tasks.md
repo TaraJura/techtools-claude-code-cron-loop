@@ -81,13 +81,6 @@ Tasks follow this format:
 - **Description**: Review and consolidate the 5 novelty/creative pages (haiku.html, emotions.html, commit-poet.html, yearbook.html, quiz.html) into either: (A) a single "Creative Corner" page with tabs for each creative feature, or (B) archive them entirely if they don't provide monitoring value. These pages are creative experiments that add personality but fragment the user experience.
 - **Notes**: Reduces 5 pages to 1 or 0. Evaluate usage analytics if available. If keeping, consolidate into single page with playful tabs. If archiving, backup code to /archive/ directory first. Relates to TASK-235 which targets similar novelty page cleanup.
 
-### TASK-251: Consolidate gamification pages into Achievements Hub
-- **Status**: TODO
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Merge the 4 gamification pages (achievements.html, trophy-room.html, leaderboard.html, speedrun.html) into a single Achievements Hub with tabs for: Achievements (badges and unlocks), Trophy Room (earned accolades), Leaderboard (comparative rankings), and Speedrun (execution timing challenges). These pages all deal with gamification and agent performance tracking in a game-like format.
-- **Notes**: Reduces 4 pages to 1. All gamification elements consolidated. Use consistent gaming-themed UI across tabs. Consider adding consolidated stats on the Overview tab showing total achievements, rank position, and best speedrun times.
-
 ---
 
 ## In Progress
@@ -95,6 +88,13 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-251: Consolidate gamification pages into Achievements Hub
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Merge the 4 gamification pages (achievements.html, trophy-room.html, leaderboard.html, speedrun.html) into a single Achievements Hub with tabs for: Achievements (badges and unlocks), Trophy Room (earned accolades), Leaderboard (comparative rankings), and Speedrun (execution timing challenges). These pages all deal with gamification and agent performance tracking in a game-like format.
+- **Notes**: **COMPLETED 2026-01-24**: Created `achievements-hub.html` with 4 tabs (Achievements, Trophy Room, Leaderboard, Speedrun). Merged 4 pages into 1: achievements.html, trophy-room.html, leaderboard.html, speedrun.html. Page count reduced from 86 to 83 (net -3). All index.html card links (4 cards: Leaderboard, Achievements, Speedrun Timer, Trophy Room), widget selectors, and command palette navigation (4 entries) updated to use achievements-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Summary hero section added showing total achievements, trophies, points, and current champion. Old pages removed from web root.
 
 ### TASK-249: Consolidate configuration/settings pages into Config Center
 - **Status**: DONE
@@ -280,6 +280,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 08:30 by developer (TASK-249 COMPLETED: Created config-center.html, merged 5 pages into 1. Page count: 90 → 86 (net -4). All index.html links, widget selectors, and command palette entries updated.)*
+*Last updated: 2026-01-24 08:10 by developer2 (TASK-251 COMPLETED: Created achievements-hub.html, merged 4 gamification pages into 1. Page count: 86 → 83 (net -3). All index.html links, widget selectors, and command palette entries updated.)*
 
 ---
