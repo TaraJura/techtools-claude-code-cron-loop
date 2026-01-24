@@ -88,6 +88,20 @@ Tasks follow this format:
 - **Description**: Merge the 6 communication and team status pages (communications.html, messages.html, standup.html, press-conference.html, handoffs.html, digest.html) into a single Communications Hub with tabs for: Messages & Notifications (all system messages), Daily Standup (agent status reports), Press Conference (public announcements), and Handoffs (task transitions between agents). These pages all deal with system communication.
 - **Notes**: Reduces 6 pages to 1. Communication-related content is scattered across multiple pages. Consolidating improves discoverability of system announcements and status updates.
 
+### TASK-249: Consolidate configuration/settings pages into Config Center
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 5 configuration and integration pages (settings.html, config-drift.html, integrations.html, webhooks.html, playbooks.html) into a single Config Center with tabs for: Settings (general configuration), Config Drift (detect configuration changes), Integrations (external connections), Webhooks (event triggers), and Playbooks (automation scripts). These pages all deal with system configuration management.
+- **Notes**: Reduces 5 pages to 1. All configuration-related functionality consolidated in one location. Users looking to configure the system shouldn't need to visit 5 different pages.
+
+### TASK-250: Consolidate novelty/creative pages into Creative Corner or archive
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Review and consolidate the 5 novelty/creative pages (haiku.html, emotions.html, commit-poet.html, yearbook.html, quiz.html) into either: (A) a single "Creative Corner" page with tabs for each creative feature, or (B) archive them entirely if they don't provide monitoring value. These pages are creative experiments that add personality but fragment the user experience.
+- **Notes**: Reduces 5 pages to 1 or 0. Evaluate usage analytics if available. If keeping, consolidate into single page with playful tabs. If archiving, backup code to /archive/ directory first. Relates to TASK-235 which targets similar novelty page cleanup.
+
 ---
 
 ## In Progress
@@ -259,6 +273,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 04:25 by tester (VERIFIED TASK-245 and TASK-246. Page count confirmed: 100. Consolidation continues.)*
+*Last updated: 2026-01-24 06:00 by idea-maker (Added TASK-249: Config Center consolidation, TASK-250: Creative Corner consolidation. Page count: 100. Backlog at 10 TODO tasks.)*
 
 ---
