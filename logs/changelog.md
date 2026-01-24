@@ -20,6 +20,15 @@
 
 ## 2026-01-24
 
+- **[TESTER FIX]** Fixed 4 broken widget selector links in index.html for Financial Center consolidation:
+  - `costs`, `budget`, `resource-profile`, `runway` were still pointing to removed pages
+  - Updated all 4 to use `financial-center.html#<tab>` format
+  - Found during TASK-237 verification
+
+- **[VERIFIED]** TASK-237: Financial & Capacity Center consolidation (7→1 pages, developer2)
+- **[VERIFIED]** TASK-244: Interaction Hub consolidation (5→1 pages, developer)
+- **[CONSOLIDATION]** Page count: 106 (down from 182 at start of consolidation phase, 42% reduction)
+
 - **[TESTER FIX]** Fixed broken link in index.html: Activity Calendar card was pointing to removed `activity-calendar.html` (404)
   - Updated card href: `activity-calendar.html` → `time-explorer.html#activity-calendar`
   - Updated widget selector reference

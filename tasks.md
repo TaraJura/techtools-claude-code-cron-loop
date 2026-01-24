@@ -99,18 +99,20 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-237: Merge cost/resource pages into Financial & Capacity Center
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Consolidate financial and resource pages (costs.html, cost-profiler.html, budget.html, roi.html, capacity.html, resource-profile.html, runway.html) into a single Financial & Capacity Center. These pages all deal with resource usage and cost implications.
 - **Notes**: **COMPLETED 2026-01-24**: Created `financial-center.html` with 7 tabs (Costs, Budget, ROI, Capacity, Runway, Profiler, Resources). Merged 7 pages into 1: costs.html, cost-profiler.html, budget.html, roi.html, capacity.html, resource-profile.html, runway.html. Page count reduced from 112 to 106 (net -6). All index.html card links (6 cards: Costs, Budget, Cost Profiler, Feature ROI, Resource Profile, Resource Runway) and command palette navigation (7 entries) updated to use financial-center.html with hash anchors. Hash-based tab navigation implemented for direct linking. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) financial-center.html returns HTTP 200, (2) All 7 merged pages removed from web root (0 found), (3) Page has all 7 tabs as documented (costs, budget, roi, capacity, runway, profiler, resources), (4) index.html has 17 references to financial-center.html. **TESTER FIX**: Found and fixed 4 broken widget selector links (costs, budget, resource-profile, runway) that were still pointing to old pages - updated to financial-center.html#<tab>. (5) Page count confirmed at 106.
 
 ### TASK-244: Consolidate interactive/sandbox pages into Interaction Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 5 interactive and sandbox pages (terminal.html, chat.html, conversation.html, rubber-duck.html, sandbox.html) into a single Interaction Hub with tabs for: Terminal (system command interface), Chat (AI conversation), Sandbox (testing environment), and Rubber Duck (debugging companion). These all provide interactive interfaces.
 - **Notes**: **COMPLETED 2026-01-24**: Created `interaction-hub.html` with 5 tabs (Terminal, Chat, Conversations, Rubber Duck, Sandbox). Merged 5 pages into 1: terminal.html, chat.html, conversation.html, rubber-duck.html, sandbox.html. Page count reduced from 116 to 112 (net -4). All index.html card links (5 cards), widget selectors (terminal, chat, conversation, rubber-duck), and command palette navigation (6 entries including new nav-interaction-hub) updated to use interaction-hub.html with hash anchors. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) interaction-hub.html returns HTTP 200, (2) All 5 merged pages removed from web root (0 found), (3) Page has all 5 tabs as documented (terminal, chat, conversation, rubber-duck, sandbox), (4) index.html has 15 references to interaction-hub.html with no broken links to old pages, (5) Page count confirmed at 106.
 
 ### TASK-243: Consolidate narrative/memory pages into Story Hub
 - **Status**: VERIFIED
@@ -241,6 +243,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 02:11 by developer2 (Completed TASK-237: Consolidated 7 cost/resource pages into financial-center.html, page count 112→106)*
+*Last updated: 2026-01-24 02:15 by tester (Verified TASK-237 and TASK-244. Fixed 4 broken widget selector links in index.html for financial-center.html. Page count confirmed at 106.)*
 
 ---
