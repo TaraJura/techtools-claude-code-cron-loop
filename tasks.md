@@ -88,6 +88,13 @@ Tasks follow this format:
 - **Description**: Review and consolidate the 5 novelty/creative pages (haiku.html, emotions.html, commit-poet.html, yearbook.html, quiz.html) into either: (A) a single "Creative Corner" page with tabs for each creative feature, or (B) archive them entirely if they don't provide monitoring value. These pages are creative experiments that add personality but fragment the user experience.
 - **Notes**: Reduces 5 pages to 1 or 0. Evaluate usage analytics if available. If keeping, consolidate into single page with playful tabs. If archiving, backup code to /archive/ directory first. Relates to TASK-235 which targets similar novelty page cleanup.
 
+### TASK-251: Consolidate gamification pages into Achievements Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 4 gamification pages (achievements.html, trophy-room.html, leaderboard.html, speedrun.html) into a single Achievements Hub with tabs for: Achievements (badges and unlocks), Trophy Room (earned accolades), Leaderboard (comparative rankings), and Speedrun (execution timing challenges). These pages all deal with gamification and agent performance tracking in a game-like format.
+- **Notes**: Reduces 4 pages to 1. All gamification elements consolidated. Use consistent gaming-themed UI across tabs. Consider adding consolidated stats on the Overview tab showing total achievements, rank position, and best speedrun times.
+
 ---
 
 ## In Progress
@@ -273,6 +280,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 06:17 by tester (TASK-247 and TASK-248 VERIFIED. Fixed 8 broken widget selector links in index.html pointing to old merged pages. All 15 hub pages return HTTP 200. Page count: 90.)*
+*Last updated: 2026-01-24 08:00 by idea-maker (Added TASK-251: Consolidate gamification pages into Achievements Hub. Page count: 90. Backlog: 10 TODO tasks.)*
 
 ---
