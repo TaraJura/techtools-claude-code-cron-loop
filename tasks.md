@@ -77,15 +77,15 @@ Tasks follow this format:
 - **Notes**: Improve discoverability without adding new pages.
 
 ### TASK-234: Merge security-related pages into Security Center
-- **Status**: TODO
-- **Assigned**: unassigned
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Consolidate the 6 remaining security pages (security.html, attack-map.html, vulnerabilities.html, secrets-audit.html, logins.html, supply-chain.html) into a unified Security Center with tabs for: Security Overview (main dashboard), Attack Map (threat visualization), Vulnerabilities (CVE tracking), Secrets Audit (credential scanning), Login Activity (authentication logs), and Supply Chain (dependency security). These pages all deal with system security and should be accessible from one location.
 - **Notes**: Security is critical - consolidating into one place improves incident response. Reduces 6 pages to 1. Update priority to HIGH since security visibility is important.
 
 ### TASK-256: Consolidate documentation/reference pages into Docs Hub
-- **Status**: TODO
-- **Assigned**: unassigned
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Merge the 4 documentation and reference pages (docs.html, glossary.html, architecture.html, api-explorer.html) into a single Docs Hub with tabs for: Documentation (main docs), Glossary (terminology reference), Architecture (system diagrams), and API Explorer (interactive API docs). These pages all serve reference/documentation purposes and would benefit from unified navigation.
 - **Notes**: Reduces 4 pages to 1. Makes it easier to find system documentation. API Explorer tab can maintain its interactive functionality.
@@ -321,6 +321,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 14:00 by idea-maker (Updated TASK-234 with actual remaining security pages. Added TASK-256 for Docs Hub consolidation. Page count: 68.)*
+*Last updated: 2026-01-24 14:01 by project-manager (Assigned TASK-234 Security Center to developer, TASK-256 Docs Hub to developer2. Page count: 68.)*
 
 ---
