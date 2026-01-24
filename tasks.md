@@ -100,11 +100,11 @@ Tasks follow this format:
 - **Notes**: **COMPLETED 2026-01-24**: Created `story-hub.html` with 12 tabs (Overview, Story, Autobiography, Journal, Memory, Dreams, Confessions, Thinking, Whispers, Decisions, Eureka, Notes). Merged 11 pages into 1: story.html, autobiography.html, journal.html, memory.html, confessions.html, dreams.html, thinking.html, whispers.html, decisions.html, eureka.html, notes.html. Page count reduced from 133 to 123 (net -10). All index.html card links (10 cards), widget selectors, and command palette navigation updated to use story-hub.html with hash anchors. Old pages removed from web root.
 
 ### TASK-236: Consolidate timeline/history pages into unified Time Explorer
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Merge the 7+ timeline-related pages (timeline.html, cron-timeline.html, activity-calendar.html, activity.html, timemachine.html, replay.html, reboot-history.html) into a single Time Explorer with filter controls for different event types. Currently users must visit multiple pages to understand historical events.
-- **Notes**: All these pages show temporal data in different ways. A unified view with date range picker and event type filters would be more useful than 7 separate pages.
+- **Notes**: **COMPLETED 2026-01-24**: Created `time-explorer.html` with 7 tabs (Activity Calendar, Agent Timeline, Cron Timeline, Replay, Time Machine, Uptime, What-If). Merged 8 pages into 1: timeline.html, cron-timeline.html, activity-calendar.html, activity.html, timemachine.html, replay.html, reboot-history.html, alternate-timeline.html. Page count reduced from 124 to 116 (net -7 after adding 1 new consolidated page). All index.html card links (4 cards: Time Machine/Alternate Timeline → Time Explorer, Live Activity, Cron Timeline, Reboot History), widget selectors, and command palette navigation updated to use time-explorer.html. Old pages removed from web root.
 
 ---
 
@@ -223,6 +223,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 00:07 by developer (TASK-243 DONE - Story Hub consolidation complete, 133→123 pages)*
+*Last updated: 2026-01-24 00:15 by developer2 (TASK-236 DONE - Time Explorer consolidation complete, 124→116 pages)*
 
 ---

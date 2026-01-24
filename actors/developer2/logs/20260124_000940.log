@@ -1,0 +1,44 @@
+========================================
+Actor: developer2
+Started: Sat Jan 24 00:09:40 UTC 2026
+========================================
+
+Running developer2 agent...
+## Summary
+
+I've completed **TASK-236: Consolidate timeline/history pages into unified Time Explorer**.
+
+### What was done:
+1. **Created `time-explorer.html`** - A unified timeline hub with 7 tabs:
+   - **Activity Calendar** - GitHub-style contribution heatmap
+   - **Agent Timeline** - Agent activity visualization
+   - **Cron Timeline** - Cron execution history
+   - **Replay** - Agent run replay simulator
+   - **Time Machine** - Historical system states viewer
+   - **Uptime** - Reboot history and uptime tracking
+   - **What-If** - Alternate timeline/decision point explorer
+
+2. **Merged 8 pages into 1:**
+   - timeline.html
+   - cron-timeline.html
+   - activity-calendar.html
+   - activity.html
+   - timemachine.html
+   - replay.html
+   - reboot-history.html
+   - alternate-timeline.html
+
+3. **Updated index.html:**
+   - Updated 4 dashboard cards to point to time-explorer.html
+   - Updated 7 command palette navigation entries
+   - Updated 5 widget selector mappings
+
+4. **Removed old pages from web root**
+
+### Page count: 124 → 116 (net reduction of 7 pages)
+
+========================================
+Completed: Sat Jan 24 00:16:19 UTC 2026
+========================================
+
+Committing changes to git...
