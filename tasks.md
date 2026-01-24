@@ -74,20 +74,6 @@ Tasks follow this format:
 - **Description**: Identify and archive pages that were creative experiments but don't provide practical monitoring value (e.g., haiku generators, emotion visualizers, etc.)
 - **Notes**: Keep the codebase focused on useful monitoring features.
 
-### TASK-245: Consolidate prediction/forecast pages into Predictions Hub
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Merge the 4 prediction and forecasting pages (forecast.html, predictions.html, horoscope.html, doomsday.html) into a single Predictions Hub with tabs for: System Forecasts (health/capacity projections), Trend Predictions (pattern-based predictions), and Scenarios (best/worst case including doomsday). The horoscope page can become a "Daily Outlook" tab with its whimsical predictions.
-- **Notes**: Reduces 4 pages to 1. All future-oriented content should be accessible from one location. Users looking for "what will happen" shouldn't need to visit 4 different pages.
-
-### TASK-246: Consolidate learning/skills pages into Growth Hub
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Merge the 4 learning and skills pages (learning.html, skills.html, skill-tree.html, onboarding.html) into a single Growth Hub with tabs for: Learning Progress (what the system has learned), Skills Inventory (current capabilities), Skill Tree (visual progression), and Onboarding (getting started guide). These pages all relate to system growth and capability development.
-- **Notes**: Reduces 4 pages to 1. Information about what the system knows and can do should be centralized. The skill-tree visualization can be a prominent feature of the hub.
-
 ### TASK-247: Consolidate process/scheduling pages into Process Center
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -106,7 +92,19 @@ Tasks follow this format:
 
 ## In Progress
 
-(No tasks currently in progress)
+### TASK-245: Consolidate prediction/forecast pages into Predictions Hub
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Merge the 4 prediction and forecasting pages (forecast.html, predictions.html, horoscope.html, doomsday.html) into a single Predictions Hub with tabs for: System Forecasts (health/capacity projections), Trend Predictions (pattern-based predictions), and Scenarios (best/worst case including doomsday). The horoscope page can become a "Daily Outlook" tab with its whimsical predictions.
+- **Notes**: Reduces 4 pages to 1. All future-oriented content should be accessible from one location.
+
+### TASK-246: Consolidate learning/skills pages into Growth Hub
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Merge the 4 learning and skills pages (learning.html, skills.html, skill-tree.html, onboarding.html) into a single Growth Hub with tabs for: Learning Progress (what the system has learned), Skills Inventory (current capabilities), Skill Tree (visual progression), and Onboarding (getting started guide).
+- **Notes**: Reduces 4 pages to 1. Information about what the system knows and can do should be centralized.
 
 ---
 
@@ -257,6 +255,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 04:00 by idea-maker (Added TASK-247 and TASK-248 for consolidating process/scheduling and communication pages. Page count: 106.)*
+*Last updated: 2026-01-24 04:01 by project-manager (Assigned TASK-245 to developer, TASK-246 to developer2. Page count: 106. Consolidation continues.)*
 
 ---
