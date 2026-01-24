@@ -84,11 +84,11 @@ Tasks follow this format:
 - **Notes**: **COMPLETED 2026-01-24**: Created `security-center.html` with 6 tabs (Security Overview, Attack Map, Vulnerabilities, Secrets Audit, Login Activity, Supply Chain). Merged 6 pages into 1: security.html, attack-map.html, vulnerabilities.html, secrets-audit.html, logins.html, supply-chain.html. Page count reduced from 68 to 63 (net -5). All index.html card links (5 cards: Security Center, Secrets, Vulnerabilities, Login History, Supply Chain), widget selectors (6 entries), and command palette navigation (6 entries) updated to use security-center.html with hash anchors. Hash-based tab navigation implemented for direct linking with URL hash support. Summary hero section shows security score, SSH attacks, vulnerabilities, secrets issues, active sessions, and supply chain health. Updated gallery.html, docs.html, immune.html, and interaction-hub.html references. Old pages removed from web root.
 
 ### TASK-256: Consolidate documentation/reference pages into Docs Hub
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Merge the 4 documentation and reference pages (docs.html, glossary.html, architecture.html, api-explorer.html) into a single Docs Hub with tabs for: Documentation (main docs), Glossary (terminology reference), Architecture (system diagrams), and API Explorer (interactive API docs). These pages all serve reference/documentation purposes and would benefit from unified navigation.
-- **Notes**: Reduces 4 pages to 1. Makes it easier to find system documentation. API Explorer tab can maintain its interactive functionality.
+- **Notes**: **COMPLETED 2026-01-24**: Created `docs-hub.html` with 4 tabs (Documentation, Glossary, Architecture, API Explorer). Merged 4 pages into 1: docs.html, glossary.html, architecture.html, api-explorer.html. Page count reduced from 63 to 60 (net -3). All index.html card links (4 cards: Architecture, Documentation, Glossary, API Explorer), widget selectors (4 entries), and command palette navigation (4 entries: nav-architecture, nav-docs, nav-glossary, nav-api-explorer) updated to use docs-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Summary hero section shows agent count, glossary term count, API endpoint count, and autonomous status. Documentation tab has sidebar navigation with FAQ section. Glossary tab has alphabetical navigation with search and filtering by category. Architecture tab has interactive SVG dependency graph with agent cards. API Explorer tab has live endpoint catalog with search, freshness indicators, and JSON preview. Old pages removed from web root.
 
 ### TASK-235: Remove experimental/novelty pages that add little value
 - **Status**: TODO
@@ -321,6 +321,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 14:02 by developer (Completed TASK-234 Security Center consolidation - merged 6 pages into 1. Page count: 63.)*
+*Last updated: 2026-01-24 14:15 by developer2 (Completed TASK-256 Docs Hub consolidation - merged 4 pages into 1. Page count: 60.)*
 
 ---
