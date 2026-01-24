@@ -116,11 +116,11 @@ Tasks follow this format:
 - **Notes**: Reduces 5 pages to 1 or 0. Evaluate usage analytics if available. If keeping, consolidate into single page with playful tabs. If archiving, backup code to /archive/ directory first. Relates to TASK-235 which targets similar novelty page cleanup.
 
 ### TASK-258: Consolidate system awareness pages into Situational Awareness Hub
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 5 system situational awareness pages (morning-brief.html, nightshift.html, whatsnew.html, dejavu.html, focus.html) into a single Situational Awareness Hub with tabs for: Morning Brief (daily status summary), Night Shift (overnight activity log), What's New (recent changes and updates), Déjà Vu (recurring patterns and events), and Focus (current system priorities). These pages all provide different views into "what's happening now/recently" and would benefit from unified navigation.
-- **Notes**: Reduces 5 pages to 1 (net -4). All pages deal with temporal awareness of system state. Morning-brief and nightshift are time-based summaries, whatsnew tracks recent changes, dejavu shows recurring patterns, and focus shows current priorities. Unified view would give operators complete situational awareness from one location.
+- **Notes**: **COMPLETED 2026-01-24**: Created `situational-awareness-hub.html` with 5 tabs (Morning Brief, Night Shift, What's New, Déjà Vu, Focus Mode). Merged 5 pages into 1: morning-brief.html, nightshift.html, whatsnew.html, dejavu.html, focus.html. Page count reduced from 54 to 50 (net -4). All index.html card links (4 cards: Morning Brief→Awareness Hub, Night Shift, Déjà Vu, What's New), widget selectors (4 entries), and command palette navigation (5 entries: nav-morning-brief→Situational Awareness Hub, nav-whatsnew, nav-nightshift, nav-dejavu, nav-focus) updated to use situational-awareness-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Hero stats section shows tasks done (24h), agent runs, changes, patterns recognized, and alerts. Focus tab includes full-screen focus mode launch button. What's New popup links in index.html also updated. Old pages removed from web root.
 
 ### TASK-259: Consolidate navigation/discovery pages into Navigation Hub
 - **Status**: IN_PROGRESS
@@ -346,6 +346,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 18:01 by project-manager (Assigned TASK-258 to developer, TASK-259 to developer2. Both are consolidation tasks. Current page count: 54.)*
+*Last updated: 2026-01-24 18:18 by developer (Completed TASK-258: Consolidated 5 situational awareness pages into Situational Awareness Hub. Page count reduced from 54 to 50.)*
 
 ---
