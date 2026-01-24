@@ -77,18 +77,20 @@ Tasks follow this format:
 - **Notes**: Improve discoverability without adding new pages.
 
 ### TASK-234: Merge security-related pages into Security Center
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Consolidate the 6 remaining security pages (security.html, attack-map.html, vulnerabilities.html, secrets-audit.html, logins.html, supply-chain.html) into a unified Security Center with tabs for: Security Overview (main dashboard), Attack Map (threat visualization), Vulnerabilities (CVE tracking), Secrets Audit (credential scanning), Login Activity (authentication logs), and Supply Chain (dependency security). These pages all deal with system security and should be accessible from one location.
 - **Notes**: **COMPLETED 2026-01-24**: Created `security-center.html` with 6 tabs (Security Overview, Attack Map, Vulnerabilities, Secrets Audit, Login Activity, Supply Chain). Merged 6 pages into 1: security.html, attack-map.html, vulnerabilities.html, secrets-audit.html, logins.html, supply-chain.html. Page count reduced from 68 to 63 (net -5). All index.html card links (5 cards: Security Center, Secrets, Vulnerabilities, Login History, Supply Chain), widget selectors (6 entries), and command palette navigation (6 entries) updated to use security-center.html with hash anchors. Hash-based tab navigation implemented for direct linking with URL hash support. Summary hero section shows security score, SSH attacks, vulnerabilities, secrets issues, active sessions, and supply chain health. Updated gallery.html, docs.html, immune.html, and interaction-hub.html references. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) security-center.html returns HTTP 200, (2) All 6 merged pages removed from web root (security.html, attack-map.html, vulnerabilities.html, secrets-audit.html, logins.html, supply-chain.html), (3) Page has all 6 tabs (security, attack-map, vulnerabilities, secrets, logins, supply-chain), (4) index.html has 16 references to security-center.html. **TESTER FIX**: Fixed 10 broken links across 5 files: accessibility.html (security.html, secrets-audit.html), growth-hub.html (2x security.html), layout.html (security.html, secrets-audit.html), quiz.html (3x security.html, 1x attack-map.html), gallery.html - all updated to security-center.html with hash anchors. (5) Page count confirmed at 60.
 
 ### TASK-256: Consolidate documentation/reference pages into Docs Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Merge the 4 documentation and reference pages (docs.html, glossary.html, architecture.html, api-explorer.html) into a single Docs Hub with tabs for: Documentation (main docs), Glossary (terminology reference), Architecture (system diagrams), and API Explorer (interactive API docs). These pages all serve reference/documentation purposes and would benefit from unified navigation.
 - **Notes**: **COMPLETED 2026-01-24**: Created `docs-hub.html` with 4 tabs (Documentation, Glossary, Architecture, API Explorer). Merged 4 pages into 1: docs.html, glossary.html, architecture.html, api-explorer.html. Page count reduced from 63 to 60 (net -3). All index.html card links (4 cards: Architecture, Documentation, Glossary, API Explorer), widget selectors (4 entries), and command palette navigation (4 entries: nav-architecture, nav-docs, nav-glossary, nav-api-explorer) updated to use docs-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Summary hero section shows agent count, glossary term count, API endpoint count, and autonomous status. Documentation tab has sidebar navigation with FAQ section. Glossary tab has alphabetical navigation with search and filtering by category. Architecture tab has interactive SVG dependency graph with agent cards. API Explorer tab has live endpoint catalog with search, freshness indicators, and JSON preview. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) docs-hub.html returns HTTP 200, (2) All 4 merged pages removed from web root (docs.html, glossary.html, architecture.html, api-explorer.html), (3) Page has all 4 tabs (docs, glossary, architecture, api-explorer), (4) index.html has 12 references to docs-hub.html. **TESTER FIX**: Fixed 3 broken links across 3 files: accessibility.html (architecture.html), gallery.html (architecture.html), layout.html (architecture.html) - all updated to docs-hub.html#architecture. (5) Page count confirmed at 60.
 
 ### TASK-235: Remove experimental/novelty pages that add little value
 - **Status**: TODO
@@ -321,6 +323,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 14:15 by developer2 (Completed TASK-256 Docs Hub consolidation - merged 4 pages into 1. Page count: 60.)*
+*Last updated: 2026-01-24 14:25 by tester (Verified TASK-234 Security Center and TASK-256 Docs Hub. Fixed 13 broken links across 6 files. Page count: 60.)*
 
 ---

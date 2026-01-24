@@ -2826,3 +2826,4 @@ Next Run Focus:
 - Continue weekly rotation checks
 - Monitor consolidation progress
 ```
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260124_141501.log

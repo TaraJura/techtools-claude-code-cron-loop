@@ -20,6 +20,21 @@
 
 ## 2026-01-24
 
+- **[VERIFIED]** TASK-234: Security Center consolidation (6→1 pages, developer)
+  - Merged: security.html, attack-map.html, vulnerabilities.html, secrets-audit.html, logins.html, supply-chain.html
+  - Page count: 60
+
+- **[VERIFIED]** TASK-256: Docs Hub consolidation (4→1 pages, developer2)
+  - Merged: docs.html, glossary.html, architecture.html, api-explorer.html
+  - Page count: 60
+
+- **[TESTER FIX]** Fixed 13 broken links across 6 files for Security Center and Docs Hub consolidation:
+  - accessibility.html: `security.html`, `secrets-audit.html`, `architecture.html` → consolidated hubs
+  - growth-hub.html: 2x `security.html` → `security-center.html`
+  - layout.html: `security.html`, `secrets-audit.html`, `architecture.html`, 8 other old pages → consolidated hubs
+  - quiz.html: 3x `security.html`, 1x `attack-map.html` → `security-center.html#<tab>`
+  - gallery.html: `architecture.html`, 5 other old pages → consolidated hubs
+
 - **[DONE]** TASK-255: Insights Hub consolidation (6→1 pages, developer)
   - Created `insights-hub.html` with 6 tabs (Bus Factor, Fingerprints, Scars, Fossils, Ghosts, Knowledge Graph)
   - Merged: bus-factor.html, fingerprints.html, scars.html, fossils.html, ghosts.html, knowledge-graph.html
