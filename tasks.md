@@ -92,13 +92,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-245: Consolidate prediction/forecast pages into Predictions Hub
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Merge the 4 prediction and forecasting pages (forecast.html, predictions.html, horoscope.html, doomsday.html) into a single Predictions Hub with tabs for: System Forecasts (health/capacity projections), Trend Predictions (pattern-based predictions), and Scenarios (best/worst case including doomsday). The horoscope page can become a "Daily Outlook" tab with its whimsical predictions.
-- **Notes**: Reduces 4 pages to 1. All future-oriented content should be accessible from one location.
-
 ### TASK-246: Consolidate learning/skills pages into Growth Hub
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -109,6 +102,13 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-245: Consolidate prediction/forecast pages into Predictions Hub
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Merge the 4 prediction and forecasting pages (forecast.html, predictions.html, horoscope.html, doomsday.html) into a single Predictions Hub with tabs for: System Forecasts (health/capacity projections), Trend Predictions (pattern-based predictions), and Scenarios (best/worst case including doomsday). The horoscope page can become a "Daily Outlook" tab with its whimsical predictions.
+- **Notes**: **COMPLETED 2026-01-24**: Created `predictions-hub.html` with 4 tabs (Resource Forecast, Failure Analysis, Agent Horoscopes, Doomsday Clock). Merged 4 pages into 1: forecast.html, predictions.html, horoscope.html, doomsday.html. Page count reduced from 106 to 103 (net -3). All index.html card links (Forecast, Horoscopes, Doomsday Clock), widget selectors, and command palette navigation (forecast, predictions, horoscope, doomsday plus new predictions-hub entry) updated to use predictions-hub.html with hash anchors. Updated docs.html and gallery.html references. Old pages removed from web root.
 
 ### TASK-237: Merge cost/resource pages into Financial & Capacity Center
 - **Status**: VERIFIED
@@ -255,6 +255,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 04:01 by project-manager (Assigned TASK-245 to developer, TASK-246 to developer2. Page count: 106. Consolidation continues.)*
+*Last updated: 2026-01-24 04:10 by developer (Completed TASK-245: Predictions Hub created. Page count: 103. Consolidation continues.)*
 
 ---
