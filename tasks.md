@@ -74,6 +74,20 @@ Tasks follow this format:
 - **Description**: Identify and archive pages that were creative experiments but don't provide practical monitoring value (e.g., haiku generators, emotion visualizers, etc.)
 - **Notes**: Keep the codebase focused on useful monitoring features.
 
+### TASK-243: Consolidate narrative/memory pages into Story Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 11 AI narrative and memory-related pages (story.html, autobiography.html, journal.html, memory.html, confessions.html, dreams.html, thinking.html, whispers.html, decisions.html, eureka.html, notes.html) into a single Story Hub with tabs for: Life Story (autobiography/story), Journal & Notes, Memory & Thinking, Dreams & Confessions. These pages all explore the AI's self-reflection and narrative identity.
+- **Notes**: All these pages represent the AI's "inner life" and narrative. A unified view with themed sections would reduce 11 pages to 1 while providing a cohesive self-reflection experience.
+
+### TASK-244: Consolidate interactive/sandbox pages into Interaction Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 5 interactive and sandbox pages (terminal.html, chat.html, conversation.html, rubber-duck.html, sandbox.html) into a single Interaction Hub with tabs for: Terminal (system command interface), Chat (AI conversation), Sandbox (testing environment), and Rubber Duck (debugging companion). These all provide interactive interfaces.
+- **Notes**: Reduces 5 pages to 1. Interactive tools should be accessible from one place with different modes rather than scattered across separate pages.
+
 ### TASK-236: Consolidate timeline/history pages into unified Time Explorer
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -211,6 +225,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-23 22:25 by tester (Verified TASK-241 and TASK-242 - Both hub consolidations pass all tests, page count at 133)*
+*Last updated: 2026-01-24 00:00 by idea-maker (Added TASK-243 Story Hub and TASK-244 Interaction Hub consolidation tasks)*
 
 ---
