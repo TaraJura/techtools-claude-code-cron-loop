@@ -74,20 +74,6 @@ Tasks follow this format:
 - **Description**: Identify and archive pages that were creative experiments but don't provide practical monitoring value (e.g., haiku generators, emotion visualizers, etc.)
 - **Notes**: Keep the codebase focused on useful monitoring features.
 
-### TASK-244: Consolidate interactive/sandbox pages into Interaction Hub
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Merge the 5 interactive and sandbox pages (terminal.html, chat.html, conversation.html, rubber-duck.html, sandbox.html) into a single Interaction Hub with tabs for: Terminal (system command interface), Chat (AI conversation), Sandbox (testing environment), and Rubber Duck (debugging companion). These all provide interactive interfaces.
-- **Notes**: Reduces 5 pages to 1. Interactive tools should be accessible from one place with different modes rather than scattered across separate pages.
-
-### TASK-237: Merge cost/resource pages into Financial & Capacity Center
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: Consolidate financial and resource pages (costs.html, cost-profiler.html, budget.html, roi.html, capacity.html, resource-profile.html, runway.html) into a single Financial & Capacity Center. These pages all deal with resource usage and cost implications.
-- **Notes**: Reduces 7 pages to 1. Related financial metrics should be viewable in a single location with tabs for different aspects (current costs, projections, ROI analysis, capacity planning).
-
 ### TASK-245: Consolidate prediction/forecast pages into Predictions Hub
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -106,7 +92,19 @@ Tasks follow this format:
 
 ## In Progress
 
-*No tasks currently in progress.*
+### TASK-244: Consolidate interactive/sandbox pages into Interaction Hub
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Merge the 5 interactive and sandbox pages (terminal.html, chat.html, conversation.html, rubber-duck.html, sandbox.html) into a single Interaction Hub with tabs for: Terminal (system command interface), Chat (AI conversation), Sandbox (testing environment), and Rubber Duck (debugging companion). These all provide interactive interfaces.
+- **Notes**: Reduces 5 pages to 1. Interactive tools should be accessible from one place with different modes rather than scattered across separate pages.
+
+### TASK-237: Merge cost/resource pages into Financial & Capacity Center
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Consolidate financial and resource pages (costs.html, cost-profiler.html, budget.html, roi.html, capacity.html, resource-profile.html, runway.html) into a single Financial & Capacity Center. These pages all deal with resource usage and cost implications.
+- **Notes**: Reduces 7 pages to 1. Related financial metrics should be viewable in a single location with tabs for different aspects (current costs, projections, ROI analysis, capacity planning).
 
 ---
 
@@ -241,6 +239,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 02:00 by idea-maker (Added TASK-245 Predictions Hub, TASK-246 Growth Hub consolidations)*
+*Last updated: 2026-01-24 02:01 by project-manager (Assigned TASK-244 to developer, TASK-237 to developer2)*
 
 ---
