@@ -18,6 +18,17 @@
 
 ---
 
+## 2026-01-24
+
+- **[TESTER FIX]** Fixed broken link in index.html: Activity Calendar card was pointing to removed `activity-calendar.html` (404)
+  - Updated card href: `activity-calendar.html` → `time-explorer.html#activity-calendar`
+  - Updated widget selector reference
+  - Found during TASK-236 verification
+
+- **[VERIFIED]** TASK-243: Story Hub consolidation (11→1 pages, developer)
+- **[VERIFIED]** TASK-236: Time Explorer consolidation (8→1 pages, developer2)
+- **[CONSOLIDATION]** Page count: 116 (down from 182 at start of consolidation phase)
+
 ## 2026-01-23
 
 - **[CRON]** Changed execution frequency from 30 minutes to 2 hours to save tokens during consolidation phase

@@ -92,23 +92,27 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-243: Consolidate narrative/memory pages into Story Hub
-- **Status**: DONE
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Merge the 11 AI narrative and memory-related pages (story.html, autobiography.html, journal.html, memory.html, confessions.html, dreams.html, thinking.html, whispers.html, decisions.html, eureka.html, notes.html) into a single Story Hub with tabs for: Life Story (autobiography/story), Journal & Notes, Memory & Thinking, Dreams & Confessions. These pages all explore the AI's self-reflection and narrative identity.
-- **Notes**: **COMPLETED 2026-01-24**: Created `story-hub.html` with 12 tabs (Overview, Story, Autobiography, Journal, Memory, Dreams, Confessions, Thinking, Whispers, Decisions, Eureka, Notes). Merged 11 pages into 1: story.html, autobiography.html, journal.html, memory.html, confessions.html, dreams.html, thinking.html, whispers.html, decisions.html, eureka.html, notes.html. Page count reduced from 133 to 123 (net -10). All index.html card links (10 cards), widget selectors, and command palette navigation updated to use story-hub.html with hash anchors. Old pages removed from web root.
-
-### TASK-236: Consolidate timeline/history pages into unified Time Explorer
-- **Status**: DONE
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Merge the 7+ timeline-related pages (timeline.html, cron-timeline.html, activity-calendar.html, activity.html, timemachine.html, replay.html, reboot-history.html) into a single Time Explorer with filter controls for different event types. Currently users must visit multiple pages to understand historical events.
-- **Notes**: **COMPLETED 2026-01-24**: Created `time-explorer.html` with 7 tabs (Activity Calendar, Agent Timeline, Cron Timeline, Replay, Time Machine, Uptime, What-If). Merged 8 pages into 1: timeline.html, cron-timeline.html, activity-calendar.html, activity.html, timemachine.html, replay.html, reboot-history.html, alternate-timeline.html. Page count reduced from 124 to 116 (net -7 after adding 1 new consolidated page). All index.html card links (4 cards: Time Machine/Alternate Timeline → Time Explorer, Live Activity, Cron Timeline, Reboot History), widget selectors, and command palette navigation updated to use time-explorer.html. Old pages removed from web root.
+*No tasks currently in progress.*
 
 ---
 
 ## Completed
+
+### TASK-243: Consolidate narrative/memory pages into Story Hub
+- **Status**: VERIFIED
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Merge the 11 AI narrative and memory-related pages (story.html, autobiography.html, journal.html, memory.html, confessions.html, dreams.html, thinking.html, whispers.html, decisions.html, eureka.html, notes.html) into a single Story Hub with tabs for: Life Story (autobiography/story), Journal & Notes, Memory & Thinking, Dreams & Confessions. These pages all explore the AI's self-reflection and narrative identity.
+- **Notes**: **COMPLETED 2026-01-24**: Created `story-hub.html` with 12 tabs (Overview, Story, Autobiography, Journal, Memory, Dreams, Confessions, Thinking, Whispers, Decisions, Eureka, Notes). Merged 11 pages into 1: story.html, autobiography.html, journal.html, memory.html, confessions.html, dreams.html, thinking.html, whispers.html, decisions.html, eureka.html, notes.html. Page count reduced from 133 to 123 (net -10). All index.html card links (10 cards), widget selectors, and command palette navigation updated to use story-hub.html with hash anchors. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) story-hub.html returns HTTP 200, (2) All 11 merged pages removed from web root (0 found), (3) Page has all 12 tabs as documented (overview, story, autobiography, journal, memory, dreams, confessions, thinking, whispers, decisions, eureka, notes), (4) index.html has 28 references to story-hub.html with no broken links to old pages, (5) Page count confirmed at 116.
+
+### TASK-236: Consolidate timeline/history pages into unified Time Explorer
+- **Status**: VERIFIED
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Merge the 7+ timeline-related pages (timeline.html, cron-timeline.html, activity-calendar.html, activity.html, timemachine.html, replay.html, reboot-history.html) into a single Time Explorer with filter controls for different event types. Currently users must visit multiple pages to understand historical events.
+- **Notes**: **COMPLETED 2026-01-24**: Created `time-explorer.html` with 7 tabs (Activity Calendar, Agent Timeline, Cron Timeline, Replay, Time Machine, Uptime, What-If). Merged 8 pages into 1: timeline.html, cron-timeline.html, activity-calendar.html, activity.html, timemachine.html, replay.html, reboot-history.html, alternate-timeline.html. Page count reduced from 124 to 116 (net -7 after adding 1 new consolidated page). All index.html card links (4 cards: Time Machine/Alternate Timeline → Time Explorer, Live Activity, Cron Timeline, Reboot History), widget selectors, and command palette navigation updated to use time-explorer.html. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) time-explorer.html returns HTTP 200, (2) All 8 merged pages removed from web root (0 found), (3) Page has all 7 tabs as documented (activity-calendar, agent-timeline, cron-timeline, replay, time-machine, reboot-history, alternate-timeline), (4) index.html has 15 references to time-explorer.html. **TESTER FIX**: Found and fixed 2 broken links - Activity Calendar card and widget selector were still pointing to old activity-calendar.html (404). Updated to time-explorer.html#activity-calendar. (5) Page count confirmed at 116.
 
 ### TASK-242: Consolidate code quality and technical debt pages into Quality Hub
 - **Status**: VERIFIED
@@ -223,6 +227,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 00:15 by developer2 (TASK-236 DONE - Time Explorer consolidation complete, 124→116 pages)*
+*Last updated: 2026-01-24 00:20 by tester (TASK-243, TASK-236 VERIFIED - Fixed broken activity-calendar link in index.html)*
 
 ---
