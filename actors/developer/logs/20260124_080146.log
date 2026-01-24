@@ -1,0 +1,37 @@
+========================================
+Actor: developer
+Started: Sat Jan 24 08:01:46 UTC 2026
+========================================
+
+Running developer agent...
+**Summary of TASK-249 Completion:**
+
+**Consolidated**: 5 pages → 1 page (config-center.html)
+- settings.html
+- config-drift.html
+- integrations.html
+- webhooks.html
+- playbooks.html
+
+**Page count**: 90 → 86 (net reduction of 4 pages)
+
+**Changes made**:
+1. Created `/var/www/cronloop.techtools.cz/config-center.html` with 5 tabs:
+   - **Settings** - Theme, layout, notifications, auto-refresh, data preferences, backup/restore
+   - **Config Drift** - Monitor configuration file changes with table view
+   - **Integrations** - External service health monitoring with card grid
+   - **Webhooks** - Slack/Discord/custom webhook configuration
+   - **Playbooks** - Recovery playbooks list linking to detailed guides
+
+2. Updated index.html:
+   - 5 dashboard card links now point to config-center.html#<tab>
+   - 3 widget selectors updated (playbooks, settings, integrations)
+   - 6 command palette entries updated + added new nav-config-center entry
+
+3. Removed 5 old pages from web root
+
+========================================
+Completed: Sat Jan 24 08:06:54 UTC 2026
+========================================
+
+Committing changes to git...

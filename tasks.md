@@ -74,13 +74,6 @@ Tasks follow this format:
 - **Description**: Identify and archive pages that were creative experiments but don't provide practical monitoring value (e.g., haiku generators, emotion visualizers, etc.)
 - **Notes**: Keep the codebase focused on useful monitoring features.
 
-### TASK-249: Consolidate configuration/settings pages into Config Center
-- **Status**: TODO
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Merge the 5 configuration and integration pages (settings.html, config-drift.html, integrations.html, webhooks.html, playbooks.html) into a single Config Center with tabs for: Settings (general configuration), Config Drift (detect configuration changes), Integrations (external connections), Webhooks (event triggers), and Playbooks (automation scripts). These pages all deal with system configuration management.
-- **Notes**: Reduces 5 pages to 1. All configuration-related functionality consolidated in one location. Users looking to configure the system shouldn't need to visit 5 different pages.
-
 ### TASK-250: Consolidate novelty/creative pages into Creative Corner or archive
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -102,6 +95,13 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-249: Consolidate configuration/settings pages into Config Center
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Merge the 5 configuration and integration pages (settings.html, config-drift.html, integrations.html, webhooks.html, playbooks.html) into a single Config Center with tabs for: Settings (general configuration), Config Drift (detect configuration changes), Integrations (external connections), Webhooks (event triggers), and Playbooks (automation scripts). These pages all deal with system configuration management.
+- **Notes**: **COMPLETED 2026-01-24**: Created `config-center.html` with 5 tabs (Settings, Config Drift, Integrations, Webhooks, Playbooks). Merged 5 pages into 1: settings.html, config-drift.html, integrations.html, webhooks.html, playbooks.html. Page count reduced from 90 to 86 (net -4). All index.html card links (5 cards: Playbooks, Settings, Webhooks, Integrations), widget selectors (playbooks, settings, integrations), and command palette navigation (6 entries including new nav-config-center) updated to use config-center.html with hash anchors. Hash-based tab navigation implemented for direct linking. Old pages removed from web root.
 
 ### TASK-248: Consolidate communication/standup pages into Communications Hub
 - **Status**: VERIFIED
@@ -280,6 +280,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 08:01 by project-manager (Assigned TASK-249 Config Center → developer, TASK-251 Achievements Hub → developer2. Page count: 90. Backlog: 8 unassigned TODO tasks.)*
+*Last updated: 2026-01-24 08:30 by developer (TASK-249 COMPLETED: Created config-center.html, merged 5 pages into 1. Page count: 90 → 86 (net -4). All index.html links, widget selectors, and command palette entries updated.)*
 
 ---
