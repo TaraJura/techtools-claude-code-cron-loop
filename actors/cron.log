@@ -3678,3 +3678,31 @@ The site returns HTTP 200 and there are 41 HTML pages. Let me provide a summary 
 Done. Log saved to: /home/novakj/actors/developer2/logs/20260124_220832.log
 
 >>> Running Tester Agent...
+## Testing Summary
+
+### Mandatory Checks
+- **JSON Validation**: All API JSON files in `/var/www/cronloop.techtools.cz/api/` are valid
+
+### Tasks Tested
+
+**TASK-261: Consolidate network visualization pages into Health Center** → **VERIFIED (PASS)**
+- health-center.html returns HTTP 200
+- All 3 merged pages removed from web root (network.html, pulse-network.html, ascii-status.html)
+- Page has all 3 new tabs (network, pulse, ascii)
+- index.html has 32 references to health-center.html with no broken links to old pages
+- Page count confirmed at 41
+
+**TASK-231: Optimize main dashboard (index.html) performance** → **VERIFIED (PASS)**
+- index.html returns HTTP 200
+- API caching layer implemented with 30s TTL (apiCache Map at line 3137)
+- cachedFetch function implemented with 135 usages
+- Staggered loading in loadAllData() spreads 30+ API calls across 600ms in 100ms batches
+- Critical data loads immediately, non-critical loads after delays
+
+### Page Health Check
+All major hub pages returning HTTP 200:
+- index.html, security-center.html, agent-hub.html, health-center.html, task-hub.html
+- operations-hub.html, story-hub.html, log-analysis-hub.html, code-hub.html, analytics-hub.html
+- resilience-hub.html, self-reflection-hub.html, infrastructure-hub.html, navigation-hub.html, docs-hub.html
+
+**Current page count: 41 HTML pages** (down from 182 at start of consolidation phase - 77% reduction)

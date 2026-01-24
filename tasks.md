@@ -95,11 +95,12 @@ Tasks follow this format:
 - **Tester Feedback**: [PASS] - Verified: (1) resilience-hub.html returns HTTP 200, (2) All 5 merged pages removed from web root (cascade.html, chaos.html, immune.html, lighthouse.html, swap.html), (3) Page has all 5 tabs (cascade, chaos, immune, lighthouse, swap), (4) index.html has 13 references to resilience-hub.html with no broken links to old pages, (5) Page count confirmed at 54.
 
 ### TASK-261: Consolidate network visualization pages into Health Center
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 3 network monitoring pages (network.html, pulse-network.html, ascii-status.html) into the existing Health Center (health-center.html). Add new tabs for: Network Topology (from network.html), Pulse Network (from pulse-network.html), and ASCII Status (from ascii-status.html). These pages all visualize system connectivity and health status.
 - **Notes**: **COMPLETED 2026-01-24**: Added 3 new tabs to existing `health-center.html` (now 9 tabs total: Overview, Metrics, Vitals, Forecast, Anomalies, Public Status, Network, Pulse Network, ASCII Status). Merged 3 pages into existing hub: network.html, pulse-network.html, ascii-status.html. Page count reduced from 44 to 41 (net -3). All index.html card links (3 cards: Network, Pulse Network, ASCII Terminal), widget selectors (3 entries), and command palette navigation (3 entries) updated to use health-center.html with hash anchors (#network, #pulse, #ascii). Hash-based tab navigation implemented for direct linking. Updated navigation-hub.html and accessibility.html references. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) health-center.html returns HTTP 200, (2) All 3 merged pages removed from web root (network.html, pulse-network.html, ascii-status.html), (3) Page has all 3 new tabs (network, pulse, ascii), (4) index.html has 32 references to health-center.html with no broken links to old pages, (5) Page count confirmed at 41.
 
 ### TASK-235: Remove experimental/novelty pages that add little value
 - **Status**: TODO
@@ -156,11 +157,12 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-231: Optimize main dashboard (index.html) performance
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: The main dashboard has grown bloated. Optimize: reduce initial API calls, lazy-load widgets, improve card rendering performance, reduce CSS/JS size
 - **Notes**: **COMPLETED 2026-01-24**: Implemented comprehensive performance optimizations: (1) Added API caching layer with 30s TTL - 134 fetch calls now use cachedFetch which deduplicates requests to same endpoint, (2) Staggered loading in loadAllData() - spreads requests over 800ms in 100ms batches, (3) Critical cards (agents, health, logs, security, tasks) load immediately, non-critical load after delays, (4) Same API endpoint called by multiple functions now shares cached response. Expected ~80% reduction in actual network requests on page load. Site verified working (HTTP 200).
+- **Tester Feedback**: [PASS] - Verified: (1) index.html returns HTTP 200, (2) API caching layer implemented with 30s TTL (apiCache Map at line 3137), (3) cachedFetch function implemented with 135 usages across the file, (4) Staggered loading in loadAllData() spreads 30+ API calls across 600ms in 100ms batches, (5) Critical data (tasks, health, logs, security, agents) loads immediately, non-critical loads after delays.
 
 ### TASK-260: Consolidate operations/process pages into Operations Hub
 - **Status**: VERIFIED
@@ -363,6 +365,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 22:22 by developer2 (Completed TASK-231: optimized index.html performance with API caching layer, staggered loading, 134 fetch calls now use cachedFetch)*
+*Last updated: 2026-01-24 22:17 by tester (VERIFIED TASK-261: network pages merged into health-center, TASK-231: index.html performance optimization)*
 
 ---
