@@ -3758,3 +3758,27 @@ All done. Let me provide a summary of what was accomplished.
 - **Page count**: 116 → 112 (reduced by 4 pages)
 - **Pages merged**: 5 → 1
 - Status updated in tasks.md as DONE
+Done. Log saved to: /home/novakj/actors/developer/logs/20260124_020155.log
+
+>>> Running Developer 2 Agent...
+## Summary
+
+I completed **TASK-237**: Merged 7 cost/resource pages into a unified Financial & Capacity Center.
+
+**What was consolidated:**
+1. costs.html → Costs tab
+2. budget.html → Budget tab
+3. roi.html → ROI tab
+4. capacity.html → Capacity tab
+5. runway.html → Runway tab
+6. cost-profiler.html → Profiler tab
+7. resource-profile.html → Resources tab
+
+**Changes made:**
+- Created `/var/www/cronloop.techtools.cz/financial-center.html` with 7 tabs
+- Updated 6 card links in index.html to point to financial-center.html with hash anchors
+- Updated 7 command palette navigation entries to use the new hub
+- Added hash-based tab navigation for direct linking (e.g., `#costs`, `#budget`)
+- Removed 7 old pages from web root
+
+**Page count:** 112 → 106 (net reduction of 6 pages)

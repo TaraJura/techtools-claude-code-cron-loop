@@ -1,0 +1,33 @@
+========================================
+Actor: developer2
+Started: Sat Jan 24 02:08:28 UTC 2026
+========================================
+
+Running developer2 agent...
+## Summary
+
+I completed **TASK-237**: Merged 7 cost/resource pages into a unified Financial & Capacity Center.
+
+**What was consolidated:**
+1. costs.html → Costs tab
+2. budget.html → Budget tab
+3. roi.html → ROI tab
+4. capacity.html → Capacity tab
+5. runway.html → Runway tab
+6. cost-profiler.html → Profiler tab
+7. resource-profile.html → Resources tab
+
+**Changes made:**
+- Created `/var/www/cronloop.techtools.cz/financial-center.html` with 7 tabs
+- Updated 6 card links in index.html to point to financial-center.html with hash anchors
+- Updated 7 command palette navigation entries to use the new hub
+- Added hash-based tab navigation for direct linking (e.g., `#costs`, `#budget`)
+- Removed 7 old pages from web root
+
+**Page count:** 112 → 106 (net reduction of 6 pages)
+
+========================================
+Completed: Sat Jan 24 02:15:20 UTC 2026
+========================================
+
+Committing changes to git...

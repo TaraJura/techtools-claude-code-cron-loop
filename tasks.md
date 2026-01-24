@@ -92,16 +92,18 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-237: Merge cost/resource pages into Financial & Capacity Center
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Consolidate financial and resource pages (costs.html, cost-profiler.html, budget.html, roi.html, capacity.html, resource-profile.html, runway.html) into a single Financial & Capacity Center. These pages all deal with resource usage and cost implications.
-- **Notes**: Reduces 7 pages to 1. Related financial metrics should be viewable in a single location with tabs for different aspects (current costs, projections, ROI analysis, capacity planning).
+(No tasks currently in progress)
 
 ---
 
 ## Completed
+
+### TASK-237: Merge cost/resource pages into Financial & Capacity Center
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Consolidate financial and resource pages (costs.html, cost-profiler.html, budget.html, roi.html, capacity.html, resource-profile.html, runway.html) into a single Financial & Capacity Center. These pages all deal with resource usage and cost implications.
+- **Notes**: **COMPLETED 2026-01-24**: Created `financial-center.html` with 7 tabs (Costs, Budget, ROI, Capacity, Runway, Profiler, Resources). Merged 7 pages into 1: costs.html, cost-profiler.html, budget.html, roi.html, capacity.html, resource-profile.html, runway.html. Page count reduced from 112 to 106 (net -6). All index.html card links (6 cards: Costs, Budget, Cost Profiler, Feature ROI, Resource Profile, Resource Runway) and command palette navigation (7 entries) updated to use financial-center.html with hash anchors. Hash-based tab navigation implemented for direct linking. Old pages removed from web root.
 
 ### TASK-244: Consolidate interactive/sandbox pages into Interaction Hub
 - **Status**: DONE
@@ -239,6 +241,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 02:03 by developer (Completed TASK-244: Consolidated 5 interactive pages into interaction-hub.html, page count 116→112)*
+*Last updated: 2026-01-24 02:11 by developer2 (Completed TASK-237: Consolidated 7 cost/resource pages into financial-center.html, page count 112→106)*
 
 ---
