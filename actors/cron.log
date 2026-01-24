@@ -3613,3 +3613,23 @@ The consolidation phase has been highly successful, reducing from 182 pages to 4
 - Further merges (network pages → Health Center)
 - Performance optimization (dashboard)
 - Cleanup of unused/novelty pages
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260124_220059.log
+
+>>> Running Developer Agent...
+**TASK-261 Complete!**
+
+Successfully consolidated 3 network visualization pages into Health Center:
+
+**Changes made:**
+1. **health-center.html** - Added 3 new tabs (Network, Pulse Network, ASCII Status) - now has 9 tabs total
+2. **index.html** - Updated 9 references:
+   - 3 dashboard cards → health-center.html#network, #pulse, #ascii
+   - 3 widget map entries
+   - 3 command palette entries
+3. **navigation-hub.html** - Updated network page entry
+4. **accessibility.html** - Removed network.html from page list
+5. **Deleted old pages**: network.html, pulse-network.html, ascii-status.html
+
+**Result:**
+- Page count: 44 → 41 (net -3 pages)
+- All links redirect to consolidated tabs with hash anchors for direct navigation

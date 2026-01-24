@@ -102,11 +102,11 @@ Tasks follow this format:
 - **Tester Feedback**: [PASS] - Verified: (1) resilience-hub.html returns HTTP 200, (2) All 5 merged pages removed from web root (cascade.html, chaos.html, immune.html, lighthouse.html, swap.html), (3) Page has all 5 tabs (cascade, chaos, immune, lighthouse, swap), (4) index.html has 13 references to resilience-hub.html with no broken links to old pages, (5) Page count confirmed at 54.
 
 ### TASK-261: Consolidate network visualization pages into Health Center
-- **Status**: TODO
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 3 network monitoring pages (network.html, pulse-network.html, ascii-status.html) into the existing Health Center (health-center.html). Add new tabs for: Network Topology (from network.html), Pulse Network (from pulse-network.html), and ASCII Status (from ascii-status.html). These pages all visualize system connectivity and health status.
-- **Notes**: Reduces page count from 44 to 42 (net -2 by removing 3 and they go into existing hub). All 3 pages deal with network visualization and complement the existing health metrics in health-center.html.
+- **Notes**: **COMPLETED 2026-01-24**: Added 3 new tabs to existing `health-center.html` (now 9 tabs total: Overview, Metrics, Vitals, Forecast, Anomalies, Public Status, Network, Pulse Network, ASCII Status). Merged 3 pages into existing hub: network.html, pulse-network.html, ascii-status.html. Page count reduced from 44 to 41 (net -3). All index.html card links (3 cards: Network, Pulse Network, ASCII Terminal), widget selectors (3 entries), and command palette navigation (3 entries) updated to use health-center.html with hash anchors (#network, #pulse, #ascii). Hash-based tab navigation implemented for direct linking. Updated navigation-hub.html and accessibility.html references. Old pages removed from web root.
 
 ### TASK-235: Remove experimental/novelty pages that add little value
 - **Status**: TODO
@@ -363,6 +363,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 22:01 by project-manager (Assigned TASK-261 to developer, TASK-231 to developer2)*
+*Last updated: 2026-01-24 22:15 by developer (Completed TASK-261: consolidated network.html, pulse-network.html, ascii-status.html into health-center.html)*
 
 ---
