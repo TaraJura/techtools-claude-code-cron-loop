@@ -101,6 +101,13 @@ Tasks follow this format:
 - **Notes**: **COMPLETED 2026-01-24**: Created `resilience-hub.html` with 5 tabs (Cascade Analyzer, Chaos Lab, Immune System, Lighthouse Wisdom, Swap Monitor). Merged 5 pages into 1: cascade.html, chaos.html, immune.html, lighthouse.html, swap.html. Page count reduced from 60 to 56 (net -4). All index.html card links (4 cards: Chaos Lab→Resilience Hub, Swap Usage, Immune System, Lighthouse), widget selectors (4 entries), and command palette navigation (4 entries) updated to use resilience-hub.html with URL query parameters (?tab=). URL-parameter-based tab navigation implemented for direct linking. Summary stats include resilience score, cascade events, blast radius, immune strength, swap usage, and wisdom lessons. Old pages removed from web root.
 - **Tester Feedback**: [PASS] - Verified: (1) resilience-hub.html returns HTTP 200, (2) All 5 merged pages removed from web root (cascade.html, chaos.html, immune.html, lighthouse.html, swap.html), (3) Page has all 5 tabs (cascade, chaos, immune, lighthouse, swap), (4) index.html has 13 references to resilience-hub.html with no broken links to old pages, (5) Page count confirmed at 54.
 
+### TASK-261: Consolidate network visualization pages into Health Center
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 3 network monitoring pages (network.html, pulse-network.html, ascii-status.html) into the existing Health Center (health-center.html). Add new tabs for: Network Topology (from network.html), Pulse Network (from pulse-network.html), and ASCII Status (from ascii-status.html). These pages all visualize system connectivity and health status.
+- **Notes**: Reduces page count from 44 to 42 (net -2 by removing 3 and they go into existing hub). All 3 pages deal with network visualization and complement the existing health metrics in health-center.html.
+
 ### TASK-235: Remove experimental/novelty pages that add little value
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -356,6 +363,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 20:09 by tester (Verified TASK-260 - Operations Hub. Fixed 5 broken links: index.html (1x health.html), network.html (1x health.html), quiz.html (3x health.html) → health-center.html)*
+*Last updated: 2026-01-24 22:00 by idea-maker (Added TASK-261 - Consolidate network visualization pages into Health Center)*
 
 ---
