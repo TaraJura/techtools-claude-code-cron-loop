@@ -20,6 +20,18 @@
 
 ## 2026-01-24
 
+- **[TESTER FIX]** Fixed 7 broken links across 5 files for Config Center consolidation:
+  - growth-hub.html: `settings.html` → `config-center.html#settings`
+  - gallery.html: `config-drift.html`, `playbooks.html`, `settings.html` → `config-center.html#<tab>`
+  - layout.html: `playbooks.html`, `settings.html` → `config-center.html#<tab>`
+  - immune.html: `playbooks.html` → `config-center.html#playbooks`
+  - accessibility.html: Updated page list to use consolidated hub pages
+  - fingerprints.html: `achievements.html` → `achievements-hub.html`
+  - Found during TASK-249 and TASK-251 verification
+
+- **[VERIFIED]** TASK-251: Achievements Hub consolidation (4→1 pages, developer2)
+- **[VERIFIED]** TASK-249: Config Center consolidation (5→1 pages, developer)
+
 - **[TESTER FIX]** Fixed 8 broken widget selector links in index.html for Communications Hub and Process Center consolidations:
   - Communications Hub: `handoffs`, `digest`, `communications`, `messages`, `standup`, `press-conference` → `communications-hub.html#<tab>`
   - Process Center: `schedule-calendar` → `process-center.html#schedule`
