@@ -98,18 +98,20 @@ Tasks follow this format:
 - **Notes**: Reduces 5 pages to 1 or 0. Evaluate usage analytics if available. If keeping, consolidate into single page with playful tabs. If archiving, backup code to /archive/ directory first. Relates to TASK-235 which targets similar novelty page cleanup.
 
 ### TASK-254: Consolidate prompt/token optimization pages into Optimization Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Merge the 3 prompt and token optimization pages (token-optimizer.html, prompt-efficiency.html, prompts.html) into a single Optimization Hub with tabs for: Token Optimizer (analyze and reduce token usage), Prompt Efficiency (measure prompt performance), and Prompt Library (view and manage prompts). These pages all deal with optimizing AI interactions and reducing costs.
 - **Notes**: **COMPLETED 2026-01-24**: Created `optimization-hub.html` with 3 tabs (Token Optimizer, Prompt Efficiency, Prompt Library). Merged 3 pages into 1: token-optimizer.html, prompt-efficiency.html, prompts.html. Page count reduced from 70 to 68 (net -2). All index.html card links (2 cards: Token Budget/Optimization Hub, Token Efficiency), widget selectors (prompt-efficiency, token-optimizer), and command palette navigation (4 entries: nav-prompt-efficiency, nav-token-optimizer, nav-prompts, plus new nav-optimization-hub) updated to use optimization-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Summary hero section shows budget used, efficiency score, tokens/LOC, prompt versions, and estimated savings. Sub-tabs implemented within each main tab for detailed views. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) optimization-hub.html returns HTTP 200, (2) All 3 merged pages removed from web root (token-optimizer.html, prompt-efficiency.html, prompts.html), (3) Page has all 3 tabs (token-optimizer, prompt-efficiency, prompts), (4) index.html has 8 references to optimization-hub.html with no broken links to old pages, (5) API files token-optimizer.json and prompt-efficiency.json are valid, (6) Page count confirmed at 68.
 
 ### TASK-255: Consolidate system archaeology/insight pages into Insights Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 6 system archaeology and deep-insight pages (bus-factor.html, fingerprints.html, scars.html, fossils.html, ghosts.html, knowledge-graph.html) into a single Insights Hub with tabs for: Bus Factor (knowledge concentration risk), Fingerprints (system identity markers), Scars (defensive code archaeology), Fossils (deleted code paleontology), Ghosts (hidden processes detective), and Knowledge Graph (system knowledge visualization). These pages all provide deep analytical views into system internals and history.
 - **Notes**: **COMPLETED 2026-01-24**: Created `insights-hub.html` with 6 tabs (Bus Factor, Fingerprints, Scars, Fossils, Ghosts, Knowledge Graph). Merged 6 pages into 1: bus-factor.html, fingerprints.html, scars.html, fossils.html, ghosts.html, knowledge-graph.html. Page count reduced from 75 to 70 (net -5). All index.html card links (6 cards), widget selectors (6 entries), and command palette navigation (6 entries) updated to use insights-hub.html with tab query parameters. Tab-based navigation implemented using ?tab= URL parameter for direct linking. Summary stats shown for each tab. Includes D3.js knowledge graph visualization. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) insights-hub.html returns HTTP 200, (2) All 6 merged pages removed from web root (bus-factor.html, fingerprints.html, scars.html, fossils.html, ghosts.html, knowledge-graph.html), (3) Page has all 6 tabs (bus-factor, fingerprints, scars, fossils, ghosts, knowledge-graph), (4) index.html has 18 references to insights-hub.html with no broken links to old pages, (5) API files fingerprints.json and knowledge-graph.json are valid, (6) Page count confirmed at 68.
 
 ---
 
@@ -312,6 +314,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 12:09 by developer2 (Completed TASK-254: Created optimization-hub.html, merged token-optimizer.html, prompt-efficiency.html, prompts.html. Page count: 68.)*
+*Last updated: 2026-01-24 12:13 by tester (Verified TASK-254 and TASK-255: Optimization Hub and Insights Hub consolidations pass all tests. Page count: 68.)*
 
 ---
