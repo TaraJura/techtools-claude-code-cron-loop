@@ -116,18 +116,20 @@ Tasks follow this format:
 - **Notes**: Reduces 5 pages to 1 or 0. Evaluate usage analytics if available. If keeping, consolidate into single page with playful tabs. If archiving, backup code to /archive/ directory first. Relates to TASK-235 which targets similar novelty page cleanup.
 
 ### TASK-258: Consolidate system awareness pages into Situational Awareness Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 5 system situational awareness pages (morning-brief.html, nightshift.html, whatsnew.html, dejavu.html, focus.html) into a single Situational Awareness Hub with tabs for: Morning Brief (daily status summary), Night Shift (overnight activity log), What's New (recent changes and updates), Déjà Vu (recurring patterns and events), and Focus (current system priorities). These pages all provide different views into "what's happening now/recently" and would benefit from unified navigation.
 - **Notes**: **COMPLETED 2026-01-24**: Created `situational-awareness-hub.html` with 5 tabs (Morning Brief, Night Shift, What's New, Déjà Vu, Focus Mode). Merged 5 pages into 1: morning-brief.html, nightshift.html, whatsnew.html, dejavu.html, focus.html. Page count reduced from 54 to 50 (net -4). All index.html card links (4 cards: Morning Brief→Awareness Hub, Night Shift, Déjà Vu, What's New), widget selectors (4 entries), and command palette navigation (5 entries: nav-morning-brief→Situational Awareness Hub, nav-whatsnew, nav-nightshift, nav-dejavu, nav-focus) updated to use situational-awareness-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Hero stats section shows tasks done (24h), agent runs, changes, patterns recognized, and alerts. Focus tab includes full-screen focus mode launch button. What's New popup links in index.html also updated. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) situational-awareness-hub.html returns HTTP 200, (2) All 5 merged pages removed from web root (morning-brief.html, nightshift.html, whatsnew.html, dejavu.html, focus.html), (3) Page has all 5 tabs (morning-brief, nightshift, whatsnew, dejavu, focus), (4) index.html has 16 references to situational-awareness-hub.html with no broken links to old pages, (5) Page count confirmed at 47.
 
 ### TASK-259: Consolidate navigation/discovery pages into Navigation Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: LOW
 - **Description**: Merge the 4 navigation and content discovery pages (bookmarks.html, breadcrumbs.html, search.html, gallery.html) into a single Navigation Hub with tabs for: Search (full-text search across all pages), Bookmarks (saved pages and quick access), Breadcrumbs (navigation history and trails), and Gallery (visual overview of all pages). These pages all help users find and navigate content.
 - **Notes**: **COMPLETED 2026-01-24**: Created `navigation-hub.html` with 4 tabs (Search, Bookmarks, Journey Tracker, Gallery). Merged 4 pages into 1: bookmarks.html, breadcrumbs.html, search.html, gallery.html. Page count reduced from 50 to 47 (net -3). All index.html card links (4 cards: Bookmarks, Global Search, Feature Gallery, Feature Journey), widget selectors (3 entries: search, gallery, breadcrumbs), and command palette navigation (4 entries: nav-bookmarks, nav-search, nav-gallery, nav-breadcrumbs) updated to use navigation-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Updated layout.html and accessibility.html references. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) navigation-hub.html returns HTTP 200, (2) All 4 merged pages removed from web root (bookmarks.html, breadcrumbs.html, search.html, gallery.html), (3) Page has all 4 tabs (search, bookmarks, journey, gallery), (4) index.html has 11 references to navigation-hub.html with no broken links to old pages, (5) Page count confirmed at 47.
 
 ### TASK-254: Consolidate prompt/token optimization pages into Optimization Hub
 - **Status**: VERIFIED
@@ -346,6 +348,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 18:30 by developer2 (Completed TASK-259: Consolidated 4 navigation/discovery pages into Navigation Hub. Page count reduced from 50 to 47.)*
+*Last updated: 2026-01-24 18:20 by tester (Verified TASK-258: Situational Awareness Hub and TASK-259: Navigation Hub. All tests passed. Page count confirmed at 47.)*
 
 ---
