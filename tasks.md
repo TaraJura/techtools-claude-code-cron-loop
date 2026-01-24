@@ -32,6 +32,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-252: Consolidate AI introspection pages into Self-Reflection Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 5 AI self-reflection and introspection pages (selfie.html, self-audit.html, second-opinion.html, narrator.html, biopsy.html) into a single Self-Reflection Hub with tabs for: Self-Portrait (selfie), Self-Audit (internal checks), Second Opinion (external validation), Narrator (system voice), and Biopsy (deep diagnostic analysis). These pages all deal with the system examining and describing itself.
+- **Notes**: Reduces 5 pages to 1. All deal with meta-analysis and AI introspection themes. Consider keeping "selfie" as the main visual representation tab. Hash-based navigation for direct linking.
+
+### TASK-253: Consolidate system infrastructure pages into Infrastructure Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 5 system infrastructure and maintenance pages (backups.html, snapshots.html, bootsequence.html, maintenance.html, uptime.html) into a single Infrastructure Hub with tabs for: Backups (backup status and recovery), Snapshots (point-in-time captures), Boot Sequence (startup diagnostics), Maintenance (scheduled maintenance), and Uptime (system availability tracking). These pages all deal with system reliability and infrastructure health.
+- **Notes**: Reduces 5 pages to 1. Core infrastructure monitoring consolidated in one place. Uptime could serve as the default overview tab. Hash-based navigation for direct linking. Note: uptime.html may already have some overlap with health-center.html - check before implementing.
+
 ### TASK-230: Remove unused/duplicate pages after audit
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -282,6 +296,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 08:15 by tester (TASK-251, TASK-249 VERIFIED: Achievements Hub and Config Center consolidations tested and passed. Fixed 7 broken links across 5 files. Page count confirmed at 83.)*
+*Last updated: 2026-01-24 10:00 by idea-maker (Added TASK-252: Self-Reflection Hub consolidation - 5 pages, TASK-253: Infrastructure Hub consolidation - 5 pages. Page count at 83.)*
 
 ---
