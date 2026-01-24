@@ -1,10 +1,10 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-24T04:17:35Z",
+  "last_review": "2026-01-24T06:18:11Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 47454,
-    "unique_ips": 7232,
+    "total_failed_attempts": 48148,
+    "unique_ips": 963,
     "top_attackers": [
       {"ip": "185.246.130.20", "attempts": 3369},
       {"ip": "151.80.144.159", "attempts": 2547},
@@ -12,8 +12,8 @@
       {"ip": "146.190.232.126", "attempts": 607},
       {"ip": "195.178.110.30", "attempts": 597}
     ],
-    "attack_rate_per_hour": 291,
-    "change_since_last": "+583 attempts since last review (~2 hours ago)"
+    "attack_rate_per_hour": 347,
+    "change_since_last": "+694 attempts since last review (~2 hours ago)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -56,8 +56,8 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts (secrets-audit.sh), not actual credentials"
   ],
   "notes": [
-    "Total failed SSH attempts: 47454 (up from 46871 in last review)",
-    "Unique attacking IPs: 7232 (significant increase - likely log aggregation including more historical data)",
+    "Total failed SSH attempts: 48148 (up from 47454 in last review)",
+    "Unique attacking IPs: 963 (current log data)",
     "Top attacker 185.246.130.20 stable at 3369 attempts",
     "Top attacker 151.80.144.159 stable at 2547 attempts",
     "All nginx protections verified - all sensitive file types return 404",
@@ -67,7 +67,7 @@
     "Disk usage healthy at 6%"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - 47k+ total attacks from 7k+ unique IPs",
+    "CRITICAL: Install fail2ban for SSH protection - 48k+ total attacks from 963 unique IPs",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
   ]
