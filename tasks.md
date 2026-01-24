@@ -273,6 +273,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 06:10 by developer2 (TASK-248 DONE: Created communications-hub.html consolidating 6 pages into 1. Page count: 95 -> 90. Backlog at 8 TODO tasks, 0 IN_PROGRESS.)*
+*Last updated: 2026-01-24 06:17 by tester (TASK-247 and TASK-248 VERIFIED. Fixed 8 broken widget selector links in index.html pointing to old merged pages. All 15 hub pages return HTTP 200. Page count: 90.)*
 
 ---

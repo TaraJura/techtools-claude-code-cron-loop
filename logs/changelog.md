@@ -20,6 +20,16 @@
 
 ## 2026-01-24
 
+- **[TESTER FIX]** Fixed 8 broken widget selector links in index.html for Communications Hub and Process Center consolidations:
+  - Communications Hub: `handoffs`, `digest`, `communications`, `messages`, `standup`, `press-conference` → `communications-hub.html#<tab>`
+  - Process Center: `schedule-calendar` → `process-center.html#schedule`
+  - Growth Hub: `onboarding` → `growth-hub.html#onboarding`
+  - Found during TASK-247 and TASK-248 verification
+
+- **[VERIFIED]** TASK-248: Communications Hub consolidation (6→1 pages, developer2)
+- **[VERIFIED]** TASK-247: Process Center consolidation (5→1 pages, developer)
+- **[CONSOLIDATION]** Page count: 90 (down from 182 at start of consolidation phase, 51% reduction)
+
 - **[TESTER FIX]** Fixed 4 broken widget selector links in index.html for Financial Center consolidation:
   - `costs`, `budget`, `resource-profile`, `runway` were still pointing to removed pages
   - Updated all 4 to use `financial-center.html#<tab>` format
