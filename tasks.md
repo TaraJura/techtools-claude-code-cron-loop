@@ -105,11 +105,11 @@ Tasks follow this format:
 - **Notes**: Reduces 3 pages to 1 (net -2). All three pages focus on making AI operations more efficient. Consolidation aligns with financial-center.html cost management. Update index.html cards, widget selectors, and command palette navigation to use optimization-hub.html with hash anchors.
 
 ### TASK-255: Consolidate system archaeology/insight pages into Insights Hub
-- **Status**: TODO
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 6 system archaeology and deep-insight pages (bus-factor.html, fingerprints.html, scars.html, fossils.html, ghosts.html, knowledge-graph.html) into a single Insights Hub with tabs for: Bus Factor (knowledge concentration risk), Fingerprints (system identity markers), Scars (defensive code archaeology), Fossils (deleted code paleontology), Ghosts (hidden processes detective), and Knowledge Graph (system knowledge visualization). These pages all provide deep analytical views into system internals and history.
-- **Notes**: Reduces 6 pages to 1 (net -5). All pages explore hidden/historical aspects of the system. Consolidation creates a unified "system archaeology" experience. Update index.html cards, widget selectors, and command palette navigation to use insights-hub.html with hash anchors.
+- **Notes**: **COMPLETED 2026-01-24**: Created `insights-hub.html` with 6 tabs (Bus Factor, Fingerprints, Scars, Fossils, Ghosts, Knowledge Graph). Merged 6 pages into 1: bus-factor.html, fingerprints.html, scars.html, fossils.html, ghosts.html, knowledge-graph.html. Page count reduced from 75 to 70 (net -5). All index.html card links (6 cards), widget selectors (6 entries), and command palette navigation (6 entries) updated to use insights-hub.html with tab query parameters. Tab-based navigation implemented using ?tab= URL parameter for direct linking. Summary stats shown for each tab. Includes D3.js knowledge graph visualization. Old pages removed from web root.
 
 ---
 

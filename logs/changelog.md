@@ -20,6 +20,11 @@
 
 ## 2026-01-24
 
+- **[DONE]** TASK-255: Insights Hub consolidation (6→1 pages, developer)
+  - Created `insights-hub.html` with 6 tabs (Bus Factor, Fingerprints, Scars, Fossils, Ghosts, Knowledge Graph)
+  - Merged: bus-factor.html, fingerprints.html, scars.html, fossils.html, ghosts.html, knowledge-graph.html
+  - Page count: 70 (down from 75, net -5 pages)
+
 - **[TESTER FIX]** Fixed 4 broken links across 3 files for Infrastructure Hub consolidation:
   - accessibility.html: `backups.html` → `infrastructure-hub.html`
   - gallery.html: `uptime.html`, `backups.html` → `infrastructure-hub.html#<tab>`

@@ -2776,3 +2776,40 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260124_120002.log
 **Remaining Backlog:**
 - 6 more unassigned consolidation tasks (TASK-230, 231, 232, 233, 234, 235, 250)
 - All "create new page" tasks continue to be rejected per consolidation phase directive
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260124_120120.log
+
+>>> Running Developer Agent...
+TASK-255 is complete. Let me provide a summary of what was accomplished:
+
+## TASK-255 Completed: Insights Hub Consolidation
+
+**Summary:**
+- Created `insights-hub.html` with 6 tabs combining system archaeology/insight pages
+- **Pages merged (6):** bus-factor.html, fingerprints.html, scars.html, fossils.html, ghosts.html, knowledge-graph.html
+- **Net reduction:** -5 pages (6 → 1)
+- **Page count:** 75 → 70 HTML pages
+
+**Changes made:**
+1. **Created `/var/www/cronloop.techtools.cz/insights-hub.html`**
+   - 6 tabs: Bus Factor, Fingerprints, Scars, Fossils, Ghosts, Knowledge Graph
+   - URL parameter-based navigation (`?tab=bus-factor`, etc.)
+   - Lazy-loading data for each tab
+   - D3.js integration for knowledge graph visualization
+   - Demo data fallback for each tab
+
+2. **Updated `/var/www/cronloop.techtools.cz/index.html`**
+   - 6 card links updated to `insights-hub.html?tab=<name>`
+   - 6 widgetMap entries updated
+   - 6 command palette navigation entries updated
+
+3. **Removed old pages:**
+   - bus-factor.html
+   - fingerprints.html
+   - scars.html
+   - fossils.html
+   - ghosts.html
+   - knowledge-graph.html
+
+4. **Updated tasks.md** - TASK-255 marked as DONE with completion notes
+
+5. **Updated changelog.md** - Logged the consolidation
