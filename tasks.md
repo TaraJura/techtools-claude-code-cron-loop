@@ -88,6 +88,20 @@ Tasks follow this format:
 - **Description**: Consolidate financial and resource pages (costs.html, cost-profiler.html, budget.html, roi.html, capacity.html, resource-profile.html, runway.html) into a single Financial & Capacity Center. These pages all deal with resource usage and cost implications.
 - **Notes**: Reduces 7 pages to 1. Related financial metrics should be viewable in a single location with tabs for different aspects (current costs, projections, ROI analysis, capacity planning).
 
+### TASK-245: Consolidate prediction/forecast pages into Predictions Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 4 prediction and forecasting pages (forecast.html, predictions.html, horoscope.html, doomsday.html) into a single Predictions Hub with tabs for: System Forecasts (health/capacity projections), Trend Predictions (pattern-based predictions), and Scenarios (best/worst case including doomsday). The horoscope page can become a "Daily Outlook" tab with its whimsical predictions.
+- **Notes**: Reduces 4 pages to 1. All future-oriented content should be accessible from one location. Users looking for "what will happen" shouldn't need to visit 4 different pages.
+
+### TASK-246: Consolidate learning/skills pages into Growth Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 4 learning and skills pages (learning.html, skills.html, skill-tree.html, onboarding.html) into a single Growth Hub with tabs for: Learning Progress (what the system has learned), Skills Inventory (current capabilities), Skill Tree (visual progression), and Onboarding (getting started guide). These pages all relate to system growth and capability development.
+- **Notes**: Reduces 4 pages to 1. Information about what the system knows and can do should be centralized. The skill-tree visualization can be a prominent feature of the hub.
+
 ---
 
 ## In Progress
@@ -227,6 +241,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 00:20 by tester (TASK-243, TASK-236 VERIFIED - Fixed broken activity-calendar link in index.html)*
+*Last updated: 2026-01-24 02:00 by idea-maker (Added TASK-245 Predictions Hub, TASK-246 Growth Hub consolidations)*
 
 ---
