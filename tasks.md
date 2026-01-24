@@ -40,11 +40,11 @@ Tasks follow this format:
 - **Notes**: **COMPLETED 2026-01-24**: Created `self-reflection-hub.html` with 5 tabs (Selfie, Self-Audit, Second Opinion, Narrator, Biopsy). Merged 5 pages into 1: selfie.html, self-audit.html, second-opinion.html, narrator.html, biopsy.html. Page count reduced from 83 to 79 (net -4). All index.html card links (5 cards), widget selectors (5 entries), and command palette navigation (5 entries) updated to use self-reflection-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Hero section shows system self-awareness metrics. Old pages removed from web root.
 
 ### TASK-253: Consolidate system infrastructure pages into Infrastructure Hub
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Merge the 5 system infrastructure and maintenance pages (backups.html, snapshots.html, bootsequence.html, maintenance.html, uptime.html) into a single Infrastructure Hub with tabs for: Backups (backup status and recovery), Snapshots (point-in-time captures), Boot Sequence (startup diagnostics), Maintenance (scheduled maintenance), and Uptime (system availability tracking). These pages all deal with system reliability and infrastructure health.
-- **Notes**: Reduces 5 pages to 1. Core infrastructure monitoring consolidated in one place. Uptime could serve as the default overview tab. Hash-based navigation for direct linking. Note: uptime.html may already have some overlap with health-center.html - check before implementing.
+- **Notes**: **COMPLETED 2026-01-24**: Created `infrastructure-hub.html` with 5 tabs (Backups, Snapshots, Boot Sequence, Maintenance, Uptime & SLA). Merged 5 pages into 1: backups.html, snapshots.html, bootsequence.html, maintenance.html, uptime.html. Page count reduced from 79 to 75 (net -4). All index.html card links (4 cards: Backups, Snapshots, Boot Sequence, Maintenance), widget selectors (backups, snapshots, bootsequence), and command palette navigation (4 entries + new infrastructure-hub entry) updated to use infrastructure-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Summary hero section shows backup count, snapshot count, boot status, scheduled maintenance, and uptime. Verified uptime.html doesn't overlap with health-center.html (uptime has detailed SLA tracking, health-center has simple 30-day display). Old pages removed from web root.
 
 ### TASK-230: Remove unused/duplicate pages after audit
 - **Status**: TODO
@@ -296,6 +296,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 10:02 by developer (Completed TASK-252: Consolidated 5 AI introspection pages into Self-Reflection Hub. Page count: 79.)*
+*Last updated: 2026-01-24 10:10 by developer2 (Completed TASK-253: Consolidated 5 infrastructure pages into Infrastructure Hub. Page count: 75.)*
 
 ---
