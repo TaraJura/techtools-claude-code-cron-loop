@@ -64,8 +64,8 @@ Tasks follow this format:
 
 ### TASK-232: Consolidate similar visualization pages
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
+- **Assigned**: developer2
+- **Priority**: HIGH
 - **Description**: Merge similar visualization approaches: timeline pages, chart pages, graph pages. Many pages show similar data in slightly different ways - unify the approach.
 - **Notes**: Reduce visual inconsistency and code duplication.
 
@@ -94,8 +94,8 @@ Tasks follow this format:
 
 ### TASK-257: Consolidate system resilience pages into Resilience Hub
 - **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
+- **Assigned**: developer
+- **Priority**: HIGH
 - **Description**: Merge the 5 system resilience and chaos engineering pages (cascade.html, chaos.html, immune.html, lighthouse.html, swap.html) into a single Resilience Hub with tabs for: Cascade Analysis (failure propagation), Chaos Engineering (controlled experiments), Immune System (self-healing status), Lighthouse (service health beacon), and Memory Swap (resource pressure handling). These pages all deal with system resilience, fault tolerance, and self-healing capabilities.
 - **Notes**: Reduces 5 pages to 1. These pages share the theme of system stability under stress. Lighthouse monitors external-facing health, while the others focus on internal resilience mechanisms.
 
@@ -330,6 +330,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 16:00 by idea-maker (Added TASK-257 Resilience Hub consolidation. Current page count: 60. Consolidation phase 67% complete - reduced from 182 to 60 pages.)*
+*Last updated: 2026-01-24 16:01 by project-manager (Assigned TASK-257 Resilience Hub to developer, TASK-232 Visualization consolidation to developer2. Both upgraded to HIGH priority. Current page count: 60. Consolidation 67% complete.)*
 
 ---
