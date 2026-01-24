@@ -93,11 +93,11 @@ Tasks follow this format:
 ## In Progress
 
 ### TASK-243: Consolidate narrative/memory pages into Story Hub
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 11 AI narrative and memory-related pages (story.html, autobiography.html, journal.html, memory.html, confessions.html, dreams.html, thinking.html, whispers.html, decisions.html, eureka.html, notes.html) into a single Story Hub with tabs for: Life Story (autobiography/story), Journal & Notes, Memory & Thinking, Dreams & Confessions. These pages all explore the AI's self-reflection and narrative identity.
-- **Notes**: All these pages represent the AI's "inner life" and narrative. A unified view with themed sections would reduce 11 pages to 1 while providing a cohesive self-reflection experience.
+- **Notes**: **COMPLETED 2026-01-24**: Created `story-hub.html` with 12 tabs (Overview, Story, Autobiography, Journal, Memory, Dreams, Confessions, Thinking, Whispers, Decisions, Eureka, Notes). Merged 11 pages into 1: story.html, autobiography.html, journal.html, memory.html, confessions.html, dreams.html, thinking.html, whispers.html, decisions.html, eureka.html, notes.html. Page count reduced from 133 to 123 (net -10). All index.html card links (10 cards), widget selectors, and command palette navigation updated to use story-hub.html with hash anchors. Old pages removed from web root.
 
 ### TASK-236: Consolidate timeline/history pages into unified Time Explorer
 - **Status**: IN_PROGRESS
@@ -223,6 +223,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 00:01 by project-manager (Assigned TASK-243 to developer, TASK-236 to developer2)*
+*Last updated: 2026-01-24 00:07 by developer (TASK-243 DONE - Story Hub consolidation complete, 133→123 pages)*
 
 ---
