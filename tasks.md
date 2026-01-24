@@ -57,7 +57,7 @@ Tasks follow this format:
 
 ### TASK-231: Optimize main dashboard (index.html) performance
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: The main dashboard has grown bloated. Optimize: reduce initial API calls, lazy-load widgets, improve card rendering performance, reduce CSS/JS size
 - **Notes**: Performance improvement, not new features.
@@ -103,7 +103,7 @@ Tasks follow this format:
 
 ### TASK-261: Consolidate network visualization pages into Health Center
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 3 network monitoring pages (network.html, pulse-network.html, ascii-status.html) into the existing Health Center (health-center.html). Add new tabs for: Network Topology (from network.html), Pulse Network (from pulse-network.html), and ASCII Status (from ascii-status.html). These pages all visualize system connectivity and health status.
 - **Notes**: Reduces page count from 44 to 42 (net -2 by removing 3 and they go into existing hub). All 3 pages deal with network visualization and complement the existing health metrics in health-center.html.
@@ -363,6 +363,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 22:00 by idea-maker (Added TASK-261 - Consolidate network visualization pages into Health Center)*
+*Last updated: 2026-01-24 22:01 by project-manager (Assigned TASK-261 to developer, TASK-231 to developer2)*
 
 ---
