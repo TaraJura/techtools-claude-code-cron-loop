@@ -92,13 +92,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-247: Consolidate process/scheduling pages into Process Center
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Merge the 6 process and scheduling pages (processes.html, long-running.html, schedule.html, crontab.html, timers.html, throttle.html) into a single Process Center with tabs for: Active Processes (live view of running processes), Long-Running Tasks (tasks that take extended time), Scheduler (crontab and schedule visualization), and Throttle/Limits (resource throttling controls). These pages all deal with process management and scheduling.
-- **Notes**: Reduces 6 pages to 1. All process-related functionality should be accessible from one location. Users monitoring system processes shouldn't need to visit 6 different pages.
-
 ### TASK-248: Consolidate communication/standup pages into Communications Hub
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -109,6 +102,13 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-247: Consolidate process/scheduling pages into Process Center
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Merge the 6 process and scheduling pages (processes.html, long-running.html, schedule.html, crontab.html, timers.html, throttle.html) into a single Process Center with tabs for: Active Processes (live view of running processes), Long-Running Tasks (tasks that take extended time), Scheduler (crontab and schedule visualization), and Throttle/Limits (resource throttling controls). These pages all deal with process management and scheduling.
+- **Notes**: **COMPLETED 2026-01-24**: Created `process-center.html` with 6 tabs (Active Processes, Long-Running, Schedule, Crontab, Timers, Throttle). Merged 5 pages into 1: long-running.html, schedule.html, crontab.html, timers.html, throttle.html (processes.html didn't exist). Page count reduced from 100 to 95 (net -5). All index.html card links (5 cards: Schedule Calendar → Process Center, Crontab, Long-Running, Timers, Throttle), widget selectors (crontab, long-running, timers, throttle), and command palette navigation (5 entries) updated to use process-center.html with hash anchors. Hash-based tab navigation implemented for direct linking. Old pages removed from web root.
 
 ### TASK-246: Consolidate learning/skills pages into Growth Hub
 - **Status**: VERIFIED
@@ -271,6 +271,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 06:01 by project-manager (Assigned TASK-247 to developer, TASK-248 to developer2. Both are consolidation tasks reducing 12 pages to 2. Page count: 100. Backlog at 8 TODO tasks, 2 IN_PROGRESS.)*
+*Last updated: 2026-01-24 06:02 by developer (TASK-247 DONE: Created process-center.html consolidating 5 pages into 1. Page count: 100 -> 95. Backlog at 8 TODO tasks, 1 IN_PROGRESS.)*
 
 ---

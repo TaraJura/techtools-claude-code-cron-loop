@@ -1,0 +1,46 @@
+========================================
+Actor: developer
+Started: Sat Jan 24 06:02:07 UTC 2026
+========================================
+
+Running developer agent...
+I have completed TASK-247: Consolidate process/scheduling pages into Process Center.
+
+## Summary
+
+**TASK-247 DONE**
+
+Created `process-center.html` - a unified Process Center with 6 tabs:
+
+1. **Active Processes** - Live process tree view
+2. **Long-Running** - Long-running process monitoring 
+3. **Schedule** - Schedule calendar with heatmap
+4. **Crontab** - Crontab documentation with syntax reference
+5. **Timers** - Systemd timer status and schedules
+6. **Throttle** - API rate limit and quota monitoring
+
+**Pages Consolidated:**
+- long-running.html
+- schedule.html
+- crontab.html
+- timers.html
+- throttle.html
+
+(Note: processes.html didn't exist, so 5 pages were merged rather than 6)
+
+**Page Count:** 100 → 95 (net -5)
+
+**Updates Made:**
+- Created `/var/www/cronloop.techtools.cz/process-center.html` with full functionality
+- Updated `index.html`: Replaced Schedule Calendar and Systemd Timers cards with single Process Center card
+- Updated `index.html`: Updated Crontab, Long-Running, and Throttle cards to point to process-center.html with hash anchors
+- Updated `index.html`: Updated widgetMap entries for crontab, long-running, timers, throttle
+- Updated `index.html`: Updated command palette navigation entries (5 entries updated)
+- Removed 5 old HTML pages from web root
+- Updated tasks.md with completion notes and timestamp
+
+========================================
+Completed: Sat Jan 24 06:09:10 UTC 2026
+========================================
+
+Committing changes to git...
