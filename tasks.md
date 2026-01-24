@@ -92,6 +92,13 @@ Tasks follow this format:
 - **Notes**: **COMPLETED 2026-01-24**: Created `docs-hub.html` with 4 tabs (Documentation, Glossary, Architecture, API Explorer). Merged 4 pages into 1: docs.html, glossary.html, architecture.html, api-explorer.html. Page count reduced from 63 to 60 (net -3). All index.html card links (4 cards: Architecture, Documentation, Glossary, API Explorer), widget selectors (4 entries), and command palette navigation (4 entries: nav-architecture, nav-docs, nav-glossary, nav-api-explorer) updated to use docs-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Summary hero section shows agent count, glossary term count, API endpoint count, and autonomous status. Documentation tab has sidebar navigation with FAQ section. Glossary tab has alphabetical navigation with search and filtering by category. Architecture tab has interactive SVG dependency graph with agent cards. API Explorer tab has live endpoint catalog with search, freshness indicators, and JSON preview. Old pages removed from web root.
 - **Tester Feedback**: [PASS] - Verified: (1) docs-hub.html returns HTTP 200, (2) All 4 merged pages removed from web root (docs.html, glossary.html, architecture.html, api-explorer.html), (3) Page has all 4 tabs (docs, glossary, architecture, api-explorer), (4) index.html has 12 references to docs-hub.html. **TESTER FIX**: Fixed 3 broken links across 3 files: accessibility.html (architecture.html), gallery.html (architecture.html), layout.html (architecture.html) - all updated to docs-hub.html#architecture. (5) Page count confirmed at 60.
 
+### TASK-257: Consolidate system resilience pages into Resilience Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 5 system resilience and chaos engineering pages (cascade.html, chaos.html, immune.html, lighthouse.html, swap.html) into a single Resilience Hub with tabs for: Cascade Analysis (failure propagation), Chaos Engineering (controlled experiments), Immune System (self-healing status), Lighthouse (service health beacon), and Memory Swap (resource pressure handling). These pages all deal with system resilience, fault tolerance, and self-healing capabilities.
+- **Notes**: Reduces 5 pages to 1. These pages share the theme of system stability under stress. Lighthouse monitors external-facing health, while the others focus on internal resilience mechanisms.
+
 ### TASK-235: Remove experimental/novelty pages that add little value
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -323,6 +330,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 14:25 by tester (Verified TASK-234 Security Center and TASK-256 Docs Hub. Fixed 13 broken links across 6 files. Page count: 60.)*
+*Last updated: 2026-01-24 16:00 by idea-maker (Added TASK-257 Resilience Hub consolidation. Current page count: 60. Consolidation phase 67% complete - reduced from 182 to 60 pages.)*
 
 ---
