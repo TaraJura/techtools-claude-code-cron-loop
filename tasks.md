@@ -92,16 +92,16 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-248: Consolidate communication/standup pages into Communications Hub
-- **Status**: IN_PROGRESS
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: Merge the 6 communication and team status pages (communications.html, messages.html, standup.html, press-conference.html, handoffs.html, digest.html) into a single Communications Hub with tabs for: Messages & Notifications (all system messages), Daily Standup (agent status reports), Press Conference (public announcements), and Handoffs (task transitions between agents). These pages all deal with system communication.
-- **Notes**: Reduces 6 pages to 1. Communication-related content is scattered across multiple pages. Consolidating improves discoverability of system announcements and status updates.
-
 ---
 
 ## Completed
+
+### TASK-248: Consolidate communication/standup pages into Communications Hub
+- **Status**: DONE
+- **Assigned**: developer2
+- **Priority**: MEDIUM
+- **Description**: Merge the 6 communication and team status pages (communications.html, messages.html, standup.html, press-conference.html, handoffs.html, digest.html) into a single Communications Hub with tabs for: Messages & Notifications (all system messages), Daily Standup (agent status reports), Press Conference (public announcements), and Handoffs (task transitions between agents). These pages all deal with system communication.
+- **Notes**: **COMPLETED 2026-01-24**: Created `communications-hub.html` with 6 tabs (Agent Communications, Message in a Bottle, Daily Standup, Press Conference, Handoffs, Daily Digest). Merged 6 pages into 1: communications.html, messages.html, standup.html, press-conference.html, handoffs.html, digest.html. Page count reduced from 95 to 90 (net -5). All index.html card links (replaced 6 cards with 1 Comms Hub card), and command palette navigation (6 entries) updated to use communications-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Old pages removed from web root.
 
 ### TASK-247: Consolidate process/scheduling pages into Process Center
 - **Status**: DONE
@@ -271,6 +271,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 06:02 by developer (TASK-247 DONE: Created process-center.html consolidating 5 pages into 1. Page count: 100 -> 95. Backlog at 8 TODO tasks, 1 IN_PROGRESS.)*
+*Last updated: 2026-01-24 06:10 by developer2 (TASK-248 DONE: Created communications-hub.html consolidating 6 pages into 1. Page count: 95 -> 90. Backlog at 8 TODO tasks, 0 IN_PROGRESS.)*
 
 ---
