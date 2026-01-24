@@ -2683,3 +2683,39 @@ Testing complete. Let me provide a summary.
 | gallery.html | uptime.html | infrastructure-hub.html#uptime |
 | gallery.html | backups.html | infrastructure-hub.html#backups |
 | layout.html | backups.html | infrastructure-hub.html#backups |
+Done. Log saved to: /home/novakj/actors/tester/logs/20260124_101455.log
+
+>>> Running Security Agent...
+Security review complete.
+
+## Security Review Summary
+
+**Status: SECURE** ✓
+
+### Web Protections (All Passing)
+- All sensitive file types blocked with 404: `.git`, `.env`, `.sh`, `.py`, `.log`, `.md`
+- Path traversal attacks blocked (direct: 404, URL-encoded: 400)
+- No symlinks or sensitive files in webroot
+- No secrets exposed in JS files
+
+### File Permissions (Correct)
+- `CLAUDE.md`: 664 ✓
+- `.ssh/`: 700 ✓  
+- `id_ed25519`: 600 ✓
+
+### SSH Attack Activity
+- **Total failed attempts**: 50,357 (+1,368 since last review)
+- **Unique attacking IPs**: 7,538 (+124)
+- **Attack rate**: ~684/hour (increased from 420/hour)
+- Top attackers: 185.246.130.20 (3038), 151.80.144.159 (2004)
+
+### Disk Usage
+- 6% - healthy
+
+### Recommendations
+The SSH attack volume continues to grow. The critical recommendation remains:
+- **Install fail2ban** to auto-ban repeat offenders (50k+ attacks from 7500+ IPs)
+- Enable UFW firewall
+- Consider web rate limiting
+
+No security incidents detected. All nginx protections verified. Status updated to `status/security.json`.
