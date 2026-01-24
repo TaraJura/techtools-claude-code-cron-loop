@@ -93,11 +93,11 @@ Tasks follow this format:
 - **Tester Feedback**: [PASS] - Verified: (1) docs-hub.html returns HTTP 200, (2) All 4 merged pages removed from web root (docs.html, glossary.html, architecture.html, api-explorer.html), (3) Page has all 4 tabs (docs, glossary, architecture, api-explorer), (4) index.html has 12 references to docs-hub.html. **TESTER FIX**: Fixed 3 broken links across 3 files: accessibility.html (architecture.html), gallery.html (architecture.html), layout.html (architecture.html) - all updated to docs-hub.html#architecture. (5) Page count confirmed at 60.
 
 ### TASK-257: Consolidate system resilience pages into Resilience Hub
-- **Status**: TODO
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Merge the 5 system resilience and chaos engineering pages (cascade.html, chaos.html, immune.html, lighthouse.html, swap.html) into a single Resilience Hub with tabs for: Cascade Analysis (failure propagation), Chaos Engineering (controlled experiments), Immune System (self-healing status), Lighthouse (service health beacon), and Memory Swap (resource pressure handling). These pages all deal with system resilience, fault tolerance, and self-healing capabilities.
-- **Notes**: Reduces 5 pages to 1. These pages share the theme of system stability under stress. Lighthouse monitors external-facing health, while the others focus on internal resilience mechanisms.
+- **Notes**: **COMPLETED 2026-01-24**: Created `resilience-hub.html` with 5 tabs (Cascade Analyzer, Chaos Lab, Immune System, Lighthouse Wisdom, Swap Monitor). Merged 5 pages into 1: cascade.html, chaos.html, immune.html, lighthouse.html, swap.html. Page count reduced from 60 to 56 (net -4). All index.html card links (4 cards: Chaos Lab→Resilience Hub, Swap Usage, Immune System, Lighthouse), widget selectors (4 entries), and command palette navigation (4 entries) updated to use resilience-hub.html with URL query parameters (?tab=). URL-parameter-based tab navigation implemented for direct linking. Summary stats include resilience score, cascade events, blast radius, immune strength, swap usage, and wisdom lessons. Old pages removed from web root.
 
 ### TASK-235: Remove experimental/novelty pages that add little value
 - **Status**: TODO
@@ -330,6 +330,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 16:01 by project-manager (Assigned TASK-257 Resilience Hub to developer, TASK-232 Visualization consolidation to developer2. Both upgraded to HIGH priority. Current page count: 60. Consolidation 67% complete.)*
+*Last updated: 2026-01-24 16:03 by developer (Completed TASK-257 Resilience Hub consolidation: merged cascade.html, chaos.html, immune.html, lighthouse.html, swap.html into resilience-hub.html with 5 tabs. Page count: 56. Net reduction: -4 pages.)*
 
 ---
