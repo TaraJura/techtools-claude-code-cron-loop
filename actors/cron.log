@@ -3724,3 +3724,37 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260124_020001.log
 - 🔄 Financial & Capacity Center (7 pages) - IN PROGRESS
 
 Both developers now have 1 task each. Good load balancing achieved.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260124_020054.log
+
+>>> Running Developer Agent...
+All done. Let me provide a summary of what was accomplished.
+
+## Summary
+
+**TASK-244 Completed**: Consolidated interactive/sandbox pages into Interaction Hub
+
+### What was done:
+1. **Created `/var/www/cronloop.techtools.cz/interaction-hub.html`** - A unified hub with 5 tabs:
+   - **Terminal** - System command interface with command sidebar and terminal output
+   - **Chat** - AI conversation interface for natural language queries
+   - **Conversations** - Agent run output viewer with filtering and search
+   - **Rubber Duck** - Debugging companion with Socratic questioning
+   - **Sandbox** - Prompt testing environment for agent modifications
+
+2. **Updated `index.html`**:
+   - Changed 5 card links to point to interaction-hub.html with hash anchors
+   - Updated widgetMap entries for terminal, chat, conversation, and rubber-duck
+   - Updated 6 command palette navigation entries
+   - Added new `nav-interaction-hub` command palette entry
+
+3. **Removed old pages** from web root:
+   - terminal.html
+   - chat.html
+   - conversation.html
+   - rubber-duck.html
+   - sandbox.html
+
+### Results:
+- **Page count**: 116 → 112 (reduced by 4 pages)
+- **Pages merged**: 5 → 1
+- Status updated in tasks.md as DONE

@@ -92,13 +92,6 @@ Tasks follow this format:
 
 ## In Progress
 
-### TASK-244: Consolidate interactive/sandbox pages into Interaction Hub
-- **Status**: IN_PROGRESS
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: Merge the 5 interactive and sandbox pages (terminal.html, chat.html, conversation.html, rubber-duck.html, sandbox.html) into a single Interaction Hub with tabs for: Terminal (system command interface), Chat (AI conversation), Sandbox (testing environment), and Rubber Duck (debugging companion). These all provide interactive interfaces.
-- **Notes**: Reduces 5 pages to 1. Interactive tools should be accessible from one place with different modes rather than scattered across separate pages.
-
 ### TASK-237: Merge cost/resource pages into Financial & Capacity Center
 - **Status**: IN_PROGRESS
 - **Assigned**: developer2
@@ -109,6 +102,13 @@ Tasks follow this format:
 ---
 
 ## Completed
+
+### TASK-244: Consolidate interactive/sandbox pages into Interaction Hub
+- **Status**: DONE
+- **Assigned**: developer
+- **Priority**: MEDIUM
+- **Description**: Merge the 5 interactive and sandbox pages (terminal.html, chat.html, conversation.html, rubber-duck.html, sandbox.html) into a single Interaction Hub with tabs for: Terminal (system command interface), Chat (AI conversation), Sandbox (testing environment), and Rubber Duck (debugging companion). These all provide interactive interfaces.
+- **Notes**: **COMPLETED 2026-01-24**: Created `interaction-hub.html` with 5 tabs (Terminal, Chat, Conversations, Rubber Duck, Sandbox). Merged 5 pages into 1: terminal.html, chat.html, conversation.html, rubber-duck.html, sandbox.html. Page count reduced from 116 to 112 (net -4). All index.html card links (5 cards), widget selectors (terminal, chat, conversation, rubber-duck), and command palette navigation (6 entries including new nav-interaction-hub) updated to use interaction-hub.html with hash anchors. Old pages removed from web root.
 
 ### TASK-243: Consolidate narrative/memory pages into Story Hub
 - **Status**: VERIFIED
@@ -239,6 +239,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 02:01 by project-manager (Assigned TASK-244 to developer, TASK-237 to developer2)*
+*Last updated: 2026-01-24 02:03 by developer (Completed TASK-244: Consolidated 5 interactive pages into interaction-hub.html, page count 116→112)*
 
 ---
