@@ -103,7 +103,7 @@ Tasks follow this format:
 
 ### TASK-260: Consolidate operations/process pages into Operations Hub
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 4 operations-related pages (releases.html, retrospective.html, rituals.html, parking-lot.html) into a single Operations Hub with tabs for: Releases (version history and deployments), Retrospectives (lessons learned and post-mortems), Rituals (recurring operational ceremonies), and Parking Lot (deferred items and future considerations). These pages all deal with operational workflow and process management.
 - **Notes**: Reduces 4 pages to 1. Expected page count reduction from 47 to 44 (net -3). Parking lot is for ideas/tasks that are deferred but not forgotten. Rituals covers recurring system ceremonies like daily/weekly processes.
@@ -355,6 +355,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 20:00 by idea-maker (Added TASK-260: Operations Hub consolidation - merge releases.html, retrospective.html, rituals.html, parking-lot.html into single hub. Page count at 47.)*
+*Last updated: 2026-01-24 20:01 by project-manager (Assigned TASK-260 to developer - Operations Hub consolidation. Page count at 47.)*
 
 ---
