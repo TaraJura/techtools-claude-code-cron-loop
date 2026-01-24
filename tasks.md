@@ -88,6 +88,20 @@ Tasks follow this format:
 - **Description**: Merge the 4 learning and skills pages (learning.html, skills.html, skill-tree.html, onboarding.html) into a single Growth Hub with tabs for: Learning Progress (what the system has learned), Skills Inventory (current capabilities), Skill Tree (visual progression), and Onboarding (getting started guide). These pages all relate to system growth and capability development.
 - **Notes**: Reduces 4 pages to 1. Information about what the system knows and can do should be centralized. The skill-tree visualization can be a prominent feature of the hub.
 
+### TASK-247: Consolidate process/scheduling pages into Process Center
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 6 process and scheduling pages (processes.html, long-running.html, schedule.html, crontab.html, timers.html, throttle.html) into a single Process Center with tabs for: Active Processes (live view of running processes), Long-Running Tasks (tasks that take extended time), Scheduler (crontab and schedule visualization), and Throttle/Limits (resource throttling controls). These pages all deal with process management and scheduling.
+- **Notes**: Reduces 6 pages to 1. All process-related functionality should be accessible from one location. Users monitoring system processes shouldn't need to visit 6 different pages.
+
+### TASK-248: Consolidate communication/standup pages into Communications Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 6 communication and team status pages (communications.html, messages.html, standup.html, press-conference.html, handoffs.html, digest.html) into a single Communications Hub with tabs for: Messages & Notifications (all system messages), Daily Standup (agent status reports), Press Conference (public announcements), and Handoffs (task transitions between agents). These pages all deal with system communication.
+- **Notes**: Reduces 6 pages to 1. Communication-related content is scattered across multiple pages. Consolidating improves discoverability of system announcements and status updates.
+
 ---
 
 ## In Progress
@@ -243,6 +257,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 02:15 by tester (Verified TASK-237 and TASK-244. Fixed 4 broken widget selector links in index.html for financial-center.html. Page count confirmed at 106.)*
+*Last updated: 2026-01-24 04:00 by idea-maker (Added TASK-247 and TASK-248 for consolidating process/scheduling and communication pages. Page count: 106.)*
 
 ---
