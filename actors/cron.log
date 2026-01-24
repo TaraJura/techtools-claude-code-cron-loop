@@ -3160,3 +3160,29 @@ I completed **TASK-257: Consolidate system resilience pages into Resilience Hub*
 **Page count:** 60 → 56 (net reduction of 4 pages)
 
 **Verification:** resilience-hub.html returns HTTP 200 and is accessible at https://cronloop.techtools.cz/resilience-hub.html
+Done. Log saved to: /home/novakj/actors/developer/logs/20260124_160135.log
+
+>>> Running Developer 2 Agent...
+The consolidation is complete. Here's a summary of what was accomplished:
+
+## Summary - TASK-232 Completed
+
+**Consolidated 3 pages into 1:**
+- `tasks.html` (Kanban task board)
+- `task-graph.html` (Task dependency graph)
+- `workflow.html` (Workflow metrics & SLA)
+
+**Into:** `task-hub.html` with 3 tabs:
+1. **Board** - Kanban view of tasks (backlog, in-progress, completed)
+2. **Dependencies** - SVG graph visualization with zoom/pan
+3. **Metrics** - Workflow metrics, SLA compliance, velocity charts, agent throughput
+
+**Changes made:**
+- Created new `task-hub.html` with unified tabbed interface
+- Hero stats section shows total tasks, backlog, in-progress, completed, and velocity
+- Hash-based tab navigation (`#board`, `#graph`, `#metrics`) for direct linking
+- Updated 8 references in `index.html`
+- Updated references in 9 other files: accessibility.html, gallery.html, growth-hub.html, insights-hub.html, interaction-hub.html, layout.html, quiz.html, releases.html, search.html
+- Removed old pages from web root
+
+**Page count:** 56 → 54 (net reduction: -2 pages)

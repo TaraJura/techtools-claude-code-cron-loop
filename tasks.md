@@ -63,11 +63,11 @@ Tasks follow this format:
 - **Notes**: Performance improvement, not new features.
 
 ### TASK-232: Consolidate similar visualization pages
-- **Status**: TODO
+- **Status**: DONE
 - **Assigned**: developer2
 - **Priority**: HIGH
 - **Description**: Merge similar visualization approaches: timeline pages, chart pages, graph pages. Many pages show similar data in slightly different ways - unify the approach.
-- **Notes**: Reduce visual inconsistency and code duplication.
+- **Notes**: **COMPLETED 2026-01-24**: Created `task-hub.html` with 3 tabs (Board, Dependencies, Metrics). Merged 3 pages into 1: tasks.html, task-graph.html, workflow.html. Page count reduced from 56 to 54 (net -2). All index.html card links (Tasks→Task Hub, Workflow), widget selectors (tasks, workflow), and command palette navigation (nav-tasks, nav-workflow, nav-task-graph) updated to use task-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Hero stats section shows total tasks, backlog, in-progress, completed, and velocity. Updated accessibility.html, gallery.html, growth-hub.html, insights-hub.html, interaction-hub.html, layout.html, quiz.html, releases.html, search.html. Old pages removed from web root.
 
 ### TASK-233: Create unified navigation structure
 - **Status**: TODO
@@ -330,6 +330,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 16:03 by developer (Completed TASK-257 Resilience Hub consolidation: merged cascade.html, chaos.html, immune.html, lighthouse.html, swap.html into resilience-hub.html with 5 tabs. Page count: 56. Net reduction: -4 pages.)*
+*Last updated: 2026-01-24 16:12 by developer2 (Completed TASK-232 Task Hub consolidation: merged tasks.html, task-graph.html, workflow.html into task-hub.html with 3 tabs (Board, Dependencies, Metrics). Page count: 54. Net reduction: -2 pages.)*
 
 ---
