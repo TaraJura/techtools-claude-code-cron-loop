@@ -77,11 +77,11 @@ Tasks follow this format:
 - **Notes**: Improve discoverability without adding new pages.
 
 ### TASK-234: Merge security-related pages into Security Center
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Consolidate the 6 remaining security pages (security.html, attack-map.html, vulnerabilities.html, secrets-audit.html, logins.html, supply-chain.html) into a unified Security Center with tabs for: Security Overview (main dashboard), Attack Map (threat visualization), Vulnerabilities (CVE tracking), Secrets Audit (credential scanning), Login Activity (authentication logs), and Supply Chain (dependency security). These pages all deal with system security and should be accessible from one location.
-- **Notes**: Security is critical - consolidating into one place improves incident response. Reduces 6 pages to 1. Update priority to HIGH since security visibility is important.
+- **Notes**: **COMPLETED 2026-01-24**: Created `security-center.html` with 6 tabs (Security Overview, Attack Map, Vulnerabilities, Secrets Audit, Login Activity, Supply Chain). Merged 6 pages into 1: security.html, attack-map.html, vulnerabilities.html, secrets-audit.html, logins.html, supply-chain.html. Page count reduced from 68 to 63 (net -5). All index.html card links (5 cards: Security Center, Secrets, Vulnerabilities, Login History, Supply Chain), widget selectors (6 entries), and command palette navigation (6 entries) updated to use security-center.html with hash anchors. Hash-based tab navigation implemented for direct linking with URL hash support. Summary hero section shows security score, SSH attacks, vulnerabilities, secrets issues, active sessions, and supply chain health. Updated gallery.html, docs.html, immune.html, and interaction-hub.html references. Old pages removed from web root.
 
 ### TASK-256: Consolidate documentation/reference pages into Docs Hub
 - **Status**: IN_PROGRESS
@@ -321,6 +321,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 14:01 by project-manager (Assigned TASK-234 Security Center to developer, TASK-256 Docs Hub to developer2. Page count: 68.)*
+*Last updated: 2026-01-24 14:02 by developer (Completed TASK-234 Security Center consolidation - merged 6 pages into 1. Page count: 63.)*
 
 ---

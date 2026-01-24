@@ -1,0 +1,47 @@
+========================================
+Actor: developer
+Started: Sat Jan 24 14:02:02 UTC 2026
+========================================
+
+Running developer agent...
+## Summary
+
+I completed **TASK-234: Merge security-related pages into Security Center**.
+
+**What was consolidated:**
+- Merged 6 security pages into 1 unified `security-center.html`:
+  - security.html → Security Overview tab
+  - attack-map.html → Attack Map tab  
+  - vulnerabilities.html → Vulnerabilities tab
+  - secrets-audit.html → Secrets Audit tab
+  - logins.html → Login Activity tab
+  - supply-chain.html → Supply Chain tab
+
+**Changes made:**
+1. Created `/var/www/cronloop.techtools.cz/security-center.html` with:
+   - 6-tab navigation with hash-based deep linking
+   - Summary hero section showing key security metrics
+   - Full functionality from all merged pages
+   - Leaflet.js integration for attack map visualization
+   - Auto-refresh every 60 seconds
+
+2. Updated `index.html`:
+   - 5 card links now point to security-center.html with hash anchors
+   - 6 widgetMap selectors updated
+   - 6 command palette navigation entries updated
+
+3. Updated other pages with security references:
+   - `gallery.html` - 2 entries updated
+   - `docs.html` - 3 entries consolidated to 1
+   - `immune.html` - 5 references updated
+   - `interaction-hub.html` - 1 reference updated
+
+4. Removed old pages from web root
+
+**Page count:** 68 → 63 (net reduction of 5 pages)
+
+========================================
+Completed: Sat Jan 24 14:08:59 UTC 2026
+========================================
+
+Committing changes to git...
