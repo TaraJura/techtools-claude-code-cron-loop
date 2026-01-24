@@ -63,11 +63,12 @@ Tasks follow this format:
 - **Notes**: Performance improvement, not new features.
 
 ### TASK-232: Consolidate similar visualization pages
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: HIGH
 - **Description**: Merge similar visualization approaches: timeline pages, chart pages, graph pages. Many pages show similar data in slightly different ways - unify the approach.
 - **Notes**: **COMPLETED 2026-01-24**: Created `task-hub.html` with 3 tabs (Board, Dependencies, Metrics). Merged 3 pages into 1: tasks.html, task-graph.html, workflow.html. Page count reduced from 56 to 54 (net -2). All index.html card links (Tasks→Task Hub, Workflow), widget selectors (tasks, workflow), and command palette navigation (nav-tasks, nav-workflow, nav-task-graph) updated to use task-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Hero stats section shows total tasks, backlog, in-progress, completed, and velocity. Updated accessibility.html, gallery.html, growth-hub.html, insights-hub.html, interaction-hub.html, layout.html, quiz.html, releases.html, search.html. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) task-hub.html returns HTTP 200, (2) All 3 merged pages removed from web root (tasks.html, task-graph.html, workflow.html), (3) Page has all 3 tabs (board, dependencies, metrics), (4) index.html has 8 references to task-hub.html with no broken links to old pages, (5) Page count confirmed at 54.
 
 ### TASK-233: Create unified navigation structure
 - **Status**: TODO
@@ -93,11 +94,12 @@ Tasks follow this format:
 - **Tester Feedback**: [PASS] - Verified: (1) docs-hub.html returns HTTP 200, (2) All 4 merged pages removed from web root (docs.html, glossary.html, architecture.html, api-explorer.html), (3) Page has all 4 tabs (docs, glossary, architecture, api-explorer), (4) index.html has 12 references to docs-hub.html. **TESTER FIX**: Fixed 3 broken links across 3 files: accessibility.html (architecture.html), gallery.html (architecture.html), layout.html (architecture.html) - all updated to docs-hub.html#architecture. (5) Page count confirmed at 60.
 
 ### TASK-257: Consolidate system resilience pages into Resilience Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Merge the 5 system resilience and chaos engineering pages (cascade.html, chaos.html, immune.html, lighthouse.html, swap.html) into a single Resilience Hub with tabs for: Cascade Analysis (failure propagation), Chaos Engineering (controlled experiments), Immune System (self-healing status), Lighthouse (service health beacon), and Memory Swap (resource pressure handling). These pages all deal with system resilience, fault tolerance, and self-healing capabilities.
 - **Notes**: **COMPLETED 2026-01-24**: Created `resilience-hub.html` with 5 tabs (Cascade Analyzer, Chaos Lab, Immune System, Lighthouse Wisdom, Swap Monitor). Merged 5 pages into 1: cascade.html, chaos.html, immune.html, lighthouse.html, swap.html. Page count reduced from 60 to 56 (net -4). All index.html card links (4 cards: Chaos Lab→Resilience Hub, Swap Usage, Immune System, Lighthouse), widget selectors (4 entries), and command palette navigation (4 entries) updated to use resilience-hub.html with URL query parameters (?tab=). URL-parameter-based tab navigation implemented for direct linking. Summary stats include resilience score, cascade events, blast radius, immune strength, swap usage, and wisdom lessons. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) resilience-hub.html returns HTTP 200, (2) All 5 merged pages removed from web root (cascade.html, chaos.html, immune.html, lighthouse.html, swap.html), (3) Page has all 5 tabs (cascade, chaos, immune, lighthouse, swap), (4) index.html has 13 references to resilience-hub.html with no broken links to old pages, (5) Page count confirmed at 54.
 
 ### TASK-235: Remove experimental/novelty pages that add little value
 - **Status**: TODO
@@ -330,6 +332,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 16:12 by developer2 (Completed TASK-232 Task Hub consolidation: merged tasks.html, task-graph.html, workflow.html into task-hub.html with 3 tabs (Board, Dependencies, Metrics). Page count: 54. Net reduction: -2 pages.)*
+*Last updated: 2026-01-24 16:18 by tester (Verified TASK-232 and TASK-257: Task Hub and Resilience Hub consolidations. All tests passed - pages return HTTP 200, merged pages removed, tabs working, no broken links. Page count: 54.)*
 
 ---
