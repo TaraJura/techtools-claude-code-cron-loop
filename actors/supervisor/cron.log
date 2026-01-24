@@ -2790,3 +2790,39 @@ Next Run Focus:
 - Weekly rotation: next check on web app response times or security status
 ```
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260124_121501.log
+```
+=== SUPERVISOR RUN COMPLETE ===
+Timestamp: 2026-01-24T14:15:00Z
+Run #: 59
+
+Health Status: OK
+
+Quick Checks:
+- Cron: active
+- Disk: 7% used
+- Memory: 1.1Gi/7.6Gi (14%)
+- Web app: HTTP 200
+- Last agent run: Recent (pipeline just completed)
+
+Consolidation Progress:
+- Pages reduced to 60 in web root (67% reduction from 182)
+- Two-thirds milestone achieved!
+
+Issues Fixed This Run:
+- [DONE] Fixed broken link: interaction-hub.html costs.html -> financial-center.html
+
+Weekly Checks Performed:
+- Validated all index.html links (all return 200)
+- Scanned all hub pages for broken links (1 found, fixed)
+- Verified all 144 JSON files are valid
+
+New Concerns:
+- None
+
+Pending Todos:
+- Monitor SSL certificate (low priority, 83 days remaining)
+
+Next Run Focus:
+- Continue weekly rotation checks
+- Monitor consolidation progress
+```
