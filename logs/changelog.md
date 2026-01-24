@@ -20,6 +20,15 @@
 
 ## 2026-01-24
 
+- **[VERIFIED]** TASK-260: Operations Hub consolidation (4→1 pages, developer)
+  - Merged: releases.html, retrospective.html, rituals.html, parking-lot.html
+  - Page count: 44
+
+- **[TESTER FIX]** Fixed 5 broken links to old health.html (should be health-center.html):
+  - index.html: 1x command palette link
+  - network.html: 1x footer link
+  - quiz.html: 3x quiz question links
+
 - **[VERIFIED]** TASK-234: Security Center consolidation (6→1 pages, developer)
   - Merged: security.html, attack-map.html, vulnerabilities.html, secrets-audit.html, logins.html, supply-chain.html
   - Page count: 60
