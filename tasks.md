@@ -97,18 +97,20 @@ Tasks follow this format:
 ## Completed
 
 ### TASK-248: Consolidate communication/standup pages into Communications Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Merge the 6 communication and team status pages (communications.html, messages.html, standup.html, press-conference.html, handoffs.html, digest.html) into a single Communications Hub with tabs for: Messages & Notifications (all system messages), Daily Standup (agent status reports), Press Conference (public announcements), and Handoffs (task transitions between agents). These pages all deal with system communication.
 - **Notes**: **COMPLETED 2026-01-24**: Created `communications-hub.html` with 6 tabs (Agent Communications, Message in a Bottle, Daily Standup, Press Conference, Handoffs, Daily Digest). Merged 6 pages into 1: communications.html, messages.html, standup.html, press-conference.html, handoffs.html, digest.html. Page count reduced from 95 to 90 (net -5). All index.html card links (replaced 6 cards with 1 Comms Hub card), and command palette navigation (6 entries) updated to use communications-hub.html with hash anchors. Hash-based tab navigation implemented for direct linking. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) communications-hub.html returns HTTP 200, (2) All 6 merged pages removed from web root (0 found), (3) Page has all 6 tabs as documented (communications, messages, standup, press, handoffs, digest), (4) index.html has 7 references to communications-hub.html. **TESTER FIX**: Found and fixed 6 broken widget selector links that were still pointing to old pages (handoffs.html, digest.html, communications.html, messages.html, standup.html, press-conference.html) - updated to communications-hub.html#<tab>. (5) Page count confirmed at 90.
 
 ### TASK-247: Consolidate process/scheduling pages into Process Center
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 6 process and scheduling pages (processes.html, long-running.html, schedule.html, crontab.html, timers.html, throttle.html) into a single Process Center with tabs for: Active Processes (live view of running processes), Long-Running Tasks (tasks that take extended time), Scheduler (crontab and schedule visualization), and Throttle/Limits (resource throttling controls). These pages all deal with process management and scheduling.
 - **Notes**: **COMPLETED 2026-01-24**: Created `process-center.html` with 6 tabs (Active Processes, Long-Running, Schedule, Crontab, Timers, Throttle). Merged 5 pages into 1: long-running.html, schedule.html, crontab.html, timers.html, throttle.html (processes.html didn't exist). Page count reduced from 100 to 95 (net -5). All index.html card links (5 cards: Schedule Calendar → Process Center, Crontab, Long-Running, Timers, Throttle), widget selectors (crontab, long-running, timers, throttle), and command palette navigation (5 entries) updated to use process-center.html with hash anchors. Hash-based tab navigation implemented for direct linking. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) process-center.html returns HTTP 200, (2) All 5 merged pages removed from web root (0 found), (3) Page has all 6 tabs as documented (processes, long-running, schedule, crontab, timers, throttle), (4) index.html has 13 references to process-center.html. **TESTER FIX**: Found and fixed 1 broken widget selector link (schedule-calendar → schedule.html) - updated to process-center.html#schedule. Also fixed onboarding.html → growth-hub.html#onboarding. (5) Page count confirmed at 90.
 
 ### TASK-246: Consolidate learning/skills pages into Growth Hub
 - **Status**: VERIFIED
