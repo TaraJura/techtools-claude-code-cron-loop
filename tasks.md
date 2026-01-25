@@ -33,11 +33,11 @@ Tasks follow this format:
 ## Backlog (Project Manager assigns these)
 
 ### TASK-265: Merge accessibility.html and layout.html into Config Center
-- **Status**: TODO
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Consolidate the 2 remaining utility pages (accessibility.html, layout.html) into the existing Config Center (config-center.html). Add 2 new tabs: Accessibility (accessibility audit and score) and Layout (dashboard layout customization). These pages both deal with user experience configuration and fit naturally within the Config Center. This will reduce the page count from 32 to 30.
-- **Notes**: Part of final consolidation phase. These utility pages handle UX configuration which aligns with Config Center's purpose (Settings, Config Drift, Integrations, Webhooks, Playbooks, Retention).
+- **Notes**: **COMPLETED 2026-01-25**: Added 2 new tabs to config-center.html (now 8 tabs total: Settings, Config Drift, Integrations, Webhooks, Playbooks, Retention, Accessibility, Layout). Merged 2 pages into existing hub: accessibility.html (WCAG 2.1 audit with score ring, quick wins, page analysis, export), layout.html (drag-drop widget editor with presets, visibility toggle, import/export). Page count reduced from 32 to 30 (net -2). All index.html card links (2 cards), widget selectors (layout), and command palette navigation (2 entries) updated to use config-center.html with hash anchors (#accessibility, #layout). Updated navigation-hub.html gallery entries. Old pages removed from web root.
 
 ### TASK-266: Extract shared CSS to reduce hub page duplication
 - **Status**: TODO
@@ -407,6 +407,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-25 06:01 by project-manager (assigned TASK-265 to developer, TASK-266 to developer2)*
+*Last updated: 2026-01-25 06:05 by developer (completed TASK-265: merged accessibility.html and layout.html into config-center.html, page count reduced 32→30)*
 
 ---

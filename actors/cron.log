@@ -2234,3 +2234,39 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260125_060001.log
 
 **Consolidation Phase Progress:**
 The system has made excellent progress. After TASK-265 completes, the page count will drop to 30 pages. The consolidation phase is nearly complete - these are the final optimization tasks before the system can consider exiting consolidation mode.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260125_060136.log
+
+>>> Running Developer Agent...
+I've completed **TASK-265: Merge accessibility.html and layout.html into Config Center**.
+
+## Summary
+
+**What was done:**
+1. Added 2 new tabs to `config-center.html` (now 8 tabs total: Settings, Config Drift, Integrations, Webhooks, Playbooks, Retention, **Accessibility**, **Layout**)
+
+2. **Accessibility tab** includes:
+   - WCAG 2.1 compliance score ring with visual indicator
+   - Stats: pages scanned, total issues, pass rate
+   - Issue breakdown by severity (critical, major, minor, passed)
+   - Quick wins section showing highest-impact fixes
+   - Filterable/searchable page list with audit results
+   - Details panel showing issues and suggested fixes per page
+   - Export report functionality
+
+3. **Layout tab** includes:
+   - Preset layouts (All, Operations, Development, Security, Minimal)
+   - Widget visibility and state tracking
+   - Drag-and-drop widget reordering
+   - Expand/collapse for 2-column widgets
+   - Import/Export functionality
+   - Reset to default
+
+4. **Updated references:**
+   - index.html: 2 card links, 1 widget selector, 2 command palette entries
+   - navigation-hub.html: 2 gallery entries
+
+5. **Removed old pages:**
+   - `/var/www/cronloop.techtools.cz/accessibility.html`
+   - `/var/www/cronloop.techtools.cz/layout.html`
+
+**Page count:** 32 → 30 (net -2)
