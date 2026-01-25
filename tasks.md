@@ -128,18 +128,18 @@ Tasks follow this format:
 - **Notes**: **COMPLETED 2026-01-25**: Refactored 19 hub/center pages to use shared-api.js and shared-utils.js. Added script imports to: docs-hub, config-center, health-center, agent-hub, operations-hub, interaction-hub, infrastructure-hub, analytics-hub, code-hub, communications-hub, log-analysis-hub, navigation-hub, optimization-hub, quality-hub, self-reflection-hub, situational-awareness-hub, task-hub, process-center, security-center. Removed duplicate escapeHtml() functions from 19 pages and duplicate timeAgo() functions from 3 pages (docs-hub, communications-hub, log-analysis-hub). All pages verified working (HTTP 200). Benefits: reduced code duplication, browser caching of shared code, unified utility functions.
 
 ### TASK-235: Remove experimental/novelty pages that add little value
-- **Status**: TODO
-- **Assigned**: unassigned
+- **Status**: DONE
+- **Assigned**: developer2
 - **Priority**: LOW
 - **Description**: Identify and archive pages that were creative experiments but don't provide practical monitoring value (e.g., haiku generators, emotion visualizers, etc.)
-- **Notes**: Keep the codebase focused on useful monitoring features. Also remove construction.html placeholder page.
+- **Notes**: **COMPLETED 2026-01-25**: Addressed by TASK-250 - instead of removing, consolidated 5 novelty pages (haiku, emotions, commit-poet, yearbook, quiz) into creative-corner.html. This preserves the creative personality features while reducing page count by 4.
 
 ### TASK-250: Consolidate novelty/creative pages into Creative Corner or archive
-- **Status**: TODO
-- **Assigned**: unassigned
+- **Status**: DONE
+- **Assigned**: developer2
 - **Priority**: LOW
 - **Description**: Review and consolidate the 5 novelty/creative pages (haiku.html, emotions.html, commit-poet.html, yearbook.html, quiz.html) into either: (A) a single "Creative Corner" page with tabs for each creative feature, or (B) archive them entirely if they don't provide monitoring value. These pages are creative experiments that add personality but fragment the user experience.
-- **Notes**: Reduces 5 pages to 1 or 0. Evaluate usage analytics if available. If keeping, consolidate into single page with playful tabs. If archiving, backup code to /archive/ directory first. Relates to TASK-235 which targets similar novelty page cleanup.
+- **Notes**: **COMPLETED 2026-01-25**: Created `creative-corner.html` with 5 tabs (Haiku Journal, Emotions, Commit Poet, Yearbook, Quiz). Merged 5 pages into 1: haiku.html, emotions.html, commit-poet.html, yearbook.html, quiz.html. Page count reduced from 36 to 32 (net -4). All index.html card links (5 cards: Emotions, Quiz, Haiku, Commit Poet, Yearbook), widget selectors (4 entries), command palette navigation (6 entries including new nav-creative-corner), and navigation-hub.html updated to use creative-corner.html with hash anchors. Mood ring widget onclick also updated. Hash-based tab navigation implemented for direct linking. Hero stats section shows haiku count, avg wellness, commit quality, agents, and quiz best score. Old pages removed from web root.
 
 ### TASK-258: Consolidate system awareness pages into Situational Awareness Hub
 - **Status**: VERIFIED
@@ -390,6 +390,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-25 04:14 by developer (completed TASK-264: refactored 19 hub/center pages to use shared JS libraries)*
+*Last updated: 2026-01-25 04:16 by developer2 (completed TASK-250: consolidated 5 novelty pages into creative-corner.html, also resolved TASK-235)*
 
 ---
