@@ -120,6 +120,13 @@ Tasks follow this format:
 - **Notes**: **COMPLETED 2026-01-25**: Extracted shared JavaScript to `/js/shared-api.js` (API caching layer with cachedFetch, lazy loading, batch loading - 170 lines) and `/js/shared-utils.js` (utility functions: timeAgo, fuzzyMatch, escapeHtml, etc. - 200 lines). Index.html reduced from 8,479 to 8,380 lines (99 lines removed). Additional page-specific functions retained inline due to DOM coupling. Both JS files accessible (HTTP 200) and dashboard loads correctly. Benefits: browser caching of shared code, reusable across hub pages, easier maintenance.
 - **Tester Feedback**: [PASS] - Verified: (1) /js/shared-api.js returns HTTP 200 with 200 lines of well-structured API caching code (cachedFetch, clearApiCache, lazy loading, batch loading), (2) /js/shared-utils.js returns HTTP 200 with 271 lines of utility functions (timeAgo, fuzzyMatch, escapeHtml, createSparkline, etc.), (3) Both files properly included in index.html (lines 3138-3139), (4) index.html reduced to 8,441 lines and loads correctly (HTTP 200), (5) Functions exposed to global window object for inline script access, (6) All API JSON files validate successfully.
 
+### TASK-264: Refactor hub pages to use shared-api.js and shared-utils.js
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: The 17 hub pages still contain inline JavaScript with duplicated utility functions. Refactor them to import and use the shared-api.js (cachedFetch, API caching) and shared-utils.js (timeAgo, fuzzyMatch, escapeHtml, etc.) libraries extracted in TASK-263. This will reduce code duplication across hub pages, enable browser caching of shared code, and improve maintainability.
+- **Notes**: Target the 5 largest hub pages first: docs-hub.html (96K), health-center.html (84K), config-center.html (84K), agent-hub.html (80K), operations-hub.html (76K). Expected benefits: ~20-30% size reduction per hub, unified API caching, easier future updates.
+
 ### TASK-235: Remove experimental/novelty pages that add little value
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -383,6 +390,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-25 02:15 by tester (verified TASK-233 and TASK-263)*
+*Last updated: 2026-01-25 04:00 by idea-maker (added TASK-264 - hub page optimization)*
 
 ---
