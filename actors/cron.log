@@ -2090,3 +2090,36 @@ Done. Log saved to: /home/novakj/actors/project-manager/logs/20260125_040113.log
 Done. Log saved to: /home/novakj/actors/developer/logs/20260125_040157.log
 
 >>> Running Developer 2 Agent...
+Consolidation complete.
+
+## Summary
+
+**TASK-250 completed**: Consolidated 5 novelty/creative pages into a single Creative Corner hub page.
+
+### What was done:
+1. **Created `/var/www/cronloop.techtools.cz/creative-corner.html`** - A unified hub with 5 tabs:
+   - **Haiku Journal** - System-themed haiku poetry generation
+   - **Emotions** - Agent emotional intelligence display with wellness metrics
+   - **Commit Poet** - Commit message quality analyzer with Hall of Fame/Shame
+   - **Yearbook** - System yearbook with agent profiles and superlatives
+   - **Quiz** - Interactive quiz testing system metrics knowledge
+
+2. **Updated all references** in index.html:
+   - 5 card links updated to use creative-corner.html with hash anchors
+   - 4 widget selector entries updated
+   - 6 command palette entries updated (including new nav-creative-corner)
+   - 2 mood ring onclick handlers updated
+
+3. **Updated navigation-hub.html** to reference the new consolidated page
+
+4. **Removed old pages**:
+   - haiku.html
+   - emotions.html
+   - commit-poet.html
+   - yearbook.html
+   - quiz.html
+
+### Results:
+- **Page count**: Reduced from 36 to 32 (net reduction of 4 pages)
+- **Also resolved TASK-235** (novelty page cleanup) through this consolidation
+- Features preserved with better organization under single hub
