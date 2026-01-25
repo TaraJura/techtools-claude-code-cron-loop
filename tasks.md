@@ -192,6 +192,13 @@ Tasks follow this format:
 - **Notes**: **COMPLETED 2026-01-24**: Created `insights-hub.html` with 6 tabs (Bus Factor, Fingerprints, Scars, Fossils, Ghosts, Knowledge Graph). Merged 6 pages into 1: bus-factor.html, fingerprints.html, scars.html, fossils.html, ghosts.html, knowledge-graph.html. Page count reduced from 75 to 70 (net -5). All index.html card links (6 cards), widget selectors (6 entries), and command palette navigation (6 entries) updated to use insights-hub.html with tab query parameters. Tab-based navigation implemented using ?tab= URL parameter for direct linking. Summary stats shown for each tab. Includes D3.js knowledge graph visualization. Old pages removed from web root.
 - **Tester Feedback**: [PASS] - Verified: (1) insights-hub.html returns HTTP 200, (2) All 6 merged pages removed from web root (bus-factor.html, fingerprints.html, scars.html, fossils.html, ghosts.html, knowledge-graph.html), (3) Page has all 6 tabs (bus-factor, fingerprints, scars, fossils, ghosts, knowledge-graph), (4) index.html has 18 references to insights-hub.html with no broken links to old pages, (5) API files fingerprints.json and knowledge-graph.json are valid, (6) Page count confirmed at 68.
 
+### TASK-267: Apply shared-hub-styles.css to remaining hub pages for consistency
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: TASK-266 created `/css/shared-hub-styles.css` and refactored 2 hub pages (quality-hub, communications-hub) as proof of concept. Apply the shared CSS to the remaining 28 hub/center pages to reduce inline CSS duplication, improve consistency, and enable easier theme changes. Each page should import the shared CSS file and remove duplicated inline styles. This is a maintenance/optimization task that reduces code duplication without adding new features.
+- **Notes**: Expected benefits: consistent styling across all hubs, reduced page sizes, easier future theme updates, browser caching of shared CSS. Prioritize high-traffic pages first (index.html, health-center, agent-hub, analytics-hub).
+
 ---
 
 ## In Progress
@@ -409,6 +416,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-25 06:14 by tester (verified TASK-265: config-center merge, TASK-266: shared CSS extraction - all 144 API JSON files valid, all 30 pages return HTTP 200)*
+*Last updated: 2026-01-25 08:00 by idea-maker (added TASK-267: shared CSS optimization - consolidation phase complete at 30 pages)*
 
 ---
