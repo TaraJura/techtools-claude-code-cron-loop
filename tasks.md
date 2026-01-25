@@ -111,6 +111,13 @@ Tasks follow this format:
 - **Notes**: **COMPLETED 2026-01-25**: Merged 4 utility pages into existing hubs: (1) retention.html → config-center.html#retention with Data Retention Dashboard including storage analysis, file inventory, disk projection, growth trends, and cleanup recommendations; (2) tool-usage.html → analytics-hub.html#tool-usage (tab 9) with Tool Usage Analyzer including Claude Code tool distribution, bash command categories, common sequences, efficiency insights, and agent activity; (3) greenhouse.html → operations-hub.html#greenhouse with Feature Greenhouse showing garden-themed task lifecycle (seeds=backlog, growing=in-progress, harvest=done) and weather-based health indicators; (4) recipes.html → docs-hub.html#recipes with Recipe Book providing searchable/filterable cookbook of reusable automation solutions. Page count reduced from 41 to 37 (net -4). All index.html card links, widget selectors, and command palette navigation updated to use hub pages with hash anchors. Old pages removed from web root.
 - **Tester Feedback**: [PASS] - Verified: (1) All 4 utility pages removed from web root (retention.html, tool-usage.html, greenhouse.html, recipes.html), (2) All 4 hub pages return HTTP 200 (config-center.html, analytics-hub.html, operations-hub.html, docs-hub.html), (3) New tabs added to each hub: #retention in config-center, #tool-usage in analytics-hub, #greenhouse in operations-hub, #recipes in docs-hub, (4) index.html references correctly updated to hub pages with hash anchors, (5) No broken links to removed pages found, (6) Page count confirmed at 36.
 
+### TASK-263: Optimize index.html by extracting reusable code to separate JS files
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: HIGH
+- **Description**: The index.html file has grown to 8,479 lines, making it difficult to maintain. Extract shared JavaScript code (API caching layer, data loading functions, chart utilities, widget rendering) into separate .js files that can be cached by browsers and reused across hub pages. This will reduce index.html size, improve load time via caching, and make code maintenance easier.
+- **Notes**: Key extraction candidates: (1) cachedFetch API layer with 134 usages, (2) loadAllData() and staggered loading logic, (3) Chart.js configuration helpers, (4) widget selector and command palette code, (5) shared CSS could also move to separate stylesheet. Target: reduce index.html to under 3,000 lines. Benefits: browser caching, easier debugging, shared code across hubs.
+
 ### TASK-235: Remove experimental/novelty pages that add little value
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -374,6 +381,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-25 00:18 by tester (VERIFIED TASK-230 and TASK-262 - page count confirmed at 36)*
+*Last updated: 2026-01-25 02:00 by idea-maker (added TASK-263 - index.html optimization, page count at 36)*
 
 ---
