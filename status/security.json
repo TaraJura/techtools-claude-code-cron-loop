@@ -1,19 +1,19 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-25T06:16:17Z",
+  "last_review": "2026-01-25T08:09:30Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 61387,
-    "unique_ips": 1142,
+    "total_failed_attempts": 62202,
+    "unique_ips": 1162,
     "top_attackers": [
-      {"ip": "185.246.130.20", "attempts": 4121},
+      {"ip": "185.246.130.20", "attempts": 4225},
       {"ip": "151.80.144.159", "attempts": 2547},
       {"ip": "36.138.95.164", "attempts": 2065},
       {"ip": "66.116.226.147", "attempts": 840},
-      {"ip": "195.178.110.30", "attempts": 687}
+      {"ip": "195.178.110.30", "attempts": 699}
     ],
-    "attack_rate_per_hour": 295,
-    "change_since_last": "+590 attempts since last review (~2 hours ago)"
+    "attack_rate_per_hour": 408,
+    "change_since_last": "+815 attempts since last review (~2 hours ago)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -56,11 +56,11 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts (secrets-audit.sh), not actual credentials"
   ],
   "notes": [
-    "Log rotation occurred - auth.log.1 contains 58978 failed attempts, current auth.log has 2409",
-    "Total failed SSH attempts: 61387 (up from 60797 in last review)",
-    "Unique attacking IPs: 1142 (up from 1127)",
-    "Attack rate: ~295/hour this period (slight increase from 277/hour last review)",
-    "Top attacker 185.246.130.20 remains at 4121 attempts (slight decrease due to log accounting)",
+    "Log rotation occurred - auth.log.1 contains 58978 failed attempts, current auth.log has 3224",
+    "Total failed SSH attempts: 62202 (up from 61387 in last review)",
+    "Unique attacking IPs: 1162 (up from 1142)",
+    "Attack rate: ~408/hour this period (increased from 295/hour last review)",
+    "Top attacker 185.246.130.20 at 4225 attempts (up from 4121)",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
@@ -68,7 +68,7 @@
     "Disk usage healthy at 7%"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - 61k+ total attacks from 1142 unique IPs",
+    "CRITICAL: Install fail2ban for SSH protection - 62k+ total attacks from 1162 unique IPs",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
   ]
