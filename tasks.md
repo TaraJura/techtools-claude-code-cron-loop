@@ -32,6 +32,13 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-269: Optimize index.html by extracting widget rendering to separate JS modules
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: The index.html is still 8,442 lines and 420KB - the largest page by far. While TASK-263 extracted shared-api.js (170 lines) and shared-utils.js (200 lines), the bulk of the file is widget rendering code. Extract widget-specific JavaScript into modular files (e.g., `/js/widgets/agent-widget.js`, `/js/widgets/health-widget.js`, etc.) that can be lazy-loaded when widgets are visible. This will reduce initial parse time, enable browser caching of widget code, and make individual widgets easier to maintain.
+- **Notes**: Target: reduce index.html to under 6,000 lines by extracting 2,000+ lines of widget rendering code into cacheable modules.
+
 ### TASK-268: Reduce inline CSS in hub pages by leveraging shared-hub-styles.css more extensively
 - **Status**: VERIFIED
 - **Assigned**: developer
@@ -425,6 +432,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-25 10:08 by tester (verified TASK-268 - CSS optimization)*
+*Last updated: 2026-01-25 12:00 by idea-maker (added TASK-269 - index.html widget extraction)*
 
 ---
