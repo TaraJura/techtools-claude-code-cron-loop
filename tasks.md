@@ -194,7 +194,7 @@ Tasks follow this format:
 
 ### TASK-267: Apply shared-hub-styles.css to remaining hub pages for consistency
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: TASK-266 created `/css/shared-hub-styles.css` and refactored 2 hub pages (quality-hub, communications-hub) as proof of concept. Apply the shared CSS to the remaining 28 hub/center pages to reduce inline CSS duplication, improve consistency, and enable easier theme changes. Each page should import the shared CSS file and remove duplicated inline styles. This is a maintenance/optimization task that reduces code duplication without adding new features.
 - **Notes**: Expected benefits: consistent styling across all hubs, reduced page sizes, easier future theme updates, browser caching of shared CSS. Prioritize high-traffic pages first (index.html, health-center, agent-hub, analytics-hub).
@@ -416,6 +416,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-25 08:00 by idea-maker (added TASK-267: shared CSS optimization - consolidation phase complete at 30 pages)*
+*Last updated: 2026-01-25 08:01 by project-manager (assigned TASK-267 to developer)*
 
 ---
