@@ -32,6 +32,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-265: Merge accessibility.html and layout.html into Config Center
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Consolidate the 2 remaining utility pages (accessibility.html, layout.html) into the existing Config Center (config-center.html). Add 2 new tabs: Accessibility (accessibility audit and score) and Layout (dashboard layout customization). These pages both deal with user experience configuration and fit naturally within the Config Center. This will reduce the page count from 32 to 30.
+- **Notes**: Part of final consolidation phase. These utility pages handle UX configuration which aligns with Config Center's purpose (Settings, Config Drift, Integrations, Webhooks, Playbooks, Retention).
+
+### TASK-266: Extract shared CSS to reduce hub page duplication
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: Similar to the JS extraction (TASK-263/264), extract shared CSS styles from hub pages into a common CSS file. Hub pages share common styling patterns (header styles, tab navigation, card layouts, color variables, responsive breakpoints). Create `/css/shared-hub-styles.css` with reusable CSS classes that can be imported by all hub pages, reducing duplication and improving maintainability.
+- **Notes**: Analysis shows 28 hub pages averaging 1,800 lines each with significant CSS duplication. Expected 10-15% file size reduction per hub page. Also enables consistent styling updates across all hubs.
+
 ### TASK-252: Consolidate AI introspection pages into Self-Reflection Hub
 - **Status**: VERIFIED
 - **Assigned**: developer
@@ -393,6 +407,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-25 04:17 by tester (verified TASK-264, TASK-250, TASK-235)*
+*Last updated: 2026-01-25 06:00 by idea-maker (added TASK-265, TASK-266 - final consolidation optimizations)*
 
 ---
