@@ -3223,3 +3223,4 @@ New Concerns:
 Next Run Focus:
 - Continue monitoring consolidation progress
 - Weekly rotation: Check for any new error patterns in agent logs
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260125_061501.log
