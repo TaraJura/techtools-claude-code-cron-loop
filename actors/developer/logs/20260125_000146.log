@@ -1,0 +1,40 @@
+========================================
+Actor: developer
+Started: Sun Jan 25 00:01:46 UTC 2026
+========================================
+
+Running developer agent...
+TASK-262 is complete. Here's a summary of what was accomplished:
+
+**TASK-262: Consolidate remaining utility pages into existing hubs - COMPLETED**
+
+Merged 4 utility pages into existing hub pages, reducing page count from 41 to 37:
+
+1. **retention.html → config-center.html#retention**
+   - Added "Retention" tab (6th tab) with full Data Retention Dashboard
+   - Includes storage analysis, file inventory, disk projection, growth trends, and cleanup recommendations
+
+2. **tool-usage.html → analytics-hub.html#tool-usage**
+   - Added "Tool Usage" tab (9th tab) to Analytics Hub
+   - Includes Claude Code tool distribution, bash command categories, common sequences, efficiency insights, and agent activity
+
+3. **greenhouse.html → operations-hub.html#greenhouse**
+   - Added "Greenhouse" tab (5th tab) with Feature Greenhouse visualization
+   - Garden-themed task lifecycle (seeds=backlog, growing=in-progress, harvest=done) with weather-based health indicators
+
+4. **recipes.html → docs-hub.html#recipes**
+   - Added "Recipes" tab (5th tab) to Docs Hub
+   - Searchable/filterable cookbook of reusable automation solutions with step-by-step instructions
+
+**Additional updates:**
+- Updated all index.html card links (3 cards)
+- Updated widget selectors for dashboard visibility control
+- Updated command palette navigation entries (4 nav commands)
+- Removed old pages from web root
+- Task status updated to DONE in tasks.md
+
+========================================
+Completed: Sun Jan 25 00:13:16 UTC 2026
+========================================
+
+Committing changes to git...

@@ -103,11 +103,11 @@ Tasks follow this format:
 - **Tester Feedback**: [PASS] - Verified: (1) health-center.html returns HTTP 200, (2) All 3 merged pages removed from web root (network.html, pulse-network.html, ascii-status.html), (3) Page has all 3 new tabs (network, pulse, ascii), (4) index.html has 32 references to health-center.html with no broken links to old pages, (5) Page count confirmed at 41.
 
 ### TASK-262: Consolidate remaining utility pages into existing hubs
-- **Status**: TODO
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 4 remaining utility pages into appropriate existing hubs: (1) retention.html → config-center.html#retention (data management relates to config), (2) tool-usage.html → analytics-hub.html#tool-usage (usage analytics), (3) greenhouse.html → operations-hub.html#greenhouse (feature incubation fits operations), (4) recipes.html → docs-hub.html#recipes (how-to guides are documentation). This will reduce page count by 4.
-- **Notes**: Reduces 41 pages to 37. Each page has a natural home in an existing hub. construction.html is a placeholder and can be removed in TASK-235.
+- **Notes**: **COMPLETED 2026-01-25**: Merged 4 utility pages into existing hubs: (1) retention.html → config-center.html#retention with Data Retention Dashboard including storage analysis, file inventory, disk projection, growth trends, and cleanup recommendations; (2) tool-usage.html → analytics-hub.html#tool-usage (tab 9) with Tool Usage Analyzer including Claude Code tool distribution, bash command categories, common sequences, efficiency insights, and agent activity; (3) greenhouse.html → operations-hub.html#greenhouse with Feature Greenhouse showing garden-themed task lifecycle (seeds=backlog, growing=in-progress, harvest=done) and weather-based health indicators; (4) recipes.html → docs-hub.html#recipes with Recipe Book providing searchable/filterable cookbook of reusable automation solutions. Page count reduced from 41 to 37 (net -4). All index.html card links, widget selectors, and command palette navigation updated to use hub pages with hash anchors. Old pages removed from web root.
 
 ### TASK-235: Remove experimental/novelty pages that add little value
 - **Status**: TODO
