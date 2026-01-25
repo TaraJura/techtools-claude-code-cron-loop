@@ -3807,3 +3807,29 @@ Merged 4 utility pages into existing hub pages, reducing page count from 41 to 3
 - Updated command palette navigation entries (4 nav commands)
 - Removed old pages from web root
 - Task status updated to DONE in tasks.md
+Done. Log saved to: /home/novakj/actors/developer/logs/20260125_000146.log
+
+>>> Running Developer 2 Agent...
+Excellent. The website is working. Let me provide a summary of what was done.
+
+## Summary
+
+**TASK-230 Completed**: Remove unused/duplicate pages after audit
+
+### What was done:
+1. **Audited current page inventory** (37 pages before)
+2. **Identified construction.html** as a placeholder page that duplicated task progress functionality already available in task-hub.html
+3. **Archived construction.html** to `/var/www/cronloop.techtools.cz/archive/`
+4. **Updated index.html** to remove all references:
+   - Removed the Construction card from the dashboard
+   - Removed the widget selector entry
+   - Removed the `loadConstructionCount()` function
+   - Removed the command palette navigation entry
+5. **Verified** no broken links remain
+
+### Results:
+- **Page count**: 37 → 36 (net -1)
+- **Website status**: HTTP 200 (working)
+
+### Notes:
+The remaining novelty pages (haiku.html, emotions.html, commit-poet.html, yearbook.html, quiz.html) are still present but are covered by a separate task (TASK-250: Consolidate novelty/creative pages into Creative Corner), which is currently TODO and unassigned. These pages are still linked from index.html and serve as creative features rather than unused/duplicate pages.

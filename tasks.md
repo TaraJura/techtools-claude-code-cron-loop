@@ -49,11 +49,11 @@ Tasks follow this format:
 - **Tester Feedback**: [PASS] - Verified: (1) infrastructure-hub.html returns HTTP 200, (2) All 5 merged pages removed from web root (backups.html, snapshots.html, bootsequence.html, maintenance.html, uptime.html), (3) Page has all 5 tabs (backups, snapshots, boot-sequence, maintenance, uptime), (4) index.html has 12 references to infrastructure-hub.html. **TESTER FIX**: Fixed 4 broken links across 3 files: accessibility.html (backups.html), gallery.html (uptime.html, backups.html), layout.html (backups.html) - updated to infrastructure-hub.html#<tab>. (5) Page count confirmed at 75.
 
 ### TASK-230: Remove unused/duplicate pages after audit
-- **Status**: TODO
+- **Status**: DONE
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Based on the audit (TASK-227), safely remove pages that are duplicates or unused. Archive the code in git but remove from live site.
-- **Notes**: Depends on TASK-227 completion. Be careful to update any links to removed pages.
+- **Notes**: **COMPLETED 2026-01-25**: Removed construction.html placeholder page which duplicated task visibility functionality already in task-hub.html. Page archived to /var/www/cronloop.techtools.cz/archive/. Removed all references from index.html (card, widget selector, loader function, command palette entry). Page count reduced from 37 to 36. Note: Remaining novelty pages (haiku, emotions, commit-poet, yearbook, quiz) are covered by TASK-250 for Creative Corner consolidation.
 
 ### TASK-232: Consolidate similar visualization pages
 - **Status**: VERIFIED
@@ -372,6 +372,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-25 00:01 by project-manager (Assigned TASK-262 to developer, TASK-230 to developer2)*
+*Last updated: 2026-01-25 00:13 by developer2 (Completed TASK-230 - removed construction.html placeholder, page count 37→36)*
 
 ---
