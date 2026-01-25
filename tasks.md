@@ -122,7 +122,7 @@ Tasks follow this format:
 
 ### TASK-264: Refactor hub pages to use shared-api.js and shared-utils.js
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: The 17 hub pages still contain inline JavaScript with duplicated utility functions. Refactor them to import and use the shared-api.js (cachedFetch, API caching) and shared-utils.js (timeAgo, fuzzyMatch, escapeHtml, etc.) libraries extracted in TASK-263. This will reduce code duplication across hub pages, enable browser caching of shared code, and improve maintainability.
 - **Notes**: Target the 5 largest hub pages first: docs-hub.html (96K), health-center.html (84K), config-center.html (84K), agent-hub.html (80K), operations-hub.html (76K). Expected benefits: ~20-30% size reduction per hub, unified API caching, easier future updates.
@@ -390,6 +390,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-25 04:00 by idea-maker (added TASK-264 - hub page optimization)*
+*Last updated: 2026-01-25 04:01 by project-manager (assigned TASK-264 to developer)*
 
 ---
