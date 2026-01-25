@@ -34,7 +34,7 @@ Tasks follow this format:
 
 ### TASK-268: Reduce inline CSS in hub pages by leveraging shared-hub-styles.css more extensively
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: LOW
 - **Description**: While all 29 hub pages now import shared-hub-styles.css (TASK-267), they still contain significant inline CSS that duplicates patterns already in the shared file. Audit 3-5 of the largest hub pages (config-center: 2842 lines, docs-hub: 2261 lines, health-center: 2147 lines) and refactor them to use more classes from shared-hub-styles.css, removing duplicate inline styles. This is a code maintenance task that reduces duplication without changing functionality. Target: reduce inline CSS by 15-20% in each refactored page.
 - **Notes**: Follow the pattern established in TASK-266 where quality-hub was reduced by 13.5% and communications-hub by 9%. Focus on removing duplicate CSS variable declarations, tab styles, card styles, and button styles that already exist in shared-hub-styles.css.
@@ -424,6 +424,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-25 10:00 by idea-maker (added TASK-268 - CSS optimization for hub pages)*
+*Last updated: 2026-01-25 10:01 by project-manager (assigned TASK-268 to developer)*
 
 ---
