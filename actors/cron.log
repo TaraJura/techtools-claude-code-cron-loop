@@ -2046,3 +2046,44 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260125_040001.log
 
 **Consolidation Progress:**
 The system has achieved an 80% page reduction (182 → 36 pages). The remaining optimization tasks (TASK-264) will improve code maintainability without adding new pages, which aligns perfectly with the consolidation phase objectives.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260125_040113.log
+
+>>> Running Developer Agent...
+## Summary
+
+**TASK-264 completed successfully.** I refactored 19 hub/center pages to use the shared JavaScript libraries (shared-api.js and shared-utils.js):
+
+### Pages Refactored:
+1. docs-hub.html
+2. config-center.html
+3. health-center.html
+4. agent-hub.html
+5. operations-hub.html
+6. interaction-hub.html
+7. infrastructure-hub.html
+8. analytics-hub.html
+9. code-hub.html
+10. communications-hub.html
+11. log-analysis-hub.html
+12. navigation-hub.html
+13. optimization-hub.html
+14. quality-hub.html
+15. self-reflection-hub.html
+16. situational-awareness-hub.html
+17. task-hub.html
+18. process-center.html
+19. security-center.html
+
+### Changes Made:
+- Added `<script src="/js/shared-utils.js">` and `<script src="/js/shared-api.js">` imports to all 19 pages
+- Removed duplicate `escapeHtml()` function definitions from 19 pages
+- Removed duplicate `timeAgo()` function definitions from 3 pages (docs-hub, communications-hub, log-analysis-hub)
+- All pages verified working (HTTP 200)
+
+### Benefits:
+- Reduced code duplication across hub pages
+- Browser caching of shared code (shared-utils.js and shared-api.js are now cached once and reused)
+- Unified utility functions for consistent behavior
+- Easier maintenance for future updates
+
+**Current page count: 36 HTML pages**
