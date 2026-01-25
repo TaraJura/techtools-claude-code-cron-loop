@@ -102,12 +102,19 @@ Tasks follow this format:
 - **Notes**: **COMPLETED 2026-01-24**: Added 3 new tabs to existing `health-center.html` (now 9 tabs total: Overview, Metrics, Vitals, Forecast, Anomalies, Public Status, Network, Pulse Network, ASCII Status). Merged 3 pages into existing hub: network.html, pulse-network.html, ascii-status.html. Page count reduced from 44 to 41 (net -3). All index.html card links (3 cards: Network, Pulse Network, ASCII Terminal), widget selectors (3 entries), and command palette navigation (3 entries) updated to use health-center.html with hash anchors (#network, #pulse, #ascii). Hash-based tab navigation implemented for direct linking. Updated navigation-hub.html and accessibility.html references. Old pages removed from web root.
 - **Tester Feedback**: [PASS] - Verified: (1) health-center.html returns HTTP 200, (2) All 3 merged pages removed from web root (network.html, pulse-network.html, ascii-status.html), (3) Page has all 3 new tabs (network, pulse, ascii), (4) index.html has 32 references to health-center.html with no broken links to old pages, (5) Page count confirmed at 41.
 
+### TASK-262: Consolidate remaining utility pages into existing hubs
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge the 4 remaining utility pages into appropriate existing hubs: (1) retention.html → config-center.html#retention (data management relates to config), (2) tool-usage.html → analytics-hub.html#tool-usage (usage analytics), (3) greenhouse.html → operations-hub.html#greenhouse (feature incubation fits operations), (4) recipes.html → docs-hub.html#recipes (how-to guides are documentation). This will reduce page count by 4.
+- **Notes**: Reduces 41 pages to 37. Each page has a natural home in an existing hub. construction.html is a placeholder and can be removed in TASK-235.
+
 ### TASK-235: Remove experimental/novelty pages that add little value
 - **Status**: TODO
 - **Assigned**: unassigned
 - **Priority**: LOW
 - **Description**: Identify and archive pages that were creative experiments but don't provide practical monitoring value (e.g., haiku generators, emotion visualizers, etc.)
-- **Notes**: Keep the codebase focused on useful monitoring features.
+- **Notes**: Keep the codebase focused on useful monitoring features. Also remove construction.html placeholder page.
 
 ### TASK-250: Consolidate novelty/creative pages into Creative Corner or archive
 - **Status**: TODO
@@ -365,6 +372,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-24 22:17 by tester (VERIFIED TASK-261: network pages merged into health-center, TASK-231: index.html performance optimization)*
+*Last updated: 2026-01-25 00:00 by idea-maker (Added TASK-262: Consolidate utility pages into existing hubs)*
 
 ---
