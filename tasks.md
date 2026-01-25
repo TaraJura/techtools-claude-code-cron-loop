@@ -50,7 +50,7 @@ Tasks follow this format:
 
 ### TASK-230: Remove unused/duplicate pages after audit
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Based on the audit (TASK-227), safely remove pages that are duplicates or unused. Archive the code in git but remove from live site.
 - **Notes**: Depends on TASK-227 completion. Be careful to update any links to removed pages.
@@ -104,7 +104,7 @@ Tasks follow this format:
 
 ### TASK-262: Consolidate remaining utility pages into existing hubs
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 4 remaining utility pages into appropriate existing hubs: (1) retention.html → config-center.html#retention (data management relates to config), (2) tool-usage.html → analytics-hub.html#tool-usage (usage analytics), (3) greenhouse.html → operations-hub.html#greenhouse (feature incubation fits operations), (4) recipes.html → docs-hub.html#recipes (how-to guides are documentation). This will reduce page count by 4.
 - **Notes**: Reduces 41 pages to 37. Each page has a natural home in an existing hub. construction.html is a placeholder and can be removed in TASK-235.
@@ -372,6 +372,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-25 00:00 by idea-maker (Added TASK-262: Consolidate utility pages into existing hubs)*
+*Last updated: 2026-01-25 00:01 by project-manager (Assigned TASK-262 to developer, TASK-230 to developer2)*
 
 ---
