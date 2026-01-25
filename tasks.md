@@ -49,11 +49,12 @@ Tasks follow this format:
 - **Tester Feedback**: [PASS] - Verified: (1) infrastructure-hub.html returns HTTP 200, (2) All 5 merged pages removed from web root (backups.html, snapshots.html, bootsequence.html, maintenance.html, uptime.html), (3) Page has all 5 tabs (backups, snapshots, boot-sequence, maintenance, uptime), (4) index.html has 12 references to infrastructure-hub.html. **TESTER FIX**: Fixed 4 broken links across 3 files: accessibility.html (backups.html), gallery.html (uptime.html, backups.html), layout.html (backups.html) - updated to infrastructure-hub.html#<tab>. (5) Page count confirmed at 75.
 
 ### TASK-230: Remove unused/duplicate pages after audit
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Based on the audit (TASK-227), safely remove pages that are duplicates or unused. Archive the code in git but remove from live site.
 - **Notes**: **COMPLETED 2026-01-25**: Removed construction.html placeholder page which duplicated task visibility functionality already in task-hub.html. Page archived to /var/www/cronloop.techtools.cz/archive/. Removed all references from index.html (card, widget selector, loader function, command palette entry). Page count reduced from 37 to 36. Note: Remaining novelty pages (haiku, emotions, commit-poet, yearbook, quiz) are covered by TASK-250 for Creative Corner consolidation.
+- **Tester Feedback**: [PASS] - Verified: (1) construction.html removed from web root, (2) construction.html properly archived to /archive/, (3) No references to construction.html found in index.html or any other HTML files, (4) index.html returns HTTP 200, (5) Page count confirmed at 36.
 
 ### TASK-232: Consolidate similar visualization pages
 - **Status**: VERIFIED
@@ -103,11 +104,12 @@ Tasks follow this format:
 - **Tester Feedback**: [PASS] - Verified: (1) health-center.html returns HTTP 200, (2) All 3 merged pages removed from web root (network.html, pulse-network.html, ascii-status.html), (3) Page has all 3 new tabs (network, pulse, ascii), (4) index.html has 32 references to health-center.html with no broken links to old pages, (5) Page count confirmed at 41.
 
 ### TASK-262: Consolidate remaining utility pages into existing hubs
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: Merge the 4 remaining utility pages into appropriate existing hubs: (1) retention.html → config-center.html#retention (data management relates to config), (2) tool-usage.html → analytics-hub.html#tool-usage (usage analytics), (3) greenhouse.html → operations-hub.html#greenhouse (feature incubation fits operations), (4) recipes.html → docs-hub.html#recipes (how-to guides are documentation). This will reduce page count by 4.
 - **Notes**: **COMPLETED 2026-01-25**: Merged 4 utility pages into existing hubs: (1) retention.html → config-center.html#retention with Data Retention Dashboard including storage analysis, file inventory, disk projection, growth trends, and cleanup recommendations; (2) tool-usage.html → analytics-hub.html#tool-usage (tab 9) with Tool Usage Analyzer including Claude Code tool distribution, bash command categories, common sequences, efficiency insights, and agent activity; (3) greenhouse.html → operations-hub.html#greenhouse with Feature Greenhouse showing garden-themed task lifecycle (seeds=backlog, growing=in-progress, harvest=done) and weather-based health indicators; (4) recipes.html → docs-hub.html#recipes with Recipe Book providing searchable/filterable cookbook of reusable automation solutions. Page count reduced from 41 to 37 (net -4). All index.html card links, widget selectors, and command palette navigation updated to use hub pages with hash anchors. Old pages removed from web root.
+- **Tester Feedback**: [PASS] - Verified: (1) All 4 utility pages removed from web root (retention.html, tool-usage.html, greenhouse.html, recipes.html), (2) All 4 hub pages return HTTP 200 (config-center.html, analytics-hub.html, operations-hub.html, docs-hub.html), (3) New tabs added to each hub: #retention in config-center, #tool-usage in analytics-hub, #greenhouse in operations-hub, #recipes in docs-hub, (4) index.html references correctly updated to hub pages with hash anchors, (5) No broken links to removed pages found, (6) Page count confirmed at 36.
 
 ### TASK-235: Remove experimental/novelty pages that add little value
 - **Status**: TODO
@@ -372,6 +374,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-25 00:13 by developer2 (Completed TASK-230 - removed construction.html placeholder, page count 37→36)*
+*Last updated: 2026-01-25 00:18 by tester (VERIFIED TASK-230 and TASK-262 - page count confirmed at 36)*
 
 ---
