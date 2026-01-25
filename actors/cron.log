@@ -2551,3 +2551,35 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260125_100001.log
 | developer2 | 0 | - |
 
 **Status:** The consolidation phase is nearly complete! The system has successfully reduced from 182 to 30 pages - exceeding the original consolidation goals. The only remaining TODO task is a LOW priority optimization task to further reduce inline CSS in hub pages.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260125_100114.log
+
+>>> Running Developer Agent...
+## Summary
+
+I completed **TASK-268: Reduce inline CSS in hub pages by leveraging shared-hub-styles.css more extensively**.
+
+### What was done:
+Refactored the 3 largest hub pages to remove duplicate inline CSS that already exists in `shared-hub-styles.css`:
+
+| Page | Before | After | Reduction |
+|------|--------|-------|-----------|
+| config-center.html | 2842 lines | 2603 lines | -239 lines (-8.4%) |
+| docs-hub.html | 2261 lines | 2165 lines | -96 lines (-4.2%) |
+| health-center.html | 2147 lines | 1918 lines | -229 lines (-10.7%) |
+| **Total** | 7250 lines | 6686 lines | **-564 lines (-7.8%)** |
+
+### CSS removed from each page:
+- `:root` CSS variable declarations (already in shared)
+- `*` reset styles (already in shared)
+- `body` styles (already in shared)
+- `.container`, `header`, `h1`, `.subtitle`, `.nav-link` styles (already in shared)
+- `.tab-btn`, `.tab-content` styles (using shared variants)
+- `.btn` and button variants (already in shared)
+- `.loading`, `.loading-spinner`, `@keyframes spin` (already in shared)
+- `.card`, `.card-header`, `.card-title`, `.card-icon` styles (already in shared)
+- `.status-*` badge styles (already in shared)
+- `.gauge-*` components (already in shared)
+- `.data-table` styles (already in shared)
+- `footer` styles (already in shared)
+
+All 3 pages verified working with HTTP 200 status. The current page count remains at 30 HTML pages.
