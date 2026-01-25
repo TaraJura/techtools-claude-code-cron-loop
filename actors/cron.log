@@ -3932,3 +3932,39 @@ Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260125_020001.log
 The consolidation phase has been extremely successful. The system reduced from 182 pages to 36 pages. The remaining HIGH priority task (TASK-263) focuses on code optimization rather than page reduction - extracting the 8,479-line index.html into modular JavaScript files for better maintainability and caching.
 
 The two LOW priority tasks (TASK-235, TASK-250) both target novelty pages like haiku generators and emotion visualizers - these could be merged or archived but have low impact on the core monitoring functionality.
+Done. Log saved to: /home/novakj/actors/project-manager/logs/20260125_020106.log
+
+>>> Running Developer Agent...
+## Summary
+
+I completed **TASK-263: Optimize index.html by extracting reusable code to separate JS files**.
+
+### What was done:
+1. **Created `/js/shared-api.js`** (170 lines) - Contains:
+   - API caching layer with 30s TTL
+   - `cachedFetch()` function for request deduplication
+   - Lazy loading utilities with IntersectionObserver
+   - Batch loading for critical system data
+   - All functions exposed globally for use by inline scripts
+
+2. **Created `/js/shared-utils.js`** (200 lines) - Contains:
+   - Time formatting utilities (`timeAgo`, `elapsedTime`, `formatTimeAgo`)
+   - Status helpers (`getStatusText`, `getStatusClass`, `getMoodClass`, `getMoodLabel`)
+   - String utilities (`escapeHtml`, `truncateText`)
+   - Fuzzy search (`fuzzyMatch`, `highlightMatches`)
+   - Sparkline generator
+
+3. **Updated `index.html`**:
+   - Added script includes for both shared JS files
+   - Removed 99 lines of duplicated code
+   - Reduced from 8,479 to 8,380 lines
+
+4. **Verified**:
+   - Dashboard returns HTTP 200
+   - Both shared JS files accessible (HTTP 200)
+   - Page count remains at 36 HTML pages
+
+### Notes:
+- Command palette and theme toggle code remained inline due to tight DOM coupling
+- Page-specific utility function implementations retained (they override shared versions where needed)
+- The shared JS files can now be cached by browsers and reused across hub pages

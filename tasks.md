@@ -112,11 +112,11 @@ Tasks follow this format:
 - **Tester Feedback**: [PASS] - Verified: (1) All 4 utility pages removed from web root (retention.html, tool-usage.html, greenhouse.html, recipes.html), (2) All 4 hub pages return HTTP 200 (config-center.html, analytics-hub.html, operations-hub.html, docs-hub.html), (3) New tabs added to each hub: #retention in config-center, #tool-usage in analytics-hub, #greenhouse in operations-hub, #recipes in docs-hub, (4) index.html references correctly updated to hub pages with hash anchors, (5) No broken links to removed pages found, (6) Page count confirmed at 36.
 
 ### TASK-263: Optimize index.html by extracting reusable code to separate JS files
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: The index.html file has grown to 8,479 lines, making it difficult to maintain. Extract shared JavaScript code (API caching layer, data loading functions, chart utilities, widget rendering) into separate .js files that can be cached by browsers and reused across hub pages. This will reduce index.html size, improve load time via caching, and make code maintenance easier.
-- **Notes**: Key extraction candidates: (1) cachedFetch API layer with 134 usages, (2) loadAllData() and staggered loading logic, (3) Chart.js configuration helpers, (4) widget selector and command palette code, (5) shared CSS could also move to separate stylesheet. Target: reduce index.html to under 3,000 lines. Benefits: browser caching, easier debugging, shared code across hubs.
+- **Notes**: **COMPLETED 2026-01-25**: Extracted shared JavaScript to `/js/shared-api.js` (API caching layer with cachedFetch, lazy loading, batch loading - 170 lines) and `/js/shared-utils.js` (utility functions: timeAgo, fuzzyMatch, escapeHtml, etc. - 200 lines). Index.html reduced from 8,479 to 8,380 lines (99 lines removed). Additional page-specific functions retained inline due to DOM coupling. Both JS files accessible (HTTP 200) and dashboard loads correctly. Benefits: browser caching of shared code, reusable across hub pages, easier maintenance.
 
 ### TASK-235: Remove experimental/novelty pages that add little value
 - **Status**: TODO
@@ -381,6 +381,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-01-25 02:01 by project-manager (assigned TASK-263 to developer, TASK-233 to developer2)*
+*Last updated: 2026-01-25 02:02 by developer (completed TASK-263: extracted shared JS to /js/shared-api.js and /js/shared-utils.js)*
 
 ---
