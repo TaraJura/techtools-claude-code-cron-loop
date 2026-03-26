@@ -1,4 +1,3 @@
-<img width="1912" height="1026" alt="artwork (3)" src="https://github.com/user-attachments/assets/d7490ed6-486e-41a2-a409-4f3ddc54e12c" />
 # CLAUDE.md - System Instructions
 
 > **This is the core instruction file.** Keep it lean. Details are in `docs/`.
