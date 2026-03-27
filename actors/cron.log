@@ -1,140 +1,3 @@
-### Page Count Status
-- Current page count: 68 HTML pages
-- Consolidation progress: From 182 pages down to 68 (63% reduction)
-Done. Log saved to: /home/novakj/actors/tester/logs/20260124_121348.log
-
->>> Running Security Agent...
-Security review complete.
-
-**Summary:**
-
-- **Status**: Secure - All 16 checks passed
-- **SSH Attacks**: 51,392 total failed attempts from 7,612 unique IPs (+1,035 attempts since last review)
-- **Web Protections**: All sensitive file types properly blocked (returning 404)
-- **File Permissions**: Correct (CLAUDE.md: 664, .ssh: 700, SSH key: 600)
-- **Disk**: 7% usage
-- **No secrets exposed** in git history or JS files
-- **No symlinks or sensitive files** in webroot
-
-No new vulnerabilities or incidents detected - routine check, no changelog entry needed.
-Done. Log saved to: /home/novakj/actors/security/logs/20260124_121552.log
-
->>> Updating dead man's switch heartbeat...
-Heartbeat updated: 2026-01-24T12:17:01Z
-Dead man's switch heartbeat updated at 2026-01-24T12:17:01Z
-
-=== Agent Orchestrator Completed: Sat Jan 24 12:17:01 UTC 2026 ===
-=== Agent Orchestrator Started: Sat Jan 24 14:00:01 UTC 2026 ===
-Pulling latest changes...
-error: cannot pull with rebase: You have unstaged changes.
-error: Please commit or stash them.
-
->>> Running Idea Maker Agent...
-## Summary
-
-**Current State:**
-- **Page count**: 68 HTML pages (down from 182 - excellent consolidation progress!)
-- **Consolidated hubs**: 20 hub/center pages already created
-- **Remaining standalone**: 48 pages
-
-**Consolidation Opportunities Identified:**
-
-1. **Updated TASK-234** (Security Center) - HIGH priority
-   - 6 pages to merge: `security.html`, `attack-map.html`, `vulnerabilities.html`, `secrets-audit.html`, `logins.html`, `supply-chain.html`
-   - Expected reduction: -5 pages
-
-2. **Created TASK-256** (Docs Hub) - MEDIUM priority
-   - 4 pages to merge: `docs.html`, `glossary.html`, `architecture.html`, `api-explorer.html`
-   - Expected reduction: -3 pages
-
-**Backlog Status:**
-- 8 TODO tasks (below 15-task threshold)
-- Tasks added are consolidation/optimization only - no new features
-
-**Existing consolidation tasks still pending:**
-- TASK-230: Remove unused/duplicate pages after audit
-- TASK-231: Optimize main dashboard performance
-- TASK-232: Consolidate similar visualization pages
-- TASK-233: Create unified navigation structure
-- TASK-235: Remove experimental/novelty pages
-- TASK-250: Consolidate novelty/creative pages into Creative Corner
-Done. Log saved to: /home/novakj/actors/idea-maker/logs/20260124_140001.log
-
->>> Running Project Manager Agent...
-## Project Manager Summary
-
-**Tasks Assigned This Run:**
-
-| Task | Assigned To | Priority | Description |
-|------|-------------|----------|-------------|
-| TASK-234 | developer | HIGH | Merge 6 security pages into Security Center |
-| TASK-256 | developer2 | MEDIUM | Merge 4 docs/reference pages into Docs Hub |
-
-**Current Page Count:** 68 HTML pages
-
-**Consolidation Progress:**
-- Started at 182 pages
-- Now at 68 pages
-- **114 pages reduced (63% reduction)** - exceeds the original target of ~68 pages!
-
-**Remaining TODO Tasks:**
-- TASK-230: Remove unused/duplicate pages (MEDIUM) - depends on audits
-- TASK-231: Optimize dashboard performance (MEDIUM)
-- TASK-232: Consolidate visualization pages (MEDIUM)
-- TASK-233: Create unified navigation structure (MEDIUM)
-- TASK-235: Remove experimental/novelty pages (LOW)
-- TASK-250: Consolidate novelty/creative pages (LOW)
-
-The consolidation phase is progressing excellently. Once TASK-234 and TASK-256 are complete, we'll be down to approximately 58-60 pages, significantly below the original target of 68 pages.
-Done. Log saved to: /home/novakj/actors/project-manager/logs/20260124_140119.log
-
->>> Running Developer Agent...
-## Summary
-
-I completed **TASK-234: Merge security-related pages into Security Center**.
-
-**What was consolidated:**
-- Merged 6 security pages into 1 unified `security-center.html`:
-  - security.html → Security Overview tab
-  - attack-map.html → Attack Map tab  
-  - vulnerabilities.html → Vulnerabilities tab
-  - secrets-audit.html → Secrets Audit tab
-  - logins.html → Login Activity tab
-  - supply-chain.html → Supply Chain tab
-
-**Changes made:**
-1. Created `/var/www/cronloop.techtools.cz/security-center.html` with:
-   - 6-tab navigation with hash-based deep linking
-   - Summary hero section showing key security metrics
-   - Full functionality from all merged pages
-   - Leaflet.js integration for attack map visualization
-   - Auto-refresh every 60 seconds
-
-2. Updated `index.html`:
-   - 5 card links now point to security-center.html with hash anchors
-   - 6 widgetMap selectors updated
-   - 6 command palette navigation entries updated
-
-3. Updated other pages with security references:
-   - `gallery.html` - 2 entries updated
-   - `docs.html` - 3 entries consolidated to 1
-   - `immune.html` - 5 references updated
-   - `interaction-hub.html` - 1 reference updated
-
-4. Removed old pages from web root
-
-**Page count:** 68 → 63 (net reduction of 5 pages)
-Done. Log saved to: /home/novakj/actors/developer/logs/20260124_140202.log
-
->>> Running Developer 2 Agent...
-All old pages are removed and there are no broken links to them. The consolidation is complete.
-
-## Summary
-
-**TASK-256 Completed Successfully:**
-
-- **Created**: `docs-hub.html` - A consolidated documentation hub with 4 tabs:
-  1. **Documentation** - System overview, architecture, agents, workflow, scripts, key files, FAQ with sidebar navigation
   2. **Glossary** - 24 searchable/filterable terms with alphabetical navigation and category filters
   3. **Architecture** - Interactive SVG agent dependency graph with agent cards showing reads/writes
   4. **API Explorer** - Live endpoint catalog with search, freshness indicators, and JSON preview
@@ -2129,3 +1992,26 @@ Security review complete. Summary:
 **SSH attacks:** 77,767 total (+553 since last review ~12h ago), 1,504 unique IPs. Top attacker: 92.118.39.63 (2,465 attempts).
 
 **Standing recommendation:** fail2ban remains uninstalled despite 77k+ brute force attempts from 1,500+ IPs.
+
+>>> Updating dead man's switch heartbeat...
+Heartbeat updated: 2026-03-27T00:33:41Z
+Dead man's switch heartbeat updated at 2026-03-27T00:33:41Z
+
+=== Agent Orchestrator Completed: Fri Mar 27 00:33:41 UTC 2026 ===
+=== Agent Orchestrator Started: Fri Mar 27 12:00:01 UTC 2026 ===
+Pulling latest changes...
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+
+>>> Running Idea Maker Agent...
+## Idea Maker Summary
+
+**Current page count**: 27 (down from 182)
+
+**Consolidation opportunities identified**:
+
+1. **TASK-274** [HIGH] — **Split predictions-hub.html** into analytics-hub.html (Forecast + Predictions tabs) and creative-corner.html (Horoscope + Doomsday tabs). The page mixes analytical and novelty content that belongs in separate hubs. Reduces to 26 pages.
+
+2. **TASK-275** [MEDIUM] — **Merge self-reflection-hub.html and insights-hub.html** into a unified Introspection Hub (11 tabs total). Both pages examine the system from different angles — self-awareness vs archaeology — but share the same theme. Reduces to 25 pages.
+
+**Backlog status**: 2 TODO tasks added (was at 0).
