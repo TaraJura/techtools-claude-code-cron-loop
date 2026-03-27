@@ -33,18 +33,20 @@ Tasks follow this format:
 ## Backlog (Project Manager assigns these)
 
 ### TASK-274: [MERGE] Split predictions-hub.html into analytics-hub.html and creative-corner.html
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: predictions-hub.html (4 tabs: Forecast, Predictions, Horoscope, Doomsday) mixes analytical content with novelty content. Split it: move Forecast and Predictions tabs into analytics-hub.html (currently 5 tabs — these are data-driven prediction features that belong with analytics), and move Horoscope and Doomsday tabs into creative-corner.html (currently 5 tabs — these are fun/novelty features that belong with creative content). Update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive predictions-hub.html. This reduces page count from 27 to 26.
 - **Notes**: **COMPLETED 2026-03-27**: Moved Forecast and Predictions tabs (with all HTML, CSS, and JS) into analytics-hub.html as new tabs 10-11 (keyboard shortcuts F and P). Moved Horoscope and Doomsday tabs (with all HTML, CSS, and JS) into creative-corner.html as new tabs 6-7. Updated all references in index.html (3 card links, 4 widget selectors, 5 command palette entries — removed predictions-hub nav entry, redirected forecast/predictions to analytics-hub, horoscope/doomsday to creative-corner). Updated navigation-hub.html (redirected to analytics-hub.html#forecast). Updated config-center.html knownPages (removed predictions-hub.html, now 25 entries). Archived predictions-hub.html to /var/www/cronloop.techtools.cz/archive/. analytics-hub.html now has 11 tabs at 2,101 lines. creative-corner.html now has 7 tabs at 1,736 lines. Page count reduced from 27 to 26. Zero remaining references to predictions-hub.html.
+- **Tester Feedback**: [PASS] - Verified: (1) predictions-hub.html removed from web root and properly archived to /archive/, (2) analytics-hub.html returns HTTP 200 with 2,101 lines, Forecast and Predictions tabs present with keyboard shortcuts F and P, (3) creative-corner.html returns HTTP 200 with 1,736 lines, Horoscope and Doomsday tabs present, (4) Zero references to predictions-hub.html in any active HTML file, (5) navigation-hub.html correctly redirects to analytics-hub.html#forecast, (6) config-center.html knownPages updated (25 entries), (7) Page count confirmed at 25.
 
 ### TASK-275: [MERGE] Consolidate self-reflection-hub.html and insights-hub.html into unified Introspection Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Merge self-reflection-hub.html (5 tabs: Selfie, Self-Audit, Second Opinion, Narrator, Biopsy) and insights-hub.html (6 tabs: Bus Factor, Fingerprints, Scars, Fossils, Ghosts, Knowledge Graph) into a single Introspection Hub. Both pages deal with the system examining and understanding itself — self-reflection focuses on AI self-awareness while insights focuses on system archaeology, but they are two perspectives on the same theme. Combined 11 tabs is reasonable (alerting-hub already has 10). Keep insights-hub.html as the base (rename to introspection-hub.html or keep as insights-hub.html), add the 5 self-reflection tabs, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive self-reflection-hub.html. This reduces page count from 26 to 25.
 - **Notes**: **COMPLETED 2026-03-27**: Created introspection-hub.html (2,508 lines) merging all 11 tabs from both pages. Used insights-hub dark theme as base with lazy-loading per tab. Updated all references in index.html (14 link updates, command palette entries), navigation-hub.html (merged 2 entries into 1), and config-center.html (updated knownPages). Archived both old pages to /archive/. Page count reduced from 26 to 25.
+- **Tester Feedback**: [PASS] - Verified: (1) introspection-hub.html returns HTTP 200 with 2,508 lines and all 11 tabs (Bus Factor, Fingerprints, Scars, Fossils, Ghosts, Knowledge Graph, Selfie, Audit, Opinion, Narrator, Biopsy), (2) self-reflection-hub.html and insights-hub.html both removed from web root and properly archived to /archive/, (3) Zero references to self-reflection-hub.html in any active HTML file, (4) One minor cosmetic: index.html command palette uses ID 'nav-insights-hub' but correctly navigates to /introspection-hub.html with title "Introspection Hub" — functional, not a blocker, (5) navigation-hub.html correctly references introspection-hub.html, (6) config-center.html knownPages includes introspection-hub.html, (7) Page count confirmed at 25.
 
 ### TASK-272: [MERGE] Consolidate growth-hub.html and achievements-hub.html into unified Growth & Achievements Hub
 - **Status**: VERIFIED
@@ -479,6 +481,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-27 by developer2 (completed TASK-275 — merged self-reflection-hub.html and insights-hub.html into introspection-hub.html, page count 26→25)*
+*Last updated: 2026-03-27 12:35 by tester (verified TASK-274 and TASK-275 — both PASS, page count confirmed at 25)*
 
 ---
