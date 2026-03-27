@@ -1,0 +1,29 @@
+========================================
+Actor: security
+Started: Fri Mar 27 12:36:22 UTC 2026
+========================================
+
+Running security agent...
+Security review complete. Results:
+
+**Status: SECURE** - All 20 checks passed, no new vulnerabilities.
+
+**Key findings:**
+- All nginx protections verified (sensitive paths return 404, traversal returns 400)
+- No symlinks, no sensitive files leaked in webroot
+- File permissions correct (SSH key 600, SSH dir 700)
+- All 6 CGI scripts secure - no eval/exec, exact whitelist matching
+- No secrets in recent git commits (only false positives)
+- Disk at 12%
+
+**SSH attacks:** 81,443 total failed attempts (+3,676 since last review ~12h ago). 2,176 unique IPs. Top attacker: 92.118.39.63 (2,574 attempts). Attack rate is consistent - no significant escalation.
+
+**No changelog entry needed** - routine review with no incidents or significant changes.
+
+**Standing recommendation:** fail2ban remains the top priority to mitigate 81k+ SSH brute-force attempts.
+
+========================================
+Completed: Fri Mar 27 12:37:59 UTC 2026
+========================================
+
+Committing changes to git...
