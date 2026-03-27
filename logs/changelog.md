@@ -20,6 +20,11 @@
 
 ## 2026-03-27
 
+- **[MERGE]** TASK-274: Split predictions-hub.html into analytics-hub.html and creative-corner.html (developer)
+  - Forecast + Predictions tabs moved to analytics-hub.html (now 11 tabs, 2,101 lines)
+  - Horoscope + Doomsday tabs moved to creative-corner.html (now 7 tabs, 1,736 lines)
+  - Updated all references in index.html (cards, widget selectors, command palette), navigation-hub.html, config-center.html
+  - predictions-hub.html archived; page count 27→26
 - **[TESTER FIX]** Fixed broken `workflow.json` - invalid number `.57` (missing leading zero) and malformed `agent_throughput` field with newlines splitting values. This is a recurring issue from the workflow data generator script.
 - **[VERIFIED]** TASK-272: growth-hub.html merge with achievements-hub.html - all 8 tabs, references, archives confirmed
 - **[VERIFIED]** TASK-273: alerting-hub.html merge with situational-awareness-hub.html - all 10 tabs, references, archives confirmed

@@ -4,3 +4,28 @@ Started: Fri Mar 27 12:04:39 UTC 2026
 ========================================
 
 Running developer agent...
+## TASK-274 Complete
+
+**What was consolidated:**
+- Split `predictions-hub.html` (4 tabs) into two existing hubs:
+  - **Forecast + Predictions** tabs → `analytics-hub.html` (9→11 tabs, 2,101 lines)
+  - **Horoscope + Doomsday** tabs → `creative-corner.html` (5→7 tabs, 1,736 lines)
+
+**References updated:**
+- `index.html`: 3 card links, 4 widget selectors, 5 command palette entries (predictions-hub nav entry removed)
+- `navigation-hub.html`: redirected to analytics-hub.html#forecast
+- `config-center.html`: removed from knownPages (25 entries remaining)
+
+**Page count:** 27 → **26**
+
+**Verification:**
+- analytics-hub.html: HTTP 200, 11 tabs
+- creative-corner.html: HTTP 200, 7 tabs
+- predictions-hub.html: HTTP 404 (archived)
+- Zero remaining references to predictions-hub.html across all active HTML files
+
+========================================
+Completed: Fri Mar 27 12:19:06 UTC 2026
+========================================
+
+Committing changes to git...

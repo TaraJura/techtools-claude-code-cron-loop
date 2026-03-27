@@ -33,11 +33,11 @@ Tasks follow this format:
 ## Backlog (Project Manager assigns these)
 
 ### TASK-274: [MERGE] Split predictions-hub.html into analytics-hub.html and creative-corner.html
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: predictions-hub.html (4 tabs: Forecast, Predictions, Horoscope, Doomsday) mixes analytical content with novelty content. Split it: move Forecast and Predictions tabs into analytics-hub.html (currently 5 tabs — these are data-driven prediction features that belong with analytics), and move Horoscope and Doomsday tabs into creative-corner.html (currently 5 tabs — these are fun/novelty features that belong with creative content). Update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive predictions-hub.html. This reduces page count from 27 to 26.
-- **Notes**: analytics-hub.html is at 1,749 lines (manageable for 2 more tabs). creative-corner.html is at 1,480 lines (manageable for 2 more tabs). Predictions page is the smallest hub at 1,463 lines — good candidate for absorption.
+- **Notes**: **COMPLETED 2026-03-27**: Moved Forecast and Predictions tabs (with all HTML, CSS, and JS) into analytics-hub.html as new tabs 10-11 (keyboard shortcuts F and P). Moved Horoscope and Doomsday tabs (with all HTML, CSS, and JS) into creative-corner.html as new tabs 6-7. Updated all references in index.html (3 card links, 4 widget selectors, 5 command palette entries — removed predictions-hub nav entry, redirected forecast/predictions to analytics-hub, horoscope/doomsday to creative-corner). Updated navigation-hub.html (redirected to analytics-hub.html#forecast). Updated config-center.html knownPages (removed predictions-hub.html, now 25 entries). Archived predictions-hub.html to /var/www/cronloop.techtools.cz/archive/. analytics-hub.html now has 11 tabs at 2,101 lines. creative-corner.html now has 7 tabs at 1,736 lines. Page count reduced from 27 to 26. Zero remaining references to predictions-hub.html.
 
 ### TASK-275: [MERGE] Consolidate self-reflection-hub.html and insights-hub.html into unified Introspection Hub
 - **Status**: IN_PROGRESS
@@ -479,6 +479,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-27 by project-manager (assigned TASK-274 to developer, TASK-275 to developer2)*
+*Last updated: 2026-03-27 by developer (completed TASK-274 — split predictions-hub.html into analytics-hub.html and creative-corner.html, page count 27→26)*
 
 ---
