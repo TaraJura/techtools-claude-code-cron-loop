@@ -1,19 +1,27 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-01-25T12:12:09Z",
+  "last_review": "2026-03-26T21:47:00Z",
   "status": "secure",
+  "vulnerability_fixed": {
+    "description": "Command injection via prefix matching in execute.cgi",
+    "severity": "CRITICAL",
+    "fix": "Removed prefix matching from whitelist check - now exact match only",
+    "verified": true
+  },
   "ssh_attacks": {
-    "total_failed_attempts": 63472,
-    "unique_ips": 9735,
+    "total_failed_attempts": 77214,
+    "current_log_attempts": 32106,
+    "rotated_log_attempts": 45108,
+    "unique_ips": 739,
     "top_attackers": [
-      {"ip": "185.246.130.20", "attempts": 4225},
-      {"ip": "151.80.144.159", "attempts": 2547},
-      {"ip": "36.138.95.164", "attempts": 2065},
-      {"ip": "66.116.226.147", "attempts": 840},
-      {"ip": "195.178.110.30", "attempts": 709}
+      {"ip": "165.154.6.42", "attempts": 2417},
+      {"ip": "186.96.145.241", "attempts": 910},
+      {"ip": "180.93.42.15", "attempts": 823},
+      {"ip": "92.118.39.63", "attempts": 800},
+      {"ip": "2.57.122.177", "attempts": 744}
     ],
-    "attack_rate_per_hour": 316,
-    "change_since_last": "+632 attempts since last review (~2 hours ago)"
+    "log_period": "2026-03-22 to 2026-03-26",
+    "change_since_last": "+13742 total attempts since last review (2026-01-25)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -27,12 +35,18 @@
     "url_encoded_traversal_blocked": true,
     "all_returning_404": true
   },
+  "cgi_security": {
+    "execute_cgi": "Hardened - exact whitelist match only (prefix match vulnerability fixed 2026-03-26)",
+    "terminal_cgi": "Safe - case statement with hardcoded commands, argument sanitization",
+    "action_cgi": "Safe - delegates to queue script with rate limiting",
+    "prompt_version_cgi": "Safe - agent whitelist and hex-only hash validation"
+  },
   "file_permissions": {
     "claude_md": "664",
     "ssh_dir": "700",
     "ssh_key": "600"
   },
-  "disk_usage": "7%",
+  "disk_usage": "12%",
   "checks_passed": [
     "no_symlinks_in_webroot",
     "no_git_files_in_webroot",
@@ -48,27 +62,29 @@
     "path_traversal_blocked",
     "url_encoded_path_traversal_blocked",
     "no_secrets_in_recent_commits",
+    "no_eval_in_js_files",
+    "cgi_whitelist_exact_match_only",
     "disk_space_ok"
   ],
   "known_issues": [
     "World-writable API files (action-queue.json, action-status.json, postmortems.json) - required for CGI, mitigated by whitelist validation",
     "tasks.md in webroot intentionally exposed for task viewer feature - contains non-sensitive task data only",
-    "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts (secrets-audit.sh), not actual credentials"
+    "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials"
   ],
   "notes": [
-    "Log rotation occurred - auth.log.1 contains 58978 failed attempts, current auth.log has 4494",
-    "Total failed SSH attempts: 63472 (up from 62840 in last review)",
-    "Unique attacking IPs: 9735 (significant increase - likely due to improved IP parsing)",
-    "Attack rate: ~316/hour this period (stable)",
-    "Top attacker 185.246.130.20 remains at 4225 attempts (unchanged)",
+    "FIXED: Critical command injection vulnerability in execute.cgi - prefix matching allowed appending malicious commands after whitelisted prefixes",
+    "Log rotation occurred since last review - current auth.log covers 2026-03-22 to present",
+    "Total failed SSH attempts: 77,214 (up from 63,472 at last review on 2026-01-25)",
+    "Top attacker changed: 165.154.6.42 now leads with 2,417 attempts",
     "All nginx protections verified - all sensitive file types return 404",
     "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
     "SSH key permissions correct (600), SSH dir correct (700)",
-    "No sensitive files detected in recent commits",
-    "Disk usage healthy at 7%"
+    "No eval() calls found in JavaScript files",
+    "4 CGI scripts reviewed: execute.cgi, terminal.cgi, action.cgi, prompt-version.cgi",
+    "Disk usage at 12% (up from 7% at last review)"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - 63k+ total attacks from 9735 unique IPs",
+    "CRITICAL: Install fail2ban for SSH protection - 77k+ total attacks from 739+ unique IPs",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
   ]

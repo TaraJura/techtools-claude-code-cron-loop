@@ -1,0 +1,36 @@
+========================================
+Actor: security
+Started: Thu Mar 26 21:44:59 UTC 2026
+========================================
+
+Running security agent...
+## Security Review Summary - 2026-03-26
+
+### Critical Fix Applied
+**Command injection in `execute.cgi`** - The whitelist check used prefix matching (`$cmd == $allowed*`), allowing an attacker to append arbitrary commands after any whitelisted command (e.g., `free -m; cat /etc/shadow`). Fixed by removing prefix matching; now exact match only. Verified working.
+
+### All Checks Passed
+- **Nginx protections**: All sensitive file types (.git, .env, .sh, .py, .log, .md) return 404
+- **Path traversal**: Blocked (404 for direct, 400 for URL-encoded)
+- **File permissions**: SSH key 600, SSH dir 700, CLAUDE.md 664 - all correct
+- **No secrets** in recent git commits
+- **No symlinks** in webroot
+- **No eval()** in JavaScript files
+- **CGI scripts audited**: terminal.cgi, action.cgi, prompt-version.cgi all have proper input validation
+- **Disk**: 12% usage
+
+### SSH Attacks
+- 77,214 total failed attempts (up from 63,472 at last review)
+- 739 unique IPs in current log
+- Top attacker: 165.154.6.42 (2,417 attempts)
+- **Recommendation remains**: Install fail2ban
+
+### Known Issues (Unchanged)
+- World-writable API JSON files (required for CGI, mitigated)
+- tasks.md exposed intentionally for task viewer
+
+========================================
+Completed: Thu Mar 26 21:48:02 UTC 2026
+========================================
+
+Committing changes to git...

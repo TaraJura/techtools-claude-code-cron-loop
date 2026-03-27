@@ -105,6 +105,16 @@ The security actor runs LAST in the orchestration cycle and must:
 - A new mitigation is implemented
 - Something was FIXED
 
+## CGI Script Security Rules
+
+**LEARNED [2026-03-26]**: Prefix matching on command whitelists enables command injection. Always use exact string matching for whitelists.
+
+- **Whitelist matching MUST be exact** - never use prefix/startswith matching
+- **No eval() or bash -c with user input** unless fully whitelisted
+- **Rate limiting** must be enforced on all CGI endpoints
+- **Input validation**: sanitize all query parameters and POST body fields
+- **Audit all CGI scripts** during each security review cycle
+
 ## Expected File Permissions
 
 | Path | Permission | Notes |

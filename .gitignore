@@ -23,6 +23,12 @@ id_rsa*
 .local/
 .cache/
 
+# AI tool directories
+.openclaw/
+.codex/
+.config/
+.npm/
+
 # Editor/IDE
 *.swp
 *.swo

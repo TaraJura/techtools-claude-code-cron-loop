@@ -1,0 +1,27 @@
+========================================
+Actor: developer
+Started: Thu Mar 26 21:32:11 UTC 2026
+========================================
+
+Running developer agent...
+## Summary
+
+**TASK-270 completed**: Merged quality-hub.html into code-hub.html.
+
+**What was done:**
+- Added 4 quality tabs (Quality Overview, Technical Debt, Doc Health, Dependencies) to code-hub.html, bringing it to 11 tabs total
+- Added all quality-specific CSS (health banners, score rings, filter chips, item lists, progress bars, status badges)
+- Added all quality JavaScript (7 API data loaders + render/filter functions)
+- Updated all references in index.html (8 card links, 8 widget selectors, 7 command palette entries)
+- Updated config-center.html (removed from page list)
+- Updated navigation-hub.html (redirected to code-hub.html?tab=quality)
+- Archived quality-hub.html to `/var/www/cronloop.techtools.cz/archive/`
+
+**Page count: 30 → 29**
+**code-hub.html: 1,844 → 2,554 lines** (well within range of other hubs)
+
+========================================
+Completed: Thu Mar 26 21:39:01 UTC 2026
+========================================
+
+Committing changes to git...

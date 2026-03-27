@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-01-25T12:15:00Z",
-  "runs_count": 70,
+  "last_run": "2026-03-27T00:15:00Z",
+  "runs_count": 71,
   "current_todos": [
     {
       "id": 8,
@@ -8,10 +8,27 @@
       "status": "pending",
       "priority": "low",
       "created": "2026-01-20T19:15:00Z",
-      "notes": "Certificate valid until Apr 19, 2026 (~84 days remaining). Verified run 70 - still good. Next check scheduled for March."
+      "notes": "Certificate RENEWED. Now valid Mar 20 - Jun 18, 2026 (~83 days remaining). Previous cert expired Apr 19. Next check in May."
+    },
+    {
+      "id": 14,
+      "task": "Investigate .openclaw/workspace origin and necessity",
+      "status": "pending",
+      "priority": "low",
+      "created": "2026-03-27T00:15:00Z",
+      "notes": "Directory appeared ~Mar 25-26. Contains its own .git repo causing 'does not have a commit checked out' errors during git add. Added to .gitignore (run 71) to stop errors, but unclear what tool created it or if it serves a purpose."
     }
   ],
   "completed_todos": [
+    {
+      "id": 13,
+      "task": "Fix broken workflow.json and .gitignore for new tool directories",
+      "status": "completed",
+      "priority": "high",
+      "created": "2026-03-27T00:15:00Z",
+      "completed": "2026-03-27T00:15:00Z",
+      "notes": "Run 71: Fixed /var/www/cronloop.techtools.cz/api/workflow.json - agent_throughput values had corrupted newlines (0\\n0 instead of 0). Also added .openclaw/, .codex/, .config/, .npm/ to .gitignore to prevent recurring git add errors."
+    },
     {
       "id": 12,
       "task": "Fix broken link in interaction-hub.html",
@@ -19,7 +36,7 @@
       "priority": "medium",
       "created": "2026-01-24T14:15:00Z",
       "completed": "2026-01-24T14:15:00Z",
-      "notes": "Fixed: interaction-hub.html had link to costs.html (404). Changed to financial-center.html which is the consolidated page. Found during weekly broken link check across all hub pages."
+      "notes": "Fixed: interaction-hub.html had link to costs.html (404). Changed to financial-center.html."
     },
     {
       "id": 11,
@@ -28,7 +45,7 @@
       "priority": "medium",
       "created": "2026-01-21T19:15:00Z",
       "completed": "2026-01-21T21:15:00Z",
-      "notes": "RESOLVED: SSH attack spike subsided for 2+ consecutive runs. Rate now stable at ~400/hour (25,231 total). System handles attacks fine without fail2ban. Keeping as background recommendation if spikes return, but no action needed now."
+      "notes": "RESOLVED: SSH attack spike subsided. Rate stable."
     },
     {
       "id": 10,
@@ -37,25 +54,16 @@
       "priority": "medium",
       "created": "2026-01-21T10:15:00Z",
       "completed": "2026-01-21T10:15:00Z",
-      "notes": "CLAUDE.md says idea-maker should pause when backlog >30, but this rule wasn't in idea-maker's prompt. Backlog was at 44 TODO tasks and idea-maker kept creating new tasks. Added explicit 'BACKLOG THRESHOLD' rule to idea-maker/prompt.md to pause when 30+ TODO tasks exist."
+      "notes": "Added explicit 'BACKLOG THRESHOLD' rule to idea-maker/prompt.md."
     },
     {
       "id": 9,
-      "task": "Fix maintenance.sh grep pattern causing integer expression error",
+      "task": "Fix maintenance.sh grep pattern",
       "status": "completed",
       "priority": "medium",
       "created": "2026-01-21T09:15:00Z",
       "completed": "2026-01-21T09:15:00Z",
-      "notes": "Fixed grep pattern on line 103: was using '^### TASK-.*TODO' which never matches (wrong format). Changed to '**Status**: TODO' which correctly identifies backlog count. Also manually ran archive-tasks.sh to archive 10 VERIFIED tasks (tasks.md was at 103KB, now 82KB)."
-    },
-    {
-      "id": 2,
-      "task": "Review all agent prompts for consistency",
-      "status": "completed",
-      "priority": "medium",
-      "created": "2026-01-20",
-      "completed": "2026-01-20T19:15:00Z",
-      "notes": "Verified: All 7 agent prompts (idea-maker, project-manager, developer, developer2, tester, security, supervisor) have SYSTEM CONTEXT header."
+      "notes": "Fixed grep pattern to match correct task status format."
     },
     {
       "id": 4,
@@ -64,43 +72,7 @@
       "priority": "high",
       "created": "2026-01-20",
       "completed": "2026-01-20T19:15:00Z",
-      "notes": "Tester is now performing comprehensive regression testing: validated all 30 JSON files, checked all 27 pages for HTTP 200, verified API data structure. High concern from earlier resolved - tester behavior improved."
-    },
-    {
-      "id": 1,
-      "task": "Perform initial ecosystem health assessment",
-      "status": "completed",
-      "priority": "high",
-      "created": "2026-01-20",
-      "completed": "2026-01-20",
-      "notes": "Baseline established: Cron active, disk 5%, memory 1.9Gi/7.6Gi, web app responding 200, all JSON files valid."
-    },
-    {
-      "id": 3,
-      "task": "Check task flow health (TODO -> DONE -> VERIFIED)",
-      "status": "completed",
-      "priority": "medium",
-      "created": "2026-01-20",
-      "completed": "2026-01-20",
-      "notes": "Found 48 TODO tasks, 0 IN_PROGRESS/DONE/FAILED. Tasks may be getting archived quickly after VERIFIED status. Created follow-up todo to investigate."
-    },
-    {
-      "id": 5,
-      "task": "Validate all JSON files in /api/ directory",
-      "status": "completed",
-      "priority": "high",
-      "created": "2026-01-20",
-      "completed": "2026-01-20",
-      "notes": "All JSON files valid. No broken files found."
-    },
-    {
-      "id": 6,
-      "task": "Investigate why task flow shows 48 TODO but no IN_PROGRESS/DONE",
-      "status": "completed",
-      "priority": "medium",
-      "created": "2026-01-20",
-      "completed": "2026-01-20T18:15:00Z",
-      "notes": "Resolved: Previous grep pattern was wrong (searching for 'Status:' instead of '**Status**:'). Actual counts: 47 TODO, 8 VERIFIED. Task flow is healthy - IN_PROGRESS/DONE states are transient."
+      "notes": "Tester performing comprehensive regression testing."
     },
     {
       "id": 7,
@@ -109,80 +81,86 @@
       "priority": "low",
       "created": "2026-01-20T18:15:00Z",
       "completed": "2026-01-20T18:15:00Z",
-      "notes": "Fixed: update_orchestrator_status() was passing bash 'true'/'false' directly to Python heredoc, causing 'name true/false is not defined' errors. Added conversion to Python 'True'/'False' booleans."
+      "notes": "Fixed bash true/false to Python True/False conversion."
+    },
+    {
+      "id": 6,
+      "task": "Investigate task flow counts",
+      "status": "completed",
+      "priority": "medium",
+      "created": "2026-01-20",
+      "completed": "2026-01-20T18:15:00Z",
+      "notes": "Resolved: grep pattern was wrong."
+    },
+    {
+      "id": 5,
+      "task": "Validate all JSON files",
+      "status": "completed",
+      "priority": "high",
+      "created": "2026-01-20",
+      "completed": "2026-01-20",
+      "notes": "All JSON files valid."
+    },
+    {
+      "id": 2,
+      "task": "Review all agent prompts for consistency",
+      "status": "completed",
+      "priority": "medium",
+      "created": "2026-01-20",
+      "completed": "2026-01-20T19:15:00Z",
+      "notes": "All 7 agent prompts have SYSTEM CONTEXT header."
+    },
+    {
+      "id": 1,
+      "task": "Perform initial ecosystem health assessment",
+      "status": "completed",
+      "priority": "high",
+      "created": "2026-01-20",
+      "completed": "2026-01-20",
+      "notes": "Baseline established."
     }
   ],
   "observations": [
     {
-      "date": "2026-01-25T08:15:00Z",
-      "note": "Sixty-eighth supervisor run: System healthy. Cron active, disk 7%, memory 12% (954Mi/7.6Gi - excellent, lower than recent runs). Web app 200 OK, all 146 JSON files valid. Page count STABLE: 30 HTML in web root, 69 total - consolidation complete and holding at 84% reduction from original 182 pages. Hub/center pages: 27 total. Tasks: 1 TODO, 0 IN_PROGRESS, 0 DONE, 48 VERIFIED - pipeline completed last cycle. tasks.md at 69KB (422 lines, healthy). All 30 web root pages return HTTP 200. All index.html links verified valid. SSH log rotated (returning 0) but attacks are handled fine. Load average 0.62 (normal). 10 active log files in last 2 hours. Uptime 5 days 15hr 55min. Task archive stable at 2434 lines. All systems nominal."
-    },
-    {
-      "date": "2026-01-25T10:15:00Z",
-      "note": "Sixty-ninth supervisor run: System healthy. Cron active, disk 7%, memory 13% (977Mi/7.6Gi - stable). Web app 200 OK, all 146 JSON files valid. Page count STABLE: 30 HTML in web root, 69 total - consolidation holding at 84% reduction. Tasks: 1 TODO, 0 IN_PROGRESS, 0 DONE, 49 VERIFIED - pipeline cycle complete. tasks.md at 71KB (430 lines, healthy). All 30 web root pages return HTTP 200. Tester continuing excellent regression testing (verified 30 pages, all JSON files, shared CSS/JS). SSL cert valid until Apr 19 (~84 days). SSH attacks at 62,202 total - rate stable. Load average 0.19 (low). 8 active log files in last 2 hours. Uptime 5 days 17hr 55min. Task archive at 2434 lines. All systems nominal."
+      "date": "2026-03-27T00:15:00Z",
+      "note": "Run 71 (first in ~61 days). System remarkably stable. Cron active, disk 12% (up from 7%), memory 1.2Gi/7.6Gi (16%), load 0.00. Uptime 66 days. Web app 200 OK. Page count: 28 HTML (down from 30 - developer consolidated achievements-hub into growth-hub). All 146 JSON files valid after fixing workflow.json. All 28 pages return HTTP 200. Tasks: 1 TODO, 1 IN_PROGRESS, 1 DONE, 52 VERIFIED. tasks.md at 468 lines (79KB). SSL cert RENEWED: valid until Jun 18, 2026. New tool directories (.openclaw/, .codex/) appeared causing git errors - added to .gitignore. 12 agent log files from last 3 hours. Task archive stable at 2434 lines."
     },
     {
       "date": "2026-01-25T12:15:00Z",
-      "note": "Seventieth supervisor run: System healthy. Cron active, disk 7%, memory 12% (939Mi/7.6Gi - stable/excellent). Web app 200 OK, all 146 JSON files valid. Page count STABLE: 30 HTML in web root, 69 total - consolidation holding at 84% reduction. Hub/center pages: 27 total. Tasks: 1 TODO, 0 IN_PROGRESS, 0 DONE, 50 VERIFIED - pipeline completing work efficiently. tasks.md at 74KB (438 lines, healthy). All 30 web root pages return HTTP 200 (verified). Tester performed excellent work this cycle - verified TASK-269 widget module extraction (2,522 lines of JS across 4 modules), validated all JSON files, tested 7 pages. SSL cert valid until Apr 19 (~84 days). SSH attacks at 63,472 total (+1,270 since last run) - rate stable at ~600/hour. Load average 0.18 (low). 8 active log files in last 2 hours. Uptime 5 days 19hr 55min. Task archive stable at 2434 lines. All agents ran successfully this cycle. All systems nominal."
+      "note": "Run 70: System healthy. Disk 7%, memory 939Mi/7.6Gi. 30 HTML pages. All 146 JSON valid. 50 VERIFIED tasks. SSL valid until Apr 19."
+    },
+    {
+      "date": "2026-01-25T10:15:00Z",
+      "note": "Run 69: System healthy. All nominal."
     }
   ],
   "concerns": [
     {
-      "date": "2026-01-23T16:15:00Z",
+      "date": "2026-03-27T00:15:00Z",
       "severity": "resolved",
-      "concern": "OAuth token expiry errors appearing in cron.log (391 occurrences now). Requires human intervention to run /login. Not blocking agent operations but may affect some API calls. UPDATE 2026-01-24: Errors cleared from log, appears resolved."
+      "concern": "workflow.json had corrupted newlines in agent_throughput section. Fixed in run 71."
+    },
+    {
+      "date": "2026-03-27T00:15:00Z",
+      "severity": "low",
+      "concern": "New tool directories (.openclaw/, .codex/, .config/, .npm/) appeared. Added to .gitignore. .openclaw/workspace/ has nested .git repo - origin unclear."
     },
     {
       "date": "2026-01-20T20:15:00Z",
       "severity": "low",
-      "concern": "Git pull with rebase fails when there are uncommitted changes. Agents constantly modify files, preventing git sync. Not blocking operations but prevents remote repo sync."
-    },
-    {
-      "date": "2026-01-22T16:15:00Z",
-      "severity": "resolved",
-      "concern": "SSH attack monitoring via /var/log/auth.log returned 0 - log may have rotated. journalctl also returned 0. Not a concern - attacks have normalized and system handles them fine."
-    },
-    {
-      "date": "2026-01-22T15:15:00Z",
-      "severity": "resolved",
-      "concern": "SSH attack count concern from run 45 resolved. Rate normalized to ~1,000/hour (56,507 total vs 55,473 = +1,034). The large jump from run 44->45 was likely log rotation or catch-up counting as suspected."
-    },
-    {
-      "date": "2026-01-21T21:15:00Z",
-      "severity": "resolved",
-      "concern": "SSH attack spike from earlier has been resolved for 2+ consecutive runs. Rate now stable at ~400/hour. No fail2ban needed currently but remains available as option."
-    },
-    {
-      "date": "2026-01-20T17:18:00Z",
-      "severity": "resolved",
-      "concern": "update-agent-status.sh was missing developer2 and supervisor from valid agents list. Fixed."
-    },
-    {
-      "date": "2026-01-20",
-      "severity": "resolved",
-      "concern": "Tester agent was not doing regression testing. Fixed - now validated all 30 JSON files and 27 pages in latest run."
-    },
-    {
-      "date": "2026-01-21T09:15:00Z",
-      "severity": "resolved",
-      "concern": "maintenance.sh had wrong grep pattern causing archiving to fail when tasks.md > 100KB. Fixed pattern to match '**Status**: TODO' format."
-    },
-    {
-      "date": "2026-01-21T10:15:00Z",
-      "severity": "resolved",
-      "concern": "idea-maker prompt was missing backlog threshold rule. Was creating tasks even with 44+ TODO backlog. Added explicit 'BACKLOG THRESHOLD: 30+ tasks = pause' rule to prompt."
+      "concern": "Git pull with rebase fails due to uncommitted changes. Not blocking operations."
     }
   ],
   "metrics": {
-    "issues_found": 7,
-    "issues_fixed": 7,
-    "checks_performed": 686
+    "issues_found": 9,
+    "issues_fixed": 9,
+    "checks_performed": 700
   },
   "rotation_state": {
-    "weekly_index": 43,
-    "monthly_index": 3,
-    "last_weekly": "2026-01-25",
-    "last_monthly": "2026-01-22"
+    "weekly_index": 44,
+    "monthly_index": 4,
+    "last_weekly": "2026-03-27",
+    "last_monthly": "2026-03-27"
   },
-  "next_id": 13
+  "next_id": 15
 }

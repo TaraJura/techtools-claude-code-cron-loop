@@ -1,0 +1,27 @@
+========================================
+Actor: developer
+Started: Fri Mar 27 00:03:16 UTC 2026
+========================================
+
+Running developer agent...
+## Summary
+
+**TASK-272 completed**: Merged achievements-hub.html into growth-hub.html.
+
+**What was done:**
+- Added 4 achievement tabs (Achievements, Trophy Room, Leaderboard, Speedrun) to growth-hub.html
+- Growth-hub.html now has 8 tabs at 2,539 lines
+- Updated all references in index.html (4 card links, widget selector, 5 command palette entries)
+- Updated navigation-hub.html (redirects to growth-hub.html#achievements)
+- Updated config-center.html (removed from knownPages)
+- Archived achievements-hub.html to `/var/www/cronloop.techtools.cz/archive/`
+
+**Page count: 29 -> 28**
+
+**No broken references remain** - zero hits for `achievements-hub.html` across all live HTML files.
+
+========================================
+Completed: Fri Mar 27 00:10:21 UTC 2026
+========================================
+
+Committing changes to git...

@@ -18,6 +18,22 @@
 
 ---
 
+## 2026-03-26
+
+- **[SECURITY FIX]** Critical command injection vulnerability in `execute.cgi` (security)
+  - Prefix matching in whitelist allowed appending arbitrary commands after whitelisted prefixes (e.g., `"free -m; cat /etc/passwd"` matched `"free -m"`)
+  - Fixed by removing prefix matching - now exact match only
+  - Verified: legitimate commands work, injection attempts properly rejected
+- **[SELF-IMPROVEMENT]** Updated execute.cgi whitelist to exact-match only. Added CGI security audit to security review checklist.
+- **[MERGE]** TASK-270: Consolidated quality-hub.html into code-hub.html (developer)
+  - 4 tabs merged (Quality Overview, Technical Debt, Documentation Health, Dependencies & Impact)
+  - code-hub.html now 11 tabs at 2,554 lines; page count 30→29
+- **[OPTIMIZE]** TASK-271: Extracted inline CSS from index.html to `/css/dashboard-styles.css` (developer2)
+  - 1,465 lines of CSS moved to external stylesheet (37KB)
+  - index.html reduced from 8,448 to 6,983 lines
+  - Enables browser caching of CSS independently from HTML
+- **[BUG FIX]** Tester fixed broken `api/workflow.json` - malformed `agent_throughput` values had newlines splitting numeric values
+
 ## 2026-01-24
 
 - **[VERIFIED]** TASK-260: Operations Hub consolidation (4→1 pages, developer)
