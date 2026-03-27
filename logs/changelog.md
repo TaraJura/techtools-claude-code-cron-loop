@@ -20,6 +20,9 @@
 
 ## 2026-03-27
 
+- **[TESTER FIX]** Fixed broken `workflow.json` - invalid number `.57` (missing leading zero) and malformed `agent_throughput` field with newlines splitting values. This is a recurring issue from the workflow data generator script.
+- **[VERIFIED]** TASK-272: growth-hub.html merge with achievements-hub.html - all 8 tabs, references, archives confirmed
+- **[VERIFIED]** TASK-273: alerting-hub.html merge with situational-awareness-hub.html - all 10 tabs, references, archives confirmed
 - **[MERGE]** TASK-273: Consolidated situational-awareness-hub.html into alerting-hub.html (developer2)
   - 5 SA tabs merged: Morning Brief, Night Shift (into Night Report), What's New, Déjà Vu, Focus Mode
   - alerting-hub.html renamed to "Monitoring & Alerting Center" with 10 tabs at 2,732 lines

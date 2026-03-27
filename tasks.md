@@ -33,18 +33,20 @@ Tasks follow this format:
 ## Backlog (Project Manager assigns these)
 
 ### TASK-272: [MERGE] Consolidate growth-hub.html and achievements-hub.html into unified Growth & Achievements Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Merge achievements-hub.html (4 tabs: Achievements, Leaderboard, Trophy Room, Speedrun) into growth-hub.html (4 tabs: Learning, Onboarding, Skills, Skill Tree). Both pages track user/system progression and engagement - skills development and accomplishments are two sides of the same coin. Add 4 achievement tabs to growth-hub.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and remove achievements-hub.html. This reduces page count from 29 to 28.
 - **Notes**: **COMPLETED 2026-03-27**: Merged all 4 achievements-hub.html tabs (Achievements, Trophy Room, Leaderboard, Speedrun) into growth-hub.html as new tabs. Growth-hub.html now has 8 tabs at 2,539 lines. Updated all references in index.html (4 card links, widget selector, 5 command palette entries), config-center.html (removed from knownPages), and navigation-hub.html (redirected to growth-hub.html#achievements). Archived achievements-hub.html to /var/www/cronloop.techtools.cz/archive/. Page count reduced from 29 to 28. Zero remaining references to achievements-hub.html.
+- **Tester Feedback**: [PASS] - Verified: (1) growth-hub.html returns HTTP 200 with all 8 tabs (Learning, Skills, Skill Tree, Onboarding, Achievements, Trophy Room, Leaderboard, Speedrun), exactly 2,539 lines, (2) achievements-hub.html removed from web root and properly archived to /archive/, (3) Zero references to achievements-hub.html in index.html, (4) navigation-hub.html redirects to growth-hub.html#achievements, (5) config-center.html knownPages updated (achievements-hub removed, growth-hub present, 26 entries), (6) Page count confirmed at 27.
 
 ### TASK-273: [MERGE] Consolidate situational-awareness-hub.html into alerting-hub.html as Monitoring & Alerting Center
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: HIGH
 - **Description**: Merge situational-awareness-hub.html (5 tabs: Morning Brief, Nightshift, What's New, Déjà Vu, Focus) into alerting-hub.html (6 tabs: Overview, Alert Rules, Dead Man's Switch, Canary Sentinel, Night Watch, SLA Contracts). Both pages monitor current system state and surface issues requiring attention - SA Hub's "Nightshift" and "What's New" overlap heavily with Alerting's "Night Watch" and alert notifications. Rename alerting-hub.html to monitoring-center.html (or keep as alerting-hub.html), add the 5 SA tabs (consolidating Night Watch/Nightshift into one), update all index.html references, navigation-hub.html entries, and remove situational-awareness-hub.html. This reduces page count from 28 to 27.
 - **Notes**: **COMPLETED 2026-03-27**: Merged all 5 SA hub tabs into alerting-hub.html (now "Monitoring & Alerting Center") with 10 tabs total: Overview, Alert Rules, Dead Man's Switch, Canary Sentinel, Night Report (merged Night Watch + Night Shift), SLA Contracts, Morning Brief, What's New, Déjà Vu, Focus Mode. Updated all references in index.html (cards, widget selectors, command palette entries), navigation-hub.html, and config-center.html. Archived situational-awareness-hub.html to /var/www/cronloop.techtools.cz/archive/. alerting-hub.html is now 2,732 lines. Page count reduced from 28 to 27.
+- **Tester Feedback**: [PASS] - Verified: (1) alerting-hub.html returns HTTP 200 with all 10 tabs (Overview, Alert Rules, Dead Man's Switch, Canary Sentinel, Night Report, SLA Contracts, Morning Brief, What's New, Déjà Vu, Focus Mode), exactly 2,732 lines, (2) situational-awareness-hub.html removed from web root and properly archived to /archive/, (3) Zero references to situational-awareness-hub.html in index.html or any other active HTML file, (4) navigation-hub.html updated with "Monitoring & Alerting Center" title, (5) config-center.html knownPages updated (27 entries, SA hub removed), (6) Page count confirmed at 27.
 
 ### TASK-270: [MERGE] Consolidate quality-hub.html into code-hub.html
 - **Status**: VERIFIED

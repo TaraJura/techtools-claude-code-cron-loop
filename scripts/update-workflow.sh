@@ -213,7 +213,8 @@ get_agent_throughput() {
     for agent in idea-maker project-manager developer tester security; do
         # Count commits by this agent in last 7 days
         count=$(git log --since="7 days ago" --oneline -- tasks.md 2>/dev/null | \
-            grep -c "\[$agent\]" || echo "0")
+            grep -c "\[$agent\]" 2>/dev/null || true)
+        count=$((count + 0))  # Force valid integer
 
         if [ $first -eq 0 ]; then
             result="$result,"
@@ -276,9 +277,10 @@ low_rate=0
 [ "$med_total" -gt 0 ] && med_rate=$(echo "scale=0; $med_done * 100 / $med_total" | bc 2>/dev/null || echo "0")
 [ "$low_total" -gt 0 ] && low_rate=$(echo "scale=0; $low_done * 100 / $low_total" | bc 2>/dev/null || echo "0")
 
-# Get velocity
-velocity=$(calculate_velocity)
-[ -z "$velocity" ] && velocity="0"
+# Get velocity (ensure leading zero for decimals like .57 -> 0.57)
+velocity_raw=$(calculate_velocity)
+[ -z "$velocity_raw" ] && velocity_raw="0"
+velocity=$(printf "%.2f" "$velocity_raw" 2>/dev/null || echo "0.00")
 
 # Get agent throughput
 agent_throughput=$(get_agent_throughput)

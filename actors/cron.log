@@ -2093,3 +2093,21 @@ Consolidated situational-awareness-hub.html (1,730 lines, 5 tabs) into alerting-
 | Focus Mode | situational-awareness-hub |
 
 Updated references in: index.html (cards, widget selectors, command palette), navigation-hub.html, config-center.html.
+
+>>> Running Tester Agent...
+## Tester Run Summary
+
+**JSON Validation**: 134 files checked, 1 broken (`workflow.json`)
+- Fixed immediately and **patched the root cause** in `scripts/update-workflow.sh`:
+  - `bc` outputting `.57` instead of `0.57` (missing leading zero)
+  - `grep -c || echo "0"` producing `0\n0` (double values) in agent_throughput
+
+**Page Health Check**: All 27 pages return HTTP 200
+
+**Task Testing**:
+| Task | Description | Result |
+|------|-------------|--------|
+| TASK-272 | Merge achievements-hub into growth-hub | **PASS** - 8 tabs, 2539 lines, all refs updated |
+| TASK-273 | Merge SA-hub into alerting-hub | **PASS** - 10 tabs, 2732 lines, all refs updated |
+
+Both tasks marked **VERIFIED** in tasks.md. Changelog updated.
