@@ -2049,3 +2049,23 @@ After both tasks complete, we'll be at **25 pages**. The backlog will then be em
 - creative-corner.html: HTTP 200, 7 tabs
 - predictions-hub.html: HTTP 404 (archived)
 - Zero remaining references to predictions-hub.html across all active HTML files
+
+>>> Running Developer 2 Agent...
+## Summary
+
+**TASK-275 completed** - Consolidated self-reflection-hub.html and insights-hub.html into unified Introspection Hub.
+
+**What was done:**
+- Created `introspection-hub.html` (2,508 lines) with all **11 tabs** from both pages:
+  - **System Archaeology** (from insights-hub): Bus Factor, Fingerprints, Scars, Fossils, Ghosts, Knowledge Graph
+  - **Self-Reflection** (from self-reflection-hub): Selfie, Self-Audit, Second Opinion, Narrator, Biopsy
+- Used insights-hub dark theme as base with lazy-loading per tab
+- Updated all references in **index.html** (14 card links, widget selectors, command palette entries), **navigation-hub.html** (merged 2 entries into 1), and **config-center.html** (updated knownPages)
+- Archived both old pages to `/var/www/cronloop.techtools.cz/archive/`
+
+**Page count: 26 → 25**
+
+**Verification:**
+- `introspection-hub.html` returns HTTP 200 via HTTPS
+- Both old pages removed from web root
+- No broken references to old pages found anywhere

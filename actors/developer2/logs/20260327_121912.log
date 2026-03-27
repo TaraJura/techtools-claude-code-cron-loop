@@ -1,0 +1,30 @@
+========================================
+Actor: developer2
+Started: Fri Mar 27 12:19:12 UTC 2026
+========================================
+
+Running developer2 agent...
+## Summary
+
+**TASK-275 completed** - Consolidated self-reflection-hub.html and insights-hub.html into unified Introspection Hub.
+
+**What was done:**
+- Created `introspection-hub.html` (2,508 lines) with all **11 tabs** from both pages:
+  - **System Archaeology** (from insights-hub): Bus Factor, Fingerprints, Scars, Fossils, Ghosts, Knowledge Graph
+  - **Self-Reflection** (from self-reflection-hub): Selfie, Self-Audit, Second Opinion, Narrator, Biopsy
+- Used insights-hub dark theme as base with lazy-loading per tab
+- Updated all references in **index.html** (14 card links, widget selectors, command palette entries), **navigation-hub.html** (merged 2 entries into 1), and **config-center.html** (updated knownPages)
+- Archived both old pages to `/var/www/cronloop.techtools.cz/archive/`
+
+**Page count: 26 → 25**
+
+**Verification:**
+- `introspection-hub.html` returns HTTP 200 via HTTPS
+- Both old pages removed from web root
+- No broken references to old pages found anywhere
+
+========================================
+Completed: Fri Mar 27 12:33:23 UTC 2026
+========================================
+
+Committing changes to git...
