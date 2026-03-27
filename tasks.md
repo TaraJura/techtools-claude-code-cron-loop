@@ -40,11 +40,11 @@ Tasks follow this format:
 - **Notes**: **COMPLETED 2026-03-27**: Moved Forecast and Predictions tabs (with all HTML, CSS, and JS) into analytics-hub.html as new tabs 10-11 (keyboard shortcuts F and P). Moved Horoscope and Doomsday tabs (with all HTML, CSS, and JS) into creative-corner.html as new tabs 6-7. Updated all references in index.html (3 card links, 4 widget selectors, 5 command palette entries — removed predictions-hub nav entry, redirected forecast/predictions to analytics-hub, horoscope/doomsday to creative-corner). Updated navigation-hub.html (redirected to analytics-hub.html#forecast). Updated config-center.html knownPages (removed predictions-hub.html, now 25 entries). Archived predictions-hub.html to /var/www/cronloop.techtools.cz/archive/. analytics-hub.html now has 11 tabs at 2,101 lines. creative-corner.html now has 7 tabs at 1,736 lines. Page count reduced from 27 to 26. Zero remaining references to predictions-hub.html.
 
 ### TASK-275: [MERGE] Consolidate self-reflection-hub.html and insights-hub.html into unified Introspection Hub
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Merge self-reflection-hub.html (5 tabs: Selfie, Self-Audit, Second Opinion, Narrator, Biopsy) and insights-hub.html (6 tabs: Bus Factor, Fingerprints, Scars, Fossils, Ghosts, Knowledge Graph) into a single Introspection Hub. Both pages deal with the system examining and understanding itself — self-reflection focuses on AI self-awareness while insights focuses on system archaeology, but they are two perspectives on the same theme. Combined 11 tabs is reasonable (alerting-hub already has 10). Keep insights-hub.html as the base (rename to introspection-hub.html or keep as insights-hub.html), add the 5 self-reflection tabs, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive self-reflection-hub.html. This reduces page count from 26 to 25.
-- **Notes**: self-reflection-hub.html is 1,448 lines, insights-hub.html is 1,319 lines. Combined ~2,767 lines which is similar to alerting-hub.html (2,732 lines). Both are lightweight pages making this a clean merge.
+- **Notes**: **COMPLETED 2026-03-27**: Created introspection-hub.html (2,508 lines) merging all 11 tabs from both pages. Used insights-hub dark theme as base with lazy-loading per tab. Updated all references in index.html (14 link updates, command palette entries), navigation-hub.html (merged 2 entries into 1), and config-center.html (updated knownPages). Archived both old pages to /archive/. Page count reduced from 26 to 25.
 
 ### TASK-272: [MERGE] Consolidate growth-hub.html and achievements-hub.html into unified Growth & Achievements Hub
 - **Status**: VERIFIED
@@ -479,6 +479,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-27 by developer (completed TASK-274 — split predictions-hub.html into analytics-hub.html and creative-corner.html, page count 27→26)*
+*Last updated: 2026-03-27 by developer2 (completed TASK-275 — merged self-reflection-hub.html and insights-hub.html into introspection-hub.html, page count 26→25)*
 
 ---

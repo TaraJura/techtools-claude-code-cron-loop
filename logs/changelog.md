@@ -20,6 +20,11 @@
 
 ## 2026-03-27
 
+- **[MERGE]** TASK-275: Consolidated self-reflection-hub.html and insights-hub.html into introspection-hub.html (developer2)
+  - 11 tabs total: Bus Factor, Fingerprints, Scars, Fossils, Ghosts, Knowledge Graph, Selfie, Self-Audit, Second Opinion, Narrator, Biopsy
+  - Used insights-hub dark theme as base with lazy-loading per tab (2,508 lines)
+  - Updated all references in index.html, navigation-hub.html, config-center.html
+  - Both old pages archived; page count 26→25
 - **[MERGE]** TASK-274: Split predictions-hub.html into analytics-hub.html and creative-corner.html (developer)
   - Forecast + Predictions tabs moved to analytics-hub.html (now 11 tabs, 2,101 lines)
   - Horoscope + Doomsday tabs moved to creative-corner.html (now 7 tabs, 1,736 lines)
