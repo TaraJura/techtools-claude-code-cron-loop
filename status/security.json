@@ -1,27 +1,21 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-03-26T21:47:00Z",
+  "last_review": "2026-03-27T00:31:00Z",
   "status": "secure",
-  "vulnerability_fixed": {
-    "description": "Command injection via prefix matching in execute.cgi",
-    "severity": "CRITICAL",
-    "fix": "Removed prefix matching from whitelist check - now exact match only",
-    "verified": true
-  },
   "ssh_attacks": {
-    "total_failed_attempts": 77214,
-    "current_log_attempts": 32106,
+    "total_failed_attempts": 77767,
+    "current_log_attempts": 32659,
     "rotated_log_attempts": 45108,
-    "unique_ips": 739,
+    "unique_ips": 1504,
     "top_attackers": [
+      {"ip": "92.118.39.63", "attempts": 2465},
       {"ip": "165.154.6.42", "attempts": 2417},
-      {"ip": "186.96.145.241", "attempts": 910},
-      {"ip": "180.93.42.15", "attempts": 823},
-      {"ip": "92.118.39.63", "attempts": 800},
-      {"ip": "2.57.122.177", "attempts": 744}
+      {"ip": "2.57.122.177", "attempts": 1776},
+      {"ip": "92.118.39.87", "attempts": 1680},
+      {"ip": "186.96.145.241", "attempts": 1536}
     ],
-    "log_period": "2026-03-22 to 2026-03-26",
-    "change_since_last": "+13742 total attempts since last review (2026-01-25)"
+    "log_period": "2026-03-22 to 2026-03-27",
+    "change_since_last": "+553 attempts since last review (2026-03-26)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -36,10 +30,12 @@
     "all_returning_404": true
   },
   "cgi_security": {
-    "execute_cgi": "Hardened - exact whitelist match only (prefix match vulnerability fixed 2026-03-26)",
+    "execute_cgi": "Hardened - exact whitelist match only, rate limited (3s), dangerous pattern blocking",
     "terminal_cgi": "Safe - case statement with hardcoded commands, argument sanitization",
     "action_cgi": "Safe - delegates to queue script with rate limiting",
-    "prompt_version_cgi": "Safe - agent whitelist and hex-only hash validation"
+    "prompt_version_cgi": "Safe - agent whitelist and hex-only hash validation",
+    "git_file_diff_py": "Safe - path sanitization (blocks .. and /), subprocess with list args (no shell injection)",
+    "git_file_history_py": "Safe - path sanitization (blocks .. and /), subprocess with list args (no shell injection)"
   },
   "file_permissions": {
     "claude_md": "664",
@@ -62,8 +58,11 @@
     "path_traversal_blocked",
     "url_encoded_path_traversal_blocked",
     "no_secrets_in_recent_commits",
-    "no_eval_in_js_files",
+    "no_eval_in_js_or_cgi_files",
+    "no_actual_secrets_in_js_files",
     "cgi_whitelist_exact_match_only",
+    "python_cgi_path_sanitization_valid",
+    "python_cgi_no_shell_injection",
     "disk_space_ok"
   ],
   "known_issues": [
@@ -72,19 +71,21 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials"
   ],
   "notes": [
-    "FIXED: Critical command injection vulnerability in execute.cgi - prefix matching allowed appending malicious commands after whitelisted prefixes",
-    "Log rotation occurred since last review - current auth.log covers 2026-03-22 to present",
-    "Total failed SSH attempts: 77,214 (up from 63,472 at last review on 2026-01-25)",
-    "Top attacker changed: 165.154.6.42 now leads with 2,417 attempts",
-    "All nginx protections verified - all sensitive file types return 404",
-    "Path traversal blocked (direct returns 404, URL-encoded returns 400)",
+    "Fixed misleading comment in execute.cgi line 65: was 'exact match or prefix match', corrected to 'exact match ONLY'",
+    "Full CGI audit: all 6 scripts (execute.cgi, terminal.cgi, action.cgi, prompt-version.cgi, git-file-diff.py, git-file-history.py) reviewed and secure",
+    "Python CGI scripts use subprocess with list arguments (no shell injection) and validate paths against .. traversal",
+    "JS files flagged for secret keywords are false positives: cost-breakdown-dialog.js has 'token' in UI labels, sw.js has URL paths to secrets-audit page",
+    "Log rotation occurred - current auth.log covers 2026-03-22 to present",
+    "Total failed SSH attempts: 77,767 (up from 77,214 at last review - +553 in ~12 hours)",
+    "Top attacker shifted: 92.118.39.63 now leads with 2,465 combined attempts",
+    "Unique attacker IPs: 1,504 (across both current and rotated logs)",
+    "All nginx protections verified - all sensitive file types return 404, path traversal returns 400",
     "SSH key permissions correct (600), SSH dir correct (700)",
-    "No eval() calls found in JavaScript files",
-    "4 CGI scripts reviewed: execute.cgi, terminal.cgi, action.cgi, prompt-version.cgi",
-    "Disk usage at 12% (up from 7% at last review)"
+    "No eval() calls found in JavaScript or CGI files",
+    "Disk usage stable at 12%"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - 77k+ total attacks from 739+ unique IPs",
+    "CRITICAL: Install fail2ban for SSH protection - 77k+ total attacks from 1,504 unique IPs",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
   ]
