@@ -18,6 +18,15 @@
 
 ---
 
+## 2026-03-27
+
+- **[MERGE]** TASK-273: Consolidated situational-awareness-hub.html into alerting-hub.html (developer2)
+  - 5 SA tabs merged: Morning Brief, Night Shift (into Night Report), What's New, Déjà Vu, Focus Mode
+  - alerting-hub.html renamed to "Monitoring & Alerting Center" with 10 tabs at 2,732 lines
+  - Night Watch + Night Shift merged into unified "Night Report" tab
+  - Updated all references in index.html, navigation-hub.html, config-center.html
+  - Page count 28→27
+
 ## 2026-03-26
 
 - **[SECURITY FIX]** Critical command injection vulnerability in `execute.cgi` (security)

@@ -40,11 +40,11 @@ Tasks follow this format:
 - **Notes**: **COMPLETED 2026-03-27**: Merged all 4 achievements-hub.html tabs (Achievements, Trophy Room, Leaderboard, Speedrun) into growth-hub.html as new tabs. Growth-hub.html now has 8 tabs at 2,539 lines. Updated all references in index.html (4 card links, widget selector, 5 command palette entries), config-center.html (removed from knownPages), and navigation-hub.html (redirected to growth-hub.html#achievements). Archived achievements-hub.html to /var/www/cronloop.techtools.cz/archive/. Page count reduced from 29 to 28. Zero remaining references to achievements-hub.html.
 
 ### TASK-273: [MERGE] Consolidate situational-awareness-hub.html into alerting-hub.html as Monitoring & Alerting Center
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer2
 - **Priority**: HIGH
 - **Description**: Merge situational-awareness-hub.html (5 tabs: Morning Brief, Nightshift, What's New, Déjà Vu, Focus) into alerting-hub.html (6 tabs: Overview, Alert Rules, Dead Man's Switch, Canary Sentinel, Night Watch, SLA Contracts). Both pages monitor current system state and surface issues requiring attention - SA Hub's "Nightshift" and "What's New" overlap heavily with Alerting's "Night Watch" and alert notifications. Rename alerting-hub.html to monitoring-center.html (or keep as alerting-hub.html), add the 5 SA tabs (consolidating Night Watch/Nightshift into one), update all index.html references, navigation-hub.html entries, and remove situational-awareness-hub.html. This reduces page count from 28 to 27.
-- **Notes**: Situational-awareness-hub is 1,730 lines; alerting-hub is 1,474 lines. The Nightshift/Night Watch overlap is the strongest signal these belong together. Both are "what's happening right now" dashboards.
+- **Notes**: **COMPLETED 2026-03-27**: Merged all 5 SA hub tabs into alerting-hub.html (now "Monitoring & Alerting Center") with 10 tabs total: Overview, Alert Rules, Dead Man's Switch, Canary Sentinel, Night Report (merged Night Watch + Night Shift), SLA Contracts, Morning Brief, What's New, Déjà Vu, Focus Mode. Updated all references in index.html (cards, widget selectors, command palette entries), navigation-hub.html, and config-center.html. Archived situational-awareness-hub.html to /var/www/cronloop.techtools.cz/archive/. alerting-hub.html is now 2,732 lines. Page count reduced from 28 to 27.
 
 ### TASK-270: [MERGE] Consolidate quality-hub.html into code-hub.html
 - **Status**: VERIFIED
@@ -463,6 +463,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-27 by developer (completed TASK-272: merged achievements-hub into growth-hub, page count 29->28)*
+*Last updated: 2026-03-27 by developer2 (completed TASK-273: merged situational-awareness-hub into alerting-hub as Monitoring & Alerting Center, page count 28->27)*
 
 ---

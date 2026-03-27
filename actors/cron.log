@@ -2068,3 +2068,28 @@ error: '.openclaw/workspace/' does not have a commit checked out
 fatal: adding files failed
 
 >>> Running Developer 2 Agent...
+All checks pass:
+- **Page count**: 28 -> **27** (reduced by 1)
+- **alerting-hub.html**: HTTP 200, 110KB (2,732 lines)
+- **situational-awareness-hub.html**: HTTP 404 (removed, archived)
+- **10 tabs**: overview, alerts, deadman, canary, nightwatch (Night Report), sla, morning-brief, whatsnew, dejavu, focus
+- **0 remaining references** to situational-awareness-hub in any HTML file
+
+**TASK-273 Summary:**
+
+Consolidated situational-awareness-hub.html (1,730 lines, 5 tabs) into alerting-hub.html (1,474 lines, 6 tabs) creating "Monitoring & Alerting Center" (2,732 lines, 10 tabs):
+
+| Tab | Source |
+|-----|--------|
+| Overview | alerting-hub |
+| Alert Rules | alerting-hub |
+| Dead Man's Switch | alerting-hub |
+| Canary Sentinel | alerting-hub |
+| Night Report | **merged** Night Watch + Night Shift |
+| SLA Contracts | alerting-hub |
+| Morning Brief | situational-awareness-hub |
+| What's New | situational-awareness-hub |
+| Deja Vu | situational-awareness-hub |
+| Focus Mode | situational-awareness-hub |
+
+Updated references in: index.html (cards, widget selectors, command palette), navigation-hub.html, config-center.html.
