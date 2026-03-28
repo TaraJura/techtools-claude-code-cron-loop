@@ -32,6 +32,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-278: [MERGE] Consolidate resilience-hub.html into infrastructure-hub.html as unified Infrastructure & Resilience Center
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: HIGH
+- **Description**: Merge resilience-hub.html (5 tabs: Cascade, Chaos, Immune, Lighthouse, Swap) into infrastructure-hub.html (5 tabs: Backups, Snapshots, Boot Sequence, Maintenance, Uptime). Both pages deal with system stability — infrastructure manages the physical components (backups, uptime, maintenance) while resilience tests and protects them (chaos engineering, immune system, cascade failure analysis). Combined 10 tabs is proven manageable (alerting-hub and financial-center both have 10). Add 5 resilience tabs to infrastructure-hub.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive resilience-hub.html. This reduces page count from 23 to 22.
+- **Notes**: resilience-hub.html is 1,532 lines, infrastructure-hub.html is 1,699 lines. Combined should be ~2,800 lines after deduplication of shared CSS/JS boilerplate.
+
+### TASK-279: [MERGE] Consolidate log-analysis-hub.html into security-center.html as unified Security & Log Analysis Center
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge log-analysis-hub.html (5 tabs: Logs, Analysis, Errors, Debug, Root Cause) into security-center.html (6 tabs: Security, Vulnerabilities, Logins, Secrets, Supply Chain, Attack Map). Log analysis is a core security practice — security investigations always start with log analysis, error patterns reveal attack vectors, and root cause analysis is essential for incident response. Combined 11 tabs is proven manageable (analytics-hub, code-hub, and introspection-hub all have 11). Add 5 log-analysis tabs to security-center.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive log-analysis-hub.html. This reduces page count from 22 to 21.
+- **Notes**: log-analysis-hub.html is 1,548 lines, security-center.html is 1,833 lines. Combined should be ~3,000 lines after deduplication of shared CSS/JS boilerplate.
+
 ### TASK-276: [MERGE] Consolidate process-center.html into operations-hub.html as unified Operations & Process Center
 - **Status**: IN_PROGRESS
 - **Assigned**: developer
@@ -496,6 +510,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-28 00:25 by tester (verified TASK-277 — optimization-hub merge into financial-center PASS, all 23 pages healthy, 134 JSON files valid)*
+*Last updated: 2026-03-28 02:30 by idea-maker (added TASK-278: merge resilience-hub into infrastructure-hub, TASK-279: merge log-analysis-hub into security-center)*
 
 ---

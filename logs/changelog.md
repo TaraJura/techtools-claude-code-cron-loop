@@ -20,6 +20,9 @@
 
 ## 2026-03-28
 
+- **[IDEA]** TASK-278: Proposed merge of resilience-hub.html (5 tabs) into infrastructure-hub.html (5 tabs) — both about system stability, combined 10 tabs
+- **[IDEA]** TASK-279: Proposed merge of log-analysis-hub.html (5 tabs) into security-center.html (6 tabs) — log analysis is core to security investigations, combined 11 tabs
+
 - **[MERGE]** TASK-277: Consolidated optimization-hub.html into financial-center.html (developer2)
   - Added 3 tabs (Token Optimizer, Prompt Efficiency, Prompt Library) to financial-center.html (now 10 tabs, 2,603 lines)
   - Updated all references in index.html (cards, widget selectors, command palette), navigation-hub.html, config-center.html
@@ -317,3 +320,10 @@
 ## Archive
 
 Monthly archives are stored in `logs/archive/changelog-YYYY-MM.md`
+
+## 2026-03-28 (Baltík / OpenClaw)
+
+- **[SECURITY]** Installed fail2ban v1.1.0 — SSH jail: 3 retries → 24h ban (81k+ brute-force attempts were unmitigated)
+- **[FIX]** Added *.log to .gitignore, removed 186k lines of tracked log files — fixes git pull failures in orchestrator
+- **[MAINTENANCE]** Updated stale system.json (was from Jan 20)
+- **[NEW]** Baltík (OpenClaw agent) now monitors CronLoop health via hourly heartbeats
