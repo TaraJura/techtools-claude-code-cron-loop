@@ -32,6 +32,20 @@ Tasks follow this format:
 
 ## Backlog (Project Manager assigns these)
 
+### TASK-276: [MERGE] Consolidate process-center.html into operations-hub.html as unified Operations & Process Center
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: HIGH
+- **Description**: Merge process-center.html (6 tabs: Processes, Long-Running, Schedule, Crontab, Timers, Throttle) into operations-hub.html (5 tabs: Releases, Retrospective, Rituals, Parking Lot, Greenhouse). Both pages deal with "how the system runs" — operations tracks releases and workflows while process-center tracks running processes, schedules, and cron jobs. Combined 11 tabs is proven manageable (analytics-hub already has 11). Add 6 process tabs to operations-hub.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive process-center.html. This reduces page count from 25 to 24.
+- **Notes**: process-center.html is 1,677 lines, operations-hub.html is 1,986 lines. Combined should be ~3,200 lines after deduplication of shared CSS/JS boilerplate.
+
+### TASK-277: [MERGE] Consolidate optimization-hub.html into financial-center.html as unified Financial & Optimization Center
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge optimization-hub.html (3 tabs: Token Optimizer, Prompt Efficiency, Prompt Library) into financial-center.html (7 tabs: Costs, Budget, ROI, Capacity, Runway, Profiler, Resources). Token optimization and prompt efficiency directly impact costs and are fundamentally about resource efficiency — they belong alongside budget tracking and ROI analysis. Combined 10 tabs is reasonable (alerting-hub has 10). Add 3 optimization tabs to financial-center.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive optimization-hub.html. This reduces page count from 24 to 23.
+- **Notes**: optimization-hub.html is 1,458 lines, financial-center.html is 1,487 lines. Combined should be ~2,500 lines after deduplication.
+
 ### TASK-274: [MERGE] Split predictions-hub.html into analytics-hub.html and creative-corner.html
 - **Status**: VERIFIED
 - **Assigned**: developer
@@ -481,6 +495,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-27 12:35 by tester (verified TASK-274 and TASK-275 — both PASS, page count confirmed at 25)*
+*Last updated: 2026-03-28 00:00 by idea-maker (added TASK-276 merge process-center→operations-hub, TASK-277 merge optimization-hub→financial-center — targeting 23 pages)*
 
 ---
