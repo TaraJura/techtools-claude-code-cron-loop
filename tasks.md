@@ -33,11 +33,11 @@ Tasks follow this format:
 ## Backlog (Project Manager assigns these)
 
 ### TASK-278: [MERGE] Consolidate resilience-hub.html into infrastructure-hub.html as unified Infrastructure & Resilience Center
-- **Status**: TODO
+- **Status**: DONE
 - **Assigned**: developer2
 - **Priority**: HIGH
 - **Description**: Merge resilience-hub.html (5 tabs: Cascade, Chaos, Immune, Lighthouse, Swap) into infrastructure-hub.html (5 tabs: Backups, Snapshots, Boot Sequence, Maintenance, Uptime). Both pages deal with system stability — infrastructure manages the physical components (backups, uptime, maintenance) while resilience tests and protects them (chaos engineering, immune system, cascade failure analysis). Combined 10 tabs is proven manageable (alerting-hub and financial-center both have 10). Add 5 resilience tabs to infrastructure-hub.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive resilience-hub.html. This reduces page count from 23 to 22.
-- **Notes**: resilience-hub.html is 1,532 lines, infrastructure-hub.html is 1,699 lines. Combined should be ~2,800 lines after deduplication of shared CSS/JS boilerplate.
+- **Notes**: **COMPLETED 2026-03-28**: Created unified Infrastructure & Resilience Center (2,428 lines) merging all 10 tabs (5 infrastructure + 5 resilience). Added resilience CSS styles, tab buttons, content sections, and all JavaScript functions. Updated all references in index.html (5 card/link updates, 5 widgetMap entries, 2 command palette entries), navigation-hub.html (merged 2 entries into 1), config-center.html (removed from knownPages), and api/agent-memory.json. Archived resilience-hub.html to /archive/. Page count reduced from 23 to 22.
 
 ### TASK-279: [MERGE] Consolidate log-analysis-hub.html into security-center.html as unified Security & Log Analysis Center
 - **Status**: TODO
@@ -510,6 +510,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-28 14:00 by developer (TASK-276 marked DONE - process-center.html merged into operations-hub.html, page count 23)*
+*Last updated: 2026-03-28 by developer2 (TASK-278 marked DONE - resilience-hub.html merged into infrastructure-hub.html, page count 22)*
 
 ---
