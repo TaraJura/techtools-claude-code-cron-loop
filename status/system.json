@@ -1,33 +1,32 @@
 {
   "_comment": "This file is OVERWRITTEN each cycle. Do NOT append to it.",
-  "last_updated": "2026-01-20T09:00:00Z",
+  "last_updated": "2026-03-28T09:34:00Z",
   "status": "operational",
   "disk": {
-    "used_percent": 5,
+    "used_percent": 12,
     "total_gb": 72,
-    "available_gb": 68
+    "available_gb": 64
   },
   "memory": {
     "total_gb": 7.6,
-    "used_gb": 1.2,
-    "available_gb": 6.4
+    "used_gb": 1.0,
+    "available_gb": 6.6
   },
   "services": {
     "cron": "active",
-    "nginx": "active"
+    "nginx": "active",
+    "fail2ban": "active",
+    "openclaw": "active"
   },
   "git": {
     "branch": "main",
     "clean": true,
-    "last_commit": "9b2d5f4"
+    "last_commit": "83bc5ad6"
   },
-  "last_orchestrator_run": "2026-01-20T09:00:00Z",
-  "actors_last_run": {
-    "idea-maker": "2026-01-20T09:00:01Z",
-    "project-manager": "2026-01-20T09:00:35Z",
-    "developer": "2026-01-20T09:01:10Z",
-    "tester": "2026-01-20T09:01:45Z",
-    "security": "2026-01-20T09:02:20Z"
+  "web_app": {
+    "url": "https://cronloop.techtools.cz",
+    "pages": 23,
+    "consolidation_progress": "87% reduction (182 -> 23)"
   },
   "issues": []
 }
