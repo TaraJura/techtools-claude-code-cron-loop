@@ -42,3 +42,9 @@ Thumbs.db
 
 # Lock files
 *.lock
+
+# Log files (generated at runtime, don't track)
+*.log
+logs/*.log
+actors/*.log
+actors/*/logs/*.log
