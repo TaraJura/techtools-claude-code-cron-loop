@@ -1,22 +1,22 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-03-27T12:36:00Z",
+  "last_review": "2026-03-28T00:27:00Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 81443,
-    "current_log_attempts": 36335,
+    "total_failed_attempts": 84404,
+    "current_log_attempts": 39296,
     "rotated_log_attempts": 45108,
-    "unique_ips": 2176,
+    "unique_ips_current_log": 810,
     "top_attackers": [
-      {"ip": "92.118.39.63", "attempts": 2574, "note": "combined current+rotated"},
       {"ip": "165.154.6.42", "attempts": 2417, "note": "current log only"},
-      {"ip": "2.57.122.177", "attempts": 1850, "note": "combined current+rotated"},
-      {"ip": "92.118.39.87", "attempts": 1036, "note": "rotated log only"},
-      {"ip": "186.96.145.241", "attempts": 910, "note": "current log only"}
+      {"ip": "92.118.39.63", "attempts": 995, "note": "current log only"},
+      {"ip": "186.96.145.241", "attempts": 910, "note": "current log only"},
+      {"ip": "2.57.122.177", "attempts": 855, "note": "current log only"},
+      {"ip": "92.118.39.87", "attempts": 840, "note": "current log only"}
     ],
-    "top_targeted_users": ["root (16553)", "sol (2159)", "solana (1993)", "ubuntu (1582)", "admin (957)"],
-    "log_period": "2026-03-22 to 2026-03-27",
-    "change_since_last": "+3676 attempts since last review (2026-03-27T00:31)"
+    "top_targeted_users": ["root (18106)", "sol (2363)", "solana (2172)", "ubuntu (1661)", "admin (1036)"],
+    "log_period": "current auth.log + auth.log.1",
+    "change_since_last": "+2961 attempts since last review (2026-03-27T12:36)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -31,7 +31,7 @@
     "all_returning_404": true
   },
   "cgi_security": {
-    "execute_cgi": "Hardened - exact whitelist match only, rate limited (3s), dangerous pattern blocking",
+    "execute_cgi": "Hardened - exact whitelist match only, rate limited, dangerous pattern blocking",
     "terminal_cgi": "Safe - case statement with hardcoded commands, argument sanitization",
     "action_cgi": "Safe - delegates to queue script with rate limiting",
     "prompt_version_cgi": "Safe - agent whitelist and hex-only hash validation",
@@ -76,15 +76,14 @@
     "All 6 CGI scripts verified secure: no eval(), no exec(), exact whitelist matching confirmed",
     "All nginx protections verified: sensitive file types return 404, path traversal returns 400",
     "SSH key permissions correct (600), SSH dir correct (700), CLAUDE.md (664)",
-    "No eval() calls found in JavaScript or CGI files",
     "Disk usage stable at 12%",
-    "Total failed SSH attempts: 81,443 (up from 77,767 = +3,676 in ~12 hours, consistent rate)",
-    "Top attacker: 92.118.39.63 with 2,574 combined attempts across log rotation",
-    "Unique attacker IPs: 2,176 in current log (up from 1,504 combined at last review)",
+    "Total failed SSH attempts: 84,404 (up from 81,443 = +2,961 in ~12 hours, consistent rate)",
+    "Top attacker: 165.154.6.42 with 2,417 attempts in current log",
+    "Unique attacker IPs: 810 in current log",
     "Most targeted usernames: root, sol, solana, ubuntu, admin - typical brute-force dictionary attack pattern"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - 81k+ total attacks from 2,176+ unique IPs",
+    "CRITICAL: Install fail2ban for SSH protection - 84k+ total attacks from 810+ unique IPs in current log",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
   ]
