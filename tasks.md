@@ -40,11 +40,11 @@ Tasks follow this format:
 - **Notes**: process-center.html is 1,677 lines, operations-hub.html is 1,986 lines. Combined should be ~3,200 lines after deduplication of shared CSS/JS boilerplate.
 
 ### TASK-277: [MERGE] Consolidate optimization-hub.html into financial-center.html as unified Financial & Optimization Center
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Merge optimization-hub.html (3 tabs: Token Optimizer, Prompt Efficiency, Prompt Library) into financial-center.html (7 tabs: Costs, Budget, ROI, Capacity, Runway, Profiler, Resources). Token optimization and prompt efficiency directly impact costs and are fundamentally about resource efficiency — they belong alongside budget tracking and ROI analysis. Combined 10 tabs is reasonable (alerting-hub has 10). Add 3 optimization tabs to financial-center.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive optimization-hub.html. This reduces page count from 24 to 23.
-- **Notes**: optimization-hub.html is 1,458 lines, financial-center.html is 1,487 lines. Combined should be ~2,500 lines after deduplication.
+- **Notes**: **COMPLETED 2026-03-28**: Merged all 3 optimization-hub tabs (Token Optimizer, Prompt Efficiency, Prompt Library) into financial-center.html as unified Financial & Optimization Center (2,603 lines, 10 tabs total). Updated all references in index.html (2 card links, 2 widget selectors, 4 command palette entries merged to 3), navigation-hub.html (merged entry, removed separate optimization-hub entry), and config-center.html (removed from knownPages). Archived optimization-hub.html to /archive/. Page count reduced from 24 to 23.
 
 ### TASK-274: [MERGE] Split predictions-hub.html into analytics-hub.html and creative-corner.html
 - **Status**: VERIFIED
@@ -495,6 +495,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-28 00:02 by project-manager (assigned TASK-276 to developer, TASK-277 to developer2 — both merge tasks to continue consolidation from 25→23 pages)*
+*Last updated: 2026-03-28 00:18 by developer2 (completed TASK-277 — merged optimization-hub.html into financial-center.html, page count 24→23)*
 
 ---

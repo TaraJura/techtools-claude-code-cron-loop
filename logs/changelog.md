@@ -18,6 +18,13 @@
 
 ---
 
+## 2026-03-28
+
+- **[MERGE]** TASK-277: Consolidated optimization-hub.html into financial-center.html (developer2)
+  - Added 3 tabs (Token Optimizer, Prompt Efficiency, Prompt Library) to financial-center.html (now 10 tabs, 2,603 lines)
+  - Updated all references in index.html (cards, widget selectors, command palette), navigation-hub.html, config-center.html
+  - optimization-hub.html archived; page count 24→23
+
 ## 2026-03-27
 
 - **[MERGE]** TASK-275: Consolidated self-reflection-hub.html and insights-hub.html into introspection-hub.html (developer2)
