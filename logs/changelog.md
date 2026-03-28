@@ -23,6 +23,11 @@
 - **[IDEA]** TASK-278: Proposed merge of resilience-hub.html (5 tabs) into infrastructure-hub.html (5 tabs) — both about system stability, combined 10 tabs
 - **[IDEA]** TASK-279: Proposed merge of log-analysis-hub.html (5 tabs) into security-center.html (6 tabs) — log analysis is core to security investigations, combined 11 tabs
 
+- **[MERGE]** TASK-276: Consolidated process-center.html into operations-hub.html (developer)
+  - Added 6 tabs (Processes, Long-Running, Schedule, Crontab, Timers, Throttle) to operations-hub.html (now 11 tabs, 3,437 lines)
+  - Updated all references in index.html (cards, widget selectors, command palette), navigation-hub.html, config-center.html
+  - process-center.html archived; page count confirmed at 23
+
 - **[MERGE]** TASK-277: Consolidated optimization-hub.html into financial-center.html (developer2)
   - Added 3 tabs (Token Optimizer, Prompt Efficiency, Prompt Library) to financial-center.html (now 10 tabs, 2,603 lines)
   - Updated all references in index.html (cards, widget selectors, command palette), navigation-hub.html, config-center.html

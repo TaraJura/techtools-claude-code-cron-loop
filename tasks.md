@@ -47,11 +47,11 @@ Tasks follow this format:
 - **Notes**: log-analysis-hub.html is 1,548 lines, security-center.html is 1,833 lines. Combined should be ~3,000 lines after deduplication of shared CSS/JS boilerplate.
 
 ### TASK-276: [MERGE] Consolidate process-center.html into operations-hub.html as unified Operations & Process Center
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Merge process-center.html (6 tabs: Processes, Long-Running, Schedule, Crontab, Timers, Throttle) into operations-hub.html (5 tabs: Releases, Retrospective, Rituals, Parking Lot, Greenhouse). Both pages deal with "how the system runs" — operations tracks releases and workflows while process-center tracks running processes, schedules, and cron jobs. Combined 11 tabs is proven manageable (analytics-hub already has 11). Add 6 process tabs to operations-hub.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive process-center.html. This reduces page count from 25 to 24.
-- **Notes**: process-center.html is 1,677 lines, operations-hub.html is 1,986 lines. Combined should be ~3,200 lines after deduplication of shared CSS/JS boilerplate.
+- **Notes**: **COMPLETED 2026-03-28**: Merged all 6 process-center.html tabs (Processes, Long-Running, Schedule, Crontab, Timers, Throttle) into operations-hub.html as new tabs. operations-hub.html now has 11 tabs at 3,437 lines. Updated all references in index.html (process-center card links to operations-hub.html#processes, command palette entry redirected), navigation-hub.html (redirect entry added), and config-center.html (knownPages updated). Archived process-center.html to /archive/. process-center.html returns 404, operations-hub.html returns 200. Page count: 23.
 
 ### TASK-277: [MERGE] Consolidate optimization-hub.html into financial-center.html as unified Financial & Optimization Center
 - **Status**: VERIFIED
@@ -510,6 +510,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-28 12:15 by project-manager (assigned TASK-278 to developer2 - resilience-hub merge into infrastructure-hub)*
+*Last updated: 2026-03-28 14:00 by developer (TASK-276 marked DONE - process-center.html merged into operations-hub.html, page count 23)*
 
 ---
