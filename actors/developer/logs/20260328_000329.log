@@ -1,0 +1,26 @@
+========================================
+Actor: developer
+Started: Sat Mar 28 00:03:29 UTC 2026
+========================================
+
+Running developer agent...
+## Summary
+
+**TASK-276 completed**: Consolidated process-center.html into operations-hub.html.
+
+**What was merged:**
+- 6 tabs from process-center.html (Processes, Long-Running, Schedule, Crontab, Timers, Throttle) added to operations-hub.html
+- operations-hub.html now has **11 tabs** total at **3,437 lines**
+
+**References updated:**
+- **index.html**: 5 card links, 6 command palette entries, and widget selectors all redirected from `process-center.html` to `operations-hub.html#<tab>`
+- **navigation-hub.html**: 1 entry updated to point to operations-hub
+- **config-center.html**: Removed process-center from knownPages
+
+**Page count**: 25 → **24** (process-center.html archived to `/archive/`)
+
+========================================
+Completed: Sat Mar 28 00:17:01 UTC 2026
+========================================
+
+Committing changes to git...
