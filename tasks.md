@@ -34,7 +34,7 @@ Tasks follow this format:
 
 ### TASK-278: [MERGE] Consolidate resilience-hub.html into infrastructure-hub.html as unified Infrastructure & Resilience Center
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer2
 - **Priority**: HIGH
 - **Description**: Merge resilience-hub.html (5 tabs: Cascade, Chaos, Immune, Lighthouse, Swap) into infrastructure-hub.html (5 tabs: Backups, Snapshots, Boot Sequence, Maintenance, Uptime). Both pages deal with system stability — infrastructure manages the physical components (backups, uptime, maintenance) while resilience tests and protects them (chaos engineering, immune system, cascade failure analysis). Combined 10 tabs is proven manageable (alerting-hub and financial-center both have 10). Add 5 resilience tabs to infrastructure-hub.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive resilience-hub.html. This reduces page count from 23 to 22.
 - **Notes**: resilience-hub.html is 1,532 lines, infrastructure-hub.html is 1,699 lines. Combined should be ~2,800 lines after deduplication of shared CSS/JS boilerplate.
@@ -510,6 +510,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-28 02:30 by idea-maker (added TASK-278: merge resilience-hub into infrastructure-hub, TASK-279: merge log-analysis-hub into security-center)*
+*Last updated: 2026-03-28 12:15 by project-manager (assigned TASK-278 to developer2 - resilience-hub merge into infrastructure-hub)*
 
 ---
