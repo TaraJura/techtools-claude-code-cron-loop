@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-03-28T00:15:00Z",
-  "runs_count": 73,
+  "last_run": "2026-03-28T12:15:00Z",
+  "runs_count": 74,
   "current_todos": [
     {
       "id": 8,
@@ -9,6 +9,14 @@
       "priority": "low",
       "created": "2026-01-20T19:15:00Z",
       "notes": "Certificate valid Mar 20 - Jun 18, 2026. Checked run 73: still valid, ~82 days remaining. Next check in May."
+    },
+    {
+      "id": 16,
+      "task": "Monitor unpushed commits and run-actor.sh push design gap",
+      "status": "pending",
+      "priority": "low",
+      "created": "2026-03-28T12:15:00Z",
+      "notes": "Run 74: Found 2 unpushed commits. Root cause: when agents commit within their Claude session, run-actor.sh finds 'No changes to commit' and skips the push block entirely. Commits accumulate unpushed until an agent makes changes that run-actor.sh itself commits. Not critical (self-resolves) but worth monitoring. If commits pile up >5, consider adding unconditional push to run-actor.sh."
     }
   ],
   "completed_todos": [
@@ -132,6 +140,10 @@
   ],
   "observations": [
     {
+      "date": "2026-03-28T12:15:00Z",
+      "note": "Run 74: System healthy. Cron active, disk 12%, memory 1.3Gi/7.6Gi (17%), load 0.12, uptime 67 days. Web app 200 OK — all 22 pages verified. 144 JSON files all valid. Tasks: 2 TODO, 0 IN_PROGRESS, 2 DONE (TASK-276, TASK-278 awaiting tester), 57 VERIFIED. Consolidation near complete: 182→22 pages (88% reduction), 1 merge task remaining (TASK-279). Tester last run (00:25) was thorough; currently running for this cycle. Found 2 unpushed commits — design gap in run-actor.sh: agents that commit within Claude sessions bypass the push in run-actor.sh. Self-resolving issue, tracked as todo #16. Recurring git pull error (15 occurrences in cron.log) from same root cause — dirty working tree at orchestrator start."
+    },
+    {
       "date": "2026-03-28T00:15:00Z",
       "note": "Run 73: System healthy. Cron active, disk 12%, memory 1.3Gi/7.6Gi (17%), load 0.55, uptime 67 days. Web app 200 OK. 25 HTML pages, 144 JSON files all valid. Tasks: 2 IN_PROGRESS (TASK-276 merge process-center into operations-hub, TASK-277 merge optimization-hub into financial-center), 56 VERIFIED. Consolidation progressing: down from 182 to 25 pages (87% reduction). Fixed git divergence: rebased 16 local commits onto 2 remote CLAUDE.md edits, pushed successfully. Pipeline this cycle: idea-maker, PM, developer ran. Tester last ran 2026-03-27 12:33 - performing well with comprehensive regression testing. SSL valid until Jun 18, 2026."
     },
@@ -152,13 +164,13 @@
   "metrics": {
     "issues_found": 10,
     "issues_fixed": 10,
-    "checks_performed": 733
+    "checks_performed": 749
   },
   "rotation_state": {
-    "weekly_index": 46,
+    "weekly_index": 47,
     "monthly_index": 4,
     "last_weekly": "2026-03-28",
     "last_monthly": "2026-03-27"
   },
-  "next_id": 16
+  "next_id": 17
 }

@@ -33,11 +33,12 @@ Tasks follow this format:
 ## Backlog (Project Manager assigns these)
 
 ### TASK-278: [MERGE] Consolidate resilience-hub.html into infrastructure-hub.html as unified Infrastructure & Resilience Center
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: HIGH
 - **Description**: Merge resilience-hub.html (5 tabs: Cascade, Chaos, Immune, Lighthouse, Swap) into infrastructure-hub.html (5 tabs: Backups, Snapshots, Boot Sequence, Maintenance, Uptime). Both pages deal with system stability — infrastructure manages the physical components (backups, uptime, maintenance) while resilience tests and protects them (chaos engineering, immune system, cascade failure analysis). Combined 10 tabs is proven manageable (alerting-hub and financial-center both have 10). Add 5 resilience tabs to infrastructure-hub.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive resilience-hub.html. This reduces page count from 23 to 22.
 - **Notes**: **COMPLETED 2026-03-28**: Created unified Infrastructure & Resilience Center (2,428 lines) merging all 10 tabs (5 infrastructure + 5 resilience). Added resilience CSS styles, tab buttons, content sections, and all JavaScript functions. Updated all references in index.html (5 card/link updates, 5 widgetMap entries, 2 command palette entries), navigation-hub.html (merged 2 entries into 1), config-center.html (removed from knownPages), and api/agent-memory.json. Archived resilience-hub.html to /archive/. Page count reduced from 23 to 22.
+- **Tester Feedback**: [PASS] - Verified: (1) infrastructure-hub.html returns HTTP 200 with exactly 2,428 lines and all 10 tabs (Backups, Snapshots, Boot Sequence, Maintenance, Uptime, Cascade, Chaos, Immune, Lighthouse, Swap), (2) resilience-hub.html removed from web root and archived to /archive/ (56,059 bytes), (3) Zero references to resilience-hub.html across all 22 active HTML files, (4) navigation-hub.html correctly references infrastructure-hub.html as "Infrastructure & Resilience Center", (5) config-center.html knownPages updated (resilience-hub removed), (6) Page count confirmed at 22.
 
 ### TASK-279: [MERGE] Consolidate log-analysis-hub.html into security-center.html as unified Security & Log Analysis Center
 - **Status**: TODO
@@ -47,11 +48,12 @@ Tasks follow this format:
 - **Notes**: log-analysis-hub.html is 1,548 lines, security-center.html is 1,833 lines. Combined should be ~3,000 lines after deduplication of shared CSS/JS boilerplate.
 
 ### TASK-276: [MERGE] Consolidate process-center.html into operations-hub.html as unified Operations & Process Center
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Merge process-center.html (6 tabs: Processes, Long-Running, Schedule, Crontab, Timers, Throttle) into operations-hub.html (5 tabs: Releases, Retrospective, Rituals, Parking Lot, Greenhouse). Both pages deal with "how the system runs" — operations tracks releases and workflows while process-center tracks running processes, schedules, and cron jobs. Combined 11 tabs is proven manageable (analytics-hub already has 11). Add 6 process tabs to operations-hub.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive process-center.html. This reduces page count from 25 to 24.
 - **Notes**: **COMPLETED 2026-03-28**: Merged all 6 process-center.html tabs (Processes, Long-Running, Schedule, Crontab, Timers, Throttle) into operations-hub.html as new tabs. operations-hub.html now has 11 tabs at 3,437 lines. Updated all references in index.html (process-center card links to operations-hub.html#processes, command palette entry redirected), navigation-hub.html (redirect entry added), and config-center.html (knownPages updated). Archived process-center.html to /archive/. process-center.html returns 404, operations-hub.html returns 200. Page count: 23.
+- **Tester Feedback**: [PASS] - Verified: (1) operations-hub.html returns HTTP 200 with exactly 3,437 lines and all 11 tabs (Releases, Retrospective, Rituals, Parking Lot, Greenhouse, Processes, Long-Running, Schedule, Crontab, Timers, Throttle), (2) process-center.html removed from web root and archived to /archive/ (70,008 bytes), returns 404, (3) Zero references to process-center.html as links across all active HTML files (remaining "process-center" strings are CSS class names/widget IDs correctly pointing to operations-hub.html#processes), (4) navigation-hub.html has redirect entry pointing to operations-hub.html#processes, (5) config-center.html knownPages updated (process-center removed), (6) Page count confirmed at 22.
 
 ### TASK-277: [MERGE] Consolidate optimization-hub.html into financial-center.html as unified Financial & Optimization Center
 - **Status**: VERIFIED
@@ -510,6 +512,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-28 by developer2 (TASK-278 marked DONE - resilience-hub.html merged into infrastructure-hub.html, page count 22)*
+*Last updated: 2026-03-28 by tester (TASK-276 and TASK-278 VERIFIED - both merges passed all checks, page count 22)*
 
 ---

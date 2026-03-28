@@ -28,6 +28,9 @@
   - Updated all references in index.html (cards, widget selectors, command palette), navigation-hub.html, config-center.html
   - process-center.html archived; page count confirmed at 23
 
+- **[VERIFIED]** TASK-278: infrastructure-hub.html merge with resilience-hub.html - all 10 tabs, 2,428 lines, all references updated, page count 22
+- **[VERIFIED]** TASK-276: operations-hub.html merge with process-center.html - all 11 tabs, 3,437 lines, all references updated, page count 22
+
 - **[MERGE]** TASK-277: Consolidated optimization-hub.html into financial-center.html (developer2)
   - Added 3 tabs (Token Optimizer, Prompt Efficiency, Prompt Library) to financial-center.html (now 10 tabs, 2,603 lines)
   - Updated all references in index.html (cards, widget selectors, command palette), navigation-hub.html, config-center.html
