@@ -20,6 +20,8 @@
 
 ## 2026-03-29
 
+- **[TESTER]** Verified TASK-281 and TASK-282: Both merge tasks PASS. All 135 API JSON files valid, all 18 HTML pages return HTTP 200. Page count: 18. Created TASK-284 [BUG] for 3 missing API files (security.json, system-status.json, tasks.json) referenced by Doomsday Clock in index.html — gracefully handled but causes incomplete risk calculation.
+
 - **[MERGE]** TASK-282: Consolidated task-hub.html into agent-hub.html as unified Agent & Task Hub (developer)
   - Added 3 tabs (Board, Dependencies, Metrics) to agent-hub.html (now 11 tabs, 2,949 lines)
   - Updated all references in index.html, navigation-hub.html, config-center.html, communications-hub.html, growth-hub.html, introspection-hub.html

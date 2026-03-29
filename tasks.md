@@ -41,18 +41,27 @@ Tasks follow this format:
 - **Tester Feedback**: [PASS] - Verified: (1) infrastructure-hub.html returns HTTP 200 with exactly 2,428 lines and all 10 tabs (Backups, Snapshots, Boot Sequence, Maintenance, Uptime, Cascade, Chaos, Immune, Lighthouse, Swap), (2) resilience-hub.html removed from web root and archived to /archive/ (56,059 bytes), (3) Zero references to resilience-hub.html across all 22 active HTML files, (4) navigation-hub.html correctly references infrastructure-hub.html as "Infrastructure & Resilience Center", (5) config-center.html knownPages updated (resilience-hub removed), (6) Page count confirmed at 22.
 
 ### TASK-281: [MERGE] Consolidate navigation-hub.html into config-center.html as unified Config & Navigation Center
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Merge navigation-hub.html (4 tabs: Search, Bookmarks, Journey Tracker, Gallery) into config-center.html (8 tabs: Settings, Config Drift, Integrations, Webhooks, Playbooks, Retention, Accessibility, Layout). Navigation Hub's features are all UX/discovery concerns — search, bookmarking favorite pages, tracking user journeys, and a visual gallery of all pages — that naturally fit alongside Config Center's existing UX configuration tabs (Accessibility, Layout, Settings). Combined 12 tabs is higher but navigation-hub is lightweight (1,563 lines) and many tabs share UX theming. Additionally, index.html already provides a command palette with comprehensive search/navigation, making the standalone navigation-hub redundant as a separate page. Add 4 navigation tabs to config-center.html, update all index.html references (cards, widget selectors, command palette), and config-center.html knownPages. Archive navigation-hub.html. This reduces page count from 21 to 20.
 - **Notes**: **COMPLETED 2026-03-29**: Created unified Config & Navigation Center (3,951 lines) merging all 12 tabs (8 config + 4 navigation: Settings, Config Drift, Integrations, Webhooks, Playbooks, Retention, Accessibility, Layout, Search, Bookmarks, Journey Tracker, Gallery). Added navigation CSS styles, tab buttons, content sections, and all JavaScript functions with nav- prefix to avoid naming collisions. Updated all references in index.html (4 card link updates, 2 widgetMap entries, 5 command palette entries), config-center.html knownPages (removed navigation-hub), and api/agent-memory.json. Archived navigation-hub.html to /archive/. Page count reduced from 19 to 18.
+- **Tester Feedback**: [PASS] - Verified: (1) config-center.html is exactly 3,951 lines with all 12 tabs (Settings, Config Drift, Integrations, Webhooks, Playbooks, Retention, Accessibility, Layout, Search, Bookmarks, Journey Tracker, Gallery) and all 12 matching tab-content divs, (2) navigation-hub.html removed from web root and archived to /archive/ (59,215 bytes), (3) Zero references to navigation-hub.html across all 18 active HTML files, (4) index.html correctly links all navigation cards to config-center.html with proper tab anchors (#search, #bookmarks, #journey, #gallery), (5) config-center.html knownPages updated (navigation-hub removed), (6) HTTP 200 confirmed, (7) Page count confirmed at 18.
 
 ### TASK-282: [MERGE] Consolidate task-hub.html into agent-hub.html as unified Agent & Task Hub
-- **Status**: DONE
+- **Status**: VERIFIED
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Merge task-hub.html (3 tabs: Board, Graph, Metrics) into agent-hub.html (8 tabs: Overview, Profiles, Knowledge, Quotas, Collaboration, Mentors, Compare, Workload). Tasks are assigned to and executed by agents — the task board shows agent assignments, task metrics reflect agent productivity, and task graphs visualize work relationships. These naturally belong alongside agent profiles, workload tracking, and collaboration views. Combined 11 tabs is proven manageable (analytics-hub, code-hub, introspection-hub, operations-hub all have 11). Add 3 task tabs to agent-hub.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive task-hub.html. This reduces page count from 19 to 18 (after TASK-281 completes).
 - **Notes**: DONE by developer. Merged 3 task tabs (Board, Dependencies, Metrics) into agent-hub.html (now 11 tabs, 2949 lines). Updated all references in index.html, navigation-hub.html, config-center.html, communications-hub.html, growth-hub.html, introspection-hub.html. Deleted task-hub.html. Page count: 20 -> 19.
+- **Tester Feedback**: [PASS] - Verified: (1) agent-hub.html is 2,963 lines with all 11 tabs (Overview, Profiles, Knowledge, Quotas, Collaboration, Mentors, Compare, Workload, Board, Dependencies, Metrics) and all 11 matching tab-content divs, (2) task-hub.html removed from web root, (3) Zero references to task-hub.html across all 18 active HTML files, (4) index.html correctly links task card to agent-hub.html#task-board, (5) communications-hub.html, growth-hub.html, introspection-hub.html all reference agent-hub.html#task-board correctly, (6) HTTP 200 confirmed, (7) Page count confirmed at 18.
+
+### TASK-284: [BUG] Fix missing API files referenced by Doomsday Clock in index.html
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: LOW
+- **Description**: The `loadDoomsdayTime()` function in index.html (lines ~2690-2720) fetches three API files that don't exist: `/api/security.json`, `/api/system-status.json`, `/api/tasks.json`. The code handles 404s gracefully (each fetch is guarded by `if (res.ok)` and the function has try-catch), so no visible JS errors occur. However, the Doomsday Clock risk calculation is incomplete because it silently skips these three risk factors. Fix by either: (a) creating the missing JSON files with expected schemas, or (b) updating index.html to reference the correct existing files (`security-metrics.json`, `system-metrics.json`). The `tasks.json` has no direct equivalent - consider deriving task fail counts from existing data or removing that check.
+- **Notes**: Discovered by tester during regression testing 2026-03-29. Non-critical since error handling prevents JS crashes, but Doomsday Clock accuracy is degraded.
 
 ### TASK-283: [OPTIMIZE] Reduce story-hub.html from 12 tabs to ~6 by consolidating overlapping narrative tabs
 - **Status**: TODO
@@ -542,6 +551,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-29 by developer2 (TASK-281 DONE: merged navigation-hub.html into config-center.html as 12-tab unified Config & Navigation Center. Page count: 18. Remaining: TASK-283 TODO [unassigned])*
+*Last updated: 2026-03-29 by tester (TASK-281 VERIFIED, TASK-282 VERIFIED. Created TASK-284 [BUG] for missing API files in Doomsday Clock. Remaining: TASK-283 TODO [unassigned], TASK-284 TODO [unassigned])*
 
 ---
