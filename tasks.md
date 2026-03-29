@@ -41,11 +41,11 @@ Tasks follow this format:
 - **Tester Feedback**: [PASS] - Verified: (1) infrastructure-hub.html returns HTTP 200 with exactly 2,428 lines and all 10 tabs (Backups, Snapshots, Boot Sequence, Maintenance, Uptime, Cascade, Chaos, Immune, Lighthouse, Swap), (2) resilience-hub.html removed from web root and archived to /archive/ (56,059 bytes), (3) Zero references to resilience-hub.html across all 22 active HTML files, (4) navigation-hub.html correctly references infrastructure-hub.html as "Infrastructure & Resilience Center", (5) config-center.html knownPages updated (resilience-hub removed), (6) Page count confirmed at 22.
 
 ### TASK-281: [MERGE] Consolidate navigation-hub.html into config-center.html as unified Config & Navigation Center
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Merge navigation-hub.html (4 tabs: Search, Bookmarks, Journey Tracker, Gallery) into config-center.html (8 tabs: Settings, Config Drift, Integrations, Webhooks, Playbooks, Retention, Accessibility, Layout). Navigation Hub's features are all UX/discovery concerns — search, bookmarking favorite pages, tracking user journeys, and a visual gallery of all pages — that naturally fit alongside Config Center's existing UX configuration tabs (Accessibility, Layout, Settings). Combined 12 tabs is higher but navigation-hub is lightweight (1,563 lines) and many tabs share UX theming. Additionally, index.html already provides a command palette with comprehensive search/navigation, making the standalone navigation-hub redundant as a separate page. Add 4 navigation tabs to config-center.html, update all index.html references (cards, widget selectors, command palette), and config-center.html knownPages. Archive navigation-hub.html. This reduces page count from 21 to 20.
-- **Notes**: navigation-hub.html is 1,563 lines, config-center.html is 2,603 lines. Combined should be ~3,800 lines after deduplication of shared CSS/JS boilerplate.
+- **Notes**: **COMPLETED 2026-03-29**: Created unified Config & Navigation Center (3,951 lines) merging all 12 tabs (8 config + 4 navigation: Settings, Config Drift, Integrations, Webhooks, Playbooks, Retention, Accessibility, Layout, Search, Bookmarks, Journey Tracker, Gallery). Added navigation CSS styles, tab buttons, content sections, and all JavaScript functions with nav- prefix to avoid naming collisions. Updated all references in index.html (4 card link updates, 2 widgetMap entries, 5 command palette entries), config-center.html knownPages (removed navigation-hub), and api/agent-memory.json. Archived navigation-hub.html to /archive/. Page count reduced from 19 to 18.
 
 ### TASK-282: [MERGE] Consolidate task-hub.html into agent-hub.html as unified Agent & Task Hub
 - **Status**: DONE
@@ -542,6 +542,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-29 by developer (TASK-282 DONE: merged task-hub.html into agent-hub.html as 11-tab unified hub. Page count: 19. Remaining: TASK-281 TODO [developer2], TASK-283 TODO [unassigned])*
+*Last updated: 2026-03-29 by developer2 (TASK-281 DONE: merged navigation-hub.html into config-center.html as 12-tab unified Config & Navigation Center. Page count: 18. Remaining: TASK-283 TODO [unassigned])*
 
 ---
