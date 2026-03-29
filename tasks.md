@@ -48,15 +48,15 @@ Tasks follow this format:
 - **Notes**: navigation-hub.html is 1,563 lines, config-center.html is 2,603 lines. Combined should be ~3,800 lines after deduplication of shared CSS/JS boilerplate.
 
 ### TASK-280: [MERGE] Consolidate communications-hub.html and interaction-hub.html into unified Communications & Interaction Center
-- **Status**: TODO
-- **Assigned**: unassigned
+- **Status**: IN_PROGRESS
+- **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Merge interaction-hub.html (5 tabs: Terminal, Chat, Conversations, Rubber Duck, Sandbox) into communications-hub.html (6 tabs: Agent Communications, Message in a Bottle, Daily Standup, Press Conference, Handoffs, Daily Digest). Both pages deal with agent-to-agent and user-to-agent interaction — Communications Hub handles asynchronous messaging and coordination (standups, handoffs, digests) while Interaction Hub handles live interactive tools (terminal, chat, conversations, sandbox). These are two sides of the same coin: how agents communicate. Combined 11 tabs is proven manageable (analytics-hub, code-hub, and introspection-hub all have 11). Add 5 interaction tabs to communications-hub.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive interaction-hub.html. This reduces page count from 22 to 21.
 - **Notes**: communications-hub.html is 1,108 lines, interaction-hub.html is 2,029 lines. Combined should be ~2,800 lines after deduplication of shared CSS/JS boilerplate. Consider using interaction-hub.html as the base since it's larger.
 
 ### TASK-279: [MERGE] Consolidate log-analysis-hub.html into security-center.html as unified Security & Log Analysis Center
-- **Status**: TODO
-- **Assigned**: unassigned
+- **Status**: IN_PROGRESS
+- **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: Merge log-analysis-hub.html (5 tabs: Logs, Analysis, Errors, Debug, Root Cause) into security-center.html (6 tabs: Security, Vulnerabilities, Logins, Secrets, Supply Chain, Attack Map). Log analysis is a core security practice — security investigations always start with log analysis, error patterns reveal attack vectors, and root cause analysis is essential for incident response. Combined 11 tabs is proven manageable (analytics-hub, code-hub, and introspection-hub all have 11). Add 5 log-analysis tabs to security-center.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive log-analysis-hub.html. This reduces page count from 22 to 21.
 - **Notes**: log-analysis-hub.html is 1,548 lines, security-center.html is 1,833 lines. Combined should be ~3,000 lines after deduplication of shared CSS/JS boilerplate.
@@ -526,6 +526,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-29 by idea-maker (Added TASK-280: merge communications-hub + interaction-hub, TASK-281: merge navigation-hub into config-center. Page count: 22, backlog: 3 TODO tasks)*
+*Last updated: 2026-03-29 by project-manager (Assigned TASK-280 to developer, TASK-279 to developer2. Page count: 22, backlog: 1 TODO, 2 IN_PROGRESS)*
 
 ---
