@@ -1,22 +1,22 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-03-29T00:30:00Z",
+  "last_review": "2026-03-29T12:30:00Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 89306,
-    "current_log_attempts": 44198,
-    "rotated_log_attempts": 45108,
-    "unique_ips_current_log": 910,
+    "total_failed_attempts_visible": 46220,
+    "current_log_attempts": 2007,
+    "rotated_log_attempts": 44213,
+    "unique_ips_current_log": 130,
     "top_attackers": [
-      {"ip": "165.154.6.42", "attempts": 2417, "note": "current log only"},
-      {"ip": "92.118.39.63", "attempts": 1148, "note": "current log only"},
-      {"ip": "2.57.122.177", "attempts": 959, "note": "current log only"},
-      {"ip": "92.118.39.87", "attempts": 954, "note": "current log only"},
-      {"ip": "186.96.145.241", "attempts": 910, "note": "current log only"}
+      {"ip": "193.32.162.151", "attempts": 47, "note": "current log only"},
+      {"ip": "216.180.127.200", "attempts": 45, "note": "current log only"},
+      {"ip": "2.57.122.208", "attempts": 45, "note": "current log only"},
+      {"ip": "80.94.92.166", "attempts": 44, "note": "current log only"},
+      {"ip": "2.57.121.25", "attempts": 41, "note": "current log only"}
     ],
-    "top_targeted_users": ["root (21162)", "backup (57)", "bin (19)", "nobody (12)", "+ 22875 invalid-user attempts"],
-    "log_period": "current auth.log + auth.log.1",
-    "change_since_last": "+1806 attempts since last review (2026-03-28T12:21), rate ~150/hr (down from ~258/hr)"
+    "top_targeted_users": ["root (1369)", "sol (105)", "solana (100)", "ubuntu (68)", "admin (53)"],
+    "log_period": "current auth.log (2026-03-29 00:36 to 12:29) + auth.log.1",
+    "change_since_last": "Log rotated since last review. New auth.log has 2,007 attempts in ~12 hours, rate ~167/hr. Previous top attacker 165.154.6.42 not in current top 5 - attacks more evenly distributed across IPs."
   },
   "web_protections": {
     "git_blocked": true,
@@ -24,11 +24,14 @@
     "sh_blocked": true,
     "py_blocked": true,
     "log_blocked": true,
-    "md_blocked": true,
+    "md_blocked_general": false,
+    "md_blocked_claude_md": true,
+    "tasks_md_accessible": true,
+    "tasks_md_intentional": true,
     "claude_md_blocked": true,
     "path_traversal_blocked": true,
     "url_encoded_traversal_blocked": true,
-    "all_returning_404": true
+    "all_sensitive_types_returning_404": true
   },
   "cgi_security": {
     "execute_cgi": "Hardened - exact whitelist match only (== on line 140), rate limited, dangerous pattern blocking",
@@ -54,37 +57,38 @@
     "nginx_blocks_sh_404",
     "nginx_blocks_py_404",
     "nginx_blocks_log_404",
-    "nginx_blocks_md_404",
     "sensitive_file_permissions_correct",
     "path_traversal_blocked",
     "url_encoded_path_traversal_blocked",
     "no_secrets_in_recent_commits",
-    "no_eval_in_merged_pages",
+    "no_eval_in_modified_pages",
     "cgi_whitelist_exact_match_only",
     "python_cgi_no_shell_injection",
-    "merged_pages_security_verified",
+    "recently_modified_pages_reviewed",
     "disk_space_ok"
   ],
   "known_issues": [
     "World-writable API files (action-queue.json, action-status.json, postmortems.json) - required for CGI, mitigated by whitelist validation",
-    "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials"
+    "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials",
+    "No general *.md nginx block - only CLAUDE.md specifically blocked. tasks.md intentionally served for task viewer. Any new .md file added to web root would be publicly accessible."
+  ],
+  "corrections_from_previous": [
+    "Previous report listed md_blocked: true - this was inaccurate. Only CLAUDE.md is specifically blocked. No general *.md deny rule exists in nginx. tasks.md is intentionally accessible (HTTP 200) for the task viewer."
   ],
   "notes": [
-    "Full security review completed - all 19 checks passed, no new vulnerabilities",
-    "All 6 CGI scripts verified secure: exact whitelist matching confirmed in execute.cgi (line 140), case statements in terminal.cgi",
-    "All nginx protections verified: sensitive file types return 404, path traversal returns 400",
-    "TASK-279 merge verified: log-analysis-hub.html archived (404), security-center.html live (200), no eval() usage",
-    "TASK-280 merge verified: interaction-hub.html archived (404), communications-hub.html live (200), no eval() usage",
-    "innerHTML usage in merged pages reviewed: all template literals with API data, no direct user input injection vectors",
-    "SSH key permissions correct (600), SSH dir correct (700), CLAUDE.md (664)",
-    "Disk usage stable at 12%",
-    "Total failed SSH attempts: ~89,306 (up from 87,500 = +1,806 in ~12 hours, rate ~150/hr - decreasing from ~258/hr)",
-    "Top attacker: 165.154.6.42 with 2,417 attempts (persistent across reviews)",
-    "Unique attacker IPs: 910 in current log (up from 874, +36 new IPs)",
-    "SSH attack rate trending downward but volume still high - fail2ban remains top recommendation"
+    "Full security review completed - 18 checks passed, no new vulnerabilities",
+    "All 6 CGI scripts verified secure",
+    "All nginx protections verified for sensitive file types",
+    "Log rotation occurred since last review - auth.log.1 now contains ~44,213 attempts, new auth.log has 2,007 in ~12 hours",
+    "SSH attack rate ~167/hr - slight increase from last reported 150/hr but stable",
+    "Attack distribution more even across IPs (top attacker only 47 attempts vs previous 2,417)",
+    "5 HTML files modified since last review (config-center, communications-hub, introspection-hub, growth-hub, agent-hub) - no eval(), innerHTML used safely with API data",
+    "Corrected md_blocked status - was incorrectly reported as true in previous reviews",
+    "Disk usage stable at 12%"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - 89k+ total attacks from 910+ unique IPs",
+    "CRITICAL: Install fail2ban for SSH protection - consistent ~167/hr brute force from 130+ unique IPs",
+    "Add general *.md deny rule to nginx with explicit exception for tasks.md (defense in depth)",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
   ]
