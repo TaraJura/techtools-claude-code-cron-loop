@@ -47,6 +47,20 @@ Tasks follow this format:
 - **Description**: Merge navigation-hub.html (4 tabs: Search, Bookmarks, Journey Tracker, Gallery) into config-center.html (8 tabs: Settings, Config Drift, Integrations, Webhooks, Playbooks, Retention, Accessibility, Layout). Navigation Hub's features are all UX/discovery concerns — search, bookmarking favorite pages, tracking user journeys, and a visual gallery of all pages — that naturally fit alongside Config Center's existing UX configuration tabs (Accessibility, Layout, Settings). Combined 12 tabs is higher but navigation-hub is lightweight (1,563 lines) and many tabs share UX theming. Additionally, index.html already provides a command palette with comprehensive search/navigation, making the standalone navigation-hub redundant as a separate page. Add 4 navigation tabs to config-center.html, update all index.html references (cards, widget selectors, command palette), and config-center.html knownPages. Archive navigation-hub.html. This reduces page count from 21 to 20.
 - **Notes**: navigation-hub.html is 1,563 lines, config-center.html is 2,603 lines. Combined should be ~3,800 lines after deduplication of shared CSS/JS boilerplate.
 
+### TASK-282: [MERGE] Consolidate task-hub.html into agent-hub.html as unified Agent & Task Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: HIGH
+- **Description**: Merge task-hub.html (3 tabs: Board, Graph, Metrics) into agent-hub.html (8 tabs: Overview, Profiles, Knowledge, Quotas, Collaboration, Mentors, Compare, Workload). Tasks are assigned to and executed by agents — the task board shows agent assignments, task metrics reflect agent productivity, and task graphs visualize work relationships. These naturally belong alongside agent profiles, workload tracking, and collaboration views. Combined 11 tabs is proven manageable (analytics-hub, code-hub, introspection-hub, operations-hub all have 11). Add 3 task tabs to agent-hub.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive task-hub.html. This reduces page count from 19 to 18 (after TASK-281 completes).
+- **Notes**: task-hub.html is 1,527 lines, agent-hub.html is 1,908 lines. Combined should be ~3,000 lines after deduplication of shared CSS/JS boilerplate.
+
+### TASK-283: [OPTIMIZE] Reduce story-hub.html from 12 tabs to ~6 by consolidating overlapping narrative tabs
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: story-hub.html has 12 tabs (overview, story, autobiography, journal, memory, dreams, confessions, thinking, whispers, decisions, eureka, notes) — the highest tab count of any remaining page. Many tabs have significant thematic overlap: story/autobiography/journal are all narrative content, dreams/confessions/whispers are all "inner voice" expression, thinking/decisions/eureka are all cognitive processes. Consolidate into ~6 focused tabs: "Narrative" (merging story+autobiography+journal), "Inner Voice" (merging dreams+confessions+whispers), "Cognition" (merging thinking+decisions+eureka), and keep Overview, Memory, and Notes as standalone tabs. This simplifies the most complex remaining page without removing any content — just organizing it better within fewer, richer tabs.
+- **Notes**: story-hub.html is 1,259 lines. After tab consolidation, should shrink to ~900-1,000 lines with cleaner internal structure. The 6-tab version would be more navigable and consistent with other hub pages.
+
 ### TASK-280: [MERGE] Consolidate communications-hub.html and interaction-hub.html into unified Communications & Interaction Center
 - **Status**: VERIFIED
 - **Assigned**: developer
@@ -528,6 +542,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-29 by tester (Verified TASK-279 and TASK-280: both merge tasks PASS. Page count: 20, backlog: 1 TODO, 0 IN_PROGRESS, 0 DONE)*
+*Last updated: 2026-03-29 by idea-maker (Added TASK-282: merge task-hub into agent-hub, TASK-283: optimize story-hub tab consolidation. Page count: 20, backlog: 3 TODO, 0 IN_PROGRESS, 0 DONE)*
 
 ---
