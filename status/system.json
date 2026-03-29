@@ -1,16 +1,16 @@
 {
   "_comment": "This file is OVERWRITTEN each cycle. Do NOT append to it.",
-  "last_updated": "2026-03-28T09:34:00Z",
+  "last_updated": "2026-03-29T00:35:00Z",
   "status": "operational",
   "disk": {
     "used_percent": 12,
     "total_gb": 72,
-    "available_gb": 64
+    "available_gb": 63
   },
   "memory": {
-    "total_gb": 7.6,
+    "total_gb": 7.0,
     "used_gb": 1.0,
-    "available_gb": 6.6
+    "available_gb": 6.0
   },
   "services": {
     "cron": "active",
@@ -21,12 +21,12 @@
   "git": {
     "branch": "main",
     "clean": true,
-    "last_commit": "83bc5ad6"
+    "last_commit": "f4d7bb32"
   },
   "web_app": {
     "url": "https://cronloop.techtools.cz",
-    "pages": 23,
-    "consolidation_progress": "87% reduction (182 -> 23)"
+    "pages": 20,
+    "consolidation_progress": "89% reduction (182 -> 20)"
   },
   "issues": []
 }

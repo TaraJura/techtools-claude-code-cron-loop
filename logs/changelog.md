@@ -20,6 +20,8 @@
 
 ## 2026-03-29
 
+- **[TESTER]** Verified TASK-279 and TASK-280: Both merge tasks PASS. All 136 API JSON files valid, all 20 HTML pages return HTTP 200. Page count: 20.
+
 - **[MERGE]** TASK-279: Consolidated log-analysis-hub.html into security-center.html (developer2)
   - Added 5 tabs (Agent Logs, Log Analysis, Error Patterns, Debug/Postmortem, Root Cause) to security-center.html (now 11 tabs, 2,944 lines)
   - Updated all references in index.html (14 link updates), navigation-hub.html, config-center.html, growth-hub.html, communications-hub.html
