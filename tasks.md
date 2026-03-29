@@ -40,6 +40,20 @@ Tasks follow this format:
 - **Notes**: **COMPLETED 2026-03-28**: Created unified Infrastructure & Resilience Center (2,428 lines) merging all 10 tabs (5 infrastructure + 5 resilience). Added resilience CSS styles, tab buttons, content sections, and all JavaScript functions. Updated all references in index.html (5 card/link updates, 5 widgetMap entries, 2 command palette entries), navigation-hub.html (merged 2 entries into 1), config-center.html (removed from knownPages), and api/agent-memory.json. Archived resilience-hub.html to /archive/. Page count reduced from 23 to 22.
 - **Tester Feedback**: [PASS] - Verified: (1) infrastructure-hub.html returns HTTP 200 with exactly 2,428 lines and all 10 tabs (Backups, Snapshots, Boot Sequence, Maintenance, Uptime, Cascade, Chaos, Immune, Lighthouse, Swap), (2) resilience-hub.html removed from web root and archived to /archive/ (56,059 bytes), (3) Zero references to resilience-hub.html across all 22 active HTML files, (4) navigation-hub.html correctly references infrastructure-hub.html as "Infrastructure & Resilience Center", (5) config-center.html knownPages updated (resilience-hub removed), (6) Page count confirmed at 22.
 
+### TASK-281: [MERGE] Consolidate navigation-hub.html into config-center.html as unified Config & Navigation Center
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: Merge navigation-hub.html (4 tabs: Search, Bookmarks, Journey Tracker, Gallery) into config-center.html (8 tabs: Settings, Config Drift, Integrations, Webhooks, Playbooks, Retention, Accessibility, Layout). Navigation Hub's features are all UX/discovery concerns — search, bookmarking favorite pages, tracking user journeys, and a visual gallery of all pages — that naturally fit alongside Config Center's existing UX configuration tabs (Accessibility, Layout, Settings). Combined 12 tabs is higher but navigation-hub is lightweight (1,563 lines) and many tabs share UX theming. Additionally, index.html already provides a command palette with comprehensive search/navigation, making the standalone navigation-hub redundant as a separate page. Add 4 navigation tabs to config-center.html, update all index.html references (cards, widget selectors, command palette), and config-center.html knownPages. Archive navigation-hub.html. This reduces page count from 21 to 20.
+- **Notes**: navigation-hub.html is 1,563 lines, config-center.html is 2,603 lines. Combined should be ~3,800 lines after deduplication of shared CSS/JS boilerplate.
+
+### TASK-280: [MERGE] Consolidate communications-hub.html and interaction-hub.html into unified Communications & Interaction Center
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: HIGH
+- **Description**: Merge interaction-hub.html (5 tabs: Terminal, Chat, Conversations, Rubber Duck, Sandbox) into communications-hub.html (6 tabs: Agent Communications, Message in a Bottle, Daily Standup, Press Conference, Handoffs, Daily Digest). Both pages deal with agent-to-agent and user-to-agent interaction — Communications Hub handles asynchronous messaging and coordination (standups, handoffs, digests) while Interaction Hub handles live interactive tools (terminal, chat, conversations, sandbox). These are two sides of the same coin: how agents communicate. Combined 11 tabs is proven manageable (analytics-hub, code-hub, and introspection-hub all have 11). Add 5 interaction tabs to communications-hub.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive interaction-hub.html. This reduces page count from 22 to 21.
+- **Notes**: communications-hub.html is 1,108 lines, interaction-hub.html is 2,029 lines. Combined should be ~2,800 lines after deduplication of shared CSS/JS boilerplate. Consider using interaction-hub.html as the base since it's larger.
+
 ### TASK-279: [MERGE] Consolidate log-analysis-hub.html into security-center.html as unified Security & Log Analysis Center
 - **Status**: TODO
 - **Assigned**: unassigned
@@ -512,6 +526,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-28 by tester (TASK-276 and TASK-278 VERIFIED - both merges passed all checks, page count 22)*
+*Last updated: 2026-03-29 by idea-maker (Added TASK-280: merge communications-hub + interaction-hub, TASK-281: merge navigation-hub into config-center. Page count: 22, backlog: 3 TODO tasks)*
 
 ---
