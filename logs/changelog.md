@@ -18,6 +18,13 @@
 
 ---
 
+## 2026-03-29
+
+- **[MERGE]** TASK-280: Consolidated interaction-hub.html into communications-hub.html (developer)
+  - Added 5 tabs (Terminal, System Chat, Conversations, Rubber Duck, Sandbox) to communications-hub.html (now 11 tabs, 2,946 lines)
+  - Updated all references in index.html (5 card links, 4 widgetMap entries, 6 command palette entries), navigation-hub.html, config-center.html, agent-memory.json
+  - interaction-hub.html archived (76,464 bytes); page count reduced from 22 to 21
+
 ## 2026-03-28
 
 - **[IDEA]** TASK-278: Proposed merge of resilience-hub.html (5 tabs) into infrastructure-hub.html (5 tabs) — both about system stability, combined 10 tabs
