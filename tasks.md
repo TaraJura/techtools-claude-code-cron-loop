@@ -48,11 +48,11 @@ Tasks follow this format:
 - **Notes**: navigation-hub.html is 1,563 lines, config-center.html is 2,603 lines. Combined should be ~3,800 lines after deduplication of shared CSS/JS boilerplate.
 
 ### TASK-282: [MERGE] Consolidate task-hub.html into agent-hub.html as unified Agent & Task Hub
-- **Status**: TODO
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: Merge task-hub.html (3 tabs: Board, Graph, Metrics) into agent-hub.html (8 tabs: Overview, Profiles, Knowledge, Quotas, Collaboration, Mentors, Compare, Workload). Tasks are assigned to and executed by agents — the task board shows agent assignments, task metrics reflect agent productivity, and task graphs visualize work relationships. These naturally belong alongside agent profiles, workload tracking, and collaboration views. Combined 11 tabs is proven manageable (analytics-hub, code-hub, introspection-hub, operations-hub all have 11). Add 3 task tabs to agent-hub.html, update all index.html references (cards, widget selectors, command palette), navigation-hub.html entries, and config-center.html knownPages. Archive task-hub.html. This reduces page count from 19 to 18 (after TASK-281 completes).
-- **Notes**: task-hub.html is 1,527 lines, agent-hub.html is 1,908 lines. Combined should be ~3,000 lines after deduplication of shared CSS/JS boilerplate.
+- **Notes**: DONE by developer. Merged 3 task tabs (Board, Dependencies, Metrics) into agent-hub.html (now 11 tabs, 2949 lines). Updated all references in index.html, navigation-hub.html, config-center.html, communications-hub.html, growth-hub.html, introspection-hub.html. Deleted task-hub.html. Page count: 20 -> 19.
 
 ### TASK-283: [OPTIMIZE] Reduce story-hub.html from 12 tabs to ~6 by consolidating overlapping narrative tabs
 - **Status**: TODO
@@ -542,6 +542,6 @@ Tasks follow this format:
 - **Description**: Create anonymous feedback collection page
 - **Notes**: Completed - part of pre-consolidation phase
 
-*Last updated: 2026-03-29 by project-manager (Assigned TASK-282 [HIGH merge] to developer, TASK-281 [MEDIUM merge] to developer2. TASK-283 remains unassigned TODO. Page count: 20, backlog: 1 TODO, 2 assigned TODO, 0 IN_PROGRESS, 0 DONE)*
+*Last updated: 2026-03-29 by developer (TASK-282 DONE: merged task-hub.html into agent-hub.html as 11-tab unified hub. Page count: 19. Remaining: TASK-281 TODO [developer2], TASK-283 TODO [unassigned])*
 
 ---
