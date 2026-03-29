@@ -1,22 +1,22 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-03-28T12:21:00Z",
+  "last_review": "2026-03-29T00:30:00Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts": 87500,
-    "current_log_attempts": 42392,
+    "total_failed_attempts": 89306,
+    "current_log_attempts": 44198,
     "rotated_log_attempts": 45108,
-    "unique_ips_current_log": 874,
+    "unique_ips_current_log": 910,
     "top_attackers": [
       {"ip": "165.154.6.42", "attempts": 2417, "note": "current log only"},
-      {"ip": "92.118.39.63", "attempts": 1112, "note": "current log only"},
-      {"ip": "92.118.39.87", "attempts": 939, "note": "current log only"},
-      {"ip": "2.57.122.177", "attempts": 929, "note": "current log only"},
+      {"ip": "92.118.39.63", "attempts": 1148, "note": "current log only"},
+      {"ip": "2.57.122.177", "attempts": 959, "note": "current log only"},
+      {"ip": "92.118.39.87", "attempts": 954, "note": "current log only"},
       {"ip": "186.96.145.241", "attempts": 910, "note": "current log only"}
     ],
-    "top_targeted_users": ["root (20025)", "sol (2583)", "solana (2348)", "ubuntu (1804)", "admin (1156)"],
+    "top_targeted_users": ["root (21162)", "backup (57)", "bin (19)", "nobody (12)", "+ 22875 invalid-user attempts"],
     "log_period": "current auth.log + auth.log.1",
-    "change_since_last": "+3096 attempts since last review (2026-03-28T00:27)"
+    "change_since_last": "+1806 attempts since last review (2026-03-28T12:21), rate ~150/hr (down from ~258/hr)"
   },
   "web_protections": {
     "git_blocked": true,
@@ -60,32 +60,31 @@
     "url_encoded_path_traversal_blocked",
     "no_secrets_in_recent_commits",
     "no_eval_in_merged_pages",
-    "no_actual_secrets_in_js_files",
     "cgi_whitelist_exact_match_only",
-    "python_cgi_path_sanitization_valid",
     "python_cgi_no_shell_injection",
-    "disk_space_ok",
-    "resilience_hub_removed_from_webroot"
+    "merged_pages_security_verified",
+    "disk_space_ok"
   ],
   "known_issues": [
     "World-writable API files (action-queue.json, action-status.json, postmortems.json) - required for CGI, mitigated by whitelist validation",
-    "tasks.md in webroot intentionally exposed for task viewer feature - contains non-sensitive task data only",
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials"
   ],
   "notes": [
-    "Full security review completed - all 21 checks passed, no new vulnerabilities",
-    "All 6 CGI scripts verified secure: exact whitelist matching confirmed in execute.cgi, case statements in terminal.cgi",
+    "Full security review completed - all 19 checks passed, no new vulnerabilities",
+    "All 6 CGI scripts verified secure: exact whitelist matching confirmed in execute.cgi (line 140), case statements in terminal.cgi",
     "All nginx protections verified: sensitive file types return 404, path traversal returns 400",
-    "TASK-278 merge reviewed: infrastructure-hub.html has no eval(), resilience-hub.html properly removed (404)",
+    "TASK-279 merge verified: log-analysis-hub.html archived (404), security-center.html live (200), no eval() usage",
+    "TASK-280 merge verified: interaction-hub.html archived (404), communications-hub.html live (200), no eval() usage",
+    "innerHTML usage in merged pages reviewed: all template literals with API data, no direct user input injection vectors",
     "SSH key permissions correct (600), SSH dir correct (700), CLAUDE.md (664)",
     "Disk usage stable at 12%",
-    "Total failed SSH attempts: ~87,500 (up from 84,404 = +3,096 in ~12 hours, consistent rate ~258/hr)",
+    "Total failed SSH attempts: ~89,306 (up from 87,500 = +1,806 in ~12 hours, rate ~150/hr - decreasing from ~258/hr)",
     "Top attacker: 165.154.6.42 with 2,417 attempts (persistent across reviews)",
-    "Unique attacker IPs: 874 in current log (up from 810)",
-    "Most targeted usernames: root, sol, solana, ubuntu, admin - typical brute-force dictionary attack pattern"
+    "Unique attacker IPs: 910 in current log (up from 874, +36 new IPs)",
+    "SSH attack rate trending downward but volume still high - fail2ban remains top recommendation"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - 87k+ total attacks from 874+ unique IPs",
+    "CRITICAL: Install fail2ban for SSH protection - 89k+ total attacks from 910+ unique IPs",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
   ]
