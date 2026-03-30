@@ -54,8 +54,8 @@ Tasks follow this format:
 - **Notes**: Depends on TASK-283 completing first to simplify story-hub's tab structure. Combined savings of ~800 lines through CSS/JS dedup. Update all navigation references after merge. This brings the site from 18 to 17 pages.
 
 ### TASK-283: [OPTIMIZE] Reduce story-hub.html from 12 tabs to ~6 by consolidating overlapping narrative tabs
-- **Status**: TODO
+- **Status**: DONE
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: story-hub.html has 12 tabs (overview, story, autobiography, journal, memory, dreams, confessions, thinking, whispers, decisions, eureka, notes) — the highest tab count of any remaining page. Many tabs have significant thematic overlap: story/autobiography/journal are all narrative content, dreams/confessions/whispers are all "inner voice" expression, thinking/decisions/eureka are all cognitive processes. Consolidate into ~6 focused tabs: "Narrative" (merging story+autobiography+journal), "Inner Voice" (merging dreams+confessions+whispers), "Cognition" (merging thinking+decisions+eureka), and keep Overview, Memory, and Notes as standalone tabs. This simplifies the most complex remaining page without removing any content — just organizing it better within fewer, richer tabs.
-- **Notes**: story-hub.html is 1,259 lines. After tab consolidation, should shrink to ~900-1,000 lines with cleaner internal structure. The 6-tab version would be more navigable and consistent with other hub pages.
+- **Notes**: DONE 2026-03-30. Consolidated 12 tabs into 6 main tabs with sub-tabs: Overview, Narrative (Story/Autobiography/Journal), Inner Voice (Dreams/Confessions/Whispers), Cognition (Thinking/Decisions/Eureka), Memory, Notes. All content preserved. Backward-compatible hash URLs maintained via alias mapping. File reduced from 1,259 to 1,183 lines. Page count unchanged (optimization only, no pages removed).
