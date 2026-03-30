@@ -40,11 +40,11 @@ Tasks follow this format:
 - **Notes**: Discovered by tester during regression testing 2026-03-29. Non-critical since error handling prevents JS crashes, but Doomsday Clock accuracy is degraded.
 
 ### TASK-286: [MERGE] Merge creative-corner.html into story-hub.html as unified Creative & Story Hub
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: creative-corner.html (1,736 lines, 7 tabs: Haiku Journal, Emotions, Commit Poet, Yearbook, Quiz, Horoscopes, Doomsday) and story-hub.html (1,259 lines, 12 tabs) both center on narrative, creative expression, and emotional content. After TASK-283 consolidates story-hub's 12 tabs into ~6, merge creative-corner's content into the simplified story-hub as additional tabs: add "Creative" (haiku journal + commit poet), "Personality" (emotions + quiz + horoscopes + yearbook), and move Doomsday to a more appropriate page or remove if redundant with index.html's Doomsday Clock. Final result: one unified Creative & Story Hub with ~8 tabs covering all narrative and creative content. Removes creative-corner.html entirely.
-- **Notes**: Dependency TASK-283 is now VERIFIED — story-hub.html has 6 main tabs with sub-tabs, ready for merge. Combined savings of ~800 lines through CSS/JS dedup. Update all navigation references after merge. This brings the site from 17 to 16 pages.
+- **Notes**: DONE 2026-03-30. Merged creative-corner.html into story-hub.html as "Creative & Story Hub". Added 2 new main tabs: Creative (sub-tabs: Haiku Journal, Commit Poet) and Personality (sub-tabs: Emotions, Yearbook, Quiz, Horoscopes). Doomsday removed (redundant with index.html Doomsday Clock). creative-corner.html deleted from web root. All references in index.html and config-center.html updated. Page count: 16 -> 15. Merged file: 1,864 lines (2,919 combined - significant CSS/JS dedup savings). 8 main tabs total with sub-tabs.
 
 ### TASK-287: [MERGE] Merge infrastructure-hub.html into operations-hub.html as unified Operations & Infrastructure Hub
 - **Status**: DONE
