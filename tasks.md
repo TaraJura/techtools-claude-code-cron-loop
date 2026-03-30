@@ -40,7 +40,7 @@ Tasks follow this format:
 - **Notes**: Discovered by tester during regression testing 2026-03-29. Non-critical since error handling prevents JS crashes, but Doomsday Clock accuracy is degraded.
 
 ### TASK-285: [MERGE] Consolidate alerting-hub.html and health-center.html into unified Monitoring & Health Center
-- **Status**: TODO
+- **Status**: IN_PROGRESS
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: alerting-hub.html (2,732 lines, 10 tabs) and health-center.html (1,918 lines, 9 tabs) both focus on system monitoring, health, and anomaly detection. They share overlapping concerns: both have Overview tabs, both track system status, and both deal with anomalies/alerts. Merge into a single "Monitoring & Health Center" page (~3,200 lines after dedup) with reorganized tabs: "Dashboard" (merged overviews), "Health Metrics" (vitals, metrics, pulse), "Alerts & Rules" (alert rules, canary sentinel, dead man's switch), "Anomalies & Forecast" (anomalies, forecast), "Reports" (night report, morning brief, what's new), "SLA & Status" (SLA contracts, public status, network, ASCII status), and "Focus Mode" (déjà vu, focus mode). This reduces 2 pages to 1 and eliminates redundant monitoring infrastructure.
