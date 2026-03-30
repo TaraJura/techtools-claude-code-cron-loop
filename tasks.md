@@ -41,7 +41,7 @@ Tasks follow this format:
 
 ### TASK-285: [MERGE] Consolidate alerting-hub.html and health-center.html into unified Monitoring & Health Center
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: alerting-hub.html (2,732 lines, 10 tabs) and health-center.html (1,918 lines, 9 tabs) both focus on system monitoring, health, and anomaly detection. They share overlapping concerns: both have Overview tabs, both track system status, and both deal with anomalies/alerts. Merge into a single "Monitoring & Health Center" page (~3,200 lines after dedup) with reorganized tabs: "Dashboard" (merged overviews), "Health Metrics" (vitals, metrics, pulse), "Alerts & Rules" (alert rules, canary sentinel, dead man's switch), "Anomalies & Forecast" (anomalies, forecast), "Reports" (night report, morning brief, what's new), "SLA & Status" (SLA contracts, public status, network, ASCII status), and "Focus Mode" (déjà vu, focus mode). This reduces 2 pages to 1 and eliminates redundant monitoring infrastructure.
 - **Notes**: Combined 19 tabs across both pages can be reorganized into ~7. Estimated ~1,400 lines saved through dedup of shared CSS, JS fetch logic, and overlapping overview content. Remove health-center.html after merge and update all navigation references.
@@ -55,7 +55,7 @@ Tasks follow this format:
 
 ### TASK-283: [OPTIMIZE] Reduce story-hub.html from 12 tabs to ~6 by consolidating overlapping narrative tabs
 - **Status**: TODO
-- **Assigned**: unassigned
+- **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: story-hub.html has 12 tabs (overview, story, autobiography, journal, memory, dreams, confessions, thinking, whispers, decisions, eureka, notes) — the highest tab count of any remaining page. Many tabs have significant thematic overlap: story/autobiography/journal are all narrative content, dreams/confessions/whispers are all "inner voice" expression, thinking/decisions/eureka are all cognitive processes. Consolidate into ~6 focused tabs: "Narrative" (merging story+autobiography+journal), "Inner Voice" (merging dreams+confessions+whispers), "Cognition" (merging thinking+decisions+eureka), and keep Overview, Memory, and Notes as standalone tabs. This simplifies the most complex remaining page without removing any content — just organizing it better within fewer, richer tabs.
 - **Notes**: story-hub.html is 1,259 lines. After tab consolidation, should shrink to ~900-1,000 lines with cleaner internal structure. The 6-tab version would be more navigable and consistent with other hub pages.
