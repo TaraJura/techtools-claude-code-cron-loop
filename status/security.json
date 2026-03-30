@@ -1,21 +1,21 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-03-30T00:35:00Z",
+  "last_review": "2026-03-30T12:25:00Z",
   "status": "secure",
   "ssh_attacks": {
-    "current_log_attempts": 3800,
-    "unique_ips_current_log": "130+",
+    "current_log_attempts": 5478,
+    "unique_ips_current_log": 2232,
     "top_attackers": [
-      {"ip": "216.180.127.200", "attempts": 134},
-      {"ip": "2.57.122.208", "attempts": 80},
-      {"ip": "2.57.121.25", "attempts": 80},
-      {"ip": "2.57.121.112", "attempts": 76},
-      {"ip": "92.118.39.87", "attempts": 75}
+      {"ip": "216.180.127.200", "attempts": 220},
+      {"ip": "2.57.121.25", "attempts": 116},
+      {"ip": "2.57.121.112", "attempts": 114},
+      {"ip": "185.156.73.233", "attempts": 107},
+      {"ip": "92.118.39.87", "attempts": 105}
     ],
-    "top_targeted_users": ["root (2502)", "invalid (1290)"],
-    "log_period": "2026-03-29 00:36 to 2026-03-30 00:34 (~24 hours)",
-    "attack_rate_per_hour": 158,
-    "change_since_last": "Attack rate stable (~158/hr vs ~167/hr last review). 216.180.127.200 now top attacker with 134 attempts. 2.57.x.x subnet active with 3 IPs in top 5. Root remains primary target."
+    "top_targeted_users": ["root (3421)", "sol (352)", "solana (283)", "ubuntu (213)", "admin (168)"],
+    "log_period": "2026-03-29 00:36 to 2026-03-30 12:24 (~36 hours)",
+    "attack_rate_per_hour": 153,
+    "change_since_last": "Attack rate slightly decreased (153/hr vs 158/hr). 216.180.127.200 remains top attacker (220 attempts, up from 134). 2.57.x.x subnet still has 2 IPs in top 5. New trend: 'sol' and 'solana' usernames targeted (352+283 attempts) suggesting crypto-related brute force campaigns. 185.156.73.233 new in top 5 (107 attempts). Root remains primary target (3421 of 5478 = 62%)."
   },
   "web_protections": {
     "git_blocked": true,
@@ -29,10 +29,11 @@
     "tasks_md_intentional": true,
     "path_traversal_blocked": true,
     "url_encoded_traversal_blocked": true,
-    "all_sensitive_types_returning_404": true
+    "all_sensitive_types_returning_404": true,
+    "deleted_pages_returning_404": true
   },
   "cgi_security": {
-    "execute_cgi": "Hardened - exact whitelist match only (== on line 140), rate limited, dangerous pattern blocking",
+    "execute_cgi": "Hardened - exact whitelist match only, rate limited, dangerous pattern blocking",
     "terminal_cgi": "Safe - case statement with hardcoded commands, argument sanitization",
     "action_cgi": "Safe - delegates to queue script with rate limiting",
     "prompt_version_cgi": "Safe - agent whitelist and hex-only hash validation",
@@ -65,6 +66,7 @@
     "python_cgi_no_shell_injection",
     "no_cgi_changes_since_last_review",
     "recently_modified_pages_reviewed",
+    "deleted_pages_returning_404",
     "disk_space_ok"
   ],
   "known_issues": [
@@ -73,15 +75,17 @@
     "No general *.md nginx block - only CLAUDE.md specifically blocked. tasks.md intentionally served for task viewer. Any new .md file added to web root would be publicly accessible."
   ],
   "notes": [
-    "Full security review completed - 19 checks passed, no new vulnerabilities",
-    "6 HTML files modified since last review (communications-hub, story-hub, index, config-center, growth-hub, alerting-hub) - no eval(), innerHTML only with static strings, document.write uses static template",
+    "Full security review completed - 20 checks passed, no new vulnerabilities",
+    "4 HTML files modified since last review (story-hub, operations-hub, index, config-center) - related to TASK-286/287 page merges",
+    "Modified pages reviewed: no eval(), innerHTML uses template literals with JSON data only, escapeHtml() used (30 calls in operations-hub, 3 in story-hub), URL hash used safely for tab navigation (key lookups only)",
+    "Deleted pages (creative-corner.html, infrastructure-hub.html) confirmed returning 404",
     "No CGI scripts modified since last review - all 6 remain secure",
-    "SSH attack rate stable at ~158/hr (slight decrease from ~167/hr last review)",
-    "2.57.x.x subnet has 3 IPs in top 5 attackers - may be coordinated",
+    "SSH attack rate slightly decreased: 153/hr (down from 158/hr), 2232 unique IPs over 36hr log window",
+    "New trend: 'sol' and 'solana' usernames targeted (635 combined attempts) - crypto-related brute force",
     "Disk usage stable at 12%"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - consistent ~158/hr brute force from 130+ unique IPs",
+    "CRITICAL: Install fail2ban for SSH protection - consistent ~153/hr brute force from 2232 unique IPs",
     "Add general *.md deny rule to nginx with explicit exception for tasks.md (defense in depth)",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
