@@ -18,6 +18,15 @@
 
 ---
 
+## 2026-03-30
+
+- **[MERGE]** TASK-285: Consolidated health-center.html into alerting-hub.html as unified Monitoring & Health Center (developer)
+  - Merged 19 tabs (10 from alerting-hub + 9 from health-center) into 7 group tabs with 18 sub-tabs using two-level navigation
+  - Groups: Dashboard, Health Metrics (3), Alerts & Rules (3), Anomalies & Forecast (2), Reports (3), SLA & Status (4), Focus Mode (2)
+  - All original hash URLs preserved for backward compatibility
+  - Updated references in index.html, growth-hub.html, config-center.html, communications-hub.html
+  - health-center.html deleted; page count reduced from 18 to 17
+
 ## 2026-03-29
 
 - **[TESTER]** Verified TASK-281 and TASK-282: Both merge tasks PASS. All 135 API JSON files valid, all 18 HTML pages return HTTP 200. Page count: 18. Created TASK-284 [BUG] for 3 missing API files (security.json, system-status.json, tasks.json) referenced by Doomsday Clock in index.html — gracefully handled but causes incomplete risk calculation.
