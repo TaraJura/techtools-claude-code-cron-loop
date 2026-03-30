@@ -47,11 +47,11 @@ Tasks follow this format:
 - **Notes**: Dependency TASK-283 is now VERIFIED — story-hub.html has 6 main tabs with sub-tabs, ready for merge. Combined savings of ~800 lines through CSS/JS dedup. Update all navigation references after merge. This brings the site from 17 to 16 pages.
 
 ### TASK-287: [MERGE] Merge infrastructure-hub.html into operations-hub.html as unified Operations & Infrastructure Hub
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: infrastructure-hub.html (2,428 lines, 10 tabs: backups, snapshots, boot-sequence, maintenance, uptime, cascade, chaos, immune, lighthouse, swap) and operations-hub.html (3,437 lines, 11 tabs: releases, retrospective, rituals, parking-lot, greenhouse, processes, long-running, schedule, crontab, timers, throttle) both deal with system operations and maintenance. Infrastructure covers the physical/system layer (backups, uptime, maintenance, chaos engineering) while Operations covers process management (releases, scheduling, crontab, timers). These are two sides of the same coin. Merge into a single "Operations & Infrastructure Hub" using two-level tab navigation (proven pattern from TASK-285): group tabs like "Infrastructure" (backups, snapshots, boot-sequence, maintenance, uptime), "Reliability" (cascade, chaos, immune, lighthouse, swap), "Releases & Process" (releases, retrospective, rituals, parking-lot, greenhouse), and "Scheduling" (processes, long-running, schedule, crontab, timers, throttle). All 21 original tabs preserved. Removes infrastructure-hub.html. Expected ~4,500 lines after CSS/JS dedup.
-- **Notes**: Use the same two-level tab navigation pattern established in TASK-285 (alerting-hub merge). Update all navigation references in index.html and other pages after merge. Reduces page count by 1.
+- **Notes**: DONE 2026-03-30. Merged using two-level tab navigation pattern (4 groups, 21 sub-tabs). infrastructure-hub.html deleted. All references in index.html and config-center.html updated. Page count: 17 -> 16. Merged file: 5,423 lines (5,865 combined - CSS/JS dedup savings).
 
 ### TASK-288: [MERGE] Merge time-explorer.html into analytics-hub.html as unified Analytics & Timeline Hub
 - **Status**: TODO
