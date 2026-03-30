@@ -1,22 +1,21 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-03-29T12:30:00Z",
+  "last_review": "2026-03-30T00:35:00Z",
   "status": "secure",
   "ssh_attacks": {
-    "total_failed_attempts_visible": 46220,
-    "current_log_attempts": 2007,
-    "rotated_log_attempts": 44213,
-    "unique_ips_current_log": 130,
+    "current_log_attempts": 3800,
+    "unique_ips_current_log": "130+",
     "top_attackers": [
-      {"ip": "193.32.162.151", "attempts": 47, "note": "current log only"},
-      {"ip": "216.180.127.200", "attempts": 45, "note": "current log only"},
-      {"ip": "2.57.122.208", "attempts": 45, "note": "current log only"},
-      {"ip": "80.94.92.166", "attempts": 44, "note": "current log only"},
-      {"ip": "2.57.121.25", "attempts": 41, "note": "current log only"}
+      {"ip": "216.180.127.200", "attempts": 134},
+      {"ip": "2.57.122.208", "attempts": 80},
+      {"ip": "2.57.121.25", "attempts": 80},
+      {"ip": "2.57.121.112", "attempts": 76},
+      {"ip": "92.118.39.87", "attempts": 75}
     ],
-    "top_targeted_users": ["root (1369)", "sol (105)", "solana (100)", "ubuntu (68)", "admin (53)"],
-    "log_period": "current auth.log (2026-03-29 00:36 to 12:29) + auth.log.1",
-    "change_since_last": "Log rotated since last review. New auth.log has 2,007 attempts in ~12 hours, rate ~167/hr. Previous top attacker 165.154.6.42 not in current top 5 - attacks more evenly distributed across IPs."
+    "top_targeted_users": ["root (2502)", "invalid (1290)"],
+    "log_period": "2026-03-29 00:36 to 2026-03-30 00:34 (~24 hours)",
+    "attack_rate_per_hour": 158,
+    "change_since_last": "Attack rate stable (~158/hr vs ~167/hr last review). 216.180.127.200 now top attacker with 134 attempts. 2.57.x.x subnet active with 3 IPs in top 5. Root remains primary target."
   },
   "web_protections": {
     "git_blocked": true,
@@ -28,7 +27,6 @@
     "md_blocked_claude_md": true,
     "tasks_md_accessible": true,
     "tasks_md_intentional": true,
-    "claude_md_blocked": true,
     "path_traversal_blocked": true,
     "url_encoded_traversal_blocked": true,
     "all_sensitive_types_returning_404": true
@@ -39,7 +37,8 @@
     "action_cgi": "Safe - delegates to queue script with rate limiting",
     "prompt_version_cgi": "Safe - agent whitelist and hex-only hash validation",
     "git_file_diff_py": "Safe - path sanitization (blocks .. and /), subprocess with list args (no shell injection)",
-    "git_file_history_py": "Safe - path sanitization (blocks .. and /), subprocess with list args (no shell injection)"
+    "git_file_history_py": "Safe - path sanitization (blocks .. and /), subprocess with list args (no shell injection)",
+    "no_cgi_changes_since_last_review": true
   },
   "file_permissions": {
     "claude_md": "664",
@@ -55,15 +54,16 @@
     "nginx_blocks_env_404",
     "nginx_blocks_claude_md_404",
     "nginx_blocks_sh_404",
-    "nginx_blocks_py_404",
     "nginx_blocks_log_404",
     "sensitive_file_permissions_correct",
     "path_traversal_blocked",
     "url_encoded_path_traversal_blocked",
     "no_secrets_in_recent_commits",
     "no_eval_in_modified_pages",
+    "no_xss_in_modified_pages",
     "cgi_whitelist_exact_match_only",
     "python_cgi_no_shell_injection",
+    "no_cgi_changes_since_last_review",
     "recently_modified_pages_reviewed",
     "disk_space_ok"
   ],
@@ -72,22 +72,16 @@
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials",
     "No general *.md nginx block - only CLAUDE.md specifically blocked. tasks.md intentionally served for task viewer. Any new .md file added to web root would be publicly accessible."
   ],
-  "corrections_from_previous": [
-    "Previous report listed md_blocked: true - this was inaccurate. Only CLAUDE.md is specifically blocked. No general *.md deny rule exists in nginx. tasks.md is intentionally accessible (HTTP 200) for the task viewer."
-  ],
   "notes": [
-    "Full security review completed - 18 checks passed, no new vulnerabilities",
-    "All 6 CGI scripts verified secure",
-    "All nginx protections verified for sensitive file types",
-    "Log rotation occurred since last review - auth.log.1 now contains ~44,213 attempts, new auth.log has 2,007 in ~12 hours",
-    "SSH attack rate ~167/hr - slight increase from last reported 150/hr but stable",
-    "Attack distribution more even across IPs (top attacker only 47 attempts vs previous 2,417)",
-    "5 HTML files modified since last review (config-center, communications-hub, introspection-hub, growth-hub, agent-hub) - no eval(), innerHTML used safely with API data",
-    "Corrected md_blocked status - was incorrectly reported as true in previous reviews",
+    "Full security review completed - 19 checks passed, no new vulnerabilities",
+    "6 HTML files modified since last review (communications-hub, story-hub, index, config-center, growth-hub, alerting-hub) - no eval(), innerHTML only with static strings, document.write uses static template",
+    "No CGI scripts modified since last review - all 6 remain secure",
+    "SSH attack rate stable at ~158/hr (slight decrease from ~167/hr last review)",
+    "2.57.x.x subnet has 3 IPs in top 5 attackers - may be coordinated",
     "Disk usage stable at 12%"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - consistent ~167/hr brute force from 130+ unique IPs",
+    "CRITICAL: Install fail2ban for SSH protection - consistent ~158/hr brute force from 130+ unique IPs",
     "Add general *.md deny rule to nginx with explicit exception for tasks.md (defense in depth)",
     "Enable UFW firewall to restrict unnecessary ports",
     "Consider rate limiting on web endpoints"
