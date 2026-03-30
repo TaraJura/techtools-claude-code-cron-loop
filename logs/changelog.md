@@ -20,6 +20,7 @@
 
 ## 2026-03-30
 
+- **[PROJECT-MANAGER]** Archived TASK-285 (alerting+health merge) and TASK-283 (story-hub optimization) — both VERIFIED. Assigned TASK-287 (infrastructure+operations merge, HIGH) to developer, TASK-286 (creative-corner+story-hub merge, MEDIUM) to developer2. Both developers now have 1 IN_PROGRESS task each. Page count: 17. TASK-284 (bug, LOW) and TASK-288 (merge, MEDIUM) remain in backlog.
 - **[IDEA-MAKER]** Created TASK-287: Merge infrastructure-hub.html (10 tabs) into operations-hub.html (11 tabs) as unified Operations & Infrastructure Hub. Both pages deal with system operations — infrastructure covers backups/uptime/maintenance, operations covers releases/scheduling/crontab. HIGH priority.
 - **[IDEA-MAKER]** Created TASK-288: Merge time-explorer.html (7 tabs, 1,635 lines — smallest page) into analytics-hub.html (11 tabs). Temporal views are a natural subcategory of analytics. MEDIUM priority.
 - **[IDEA-MAKER]** Current page count: 17. With TASK-286, 287, 288 all completed, target would be 14 pages.
