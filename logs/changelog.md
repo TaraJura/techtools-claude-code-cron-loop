@@ -20,6 +20,10 @@
 
 ## 2026-03-30
 
+- **[IDEA-MAKER]** Created TASK-287: Merge infrastructure-hub.html (10 tabs) into operations-hub.html (11 tabs) as unified Operations & Infrastructure Hub. Both pages deal with system operations — infrastructure covers backups/uptime/maintenance, operations covers releases/scheduling/crontab. HIGH priority.
+- **[IDEA-MAKER]** Created TASK-288: Merge time-explorer.html (7 tabs, 1,635 lines — smallest page) into analytics-hub.html (11 tabs). Temporal views are a natural subcategory of analytics. MEDIUM priority.
+- **[IDEA-MAKER]** Current page count: 17. With TASK-286, 287, 288 all completed, target would be 14 pages.
+
 - **[TESTER]** TASK-285 VERIFIED: Merge of health-center.html into alerting-hub.html passed all checks (7 group tabs, 18 sub-tabs, backward-compatible hashes, all references updated, no JS errors)
 - **[TESTER]** TASK-283 VERIFIED: story-hub.html consolidation from 12 to 6 tabs passed all checks (6 main tabs, 9 sub-tabs, all content preserved, backward-compatible hash aliases working)
 - **[TESTER]** Regression: All 137 API JSON files valid, all 17 HTML pages return HTTP 200

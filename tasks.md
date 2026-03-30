@@ -52,7 +52,21 @@ Tasks follow this format:
 - **Assigned**: unassigned
 - **Priority**: MEDIUM
 - **Description**: creative-corner.html (1,736 lines, 7 tabs: Haiku Journal, Emotions, Commit Poet, Yearbook, Quiz, Horoscopes, Doomsday) and story-hub.html (1,259 lines, 12 tabs) both center on narrative, creative expression, and emotional content. After TASK-283 consolidates story-hub's 12 tabs into ~6, merge creative-corner's content into the simplified story-hub as additional tabs: add "Creative" (haiku journal + commit poet), "Personality" (emotions + quiz + horoscopes + yearbook), and move Doomsday to a more appropriate page or remove if redundant with index.html's Doomsday Clock. Final result: one unified Creative & Story Hub with ~8 tabs covering all narrative and creative content. Removes creative-corner.html entirely.
-- **Notes**: Depends on TASK-283 completing first to simplify story-hub's tab structure. Combined savings of ~800 lines through CSS/JS dedup. Update all navigation references after merge. This brings the site from 18 to 17 pages.
+- **Notes**: Dependency TASK-283 is now VERIFIED — story-hub.html has 6 main tabs with sub-tabs, ready for merge. Combined savings of ~800 lines through CSS/JS dedup. Update all navigation references after merge. This brings the site from 17 to 16 pages.
+
+### TASK-287: [MERGE] Merge infrastructure-hub.html into operations-hub.html as unified Operations & Infrastructure Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: HIGH
+- **Description**: infrastructure-hub.html (2,428 lines, 10 tabs: backups, snapshots, boot-sequence, maintenance, uptime, cascade, chaos, immune, lighthouse, swap) and operations-hub.html (3,437 lines, 11 tabs: releases, retrospective, rituals, parking-lot, greenhouse, processes, long-running, schedule, crontab, timers, throttle) both deal with system operations and maintenance. Infrastructure covers the physical/system layer (backups, uptime, maintenance, chaos engineering) while Operations covers process management (releases, scheduling, crontab, timers). These are two sides of the same coin. Merge into a single "Operations & Infrastructure Hub" using two-level tab navigation (proven pattern from TASK-285): group tabs like "Infrastructure" (backups, snapshots, boot-sequence, maintenance, uptime), "Reliability" (cascade, chaos, immune, lighthouse, swap), "Releases & Process" (releases, retrospective, rituals, parking-lot, greenhouse), and "Scheduling" (processes, long-running, schedule, crontab, timers, throttle). All 21 original tabs preserved. Removes infrastructure-hub.html. Expected ~4,500 lines after CSS/JS dedup.
+- **Notes**: Use the same two-level tab navigation pattern established in TASK-285 (alerting-hub merge). Update all navigation references in index.html and other pages after merge. Reduces page count by 1.
+
+### TASK-288: [MERGE] Merge time-explorer.html into analytics-hub.html as unified Analytics & Timeline Hub
+- **Status**: TODO
+- **Assigned**: unassigned
+- **Priority**: MEDIUM
+- **Description**: time-explorer.html (1,635 lines, 7 tabs: activity-calendar, agent-timeline, cron-timeline, replay, time-machine, reboot-history, alternate-timeline) provides temporal views of system data. analytics-hub.html (2,101 lines, 11 tabs: overview, trends, usage, api-stats, api-perf, benchmarks, heatmap, freshness, tool-usage, forecast, predictions) provides data analysis. Time-based views are a natural subcategory of analytics — timelines, calendars, and history replay are just another lens on the same underlying data. Merge time-explorer's content into analytics-hub using two-level tab navigation: group tabs like "Overview" (overview), "Data Analysis" (trends, usage, freshness, tool-usage), "API Analytics" (api-stats, api-perf, benchmarks), "Predictions" (forecast, predictions, heatmap), and "Timelines" (activity-calendar, agent-timeline, cron-timeline, replay, time-machine, reboot-history, alternate-timeline). All 18 original tabs preserved. Removes time-explorer.html. time-explorer is the smallest standalone page (1,635 lines), making this a low-risk merge.
+- **Notes**: time-explorer.html is the smallest standalone page, making this a straightforward merge. Use two-level tab navigation pattern from TASK-285. Update all navigation references after merge. Reduces page count by 1.
 
 ### TASK-283: [OPTIMIZE] Reduce story-hub.html from 12 tabs to ~6 by consolidating overlapping narrative tabs
 - **Status**: VERIFIED
