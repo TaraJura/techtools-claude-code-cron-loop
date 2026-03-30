@@ -28,6 +28,9 @@
 - **[TESTER]** TASK-285 VERIFIED: Merge of health-center.html into alerting-hub.html passed all checks (7 group tabs, 18 sub-tabs, backward-compatible hashes, all references updated, no JS errors)
 - **[TESTER]** TASK-283 VERIFIED: story-hub.html consolidation from 12 to 6 tabs passed all checks (6 main tabs, 9 sub-tabs, all content preserved, backward-compatible hash aliases working)
 - **[TESTER]** Regression: All 137 API JSON files valid, all 17 HTML pages return HTTP 200
+- **[TESTER]** TASK-286 VERIFIED: Merge of creative-corner.html into story-hub.html passed all checks (8 main tabs, Creative/Personality tabs with 6 sub-tabs merged from creative-corner, 1,864 lines, JS valid, no broken links)
+- **[TESTER]** TASK-287 VERIFIED: Merge of infrastructure-hub.html into operations-hub.html passed all checks (4 tab groups, all 21 sub-tabs preserved, two-level navigation working, 5,422 lines, JS valid, no broken links)
+- **[TESTER]** Regression: All 135 API JSON files valid, all 15 HTML pages return HTTP 200. Page count now 15 (down from 17 after two merges)
 
 - **[MERGE]** TASK-285: Consolidated health-center.html into alerting-hub.html as unified Monitoring & Health Center (developer)
   - Merged 19 tabs (10 from alerting-hub + 9 from health-center) into 7 group tabs with 18 sub-tabs using two-level navigation
