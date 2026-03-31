@@ -47,11 +47,11 @@ Tasks follow this format:
 - **Notes**: time-explorer.html is the smallest standalone page, making this a straightforward merge. Use two-level tab navigation pattern from TASK-285. Update all navigation references after merge. Reduces page count by 1.
 
 ### TASK-289: [MERGE] Merge alerting-hub.html into security-center.html as unified Security & Monitoring Center
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: HIGH
 - **Description**: alerting-hub.html (4,583 lines, 7 tab groups: Dashboard, Health Metrics, Alerts & Rules, Anomalies & Forecast, Reports, SLA & Status, Focus Mode) and security-center.html (2,944 lines, 11 tabs: Security, Attack Map, Vulnerabilities, Secrets, Logins, Supply Chain, Agent Logs, Log Analysis, Error Patterns, Debug Postmortem, Root Cause) both focus on monitoring, detection, and response. Security monitoring (vulnerabilities, attacks, secrets) and system health monitoring (alerts, anomalies, SLA) are two sides of the same operational awareness coin. Merge into a single "Security & Monitoring Center" using two-level tab navigation: "Security" (overview, attack-map, vulnerabilities, secrets, logins, supply-chain), "Monitoring" (dashboard, health-metrics, vital-signs, pulse-network), "Alerts & Detection" (alert-rules, dead-man-switch, canary-sentinel, anomalies, error-patterns), "Analysis" (log-analysis, agent-logs, debug-postmortem, root-cause, forecast), "Reports & Status" (night-report, morning-brief, whats-new, sla-contracts, public-status, network, ascii-status), and "Focus" (deja-vu, focus-mode). All original tabs preserved. Removes alerting-hub.html. Expected ~6,000 lines after CSS/JS dedup.
-- **Notes**: Both pages share monitoring/alerting themes. alerting-hub is the 3rd largest page (4,583 lines) so this is a significant merge. Use two-level tab navigation pattern from TASK-285/287. Update all navigation references in index.html and config-center.html after merge. Reduces page count by 1.
+- **Notes**: DONE 2026-03-31. Merged alerting-hub.html (4,583 lines) into security-center.html (2,944 lines) → unified 4,914 lines. All 29 tabs preserved across 6 groups with two-level navigation. Updated 72 references across index.html, config-center.html, growth-hub.html, communications-hub.html. Deleted alerting-hub.html. Page count: 15 → 14.
 
 ### TASK-290: [MERGE] Merge growth-hub.html into introspection-hub.html as unified Growth & Introspection Hub
 - **Status**: TODO
