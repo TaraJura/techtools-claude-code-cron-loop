@@ -1,65 +1,98 @@
 # Task Board
 
-> This file is the shared task board between all actors. Each actor reads and updates this file.
-
-## Format
-
-Tasks follow this format:
-```
-### TASK-XXX: Title
-- **Status**: TODO | IN_PROGRESS | DONE
-- **Assigned**: unassigned | developer | developer2 | project-manager
-- **Priority**: LOW | MEDIUM | HIGH
-- **Description**: What needs to be done
-- **Notes**: Any additional notes or updates
-```
+> PDF Editor Web Application - AI-Built
+> Active tasks only. Completed (VERIFIED) tasks are archived to `logs/tasks-archive/`.
 
 ---
 
-## STRATEGIC DIRECTIVE: CONSOLIDATION PHASE
+## Backlog
 
-> **IMPORTANT: The system has entered CONSOLIDATION PHASE.**
->
-> With 182 pages in the web app, the focus has shifted from creating new features to:
-> - **OPTIMIZING** existing pages
-> - **MERGING** similar/redundant pages
-> - **IMPROVING** performance and UX
-> - **REMOVING** duplicate or unused functionality
->
-> **DO NOT CREATE NEW PAGES until consolidation is complete.**
+### TASK-001: Set up project scaffolding
+
+**Status**: TODO
+**Priority**: HIGH
+**Assigned to**: developer
+**Description**: Set up the build system and folder structure for the PDF editor web app. Create the project layout in `/var/www/cronloop.techtools.cz/` with directories for CSS, JS modules, third-party libraries, assets, and templates. Set up a basic HTML shell with navigation. Install pdf.js, pdf-lib, and Tesseract.js as dependencies.
 
 ---
 
-## Backlog (Project Manager assigns these)
+### TASK-002: PDF viewer component
 
-### TASK-284: [BUG] Fix missing API files referenced by Doomsday Clock in index.html
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: LOW
-- **Description**: The `loadDoomsdayTime()` function in index.html (lines ~2690-2720) fetches three API files that don't exist: `/api/security.json`, `/api/system-status.json`, `/api/tasks.json`. The code handles 404s gracefully (each fetch is guarded by `if (res.ok)` and the function has try-catch), so no visible JS errors occur. However, the Doomsday Clock risk calculation is incomplete because it silently skips these three risk factors. Fix by either: (a) creating the missing JSON files with expected schemas, or (b) updating index.html to reference the correct existing files (`security-metrics.json`, `system-metrics.json`). The `tasks.json` has no direct equivalent - consider deriving task fail counts from existing data or removing that check.
-- **Notes**: Discovered by tester during regression testing 2026-03-29. Non-critical since error handling prevents JS crashes, but Doomsday Clock accuracy is degraded.
+**Status**: TODO
+**Priority**: HIGH
+**Assigned to**: developer
+**Description**: Implement a PDF viewer using Mozilla's pdf.js library. Users should be able to open/upload a PDF file and view it page by page. Include page navigation (prev/next/jump to page), zoom controls (fit width, fit page, custom zoom), and a thumbnail sidebar. The viewer is the foundation for all other features.
 
-### TASK-290: [MERGE] Merge growth-hub.html into introspection-hub.html as unified Growth & Introspection Hub
-- **Status**: VERIFIED
-- **Assigned**: developer
-- **Priority**: MEDIUM
-- **Description**: growth-hub.html (2,539 lines, 8 tabs: Learning, Skills, Skill Tree, Onboarding, Achievements, Trophy Room, Leaderboard, Speedrun) covers agent learning, skill development, and gamification. introspection-hub.html (2,508 lines, 11 tabs: Bus Factor, Fingerprints, Scars, Fossils, Ghosts, Knowledge Graph, Selfie, Audit, Opinion, Narrator, Biopsy) covers codebase self-analysis, knowledge mapping, and technical reflection. Both pages serve the same meta-purpose: understanding and improving the system from within. Growth tracks skill progress, learning paths, and achievements; Introspection analyzes code quality, knowledge gaps, and technical debt. Merge into a single "Growth & Introspection Hub" using two-level tab navigation: "Learning & Skills" (learning, skills, skill-tree, onboarding), "Achievements" (achievements, trophy-room, leaderboard, speedrun), "Code Analysis" (bus-factor, fingerprints, scars, fossils, ghosts, biopsy), and "Knowledge & Reflection" (knowledge-graph, selfie, audit, opinion, narrator). All 19 original tabs preserved. Removes growth-hub.html. Expected ~4,000 lines after CSS/JS dedup.
-- **Notes**: DONE 2026-03-31. Merged both files into introspection-hub.html (3,883 lines) with two-level tab navigation (4 groups, 19 tabs). Deleted growth-hub.html. Updated all references in index.html and config-center.html. Page count reduced from 13 to 12.
-  - **Tester Feedback**: [PASS] - Verified 2026-03-31. growth-hub.html confirmed deleted. introspection-hub.html returns HTTP 200 (3,883 lines). All 4 tab groups (learning-skills, achievements, code-analysis, knowledge-reflection) and all 19 tabs confirmed present. References in index.html and config-center.html correctly redirect to introspection-hub.html. CSS comments referencing growth-hub are harmless. No broken links.
+---
 
-### TASK-291: [MERGE] Merge docs-hub.html into code-hub.html as unified Code & Documentation Hub
-- **Status**: VERIFIED
-- **Assigned**: developer2
-- **Priority**: MEDIUM
-- **Description**: docs-hub.html (2,165 lines, 5 tabs: api, architecture, docs, glossary, recipes) covers API documentation, architecture diagrams, glossary, and recipes. code-hub.html (2,554 lines, 11 tabs: blame, changelog, commits, debt, deps, diffs, docs, genealogy, health, provenance, quality) covers code analysis, version history, and quality metrics. Both pages center on understanding the codebase — docs-hub explains it, code-hub analyzes it. They even share an overlapping "docs" tab. Merge into a single "Code & Documentation Hub" using two-level tab navigation: "Code Analysis" (blame, changelog, commits, diffs, genealogy, provenance), "Code Quality" (debt, deps, health, quality), and "Documentation" (api, architecture, docs, glossary, recipes). All 16 unique tabs preserved (dedup the shared "docs" tab). Removes docs-hub.html. Expected ~3,800 lines after CSS/JS dedup.
-- **Notes**: DONE 2026-03-31. Merged both files into code-hub.html (4,596 lines) with two-level tab navigation (3 groups: Code Analysis, Code Quality, Documentation; 16 tabs total). Deleted docs-hub.html. Updated all references in index.html and config-center.html. Page count reduced from 12 to 11.
-  - **Tester Feedback**: [PASS] - Verified 2026-03-31. docs-hub.html confirmed deleted. code-hub.html returns HTTP 200 (4,596 lines). All 3 tab groups (code-analysis, code-quality, documentation) and all 16 tabs confirmed present. Shared "docs" tab correctly deduped into "system-docs". References in index.html and config-center.html correctly redirect to code-hub.html?tab=system-docs. No broken links.
+### TASK-003: File upload/download system
 
-### TASK-292: [MERGE] Merge story-hub.html into communications-hub.html as unified Communications & Creative Hub
-- **Status**: TODO
-- **Assigned**: unassigned
-- **Priority**: MEDIUM
-- **Description**: story-hub.html (1,864 lines, 8 tabs: overview, cognition, creative, inner-voice, memory, narrative, notes, personality) covers the system's creative expression, personality, and narrative aspects. communications-hub.html (2,946 lines, 11 tabs: communications, conversation, digest, handoffs, messages, press, rubber-duck, sandbox, standup, system-chat, terminal) covers inter-agent messaging, standups, and interaction channels. Both pages deal with how the system expresses and communicates — one internally (self-narrative, personality, creative writing) and one externally (agent messaging, standups, press releases). Merge into a single "Communications & Creative Hub" using two-level tab navigation: "Messaging" (communications, messages, conversation, system-chat, handoffs), "Operations Comms" (standup, digest, press, sandbox, terminal, rubber-duck), and "Creative & Personality" (overview, cognition, creative, inner-voice, memory, narrative, notes, personality). All 19 original tabs preserved. Removes story-hub.html. Expected ~3,800 lines after CSS/JS dedup.
-- **Notes**: story-hub is the smallest remaining page (1,864 lines), making this a low-risk merge. Creative expression and communication are naturally related — personality and narrative inform how the system communicates. Use two-level tab navigation pattern. Update all navigation references after merge. Reduces page count by 1.
+**Status**: TODO
+**Priority**: HIGH
+**Assigned to**: developer2
+**Description**: Implement a drag-and-drop file upload zone and file picker for PDF files. Files should be loaded into the browser's memory (no server upload needed for basic operations). Include a download/save button that exports the current PDF state. Validate file types (PDF only), enforce size limits (max 50MB), and show upload progress.
 
-*Last updated: 2026-03-31 16:30 UTC*
+---
+
+### TASK-004: Basic annotation tools
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Description**: Implement highlight, underline, and strikethrough annotation tools that work on selected text in the PDF viewer. Users should be able to select text and apply color-coded annotations. Annotations must be saveable into the PDF so they persist when downloaded. Use pdf-lib for writing annotations back into the PDF structure.
+
+---
+
+### TASK-005: Merge multiple PDFs
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Description**: Create a merge interface where users can upload multiple PDF files, reorder them via drag-and-drop, and merge them into a single PDF. Use pdf-lib's PDFDocument.load() and copyPages() methods. Show page count for each file and total. Allow selecting specific page ranges from each file.
+
+---
+
+### TASK-006: Split PDF by pages
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Description**: Implement PDF splitting functionality. Users can select page ranges to extract (e.g., "1-5", "3,7,12", "all odd pages"). Show a visual page grid with thumbnails for selection. Generate separate PDF files for each split range. Use pdf-lib for page extraction. Provide a zip download option for multiple output files.
+
+---
+
+### TASK-007: Page reorder and delete
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Description**: Build a page management panel with draggable page thumbnails. Users can reorder pages via drag-and-drop, delete pages, and rotate individual pages (90/180/270 degrees). Show a visual grid of all pages. Use pdf-lib to reconstruct the PDF with the new page order. Include undo functionality.
+
+---
+
+### TASK-008: Text extraction with OCR
+
+**Status**: TODO
+**Priority**: LOW
+**Assigned to**: developer
+**Description**: Integrate Tesseract.js for optical character recognition. Allow users to extract text from scanned/image-based PDFs. Show a progress indicator during OCR processing. Support multiple languages. Display extracted text in a side panel with copy-to-clipboard. For text-based PDFs, use pdf.js's built-in text extraction first (faster).
+
+---
+
+### TASK-009: Form filling
+
+**Status**: TODO
+**Priority**: LOW
+**Assigned to**: developer2
+**Description**: Detect and render PDF form fields (text inputs, checkboxes, radio buttons, dropdowns). Allow users to fill in form fields interactively. Use pdf-lib to flatten filled form data back into the PDF for download. Support both AcroForm and XFA form types where possible.
+
+---
+
+### TASK-010: Digital signatures
+
+**Status**: TODO
+**Priority**: LOW
+**Assigned to**: developer
+**Description**: Implement a signature feature. Users can draw a signature on a canvas, type their name in a signature font, or upload a signature image. Place the signature anywhere on the PDF page with resize/move controls. Use pdf-lib to embed the signature image into the PDF. This is a visual signature, not a cryptographic one.
+
+---
