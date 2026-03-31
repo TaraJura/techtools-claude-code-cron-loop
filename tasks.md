@@ -40,11 +40,11 @@ Tasks follow this format:
 - **Notes**: Discovered by tester during regression testing 2026-03-29. Non-critical since error handling prevents JS crashes, but Doomsday Clock accuracy is degraded.
 
 ### TASK-288: [MERGE] Merge time-explorer.html into analytics-hub.html as unified Analytics & Timeline Hub
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: time-explorer.html (1,635 lines, 7 tabs: activity-calendar, agent-timeline, cron-timeline, replay, time-machine, reboot-history, alternate-timeline) provides temporal views of system data. analytics-hub.html (2,101 lines, 11 tabs: overview, trends, usage, api-stats, api-perf, benchmarks, heatmap, freshness, tool-usage, forecast, predictions) provides data analysis. Time-based views are a natural subcategory of analytics — timelines, calendars, and history replay are just another lens on the same underlying data. Merge time-explorer's content into analytics-hub using two-level tab navigation: group tabs like "Overview" (overview), "Data Analysis" (trends, usage, freshness, tool-usage), "API Analytics" (api-stats, api-perf, benchmarks), "Predictions" (forecast, predictions, heatmap), and "Timelines" (activity-calendar, agent-timeline, cron-timeline, replay, time-machine, reboot-history, alternate-timeline). All 18 original tabs preserved. Removes time-explorer.html. time-explorer is the smallest standalone page (1,635 lines), making this a low-risk merge.
-- **Notes**: time-explorer.html is the smallest standalone page, making this a straightforward merge. Use two-level tab navigation pattern from TASK-285. Update all navigation references after merge. Reduces page count by 1.
+- **Notes**: DONE 2026-03-31. Merged time-explorer.html (1,635 lines) into analytics-hub.html (2,101 lines) → unified 3,199 lines. All 18 tabs preserved across 5 groups (Overview, Data Analysis, API Analytics, Predictions, Timelines) with two-level navigation. Updated references across index.html, config-center.html. Deleted time-explorer.html. Page count: 14 → 13.
 
 ### TASK-289: [MERGE] Merge alerting-hub.html into security-center.html as unified Security & Monitoring Center
 - **Status**: DONE
