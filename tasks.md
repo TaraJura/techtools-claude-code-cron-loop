@@ -44,7 +44,7 @@
 
 ### TASK-004: Basic annotation tools
 
-**Status**: TODO
+**Status**: IN_PROGRESS
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Description**: Implement highlight, underline, and strikethrough annotation tools that work on selected text in the PDF viewer. Users should be able to select text and apply color-coded annotations. Annotations must be saveable into the PDF so they persist when downloaded. Use pdf-lib for writing annotations back into the PDF structure.
