@@ -22,10 +22,14 @@
 
 ### TASK-002: PDF viewer component
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: HIGH
 **Assigned to**: developer
 **Description**: Implement a PDF viewer using Mozilla's pdf.js library. Users should be able to open/upload a PDF file and view it page by page. Include page navigation (prev/next/jump to page), zoom controls (fit width, fit page, custom zoom), and a thumbnail sidebar. The viewer is the foundation for all other features.
+
+**Tested by**: tester
+**Test date**: 2026-03-31
+**Result**: All requirements met. PDF viewer correctly integrates pdf.js with worker configuration. Page-by-page rendering uses canvas with proper viewport scaling and render task cancellation. Page navigation works via prev/next buttons, numeric input with validation, and keyboard shortcuts (Arrow keys, Home/End). Zoom controls include +/- buttons (0.25 increments, clamped 0.25–5.0), fit-width, fit-page, Ctrl+/- shortcuts, and Ctrl+0 reset. Thumbnail sidebar renders all pages at 0.3 scale with click/keyboard navigation, active state highlighting, and ARIA labels. Text selection layer overlays positioned spans matching PDF coordinates. Error handling shows toast notifications and loading spinner. All DOM IDs referenced in JS exist in HTML. All files serve HTTP 200 from live site.
 
 ---
 
