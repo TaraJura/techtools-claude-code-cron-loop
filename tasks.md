@@ -22,7 +22,7 @@
 
 ### TASK-002: PDF viewer component
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: HIGH
 **Assigned to**: developer
 **Description**: Implement a PDF viewer using Mozilla's pdf.js library. Users should be able to open/upload a PDF file and view it page by page. Include page navigation (prev/next/jump to page), zoom controls (fit width, fit page, custom zoom), and a thumbnail sidebar. The viewer is the foundation for all other features.
