@@ -1,21 +1,20 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-03-30T12:25:00Z",
+  "last_review": "2026-03-31T00:55:00Z",
   "status": "secure",
   "ssh_attacks": {
-    "current_log_attempts": 5478,
-    "unique_ips_current_log": 2232,
+    "current_log_attempts": 7132,
+    "unique_ips_current_log": 2811,
     "top_attackers": [
-      {"ip": "216.180.127.200", "attempts": 220},
-      {"ip": "2.57.121.25", "attempts": 116},
-      {"ip": "2.57.121.112", "attempts": 114},
-      {"ip": "185.156.73.233", "attempts": 107},
-      {"ip": "92.118.39.87", "attempts": 105}
+      {"ip": "216.180.127.200", "attempts": 308},
+      {"ip": "2.57.121.25", "attempts": 159},
+      {"ip": "2.57.121.112", "attempts": 158},
+      {"ip": "80.94.92.164", "attempts": 144}
     ],
-    "top_targeted_users": ["root (3421)", "sol (352)", "solana (283)", "ubuntu (213)", "admin (168)"],
-    "log_period": "2026-03-29 00:36 to 2026-03-30 12:24 (~36 hours)",
-    "attack_rate_per_hour": 153,
-    "change_since_last": "Attack rate slightly decreased (153/hr vs 158/hr). 216.180.127.200 remains top attacker (220 attempts, up from 134). 2.57.x.x subnet still has 2 IPs in top 5. New trend: 'sol' and 'solana' usernames targeted (352+283 attempts) suggesting crypto-related brute force campaigns. 185.156.73.233 new in top 5 (107 attempts). Root remains primary target (3421 of 5478 = 62%)."
+    "top_targeted_users": ["root (4325)", "sol (495)", "solana (389)", "ubuntu (294)", "admin (224)", "user (170)", "solv (118)", "validator (47)"],
+    "log_period": "2026-03-29 00:36 to 2026-03-31 00:50 (~48 hours)",
+    "attack_rate_per_hour": 148,
+    "change_since_last": "Attack rate slightly decreased (148/hr vs 153/hr). 216.180.127.200 remains persistent top attacker (308 attempts, up from 220). 2.57.x.x subnet still has 2 IPs in top 5. 80.94.92.164 new in top 5 (144 attempts, replacing 185.156.73.233). Unique IPs increased to 2811 (from 2232). Crypto-related brute force campaign expanding: sol(495)+solana(389)+solv(118)+validator(47) = 1049 combined attempts. Root remains primary target (4325 of 7132 = 61%)."
   },
   "web_protections": {
     "git_blocked": true,
@@ -61,33 +60,35 @@
     "url_encoded_path_traversal_blocked",
     "no_secrets_in_recent_commits",
     "no_eval_in_modified_pages",
-    "no_xss_in_modified_pages",
     "cgi_whitelist_exact_match_only",
     "python_cgi_no_shell_injection",
     "no_cgi_changes_since_last_review",
     "recently_modified_pages_reviewed",
     "deleted_pages_returning_404",
+    "merged_pages_serving_200",
     "disk_space_ok"
   ],
   "known_issues": [
     "World-writable API files (action-queue.json, action-status.json, postmortems.json) - required for CGI, mitigated by whitelist validation",
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials",
-    "No general *.md nginx block - only CLAUDE.md specifically blocked. tasks.md intentionally served for task viewer. Any new .md file added to web root would be publicly accessible."
+    "No general *.md nginx block - only CLAUDE.md specifically blocked. tasks.md intentionally served for task viewer. Any new .md file added to web root would be publicly accessible.",
+    "growth-hub.html uses innerHTML with template literals but has 0 escapeHtml calls - data is all internal JSON, not user input. Low risk but lacks defense-in-depth."
   ],
   "notes": [
     "Full security review completed - 20 checks passed, no new vulnerabilities",
-    "4 HTML files modified since last review (story-hub, operations-hub, index, config-center) - related to TASK-286/287 page merges",
-    "Modified pages reviewed: no eval(), innerHTML uses template literals with JSON data only, escapeHtml() used (30 calls in operations-hub, 3 in story-hub), URL hash used safely for tab navigation (key lookups only)",
-    "Deleted pages (creative-corner.html, infrastructure-hub.html) confirmed returning 404",
+    "6 HTML files modified since last review (security-center, analytics-hub, index, config-center, communications-hub, growth-hub) - related to TASK-288/289 page merges",
+    "Modified pages reviewed: no eval(), innerHTML uses template literals with JSON data, escapeHtml used in security-center(38), config-center(29), communications-hub(15), analytics-hub(8), index(3)",
+    "Deleted pages confirmed returning 404: alerting-hub.html, time-explorer.html",
+    "Merged pages confirmed serving 200: security-center.html, analytics-hub.html",
     "No CGI scripts modified since last review - all 6 remain secure",
-    "SSH attack rate slightly decreased: 153/hr (down from 158/hr), 2232 unique IPs over 36hr log window",
-    "New trend: 'sol' and 'solana' usernames targeted (635 combined attempts) - crypto-related brute force",
+    "SSH attack rate slightly decreased: 148/hr (down from 153/hr), but unique IPs up to 2811 (from 2232)",
+    "Crypto brute force campaign expanding: sol+solana+solv+validator = 1049 combined attempts (up from 635 sol+solana last review)",
     "Disk usage stable at 12%"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - consistent ~153/hr brute force from 2232 unique IPs",
+    "CRITICAL: Install fail2ban for SSH protection - consistent ~148/hr brute force from 2811 unique IPs",
     "Add general *.md deny rule to nginx with explicit exception for tasks.md (defense in depth)",
     "Enable UFW firewall to restrict unnecessary ports",
-    "Consider rate limiting on web endpoints"
+    "Consider adding escapeHtml to growth-hub.html for defense-in-depth (currently 0 calls)"
   ]
 }
