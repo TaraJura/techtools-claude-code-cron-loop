@@ -40,11 +40,11 @@ Tasks follow this format:
 - **Notes**: Discovered by tester during regression testing 2026-03-29. Non-critical since error handling prevents JS crashes, but Doomsday Clock accuracy is degraded.
 
 ### TASK-290: [MERGE] Merge growth-hub.html into introspection-hub.html as unified Growth & Introspection Hub
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer
 - **Priority**: MEDIUM
 - **Description**: growth-hub.html (2,539 lines, 8 tabs: Learning, Skills, Skill Tree, Onboarding, Achievements, Trophy Room, Leaderboard, Speedrun) covers agent learning, skill development, and gamification. introspection-hub.html (2,508 lines, 11 tabs: Bus Factor, Fingerprints, Scars, Fossils, Ghosts, Knowledge Graph, Selfie, Audit, Opinion, Narrator, Biopsy) covers codebase self-analysis, knowledge mapping, and technical reflection. Both pages serve the same meta-purpose: understanding and improving the system from within. Growth tracks skill progress, learning paths, and achievements; Introspection analyzes code quality, knowledge gaps, and technical debt. Merge into a single "Growth & Introspection Hub" using two-level tab navigation: "Learning & Skills" (learning, skills, skill-tree, onboarding), "Achievements" (achievements, trophy-room, leaderboard, speedrun), "Code Analysis" (bus-factor, fingerprints, scars, fossils, ghosts, biopsy), and "Knowledge & Reflection" (knowledge-graph, selfie, audit, opinion, narrator). All 19 original tabs preserved. Removes growth-hub.html. Expected ~4,000 lines after CSS/JS dedup.
-- **Notes**: Both pages deal with system self-awareness — one from a skill/gamification angle, the other from code/system analysis. Use two-level tab navigation pattern. Update all navigation references after merge. Reduces page count by 1.
+- **Notes**: DONE 2026-03-31. Merged both files into introspection-hub.html (3,883 lines) with two-level tab navigation (4 groups, 19 tabs). Deleted growth-hub.html. Updated all references in index.html and config-center.html. Page count reduced from 13 to 12.
 
 ### TASK-291: [MERGE] Merge docs-hub.html into code-hub.html as unified Code & Documentation Hub
 - **Status**: IN_PROGRESS
@@ -60,4 +60,4 @@ Tasks follow this format:
 - **Description**: story-hub.html (1,864 lines, 8 tabs: overview, cognition, creative, inner-voice, memory, narrative, notes, personality) covers the system's creative expression, personality, and narrative aspects. communications-hub.html (2,946 lines, 11 tabs: communications, conversation, digest, handoffs, messages, press, rubber-duck, sandbox, standup, system-chat, terminal) covers inter-agent messaging, standups, and interaction channels. Both pages deal with how the system expresses and communicates — one internally (self-narrative, personality, creative writing) and one externally (agent messaging, standups, press releases). Merge into a single "Communications & Creative Hub" using two-level tab navigation: "Messaging" (communications, messages, conversation, system-chat, handoffs), "Operations Comms" (standup, digest, press, sandbox, terminal, rubber-duck), and "Creative & Personality" (overview, cognition, creative, inner-voice, memory, narrative, notes, personality). All 19 original tabs preserved. Removes story-hub.html. Expected ~3,800 lines after CSS/JS dedup.
 - **Notes**: story-hub is the smallest remaining page (1,864 lines), making this a low-risk merge. Creative expression and communication are naturally related — personality and narrative inform how the system communicates. Use two-level tab navigation pattern. Update all navigation references after merge. Reduces page count by 1.
 
-*Last updated: 2026-03-31 12:05 UTC*
+*Last updated: 2026-03-31 13:15 UTC*
