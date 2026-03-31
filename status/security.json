@@ -1,19 +1,21 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-03-31T21:22:00Z",
+  "last_review": "2026-03-31T22:20:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": 10065,
-    "fail2ban_status": "active - sshd jail running, 1 currently banned, 2778 total banned",
+    "failed_password_attempts": 10151,
+    "fail2ban_status": "active - sshd jail running, 7 currently banned, 2796 total banned",
     "top_attackers_by_total": [
-      {"ip": "216.180.127.200", "total_attempts": "high"},
-      {"ip": "80.94.92.164", "total_attempts": "high"},
-      {"ip": "80.94.92.166", "total_attempts": "high"},
-      {"ip": "80.94.92.184", "total_attempts": "high"},
-      {"ip": "195.178.110.30", "total_attempts": "high"}
+      {"ip": "2.57.121.17", "status": "currently banned"},
+      {"ip": "213.209.159.159", "status": "currently banned"},
+      {"ip": "195.178.110.15", "status": "currently banned"},
+      {"ip": "216.180.127.200", "status": "currently banned"},
+      {"ip": "2.57.121.50", "status": "currently banned"},
+      {"ip": "2.57.121.86", "status": "currently banned"},
+      {"ip": "2.57.122.195", "status": "currently banned"}
     ],
-    "change_since_last": "Failed attempts at 10065 in current log. fail2ban total bans 2778 (up from 2710, +68). 1 IP currently banned (was 9). Standard botnet scanning continues with no targeted attacks. Only authorized logins from known IP (109.81.31.32) via publickey."
+    "change_since_last": "Failed attempts at 10151 (up from 10065, +86). fail2ban total bans 2796 (up from 2778, +18). 7 IPs currently banned (up from 1). Standard botnet scanning continues. Only authorized logins from novakj via sudo."
   },
   "web_protections": {
     "security_headers": {
@@ -47,31 +49,47 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "22 usages across viewer.js, upload.js, merge.js, annotate.js, pages.js, split.js - all static templates, clearing operations, static SVGs, or integer-only interpolation. No user data injected unsafely."
+    "innerHTML_note": "25 usages across viewer.js, upload.js, merge.js, annotate.js, pages.js, split.js, redact.js - all static templates, clearing operations, static SVGs, HTML entities, or integer-only interpolation. No user data injected unsafely."
+  },
+  "watermark_module_review": {
+    "file": "js/watermark.js",
+    "task": "TASK-013",
+    "no_innerHTML": true,
+    "innerHTML_note": "Zero innerHTML usages. All display uses textContent.",
+    "no_eval": true,
+    "image_upload_validation": "MIME type validated (PNG/JPG only), 10MB size limit enforced",
+    "object_url_cleanup": true,
+    "object_url_note": "URL.revokeObjectURL called at lines 248 and 394",
+    "user_data_handling": "Text watermark from input field passed to pdf-lib drawText (not HTML). Font/color/size from controlled UI inputs. Page range parsed with parseInt and bounds-checked.",
+    "download_filename_sanitized": true,
+    "pdf_processing": "Uses pdf-lib for watermark embedding. All client-side. Loaded with ignoreEncryption.",
+    "status": "secure"
+  },
+  "redact_module_review": {
+    "file": "js/redact.js",
+    "task": "TASK-016",
+    "innerHTML_safe": true,
+    "innerHTML_note": "3 usages: line 233 static HTML entity (&times;), line 288 static string, line 299 integer-only interpolation (page numbers and counts from internal state). No user data in any innerHTML.",
+    "no_eval": true,
+    "user_data_handling": "Search query used for case-insensitive string matching against pdf.js text content only. Never injected into HTML. Displayed via showToast (textContent). Manual marks use integer coordinates from drawing events.",
+    "download_filename_sanitized": true,
+    "confirm_before_irreversible": true,
+    "pdf_processing": "Uses pdf-lib to draw opaque rectangles. Client-side only.",
+    "redaction_limitation": "IMPORTANT: Draws opaque rectangles over content but does NOT remove underlying content streams from the PDF. Hidden text/image data may still be extractable. This is a functional limitation, not a web security issue.",
+    "status": "secure"
   },
   "split_module_review": {
     "file": "js/split.js",
     "task": "TASK-006",
     "innerHTML_safe": true,
-    "innerHTML_note": "6 usages: clearing grid, static SVG checkboxes, range row template with integer-only interpolation (split.rangeCount), button restores with static SVG. No user data in any innerHTML.",
     "no_eval": true,
-    "user_data_handling": "Range input parsed via parseRange() with strict validation (only digits, commas, dashes). Filenames built from sanitizeFilename(). Page numbers are integers only.",
-    "download_filename_sanitized": true,
-    "pdf_lib_usage": "Loads PDF via PDFDocument.load with ignoreEncryption. Copies pages by validated indices. No external data injection.",
-    "jszip_usage": "Uses window.JSZip for multi-file ZIP downloads. ZIP filenames built from sanitized base name + integer page numbers.",
     "status": "secure"
   },
   "compress_module_review": {
     "file": "js/compress.js",
     "task": "TASK-011",
     "no_innerHTML": true,
-    "innerHTML_note": "Zero innerHTML usages. All display uses textContent.",
     "no_eval": true,
-    "user_data_handling": "Slider values parsed via parseInt/parseFloat with defaults. All display text uses textContent. Download filenames use sanitizeFilename().",
-    "download_filename_sanitized": true,
-    "pdf_processing": "Renders pages to off-screen canvas via pdf.js, converts to JPEG, rebuilds PDF with pdf-lib. All client-side.",
-    "memory_note": "Creates canvas per page in compression loop. GC handles cleanup. No explicit page count limit in compress loop but upload validation enforces 1000 page max.",
-    "resource_cleanup": "pdfDoc.destroy() called for both original and preview documents. compressedBytes cleared on resetResults().",
     "status": "secure"
   },
   "annotate_module_review": {
@@ -145,6 +163,8 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "watermark_module_secure",
+    "redact_module_secure",
     "annotate_module_secure",
     "pages_module_secure",
     "merge_module_secure",
@@ -155,7 +175,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_79_days",
-    "fail2ban_active_2778_total_bans",
+    "fail2ban_active_2796_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_logins",
@@ -167,20 +187,22 @@
     "UFW firewall is inactive - only SSH and HTTP/HTTPS ports are needed but no firewall enforces this",
     "disable_symlinks off in nginx config - low risk since only novakj can write to webroot",
     "CGI location block exists in nginx but no CGI scripts present - dead config that could be removed",
-    "Codex proxy at /codex returns 502 - backend not running. No security risk but dead endpoint."
+    "Codex proxy at /codex returns 502 - backend not running. No security risk but dead endpoint.",
+    "TASK-016 redaction tool draws opaque rectangles but does NOT strip underlying content streams - redacted text/images may still be extractable from the PDF file. Users should be warned."
   ],
   "notes": [
-    "Full security review completed - 31 checks passed, 0 critical findings",
-    "Reviewed new split.js module (TASK-006): 6 innerHTML usages all safe (clearing, static SVGs, integer-only template). Range input parsed with strict validation. Filenames sanitized. JSZip used for ZIP downloads.",
-    "Reviewed new compress.js module (TASK-011): Zero innerHTML usages. All display via textContent. Slider values parsed with defaults. Canvas-per-page compression loop relies on GC for cleanup.",
-    "New dependency: jszip.min.js (97KB) added to /lib/ - self-hosted, used by split module for ZIP file creation.",
-    "All 14 JS files scanned: no eval(), Function(), document.write(), or unsafe patterns found",
-    "22 innerHTML usages across 6 files - all verified safe",
-    "SSH: standard botnet scanning continues. fail2ban active with 2778 total bans. Only authorized logins from known IP (109.81.31.32) via publickey.",
+    "Full security review completed - 33 checks passed, 0 critical findings",
+    "Reviewed new watermark.js module (TASK-013): Zero innerHTML usages. All display via textContent. Image upload validates MIME type (PNG/JPG) and size (10MB). Object URLs revoked after use. Text watermark goes to pdf-lib drawText, not HTML.",
+    "Reviewed new redact.js module (TASK-016): 3 innerHTML usages all safe (static entity, static string, integer-only interpolation). Search query used for string matching only, displayed via textContent. confirm() dialog before irreversible action.",
+    "IMPORTANT functional concern: redact.js draws opaque rectangles over content but pdf-lib cannot remove underlying content streams. Hidden data may still be extractable. This should be documented for users.",
+    "All 16 JS files scanned: no eval(), Function(), document.write(), or unsafe patterns found",
+    "25 innerHTML usages across 7 files - all verified safe (up from 22 across 6 files)",
+    "SSH: botnet scanning continues at normal rate. fail2ban active with 2796 total bans (+18). 7 IPs currently banned. Only authorized logins from novakj.",
     "SSL certificate valid until June 18, 2026 (79 days remaining)",
     "Disk usage stable at 12%"
   ],
   "recommendations": [
+    "MEDIUM: Add user-facing warning in redaction UI that underlying PDF data may not be fully removed - only visually covered. Consider adding metadata stripping or content stream rebuild in future.",
     "LOW: Set server_tokens off in nginx.conf to stop leaking version info (currently exposes nginx/1.26.3)",
     "LOW: Enable UFW firewall (sudo ufw allow 22,80,443/tcp && sudo ufw enable)",
     "LOW: Add general *.md deny rule to nginx with explicit exception for known safe files",
