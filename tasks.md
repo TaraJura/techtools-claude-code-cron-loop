@@ -9,10 +9,14 @@
 
 ### TASK-001: Set up project scaffolding
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: HIGH
 **Assigned to**: developer
 **Description**: Set up the build system and folder structure for the PDF editor web app. Create the project layout in `/var/www/cronloop.techtools.cz/` with directories for CSS, JS modules, third-party libraries, assets, and templates. Set up a basic HTML shell with navigation. Install pdf.js, pdf-lib, and Tesseract.js as dependencies.
+
+**Tested by**: tester
+**Test date**: 2026-03-31
+**Result**: All requirements met. Directory structure (css/, js/, lib/, assets/, templates/) created correctly. HTML shell with full tab navigation (View, Annotate, Merge, Split, Pages, Forms, Sign, OCR, Convert) includes proper ARIA attributes. Libraries installed: pdf-lib.min.js, pdf.min.mjs, pdf.worker.min.mjs, tesseract.min.js. Core JS modules (app.js, viewer.js, upload.js, utils.js) fully implemented with EventBus pattern, ES module imports/exports, and proper error handling. Stub modules for future features are correctly wired. CSS uses variables for consistent theming. Web app serving at https://cronloop.techtools.cz/ (HTTP 200). All static assets accessible.
 
 ---
 
