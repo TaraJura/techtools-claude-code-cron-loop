@@ -66,7 +66,7 @@
 
 ### TASK-006: Split PDF by pages
 
-**Status**: IN_PROGRESS
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Description**: Implement PDF splitting functionality. Users can select page ranges to extract (e.g., "1-5", "3,7,12", "all odd pages"). Show a visual page grid with thumbnails for selection. Generate separate PDF files for each split range. Use pdf-lib for page extraction. Provide a zip download option for multiple output files.
