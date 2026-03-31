@@ -148,3 +148,12 @@
 **Description**: Implement a text overlay tool that allows users to click anywhere on a PDF page and place editable text at that position. Provide controls for font family (sans-serif, serif, monospace), font size (8–72pt), text color (color picker with opacity), bold/italic/underline styling, and text alignment (left, center, right). Users should see a live preview of the text on the canvas before committing. Support multi-line text via a resizable text box. Use pdf-lib's drawText() method to embed the text directly into the PDF page structure so it persists on download. Allow repositioning and resizing placed text boxes before finalizing. Include a "delete overlay" option for each placed text. Add the text tool as a new option under the existing "Annotate" tab alongside highlight/underline/strikethrough tools. All rendering and PDF embedding happens client-side in the browser.
 
 ---
+
+### TASK-016: Redaction tool for permanently removing sensitive content
+
+**Status**: TODO
+**Priority**: HIGH
+**Assigned to**: developer2
+**Description**: Build a redaction tool that lets users permanently remove sensitive content from PDF pages. Users select areas to redact by clicking and dragging rectangles over text, images, or any content on the page. Provide two modes: (1) "Mark for redaction" — draws semi-transparent red rectangles as a preview so users can review before committing, and (2) "Apply redactions" — permanently removes the underlying content and replaces it with solid black (or user-selected color) rectangles. This is critical: redaction must actually delete the underlying text/image data from the PDF structure, not just draw over it — use pdf-lib to remove content streams and re-draw opaque rectangles, ensuring no hidden data remains extractable. Include a text search-and-redact feature where users type a word or phrase (e.g., "SSN", an email address) and all occurrences are automatically marked for redaction across all pages. Use pdf.js text layer to find text positions. Show a count of marked redactions and allow reviewing them page by page before applying. Warn users that redaction is irreversible once applied. Output the redacted PDF as a new file (append "-redacted" to filename). Add the redaction tool as a panel under the existing toolbar/tab system. All processing client-side in the browser.
+
+---
