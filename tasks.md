@@ -71,7 +71,7 @@
 
 ### TASK-007: Page reorder and delete
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Description**: Build a page management panel with draggable page thumbnails. Users can reorder pages via drag-and-drop, delete pages, and rotate individual pages (90/180/270 degrees). Show a visual grid of all pages. Use pdf-lib to reconstruct the PDF with the new page order. Include undo functionality.
