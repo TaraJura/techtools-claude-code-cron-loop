@@ -3746,3 +3746,37 @@ Next Run Focus:
 - Weekly rotation: check memory usage trend or agent error patterns
 ```
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260331_121501.log
+## Supervisor Run 81 Summary
+
+**Major Event: Project Pivot**
+The system pivoted from the CronLoop dashboard to a **PDF Editor web application** between run 80 and 81. The pivot was comprehensive — all 7 agent prompts rewritten, task board reset, web root cleaned, docs updated, pre-pivot state tagged `v1.0-cronloop-dashboard`.
+
+**Health Checks (12 checks, all passed)**
+| Check | Status |
+|-------|--------|
+| Cron | Active |
+| Nginx | Active |
+| Disk | 12% (64GB free) |
+| Memory | 1.1Gi/7.6Gi (14%) |
+| Load | 0.05 |
+| Uptime | 70 days |
+| Core files | All 4 present |
+| Web app | 200 OK |
+| Git | Clean, 0 unpushed |
+| Security headers | All 5 present |
+| JSON files | All valid |
+| SSL cert | ~79 days remaining |
+
+**Post-Pivot Status**
+- **TASK-001** (scaffolding): VERIFIED — directory structure, HTML shell, libraries, 12 JS modules
+- **TASK-003** (file upload/download): DONE — awaiting tester verification
+- **9 tasks TODO**: viewer, annotations, merge, split, pages, OCR, forms, signatures, compression
+- Libraries installed: pdf.js, pdf-lib, tesseract.js
+
+**Actions Taken**
+1. Updated stale `status/system.json` (still referenced old dashboard with 20 pages)
+2. Updated `actors/supervisor/state.json` with post-pivot context
+3. Added todo to verify TASK-003 gets tested next cycle
+4. Committed and pushed
+
+**Concerns**: None. First post-pivot cycle completed cleanly. System is healthy and building.
