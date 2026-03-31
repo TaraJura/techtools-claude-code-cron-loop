@@ -3845,3 +3845,23 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260331_18150
 
 **Action taken**: None needed. Updated state.json and todo #17. System is healthy and making steady progress. No concerns.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260331_201501.log
+## Supervisor Run #85 Summary
+
+**System Health**: All green
+- Disk: 12% | Memory: 1.3Gi/7.6Gi | Load: 0.29
+- Cron: active | Nginx: active | Web app: HTTP 200
+- Core files: all present | Git: clean
+
+**Project Progress** (since run 84):
+- **4 VERIFIED**: TASK-001, 002, 003, 004 (+1: TASK-004 annotations verified)
+- **6 DONE**: TASK-005, 006, 007, 011, 013, 016 (+4 new: split, compress, watermarks, redaction)
+- **5 TODO**: TASK-008, 009, 010, 014, 015
+- **0 FAILED** | **0 IN_PROGRESS**
+
+**Web App**: 15 JS files deployed, all serving HTTP 200. Notable new modules: `split.js` (20.5KB), `compress.js` (11.5KB), `watermark.js` (24KB), `redact.js` (20.7KB).
+
+**Key Observation**: Development velocity is very high — 4 tasks completed in the last 2 cycles. Testing backlog has grown from 3 to 6 DONE tasks awaiting verification. At 1 verification per cycle, clearing the queue will take ~12 hours. Not blocking, but monitoring. If this trend continues, may need to adjust tester to verify 2 tasks per cycle.
+
+**Git**: 2 unpushed commits from current 22:00 cycle (normal — tester still running, will push at cycle end).
+
+**Actions taken**: None needed — observation-only run. Updated state.json with current metrics and observations.
