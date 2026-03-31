@@ -1,20 +1,20 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-03-31T00:55:00Z",
+  "last_review": "2026-03-31T12:50:00Z",
   "status": "secure",
   "ssh_attacks": {
-    "current_log_attempts": 7132,
-    "unique_ips_current_log": 2811,
+    "current_log_attempts": 8560,
+    "unique_ips_current_log": 3176,
     "top_attackers": [
-      {"ip": "216.180.127.200", "attempts": 308},
-      {"ip": "2.57.121.25", "attempts": 159},
-      {"ip": "2.57.121.112", "attempts": 158},
-      {"ip": "80.94.92.164", "attempts": 144}
+      {"ip": "216.180.127.200", "attempts": 388},
+      {"ip": "213.209.159.159", "attempts": 312},
+      {"ip": "2.57.121.25", "attempts": 203},
+      {"ip": "2.57.121.112", "attempts": 199}
     ],
-    "top_targeted_users": ["root (4325)", "sol (495)", "solana (389)", "ubuntu (294)", "admin (224)", "user (170)", "solv (118)", "validator (47)"],
-    "log_period": "2026-03-29 00:36 to 2026-03-31 00:50 (~48 hours)",
-    "attack_rate_per_hour": 148,
-    "change_since_last": "Attack rate slightly decreased (148/hr vs 153/hr). 216.180.127.200 remains persistent top attacker (308 attempts, up from 220). 2.57.x.x subnet still has 2 IPs in top 5. 80.94.92.164 new in top 5 (144 attempts, replacing 185.156.73.233). Unique IPs increased to 2811 (from 2232). Crypto-related brute force campaign expanding: sol(495)+solana(389)+solv(118)+validator(47) = 1049 combined attempts. Root remains primary target (4325 of 7132 = 61%)."
+    "top_targeted_users": ["root (4931)", "sol (604)", "solana (484)", "ubuntu (351)", "admin (278)", "user (218)", "solv (142)", "validator (60)", "lighthouse (28)", "trader (24)"],
+    "log_period": "2026-03-29 00:36 to 2026-03-31 12:43 (~60 hours)",
+    "attack_rate_per_hour": 142,
+    "change_since_last": "Attack rate stable at ~142/hr (was 148/hr). 216.180.127.200 still top attacker (388, up from 308). 213.209.159.159 new in top 4 (312 attempts). 2.57.x.x subnet persists with 2 IPs. Unique IPs up to 3176 (from 2811). Crypto brute force campaign continues expanding: sol(604)+solana(484)+solv(142)+validator(60)+lighthouse(28)+trader(24) = 1342 combined (up from 1049). Root remains primary target (4931/8560 = 58%). New crypto-related usernames appearing: lighthouse(28), trader(24)."
   },
   "web_protections": {
     "git_blocked": true,
@@ -72,23 +72,23 @@
     "World-writable API files (action-queue.json, action-status.json, postmortems.json) - required for CGI, mitigated by whitelist validation",
     "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials",
     "No general *.md nginx block - only CLAUDE.md specifically blocked. tasks.md intentionally served for task viewer. Any new .md file added to web root would be publicly accessible.",
-    "growth-hub.html uses innerHTML with template literals but has 0 escapeHtml calls - data is all internal JSON, not user input. Low risk but lacks defense-in-depth."
+    "introspection-hub.html has extensive innerHTML usage with only 3 escapeHtml calls (inherited growth-hub content uses 0). Data is all internal JSON, not user input. Low risk but lacks defense-in-depth."
   ],
   "notes": [
     "Full security review completed - 20 checks passed, no new vulnerabilities",
-    "6 HTML files modified since last review (security-center, analytics-hub, index, config-center, communications-hub, growth-hub) - related to TASK-288/289 page merges",
-    "Modified pages reviewed: no eval(), innerHTML uses template literals with JSON data, escapeHtml used in security-center(38), config-center(29), communications-hub(15), analytics-hub(8), index(3)",
-    "Deleted pages confirmed returning 404: alerting-hub.html, time-explorer.html",
-    "Merged pages confirmed serving 200: security-center.html, analytics-hub.html",
+    "4 HTML files modified since last review (code-hub, config-center, index, introspection-hub) - related to TASK-290/291 page merges",
+    "Modified pages reviewed: no eval(), innerHTML uses template literals with JSON data. escapeHtml counts: code-hub(35), config-center(29), introspection-hub(3), index(3)",
+    "Deleted pages confirmed returning 404: growth-hub.html, docs-hub.html",
+    "Merged pages confirmed serving 200: code-hub.html, introspection-hub.html, story-hub.html still active",
     "No CGI scripts modified since last review - all 6 remain secure",
-    "SSH attack rate slightly decreased: 148/hr (down from 153/hr), but unique IPs up to 2811 (from 2232)",
-    "Crypto brute force campaign expanding: sol+solana+solv+validator = 1049 combined attempts (up from 635 sol+solana last review)",
+    "SSH attack rate stable: ~142/hr (down slightly from 148/hr), unique IPs up to 3176 (from 2811)",
+    "Crypto brute force campaign expanding: 1342 combined crypto-user attempts (up from 1049), new usernames lighthouse(28) and trader(24) appearing",
     "Disk usage stable at 12%"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - consistent ~148/hr brute force from 2811 unique IPs",
+    "CRITICAL: Install fail2ban for SSH protection - consistent ~142/hr brute force from 3176 unique IPs",
     "Add general *.md deny rule to nginx with explicit exception for tasks.md (defense in depth)",
     "Enable UFW firewall to restrict unnecessary ports",
-    "Consider adding escapeHtml to growth-hub.html for defense-in-depth (currently 0 calls)"
+    "Consider adding escapeHtml to introspection-hub.html growth-related sections for defense-in-depth (only 3 calls despite extensive innerHTML)"
   ]
 }
