@@ -3745,3 +3745,4 @@ Next Run Focus:
 - Verify TASK-290/291 completion
 - Weekly rotation: check memory usage trend or agent error patterns
 ```
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260331_121501.log
