@@ -1,22 +1,31 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-03-31T12:50:00Z",
+  "last_review": "2026-03-31T14:15:00Z",
   "status": "secure",
+  "fixes_applied": [
+    "CRITICAL: Added 5 missing security headers to Nginx (X-Frame-Options, X-Content-Type-Options, X-XSS-Protection, Referrer-Policy, Content-Security-Policy). Headers were documented in security-guide.md but never implemented.",
+    "Added client_max_body_size 50M to main server block (was only set on /codex location)"
+  ],
   "ssh_attacks": {
-    "current_log_attempts": 8560,
-    "unique_ips_current_log": 3176,
-    "top_attackers": [
-      {"ip": "216.180.127.200", "attempts": 388},
-      {"ip": "213.209.159.159", "attempts": 312},
-      {"ip": "2.57.121.25", "attempts": 203},
-      {"ip": "2.57.121.112", "attempts": 199}
+    "current_log_attempts": 8809,
+    "fail2ban_status": "active - sshd jail running, 7 currently banned, 2494 total banned",
+    "top_recent_attackers": [
+      {"ip": "213.209.159.159", "recent_attempts": 31},
+      {"ip": "80.94.92.166", "recent_attempts": 24},
+      {"ip": "116.71.136.125", "recent_attempts": 20},
+      {"ip": "103.67.78.18", "recent_attempts": 20},
+      {"ip": "216.180.127.200", "recent_attempts": 18}
     ],
-    "top_targeted_users": ["root (4931)", "sol (604)", "solana (484)", "ubuntu (351)", "admin (278)", "user (218)", "solv (142)", "validator (60)", "lighthouse (28)", "trader (24)"],
-    "log_period": "2026-03-29 00:36 to 2026-03-31 12:43 (~60 hours)",
-    "attack_rate_per_hour": 142,
-    "change_since_last": "Attack rate stable at ~142/hr (was 148/hr). 216.180.127.200 still top attacker (388, up from 308). 213.209.159.159 new in top 4 (312 attempts). 2.57.x.x subnet persists with 2 IPs. Unique IPs up to 3176 (from 2811). Crypto brute force campaign continues expanding: sol(604)+solana(484)+solv(142)+validator(60)+lighthouse(28)+trader(24) = 1342 combined (up from 1049). Root remains primary target (4931/8560 = 58%). New crypto-related usernames appearing: lighthouse(28), trader(24)."
+    "change_since_last": "Total attempts up to 8809 (from 8560). fail2ban confirmed active with 2494 total bans. 213.209.159.159 now top recent attacker. Crypto brute force campaign continues."
   },
   "web_protections": {
+    "security_headers": {
+      "x_frame_options": true,
+      "x_content_type_options": true,
+      "x_xss_protection": true,
+      "referrer_policy": true,
+      "content_security_policy": true
+    },
     "git_blocked": true,
     "env_blocked": true,
     "sh_blocked": true,
@@ -28,17 +37,23 @@
     "tasks_md_intentional": true,
     "path_traversal_blocked": true,
     "url_encoded_traversal_blocked": true,
-    "all_sensitive_types_returning_404": true,
-    "deleted_pages_returning_404": true
+    "client_max_body_size": "50M"
+  },
+  "pdf_security": {
+    "magic_bytes_check": true,
+    "mime_type_check": true,
+    "extension_check": true,
+    "size_limit_enforced": true,
+    "memory_limit_set": true,
+    "no_eval_in_js": true,
+    "no_document_write": true,
+    "innerHTML_safe": true,
+    "innerHTML_note": "4 usages in upload.js/viewer.js - all static templates, no user data"
   },
   "cgi_security": {
-    "execute_cgi": "Hardened - exact whitelist match only, rate limited, dangerous pattern blocking",
-    "terminal_cgi": "Safe - case statement with hardcoded commands, argument sanitization",
-    "action_cgi": "Safe - delegates to queue script with rate limiting",
-    "prompt_version_cgi": "Safe - agent whitelist and hex-only hash validation",
-    "git_file_diff_py": "Safe - path sanitization (blocks .. and /), subprocess with list args (no shell injection)",
-    "git_file_history_py": "Safe - path sanitization (blocks .. and /), subprocess with list args (no shell injection)",
-    "no_cgi_changes_since_last_review": true
+    "no_cgi_scripts_found": true,
+    "cgi_location_block_exists": true,
+    "note": "CGI location block configured in nginx but no CGI scripts found in webroot cgi-bin directory"
   },
   "file_permissions": {
     "claude_md": "664",
@@ -54,41 +69,38 @@
     "nginx_blocks_env_404",
     "nginx_blocks_claude_md_404",
     "nginx_blocks_sh_404",
-    "nginx_blocks_log_404",
-    "sensitive_file_permissions_correct",
+    "nginx_blocks_py_404",
     "path_traversal_blocked",
     "url_encoded_path_traversal_blocked",
     "no_secrets_in_recent_commits",
-    "no_eval_in_modified_pages",
-    "cgi_whitelist_exact_match_only",
-    "python_cgi_no_shell_injection",
-    "no_cgi_changes_since_last_review",
-    "recently_modified_pages_reviewed",
-    "deleted_pages_returning_404",
-    "merged_pages_serving_200",
+    "no_eval_in_js_files",
+    "no_document_write_in_js_files",
+    "innerHTML_static_only",
+    "pdf_validation_complete",
+    "security_headers_present",
+    "ssl_certificate_valid",
+    "fail2ban_active",
+    "web_app_serving_200",
     "disk_space_ok"
   ],
   "known_issues": [
-    "World-writable API files (action-queue.json, action-status.json, postmortems.json) - required for CGI, mitigated by whitelist validation",
-    "Git history contains pattern matches for secret-like keywords - audit confirms these are search patterns in scripts, not actual credentials",
     "No general *.md nginx block - only CLAUDE.md specifically blocked. tasks.md intentionally served for task viewer. Any new .md file added to web root would be publicly accessible.",
-    "introspection-hub.html has extensive innerHTML usage with only 3 escapeHtml calls (inherited growth-hub content uses 0). Data is all internal JSON, not user input. Low risk but lacks defense-in-depth."
+    "UFW firewall is inactive - only SSH and HTTP/HTTPS ports are needed",
+    "disable_symlinks off in nginx config - low risk since only novakj can write to webroot"
   ],
   "notes": [
-    "Full security review completed - 20 checks passed, no new vulnerabilities",
-    "4 HTML files modified since last review (code-hub, config-center, index, introspection-hub) - related to TASK-290/291 page merges",
-    "Modified pages reviewed: no eval(), innerHTML uses template literals with JSON data. escapeHtml counts: code-hub(35), config-center(29), introspection-hub(3), index(3)",
-    "Deleted pages confirmed returning 404: growth-hub.html, docs-hub.html",
-    "Merged pages confirmed serving 200: code-hub.html, introspection-hub.html, story-hub.html still active",
-    "No CGI scripts modified since last review - all 6 remain secure",
-    "SSH attack rate stable: ~142/hr (down slightly from 148/hr), unique IPs up to 3176 (from 2811)",
-    "Crypto brute force campaign expanding: 1342 combined crypto-user attempts (up from 1049), new usernames lighthouse(28) and trader(24) appearing",
+    "Full security review completed - 20 checks passed",
+    "FIXED: Added 5 security headers to Nginx that were documented but never implemented",
+    "FIXED: Added client_max_body_size 50M to main server block",
+    "Previous recommendation to install fail2ban is now RESOLVED - it was already active (7 banned, 2494 total)",
+    "JS code review: all 12 JS files clean - no eval(), Function(), document.write(). innerHTML used only with static templates",
+    "PDF validation in utils.js implements all 4 checks: MIME type, extension, size limit (50MB), magic bytes (%PDF-)",
+    "SSL certificate valid until June 18, 2026 (~79 days remaining)",
     "Disk usage stable at 12%"
   ],
   "recommendations": [
-    "CRITICAL: Install fail2ban for SSH protection - consistent ~142/hr brute force from 3176 unique IPs",
+    "Enable UFW firewall to restrict unnecessary ports (sudo ufw allow 22,80,443/tcp && sudo ufw enable)",
     "Add general *.md deny rule to nginx with explicit exception for tasks.md (defense in depth)",
-    "Enable UFW firewall to restrict unnecessary ports",
-    "Consider adding escapeHtml to introspection-hub.html growth-related sections for defense-in-depth (only 3 calls despite extensive innerHTML)"
+    "Consider changing disable_symlinks to 'on' in nginx config for defense in depth"
   ]
 }

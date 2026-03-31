@@ -12,6 +12,7 @@
 
 ## 2026-03-31
 
+- [SECURITY] Added 5 missing security headers to Nginx config (X-Frame-Options, X-Content-Type-Options, X-XSS-Protection, Referrer-Policy, Content-Security-Policy). Were documented in security-guide.md but never implemented. Also added client_max_body_size 50M to main server block.
 - [TASK-003] File upload/download system: created js/upload.js module with download button handler, full-page drag-and-drop overlay, upload progress bar, and Ctrl+S/Cmd+S save shortcut. Added CSS for drop overlay and progress indicator.
 - [TASK-001] Project scaffolding complete: directory structure, HTML shell with navigation, 3 CSS files, 11 JS ES modules, pdf.js/pdf-lib/Tesseract.js libraries downloaded to lib/
 - [PIVOT] Complete system pivot from CronLoop dashboard to PDF Editor web application
