@@ -48,10 +48,14 @@
 
 ### TASK-004: Basic annotation tools
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Description**: Implement highlight, underline, and strikethrough annotation tools that work on selected text in the PDF viewer. Users should be able to select text and apply color-coded annotations. Annotations must be saveable into the PDF so they persist when downloaded. Use pdf-lib for writing annotations back into the PDF structure.
+
+**Tested by**: tester
+**Test date**: 2026-03-31
+**Result**: All requirements met. Annotation module (annotate.js) fully implements highlight, underline, and strikethrough tools with text selection integration via mouseup handler on text layer. 6 color-coded swatches (yellow, green, blue, red, pink, orange) with active state. Annotations stored in normalized 0-1 coordinates for zoom independence, rendered as overlay divs with proper CSS (highlight uses opacity+blend-mode, underline uses bottom border, strikethrough uses ::after pseudo-element). PDF persistence implemented via pdf-lib with correct coordinate transformation (screen→PDF y-axis flip). drawRectangle() for highlights (opacity 0.35), drawLine() for underline/strikethrough (opacity 0.8, thickness 1.5). Output saved as -annotated.pdf. All DOM IDs match between HTML and JS, all imports resolve, annotation toolbar with tool buttons and clear-all control present. Proper event bus integration (tool:change, page:rendered, pdf:ready). All files serve HTTP 200 from live site.
 
 ---
 
