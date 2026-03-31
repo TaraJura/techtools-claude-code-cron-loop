@@ -1,22 +1,19 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-03-31T14:15:00Z",
+  "last_review": "2026-03-31T16:10:00Z",
   "status": "secure",
-  "fixes_applied": [
-    "CRITICAL: Added 5 missing security headers to Nginx (X-Frame-Options, X-Content-Type-Options, X-XSS-Protection, Referrer-Policy, Content-Security-Policy). Headers were documented in security-guide.md but never implemented.",
-    "Added client_max_body_size 50M to main server block (was only set on /codex location)"
-  ],
+  "fixes_applied": [],
   "ssh_attacks": {
-    "current_log_attempts": 8809,
-    "fail2ban_status": "active - sshd jail running, 7 currently banned, 2494 total banned",
-    "top_recent_attackers": [
-      {"ip": "213.209.159.159", "recent_attempts": 31},
-      {"ip": "80.94.92.166", "recent_attempts": 24},
-      {"ip": "116.71.136.125", "recent_attempts": 20},
-      {"ip": "103.67.78.18", "recent_attempts": 20},
-      {"ip": "216.180.127.200", "recent_attempts": 18}
+    "current_log_attempts": 12420,
+    "fail2ban_status": "active - sshd jail running, 6 currently banned, 2585 total banned",
+    "top_attackers_by_total": [
+      {"ip": "216.180.127.200", "total_attempts": 837},
+      {"ip": "213.209.159.159", "total_attempts": 404},
+      {"ip": "80.94.92.164", "total_attempts": 358},
+      {"ip": "80.94.92.166", "total_attempts": 350},
+      {"ip": "80.94.92.183", "total_attempts": 339}
     ],
-    "change_since_last": "Total attempts up to 8809 (from 8560). fail2ban confirmed active with 2494 total bans. 213.209.159.159 now top recent attacker. Crypto brute force campaign continues."
+    "change_since_last": "Total attempts up to 12420 (from 8809, +3611 new). fail2ban total bans 2585 (from 2494, +91). 216.180.127.200 now top attacker with 837 attempts. 80.94.92.x subnet remains persistent. Crypto-related usernames targeted (solana, sol, pmd). Standard botnet scanning, no targeted attacks detected."
   },
   "web_protections": {
     "security_headers": {
@@ -33,11 +30,11 @@
     "log_blocked": true,
     "md_blocked_general": false,
     "md_blocked_claude_md": true,
-    "tasks_md_accessible": true,
-    "tasks_md_intentional": true,
+    "tasks_md_not_in_webroot": true,
     "path_traversal_blocked": true,
     "url_encoded_traversal_blocked": true,
-    "client_max_body_size": "50M"
+    "client_max_body_size": "50M",
+    "server_tokens_leaks_version": true
   },
   "pdf_security": {
     "magic_bytes_check": true,
@@ -45,22 +42,40 @@
     "extension_check": true,
     "size_limit_enforced": true,
     "memory_limit_set": true,
+    "total_memory_limit": "200MB",
     "no_eval_in_js": true,
     "no_document_write": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "4 usages in upload.js/viewer.js - all static templates, no user data"
+    "innerHTML_note": "10 usages across viewer.js, upload.js, merge.js - all static templates or escaped via escapeHtml(). No user data injected unsafely."
+  },
+  "merge_module_review": {
+    "file_validation": true,
+    "escape_html_used": true,
+    "per_file_size_limit": "50MB",
+    "total_memory_limit": "200MB",
+    "sanitized_download_filenames": true,
+    "no_server_side_processing": true,
+    "status": "secure"
+  },
+  "upload_module_review": {
+    "full_page_drop_zone": true,
+    "memory_budget_enforced": true,
+    "filereader_prototype_patching": "LOW risk - temporary patch restored on loadend, only affects progress tracking",
+    "status": "secure"
   },
   "cgi_security": {
     "no_cgi_scripts_found": true,
     "cgi_location_block_exists": true,
-    "note": "CGI location block configured in nginx but no CGI scripts found in webroot cgi-bin directory"
-  },
-  "file_permissions": {
-    "claude_md": "664",
-    "ssh_dir": "700",
-    "ssh_key": "600"
+    "no_cgi_bin_directory": true,
+    "note": "CGI location block in nginx but no cgi-bin directory or scripts in webroot"
   },
   "disk_usage": "12%",
+  "ssl_certificate": {
+    "valid_from": "2026-03-20",
+    "valid_until": "2026-06-18",
+    "days_remaining": 79,
+    "status": "valid"
+  },
   "checks_passed": [
     "no_symlinks_in_webroot",
     "no_git_files_in_webroot",
@@ -75,32 +90,37 @@
     "no_secrets_in_recent_commits",
     "no_eval_in_js_files",
     "no_document_write_in_js_files",
-    "innerHTML_static_only",
-    "pdf_validation_complete",
-    "security_headers_present",
-    "ssl_certificate_valid",
-    "fail2ban_active",
+    "innerHTML_safe_all_files",
+    "pdf_validation_complete_4_checks",
+    "merge_module_secure",
+    "upload_module_secure",
+    "security_headers_present_verified",
+    "ssl_certificate_valid_79_days",
+    "fail2ban_active_2585_total_bans",
     "web_app_serving_200",
-    "disk_space_ok"
+    "disk_space_ok_12pct"
   ],
   "known_issues": [
-    "No general *.md nginx block - only CLAUDE.md specifically blocked. tasks.md intentionally served for task viewer. Any new .md file added to web root would be publicly accessible.",
-    "UFW firewall is inactive - only SSH and HTTP/HTTPS ports are needed",
-    "disable_symlinks off in nginx config - low risk since only novakj can write to webroot"
+    "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
+    "No general *.md nginx block - only CLAUDE.md specifically blocked. Any new .md file added to webroot would be publicly accessible.",
+    "UFW firewall is inactive - only SSH and HTTP/HTTPS ports are needed but no firewall enforces this",
+    "disable_symlinks off in nginx config - low risk since only novakj can write to webroot",
+    "CGI location block exists in nginx but no CGI scripts present - dead config that could be removed"
   ],
   "notes": [
-    "Full security review completed - 20 checks passed",
-    "FIXED: Added 5 security headers to Nginx that were documented but never implemented",
-    "FIXED: Added client_max_body_size 50M to main server block",
-    "Previous recommendation to install fail2ban is now RESOLVED - it was already active (7 banned, 2494 total)",
-    "JS code review: all 12 JS files clean - no eval(), Function(), document.write(). innerHTML used only with static templates",
-    "PDF validation in utils.js implements all 4 checks: MIME type, extension, size limit (50MB), magic bytes (%PDF-)",
-    "SSL certificate valid until June 18, 2026 (~79 days remaining)",
+    "Full security review completed - 22 checks passed, 0 critical findings",
+    "Reviewed new merge.js module (TASK-005): properly uses escapeHtml() for filenames, validatePdf() for uploads, sanitizeFilename() for downloads",
+    "Reviewed upload.js module (TASK-003): memory budget enforced, FileReader patching is temporary and low-risk",
+    "All 12 JS files scanned: no eval(), Function(), document.write(). innerHTML used safely throughout.",
+    "SSH brute force increased +3611 attempts since last review (~2h ago). All standard botnet scanning - no targeted attacks.",
+    "SSL certificate valid until June 18, 2026 (79 days remaining)",
     "Disk usage stable at 12%"
   ],
   "recommendations": [
-    "Enable UFW firewall to restrict unnecessary ports (sudo ufw allow 22,80,443/tcp && sudo ufw enable)",
-    "Add general *.md deny rule to nginx with explicit exception for tasks.md (defense in depth)",
-    "Consider changing disable_symlinks to 'on' in nginx config for defense in depth"
+    "LOW: Set server_tokens off in nginx.conf to stop leaking version info (currently exposes nginx/1.26.3)",
+    "LOW: Enable UFW firewall (sudo ufw allow 22,80,443/tcp && sudo ufw enable)",
+    "LOW: Add general *.md deny rule to nginx with explicit exception for tasks.md",
+    "LOW: Remove unused CGI location block from nginx config (no scripts exist)",
+    "LOW: Consider disable_symlinks on in nginx for defense in depth"
   ]
 }
