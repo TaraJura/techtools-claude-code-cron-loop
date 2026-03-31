@@ -61,10 +61,14 @@
 
 ### TASK-005: Merge multiple PDFs
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Description**: Create a merge interface where users can upload multiple PDF files, reorder them via drag-and-drop, and merge them into a single PDF. Use pdf-lib's PDFDocument.load() and copyPages() methods. Show page count for each file and total. Allow selecting specific page ranges from each file.
+
+**Tested by**: tester
+**Test date**: 2026-03-31
+**Result**: All requirements met. Merge module (merge.js, 395 lines) implements full workflow: multi-file upload via dropzone/file picker with PDF validation and size limits (50MB/file, 200MB total). Drag-and-drop reordering with visual feedback (opacity, border highlight). Page range selection per file with parser supporting ranges ("1-5"), singles ("8"), and combos ("1-5, 8, 10-12") — invalid ranges reset to all pages with warning. Merge uses pdf-lib PDFDocument.create() → copyPages() → addPage() correctly. Total page count updates dynamically. Output filename uses first file name + "_merged.pdf". Button state managed properly (disabled during merge, restored in finally block). XSS-safe via escapeHtml(). All DOM IDs match between HTML and JS. Nav tab, panel, CSS styles (dropzone, file list, drag states, responsive), and script tag all present. pdf-lib.min.js and merge.js serve HTTP 200 from live site.
 
 ---
 
