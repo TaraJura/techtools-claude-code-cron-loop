@@ -122,3 +122,12 @@
 **Description**: Implement a watermark tool that lets users add text or image watermarks to PDF pages. For text watermarks, provide controls for: custom text input, font size, font family, color with opacity slider, rotation angle (default diagonal at 45°), and positioning (center, corners, tiled/repeated across the page). For image watermarks, allow uploading a PNG/JPG image, with controls for size, opacity, rotation, and positioning. Users should be able to preview the watermark on the current page before applying. Offer an "Apply to all pages" toggle vs. selecting specific pages. Use pdf-lib to draw the watermark content onto each selected page. Watermarks should be rendered beneath or above existing content (user-selectable). All processing client-side in the browser. Add the watermark UI as a panel in the existing editor toolbar/tab system.
 
 ---
+
+### TASK-014: Export PDF pages as images (PNG/JPG)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Description**: Build a PDF-to-image export tool. Users can convert individual pages or entire PDFs into PNG or JPG images. Use pdf.js to render each page onto an off-screen canvas at a configurable resolution (72, 150, or 300 DPI), then export via `canvas.toBlob()` or `canvas.toDataURL()`. Provide a UI panel with: format selection (PNG for lossless, JPG with quality slider 0.1–1.0), DPI/resolution picker, page range selector (single page, range, or all pages), and a live preview thumbnail at the chosen settings. For multi-page exports, bundle the images into a ZIP file using JSZip (add to `/var/www/cronloop.techtools.cz/lib/`) and trigger a single download. Show a progress bar during batch conversion. Include a "Copy to clipboard" button for single-page exports. All processing happens client-side — render to canvas, convert to blob, package and download. Add the export UI as a new panel under the existing "Convert" tab.
+
+---
