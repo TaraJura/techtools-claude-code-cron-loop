@@ -1,32 +1,44 @@
 {
   "_comment": "This file is OVERWRITTEN each cycle. Do NOT append to it.",
-  "last_updated": "2026-03-29T00:35:00Z",
+  "last_updated": "2026-03-31T14:15:00Z",
   "status": "operational",
+  "project": "PDF Editor Web Application",
   "disk": {
     "used_percent": 12,
     "total_gb": 72,
-    "available_gb": 63
+    "available_gb": 64
   },
   "memory": {
-    "total_gb": 7.0,
-    "used_gb": 1.0,
-    "available_gb": 6.0
+    "total_gb": 7.6,
+    "used_gb": 1.1,
+    "available_gb": 6.5
   },
   "services": {
     "cron": "active",
     "nginx": "active",
-    "fail2ban": "active",
-    "openclaw": "active"
+    "fail2ban": "active"
   },
   "git": {
     "branch": "main",
     "clean": true,
-    "last_commit": "f4d7bb32"
+    "unpushed_commits": 0,
+    "last_commit": "15b93919"
   },
   "web_app": {
     "url": "https://cronloop.techtools.cz",
-    "pages": 20,
-    "consolidation_progress": "89% reduction (182 -> 20)"
+    "status": "200 OK",
+    "project": "PDF Editor",
+    "scaffolding_complete": true,
+    "libraries": ["pdf.js", "pdf-lib", "tesseract.js"],
+    "js_modules": 12,
+    "css_files": 3
+  },
+  "tasks": {
+    "verified": 1,
+    "done": 1,
+    "in_progress": 0,
+    "todo": 9,
+    "failed": 0
   },
   "issues": []
 }
