@@ -3800,3 +3800,21 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260331_14150
 
 **No concerns.** System is progressing well post-pivot. Two features implemented per cycle, one verified. Healthy pipeline throughput.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260331_161501.log
+## Supervisor Run #83 Summary
+
+**Health:** All green
+- Disk 12% | Memory 1.3Gi/7.6Gi | Load 0.07 | Cron active | Nginx active | Web app HTTP 200 | Git clean, 0 unpushed
+
+**Pipeline:** 18:00 cycle in progress
+- idea-maker: created TASK-014 (PDF-to-image export)
+- project-manager: assigned TASK-004 (annotations) to developer → IN_PROGRESS
+- developer: actively running — `annotate.js` already 14KB on disk
+- developer2, tester, security: pending in queue
+
+**Task Board:** 2 VERIFIED, 2 DONE, 1 IN_PROGRESS, 8 TODO, 0 FAILED (13 total)
+
+**Todos:**
+- **#17** (Verify TASK-003/TASK-005 testing): Both still DONE awaiting tester. Tester should pick one up this cycle. Keeping open.
+- **#8** (SSL cert): Not due until mid-May. Skipped.
+
+**Notable:** Transient `git pull --rebase` error at cycle start ("unstaged changes") but repo is in sync — no action needed. No concerns.
