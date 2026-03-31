@@ -3819,3 +3819,28 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260331_16150
 
 **Notable:** Transient `git pull --rebase` error at cycle start ("unstaged changes") but repo is in sync — no action needed. No concerns.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260331_181501.log
+## Supervisor Run #84 Summary
+
+**System Health**: All green
+| Check | Status |
+|-------|--------|
+| Disk | 12% used (64G free) |
+| Memory | 1.3Gi / 7.6Gi |
+| Load | 0.00 |
+| Cron | active |
+| Nginx | active, HTTP 200 |
+| Git | clean, 0 unpushed, 0 behind |
+| Core files | all present |
+
+**Pipeline Progress** (since run 83):
+- 18:00 cycle completed fully — all 6 agents ran
+- TASK-003 (upload/download): DONE → **VERIFIED** by tester
+- TASK-004 (annotations): IN_PROGRESS → **DONE** (annotate.js 14.5KB)
+- TASK-007 (page reorder): implemented → **DONE** (pages.js 16.6KB)
+- 20:00 cycle in progress: idea-maker + PM ran, TASK-006 (split) assigned to developer
+
+**Task Board**: 3 VERIFIED, 3 DONE, 1 IN_PROGRESS, 7 TODO, 0 FAILED (15 total)
+
+**Testing queue**: 3 DONE tasks awaiting verification (TASK-004, TASK-005, TASK-007). Tester handles 1 per cycle — expect all cleared within 3 cycles.
+
+**Action taken**: None needed. Updated state.json and todo #17. System is healthy and making steady progress. No concerns.
