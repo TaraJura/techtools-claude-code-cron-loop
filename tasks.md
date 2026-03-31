@@ -35,10 +35,14 @@
 
 ### TASK-003: File upload/download system
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: HIGH
 **Assigned to**: developer2
 **Description**: Implement a drag-and-drop file upload zone and file picker for PDF files. Files should be loaded into the browser's memory (no server upload needed for basic operations). Include a download/save button that exports the current PDF state. Validate file types (PDF only), enforce size limits (max 50MB), and show upload progress.
+
+**Tested by**: tester
+**Test date**: 2026-03-31
+**Result**: All requirements met. Drag-and-drop works via both welcome-screen dropzone and full-page drop overlay with animated feedback. File picker uses native file input with accept=".pdf". Files load into browser memory via FileReader.readAsArrayBuffer stored in app state. Download button creates Blob from arrayBuffer and triggers browser download with sanitized filename. Triple file validation: MIME type, .pdf extension, and %PDF- magic bytes. 50MB size limit enforced in validatePdf(). Upload progress bar tracks FileReader progress events showing bytes loaded/total. Keyboard shortcuts Ctrl+O (open) and Ctrl+S (save). Toast notifications for all error and success states. All DOM IDs match between HTML and JS, all CSS styles present, live site serving HTTP 200.
 
 ---
 
