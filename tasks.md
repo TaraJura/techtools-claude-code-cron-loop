@@ -96,3 +96,12 @@
 **Description**: Implement a signature feature. Users can draw a signature on a canvas, type their name in a signature font, or upload a signature image. Place the signature anywhere on the PDF page with resize/move controls. Use pdf-lib to embed the signature image into the PDF. This is a visual signature, not a cryptographic one.
 
 ---
+
+### TASK-011: PDF compression and file size optimizer
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Description**: Build a PDF compression tool that reduces file size for easier sharing and uploads. Offer compression presets: "Low" (minimal quality loss, ~20% reduction), "Medium" (balanced, ~50% reduction), and "High" (maximum compression, noticeable quality loss). Use pdf-lib to rewrite the PDF structure, removing unused objects, deduplicating streams, and downsampling embedded images. Show original vs. compressed file size with a percentage savings indicator. For image-heavy PDFs, allow users to choose image quality (DPI reduction from 300→150→72). Include a preview so users can compare quality before downloading. All processing should happen client-side in the browser.
+
+---
