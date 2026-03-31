@@ -124,7 +124,7 @@
 
 ### TASK-013: Add text and image watermarks to PDFs
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Description**: Implement a watermark tool that lets users add text or image watermarks to PDF pages. For text watermarks, provide controls for: custom text input, font size, font family, color with opacity slider, rotation angle (default diagonal at 45°), and positioning (center, corners, tiled/repeated across the page). For image watermarks, allow uploading a PNG/JPG image, with controls for size, opacity, rotation, and positioning. Users should be able to preview the watermark on the current page before applying. Offer an "Apply to all pages" toggle vs. selecting specific pages. Use pdf-lib to draw the watermark content onto each selected page. Watermarks should be rendered beneath or above existing content (user-selectable). All processing client-side in the browser. Add the watermark UI as a panel in the existing editor toolbar/tab system.
