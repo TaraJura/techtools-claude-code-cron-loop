@@ -1,19 +1,19 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-03-31T18:38:00Z",
+  "last_review": "2026-03-31T21:22:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "current_log_attempts": 13137,
-    "fail2ban_status": "active - sshd jail running, 9 currently banned, 2710 total banned",
+    "failed_password_attempts": 10065,
+    "fail2ban_status": "active - sshd jail running, 1 currently banned, 2778 total banned",
     "top_attackers_by_total": [
       {"ip": "216.180.127.200", "total_attempts": "high"},
       {"ip": "80.94.92.164", "total_attempts": "high"},
       {"ip": "80.94.92.166", "total_attempts": "high"},
-      {"ip": "80.94.92.177", "total_attempts": "high"},
-      {"ip": "80.94.92.183", "total_attempts": "high"}
+      {"ip": "80.94.92.184", "total_attempts": "high"},
+      {"ip": "195.178.110.30", "total_attempts": "high"}
     ],
-    "change_since_last": "Total attempts up to 13137 (from 12420, +717 new). fail2ban total bans 2710 (from 2585, +125). 9 IPs currently banned (was 6). Standard botnet scanning continues, no targeted attacks detected. Only authorized logins from known IP via publickey."
+    "change_since_last": "Failed attempts at 10065 in current log. fail2ban total bans 2778 (up from 2710, +68). 1 IP currently banned (was 9). Standard botnet scanning continues with no targeted attacks. Only authorized logins from known IP (109.81.31.32) via publickey."
   },
   "web_protections": {
     "security_headers": {
@@ -47,59 +47,78 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "16 usages across viewer.js, upload.js, merge.js, annotate.js, pages.js - all static templates, clearing operations, or escaped via escapeHtml()/textContent. No user data injected unsafely."
+    "innerHTML_note": "22 usages across viewer.js, upload.js, merge.js, annotate.js, pages.js, split.js - all static templates, clearing operations, static SVGs, or integer-only interpolation. No user data injected unsafely."
+  },
+  "split_module_review": {
+    "file": "js/split.js",
+    "task": "TASK-006",
+    "innerHTML_safe": true,
+    "innerHTML_note": "6 usages: clearing grid, static SVG checkboxes, range row template with integer-only interpolation (split.rangeCount), button restores with static SVG. No user data in any innerHTML.",
+    "no_eval": true,
+    "user_data_handling": "Range input parsed via parseRange() with strict validation (only digits, commas, dashes). Filenames built from sanitizeFilename(). Page numbers are integers only.",
+    "download_filename_sanitized": true,
+    "pdf_lib_usage": "Loads PDF via PDFDocument.load with ignoreEncryption. Copies pages by validated indices. No external data injection.",
+    "jszip_usage": "Uses window.JSZip for multi-file ZIP downloads. ZIP filenames built from sanitized base name + integer page numbers.",
+    "status": "secure"
+  },
+  "compress_module_review": {
+    "file": "js/compress.js",
+    "task": "TASK-011",
+    "no_innerHTML": true,
+    "innerHTML_note": "Zero innerHTML usages. All display uses textContent.",
+    "no_eval": true,
+    "user_data_handling": "Slider values parsed via parseInt/parseFloat with defaults. All display text uses textContent. Download filenames use sanitizeFilename().",
+    "download_filename_sanitized": true,
+    "pdf_processing": "Renders pages to off-screen canvas via pdf.js, converts to JPEG, rebuilds PDF with pdf-lib. All client-side.",
+    "memory_note": "Creates canvas per page in compression loop. GC handles cleanup. No explicit page count limit in compress loop but upload validation enforces 1000 page max.",
+    "resource_cleanup": "pdfDoc.destroy() called for both original and preview documents. compressedBytes cleared on resetResults().",
+    "status": "secure"
   },
   "annotate_module_review": {
     "file": "js/annotate.js",
     "task": "TASK-004",
     "innerHTML_safe": true,
-    "innerHTML_note": "Only used for clearing annotLayer.innerHTML = ''. All annotations rendered via createElement + style properties.",
     "no_eval": true,
-    "user_data_handling": "Annotation text stored internally via selection.toString(), never rendered as HTML. Toast messages use textContent.",
-    "download_filename_sanitized": true,
-    "pdf_lib_usage": "Loads PDF via PDFDocument.load with slice copy. Draws rectangles/lines for annotations. No external data injection.",
     "status": "secure"
   },
   "pages_module_review": {
     "file": "js/pages.js",
     "task": "TASK-007",
     "innerHTML_safe": true,
-    "innerHTML_note": "Used for clearing grid, static SVG checkboxes, and static button HTML restore. No user data in innerHTML.",
     "no_eval": true,
-    "page_cards_safe": "All created via createElement with textContent for labels. aria-label uses integer values only.",
-    "download_filename_sanitized": true,
-    "pdf_lib_usage": "Copies pages from source PDF, applies rotation. Uses ignoreEncryption: true for compatibility.",
-    "drag_drop_safe": "Internal state only, no external data injection via drag events.",
-    "undo_bounded": true,
-    "undo_limit": 30,
     "status": "secure"
   },
   "merge_module_review": {
+    "file": "js/merge.js",
     "file_validation": true,
     "escape_html_used": true,
-    "per_file_size_limit": "50MB",
-    "total_memory_limit": "200MB",
-    "sanitized_download_filenames": true,
-    "no_server_side_processing": true,
     "status": "secure"
   },
   "upload_module_review": {
+    "file": "js/upload.js",
     "full_page_drop_zone": true,
     "memory_budget_enforced": true,
-    "filereader_prototype_patching": "LOW risk - temporary patch restored on loadend, only affects progress tracking",
     "status": "secure"
+  },
+  "new_dependencies": {
+    "jszip_min_js": {
+      "file": "lib/jszip.min.js",
+      "size": "97KB",
+      "purpose": "ZIP file creation for split module multi-file downloads",
+      "self_hosted": true,
+      "added": "2026-03-31"
+    }
   },
   "cgi_security": {
     "no_cgi_scripts_found": true,
     "cgi_location_block_exists": true,
-    "no_cgi_bin_directory": true,
-    "note": "CGI location block in nginx but no cgi-bin directory or scripts in webroot"
+    "no_cgi_bin_directory": true
   },
   "codex_proxy": {
     "endpoint": "/codex",
     "backend": "127.0.0.1:8199",
     "status": "502 - backend not running",
-    "risk": "LOW - proxy only accessible when backend is active, limited to localhost"
+    "risk": "LOW"
   },
   "disk_usage": "12%",
   "ssl_certificate": {
@@ -130,14 +149,17 @@
     "pages_module_secure",
     "merge_module_secure",
     "upload_module_secure",
+    "split_module_secure",
+    "compress_module_secure",
     "showToast_uses_textContent",
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_79_days",
-    "fail2ban_active_2710_total_bans",
+    "fail2ban_active_2778_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
-    "ssh_only_authorized_logins"
+    "ssh_only_authorized_logins",
+    "jszip_self_hosted_in_lib"
   ],
   "known_issues": [
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
@@ -148,13 +170,13 @@
     "Codex proxy at /codex returns 502 - backend not running. No security risk but dead endpoint."
   ],
   "notes": [
-    "Full security review completed - 29 checks passed, 0 critical findings",
-    "Reviewed new annotate.js module (TASK-004): All annotations rendered via DOM API, no innerHTML with user data, showToast uses textContent, download filenames sanitized",
-    "Reviewed new pages.js module (TASK-007): Page cards built via createElement+textContent, drag-and-drop uses internal state only, undo stack bounded at 30 entries, pdf-lib usage safe",
-    "All 13 JS files scanned: no eval(), Function(), document.write(), or unsafe setTimeout/setInterval string patterns",
-    "16 innerHTML usages found across 5 files - all verified safe (clearing, static templates, or properly escaped)",
-    "SSH brute force increased +717 attempts since last review (~2h ago). fail2ban handling well with 2710 total bans.",
-    "Only authorized SSH logins from known IP (109.81.31.32) via publickey authentication",
+    "Full security review completed - 31 checks passed, 0 critical findings",
+    "Reviewed new split.js module (TASK-006): 6 innerHTML usages all safe (clearing, static SVGs, integer-only template). Range input parsed with strict validation. Filenames sanitized. JSZip used for ZIP downloads.",
+    "Reviewed new compress.js module (TASK-011): Zero innerHTML usages. All display via textContent. Slider values parsed with defaults. Canvas-per-page compression loop relies on GC for cleanup.",
+    "New dependency: jszip.min.js (97KB) added to /lib/ - self-hosted, used by split module for ZIP file creation.",
+    "All 14 JS files scanned: no eval(), Function(), document.write(), or unsafe patterns found",
+    "22 innerHTML usages across 6 files - all verified safe",
+    "SSH: standard botnet scanning continues. fail2ban active with 2778 total bans. Only authorized logins from known IP (109.81.31.32) via publickey.",
     "SSL certificate valid until June 18, 2026 (79 days remaining)",
     "Disk usage stable at 12%"
   ],
