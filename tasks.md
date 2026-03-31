@@ -47,11 +47,11 @@ Tasks follow this format:
 - **Notes**: DONE 2026-03-31. Merged both files into introspection-hub.html (3,883 lines) with two-level tab navigation (4 groups, 19 tabs). Deleted growth-hub.html. Updated all references in index.html and config-center.html. Page count reduced from 13 to 12.
 
 ### TASK-291: [MERGE] Merge docs-hub.html into code-hub.html as unified Code & Documentation Hub
-- **Status**: IN_PROGRESS
+- **Status**: DONE
 - **Assigned**: developer2
 - **Priority**: MEDIUM
 - **Description**: docs-hub.html (2,165 lines, 5 tabs: api, architecture, docs, glossary, recipes) covers API documentation, architecture diagrams, glossary, and recipes. code-hub.html (2,554 lines, 11 tabs: blame, changelog, commits, debt, deps, diffs, docs, genealogy, health, provenance, quality) covers code analysis, version history, and quality metrics. Both pages center on understanding the codebase — docs-hub explains it, code-hub analyzes it. They even share an overlapping "docs" tab. Merge into a single "Code & Documentation Hub" using two-level tab navigation: "Code Analysis" (blame, changelog, commits, diffs, genealogy, provenance), "Code Quality" (debt, deps, health, quality), and "Documentation" (api, architecture, docs, glossary, recipes). All 16 unique tabs preserved (dedup the shared "docs" tab). Removes docs-hub.html. Expected ~3,800 lines after CSS/JS dedup.
-- **Notes**: Natural merge — documentation about code belongs with code analysis. The shared "docs" tab confirms overlap. Use two-level tab navigation pattern established by TASK-288/289. Update all navigation references after merge. Reduces page count by 1.
+- **Notes**: DONE 2026-03-31. Merged both files into code-hub.html (4,596 lines) with two-level tab navigation (3 groups: Code Analysis, Code Quality, Documentation; 16 tabs total). Deleted docs-hub.html. Updated all references in index.html and config-center.html. Page count reduced from 12 to 11.
 
 ### TASK-292: [MERGE] Merge story-hub.html into communications-hub.html as unified Communications & Creative Hub
 - **Status**: TODO
@@ -60,4 +60,4 @@ Tasks follow this format:
 - **Description**: story-hub.html (1,864 lines, 8 tabs: overview, cognition, creative, inner-voice, memory, narrative, notes, personality) covers the system's creative expression, personality, and narrative aspects. communications-hub.html (2,946 lines, 11 tabs: communications, conversation, digest, handoffs, messages, press, rubber-duck, sandbox, standup, system-chat, terminal) covers inter-agent messaging, standups, and interaction channels. Both pages deal with how the system expresses and communicates — one internally (self-narrative, personality, creative writing) and one externally (agent messaging, standups, press releases). Merge into a single "Communications & Creative Hub" using two-level tab navigation: "Messaging" (communications, messages, conversation, system-chat, handoffs), "Operations Comms" (standup, digest, press, sandbox, terminal, rubber-duck), and "Creative & Personality" (overview, cognition, creative, inner-voice, memory, narrative, notes, personality). All 19 original tabs preserved. Removes story-hub.html. Expected ~3,800 lines after CSS/JS dedup.
 - **Notes**: story-hub is the smallest remaining page (1,864 lines), making this a low-risk merge. Creative expression and communication are naturally related — personality and narrative inform how the system communicates. Use two-level tab navigation pattern. Update all navigation references after merge. Reduces page count by 1.
 
-*Last updated: 2026-03-31 13:15 UTC*
+*Last updated: 2026-03-31 14:30 UTC*
