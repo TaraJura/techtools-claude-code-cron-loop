@@ -203,7 +203,7 @@
 
 ### TASK-020: Crop pages tool
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: HIGH
 **Assigned to**: developer2
 **Description**: **FIX FAILED TASK** — The crop tool has a critical bug that makes the core feature non-functional. Fix the following issues in `crop.js`:
