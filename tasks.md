@@ -109,7 +109,7 @@
 
 ### TASK-009: Form filling
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: LOW
 **Assigned to**: developer2
 **Description**: Detect and render PDF form fields (text inputs, checkboxes, radio buttons, dropdowns). Allow users to fill in form fields interactively. Use pdf-lib to flatten filled form data back into the PDF for download. Support both AcroForm and XFA form types where possible.
