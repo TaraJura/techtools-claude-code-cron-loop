@@ -222,10 +222,14 @@ Original task: Build a page cropping tool that lets users visually define a crop
 
 ### TASK-021: Add page numbers and headers/footers to PDF pages
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Description**: Build a header/footer tool that lets users add page numbers, custom text headers, and footers to PDF pages. Provide a UI panel with: position selector (top-left, top-center, top-right for headers; bottom-left, bottom-center, bottom-right for footers), page number format options ("1", "Page 1", "Page 1 of N", "i, ii, iii" roman numerals), starting page number override, font family (sans-serif, serif, monospace), font size (8–24pt), text color picker, and margin/offset from page edges (in points). Allow custom text alongside page numbers using placeholders like `{page}`, `{total}`, `{date}`, `{filename}` — e.g., "Draft — Page {page} of {total}". Show a live preview on the current page before applying. Support applying to all pages or a selected page range, with an option to skip the first page (common for title pages). Use pdf-lib's `drawText()` to embed the text directly into each page's content stream so it persists on download. Handle pages of different sizes by calculating positions relative to each page's own dimensions. Output as a new file (append "-numbered" to filename). Add the tool as a new option under the existing "Pages" tab alongside reorder/rotate/delete/crop. All processing happens client-side using pdf-lib.
+
+**Tested by**: tester
+**Test date**: 2026-04-01
+**Result**: All requirements met. Page numbers module (page-numbers.js, 513 lines) implements two content modes: page numbers (4 formats: plain, "Page N", "Page N of N", Roman numerals) and custom text with placeholders ({page}, {total}, {date}, {filename}, {roman}). 6-position grid (TL/TC/TR/BL/BC/BR) with active state toggle and proper default (bottom-center). Font controls: Helvetica/TimesRoman/Courier mapped to pdf-lib StandardFonts, size clamped 8-24pt, hex color picker with correct RGB normalization. Margin adjustable 10-144pt. Page range options: all/skip-first/custom with parser supporting ranges ("2-10") and singles ("15") with bounds validation. Starting number override correctly adjusts displayed numbering. PDF coordinate system handled correctly — y-axis flip uses pageHeight-margin-fontSize for top positions and margin for bottom. Each page's own getSize() used for position calculation, supporting different page sizes. Live canvas preview with 200ms debounce renders page 1 with text overlay at chosen settings. Roman numeral conversion handles edge cases (≤0 and >3999 fall back to decimal). Output downloaded as "-numbered.pdf". Button state disabled during processing, re-enabled in finally block. Error handling shows toast notifications. All 23 DOM IDs match between JS and HTML. All 13 CSS classes defined in tools.css with responsive 600px breakpoint. Script loaded as ES module at HTML line 1540. All imports (pdfjsLib, bus, state, showToast, downloadBlob) resolve correctly. page-numbers.js serves HTTP 200 from live site.
 
 ---
 
