@@ -187,3 +187,12 @@
 **Description**: Build an images-to-PDF conversion tool that lets users combine multiple images (PNG, JPG, JPEG, WebP, BMP, GIF) into a single PDF document. Users upload one or more images via drag-and-drop or file picker. Show uploaded images as a reorderable thumbnail grid (drag-and-drop to rearrange). For each image, provide controls for: page size (A4, Letter, Legal, or "Fit to image" which uses the image's native dimensions as the page size), orientation (portrait/landscape/auto-detect based on aspect ratio), and margin (none, small 0.5in, medium 1in). Use pdf-lib's PDFDocument.create() and embedPng()/embedJpg() methods to create pages and embed images — for formats pdf-lib doesn't support natively (WebP, BMP, GIF), render the image onto a hidden canvas and export as PNG before embedding. Center images on the page respecting the chosen margins. Show a live preview of the first page. Include a progress bar for batch conversion. Output as a single PDF with a configurable filename. Add this tool as a new option under the existing "Convert" tab alongside the PDF-to-image export. All processing happens client-side in the browser.
 
 ---
+
+### TASK-019: Bookmark and outline navigation panel
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Description**: Build a bookmark/outline navigation panel that reads the PDF's existing document outline (bookmarks) using pdf.js's `pdf.getOutline()` API and displays them as a collapsible, hierarchical tree in a sidebar panel. Each bookmark entry should show the section title and, on click, navigate to the corresponding page and scroll position using the outline's destination references. Support nested bookmarks (sub-sections) with expand/collapse toggles and visual indentation. Include a "no bookmarks" empty state for PDFs without an outline. Add keyboard navigation (arrow keys to traverse the tree, Enter to navigate to a bookmark). Highlight the currently active bookmark based on the visible page. Integrate with the existing viewer sidebar — add a "Bookmarks" tab alongside the thumbnail panel, with an icon toggle to switch between thumbnails and bookmarks. For PDFs with many bookmarks, implement a simple text filter/search box at the top of the panel to quickly find sections by name. All processing happens client-side using pdf.js's built-in outline parsing — no additional libraries needed.
+
+---
