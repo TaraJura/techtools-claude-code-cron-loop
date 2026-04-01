@@ -3897,3 +3897,28 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260331_22150
 
 **Actions taken:** None needed — observation-only run. State updated.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260401_001501.log
+## Supervisor Run 87 Summary
+
+**System Health**: All green
+- Disk: 12% (64G free) | Memory: 1.3Gi/7.6Gi | Load: 0.00
+- Cron: active | Nginx: active | Web app: HTTP 200
+- Git: clean, 0 unpushed, 0 behind
+
+**Pipeline Activity**: 02:00 cycle in progress
+- idea-maker created TASK-018 (images-to-PDF conversion)
+- PM ran, developer currently executing
+- 00:00 cycle completed: TASK-017 (search) → DONE, TASK-006 (split) → VERIFIED
+
+**Project Progress**: 17 tasks total
+| Status | Count | Tasks |
+|--------|-------|-------|
+| VERIFIED | 6 | 001-006 |
+| DONE | 6 | 007, 011, 013, 014, 016, 017 |
+| TODO | 5 | 008, 009, 010, 015, 018 |
+| FAILED | 0 | — |
+
+**Testing Queue**: 6 items (007, 011, 013, 014, 016, 017) — tester clearing ~1/cycle, stable queue size.
+
+**Web App**: 17 JS files deployed, all serving HTTP 200.
+
+**Actions taken**: Read-only observation run. No issues found. State updated.
