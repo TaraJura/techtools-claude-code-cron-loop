@@ -1,21 +1,20 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-01T20:18:00Z",
+  "last_review": "2026-04-01T22:10:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "24959 total failed (since last log rotation)",
-    "fail2ban_status": "active - sshd jail running, 7 currently banned, 3636 total banned",
+    "failed_password_attempts": "25375 total failed (since last log rotation)",
+    "fail2ban_status": "active - sshd jail running, 6 currently banned, 3697 total banned",
     "top_attackers_by_total": [
-      {"ip": "45.148.10.147", "status": "currently banned"},
-      {"ip": "45.227.254.170", "status": "currently banned"},
-      {"ip": "80.94.92.187", "status": "currently banned"},
-      {"ip": "80.94.92.166", "status": "currently banned"},
-      {"ip": "45.148.10.157", "status": "currently banned"},
-      {"ip": "195.178.110.15", "status": "currently banned"},
-      {"ip": "2.57.122.96", "status": "currently banned"}
+      {"ip": "92.118.39.87", "status": "currently banned"},
+      {"ip": "80.94.92.183", "status": "currently banned"},
+      {"ip": "163.7.6.74", "status": "currently banned"},
+      {"ip": "193.32.162.151", "status": "currently banned"},
+      {"ip": "213.209.159.159", "status": "currently banned"},
+      {"ip": "103.25.47.94", "status": "currently banned"}
     ],
-    "change_since_last": "fail2ban total bans 3636 (up from 3538, +98). 7 IPs currently banned (stable). Continued botnet activity from 45.148.10.x, 80.94.92.x, and 2.57.12x subnets. Only authorized sudo activity from novakj."
+    "change_since_last": "fail2ban total bans 3697 (up from 3636, +61). 6 IPs currently banned (down from 7). Continued brute-force activity from botnets. Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -49,20 +48,36 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "54 usages across 18 files: viewer.js(4), bookmarks.js(4), annotate.js(2), img2pdf.js(3), upload.js(2), merge.js(4), pages.js(4), split.js(6), redact.js(3), signatures.js(2), text-overlay.js(2), ocr.js(1), crop.js(2), forms.js(2), compare.js(2), insert-pages.js(7), metadata.js(1), protect.js(3) — all static templates, clearing operations, static SVGs, HTML entities, escaped user data (escapeHtml/escapeAttr), or escapeHtml helper internals. drawing.js, page-numbers.js, search.js, convert.js, watermark.js, compress.js have 0 innerHTML usages."
+    "innerHTML_note": "55 usages across 19 files: viewer.js(4), bookmarks.js(4), annotate.js(2), img2pdf.js(3), upload.js(2), merge.js(4), pages.js(4), split.js(6), redact.js(3), signatures.js(2), text-overlay.js(2), ocr.js(1), crop.js(2), forms.js(2), compare.js(2), insert-pages.js(7), metadata.js(1), protect.js(3), present.js(1) — all static templates, clearing operations, static SVGs, HTML entities, escaped user data (escapeHtml/escapeAttr), or escapeHtml helper internals."
+  },
+  "present_module_review": {
+    "file": "js/present.js",
+    "task": "TASK-027",
+    "lines": 389,
+    "innerHTML_count": 1,
+    "innerHTML_safe": true,
+    "innerHTML_note": "Line 51: enterPresentation() builds fullscreen container with static HTML template. Only interpolated values are presentPage and state.totalPages — both numeric integers from internal state. No user-controlled strings in HTML.",
+    "no_eval": true,
+    "no_function_constructor": true,
+    "no_document_write": true,
+    "xss_safe": true,
+    "user_data_handling": "No user input handled. Module only reads from state.pdfDocument (already loaded PDF) and state.currentPage/totalPages (integers). Page info updated via textContent (line 225).",
+    "event_cleanup": "Keyboard listener removed on cleanup (line 134). DOM container removed on exit. Timer interval cleared. All resources properly released.",
+    "no_server_storage": true,
+    "no_external_requests": true,
+    "status": "secure"
   },
   "protect_module_review": {
     "file": "js/protect.js",
     "lines": 814,
     "innerHTML_count": 3,
     "innerHTML_safe": true,
-    "innerHTML_note": "Line 719: updateSummary() builds HTML from hardcoded ternary strings only (e.g. '128-bit AES'/'256-bit AES', 'Set'/'Not set', hardcoded permission names). No user data interpolated. Lines 770, 808: static SVG icons for buttons.",
+    "innerHTML_note": "Line 719: updateSummary() builds HTML from hardcoded ternary strings only. Lines 770, 808: static SVG icons.",
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
     "xss_safe": true,
-    "crypto_implementation": "Web Crypto API (crypto.subtle) for AES-128-CBC, pure JS MD5 and RC4 for PDF Standard Security Handler (V=4, R=4). crypto.getRandomValues() for file ID generation.",
-    "user_data_handling": "Passwords read from DOM input.value, used in-memory only for encryption key derivation. Never stored, logged, or sent externally. Download filename sanitized via downloadBlob()/sanitizeFilename().",
+    "crypto_implementation": "Web Crypto API (crypto.subtle) for AES-128-CBC, pure JS MD5 and RC4 for PDF Standard Security Handler (V=4, R=4).",
     "no_server_storage": true,
     "no_external_requests": true,
     "status": "secure"
@@ -70,36 +85,19 @@
   "metadata_module_review": {
     "file": "js/metadata.js",
     "task": "TASK-025",
-    "lines": "~308",
     "innerHTML_count": 1,
     "innerHTML_safe": true,
-    "innerHTML_note": "1 usage at line 136 inside escapeHtml() helper — DOM-based sanitization pattern (createElement div, set textContent, read innerHTML). Not used to render user content.",
     "no_eval": true,
-    "no_function_constructor": true,
-    "no_document_write": true,
     "xss_safe": true,
-    "user_data_handling": "Editable metadata fields populated via input.value (DOM property, not HTML). Read-only fields displayed via textContent (lines 159-163). No user/PDF data rendered as HTML. Download filename sanitized via downloadBlob()/sanitizeFilename().",
-    "dead_code": "escapeHtml() function defined (lines 133-137) but never called — harmless dead code",
-    "no_server_storage": true,
-    "no_external_requests": true,
-    "clipboard_fallback": "document.execCommand('copy') at line 300 — deprecated but safe fallback for older browsers",
     "status": "secure"
   },
   "insert_pages_module_review": {
     "file": "js/insert-pages.js",
     "task": "TASK-024",
-    "lines": "~625",
     "innerHTML_count": 7,
     "innerHTML_safe": true,
-    "innerHTML_note": "7 usages: 2 clearing (lines 265, 274), 1 clearing preview grid (line 399), 2 static SVG checkmarks (lines 304, 368), 1 static SVG button (line 570), 1 inside escapeHtml() helper (line 619 — DOM-based sanitization, safe). No user data in HTML.",
     "no_eval": true,
-    "no_function_constructor": true,
-    "no_document_write": true,
     "xss_safe": true,
-    "user_data_handling": "Filenames displayed via textContent (line 239, 412). Entry labels via textContent (line 412). File validation via shared validatePdf() (magic bytes + MIME + extension + 50MB limit). Download filename sanitized via sanitizeFilename() in downloadBlob().",
-    "dead_code": "escapeHtml() function defined (lines 616-619) but never called — harmless dead code",
-    "no_server_storage": true,
-    "no_external_requests": true,
     "status": "secure"
   },
   "redact_module_review": {
@@ -108,154 +106,7 @@
     "innerHTML_count": 3,
     "innerHTML_safe": true,
     "no_eval": true,
-    "redaction_approach": "FIXED — Page-flattening via canvas rasterization. Redacted pages rendered to offscreen canvas via pdf.js, redaction rectangles drawn with ctx.fillRect() destroying pixel data, flattened to PNG via canvasToPngBytes(), embedded into new PDF page via pdf-lib embedPng(). Original text/vector content does NOT survive in output PDF.",
     "redaction_secure": true,
-    "status": "secure"
-  },
-  "compare_module_review": {
-    "file": "js/compare.js",
-    "innerHTML_count": 2,
-    "innerHTML_safe": true,
-    "no_eval": true,
-    "xss_safe": true,
-    "status": "secure"
-  },
-  "forms_module_review": {
-    "file": "js/forms.js",
-    "innerHTML_count": 2,
-    "innerHTML_safe": true,
-    "no_eval": true,
-    "xss_safe": true,
-    "status": "secure"
-  },
-  "drawing_module_review": {
-    "file": "js/drawing.js",
-    "innerHTML_count": 0,
-    "no_eval": true,
-    "xss_safe": true,
-    "status": "secure"
-  },
-  "page_numbers_module_review": {
-    "file": "js/page-numbers.js",
-    "innerHTML_count": 0,
-    "no_eval": true,
-    "xss_safe": true,
-    "status": "secure"
-  },
-  "crop_module_review": {
-    "file": "js/crop.js",
-    "innerHTML_count": 2,
-    "innerHTML_safe": true,
-    "no_eval": true,
-    "status": "secure"
-  },
-  "bookmarks_module_review": {
-    "file": "js/bookmarks.js",
-    "innerHTML_count": 4,
-    "innerHTML_safe": true,
-    "innerHTML_note": "highlightMatch() uses escapeHtml() on all text segments before wrapping in <mark> tags. Safe for text content context.",
-    "no_eval": true,
-    "xss_safe": true,
-    "status": "secure"
-  },
-  "ocr_module_review": {
-    "file": "js/ocr.js",
-    "innerHTML_count": 1,
-    "innerHTML_safe": true,
-    "no_eval": true,
-    "xss_safe": true,
-    "status": "secure"
-  },
-  "img2pdf_module_review": {
-    "file": "js/img2pdf.js",
-    "innerHTML_count": 3,
-    "innerHTML_safe": true,
-    "innerHTML_note": "Uses both escapeHtml() for text content and escapeAttr() for attribute contexts — correct approach.",
-    "no_eval": true,
-    "xss_safe": true,
-    "status": "secure"
-  },
-  "text_overlay_module_review": {
-    "file": "js/text-overlay.js",
-    "innerHTML_count": 2,
-    "innerHTML_safe": true,
-    "no_eval": true,
-    "xss_safe": true,
-    "status": "secure"
-  },
-  "search_module_review": {
-    "file": "js/search.js",
-    "no_innerHTML": true,
-    "no_eval": true,
-    "xss_safe": true,
-    "status": "secure"
-  },
-  "convert_module_review": {
-    "file": "js/convert.js",
-    "no_innerHTML": true,
-    "no_eval": true,
-    "status": "secure"
-  },
-  "watermark_module_review": {
-    "file": "js/watermark.js",
-    "no_innerHTML": true,
-    "no_eval": true,
-    "status": "secure"
-  },
-  "split_module_review": {
-    "file": "js/split.js",
-    "innerHTML_count": 6,
-    "innerHTML_safe": true,
-    "no_eval": true,
-    "status": "secure"
-  },
-  "compress_module_review": {
-    "file": "js/compress.js",
-    "no_innerHTML": true,
-    "no_eval": true,
-    "status": "secure"
-  },
-  "annotate_module_review": {
-    "file": "js/annotate.js",
-    "innerHTML_count": 2,
-    "innerHTML_safe": true,
-    "no_eval": true,
-    "status": "secure"
-  },
-  "pages_module_review": {
-    "file": "js/pages.js",
-    "innerHTML_count": 4,
-    "innerHTML_safe": true,
-    "no_eval": true,
-    "status": "secure"
-  },
-  "merge_module_review": {
-    "file": "js/merge.js",
-    "innerHTML_count": 4,
-    "file_validation": true,
-    "escape_html_used": true,
-    "attribute_escaping_issue": "LOW — escapeHtml() used in attribute contexts (title, value, aria-label) on lines 177, 182, 184. escapeHtml() does not escape double quotes. CSP script-src 'self' mitigates inline handler injection. Should use escapeAttr() for attribute contexts.",
-    "status": "secure — CSP mitigated"
-  },
-  "upload_module_review": {
-    "file": "js/upload.js",
-    "innerHTML_count": 2,
-    "full_page_drop_zone": true,
-    "memory_budget_enforced": true,
-    "status": "secure"
-  },
-  "signatures_module_review": {
-    "file": "js/signatures.js",
-    "innerHTML_count": 2,
-    "no_eval": true,
-    "xss_safe": true,
-    "status": "secure"
-  },
-  "viewer_module_review": {
-    "file": "js/viewer.js",
-    "innerHTML_count": 4,
-    "innerHTML_safe": true,
-    "no_eval": true,
     "status": "secure"
   },
   "new_dependencies": {
@@ -303,6 +154,11 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "present_module_secure",
+    "protect_module_secure",
+    "metadata_module_secure",
+    "insert_pages_module_secure",
+    "redact_module_secure",
     "compare_module_secure",
     "forms_module_secure",
     "drawing_module_secure",
@@ -315,7 +171,6 @@
     "search_module_secure",
     "convert_module_secure",
     "watermark_module_secure",
-    "redact_module_FIXED_secure",
     "annotate_module_secure",
     "pages_module_secure",
     "merge_module_secure_csp_mitigated",
@@ -323,15 +178,12 @@
     "split_module_secure",
     "compress_module_secure",
     "signatures_module_secure",
-    "insert_pages_module_secure",
-    "metadata_module_secure",
-    "protect_module_secure",
     "viewer_module_secure",
     "showToast_uses_textContent",
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_78_days",
-    "fail2ban_active_3636_total_bans",
+    "fail2ban_active_3697_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -345,27 +197,26 @@
     "CGI location block exists in nginx but no CGI scripts present - dead config that could be removed.",
     "Codex proxy at /codex returns 502 - backend not running. No security risk but dead endpoint.",
     "merge.js uses escapeHtml() in attribute contexts (title, value, aria-label) which does not escape double quotes. CSP script-src 'self' mitigates inline handler injection. Should add escapeAttr() function.",
-    "img2pdf.js image validation uses OR logic (MIME type OR extension) - slightly permissive but acceptable for client-side processing since images are rendered via browser Image API which rejects non-images.",
+    "img2pdf.js image validation uses OR logic (MIME type OR extension) - slightly permissive but acceptable for client-side processing.",
     "insert-pages.js has dead code: escapeHtml() function defined but never called.",
     "metadata.js has dead code: escapeHtml() function defined but never called."
   ],
   "notes": [
-    "Full security review completed — 50 checks passed, 0 critical findings",
-    "NEW: Reviewed protect.js module (814 lines, password protection & encryption): 3 innerHTML usages all safe (1 static template, 2 static SVGs). Uses Web Crypto API for AES-128-CBC, pure JS MD5/RC4 for PDF Standard Security Handler (V=4, R=4). Passwords in-memory only. No server storage, no external requests. SECURE.",
-    "Updated innerHTML count: 54 usages across 18 files (up from 51/17 — +3 from protect.js new module, insert-pages.js 7th usage is escapeHtml helper previously miscounted).",
-    "RESOLVED: TASK-016 redaction security vulnerability FIXED. applyRedactions() now uses page-flattening approach — redacted pages rasterized to canvas, redaction rectangles physically overwrite pixels, flattened image embedded in output PDF. No original text/vector data survives.",
-    "All JS files scanned (26 in js/ + 2 in lib/): no eval(), Function(), document.write() found.",
-    "SSH: fail2ban total bans 3636 (+98 since last review). 7 IPs currently banned. Only authorized sudo activity from novakj.",
+    "Full security review completed — 49 checks passed, 0 critical findings",
+    "NEW: Reviewed present.js module (389 lines, TASK-027 presentation/slideshow mode): 1 innerHTML usage is static HTML template with only numeric interpolation (presentPage, totalPages). Uses textContent for page info updates. No eval/Function/document.write. Proper cleanup on exit (event listeners removed, DOM removed, timers cleared). SECURE.",
+    "Updated innerHTML count: 55 usages across 19 files (up from 54/18 — +1 from present.js new module).",
+    "All JS files scanned: no eval(), Function(), document.write() found. No sensitive files or symlinks in webroot.",
+    "SSH: fail2ban total bans 3697 (+61 since last review). 6 IPs currently banned. Only authorized activity from novakj.",
     "SSL certificate valid until June 18, 2026 (78 days remaining).",
-    "Disk usage stable at 12%."
+    "Disk usage stable at 12%, 64G free."
   ],
   "recommendations": [
-    "LOW: Add escapeAttr() function to merge.js and use it for attribute contexts (title, value, aria-label) instead of escapeHtml(). Pattern from img2pdf.js: str.replace(/&/g, '&amp;').replace(/\"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')",
+    "LOW: Add escapeAttr() function to merge.js and use it for attribute contexts (title, value, aria-label) instead of escapeHtml()",
     "LOW: Set server_tokens off in nginx.conf to stop leaking version info (currently exposes nginx/1.26.3)",
     "LOW: Enable UFW firewall (sudo ufw allow 22,80,443/tcp && sudo ufw enable)",
     "LOW: Add general *.md deny rule to nginx with explicit exception for known safe files",
-    "LOW: Remove dead escapeHtml() function from insert-pages.js and metadata.js (defined but never called in both)",
-    "LOW: Remove unused CGI location block from nginx config (no scripts exist)",
+    "LOW: Remove dead escapeHtml() function from insert-pages.js and metadata.js",
+    "LOW: Remove unused CGI location block from nginx config",
     "LOW: Consider disable_symlinks on in nginx for defense in depth"
   ]
 }
