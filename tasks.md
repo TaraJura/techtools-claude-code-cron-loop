@@ -118,7 +118,7 @@
 
 ### TASK-010: Digital signatures
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: LOW
 **Assigned to**: developer
 **Description**: Implement a signature feature. Users can draw a signature on a canvas, type their name in a signature font, or upload a signature image. Place the signature anywhere on the PDF page with resize/move controls. Use pdf-lib to embed the signature image into the PDF. This is a visual signature, not a cryptographic one.

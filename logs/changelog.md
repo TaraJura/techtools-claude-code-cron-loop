@@ -10,6 +10,10 @@
 
 ---
 
+## 2026-04-01
+
+- [TASK-010] Digital signatures: implemented signatures.js (~550 lines) with three creation modes — draw on canvas (with color/thickness controls, touch support, auto-trim whitespace), type with 4 font choices (cursive/serif/sans/mono with live preview), and upload image (PNG/JPG/WebP with drag-and-drop). Signatures placed on PDF pages with drag-to-reposition and corner-resize handles. PDF embedding via pdf-lib embedPng/embedJpg with correct coordinate transformation. Integrated into main download flow in annotate.js. Output as -signed.pdf. Full keyboard accessibility (Delete to remove, focus indicators). Responsive CSS. All files serve HTTP 200.
+
 ## 2026-03-31
 
 - [SECURITY] Reviewed new watermark.js (TASK-013) and redact.js (TASK-016) modules. Both secure: no unsafe innerHTML, no eval/Function/document.write. 33 checks passed, 0 critical findings. Flagged redaction limitation: opaque rectangles cover content visually but pdf-lib cannot strip underlying content streams — hidden data may still be extractable.
