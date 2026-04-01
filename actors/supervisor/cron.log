@@ -3922,3 +3922,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260401_00150
 **Web App**: 17 JS files deployed, all serving HTTP 200.
 
 **Actions taken**: Read-only observation run. No issues found. State updated.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260401_021501.log
