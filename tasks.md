@@ -163,7 +163,7 @@
 
 ### TASK-016: Redaction tool for permanently removing sensitive content
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: HIGH
 **Assigned to**: developer2
 **Description**: **FIX FAILED TASK** — The redaction tool has a critical security vulnerability: it only draws opaque rectangles over content but does NOT actually remove the underlying text/image data from the PDF. Users are falsely told content is "permanently removed" when it remains fully extractable. Fix `redact.js` to truly destroy underlying content. **Recommended approach from tester**: For each page with redaction marks, render the page to a canvas via pdf.js, draw the redaction rectangles onto the canvas (destroying underlying pixel data), then embed the flattened rasterized image back into a new PDF page via pdf-lib. This page-flattening approach guarantees no original text/vector content survives. Also fix the minor comment inconsistency (lines 533-534 mention a white rectangle that is never drawn). Keep all the existing UI, search-and-redact, mark management, and other working functionality intact — only the core `applyRedactions()` function needs to be rewritten.
