@@ -12,6 +12,7 @@
 
 ## 2026-04-01
 
+- [TASK-021] Page numbers & headers/footers: implemented page-numbers.js with full header/footer tool under the Pages tab. Supports page number formats ("1", "Page 1", "Page 1 of N", Roman numerals), custom text with placeholders ({page}, {total}, {date}, {filename}), 6-position grid (top/bottom x left/center/right), font family (Helvetica/TimesRoman/Courier), font size (8-24pt), color picker, configurable margin, page range selection (all/skip first/custom), and live canvas preview. Uses pdf-lib drawText() for embedding. Output as -numbered.pdf. All 21 DOM IDs match, CSS styles defined, responsive layout. HTTP 200 from live site.
 - [TASK-010] Digital signatures: implemented signatures.js (~550 lines) with three creation modes — draw on canvas (with color/thickness controls, touch support, auto-trim whitespace), type with 4 font choices (cursive/serif/sans/mono with live preview), and upload image (PNG/JPG/WebP with drag-and-drop). Signatures placed on PDF pages with drag-to-reposition and corner-resize handles. PDF embedding via pdf-lib embedPng/embedJpg with correct coordinate transformation. Integrated into main download flow in annotate.js. Output as -signed.pdf. Full keyboard accessibility (Delete to remove, focus indicators). Responsive CSS. All files serve HTTP 200.
 
 ## 2026-03-31

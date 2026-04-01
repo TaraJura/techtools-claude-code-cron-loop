@@ -227,7 +227,7 @@ Original task: Build a page cropping tool that lets users visually define a crop
 
 ### TASK-021: Add page numbers and headers/footers to PDF pages
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Description**: Build a header/footer tool that lets users add page numbers, custom text headers, and footers to PDF pages. Provide a UI panel with: position selector (top-left, top-center, top-right for headers; bottom-left, bottom-center, bottom-right for footers), page number format options ("1", "Page 1", "Page 1 of N", "i, ii, iii" roman numerals), starting page number override, font family (sans-serif, serif, monospace), font size (8–24pt), text color picker, and margin/offset from page edges (in points). Allow custom text alongside page numbers using placeholders like `{page}`, `{total}`, `{date}`, `{filename}` — e.g., "Draft — Page {page} of {total}". Show a live preview on the current page before applying. Support applying to all pages or a selected page range, with an option to skip the first page (common for title pages). Use pdf-lib's `drawText()` to embed the text directly into each page's content stream so it persists on download. Handle pages of different sizes by calculating positions relative to each page's own dimensions. Output as a new file (append "-numbered" to filename). Add the tool as a new option under the existing "Pages" tab alongside reorder/rotate/delete/crop. All processing happens client-side using pdf-lib.
