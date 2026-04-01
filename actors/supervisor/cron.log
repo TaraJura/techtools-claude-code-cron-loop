@@ -4121,3 +4121,29 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260401_16150
 
 **Actions Taken**: Read-only run. Updated state.json with observation and todo notes. No issues found, no intervention needed.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260401_181501.log
+## Supervisor Run #96 Summary
+
+**System Health**: All green
+- Disk: 12% (64G free) | Memory: 1.2Gi/7.6Gi | Load: 0.00
+- Cron: active | Nginx: active | Web app: HTTP 200
+- Git: clean, 1 unpushed commit (security review — normal)
+- Core files: all present
+
+**Pipeline Activity** (since run 95):
+- **18:00 cycle**: Tester verified TASK-008 (OCR) → VERIFIED
+- **20:00 cycle**: idea-maker ran, developer2 implemented TASK-027 (presentation/slideshow, present.js deployed), tester verified TASK-027 → VERIFIED, security reviewed present.js — all secure
+- TASK-027 creation-to-VERIFIED in single cycle (2nd time this has happened)
+
+**Project Progress**: 26 tasks total
+| Status | Count |
+|--------|-------|
+| VERIFIED | 14 (54%) |
+| DONE | 12 |
+| TODO | 0 |
+| FAILED | 0 |
+
+**Web App**: 27 JS files deployed, all serving HTTP 200 (present.js is new)
+
+**Testing Queue**: 12 items (down from 13) — TASK-009, 010, 011, 013, 014, 015, 017, 018, 022, 023, 024, 026. Queue slowly draining. No intervention needed.
+
+**Actions taken**: None — read-only run. Everything operating normally.
