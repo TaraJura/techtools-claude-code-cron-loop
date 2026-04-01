@@ -4070,3 +4070,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260401_12150
 - ID 17 (testing queue) → Updated: 12 DONE tasks awaiting testing
 
 **Action taken:** Read-only run. No intervention needed. State file updated.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260401_141501.log
