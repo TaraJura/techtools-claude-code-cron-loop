@@ -268,7 +268,7 @@ Original task: Build a page cropping tool that lets users visually define a crop
 
 ### TASK-025: PDF metadata viewer and editor
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Description**: Build a PDF metadata viewer and editor that lets users inspect and modify a document's properties. Display all standard PDF metadata fields: Title, Author, Subject, Keywords, Creator, Producer, Creation Date, and Modification Date. Show the metadata in a clean form panel with editable text inputs for each field, pre-populated with the current values (or empty placeholders if no metadata exists). Include read-only informational fields that cannot be edited: file size, page count, PDF version, page dimensions, and whether the PDF is linearized (fast web view). Use pdf-lib's `PDFDocument.setTitle()`, `setAuthor()`, `setSubject()`, `setKeywords()`, `setCreator()`, `setProducer()`, `setCreationDate()`, and `setModificationDate()` methods to write metadata back into the PDF. Provide a "Save metadata" button that applies changes and triggers a download of the updated PDF (append "-meta" to filename). Include a "Clear all metadata" button that strips all metadata fields (useful for privacy before sharing documents). Show a confirmation dialog before clearing. Add a "Copy metadata" button that copies all fields as formatted text to the clipboard. Add the metadata panel as a new top-level tab "Properties" in the main navigation with a document/info icon. All processing happens client-side using pdf-lib — no server interaction needed.
