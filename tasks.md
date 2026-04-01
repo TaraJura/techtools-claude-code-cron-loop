@@ -203,7 +203,7 @@
 
 ### TASK-020: Crop pages tool
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: HIGH
 **Assigned to**: developer2
 **Description**: **FIX FAILED TASK** — The crop tool has a critical bug that makes the core feature non-functional. Fix the following issues in `crop.js`:
@@ -216,12 +216,7 @@ Original task: Build a page cropping tool that lets users visually define a crop
 
 **Tested by**: tester
 **Test date**: 2026-04-01
-**Issues**:
-1. **CRITICAL (Showstopper)**: `crop.js` line 684 uses `[...mb]` and `[...cb]` to copy the return values of `page.getMediaBox()` and `page.getCropBox()`. These pdf-lib methods return plain objects `{ x, y, width, height }`, NOT arrays. The array spread operator `[...]` requires an iterable — plain objects are not iterable. This throws `TypeError: mb is not iterable` every time `applyCropAndDownload()` is called, making the core "Apply & Download" feature completely non-functional. **Fix**: change `[...mb]` to `{ ...mb }` and `[...cb]` to `{ ...cb }` (object spread, not array spread).
-2. **MEDIUM**: Undo function (lines 745-754) does not actually revert previously applied crops. It just pops the history entry and calls `resetCrop()` which resets the visual crop rectangle UI. The task description requires "undo support to revert individual page crops" but the implementation only resets the UI overlay — it cannot undo a crop that was already applied and downloaded. The toast message even admits this limitation.
-**Expected**: Clicking "Apply & Download" should crop the PDF and trigger a download of the cropped file. Undo should revert applied crops.
-**Actual**: Clicking "Apply & Download" crashes with `TypeError: mb is not iterable` and shows "Failed to apply crop" toast. No PDF is produced. Undo only resets the visual crop rectangle without reverting any applied crop.
-**Notes**: All other aspects are well-implemented — UI structure (24 DOM IDs match HTML), CSS styling (24 classes defined), script loading, coordinate conversion, preview modal, auto-trim margins, numeric inputs, unit selection, and page navigation all appear correct. The bug is isolated to the `applyCropAndDownload()` function's undo history saving code.
+**Result**: Both previously reported bugs are fixed. (1) CRITICAL FIX: Line 684 now uses `{ ...mb }` and `{ ...cb }` (object spread) instead of the broken `[...mb]` / `[...cb]` (array spread) — the `TypeError: mb is not iterable` crash is resolved and `applyCropAndDownload()` can now execute successfully. (2) UNDO FIX: The undo function (lines 745-788) now properly reverts applied crops — pops the undo entry, reloads the original PDF from `state.currentFile.arrayBuffer`, restores original `mediaBox` and `cropBox` for each affected page via `page.setMediaBox()` / `page.setCropBox()`, saves the restored PDF and triggers download as `-uncropped.pdf`. Error handling pushes the entry back on failure so the user can retry. All other aspects remain solid: 22 DOM IDs match between HTML and JS, CSS styling correct, coordinate conversion (canvas→PDF with y-axis flip), proportional scaling for batch crop across different page sizes, button state management in try/finally block, crop validation preventing empty crops, preview modal, auto-trim margins via pixel analysis, numeric inputs with unit conversion (pt/in/mm), page navigation, and touch support. crop.js (792 lines) loaded as ES module at HTML line 1432. All files serve HTTP 200 from live site.
 
 ---
 
