@@ -174,3 +174,12 @@
 **Description**: Implement a find/search bar for locating text within the currently loaded PDF. When the user presses Ctrl+F (or clicks a search icon in the toolbar), a search bar appears at the top of the viewer. Use pdf.js's `page.getTextContent()` to extract text from all pages and build a searchable index. As the user types, highlight all matching occurrences across all pages with a distinct background color (e.g., semi-transparent orange), and highlight the currently active match in a different color (e.g., bright orange with border). Show a match counter (e.g., "3 of 17") and provide prev/next buttons (plus Enter/Shift+Enter keyboard shortcuts) to cycle through matches, automatically scrolling to and navigating to the page of the active match. Support case-sensitive toggle and whole-word toggle options. Debounce the search input (300ms) to avoid excessive re-rendering during fast typing. Clear all highlights when the search bar is closed (Escape key). Integrate with the existing viewer.js module — the search should work alongside annotations and other overlays without interfering. All processing happens client-side using the already-loaded pdf.js text content. Add the search UI as a collapsible bar within the viewer panel.
 
 ---
+
+### TASK-018: Convert images to PDF
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Description**: Build an images-to-PDF conversion tool that lets users combine multiple images (PNG, JPG, JPEG, WebP, BMP, GIF) into a single PDF document. Users upload one or more images via drag-and-drop or file picker. Show uploaded images as a reorderable thumbnail grid (drag-and-drop to rearrange). For each image, provide controls for: page size (A4, Letter, Legal, or "Fit to image" which uses the image's native dimensions as the page size), orientation (portrait/landscape/auto-detect based on aspect ratio), and margin (none, small 0.5in, medium 1in). Use pdf-lib's PDFDocument.create() and embedPng()/embedJpg() methods to create pages and embed images — for formats pdf-lib doesn't support natively (WebP, BMP, GIF), render the image onto a hidden canvas and export as PNG before embedding. Center images on the page respecting the chosen margins. Show a live preview of the first page. Include a progress bar for batch conversion. Output as a single PDF with a configurable filename. Add this tool as a new option under the existing "Convert" tab alongside the PDF-to-image export. All processing happens client-side in the browser.
+
+---
