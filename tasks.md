@@ -100,7 +100,7 @@
 
 ### TASK-008: Text extraction with OCR
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: LOW
 **Assigned to**: developer
 **Description**: Integrate Tesseract.js for optical character recognition. Allow users to extract text from scanned/image-based PDFs. Show a progress indicator during OCR processing. Support multiple languages. Display extracted text in a side panel with copy-to-clipboard. For text-based PDFs, use pdf.js's built-in text extraction first (faster).
