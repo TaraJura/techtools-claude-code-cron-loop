@@ -4095,3 +4095,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260401_14150
 **Testing Queue**: 12 DONE tasks awaiting verification. With backlog at 0 TODO, the pipeline is now in "testing drain" mode — the queue should shrink steadily as the tester processes 1-2 per cycle without new tasks being added.
 
 **Actions Taken**: Read-only run. Updated state.json with observation and todo notes. No issues found, no intervention needed.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260401_161501.log
