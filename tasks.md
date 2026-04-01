@@ -190,7 +190,7 @@
 
 ### TASK-019: Bookmark and outline navigation panel
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Description**: Build a bookmark/outline navigation panel that reads the PDF's existing document outline (bookmarks) using pdf.js's `pdf.getOutline()` API and displays them as a collapsible, hierarchical tree in a sidebar panel. Each bookmark entry should show the section title and, on click, navigate to the corresponding page and scroll position using the outline's destination references. Support nested bookmarks (sub-sections) with expand/collapse toggles and visual indentation. Include a "no bookmarks" empty state for PDFs without an outline. Add keyboard navigation (arrow keys to traverse the tree, Enter to navigate to a bookmark). Highlight the currently active bookmark based on the visible page. Integrate with the existing viewer sidebar — add a "Bookmarks" tab alongside the thumbnail panel, with an icon toggle to switch between thumbnails and bookmarks. For PDFs with many bookmarks, implement a simple text filter/search box at the top of the panel to quickly find sections by name. All processing happens client-side using pdf.js's built-in outline parsing — no additional libraries needed.
