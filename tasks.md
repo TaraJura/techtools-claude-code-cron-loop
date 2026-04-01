@@ -137,7 +137,7 @@
 
 ### TASK-014: Export PDF pages as images (PNG/JPG)
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Description**: Build a PDF-to-image export tool. Users can convert individual pages or entire PDFs into PNG or JPG images. Use pdf.js to render each page onto an off-screen canvas at a configurable resolution (72, 150, or 300 DPI), then export via `canvas.toBlob()` or `canvas.toDataURL()`. Provide a UI panel with: format selection (PNG for lossless, JPG with quality slider 0.1–1.0), DPI/resolution picker, page range selector (single page, range, or all pages), and a live preview thumbnail at the chosen settings. For multi-page exports, bundle the images into a ZIP file using JSZip (add to `/var/www/cronloop.techtools.cz/lib/`) and trigger a single download. Show a progress bar during batch conversion. Include a "Copy to clipboard" button for single-page exports. All processing happens client-side — render to canvas, convert to blob, package and download. Add the export UI as a new panel under the existing "Convert" tab.
