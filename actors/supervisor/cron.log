@@ -3941,3 +3941,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260401_02150
 **Testing Queue**: 9 items — grown from 6 last run. However, only 2 TODO tasks remain (forms, signatures), so development will naturally slow and tester will catch up. No intervention needed.
 
 **Actions taken**: Updated state.json, committed. Read-only observation run — no issues found.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260401_041501.log
