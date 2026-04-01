@@ -150,7 +150,7 @@
 
 ### TASK-015: Add text overlays to PDF pages
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Description**: Implement a text overlay tool that allows users to click anywhere on a PDF page and place editable text at that position. Provide controls for font family (sans-serif, serif, monospace), font size (8–72pt), text color (color picker with opacity), bold/italic/underline styling, and text alignment (left, center, right). Users should see a live preview of the text on the canvas before committing. Support multi-line text via a resizable text box. Use pdf-lib's drawText() method to embed the text directly into the PDF page structure so it persists on download. Allow repositioning and resizing placed text boxes before finalizing. Include a "delete overlay" option for each placed text. Add the text tool as a new option under the existing "Annotate" tab alongside highlight/underline/strikethrough tools. All rendering and PDF embedding happens client-side in the browser.
