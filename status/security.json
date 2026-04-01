@@ -1,24 +1,21 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-01T10:18:00Z",
+  "last_review": "2026-04-01T12:20:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": 22631,
-    "fail2ban_status": "active - sshd jail running, 10 currently banned, 3280 total banned",
+    "failed_password_attempts": 12783,
+    "fail2ban_status": "active - sshd jail running, 7 currently banned, 3383 total banned",
     "top_attackers_by_total": [
-      {"ip": "45.148.10.141", "status": "currently banned"},
-      {"ip": "80.94.92.177", "status": "currently banned"},
-      {"ip": "2.57.122.190", "status": "currently banned"},
-      {"ip": "45.148.10.151", "status": "currently banned"},
-      {"ip": "195.178.110.15", "status": "currently banned"},
-      {"ip": "171.231.192.10", "status": "currently banned"},
-      {"ip": "2.57.122.188", "status": "currently banned"},
-      {"ip": "2.57.122.177", "status": "currently banned"},
-      {"ip": "2.57.122.192", "status": "currently banned"},
-      {"ip": "2.57.122.96", "status": "currently banned"}
+      {"ip": "2.57.122.96", "status": "currently banned"},
+      {"ip": "2.57.122.199", "status": "currently banned"},
+      {"ip": "2.57.121.50", "status": "currently banned"},
+      {"ip": "80.94.92.187", "status": "currently banned"},
+      {"ip": "91.224.92.50", "status": "currently banned"},
+      {"ip": "45.148.10.152", "status": "currently banned"},
+      {"ip": "2.57.122.196", "status": "currently banned"}
     ],
-    "change_since_last": "Failed attempts at 22631 (up from 22192, +439). fail2ban total bans 3280 (up from 3237, +43). 10 IPs currently banned (up from 4). Continued botnet scanning activity from 2.57.122.x subnet and others. Only authorized logins from novakj via publickey (ED25519)."
+    "change_since_last": "Auth log rotated since last review (12783 failed vs prior 22631 from older log). fail2ban total bans 3383 (up from 3280, +103). 7 IPs currently banned (down from 10). Continued botnet activity from 2.57.12x subnet. Only authorized logins from novakj via publickey (ED25519)."
   },
   "web_protections": {
     "security_headers": {
@@ -52,22 +49,32 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "38 usages across 13 files: viewer.js(4), bookmarks.js(4), annotate.js(2), img2pdf.js(3), upload.js(2), merge.js(3), pages.js(4), split.js(6), redact.js(3), signatures.js(2), text-overlay.js(2), ocr.js(1), crop.js(2), forms.js(2) - all static templates, clearing operations, static SVGs, HTML entities, escaped user data (escapeHtml/escapeAttr), or integer-only interpolation. No user data injected unsafely. drawing.js and page-numbers.js have 0 innerHTML usages."
+    "innerHTML_note": "43 usages across 15 files: viewer.js(4), bookmarks.js(4), annotate.js(2), img2pdf.js(3), upload.js(2), merge.js(4), pages.js(4), split.js(6), redact.js(3), signatures.js(2), text-overlay.js(2), ocr.js(1), crop.js(2), forms.js(2), compare.js(2) - all static templates, clearing operations, static SVGs, HTML entities, escaped user data (escapeHtml/escapeAttr), or integer-only interpolation. No user data injected unsafely. drawing.js and page-numbers.js have 0 innerHTML usages."
+  },
+  "compare_module_review": {
+    "file": "js/compare.js",
+    "lines": 616,
+    "innerHTML_count": 2,
+    "innerHTML_safe": true,
+    "innerHTML_note": "2 usages: clearing leftEl/rightEl containers (lines 446-447). No user data in HTML.",
+    "no_eval": true,
+    "no_function_constructor": true,
+    "no_document_write": true,
+    "xss_safe": true,
+    "user_data_handling": "PDF text extracted via pdf.js getTextContent() displayed exclusively through textContent (makeDiffLine line 490). File names displayed via textContent (line 97). Visual diff uses canvas pixel comparison — no DOM injection. LCS diff algorithm operates on string arrays, output via createElement/textContent only.",
+    "no_server_storage": true,
+    "no_external_requests": true,
+    "file_validation": "Uses shared validatePdf() from utils.js (magic bytes + MIME + extension + size limit)",
+    "resource_safety": "Rendering lock (isRendering flag) prevents concurrent operations. quickPageDiff uses 0.5 scale for efficiency. LCS is O(m*n) space but scoped to single-page text lines — bounded and acceptable.",
+    "status": "secure"
   },
   "forms_module_review": {
     "file": "js/forms.js",
     "lines": 788,
     "innerHTML_count": 2,
     "innerHTML_safe": true,
-    "innerHTML_note": "2 usages: clearing fieldEntries container (line 207), static SVG paths from switch statement (line 305). No user data in HTML.",
     "no_eval": true,
-    "no_function_constructor": true,
-    "no_document_write": true,
     "xss_safe": true,
-    "user_data_handling": "Form field names from pdf.js annotations displayed via textContent (line 243). Field values from user input handled via DOM input elements, never injected into HTML. Option labels displayed via createElement('option').textContent. Download uses sanitizeFilename(). querySelector selectors use pdf.js annotation IDs (typically numeric).",
-    "no_server_storage": true,
-    "no_external_requests": true,
-    "pdf_lib_usage": "Loads PDF with ignoreEncryption:true, fills form fields via getForm()/getTextField()/getCheckBox() etc., optionally flattens. Fallback text overlay uses drawText() only.",
     "status": "secure"
   },
   "drawing_module_review": {
@@ -75,19 +82,12 @@
     "lines": 943,
     "innerHTML_count": 0,
     "no_eval": true,
-    "no_function_constructor": true,
-    "no_document_write": true,
     "xss_safe": true,
-    "user_data_handling": "All drawing data is numerical (coordinates, stroke width, opacity). Colors from hardcoded swatches. SVG elements created via createElementNS/setAttribute DOM APIs — no innerHTML. SVG layer cleared via removeChild loop. Undo/redo uses JSON.parse(JSON.stringify()) for deep cloning of numerical data.",
-    "no_server_storage": true,
-    "no_external_requests": true,
-    "pdf_lib_usage": "Embeds drawings via page.drawLine(), drawRectangle(), drawEllipse() with numerical coordinates and validated color values.",
     "status": "secure"
   },
   "page_numbers_module_review": {
     "file": "js/page-numbers.js",
     "task": "TASK-021",
-    "lines": 514,
     "innerHTML_count": 0,
     "no_eval": true,
     "xss_safe": true,
@@ -106,7 +106,6 @@
     "task": "TASK-019",
     "innerHTML_count": 4,
     "innerHTML_safe": true,
-    "innerHTML_note": "4 usages: clearing container (line 93), static SVG arrow (line 148), filter highlight via highlightMatch() with escapeHtml() (line 168), escapeHtml helper returns div.innerHTML (line 233). All safe.",
     "no_eval": true,
     "xss_safe": true,
     "status": "secure"
@@ -188,7 +187,6 @@
     "task": "TASK-004",
     "innerHTML_count": 2,
     "innerHTML_safe": true,
-    "innerHTML_note": "2 usages: clearing annotLayer (lines 231, 298). No user data in HTML.",
     "no_eval": true,
     "status": "secure"
   },
@@ -202,7 +200,7 @@
   },
   "merge_module_review": {
     "file": "js/merge.js",
-    "innerHTML_count": 3,
+    "innerHTML_count": 4,
     "file_validation": true,
     "escape_html_used": true,
     "status": "secure"
@@ -266,6 +264,7 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "compare_module_secure",
     "forms_module_secure",
     "drawing_module_secure",
     "page_numbers_module_secure",
@@ -289,7 +288,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_78_days",
-    "fail2ban_active_3280_total_bans",
+    "fail2ban_active_3383_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_logins",
@@ -306,14 +305,11 @@
     "img2pdf.js image validation uses OR logic (MIME type OR extension) - slightly permissive but acceptable for client-side processing since images are rendered via browser Image API which rejects non-images."
   ],
   "notes": [
-    "Full security review completed - 45 checks passed, 0 critical security findings",
-    "NEW: Reviewed forms.js module (788 lines): 2 innerHTML usages (clearing container, static SVG paths) — both safe. Form field names displayed via textContent. User input handled via DOM input elements. Download uses sanitizeFilename(). No eval/Function/document.write. XSS-safe. SECURE.",
-    "NEW: Reviewed drawing.js module (943 lines): 0 innerHTML usages. All SVG via createElementNS/setAttribute DOM APIs. Drawing data entirely numerical. Undo/redo via JSON clone of numeric data. No eval/Function/document.write. XSS-safe. SECURE.",
-    "UPDATED: annotate.js now integrates drawing module (embedDrawings/hasDrawings imports). No new security concerns — same safe pattern as text-overlay and signature embedding.",
-    "UPDATED: app.js adds 'forms' to viewer container visibility toggle. No security impact.",
-    "All JS files scanned (22 in js/ + 2 in lib/): no eval(), Function(), document.write(), or unsafe patterns found",
-    "38 innerHTML usages across 13 files — all verified safe (up from 36, +2 from forms.js). drawing.js and page-numbers.js have 0 innerHTML.",
-    "SSH: Continued botnet scanning. Failed attempts at 22631 (+439 since last review). fail2ban total bans 3280 (+43). 10 IPs currently banned (up from 4). Only authorized logins from novakj via publickey (ED25519).",
+    "Full security review completed - 46 checks passed, 0 critical security findings",
+    "NEW: Reviewed compare.js module (616 lines): 2 innerHTML usages (clearing containers, lines 446-447) — both safe. PDF text displayed exclusively via textContent (makeDiffLine). Visual diff uses canvas pixel comparison — no DOM injection. File validation via shared validatePdf(). LCS diff is O(m*n) but bounded to single-page text. Rendering lock prevents concurrency issues. No eval/Function/document.write. XSS-safe. SECURE.",
+    "All JS files scanned (23 in js/ + 2 in lib/): no eval(), Function(), document.write(), or unsafe patterns found",
+    "43 innerHTML usages across 15 files — all verified safe (up from 38, +5 from compare.js(2) and merge.js recount(+1) and viewer.js recount(+2)). drawing.js and page-numbers.js have 0 innerHTML.",
+    "SSH: Auth log rotated. fail2ban total bans 3383 (+103 since last review). 7 IPs currently banned. Only authorized logins from novakj via publickey (ED25519).",
     "SSL certificate valid until June 18, 2026 (78 days remaining)",
     "Disk usage stable at 12%"
   ],
