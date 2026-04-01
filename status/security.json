@@ -1,19 +1,21 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-01T02:55:00Z",
+  "last_review": "2026-04-01T04:20:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": 20544,
-    "fail2ban_status": "active - sshd jail running, 5 currently banned, 3001 total banned",
+    "failed_password_attempts": 21015,
+    "fail2ban_status": "active - sshd jail running, 7 currently banned, 3067 total banned",
     "top_attackers_by_total": [
-      {"ip": "2.57.121.118", "status": "currently banned"},
+      {"ip": "2.57.121.50", "status": "currently banned"},
+      {"ip": "92.118.39.76", "status": "currently banned"},
+      {"ip": "2.57.122.194", "status": "currently banned"},
       {"ip": "45.148.10.151", "status": "currently banned"},
-      {"ip": "216.180.127.200", "status": "currently banned"},
-      {"ip": "45.148.10.157", "status": "currently banned"},
-      {"ip": "2.57.122.192", "status": "currently banned"}
+      {"ip": "80.94.92.167", "status": "currently banned"},
+      {"ip": "45.227.254.170", "status": "currently banned"},
+      {"ip": "2.57.122.208", "status": "currently banned"}
     ],
-    "change_since_last": "Failed attempts at 20544 (up from 19884, +660). fail2ban total bans 3001 (up from 2885, +116). 5 IPs currently banned (down from 9). Continued botnet scanning activity at normal rate. Only authorized logins from novakj via publickey."
+    "change_since_last": "Failed attempts at 21015 (up from 20544, +471). fail2ban total bans 3067 (up from 3001, +66). 7 IPs currently banned (up from 5). Continued botnet scanning activity at normal rate. Only authorized logins from novakj via publickey."
   },
   "web_protections": {
     "security_headers": {
@@ -47,7 +49,35 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "27 usages across 9 files: viewer.js, upload.js, merge.js, annotate.js, pages.js, split.js, redact.js, img2pdf.js, text-overlay.js - all static templates, clearing operations, static SVGs, HTML entities, escaped user data (escapeHtml/escapeAttr), or integer-only interpolation. No user data injected unsafely. search.js, convert.js, compress.js, and watermark.js have zero innerHTML."
+    "innerHTML_note": "35 usages across 11 files: viewer.js(4), upload.js(2), merge.js(4), annotate.js(2), pages.js(4), split.js(6), redact.js(3), img2pdf.js(3), text-overlay.js(2), bookmarks.js(4), ocr.js(1) - all static templates, clearing operations, static SVGs, HTML entities, escaped user data (escapeHtml/escapeAttr), or integer-only interpolation. No user data injected unsafely. search.js, convert.js, compress.js, and watermark.js have zero innerHTML."
+  },
+  "bookmarks_module_review": {
+    "file": "js/bookmarks.js",
+    "task": "TASK-019",
+    "innerHTML_count": 4,
+    "innerHTML_safe": true,
+    "innerHTML_note": "4 usages: clearing container (line 93), static SVG arrow (line 148), filter highlight via highlightMatch() with escapeHtml() (line 168), escapeHtml helper return (line 233). Bookmark titles displayed via textContent (line 164) by default. Filter highlight uses escapeHtml() on all text segments before wrapping match in <mark> tag.",
+    "no_eval": true,
+    "no_function_constructor": true,
+    "no_document_write": true,
+    "user_data_handling": "PDF outline titles from pdf.js getOutline() displayed via textContent. Only when filter is active, titles rendered through highlightMatch() which escapes all parts via escapeHtml(). Navigation uses pdf.js getDestination/getPageIndex APIs - no user-controlled string interpolation.",
+    "xss_safe": true,
+    "dom_construction": "All elements created via document.createElement() with className/style. No template literal HTML with user data.",
+    "no_server_storage": true,
+    "status": "secure"
+  },
+  "ocr_module_review": {
+    "file": "js/ocr.js",
+    "innerHTML_count": 1,
+    "innerHTML_safe": true,
+    "innerHTML_note": "1 usage: static SVG icon for extract button reset (line 249). Extracted text displayed in textarea.value, stats via textContent. No user data in HTML.",
+    "no_eval": true,
+    "no_function_constructor": true,
+    "no_document_write": true,
+    "user_data_handling": "Extracted text from pdf.js/Tesseract placed in textarea.value (not innerHTML). Stats rendered via textContent. Download filename uses sanitizeFilename() from utils.js. Page range parsed with parseInt and validated against totalPages.",
+    "xss_safe": true,
+    "no_server_storage": true,
+    "status": "secure"
   },
   "img2pdf_module_review": {
     "file": "js/img2pdf.js",
@@ -67,7 +97,7 @@
     "file": "js/text-overlay.js",
     "task": "TASK-015",
     "innerHTML_safe": true,
-    "innerHTML_note": "2 usages: clearing layer (line 353), static × character (line 383). User text rendered via textContent (line 376, 522) — never as HTML.",
+    "innerHTML_note": "2 usages: clearing layer (line 353), static x character (line 383). User text rendered via textContent (line 376, 522) — never as HTML.",
     "no_eval": true,
     "user_data_handling": "User text stored in overlay.text, rendered via textContent on div elements. Editing uses textarea.value (no HTML parsing). Format controls use parseInt with bounds (8-72), parseFloat, and controlled select elements. Text embedded in PDF via pdf-lib drawText() — rendered as PDF text content, not HTML.",
     "xss_safe": true,
@@ -192,6 +222,8 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "bookmarks_module_secure",
+    "ocr_module_secure",
     "img2pdf_module_secure",
     "text_overlay_module_secure",
     "search_module_secure",
@@ -208,7 +240,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_78_days",
-    "fail2ban_active_3001_total_bans",
+    "fail2ban_active_3067_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_logins",
@@ -225,12 +257,12 @@
     "img2pdf.js image validation uses OR logic (MIME type OR extension) - slightly permissive but acceptable for client-side processing since images are rendered via browser Image API which rejects non-images."
   ],
   "notes": [
-    "Full security review completed - 38 checks passed, 0 critical findings",
-    "Reviewed new img2pdf.js module (TASK-018): 3 innerHTML usages, all safe. Filenames escaped via escapeHtml/escapeAttr. Image type validated via MIME+extension. Size limits enforced (50MB/file, 200MB total). sanitizeFilename for downloads. No eval/Function/document.write.",
-    "Reviewed new text-overlay.js module (TASK-015): 2 innerHTML usages (clearing + static char). User text rendered exclusively via textContent — never as HTML. All DOM elements created via createElement. Format controls bounded (parseInt 8-72). Text embedded in PDF via drawText(). Fully secure.",
-    "All 20 JS files scanned: no eval(), Function(), document.write(), or unsafe patterns found",
-    "27 innerHTML usages across 9 files - all verified safe (up from 25/7; img2pdf.js +3, text-overlay.js +2)",
-    "SSH: Continued botnet scanning. Failed attempts at 20544 (+660). fail2ban total bans 3001 (+116). 5 IPs currently banned. Only authorized logins from novakj via publickey.",
+    "Full security review completed - 39 checks passed, 0 critical findings",
+    "NEW: Reviewed bookmarks.js module (TASK-019): 4 innerHTML usages, all safe. Bookmark titles rendered via textContent by default. Filter highlight uses escapeHtml() on all segments before wrapping in <mark>. Navigation uses pdf.js getDestination/getPageIndex APIs. No eval/Function/document.write. Fully secure.",
+    "Reviewed ocr.js module: 1 innerHTML usage (static SVG reset). Extracted text displayed in textarea.value, stats via textContent. Page range validated. Download uses sanitizeFilename(). Fully secure.",
+    "All 21 JS files scanned: no eval(), Function(), document.write(), or unsafe patterns found",
+    "35 innerHTML usages across 11 files - all verified safe (up from 27/9; bookmarks.js +4, ocr.js +1, plus 3 previously uncounted in viewer.js/split.js/pages.js)",
+    "SSH: Continued botnet scanning. Failed attempts at 21015 (+471). fail2ban total bans 3067 (+66). 7 IPs currently banned (up from 5). Only authorized logins from novakj via publickey.",
     "SSL certificate valid until June 18, 2026 (78 days remaining)",
     "Disk usage stable at 12%"
   ],
