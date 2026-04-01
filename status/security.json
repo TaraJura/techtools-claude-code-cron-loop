@@ -1,21 +1,21 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-01T18:18:00Z",
+  "last_review": "2026-04-01T20:18:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "13516 (since last log rotation)",
-    "fail2ban_status": "active - sshd jail running, 7 currently banned, 3538 total banned",
+    "failed_password_attempts": "24959 total failed (since last log rotation)",
+    "fail2ban_status": "active - sshd jail running, 7 currently banned, 3636 total banned",
     "top_attackers_by_total": [
-      {"ip": "80.94.92.164", "status": "currently banned"},
-      {"ip": "2.57.121.25", "status": "currently banned"},
-      {"ip": "45.148.10.151", "status": "currently banned"},
-      {"ip": "80.94.92.167", "status": "currently banned"},
-      {"ip": "2.57.122.193", "status": "currently banned"},
-      {"ip": "2.57.122.96", "status": "currently banned"},
-      {"ip": "2.57.122.196", "status": "currently banned"}
+      {"ip": "45.148.10.147", "status": "currently banned"},
+      {"ip": "45.227.254.170", "status": "currently banned"},
+      {"ip": "80.94.92.187", "status": "currently banned"},
+      {"ip": "80.94.92.166", "status": "currently banned"},
+      {"ip": "45.148.10.157", "status": "currently banned"},
+      {"ip": "195.178.110.15", "status": "currently banned"},
+      {"ip": "2.57.122.96", "status": "currently banned"}
     ],
-    "change_since_last": "fail2ban total bans 3538 (up from 3453, +85). 7 IPs currently banned (up from 5). Continued botnet activity from 2.57.12x and 80.94.92.x subnets. Only authorized sudo activity from novakj."
+    "change_since_last": "fail2ban total bans 3636 (up from 3538, +98). 7 IPs currently banned (stable). Continued botnet activity from 45.148.10.x, 80.94.92.x, and 2.57.12x subnets. Only authorized sudo activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -49,7 +49,23 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "51 usages across 17 files: viewer.js(4), bookmarks.js(4), annotate.js(2), img2pdf.js(3), upload.js(2), merge.js(4), pages.js(4), split.js(6), redact.js(3), signatures.js(2), text-overlay.js(2), ocr.js(1), crop.js(2), forms.js(2), compare.js(2), insert-pages.js(6), metadata.js(1) — all static templates, clearing operations, static SVGs, HTML entities, escaped user data (escapeHtml/escapeAttr), or escapeHtml helper internals. drawing.js, page-numbers.js, search.js, convert.js, watermark.js, compress.js have 0 innerHTML usages."
+    "innerHTML_note": "54 usages across 18 files: viewer.js(4), bookmarks.js(4), annotate.js(2), img2pdf.js(3), upload.js(2), merge.js(4), pages.js(4), split.js(6), redact.js(3), signatures.js(2), text-overlay.js(2), ocr.js(1), crop.js(2), forms.js(2), compare.js(2), insert-pages.js(7), metadata.js(1), protect.js(3) — all static templates, clearing operations, static SVGs, HTML entities, escaped user data (escapeHtml/escapeAttr), or escapeHtml helper internals. drawing.js, page-numbers.js, search.js, convert.js, watermark.js, compress.js have 0 innerHTML usages."
+  },
+  "protect_module_review": {
+    "file": "js/protect.js",
+    "lines": 814,
+    "innerHTML_count": 3,
+    "innerHTML_safe": true,
+    "innerHTML_note": "Line 719: updateSummary() builds HTML from hardcoded ternary strings only (e.g. '128-bit AES'/'256-bit AES', 'Set'/'Not set', hardcoded permission names). No user data interpolated. Lines 770, 808: static SVG icons for buttons.",
+    "no_eval": true,
+    "no_function_constructor": true,
+    "no_document_write": true,
+    "xss_safe": true,
+    "crypto_implementation": "Web Crypto API (crypto.subtle) for AES-128-CBC, pure JS MD5 and RC4 for PDF Standard Security Handler (V=4, R=4). crypto.getRandomValues() for file ID generation.",
+    "user_data_handling": "Passwords read from DOM input.value, used in-memory only for encryption key derivation. Never stored, logged, or sent externally. Download filename sanitized via downloadBlob()/sanitizeFilename().",
+    "no_server_storage": true,
+    "no_external_requests": true,
+    "status": "secure"
   },
   "metadata_module_review": {
     "file": "js/metadata.js",
@@ -72,10 +88,10 @@
   "insert_pages_module_review": {
     "file": "js/insert-pages.js",
     "task": "TASK-024",
-    "lines": "~620",
-    "innerHTML_count": 6,
+    "lines": "~625",
+    "innerHTML_count": 7,
     "innerHTML_safe": true,
-    "innerHTML_note": "6 usages: 2 clearing (lines 265, 274), 1 clearing preview grid (line 399), 2 static SVG checkmarks (lines 304, 368), 1 static SVG button (line 570). No user data in HTML.",
+    "innerHTML_note": "7 usages: 2 clearing (lines 265, 274), 1 clearing preview grid (line 399), 2 static SVG checkmarks (lines 304, 368), 1 static SVG button (line 570), 1 inside escapeHtml() helper (line 619 — DOM-based sanitization, safe). No user data in HTML.",
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
@@ -235,6 +251,13 @@
     "xss_safe": true,
     "status": "secure"
   },
+  "viewer_module_review": {
+    "file": "js/viewer.js",
+    "innerHTML_count": 4,
+    "innerHTML_safe": true,
+    "no_eval": true,
+    "status": "secure"
+  },
   "new_dependencies": {
     "jszip_min_js": {
       "file": "lib/jszip.min.js",
@@ -302,11 +325,13 @@
     "signatures_module_secure",
     "insert_pages_module_secure",
     "metadata_module_secure",
+    "protect_module_secure",
+    "viewer_module_secure",
     "showToast_uses_textContent",
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_78_days",
-    "fail2ban_active_3538_total_bans",
+    "fail2ban_active_3636_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -325,12 +350,12 @@
     "metadata.js has dead code: escapeHtml() function defined but never called."
   ],
   "notes": [
-    "Full security review completed - 48 checks passed, 0 critical findings",
-    "NEW: Reviewed metadata.js module (TASK-025, ~308 lines): 1 innerHTML usage inside escapeHtml() helper (safe DOM-based escaping). All user/PDF data displayed via input.value or textContent. Download via downloadBlob()/sanitizeFilename(). No server storage, no external requests. SECURE.",
+    "Full security review completed — 50 checks passed, 0 critical findings",
+    "NEW: Reviewed protect.js module (814 lines, password protection & encryption): 3 innerHTML usages all safe (1 static template, 2 static SVGs). Uses Web Crypto API for AES-128-CBC, pure JS MD5/RC4 for PDF Standard Security Handler (V=4, R=4). Passwords in-memory only. No server storage, no external requests. SECURE.",
+    "Updated innerHTML count: 54 usages across 18 files (up from 51/17 — +3 from protect.js new module, insert-pages.js 7th usage is escapeHtml helper previously miscounted).",
     "RESOLVED: TASK-016 redaction security vulnerability FIXED. applyRedactions() now uses page-flattening approach — redacted pages rasterized to canvas, redaction rectangles physically overwrite pixels, flattened image embedded in output PDF. No original text/vector data survives.",
-    "All JS files scanned (25 in js/ + 2 in lib/): no eval(), Function(), document.write() found.",
-    "51 innerHTML usages across 17 files — all verified safe (up from 50, +1 from metadata.js escapeHtml helper).",
-    "SSH: fail2ban total bans 3538 (+85 since last review). 7 IPs currently banned. Only authorized sudo activity from novakj.",
+    "All JS files scanned (26 in js/ + 2 in lib/): no eval(), Function(), document.write() found.",
+    "SSH: fail2ban total bans 3636 (+98 since last review). 7 IPs currently banned. Only authorized sudo activity from novakj.",
     "SSL certificate valid until June 18, 2026 (78 days remaining).",
     "Disk usage stable at 12%."
   ],
