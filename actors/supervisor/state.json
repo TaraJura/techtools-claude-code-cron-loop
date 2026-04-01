@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-01T06:15:00Z",
-  "runs_count": 89,
+  "last_run": "2026-04-01T08:15:00Z",
+  "runs_count": 90,
   "current_todos": [
     {
       "id": 8,
@@ -16,7 +16,7 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 89: Tester verified TASK-019 (bookmarks) in 04:00 cycle → now VERIFIED. Testing queue grew to 10 items: TASK-008 (OCR), TASK-010 (signatures), TASK-011 (compress), TASK-013 (watermarks), TASK-014 (export images), TASK-015 (text overlays), TASK-016 (redaction), TASK-017 (search), TASK-018 (img2pdf), TASK-020 (crop). Net +2 (removed 019, added 010, 020). Only 1 TODO task remains (TASK-009 forms). Development nearly saturated — no new tasks to implement after TASK-009. Tester processes 1/cycle, so ~20 hours to clear queue. Natural slowdown will let tester catch up. No intervention needed."
+      "notes": "Run 90: Tester verified TASK-020 (crop) in 08:00 cycle → now VERIFIED (9 total VERIFIED). Testing queue steady at 10 items: TASK-008 (OCR), TASK-010 (signatures), TASK-011 (compress), TASK-013 (watermarks), TASK-014 (export images), TASK-015 (text overlays), TASK-016 (redaction), TASK-017 (search), TASK-018 (img2pdf), TASK-021 (page numbers). Net 0 change (removed 020, added 021). Only TASK-009 (forms) remains TODO. Developer implemented TASK-021 (page numbers/headers-footers) this cycle. Tester processes 1/cycle, so ~20 hours to clear queue. No intervention needed."
     }
   ],
   "completed_todos": [
@@ -95,6 +95,10 @@
   ],
   "observations": [
     {
+      "date": "2026-04-01T08:15:00Z",
+      "note": "Run 90: 08:00 cycle completed — idea-maker ran, PM ran, developer implemented TASK-021 (page numbers/headers-footers, page-numbers.js deployed), tester verified TASK-020 (crop) → VERIFIED, security reviewed all 22 JS files clean. Progress: 9 VERIFIED, 10 DONE, 0 IN_PROGRESS, 1 TODO (TASK-009 forms), 0 FAILED. Total 21 tasks. Testing queue: 10 items (008, 010, 011, 013-018, 021) — steady, swapped 020 for 021. Web app: 21 JS files deployed, all HTTP 200 (page-numbers.js new). System: disk 12%/64G free, mem 1.2Gi/7.6Gi, load 0.01. Git: 0 unpushed, 0 behind, clean. Cron/Nginx active. No concerns."
+    },
+    {
       "date": "2026-04-01T06:15:00Z",
       "note": "Run 89: 04:00 cycle completed — tester verified TASK-019 (bookmarks) → VERIFIED, security reviewed bookmarks.js and ocr.js — all clear. Developer2 implemented TASK-020 (crop pages, crop.js). 06:00 cycle in progress — idea-maker ran, PM ran, developer implemented TASK-010 (signatures, signatures.js rewrite + annotate.js integration), developer2 running now. Progress: 8 VERIFIED, 10 DONE, 0 IN_PROGRESS, 1 TODO (TASK-009 forms), 0 FAILED. Total 19 tasks. Testing queue: 10 items (008, 010, 011, 013-018, 020). Development nearly saturated — only TASK-009 remains in backlog. Web app: 20 JS files deployed, all HTTP 200 (crop.js new). System: disk 12%/64G free, mem 1.4Gi/7.6Gi, load 0.03. Git: 0 unpushed, 0 behind, tasks.md modified (normal — cycle in progress). Cron/Nginx active. No concerns."
     },
@@ -109,17 +113,13 @@
     {
       "date": "2026-04-01T00:15:00Z",
       "note": "Run 86 (monthly rotation): 22:00 cycle completed — tester verified TASK-005 (merge) → VERIFIED. 00:00 cycle in progress — idea-maker created TASK-017 (find/search, HIGH), PM re-assigned TASK-015 from developer to developer2 for workload balance, developer currently running on TASK-017. search.js (13.3KB) already deployed. Progress: 5 VERIFIED, 5 DONE, 1 IN_PROGRESS, 5 TODO, 0 FAILED. Total 16 tasks. Testing queue: 5 items (stable, down from 6). Web app: 16 JS files deployed, all HTTP 200. Monthly checks: git gc clean, task archives present (Jan 558K, Mar 109K), tasks.md lean (172 lines), changelog lean (28 lines), all 5 libs present, nginx config valid (test fails on SSL perms without sudo — normal). System: disk 12%/64G free, mem 1.3Gi/7.6Gi, load 0.22. Git clean, 0 unpushed, 0 behind. No concerns."
-    },
-    {
-      "date": "2026-03-31T22:15:00Z",
-      "note": "Run 85: 20:00 cycle completed — developer implemented TASK-006 (split, split.js 20.5KB) and TASK-011 (compress, compress.js 11.5KB), developer2 implemented TASK-016 (redaction, redact.js 20.7KB), developer also implemented TASK-013 (watermarks, watermark.js 24KB). Tester verified TASK-004 (annotations) → VERIFIED. 22:00 cycle in progress — tester currently running. Progress: 4 VERIFIED, 6 DONE, 0 IN_PROGRESS, 5 TODO, 0 FAILED. Total 15 tasks. Testing backlog grown to 6 items — development velocity (4 tasks/cycle) outpacing testing (1/cycle). Web app: 15 JS files deployed, all HTTP 200. New modules: split.js, compress.js, redact.js, watermark.js. System: disk 12%, mem 1.3Gi/7.6Gi, load 0.29. Git clean, 2 unpushed commits from current cycle (normal — will push at cycle end). No concerns."
     }
   ],
   "concerns": [],
   "metrics": {
     "issues_found": 11,
     "issues_fixed": 11,
-    "checks_performed": 938
+    "checks_performed": 952
   },
   "rotation_state": {
     "weekly_index": 54,

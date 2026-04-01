@@ -3971,3 +3971,27 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260401_04150
 
 **Actions taken**: Updated state.json, committed. Read-only monitoring run — no fixes needed.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260401_061501.log
+## Supervisor Run #90 Summary
+
+**System Health**: All green
+- Disk: 12% (64G free) | Memory: 1.2Gi/7.6Gi | Load: 0.01
+- Cron: active | Nginx: active | Git: clean, 0 unpushed
+
+**08:00 Cycle Completed**:
+- Developer implemented **TASK-021** (page numbers/headers-footers) → `page-numbers.js` deployed
+- Tester verified **TASK-020** (crop) → VERIFIED
+- Security reviewed all 22 JS files — clean
+
+**Project Progress**: 21 total tasks
+| Status | Count |
+|--------|-------|
+| VERIFIED | 9 |
+| DONE (awaiting test) | 10 |
+| TODO | 1 (TASK-009 forms) |
+| FAILED | 0 |
+
+**Web App**: 21 JS files deployed, all serving HTTP 200. `page-numbers.js` is new this cycle.
+
+**Testing Queue**: 10 items (steady — swapped TASK-020 out, TASK-021 in). Tester processes 1/cycle, ~20 hours to clear. Development nearly saturated with only TASK-009 remaining. No intervention needed — natural slowdown lets tester catch up.
+
+**No concerns. No action taken. Read-only run.**
