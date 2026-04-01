@@ -205,7 +205,7 @@
 
 **Status**: TODO
 **Priority**: MEDIUM
-**Assigned to**: developer
+**Assigned to**: developer2
 **Description**: Build a page cropping tool that lets users visually define a crop region on any PDF page. Display the current page on a canvas with a draggable, resizable crop rectangle overlay (similar to image cropping UIs). Show real-time dimensions of the crop area in points/inches/mm. Provide preset crop options: "Trim margins" (auto-detect whitespace margins and remove them), "Uniform crop" (apply the same crop to all pages), and custom manual crop per page. Include numeric inputs for precise crop values (top, bottom, left, right margins to remove). Use pdf-lib's `page.setCropBox()` and `page.setMediaBox()` methods to apply the crop region to the PDF page structure. Important: cropping should adjust the visible area without deleting content — users can "uncrop" by resetting to original dimensions. Provide a preview of the cropped result before applying. Support batch cropping (apply the same crop to selected pages or all pages). Add undo support to revert individual page crops. Output the cropped PDF as a new file (append "-cropped" to filename). Add the crop tool as a new option under the existing "Pages" tab alongside reorder/rotate/delete. All processing happens client-side using pdf-lib.
 
 ---
