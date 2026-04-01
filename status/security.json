@@ -1,19 +1,21 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-01T16:17:00Z",
+  "last_review": "2026-04-01T18:18:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "58 (since last log rotation)",
-    "fail2ban_status": "active - sshd jail running, 5 currently banned, 3453 total banned",
+    "failed_password_attempts": "13516 (since last log rotation)",
+    "fail2ban_status": "active - sshd jail running, 7 currently banned, 3538 total banned",
     "top_attackers_by_total": [
-      {"ip": "45.148.10.157", "status": "currently banned"},
+      {"ip": "80.94.92.164", "status": "currently banned"},
+      {"ip": "2.57.121.25", "status": "currently banned"},
+      {"ip": "45.148.10.151", "status": "currently banned"},
       {"ip": "80.94.92.167", "status": "currently banned"},
-      {"ip": "2.57.122.188", "status": "currently banned"},
-      {"ip": "213.209.159.159", "status": "currently banned"},
-      {"ip": "2.57.122.191", "status": "currently banned"}
+      {"ip": "2.57.122.193", "status": "currently banned"},
+      {"ip": "2.57.122.96", "status": "currently banned"},
+      {"ip": "2.57.122.196", "status": "currently banned"}
     ],
-    "change_since_last": "fail2ban total bans 3453 (up from 3383, +70). 5 IPs currently banned (down from 7). Continued botnet activity from 2.57.12x subnet. Only authorized login from novakj via publickey (ED25519)."
+    "change_since_last": "fail2ban total bans 3538 (up from 3453, +85). 7 IPs currently banned (up from 5). Continued botnet activity from 2.57.12x and 80.94.92.x subnets. Only authorized sudo activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -47,7 +49,25 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "50 usages across 16 files: viewer.js(4), bookmarks.js(4), annotate.js(2), img2pdf.js(3), upload.js(2), merge.js(4), pages.js(4), split.js(6), redact.js(3), signatures.js(2), text-overlay.js(2), ocr.js(1), crop.js(2), forms.js(2), compare.js(2), insert-pages.js(6) — all static templates, clearing operations, static SVGs, HTML entities, escaped user data (escapeHtml/escapeAttr), or integer-only interpolation. drawing.js, page-numbers.js, search.js, convert.js, watermark.js, compress.js have 0 innerHTML usages."
+    "innerHTML_note": "51 usages across 17 files: viewer.js(4), bookmarks.js(4), annotate.js(2), img2pdf.js(3), upload.js(2), merge.js(4), pages.js(4), split.js(6), redact.js(3), signatures.js(2), text-overlay.js(2), ocr.js(1), crop.js(2), forms.js(2), compare.js(2), insert-pages.js(6), metadata.js(1) — all static templates, clearing operations, static SVGs, HTML entities, escaped user data (escapeHtml/escapeAttr), or escapeHtml helper internals. drawing.js, page-numbers.js, search.js, convert.js, watermark.js, compress.js have 0 innerHTML usages."
+  },
+  "metadata_module_review": {
+    "file": "js/metadata.js",
+    "task": "TASK-025",
+    "lines": "~308",
+    "innerHTML_count": 1,
+    "innerHTML_safe": true,
+    "innerHTML_note": "1 usage at line 136 inside escapeHtml() helper — DOM-based sanitization pattern (createElement div, set textContent, read innerHTML). Not used to render user content.",
+    "no_eval": true,
+    "no_function_constructor": true,
+    "no_document_write": true,
+    "xss_safe": true,
+    "user_data_handling": "Editable metadata fields populated via input.value (DOM property, not HTML). Read-only fields displayed via textContent (lines 159-163). No user/PDF data rendered as HTML. Download filename sanitized via downloadBlob()/sanitizeFilename().",
+    "dead_code": "escapeHtml() function defined (lines 133-137) but never called — harmless dead code",
+    "no_server_storage": true,
+    "no_external_requests": true,
+    "clipboard_fallback": "document.execCommand('copy') at line 300 — deprecated but safe fallback for older browsers",
+    "status": "secure"
   },
   "insert_pages_module_review": {
     "file": "js/insert-pages.js",
@@ -281,14 +301,15 @@
     "compress_module_secure",
     "signatures_module_secure",
     "insert_pages_module_secure",
+    "metadata_module_secure",
     "showToast_uses_textContent",
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_78_days",
-    "fail2ban_active_3453_total_bans",
+    "fail2ban_active_3538_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
-    "ssh_only_authorized_logins",
+    "ssh_only_authorized_activity",
     "jszip_self_hosted_in_lib"
   ],
   "known_issues": [
@@ -300,16 +321,16 @@
     "Codex proxy at /codex returns 502 - backend not running. No security risk but dead endpoint.",
     "merge.js uses escapeHtml() in attribute contexts (title, value, aria-label) which does not escape double quotes. CSP script-src 'self' mitigates inline handler injection. Should add escapeAttr() function.",
     "img2pdf.js image validation uses OR logic (MIME type OR extension) - slightly permissive but acceptable for client-side processing since images are rendered via browser Image API which rejects non-images.",
-    "insert-pages.js has dead code: escapeHtml() function defined but never called."
+    "insert-pages.js has dead code: escapeHtml() function defined but never called.",
+    "metadata.js has dead code: escapeHtml() function defined but never called."
   ],
   "notes": [
-    "Full security review completed - 47 checks passed, 0 critical findings",
-    "RESOLVED: TASK-016 redaction security vulnerability FIXED. applyRedactions() now uses page-flattening approach — redacted pages rasterized to canvas, redaction rectangles physically overwrite pixels, flattened image embedded in output PDF. No original text/vector data survives. Previous known_issue about redaction removed.",
-    "NEW: Reviewed insert-pages.js module (TASK-024, ~620 lines): 6 innerHTML usages (clearing + static SVGs) — all safe. User data displayed via textContent. File validation via shared validatePdf(). SECURE.",
-    "NEW: Identified merge.js attribute escaping issue — escapeHtml() used in title/aria-label/value attributes doesn't escape double quotes. Risk LOW due to CSP script-src 'self' blocking inline handlers. img2pdf.js correctly uses separate escapeAttr() for the same pattern.",
-    "All JS files scanned (24 in js/ + 2 in lib/): no eval(), Function(), document.write() found.",
-    "50 innerHTML usages across 16 files — all verified safe (up from 43, +7 from insert-pages.js(6) and recount adjustments).",
-    "SSH: fail2ban total bans 3453 (+70 since last review). 5 IPs currently banned. Only authorized logins from novakj via publickey (ED25519).",
+    "Full security review completed - 48 checks passed, 0 critical findings",
+    "NEW: Reviewed metadata.js module (TASK-025, ~308 lines): 1 innerHTML usage inside escapeHtml() helper (safe DOM-based escaping). All user/PDF data displayed via input.value or textContent. Download via downloadBlob()/sanitizeFilename(). No server storage, no external requests. SECURE.",
+    "RESOLVED: TASK-016 redaction security vulnerability FIXED. applyRedactions() now uses page-flattening approach — redacted pages rasterized to canvas, redaction rectangles physically overwrite pixels, flattened image embedded in output PDF. No original text/vector data survives.",
+    "All JS files scanned (25 in js/ + 2 in lib/): no eval(), Function(), document.write() found.",
+    "51 innerHTML usages across 17 files — all verified safe (up from 50, +1 from metadata.js escapeHtml helper).",
+    "SSH: fail2ban total bans 3538 (+85 since last review). 7 IPs currently banned. Only authorized sudo activity from novakj.",
     "SSL certificate valid until June 18, 2026 (78 days remaining).",
     "Disk usage stable at 12%."
   ],
@@ -318,7 +339,7 @@
     "LOW: Set server_tokens off in nginx.conf to stop leaking version info (currently exposes nginx/1.26.3)",
     "LOW: Enable UFW firewall (sudo ufw allow 22,80,443/tcp && sudo ufw enable)",
     "LOW: Add general *.md deny rule to nginx with explicit exception for known safe files",
-    "LOW: Remove dead escapeHtml() function from insert-pages.js (defined but never called)",
+    "LOW: Remove dead escapeHtml() function from insert-pages.js and metadata.js (defined but never called in both)",
     "LOW: Remove unused CGI location block from nginx config (no scripts exist)",
     "LOW: Consider disable_symlinks on in nginx for defense in depth"
   ]
