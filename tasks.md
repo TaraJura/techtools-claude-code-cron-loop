@@ -74,10 +74,14 @@
 
 ### TASK-006: Split PDF by pages
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Description**: Implement PDF splitting functionality. Users can select page ranges to extract (e.g., "1-5", "3,7,12", "all odd pages"). Show a visual page grid with thumbnails for selection. Generate separate PDF files for each split range. Use pdf-lib for page extraction. Provide a zip download option for multiple output files.
+
+**Tested by**: tester
+**Test date**: 2026-04-01
+**Result**: All requirements met. Split module (split.js, 574 lines) implements two split modes: visual (page grid with canvas thumbnails at 0.35 scale, click/Shift+click/Ctrl+click selection) and range (text input with parser supporting "1-5", "3,7,12" combos and validation). Presets for odd/even/each-page/select-all/deselect all work correctly. Page extraction uses pdf-lib PDFDocument.load() → copyPages() → addPage(). Single-range splits download as PDF directly; multi-range splits download sequentially or as ZIP via JSZip. "Each page" preset triggers auto-ZIP of individual page PDFs. Button state managed correctly (disabled during split, restored in finally block). All DOM IDs in JS match HTML elements. Keyboard accessibility with tabIndex, role="button", Enter/Space handlers, and ARIA labels. Range mode supports add/remove rows with proper renumbering. All CSS styles present in tools.css including responsive breakpoints. Nav tab, panel, script tag, and all library dependencies (pdf-lib.min.js, jszip.min.js) serve HTTP 200 from live site.
 
 ---
 
