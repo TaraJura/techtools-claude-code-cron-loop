@@ -1,21 +1,23 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-01T04:20:00Z",
+  "last_review": "2026-04-01T06:30:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": 21015,
-    "fail2ban_status": "active - sshd jail running, 7 currently banned, 3067 total banned",
+    "failed_password_attempts": 21736,
+    "fail2ban_status": "active - sshd jail running, 9 currently banned, 3175 total banned",
     "top_attackers_by_total": [
       {"ip": "2.57.121.50", "status": "currently banned"},
-      {"ip": "92.118.39.76", "status": "currently banned"},
-      {"ip": "2.57.122.194", "status": "currently banned"},
+      {"ip": "2.57.121.86", "status": "currently banned"},
+      {"ip": "38.137.11.14", "status": "currently banned"},
       {"ip": "45.148.10.151", "status": "currently banned"},
-      {"ip": "80.94.92.167", "status": "currently banned"},
-      {"ip": "45.227.254.170", "status": "currently banned"},
-      {"ip": "2.57.122.208", "status": "currently banned"}
+      {"ip": "2.57.122.199", "status": "currently banned"},
+      {"ip": "92.118.39.62", "status": "currently banned"},
+      {"ip": "2.57.122.195", "status": "currently banned"},
+      {"ip": "2.57.122.193", "status": "currently banned"},
+      {"ip": "80.94.92.167", "status": "currently banned"}
     ],
-    "change_since_last": "Failed attempts at 21015 (up from 20544, +471). fail2ban total bans 3067 (up from 3001, +66). 7 IPs currently banned (up from 5). Continued botnet scanning activity at normal rate. Only authorized logins from novakj via publickey."
+    "change_since_last": "Failed attempts at 21736 (up from 21015, +721). fail2ban total bans 3175 (up from 3067, +108). 9 IPs currently banned (up from 7). Continued botnet scanning activity at normal rate. Only authorized logins from novakj via publickey."
   },
   "web_protections": {
     "security_headers": {
@@ -49,7 +51,26 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "35 usages across 11 files: viewer.js(4), upload.js(2), merge.js(4), annotate.js(2), pages.js(4), split.js(6), redact.js(3), img2pdf.js(3), text-overlay.js(2), bookmarks.js(4), ocr.js(1) - all static templates, clearing operations, static SVGs, HTML entities, escaped user data (escapeHtml/escapeAttr), or integer-only interpolation. No user data injected unsafely. search.js, convert.js, compress.js, and watermark.js have zero innerHTML."
+    "innerHTML_note": "37 usages across 12 files: viewer.js(4), upload.js(2), merge.js(4), annotate.js(2), pages.js(4), split.js(6), redact.js(3), img2pdf.js(3), text-overlay.js(2), bookmarks.js(4), ocr.js(1), crop.js(2) - all static templates, clearing operations, static SVGs, HTML entities, escaped user data (escapeHtml/escapeAttr), or integer-only interpolation. No user data injected unsafely."
+  },
+  "crop_module_review": {
+    "file": "js/crop.js",
+    "task": "TASK-020",
+    "task_status": "FAILED (logic bug, not security issue)",
+    "innerHTML_count": 2,
+    "innerHTML_safe": true,
+    "innerHTML_note": "2 usages: clearing canvas container (line 171), static SVG in button reset (line 738). No user data in HTML.",
+    "no_eval": true,
+    "no_function_constructor": true,
+    "no_document_write": true,
+    "user_data_handling": "Numeric crop inputs parsed with parseFloat() and validated against page dimensions. Page numbers are integers. Unit selector uses controlled dropdown. No user strings injected into HTML. Download filename uses sanitizeFilename() via downloadBlob() from utils.js.",
+    "xss_safe": true,
+    "dom_construction": "All UI elements created via document.createElement() with className/style. Canvas rendering uses 2D context API only.",
+    "no_server_storage": true,
+    "no_external_requests": true,
+    "memory_handling": "Temporary canvases created for auto-trim margin detection and preview — scoped to function, garbage collected. No object URL leaks.",
+    "logic_bug": "Line 684: [...mb] and [...cb] uses array spread on objects from page.getMediaBox()/getCropBox(). These return plain objects, not arrays. Throws TypeError at runtime. NOT a security issue — causes feature crash, no data exposure.",
+    "status": "secure (logic bug is non-security)"
   },
   "bookmarks_module_review": {
     "file": "js/bookmarks.js",
@@ -60,36 +81,25 @@
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
-    "user_data_handling": "PDF outline titles from pdf.js getOutline() displayed via textContent. Only when filter is active, titles rendered through highlightMatch() which escapes all parts via escapeHtml(). Navigation uses pdf.js getDestination/getPageIndex APIs - no user-controlled string interpolation.",
     "xss_safe": true,
-    "dom_construction": "All elements created via document.createElement() with className/style. No template literal HTML with user data.",
-    "no_server_storage": true,
     "status": "secure"
   },
   "ocr_module_review": {
     "file": "js/ocr.js",
     "innerHTML_count": 1,
     "innerHTML_safe": true,
-    "innerHTML_note": "1 usage: static SVG icon for extract button reset (line 249). Extracted text displayed in textarea.value, stats via textContent. No user data in HTML.",
+    "innerHTML_note": "1 usage: static SVG icon for extract button reset (line 249). Extracted text displayed in textarea.value, stats via textContent.",
     "no_eval": true,
-    "no_function_constructor": true,
-    "no_document_write": true,
-    "user_data_handling": "Extracted text from pdf.js/Tesseract placed in textarea.value (not innerHTML). Stats rendered via textContent. Download filename uses sanitizeFilename() from utils.js. Page range parsed with parseInt and validated against totalPages.",
     "xss_safe": true,
-    "no_server_storage": true,
     "status": "secure"
   },
   "img2pdf_module_review": {
     "file": "js/img2pdf.js",
     "task": "TASK-018",
     "innerHTML_safe": true,
-    "innerHTML_note": "3 usages: clearing (line 199), template with escapeHtml/escapeAttr for filenames (line 208), escapeHtml helper return (line 561). Data URLs from FileReader.readAsDataURL interpolated into img src — safe as browser-generated base64.",
     "no_eval": true,
-    "image_validation": "MIME type via ACCEPTED_TYPES Set + file extension regex. Both checked with OR logic (accepts if either matches).",
+    "image_validation": "MIME type via ACCEPTED_TYPES Set + file extension regex. Both checked with OR logic.",
     "size_limits": "50MB per image, 200MB total cumulative",
-    "user_data_handling": "Filenames escaped via escapeHtml() and escapeAttr() before template interpolation. Download filename uses sanitizeFilename() from utils.js. Data URLs from FileReader (browser-safe). Page size/orientation/margin from controlled select elements.",
-    "download_filename_sanitized": true,
-    "no_server_storage": true,
     "xss_safe": true,
     "status": "secure"
   },
@@ -97,12 +107,8 @@
     "file": "js/text-overlay.js",
     "task": "TASK-015",
     "innerHTML_safe": true,
-    "innerHTML_note": "2 usages: clearing layer (line 353), static x character (line 383). User text rendered via textContent (line 376, 522) — never as HTML.",
     "no_eval": true,
-    "user_data_handling": "User text stored in overlay.text, rendered via textContent on div elements. Editing uses textarea.value (no HTML parsing). Format controls use parseInt with bounds (8-72), parseFloat, and controlled select elements. Text embedded in PDF via pdf-lib drawText() — rendered as PDF text content, not HTML.",
     "xss_safe": true,
-    "dom_construction": "All overlay elements created via document.createElement() with className/style — no template literal HTML with user data.",
-    "no_server_storage": true,
     "status": "secure"
   },
   "search_module_review": {
@@ -118,8 +124,6 @@
     "task": "TASK-014",
     "no_innerHTML": true,
     "no_eval": true,
-    "download_filename_sanitized": true,
-    "object_url_cleanup": true,
     "status": "secure"
   },
   "watermark_module_review": {
@@ -177,6 +181,13 @@
     "memory_budget_enforced": true,
     "status": "secure"
   },
+  "signatures_module_review": {
+    "file": "js/signatures.js",
+    "fetch_data_url": "Line 798 uses fetch(sig.dataURL) where dataURL is from canvas.toDataURL(). This is valid in modern browsers — Fetch API supports data: URLs. Image type validated at upload (PNG/JPEG/WebP only). Size validated (2MB limit). No security concern.",
+    "no_eval": true,
+    "xss_safe": true,
+    "status": "secure"
+  },
   "new_dependencies": {
     "jszip_min_js": {
       "file": "lib/jszip.min.js",
@@ -222,6 +233,7 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "crop_module_secure",
     "bookmarks_module_secure",
     "ocr_module_secure",
     "img2pdf_module_secure",
@@ -236,11 +248,12 @@
     "upload_module_secure",
     "split_module_secure",
     "compress_module_secure",
+    "signatures_module_secure",
     "showToast_uses_textContent",
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_78_days",
-    "fail2ban_active_3067_total_bans",
+    "fail2ban_active_3175_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_logins",
@@ -257,12 +270,11 @@
     "img2pdf.js image validation uses OR logic (MIME type OR extension) - slightly permissive but acceptable for client-side processing since images are rendered via browser Image API which rejects non-images."
   ],
   "notes": [
-    "Full security review completed - 39 checks passed, 0 critical findings",
-    "NEW: Reviewed bookmarks.js module (TASK-019): 4 innerHTML usages, all safe. Bookmark titles rendered via textContent by default. Filter highlight uses escapeHtml() on all segments before wrapping in <mark>. Navigation uses pdf.js getDestination/getPageIndex APIs. No eval/Function/document.write. Fully secure.",
-    "Reviewed ocr.js module: 1 innerHTML usage (static SVG reset). Extracted text displayed in textarea.value, stats via textContent. Page range validated. Download uses sanitizeFilename(). Fully secure.",
-    "All 21 JS files scanned: no eval(), Function(), document.write(), or unsafe patterns found",
-    "35 innerHTML usages across 11 files - all verified safe (up from 27/9; bookmarks.js +4, ocr.js +1, plus 3 previously uncounted in viewer.js/split.js/pages.js)",
-    "SSH: Continued botnet scanning. Failed attempts at 21015 (+471). fail2ban total bans 3067 (+66). 7 IPs currently banned (up from 5). Only authorized logins from novakj via publickey.",
+    "Full security review completed - 41 checks passed, 0 critical security findings",
+    "NEW: Reviewed crop.js module (TASK-020): 2 innerHTML usages (clearing + static SVG), both safe. Numeric inputs parsed/validated. Download uses sanitizeFilename(). No eval/Function/document.write. XSS-safe. Logic bug on line 684 ([...mb] array spread on object) causes runtime crash — this is a functional bug, NOT a security vulnerability.",
+    "All 22 JS files scanned (20 in js/ + 2 in lib/): no eval(), Function(), document.write(), or unsafe patterns found",
+    "37 innerHTML usages across 12 files - all verified safe (up from 35/11; crop.js adds 2 safe usages)",
+    "SSH: Continued botnet scanning. Failed attempts at 21736 (+721 since last review). fail2ban total bans 3175 (+108). 9 IPs currently banned (up from 7). Only authorized logins from novakj via publickey.",
     "SSL certificate valid until June 18, 2026 (78 days remaining)",
     "Disk usage stable at 12%"
   ],
