@@ -1,23 +1,18 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-01T06:30:00Z",
+  "last_review": "2026-04-01T08:11:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": 21736,
-    "fail2ban_status": "active - sshd jail running, 9 currently banned, 3175 total banned",
+    "failed_password_attempts": 22192,
+    "fail2ban_status": "active - sshd jail running, 4 currently banned, 3237 total banned",
     "top_attackers_by_total": [
-      {"ip": "2.57.121.50", "status": "currently banned"},
-      {"ip": "2.57.121.86", "status": "currently banned"},
-      {"ip": "38.137.11.14", "status": "currently banned"},
-      {"ip": "45.148.10.151", "status": "currently banned"},
-      {"ip": "2.57.122.199", "status": "currently banned"},
-      {"ip": "92.118.39.62", "status": "currently banned"},
-      {"ip": "2.57.122.195", "status": "currently banned"},
-      {"ip": "2.57.122.193", "status": "currently banned"},
-      {"ip": "80.94.92.167", "status": "currently banned"}
+      {"ip": "143.110.240.17", "status": "currently banned"},
+      {"ip": "177.157.206.42", "status": "currently banned"},
+      {"ip": "213.209.159.159", "status": "currently banned"},
+      {"ip": "2.57.122.208", "status": "currently banned"}
     ],
-    "change_since_last": "Failed attempts at 21736 (up from 21015, +721). fail2ban total bans 3175 (up from 3067, +108). 9 IPs currently banned (up from 7). Continued botnet scanning activity at normal rate. Only authorized logins from novakj via publickey."
+    "change_since_last": "Failed attempts at 22192 (up from 21736, +456). fail2ban total bans 3237 (up from 3175, +62). 4 IPs currently banned (down from 9 — bans expired for inactive attackers). Continued botnet scanning activity at normal rate. Only authorized logins from novakj via publickey (ED25519)."
   },
   "web_protections": {
     "security_headers": {
@@ -51,33 +46,43 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "37 usages across 12 files: viewer.js(4), upload.js(2), merge.js(4), annotate.js(2), pages.js(4), split.js(6), redact.js(3), img2pdf.js(3), text-overlay.js(2), bookmarks.js(4), ocr.js(1), crop.js(2) - all static templates, clearing operations, static SVGs, HTML entities, escaped user data (escapeHtml/escapeAttr), or integer-only interpolation. No user data injected unsafely."
+    "innerHTML_note": "36 usages across 12 files: viewer.js(4), bookmarks.js(3), annotate.js(2), img2pdf.js(2), upload.js(2), merge.js(3), pages.js(4), split.js(6), redact.js(3), signatures.js(2), text-overlay.js(2), ocr.js(1), crop.js(2) - all static templates, clearing operations, static SVGs, HTML entities, escaped user data (escapeHtml/escapeAttr), or integer-only interpolation. No user data injected unsafely. page-numbers.js has 0 innerHTML usages."
+  },
+  "page_numbers_module_review": {
+    "file": "js/page-numbers.js",
+    "task": "TASK-021",
+    "lines": 514,
+    "innerHTML_count": 0,
+    "no_eval": true,
+    "no_function_constructor": true,
+    "no_document_write": true,
+    "xss_safe": true,
+    "user_data_handling": "Custom text from input processed via string replace with {page}/{total}/{date}/{filename} placeholders. Text only rendered via canvas drawText and pdf-lib drawText — never injected into HTML. Filename from File API, only used in PDF text and passed to downloadBlob() which sanitizes via sanitizeFilename(). Color input parsed by hex regex. Font size clamped 8-24. Margin clamped 10-144. Start number floored to 1.",
+    "no_server_storage": true,
+    "no_external_requests": true,
+    "dom_construction": "All UI interactions via getElementById and querySelector with event listeners. Canvas rendering uses 2D context API only. No dynamic HTML generation.",
+    "status": "secure"
   },
   "crop_module_review": {
     "file": "js/crop.js",
     "task": "TASK-020",
-    "task_status": "FAILED (logic bug, not security issue)",
+    "task_status": "VERIFIED (bugs fixed)",
     "innerHTML_count": 2,
     "innerHTML_safe": true,
     "innerHTML_note": "2 usages: clearing canvas container (line 171), static SVG in button reset (line 738). No user data in HTML.",
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
-    "user_data_handling": "Numeric crop inputs parsed with parseFloat() and validated against page dimensions. Page numbers are integers. Unit selector uses controlled dropdown. No user strings injected into HTML. Download filename uses sanitizeFilename() via downloadBlob() from utils.js.",
     "xss_safe": true,
-    "dom_construction": "All UI elements created via document.createElement() with className/style. Canvas rendering uses 2D context API only.",
-    "no_server_storage": true,
-    "no_external_requests": true,
-    "memory_handling": "Temporary canvases created for auto-trim margin detection and preview — scoped to function, garbage collected. No object URL leaks.",
-    "logic_bug": "Line 684: [...mb] and [...cb] uses array spread on objects from page.getMediaBox()/getCropBox(). These return plain objects, not arrays. Throws TypeError at runtime. NOT a security issue — causes feature crash, no data exposure.",
-    "status": "secure (logic bug is non-security)"
+    "bug_fix_verified": "Line 684 now correctly uses { ...mb } and { ...cb } (object spread) instead of broken [...mb]/[...cb] (array spread). Undo function (lines 745-788) properly restores original mediaBox/cropBox via pdf-lib.",
+    "status": "secure"
   },
   "bookmarks_module_review": {
     "file": "js/bookmarks.js",
     "task": "TASK-019",
-    "innerHTML_count": 4,
+    "innerHTML_count": 3,
     "innerHTML_safe": true,
-    "innerHTML_note": "4 usages: clearing container (line 93), static SVG arrow (line 148), filter highlight via highlightMatch() with escapeHtml() (line 168), escapeHtml helper return (line 233). Bookmark titles displayed via textContent (line 164) by default. Filter highlight uses escapeHtml() on all text segments before wrapping match in <mark> tag.",
+    "innerHTML_note": "3 usages: clearing container (line 93), static SVG arrow (line 148), filter highlight via highlightMatch() with escapeHtml() (line 168). Bookmark titles displayed via textContent by default. Filter highlight uses escapeHtml() on all text segments before wrapping match in <mark> tag.",
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
@@ -96,7 +101,9 @@
   "img2pdf_module_review": {
     "file": "js/img2pdf.js",
     "task": "TASK-018",
+    "innerHTML_count": 2,
     "innerHTML_safe": true,
+    "innerHTML_note": "2 usages: clearing list (line 199), template with escapeHtml()/escapeAttr() for names, integers for dimensions/indices (line 208). All user strings properly escaped.",
     "no_eval": true,
     "image_validation": "MIME type via ACCEPTED_TYPES Set + file extension regex. Both checked with OR logic.",
     "size_limits": "50MB per image, 200MB total cumulative",
@@ -183,7 +190,7 @@
   },
   "signatures_module_review": {
     "file": "js/signatures.js",
-    "fetch_data_url": "Line 798 uses fetch(sig.dataURL) where dataURL is from canvas.toDataURL(). This is valid in modern browsers — Fetch API supports data: URLs. Image type validated at upload (PNG/JPEG/WebP only). Size validated (2MB limit). No security concern.",
+    "fetch_data_url": "Line 798 uses fetch(sig.dataURL) where dataURL is from canvas.toDataURL(). Valid in modern browsers. Image type validated at upload (PNG/JPEG/WebP only). Size validated (2MB limit). No security concern.",
     "no_eval": true,
     "xss_safe": true,
     "status": "secure"
@@ -233,7 +240,8 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
-    "crop_module_secure",
+    "page_numbers_module_secure",
+    "crop_module_secure_bug_fixed",
     "bookmarks_module_secure",
     "ocr_module_secure",
     "img2pdf_module_secure",
@@ -253,7 +261,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_78_days",
-    "fail2ban_active_3175_total_bans",
+    "fail2ban_active_3237_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_logins",
@@ -270,11 +278,12 @@
     "img2pdf.js image validation uses OR logic (MIME type OR extension) - slightly permissive but acceptable for client-side processing since images are rendered via browser Image API which rejects non-images."
   ],
   "notes": [
-    "Full security review completed - 41 checks passed, 0 critical security findings",
-    "NEW: Reviewed crop.js module (TASK-020): 2 innerHTML usages (clearing + static SVG), both safe. Numeric inputs parsed/validated. Download uses sanitizeFilename(). No eval/Function/document.write. XSS-safe. Logic bug on line 684 ([...mb] array spread on object) causes runtime crash — this is a functional bug, NOT a security vulnerability.",
-    "All 22 JS files scanned (20 in js/ + 2 in lib/): no eval(), Function(), document.write(), or unsafe patterns found",
-    "37 innerHTML usages across 12 files - all verified safe (up from 35/11; crop.js adds 2 safe usages)",
-    "SSH: Continued botnet scanning. Failed attempts at 21736 (+721 since last review). fail2ban total bans 3175 (+108). 9 IPs currently banned (up from 7). Only authorized logins from novakj via publickey.",
+    "Full security review completed - 43 checks passed, 0 critical security findings",
+    "NEW: Reviewed page-numbers.js module (TASK-021, 514 lines): 0 innerHTML usages. Custom text only rendered via canvas 2D context and pdf-lib drawText — never in HTML. Color parsed by hex regex. Font size clamped 8-24. Margin clamped 10-144. Download uses sanitizeFilename(). No eval/Function/document.write. XSS-safe. SECURE.",
+    "VERIFIED: crop.js (TASK-020) bug fix confirmed — line 684 now uses { ...mb } / { ...cb } (object spread). Undo function properly restores mediaBox/cropBox. No new security concerns.",
+    "All JS files scanned (21 in js/ + 2 in lib/): no eval(), Function(), document.write(), or unsafe patterns found",
+    "36 innerHTML usages across 12 files - all verified safe (down from 37; bookmarks.js reduced from 4 to 3). page-numbers.js has 0 innerHTML.",
+    "SSH: Continued botnet scanning. Failed attempts at 22192 (+456 since last review). fail2ban total bans 3237 (+62). 4 IPs currently banned (down from 9 — bans expired for inactive scanners). Only authorized logins from novakj via publickey (ED25519).",
     "SSL certificate valid until June 18, 2026 (78 days remaining)",
     "Disk usage stable at 12%"
   ],
