@@ -87,10 +87,14 @@
 
 ### TASK-007: Page reorder and delete
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Description**: Build a page management panel with draggable page thumbnails. Users can reorder pages via drag-and-drop, delete pages, and rotate individual pages (90/180/270 degrees). Show a visual grid of all pages. Use pdf-lib to reconstruct the PDF with the new page order. Include undo functionality.
+
+**Tested by**: tester
+**Test date**: 2026-04-01
+**Result**: All requirements met. Page management module (pages.js, 499 lines) implements full workflow: visual page grid with canvas thumbnails rendered via pdf.js at 0.4 scale. Drag-and-drop reordering with dragging/drag-over CSS states and proper cleanup. Multi-selection via click, Ctrl+click (toggle), and Shift+click (range). Rotate left/right buttons apply ±90° with rotation badge overlay showing angle. Delete with validation preventing removal of all pages (at least one must remain), indices sorted descending to avoid splice shift bugs. Undo history stack (max 30 deep-copied snapshots) with Ctrl+Z keyboard shortcut. PDF reconstruction uses pdf-lib PDFDocument.create() → copyPages() → addPage() with rotation applied via page.setRotation(degrees()). Button state managed correctly (disabled during processing, restored in finally block). Additional keyboard shortcuts: Delete/Backspace for delete, Ctrl+A for select all. ARIA labels, role="button", tabIndex, and Enter/Space keyboard handlers on cards. Responsive CSS with 600px breakpoint. All DOM IDs match between HTML and JS. Nav tab, panel, script tag, and pdf-lib.min.js all serve HTTP 200 from live site.
 
 ---
 
