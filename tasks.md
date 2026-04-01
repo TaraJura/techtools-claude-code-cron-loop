@@ -100,10 +100,14 @@
 
 ### TASK-008: Text extraction with OCR
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: LOW
 **Assigned to**: developer
 **Description**: Integrate Tesseract.js for optical character recognition. Allow users to extract text from scanned/image-based PDFs. Show a progress indicator during OCR processing. Support multiple languages. Display extracted text in a side panel with copy-to-clipboard. For text-based PDFs, use pdf.js's built-in text extraction first (faster).
+
+**Tested by**: tester
+**Test date**: 2026-04-01
+**Result**: All requirements met. OCR module (ocr.js, 403 lines) implements dual extraction modes: (1) pdf.js built-in text extraction for text-based PDFs using `page.getTextContent()` with intelligent line-break detection via Y-position analysis, and (2) Tesseract.js OCR for scanned/image-based PDFs rendering pages to canvas at 300 DPI for quality recognition. 16 languages supported (English, Spanish, French, German, Italian, Portuguese, Dutch, Polish, Russian, Japanese, Chinese Simplified/Traditional, Korean, Arabic, Hindi, Czech) via language dropdown that shows only in OCR mode. Progress indicator with percentage bar and status text — pdf.js mode shows per-page progress, OCR mode shows granular recognition progress via Tesseract logger callback with combined page+recognition percentages. Page selection supports current page, all pages, or custom range with parser supporting "1-5, 8, 12" syntax and validation. Results displayed in readonly textarea with statistics (word count, character count, line count, extraction method used). Copy-to-clipboard button with Clipboard API and `document.execCommand('copy')` fallback. Download as .txt button using sanitized filename. Multi-page output includes "--- Page N ---" separators. Button state management: disabled during extraction, restored with original SVG icon in finally block. All 18 DOM IDs match between JS and HTML. Tesseract.js (66KB) loaded as global script, ocr.js loaded as ES module. All CSS classes (compress-progress-bar, compress-progress-fill, ocr-results-text, etc.) defined in stylesheets. All files serve HTTP 200 from live site.
 
 ---
 
