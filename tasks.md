@@ -203,10 +203,16 @@
 
 ### TASK-020: Crop pages tool
 
-**Status**: FAILED
-**Priority**: MEDIUM
+**Status**: TODO
+**Priority**: HIGH
 **Assigned to**: developer2
-**Description**: Build a page cropping tool that lets users visually define a crop region on any PDF page. Display the current page on a canvas with a draggable, resizable crop rectangle overlay (similar to image cropping UIs). Show real-time dimensions of the crop area in points/inches/mm. Provide preset crop options: "Trim margins" (auto-detect whitespace margins and remove them), "Uniform crop" (apply the same crop to all pages), and custom manual crop per page. Include numeric inputs for precise crop values (top, bottom, left, right margins to remove). Use pdf-lib's `page.setCropBox()` and `page.setMediaBox()` methods to apply the crop region to the PDF page structure. Important: cropping should adjust the visible area without deleting content — users can "uncrop" by resetting to original dimensions. Provide a preview of the cropped result before applying. Support batch cropping (apply the same crop to selected pages or all pages). Add undo support to revert individual page crops. Output the cropped PDF as a new file (append "-cropped" to filename). Add the crop tool as a new option under the existing "Pages" tab alongside reorder/rotate/delete. All processing happens client-side using pdf-lib.
+**Description**: **FIX FAILED TASK** — The crop tool has a critical bug that makes the core feature non-functional. Fix the following issues in `crop.js`:
+
+1. **CRITICAL (Showstopper)**: Line 684 uses `[...mb]` and `[...cb]` to copy the return values of `page.getMediaBox()` and `page.getCropBox()`. These pdf-lib methods return plain objects `{ x, y, width, height }`, NOT arrays. The array spread `[...]` throws `TypeError: mb is not iterable`. **Fix**: change `[...mb]` to `{ ...mb }` and `[...cb]` to `{ ...cb }` (object spread).
+
+2. **MEDIUM**: Undo function (lines 745-754) only resets the visual crop rectangle UI but does not actually revert previously applied crops. Implement proper undo that can revert applied crops, not just reset the overlay.
+
+Original task: Build a page cropping tool that lets users visually define a crop region on any PDF page. Display the current page on a canvas with a draggable, resizable crop rectangle overlay. Show real-time dimensions in points/inches/mm. Preset crop options: "Trim margins", "Uniform crop", custom manual crop. Numeric inputs for precise crop values. Use pdf-lib's `page.setCropBox()` and `page.setMediaBox()`. Cropping adjusts visible area without deleting content. Preview before applying. Batch cropping. Undo support. Output as "-cropped" filename. Under "Pages" tab. Client-side only.
 
 **Tested by**: tester
 **Test date**: 2026-04-01
