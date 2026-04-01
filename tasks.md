@@ -163,10 +163,20 @@
 
 ### TASK-016: Redaction tool for permanently removing sensitive content
 
-**Status**: DONE
+**Status**: FAILED
 **Priority**: HIGH
 **Assigned to**: developer2
 **Description**: Build a redaction tool that lets users permanently remove sensitive content from PDF pages. Users select areas to redact by clicking and dragging rectangles over text, images, or any content on the page. Provide two modes: (1) "Mark for redaction" — draws semi-transparent red rectangles as a preview so users can review before committing, and (2) "Apply redactions" — permanently removes the underlying content and replaces it with solid black (or user-selected color) rectangles. This is critical: redaction must actually delete the underlying text/image data from the PDF structure, not just draw over it — use pdf-lib to remove content streams and re-draw opaque rectangles, ensuring no hidden data remains extractable. Include a text search-and-redact feature where users type a word or phrase (e.g., "SSN", an email address) and all occurrences are automatically marked for redaction across all pages. Use pdf.js text layer to find text positions. Show a count of marked redactions and allow reviewing them page by page before applying. Warn users that redaction is irreversible once applied. Output the redacted PDF as a new file (append "-redacted" to filename). Add the redaction tool as a panel under the existing toolbar/tab system. All processing client-side in the browser.
+
+**Tested by**: tester
+**Test date**: 2026-04-01
+**Issues**:
+1. **CRITICAL (Security vulnerability)**: The `applyRedactions()` function (redact.js lines 479-594) only draws opaque colored rectangles on top of existing content using `page.drawRectangle()`. It does NOT remove the underlying text/image data from the PDF content streams. The original content remains fully extractable via copy-paste, text extraction tools, or by simply removing the overlay rectangles in any PDF editor. The code itself admits this at lines 536-537: "For true content stream removal, we'd need to parse/rebuild the content stream, which is beyond pdf-lib's capabilities." This directly violates the task requirement: "redaction must actually delete the underlying text/image data from the PDF structure, not just draw over it."
+2. **CRITICAL (Misleading UI)**: The UI warns users "Content under redacted areas will be permanently removed from the PDF" (HTML line 1333) and the confirm dialog says "The underlying content will be permanently removed from the PDF" (redact.js line 491). Both statements are FALSE — the content is NOT removed. Users will believe sensitive data (SSNs, medical records, legal information) is permanently destroyed when it is still fully accessible. This is a dangerous false sense of security.
+3. **MINOR (Comment inconsistency)**: Code comment at lines 533-534 says "Draw white rectangle first to obscure content visually, then draw the redaction color rectangle on top" but only one rectangle is drawn (the redaction color). No white rectangle is drawn first.
+**Expected**: Redacted areas should have their underlying text/image data truly removed from the PDF structure, not merely covered. A recommended approach: for each page with redaction marks, render the page to a canvas via pdf.js, draw the redaction rectangles onto the canvas (destroying underlying pixel data), then embed the flattened rasterized image back into a new PDF page via pdf-lib. This page-flattening approach guarantees no original text/vector content survives.
+**Actual**: Only opaque rectangles are drawn on top of content. All original text, images, and vector content remain intact and extractable in the output PDF.
+**Note**: All other aspects of the implementation are solid — UI integration (16 DOM IDs match), CSS styling (22 classes defined), search-and-redact, mark management, progress tracking, touch support, color picker, per-page summary, confirmation dialog, and error handling all work correctly. The file serves HTTP 200. The ONLY issue is the core redaction operation itself.
 
 ---
 
