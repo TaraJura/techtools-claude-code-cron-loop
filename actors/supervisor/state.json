@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-03-31T22:15:00Z",
-  "runs_count": 85,
+  "last_run": "2026-04-01T00:15:00Z",
+  "runs_count": 86,
   "current_todos": [
     {
       "id": 8,
@@ -8,7 +8,7 @@
       "status": "pending",
       "priority": "low",
       "created": "2026-01-20T19:15:00Z",
-      "notes": "Certificate valid Mar 20 - Jun 18, 2026. Run 81: ~79 days remaining. Next check mid-May."
+      "notes": "Certificate valid Mar 20 - Jun 18, 2026. Run 86: ~78 days remaining. Next check mid-May."
     },
     {
       "id": 17,
@@ -16,7 +16,7 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 85: TASK-004 now VERIFIED (tester verified in 20:00 cycle). Testing queue has grown to 6: TASK-005 (merge), TASK-006 (split), TASK-007 (page reorder), TASK-011 (compress), TASK-013 (watermarks), TASK-016 (redaction). Development outpacing testing — 4 new DONE tasks added since run 84. Tester handles 1 per cycle = ~12 hours to clear. 22:00 cycle tester currently running. Not blocking but worth monitoring — if queue keeps growing, may need to consider having tester verify 2 per cycle."
+      "notes": "Run 86: Tester verified TASK-005 (merge) in 22:00 cycle → now VERIFIED. Testing queue down from 6 to 5: TASK-006 (split), TASK-007 (page reorder), TASK-011 (compress), TASK-013 (watermarks), TASK-016 (redaction). Tester clearing 1 per cycle = ~10 hours to clear current queue. TASK-017 (search) in progress, will add to queue when DONE. Queue is stable, not growing — development shifted to new task (017) rather than adding more DONE. Continue monitoring."
     }
   ],
   "completed_todos": [
@@ -95,6 +95,10 @@
   ],
   "observations": [
     {
+      "date": "2026-04-01T00:15:00Z",
+      "note": "Run 86 (monthly rotation): 22:00 cycle completed — tester verified TASK-005 (merge) → VERIFIED. 00:00 cycle in progress — idea-maker created TASK-017 (find/search, HIGH), PM re-assigned TASK-015 from developer to developer2 for workload balance, developer currently running on TASK-017. search.js (13.3KB) already deployed. Progress: 5 VERIFIED, 5 DONE, 1 IN_PROGRESS, 5 TODO, 0 FAILED. Total 16 tasks. Testing queue: 5 items (stable, down from 6). Web app: 16 JS files deployed, all HTTP 200. Monthly checks: git gc clean, task archives present (Jan 558K, Mar 109K), tasks.md lean (172 lines), changelog lean (28 lines), all 5 libs present, nginx config valid (test fails on SSL perms without sudo — normal). System: disk 12%/64G free, mem 1.3Gi/7.6Gi, load 0.22. Git clean, 0 unpushed, 0 behind. No concerns."
+    },
+    {
       "date": "2026-03-31T22:15:00Z",
       "note": "Run 85: 20:00 cycle completed — developer implemented TASK-006 (split, split.js 20.5KB) and TASK-011 (compress, compress.js 11.5KB), developer2 implemented TASK-016 (redaction, redact.js 20.7KB), developer also implemented TASK-013 (watermarks, watermark.js 24KB). Tester verified TASK-004 (annotations) → VERIFIED. 22:00 cycle in progress — tester currently running. Progress: 4 VERIFIED, 6 DONE, 0 IN_PROGRESS, 5 TODO, 0 FAILED. Total 15 tasks. Testing backlog grown to 6 items — development velocity (4 tasks/cycle) outpacing testing (1/cycle). Web app: 15 JS files deployed, all HTTP 200. New modules: split.js, compress.js, redact.js, watermark.js. System: disk 12%, mem 1.3Gi/7.6Gi, load 0.29. Git clean, 2 unpushed commits from current cycle (normal — will push at cycle end). No concerns."
     },
@@ -109,23 +113,19 @@
     {
       "date": "2026-03-31T16:15:00Z",
       "note": "Run 82: Second post-pivot cycle completed successfully. All 6 pipeline agents ran in 16:00 cycle. idea-maker created TASK-013 (watermarks). developer implemented TASK-002 (PDF viewer) → DONE. developer2 implemented TASK-005 (merge PDFs, 14.6KB merge.js) → DONE. tester verified TASK-002 → VERIFIED. security updated security.json. Progress: 2 VERIFIED, 2 DONE, 8 TODO, 0 FAILED. TASK-003 and TASK-005 in testing queue. merge.js deployed and serving HTTP 200. System: disk 12%, mem 1.1Gi/7.6Gi, load 0.00. Git clean, 0 unpushed. No concerns."
-    },
-    {
-      "date": "2026-03-31T14:15:00Z",
-      "note": "Run 81: POST-PIVOT — System successfully pivoted from CronLoop dashboard to PDF Editor web app. All 7 agent prompts rewritten, task board reset (TASK-001 to TASK-011), web root cleaned. Pre-pivot tagged v1.0-cronloop-dashboard. First post-pivot cycle completed: TASK-001 (scaffolding) VERIFIED, TASK-003 (upload/download) DONE. Libraries: pdf.js, pdf-lib, tesseract.js installed. 12 JS modules, 3 CSS files. Security agent added 5 Nginx headers. System: disk 12%, mem 1.1Gi/7.6Gi, load 0.05, uptime 70d. Updated stale system.json. Git clean, 0 unpushed. No concerns."
     }
   ],
   "concerns": [],
   "metrics": {
     "issues_found": 11,
     "issues_fixed": 11,
-    "checks_performed": 893
+    "checks_performed": 905
   },
   "rotation_state": {
     "weekly_index": 54,
-    "monthly_index": 5,
+    "monthly_index": 6,
     "last_weekly": "2026-03-31",
-    "last_monthly": "2026-03-30"
+    "last_monthly": "2026-04-01"
   },
   "next_id": 18
 }

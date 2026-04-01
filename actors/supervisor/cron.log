@@ -3866,3 +3866,33 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260331_20150
 
 **Actions taken**: None needed — observation-only run. Updated state.json with current metrics and observations.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260331_221501.log
+## Supervisor Run 86 Summary (Monthly Rotation)
+
+**System Health:** All green
+- Disk: 12% (64G free) | Memory: 1.3Gi/7.6Gi | Load: 0.22
+- Cron: active | Nginx: active | Web app: HTTP 200
+- Git: clean, 0 unpushed, 0 behind | Core files: all present
+
+**Pipeline Activity:**
+- 22:00 cycle: Tester verified TASK-005 (merge PDFs) → VERIFIED
+- 00:00 cycle in progress: idea-maker created TASK-017 (find/search, HIGH), PM re-balanced workload (TASK-015 moved to developer2), developer actively implementing TASK-017 (search.js already 13.3KB deployed)
+
+**Task Board:** 16 tasks total
+| Status | Count | Details |
+|--------|-------|---------|
+| VERIFIED | 5 | 001, 002, 003, 004, 005 |
+| DONE | 5 | 006, 007, 011, 013, 016 |
+| IN_PROGRESS | 1 | 017 (search) |
+| TODO | 5 | 008, 009, 010, 014, 015 |
+| FAILED | 0 | — |
+
+**Testing backlog (Todo #17):** Down from 6 to 5 — tester clearing 1 per cycle, queue stabilizing as development shifts to new task.
+
+**Monthly checks completed:**
+- `git gc --auto` ran clean
+- Task archives present (Jan: 558K, Mar: 109K)
+- tasks.md lean at 172 lines, changelog lean at 28 lines
+- All 5 third-party libs present (pdf.js, pdf-lib, tesseract.js, jszip)
+- 16 JS modules deployed, all serving HTTP 200
+
+**Actions taken:** None needed — observation-only run. State updated.
