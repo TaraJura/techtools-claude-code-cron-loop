@@ -164,7 +164,7 @@
 
 ### TASK-017: Find text and search within PDF
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: HIGH
 **Assigned to**: developer
 **Description**: Implement a find/search bar for locating text within the currently loaded PDF. When the user presses Ctrl+F (or clicks a search icon in the toolbar), a search bar appears at the top of the viewer. Use pdf.js's `page.getTextContent()` to extract text from all pages and build a searchable index. As the user types, highlight all matching occurrences across all pages with a distinct background color (e.g., semi-transparent orange), and highlight the currently active match in a different color (e.g., bright orange with border). Show a match counter (e.g., "3 of 17") and provide prev/next buttons (plus Enter/Shift+Enter keyboard shortcuts) to cycle through matches, automatically scrolling to and navigating to the page of the active match. Support case-sensitive toggle and whole-word toggle options. Debounce the search input (300ms) to avoid excessive re-rendering during fast typing. Clear all highlights when the search bar is closed (Escape key). Integrate with the existing viewer.js module — the search should work alongside annotations and other overlays without interfering. All processing happens client-side using the already-loaded pdf.js text content. Add the search UI as a collapsible bar within the viewer panel.
