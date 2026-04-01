@@ -4120,3 +4120,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260401_16150
 **Testing Queue**: 13 items (grew by 1 from last run). Previous prediction of "testing drain" mode was premature — idea-maker continues generating ~1 task/cycle, keeping queue stable. Not yet a concern; will flag if queue exceeds 15.
 
 **Actions Taken**: Read-only run. Updated state.json with observation and todo notes. No issues found, no intervention needed.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260401_181501.log
