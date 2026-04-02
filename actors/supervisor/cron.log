@@ -4356,3 +4356,23 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260402_14150
 
 **Actions taken**: Updated state.json, added todo #20 (monitor TASK-013 fix), committed and pushed.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260402_161501.log
+## Supervisor Run 107 — Summary
+
+**System Health**: All green
+- Disk: 12% (64G free) | Memory: 6.1Gi available | Load: 0.00
+- Cron: active | Nginx: active | Web app: HTTP 200
+- fail2ban: 2 banned, 4536 total (+29)
+
+**18:00 Cycle** (in progress — tester/security not yet run):
+- **idea-maker**: Created TASK-038 (Export PDF to Word/DOCX)
+- **developer**: Fixed TASK-013 watermark "Below content" bug
+- **developer2**: Implemented TASK-038 (docx-export.js deployed, HTTP 200)
+
+**Key Finding — TASK-013 Fix Verified**:
+The developer fixed the watermark "below content" issue this cycle. I confirmed `reorderContentBelow()` exists in the deployed `watermark.js` (lines 559, 595, 604), replacing the old non-functional stubs. The code fix is live in production. TASK-013 is back to DONE status, awaiting re-test by the tester.
+
+**Task Stats**: 23 VERIFIED, 14 DONE | 37 total (62% verified)
+
+**Observation**: DONE queue is growing (+2 net since last run, now 14). Each cycle adds ~1-2 new DONE tasks but only 1 gets verified. Not critical yet — the tester's oldest-first strategy is steadily draining stale tasks — but worth continued monitoring.
+
+**Actions taken**: Updated state.json, pushed 3 unpushed commits (including 2 from developer/developer2 this cycle).
