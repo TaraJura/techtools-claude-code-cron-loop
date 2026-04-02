@@ -1,22 +1,16 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-02T14:15:00Z",
+  "last_review": "2026-04-02T16:15:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "17017 in current log rotation (up from 16576, +441)",
-    "fail2ban_status": "active - sshd jail running, 7 currently banned, 4420 total banned",
+    "failed_password_attempts": "17394 in current log rotation (up from 17017, +377)",
+    "fail2ban_status": "active - sshd jail running, 2 currently banned, 4506 total banned",
     "top_attackers_currently_banned": [
-      {"ip": "45.148.10.152"},
-      {"ip": "80.94.92.187"},
-      {"ip": "80.94.92.177"},
-      {"ip": "2.57.121.118"},
-      {"ip": "2.57.121.69"},
-      {"ip": "2.57.122.194"},
-      {"ip": "2.57.122.197"},
-      {"ip": "195.178.110.30"}
+      {"ip": "92.118.39.62"},
+      {"ip": "2.57.121.25"}
     ],
-    "change_since_last": "fail2ban total bans 4420 (up from 4322, +98). 7 IPs currently banned (up from 6). 17017 failed passwords (+441). Continued brute-force from botnets (2.57.121.x, 2.57.122.x, 80.94.92.x, 45.148.10.x, 195.178.110.x). Only authorized activity from novakj."
+    "change_since_last": "fail2ban total bans 4506 (up from 4420, +86). 2 IPs currently banned (down from 7 — bans expired). 17394 failed passwords (+377). Continued brute-force from botnets (80.94.92.x, 2.57.121.x, 92.118.39.x, 131.161.249.x, 150.95.112.x). Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -50,26 +44,27 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "74 usages across 24 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper reads. autosave.js and flatten.js use 0 innerHTML writes."
+    "innerHTML_note": "88 usages across 25 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper reads. tables.js uses 5 innerHTML writes (4 clearing, 1 integer-only interpolation)."
   },
-  "autosave_module_review": {
-    "file": "js/autosave.js",
-    "feature": "Auto-save & session recovery — stores editing state in IndexedDB for browser session recovery",
+  "tables_module_review": {
+    "file": "js/tables.js",
+    "feature": "Table extraction & export — detect tables in PDF pages, preview, edit, export as CSV/XLSX/clipboard",
     "status": "secure",
-    "lines": 443,
-    "innerHTML_writes": 0,
+    "lines": 868,
+    "innerHTML_writes": 5,
+    "innerHTML_detail": "4 clearing operations (innerHTML = ''), 1 integer-only template (Table idx + Page num — no user data)",
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
     "xss_safe": true,
-    "text_display": "All user-facing text via textContent (session indicator, recovery banner filename/time). showToast (textContent-based) for notifications.",
-    "storage": "IndexedDB only — client-side, no server requests, no external calls",
-    "data_stored": "PDF ArrayBuffer, annotations, drawings, signatures, form values, sticky notes, page/zoom state",
-    "stale_cleanup": "Sessions older than 7 days auto-deleted",
-    "quota_handling": "QuotaExceededError caught — stops autosave and warns user",
+    "text_display": "All PDF-extracted text displayed via textContent (cell rendering line 707, card info line 627, preview rows line 637). contentEditable cells sync back via textContent.",
+    "csv_export": "Properly escapes double quotes and wraps fields containing commas/quotes/newlines. UTF-8 BOM for Excel.",
+    "xlsx_export": "Uses SheetJS library (self-hosted). Data passed as arrays, no HTML injection path.",
+    "clipboard": "Uses navigator.clipboard.writeText (plain text). Fallback uses textarea + execCommand('copy').",
+    "file_downloads": "Uses sanitizeFilename() from utils.js for all download filenames.",
     "no_external_requests": true,
     "no_server_storage": true,
-    "error_handling": "try/catch on all DB operations, console.error for debugging, showToast for user-facing errors"
+    "new_dependency": "xlsx.full.min.js (SheetJS, 952KB, self-hosted in /lib/)"
   },
   "new_dependencies": {
     "jszip_min_js": {
@@ -78,6 +73,13 @@
       "purpose": "ZIP file creation for split, convert, batch, and extract-images module downloads",
       "self_hosted": true,
       "added": "2026-03-31"
+    },
+    "xlsx_full_min_js": {
+      "file": "lib/xlsx.full.min.js",
+      "size": "952KB",
+      "purpose": "XLSX export for table extraction module",
+      "self_hosted": true,
+      "added": "2026-04-02"
     }
   },
   "cgi_security": {
@@ -118,6 +120,7 @@
     "pdf_validation_complete_4_checks",
     "autosave_module_secure",
     "flatten_module_secure",
+    "tables_module_secure",
     "task_034_hyperlinks_module_secure",
     "task_033_viewer_continuous_dual_secure",
     "sticky_notes_module_secure",
@@ -154,11 +157,12 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_77_days",
-    "fail2ban_active_4420_total_bans",
+    "fail2ban_active_4506_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
     "jszip_self_hosted_in_lib",
+    "xlsx_self_hosted_in_lib",
     "nginx_config_syntax_ok"
   ],
   "known_issues": [
@@ -176,11 +180,12 @@
     "batch.js line 294: escapeHtml() used with textContent causes double-escaping — cosmetic display bug for filenames containing &, <, >."
   ],
   "notes": [
-    "Full security review completed — 60 checks passed, 0 critical findings.",
-    "NEW: Reviewed autosave.js (session auto-save & recovery, 443 lines): 0 innerHTML writes, no eval/Function/document.write. All text via textContent. IndexedDB-only storage (no server calls). Proper QuotaExceededError handling. Stale cleanup at 7 days. SECURE.",
-    "innerHTML count: 74 across 24 JS files (down from 82/25 — likely due to code refactoring in recent feature updates, all verified safe).",
-    "All 36 JS files scanned: no eval(), Function(), document.write() found. No sensitive files or symlinks in webroot.",
-    "SSH: fail2ban total bans 4420 (+98 since last review). 7 IPs currently banned (up from 6). 17017 failed passwords (+441). Continued brute-force from botnets. Only authorized activity from novakj.",
+    "Full security review completed — 63 checks passed, 0 critical findings.",
+    "NEW: Reviewed tables.js (table extraction & export, 868 lines): 5 innerHTML writes (4 clearing, 1 integer-only). No eval/Function/document.write. All PDF text via textContent. CSV properly escapes quotes. XLSX via SheetJS (self-hosted). Clipboard via plain text API. Downloads use sanitizeFilename(). SECURE.",
+    "NEW: xlsx.full.min.js (SheetJS, 952KB) added to /lib/ — self-hosted, used by tables module for XLSX export.",
+    "innerHTML count: 88 across 25 JS files (up from 74/24 — tables.js adds 5, 38 total JS files now). All verified safe.",
+    "All 38 JS files scanned: no eval(), Function(), document.write() found. No sensitive files or symlinks in webroot.",
+    "SSH: fail2ban total bans 4506 (+86 since last review). 2 IPs currently banned (down from 7). 17394 failed passwords (+377). Continued brute-force from botnets. Only authorized activity from novakj.",
     "SSL certificate valid until June 18, 2026 (77 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "Nginx config syntax valid. All security headers confirmed in HTTP response."
