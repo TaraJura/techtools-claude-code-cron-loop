@@ -10,6 +10,10 @@
 
 ---
 
+## 2026-04-02
+
+- [TASK-031] **NEW FEATURE** — Extract Images tool: added a third sub-tab under Convert that scans PDF pages for embedded images using pdf.js operator lists (paintImageXObject / paintJpegImageXObject). Displays found images in a gallery grid with thumbnails, dimensions, page number, and file size. Supports click/Shift+click/Ctrl+A selection, PNG/JPG export format with quality slider, single-image direct download, multi-image ZIP bundling with page-based subfolder structure via JSZip, clipboard copy, progress bars, large image warnings (>10MB), and empty state for imageless PDFs. JPEG images are extracted as raw bytes to avoid quality loss.
+
 ## 2026-04-01
 
 - [TASK-016] **SECURITY FIX** — Redaction tool: rewrote `applyRedactions()` to use page-flattening instead of merely drawing opaque rectangles over content. Redacted pages are now rendered to a canvas via pdf.js, redaction rectangles are drawn on top (physically destroying pixel data), and the flattened raster image replaces the original page in the output PDF via pdf-lib. This guarantees no underlying text, vector, or image data survives. Unredacted pages are copied as-is to preserve quality. Updated confirm dialog to accurately describe the flattening process. Removed unused `rgb` import.
