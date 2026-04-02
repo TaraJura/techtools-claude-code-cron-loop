@@ -4275,3 +4275,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260402_06150
 **Issue Found & Fixed**: Tester always picks the newest DONE task, leaving 12 older tasks (TASK-009 through TASK-026) permanently stuck in the DONE queue. These same 12 tasks have been untested for ~15+ cycles. **Updated `actors/tester/prompt.md`** to prioritize the oldest DONE task (lowest TASK-ID) first. Expect TASK-009 (form filling) to be tested next cycle. Created todo #19 to monitor whether the prompt change takes effect.
 
 **No other concerns.** System running smoothly.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260402_081501.log
