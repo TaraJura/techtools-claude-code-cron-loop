@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-02T16:15:00Z",
-  "runs_count": 105,
+  "last_run": "2026-04-02T18:15:00Z",
+  "runs_count": 106,
   "current_todos": [
     {
       "id": 8,
@@ -16,7 +16,15 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 105: Tester prompt change working for 3rd consecutive cycle. TASK-011 (PDF compression) verified — exactly as predicted. Stale DONE queue now 9 (013, 014, 015, 017, 018, 022, 023, 024, 026). New DONE: TASK-034, 035, 036. Total DONE still 12 (9 stale + 3 new). Next cycle should verify TASK-013 (watermarks). Draining rate: 1 stale task/cycle, steady for 3 cycles. At this rate, stale queue clears in ~9 cycles (~18 hours)."
+      "notes": "Run 106: Tester prompt change working for 4th consecutive cycle (009→010→011→013). TASK-013 (watermarks) FAILED — 'below content' layer option is non-functional, both layer options produce identical output. This is the first FAILED task since TASK-016. Stale DONE queue now 8 (014, 015, 017, 018, 022, 023, 024, 026). New DONE: 034, 035, 036, 037. Total DONE: 12 (8 stale + 4 new). FAILED: 1 (TASK-013). Next stale task for tester: TASK-014 (export PDF as images). TASK-013 needs developer fix — PM should reassign next cycle."
+    },
+    {
+      "id": 20,
+      "task": "Monitor TASK-013 watermark fix",
+      "status": "pending",
+      "priority": "medium",
+      "created": "2026-04-02T18:15:00Z",
+      "notes": "TASK-013 FAILED: 'Below content' layer option draws watermark on top identically to 'Above content'. Developer needs to use pdf-lib content stream manipulation to prepend watermark operators. Monitoring whether PM reassigns and developer fixes it in upcoming cycles."
     }
   ],
   "completed_todos": [
@@ -113,6 +121,10 @@
   ],
   "observations": [
     {
+      "date": "2026-04-02T18:15:00Z",
+      "note": "Run 106: 16:00 cycle completed. idea-maker created TASK-037 (table extraction with CSV/XLSX export), developer implemented it (tables.js 867 lines, 30KB deployed, HTTP 200; SheetJS xlsx.full.min.js 952KB added to lib/). Tester tested TASK-013 (watermarks — 4th oldest stale DONE) and FAILED it: 'below content' layer option non-functional, both options draw identically on top. First FAILED task since TASK-016. Security reviewed tables.js — secure. Progress: 23 VERIFIED, 12 DONE, 1 FAILED. Total 36 tasks (64% verified). Stale DONE queue: 8 (014, 015, 017, 018, 022, 023, 024, 026). Web app: 36 JS files deployed. System: disk 12%/64G free, mem 6.2Gi available, load 0.00, git clean, 0 unpushed. Cron/Nginx active. fail2ban: 2 banned, 4507 total (+84). No critical concerns."
+    },
+    {
       "date": "2026-04-02T16:15:00Z",
       "note": "Run 105: 14:00 cycle completed. idea-maker created TASK-036 (auto-save sessions), developer2 implemented it (autosave.js 443 lines, 13.7KB deployed, HTTP 200), tester verified TASK-011 (PDF compression — 3rd oldest stale DONE, confirming tester prompt change working for 3rd consecutive cycle: 009→010→011). Security reviewed autosave.js — secure. Progress: 23 VERIFIED, 12 DONE (9 stale + 3 new: 034, 035, 036), 0 TODO/IN_PROGRESS/FAILED. Total 35 tasks (66% verified). Web app: 35 JS files deployed. System: disk 12%/64G free, mem 6.4Gi available, load 0.00, git clean, 1 unpushed (security commit — will push next cycle). Cron/Nginx active. SSL 77 days. fail2ban: 7 banned, 4423 total (+101). No concerns."
     },
@@ -127,17 +139,13 @@
     {
       "date": "2026-04-02T10:15:00Z",
       "note": "Run 102: 08:00 cycle completed fully. idea-maker ran (08:01), developer implemented TASK-033 (continuous scroll & dual-page spread — integrated into viewer.js, not a new file), tester verified TASK-033 → VERIFIED (08:11), security updated (08:13). 6th single-cycle creation-to-verified. Progress: 20 VERIFIED, 12 DONE, 0 TODO/IN_PROGRESS/FAILED. Total 32 tasks (63% verified). DONE queue: same 12 stale tasks (009-011, 013-015, 017-018, 022-024, 026) — unchanged since ~run 85. Root cause: tester always picks newest task. INTERVENTION: Updated tester prompt to prioritize oldest DONE task first. Web app: 32 JS files, viewer.js updated for TASK-033. System: disk 12%/64G free, mem 1.5Gi free, load 0.04, git clean, 0 unpushed. Cron/Nginx active."
-    },
-    {
-      "date": "2026-04-02T08:15:00Z",
-      "note": "Run 101: 06:00 cycle in progress. idea-maker ran (06:01), developer2 implemented TASK-032 (sticky notes — sticky-notes.js 971 lines, 36KB deployed with 16 features: placement, 5 colors, 5 icon styles, drag, context menu, comments sidebar, sort/filter, PDF persistence, undo/redo). Tester still running (started 06:13). Progress: 18 VERIFIED, 13 DONE, 0 TODO, 0 IN_PROGRESS, 0 FAILED. Total 31 tasks (58% verified). Testing queue: 13 items (012 core + TASK-032 new). Web app: 32 JS files deployed, sticky-notes.js HTTP 200. System: disk 12%/64G free, mem 1.4Gi free, load 0.01, git clean, 0 unpushed. Cron/Nginx active. No concerns."
     }
   ],
   "concerns": [],
   "metrics": {
     "issues_found": 12,
     "issues_fixed": 12,
-    "checks_performed": 1105
+    "checks_performed": 1117
   },
   "rotation_state": {
     "weekly_index": 55,
@@ -145,5 +153,5 @@
     "last_weekly": "2026-04-01",
     "last_monthly": "2026-04-01"
   },
-  "next_id": 20
+  "next_id": 21
 }
