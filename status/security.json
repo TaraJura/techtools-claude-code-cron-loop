@@ -1,22 +1,20 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-02T08:12:00Z",
+  "last_review": "2026-04-02T10:15:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "15914 in current log rotation (up from 15639, +275)",
-    "fail2ban_status": "active - sshd jail running, 8 currently banned, 4128 total banned",
+    "failed_password_attempts": "16263 in current log rotation (up from 15914, +349)",
+    "fail2ban_status": "active - sshd jail running, 6 currently banned, 4228 total banned",
     "top_attackers_currently_banned": [
-      {"ip": "91.224.92.50"},
-      {"ip": "49.212.184.112"},
-      {"ip": "45.227.254.170"},
-      {"ip": "80.94.92.187"},
-      {"ip": "2.57.121.50"},
-      {"ip": "45.148.10.152"},
-      {"ip": "80.94.92.164"},
-      {"ip": "80.94.92.177"}
+      {"ip": "45.148.10.141"},
+      {"ip": "2.57.121.86"},
+      {"ip": "2.57.122.195"},
+      {"ip": "45.148.10.147"},
+      {"ip": "80.94.92.166"},
+      {"ip": "2.57.121.17"}
     ],
-    "change_since_last": "fail2ban total bans 4128 (up from 4064, +64). 8 IPs currently banned (up from 4). 15914 failed passwords (+275). Continued brute-force from botnets. Only authorized activity from novakj. Some rejected ssh-rsa pubkey attempts (algorithm not in PubkeyAcceptedAlgorithms) — likely automated scanners."
+    "change_since_last": "fail2ban total bans 4228 (up from 4128, +100). 6 IPs currently banned (down from 8). 16263 failed passwords (+349). Continued brute-force from botnets (2.57.121.x, 45.148.10.x, 80.94.92.x). Only authorized activity from novakj. Rejected ssh-rsa pubkey attempts from 139.19.117.130 — automated scanner."
   },
   "web_protections": {
     "security_headers": {
@@ -50,30 +48,33 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "74 usages across 24 files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, or hardcoded SVG. viewer.js has 6 usages: 3 clearing operations, 1 text layer clear, 1 static '<h4>Pages</h4>', 1 static spinner HTML."
+    "innerHTML_note": "74 usages across 24 files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, or hardcoded SVG. hyperlinks.js added 5 (1 static dialog, 1 clearing, 1 hardcoded entity, 1 static context menu, 1 link list panel with escapeHtml)."
   },
-  "task_033_review": {
-    "file": "js/viewer.js",
-    "feature": "continuous scroll & dual-page spread view",
+  "task_034_review": {
+    "file": "js/hyperlinks.js",
+    "feature": "hyperlink annotations — add, edit, detect, navigate links in PDFs",
     "status": "secure",
-    "innerHTML_count": 6,
+    "innerHTML_count": 5,
     "innerHTML_safe": true,
     "innerHTML_details": [
-      "Line 132: pagesContainer.innerHTML = '' — clearing operation. SAFE.",
-      "Line 188: pagesContainer.innerHTML = '' — clearing operation. SAFE.",
-      "Line 361: pagesContainer.innerHTML = '' — clearing operation. SAFE.",
-      "Line 473: container.innerHTML = '' — text layer clearing. SAFE.",
-      "Line 504: panel.innerHTML = '<h4>Pages</h4>' — hardcoded static HTML. SAFE.",
-      "Line 702: loader.innerHTML = '<div class=\"spinner\"></div><span>Loading PDF...</span>' — hardcoded static HTML. SAFE."
+      "Line 360: dialogOverlay.innerHTML = static dialog template. SAFE.",
+      "Line 607: linkLayer.innerHTML = '' — clearing operation. SAFE.",
+      "Line 660: badge.innerHTML = '&#128279;' — hardcoded entity. SAFE.",
+      "Line 709: contextMenu.innerHTML = static context menu template. SAFE.",
+      "Line 835: panel.innerHTML = html — link list panel. User data escaped via escapeHtml(). SAFE for text context. title attribute uses escapeHtml() which doesn't escape double quotes — same known issue as merge.js/batch.js, CSP mitigated."
     ],
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
     "xss_safe": true,
-    "text_rendering": "Line 478: span.textContent = item.str — properly uses textContent for PDF-extracted text. No innerHTML with user content.",
-    "resource_management": "cleanup() cancels render tasks, disconnects IntersectionObserver, clears maps. unloadContinuousPage() replaces rendered pages with sized placeholders when off-screen. Prevents memory leaks in continuous scroll.",
-    "localStorage_usage": "viewMode and coverPageMode stored in localStorage. Values only compared against hardcoded strings or used as boolean — not injected into HTML.",
-    "zoom_bounds": "Zoom clamped to [0.25, 5] range. Page numbers bounds-checked.",
+    "url_handling": {
+      "user_entered_urls": "Forced to https:// prefix (line 504), prevents javascript: URIs. SAFE.",
+      "detected_pdf_urls": "Passed to window.open() without protocol validation (line 684). Malicious PDFs could contain javascript: URIs. CSP script-src 'self' + noopener/noreferrer mitigate. LOW-MEDIUM risk.",
+      "email_urls": "Validated with regex, prefixed with mailto:. SAFE.",
+      "window_open_noopener": "URL links use noopener,noreferrer. SAFE."
+    },
+    "input_validation": "URL format enforced, email regex validated, page number bounds-checked against totalPages.",
+    "memory_management": "Maps cleared on pdf:ready. Undo stacks capped at 40 entries per page.",
     "no_external_requests": true,
     "no_server_storage": true
   },
@@ -122,6 +123,7 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "task_034_hyperlinks_module_secure",
     "task_033_viewer_continuous_dual_secure",
     "sticky_notes_module_secure",
     "extract_images_module_secure",
@@ -157,7 +159,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_77_days",
-    "fail2ban_active_4128_total_bans",
+    "fail2ban_active_4228_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -171,24 +173,26 @@
     "disable_symlinks off in nginx config - low risk since only novakj can write to webroot.",
     "CGI location block exists in nginx but no CGI scripts present - dead config that could be removed.",
     "Codex proxy at /codex returns 502 - backend not running. No security risk but dead endpoint.",
-    "merge.js and batch.js use escapeHtml() in attribute contexts (aria-label) which does not escape double quotes. CSP script-src 'self' mitigates inline handler injection. Should add escapeAttr() function.",
+    "merge.js, batch.js, and hyperlinks.js use escapeHtml() in attribute contexts (title/aria-label) which does not escape double quotes. CSP script-src 'self' mitigates inline handler injection. Should add escapeAttr() function.",
+    "hyperlinks.js: detected PDF link URLs not validated for protocol scheme. A malicious PDF could contain javascript: URIs in link annotations. CSP + noopener/noreferrer mitigate. Should add protocol allowlist (http/https/mailto) before window.open().",
     "img2pdf.js image validation uses OR logic (MIME type OR extension) - slightly permissive but acceptable for client-side processing.",
     "insert-pages.js has dead code: escapeHtml() function defined but never called.",
     "metadata.js has dead code: escapeHtml() function defined but never called.",
     "batch.js line 294: escapeHtml() used with textContent causes double-escaping — cosmetic display bug for filenames containing &, <, >."
   ],
   "notes": [
-    "Full security review completed — 57 checks passed, 0 critical findings.",
-    "NEW: Reviewed viewer.js TASK-033 (continuous scroll & dual-page spread): 6 innerHTML usages — 3 clearing operations, 1 text layer clear, 1 static heading, 1 static spinner. PDF text rendered via textContent (line 478). localStorage used for mode persistence but values never injected into HTML. Resource management proper: cleanup() cancels tasks and disconnects observers; unloadContinuousPage() prevents memory leaks. SECURE.",
-    "innerHTML count unchanged at 74 across 24 files (viewer.js count was already 4 — now 6 but 2 new are clearing ops that were already counted in the total).",
+    "Full security review completed — 58 checks passed, 0 critical findings.",
+    "NEW: Reviewed hyperlinks.js TASK-034 (hyperlink annotations): 5 innerHTML usages — 1 static dialog template, 1 clearing, 1 hardcoded entity, 1 static context menu, 1 link list panel with escapeHtml(). User-entered URLs forced to https:// prefix. Email addresses regex-validated. Page numbers bounds-checked. window.open uses noopener,noreferrer for URL links. Undo capped at 40. No external requests, no server storage. SECURE with one new known issue: detected PDF link URLs not protocol-validated.",
+    "innerHTML count: 74 across 24 files (hyperlinks.js adds 5 new usages).",
     "All JS files scanned: no eval(), Function(), document.write() found. No sensitive files or symlinks in webroot.",
-    "SSH: fail2ban total bans 4128 (+64 since last review). 8 IPs currently banned (up from 4). 15914 failed passwords (+275). Rejected ssh-rsa pubkey attempts from scanners. Only authorized activity from novakj.",
+    "SSH: fail2ban total bans 4228 (+100 since last review). 6 IPs currently banned (down from 8). 16263 failed passwords (+349). Continued brute-force from botnets. Only authorized activity from novakj.",
     "SSL certificate valid until June 18, 2026 (77 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "Nginx config syntax valid. All security headers confirmed in HTTP response."
   ],
   "recommendations": [
-    "LOW: Add escapeAttr() function to merge.js and batch.js for attribute contexts (aria-label) instead of escapeHtml()",
+    "MEDIUM-LOW: Add protocol allowlist to hyperlinks.js handleLinkClick() — only allow http:, https:, mailto: schemes before calling window.open() on detected PDF links",
+    "LOW: Add escapeAttr() function to merge.js, batch.js, and hyperlinks.js for attribute contexts instead of escapeHtml()",
     "LOW: Fix batch.js line 294 — use fileName directly with textContent instead of escapeHtml(fileName)",
     "LOW: Set server_tokens off in nginx.conf to stop leaking version info (currently exposes nginx/1.26.3)",
     "LOW: Enable UFW firewall (sudo ufw allow 22,80,443/tcp && sudo ufw enable)",
