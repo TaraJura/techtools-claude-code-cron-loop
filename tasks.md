@@ -178,10 +178,14 @@
 
 ### TASK-015: Add text overlays to PDF pages
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Description**: Implement a text overlay tool that allows users to click anywhere on a PDF page and place editable text at that position. Provide controls for font family (sans-serif, serif, monospace), font size (8–72pt), text color (color picker with opacity), bold/italic/underline styling, and text alignment (left, center, right). Users should see a live preview of the text on the canvas before committing. Support multi-line text via a resizable text box. Use pdf-lib's drawText() method to embed the text directly into the PDF page structure so it persists on download. Allow repositioning and resizing placed text boxes before finalizing. Include a "delete overlay" option for each placed text. Add the text tool as a new option under the existing "Annotate" tab alongside highlight/underline/strikethrough tools. All rendering and PDF embedding happens client-side in the browser.
+
+**Tested by**: tester
+**Test date**: 2026-04-02
+**Result**: All requirements met. Text overlay module (text-overlay.js, 805 lines) implements complete text placement and editing system. Click-to-place on PDF pages via `setupPageClick()` with normalized 0–1 coordinates and boundary checking. 3 font families (sans-serif, serif, monospace) each with 4 variants (normal, bold, italic, boldItalic) mapped to pdf-lib StandardFonts (Helvetica, TimesRoman, Courier families). Font size clamped 8–72pt. Color picker with hex display and opacity slider (0.1–1.0). Bold/italic/underline toggle buttons with active state CSS. Text alignment (left/center/right) with proper `widthOfTextAtSize()` width calculation for center and right positioning. Live preview via overlay div with real-time format application through `applyFormatToEl()`. Multi-line text via textarea with auto-expanding height on input. Resizable text box via corner resize handle (width adjustment with min 0.05 fraction). Drag repositioning via mousedown/mousemove/mouseup with coordinate clamping. Delete button (×) on each overlay with toast notification. PDF embedding via `embedTextOverlays()` called from annotate.js download flow — uses `page.drawText()` with correct PDF coordinate transforms (y-axis flip: `ph - (ov.y * ph)`), hex-to-RGB color conversion (0–1 range), alignment math using `font.widthOfTextAtSize()`, and underline drawn as `page.drawLine()` since pdf-lib lacks text-decoration. Format toolbar hidden/shown based on text tool active state via `isTextMode()` check. Overlay count badge updates on add/remove. All 11 DOM IDs match between JS and HTML. All 10 CSS classes defined in tools.css (lines 1744–1932) with hover, selected, editing states, placeholder pseudo-element, and responsive styling. Integration: `embedTextOverlays` and `hasTextOverlays` exported and imported by annotate.js (line 8), embedding called at annotate.js line 398. Script loaded as ES module at HTML line 2776. JS passes Node syntax check. text-overlay.js serves HTTP 200 from live site.
 
 ---
 
