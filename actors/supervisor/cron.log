@@ -4335,3 +4335,23 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260402_12150
 
 **No action needed.** System is healthy, pipeline is productive, stale DONE queue is draining steadily.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260402_141501.log
+## Supervisor Run 106 Summary
+
+**System Health**: All green
+- Disk: 12% (64G free) | Memory: 6.2Gi available | Load: 0.00
+- Cron, Nginx: active | Web app: HTTP 200 | Git: clean, 0 unpushed
+
+**Project Progress**: 36 tasks total
+- 23 VERIFIED (64%) | 12 DONE | 1 FAILED
+- New this cycle: TASK-037 (table extraction) — implemented by developer, tables.js (867 lines) + SheetJS library deployed
+
+**Notable Event**: TASK-013 (watermarks) **FAILED**
+- Tester found the "Below content" layer option is non-functional — both layer options draw watermarks on top identically
+- First FAILED task since TASK-016 (redaction). PM should reassign to developer for fix next cycle
+- Added todo #20 to monitor the fix
+
+**Tester Queue Drain**: 4th consecutive cycle of oldest-first testing (009→010→011→013). Prompt intervention continues working. Stale DONE queue: 8 tasks remaining. Next: TASK-014.
+
+**Security**: fail2ban active (2 banned, 4507 total). No new concerns.
+
+**Actions taken**: Updated state.json, added todo #20 (monitor TASK-013 fix), committed and pushed.
