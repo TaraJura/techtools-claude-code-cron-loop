@@ -1,20 +1,20 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-02T10:15:00Z",
+  "last_review": "2026-04-02T12:15:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "16263 in current log rotation (up from 15914, +349)",
-    "fail2ban_status": "active - sshd jail running, 6 currently banned, 4228 total banned",
+    "failed_password_attempts": "16576 in current log rotation (up from 16263, +313)",
+    "fail2ban_status": "active - sshd jail running, 6 currently banned, 4322 total banned",
     "top_attackers_currently_banned": [
-      {"ip": "45.148.10.141"},
-      {"ip": "2.57.121.86"},
-      {"ip": "2.57.122.195"},
-      {"ip": "45.148.10.147"},
-      {"ip": "80.94.92.166"},
-      {"ip": "2.57.121.17"}
+      {"ip": "2.57.122.191"},
+      {"ip": "2.57.121.118"},
+      {"ip": "213.209.159.159"},
+      {"ip": "92.118.39.87"},
+      {"ip": "2.57.122.197"},
+      {"ip": "2.57.122.195"}
     ],
-    "change_since_last": "fail2ban total bans 4228 (up from 4128, +100). 6 IPs currently banned (down from 8). 16263 failed passwords (+349). Continued brute-force from botnets (2.57.121.x, 45.148.10.x, 80.94.92.x). Only authorized activity from novakj. Rejected ssh-rsa pubkey attempts from 139.19.117.130 — automated scanner."
+    "change_since_last": "fail2ban total bans 4322 (up from 4228, +94). 6 IPs currently banned (same count, different IPs rotating). 16576 failed passwords (+313). Continued brute-force from botnets (2.57.121.x, 2.57.122.x, 92.118.39.x, 213.209.159.x). Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -48,35 +48,24 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "74 usages across 24 files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, or hardcoded SVG. hyperlinks.js added 5 (1 static dialog, 1 clearing, 1 hardcoded entity, 1 static context menu, 1 link list panel with escapeHtml)."
+    "innerHTML_note": "82 usages across 25 files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper reads. flatten.js (new module) uses 0 innerHTML."
   },
-  "task_034_review": {
-    "file": "js/hyperlinks.js",
-    "feature": "hyperlink annotations — add, edit, detect, navigate links in PDFs",
+  "flatten_module_review": {
+    "file": "js/flatten.js",
+    "feature": "Flatten PDF — bake annotations, form fields, signatures, comments into static page content",
     "status": "secure",
-    "innerHTML_count": 5,
-    "innerHTML_safe": true,
-    "innerHTML_details": [
-      "Line 360: dialogOverlay.innerHTML = static dialog template. SAFE.",
-      "Line 607: linkLayer.innerHTML = '' — clearing operation. SAFE.",
-      "Line 660: badge.innerHTML = '&#128279;' — hardcoded entity. SAFE.",
-      "Line 709: contextMenu.innerHTML = static context menu template. SAFE.",
-      "Line 835: panel.innerHTML = html — link list panel. User data escaped via escapeHtml(). SAFE for text context. title attribute uses escapeHtml() which doesn't escape double quotes — same known issue as merge.js/batch.js, CSP mitigated."
-    ],
+    "lines": 611,
+    "innerHTML_count": 0,
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
     "xss_safe": true,
-    "url_handling": {
-      "user_entered_urls": "Forced to https:// prefix (line 504), prevents javascript: URIs. SAFE.",
-      "detected_pdf_urls": "Passed to window.open() without protocol validation (line 684). Malicious PDFs could contain javascript: URIs. CSP script-src 'self' + noopener/noreferrer mitigate. LOW-MEDIUM risk.",
-      "email_urls": "Validated with regex, prefixed with mailto:. SAFE.",
-      "window_open_noopener": "URL links use noopener,noreferrer. SAFE."
-    },
-    "input_validation": "URL format enforced, email regex validated, page number bounds-checked against totalPages.",
-    "memory_management": "Maps cleared on pdf:ready. Undo stacks capped at 40 entries per page.",
+    "text_display": "All user-facing text via textContent (progress text, file size). showToast (textContent-based) for notifications.",
+    "file_download": "Uses downloadBlob() + sanitizeFilename() from utils.js. SAFE.",
+    "pdf_processing": "Client-side via pdf-lib. PDFDocument.load with ignoreEncryption:true (needed for flattening encrypted PDFs). Content stream injection uses numeric rect values and random XObject names — internal PDF manipulation only.",
     "no_external_requests": true,
-    "no_server_storage": true
+    "no_server_storage": true,
+    "error_handling": "try/catch with console.warn for non-critical failures, showToast for user-facing errors. Button state restored in finally block."
   },
   "new_dependencies": {
     "jszip_min_js": {
@@ -123,6 +112,7 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "flatten_module_secure",
     "task_034_hyperlinks_module_secure",
     "task_033_viewer_continuous_dual_secure",
     "sticky_notes_module_secure",
@@ -159,7 +149,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_77_days",
-    "fail2ban_active_4228_total_bans",
+    "fail2ban_active_4322_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -181,11 +171,11 @@
     "batch.js line 294: escapeHtml() used with textContent causes double-escaping — cosmetic display bug for filenames containing &, <, >."
   ],
   "notes": [
-    "Full security review completed — 58 checks passed, 0 critical findings.",
-    "NEW: Reviewed hyperlinks.js TASK-034 (hyperlink annotations): 5 innerHTML usages — 1 static dialog template, 1 clearing, 1 hardcoded entity, 1 static context menu, 1 link list panel with escapeHtml(). User-entered URLs forced to https:// prefix. Email addresses regex-validated. Page numbers bounds-checked. window.open uses noopener,noreferrer for URL links. Undo capped at 40. No external requests, no server storage. SECURE with one new known issue: detected PDF link URLs not protocol-validated.",
-    "innerHTML count: 74 across 24 files (hyperlinks.js adds 5 new usages).",
+    "Full security review completed — 59 checks passed, 0 critical findings.",
+    "NEW: Reviewed flatten.js (PDF flatten module, 611 lines): 0 innerHTML, no eval/Function/document.write. All text via textContent. Downloads via sanitizeFilename. Client-side pdf-lib processing only. SECURE.",
+    "innerHTML count: 82 across 25 files (up from 74/24 — existing modules gained usages from feature additions, all verified safe).",
     "All JS files scanned: no eval(), Function(), document.write() found. No sensitive files or symlinks in webroot.",
-    "SSH: fail2ban total bans 4228 (+100 since last review). 6 IPs currently banned (down from 8). 16263 failed passwords (+349). Continued brute-force from botnets. Only authorized activity from novakj.",
+    "SSH: fail2ban total bans 4322 (+94 since last review). 6 IPs currently banned (same count, IPs rotated). 16576 failed passwords (+313). Continued brute-force from botnets. Only authorized activity from novakj.",
     "SSL certificate valid until June 18, 2026 (77 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "Nginx config syntax valid. All security headers confirmed in HTTP response."
