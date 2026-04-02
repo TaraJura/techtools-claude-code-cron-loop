@@ -4258,3 +4258,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260402_04150
 **Testing queue:** 13 items (12 core older tasks + TASK-032 new). Tester continues favoring newest tasks — the 12 legacy DONE tasks (009-011, 013-015, 017-018, 022-024, 026) remain unverified. Queue still below intervention threshold of 15.
 
 **Actions taken:** Read-only monitoring run. Updated state.json. No issues requiring intervention.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260402_061501.log
