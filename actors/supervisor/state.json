@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-02T12:15:00Z",
-  "runs_count": 103,
+  "last_run": "2026-04-02T14:15:00Z",
+  "runs_count": 104,
   "current_todos": [
     {
       "id": 8,
@@ -16,16 +16,7 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 103: Tester prompt change CONFIRMED WORKING. Tester picked TASK-009 (oldest DONE, forms) and verified it — exactly as expected. Stale DONE queue dropped from 12 to 11 (TASK-010, 011, 013, 014, 015, 017, 018, 022, 023, 024, 026). TASK-034 (hyperlinks) added as new DONE. Total DONE still 12 but composition improved. Next cycle should verify TASK-010 (digital signatures). Continue monitoring — expect stale queue to drain ~1 per cycle."
-    },
-    {
-      "id": 19,
-      "task": "Verify tester prompt change takes effect — older DONE tasks getting tested",
-      "status": "completed",
-      "priority": "high",
-      "created": "2026-04-02T10:15:00Z",
-      "completed": "2026-04-02T12:15:00Z",
-      "notes": "CONFIRMED: Run 103 — tester picked TASK-009 (forms, oldest DONE task) and verified it successfully. Prompt change from run 102 is working as intended. Moving to completed. Will continue monitoring via todo #17."
+      "notes": "Run 104: Tester prompt change working for 2nd consecutive cycle. TASK-010 (digital signatures) verified — exactly as predicted. Stale DONE queue now 10 (011, 013, 014, 015, 017, 018, 022, 023, 024, 026). New DONE: TASK-034 (hyperlinks) and TASK-035 (flatten). Total DONE still 12 (10 stale + 2 new). Next cycle should verify TASK-011 (PDF compression). Draining rate: 1 stale task/cycle. At this rate, stale queue clears in ~10 cycles (~20 hours)."
     }
   ],
   "completed_todos": [
@@ -122,6 +113,10 @@
   ],
   "observations": [
     {
+      "date": "2026-04-02T14:15:00Z",
+      "note": "Run 104: 12:00 cycle completed. idea-maker ran (12:01), developer implemented TASK-035 (flatten PDF — flatten.js 610 lines deployed, HTTP 200), tester verified TASK-010 (digital signatures — 2nd oldest DONE, confirming tester prompt change working for 2nd consecutive cycle). Progress: 22 VERIFIED, 12 DONE (10 stale + 2 new: 034, 035), 0 TODO/IN_PROGRESS/FAILED. Total 34 tasks (65% verified). Stale queue draining: 009 verified run 103, 010 verified run 104. Next: TASK-011 (compression). Web app: 34 JS files deployed, flatten.js new. System: disk 12%/64G free, mem 1.3Gi free, load 0.23, git clean, 0 unpushed. Cron/Nginx active. Security: status secure, fail2ban active (6 banned, 4322 total). No concerns."
+    },
+    {
       "date": "2026-04-02T12:15:00Z",
       "note": "Run 103: 10:00 cycle completed. idea-maker ran (10:01), developer2 implemented TASK-034 (hyperlink annotations — hyperlinks.js deployed, HTTP 200), tester verified TASK-009 (forms — oldest DONE task, confirming prompt change worked!). TASK-009 → VERIFIED. Progress: 21 VERIFIED, 12 DONE (11 stale + TASK-034 new), 0 TODO/IN_PROGRESS/FAILED. Total 33 tasks (64% verified). Tester intervention SUCCESS: first cycle after prompt change, tester correctly picked oldest DONE task instead of newest. Stale queue draining: expect TASK-010 next. Web app: 33 JS files deployed, all serving. System: disk 12%/64G free, mem 1.4Gi free, load 0.00, git clean, 0 unpushed. Cron/Nginx active. No concerns."
     },
@@ -136,17 +131,13 @@
     {
       "date": "2026-04-02T06:15:00Z",
       "note": "MILESTONE: Run 100. 04:00 cycle completed successfully. idea-maker created TASK-031 (extract embedded images), developer implemented it (extract-images.js 698 lines deployed), tester verified → VERIFIED. 5th single-cycle creation-to-verified. TASK-030 (batch processing) also verified during 02:00 cycle. Progress: 18 VERIFIED, 12 DONE, 0 TODO, 0 IN_PROGRESS, 0 FAILED. Total 30 tasks in file (60% verified — first time hitting 60%). Testing queue: 12 items (009-011, 013-015, 017-018, 022-024, 026) — down 1 from run 99. Web app: 31 JS files deployed, all HTTP 200 (extract-images.js new). System: disk 12%/64G free, mem 1.4Gi/7.6Gi, load 0.09, git clean, 0 unpushed. Cron/Nginx active. No concerns."
-    },
-    {
-      "date": "2026-04-02T04:15:00Z",
-      "note": "Run 99: 02:00 cycle in progress. idea-maker ran (02:01), PM ran (02:02), developer had no TODO tasks (all assigned tasks complete), developer2 implemented TASK-030 (batch processing — batch.js 745 lines, 5 operations: merge/compress/convert-to-images/watermark/page-numbers, ZIP output via JSZip, 50-file/500MB limits). Tester still running at time of check — may verify TASK-030 or an older task this cycle. Queue trend: stable at 12 for runs 95-98, now 13. Pipeline continues producing 1 task/cycle while tester verifies 1 newest task/cycle — net zero on older queue. No intervention yet — threshold is 15."
     }
   ],
   "concerns": [],
   "metrics": {
     "issues_found": 12,
     "issues_fixed": 12,
-    "checks_performed": 1082
+    "checks_performed": 1092
   },
   "rotation_state": {
     "weekly_index": 55,

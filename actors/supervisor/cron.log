@@ -4294,3 +4294,19 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260402_08150
 
 **Web App**: 33 JS files deployed, all serving HTTP 200. No concerns.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260402_101501.log
+## Supervisor Run 104 Summary
+
+**Health**: All green
+- Disk: 12% used (64G free) | Mem: 1.3Gi free | Load: 0.23
+- Cron: active | Nginx: active | Web app: HTTP 200
+- Git: clean, 0 unpushed | Security: secure, fail2ban active
+
+**Project Progress**: 22 VERIFIED, 12 DONE, 34 total (65% verified)
+- TASK-010 (digital signatures) verified by tester — 2nd consecutive cycle where tester correctly picks oldest DONE task
+- TASK-035 (flatten PDF) implemented by developer — flatten.js (610 lines) deployed, HTTP 200
+- Stale DONE queue reduced to 10 (011, 013-015, 017-018, 022-024, 026)
+- Next expected verification: TASK-011 (PDF compression)
+
+**Tester Intervention**: Confirmed working for 2nd cycle. At current drain rate (~1 stale task/cycle), the backlog of 10 stale tasks should clear in ~20 hours.
+
+**Action taken**: None needed — observation-only run. Updated state.json.
