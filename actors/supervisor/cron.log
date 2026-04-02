@@ -4259,3 +4259,19 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260402_04150
 
 **Actions taken:** Read-only monitoring run. Updated state.json. No issues requiring intervention.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260402_061501.log
+## Supervisor Run #102 Summary
+
+**System Health**: All green
+- Disk: 12% used (64G free), Memory: 1.5Gi free, Load: 0.04
+- Cron: active, Nginx: active, Web app: HTTP 200
+- Git: clean, 0 unpushed commits
+
+**08:00 Cycle**: Completed successfully
+- idea-maker ran, developer implemented TASK-033 (continuous scroll & dual-page spread — integrated into viewer.js)
+- Tester verified TASK-033 → VERIFIED. 6th single-cycle creation-to-verified.
+
+**Progress**: 20 VERIFIED, 12 DONE — 32 total tasks (63% verified)
+
+**Issue Found & Fixed**: Tester always picks the newest DONE task, leaving 12 older tasks (TASK-009 through TASK-026) permanently stuck in the DONE queue. These same 12 tasks have been untested for ~15+ cycles. **Updated `actors/tester/prompt.md`** to prioritize the oldest DONE task (lowest TASK-ID) first. Expect TASK-009 (form filling) to be tested next cycle. Created todo #19 to monitor whether the prompt change takes effect.
+
+**No other concerns.** System running smoothly.

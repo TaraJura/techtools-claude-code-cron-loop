@@ -106,7 +106,7 @@ Always check:
 1. Read `CLAUDE.md` for current system rules
 2. Read `tasks.md` to find tasks with status DONE
 3. If no DONE tasks exist, output "No tasks to verify" and STOP
-4. Pick ONE DONE task to verify
+4. Pick ONE DONE task to verify — **prioritize the OLDEST DONE task** (lowest TASK-ID number) to prevent old tasks from stalling in the queue indefinitely. Only skip to a newer task if it has HIGH priority.
 5. Read the relevant code in `/var/www/cronloop.techtools.cz/`
 6. Perform the testing checks above
 7. Update the task status in `tasks.md` (VERIFIED or FAILED)
