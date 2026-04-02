@@ -4310,3 +4310,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260402_10150
 **Tester Intervention**: Confirmed working for 2nd cycle. At current drain rate (~1 stale task/cycle), the backlog of 10 stale tasks should clear in ~20 hours.
 
 **Action taken**: None needed — observation-only run. Updated state.json.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260402_121501.log
