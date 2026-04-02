@@ -113,10 +113,14 @@
 
 ### TASK-009: Form filling
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: LOW
 **Assigned to**: developer2
 **Description**: Detect and render PDF form fields (text inputs, checkboxes, radio buttons, dropdowns). Allow users to fill in form fields interactively. Use pdf-lib to flatten filled form data back into the PDF for download. Support both AcroForm and XFA form types where possible.
+
+**Tested by**: tester
+**Test date**: 2026-04-02
+**Result**: All requirements met. Form filling module (forms.js, 787 lines) implements complete AcroForm detection and filling. Field scanning uses pdf.js `page.getAnnotations()` filtering for Widget subtype, parsing 4 field types: text (Tx, single-line and multi-line with maxLength), checkbox (Btn/checkBox), radio button (Btn/radioButton with group management), and dropdown/listbox (Ch with option parsing). Dual interaction: sidebar panel lists all fields grouped by page with type icons and inline controls, plus interactive overlay elements positioned directly on the PDF page with correct PDF→canvas coordinate conversion (y-axis flip, scale-aware). Bidirectional sync between sidebar and overlay inputs — changing either updates the other via `updateOverlayValue()`/`syncSidebarValue()`. Radio button groups correctly deselect other options on selection in both sidebar and overlay contexts. PDF saving uses pdf-lib `PDFDocument.load()` + `getForm()` with proper fill methods: `getTextField().setText()`, `getCheckBox().check()/uncheck()`, `getRadioGroup().select()`, `getDropdown().select()`, `getOptionList().select()`. Flatten option via checkbox defaults to checked, calls `form.flatten()`. Fallback for PDFs without AcroForm uses `page.drawText()` overlay. Reset button clears all fields and rebuilds sidebar. Read-only fields detected and shown with badge, no input controls. Output as "-filled.pdf". Button state disabled during async save, re-enabled in finally block. Error handling with try/catch and toast notifications. All 11 DOM IDs match between JS and HTML. All 16 CSS classes defined in tools.css with hover states and responsive 600px breakpoint. Bus events (file:loaded, tool:change, page:rendered) all emitted by app.js/viewer.js. All imports resolve: bus/state from app.js, showToast/downloadBlob from utils.js, pdf-lib via dynamic import. Script loaded as ES module at HTML line 2414. JS passes Node syntax check. forms.js serves HTTP 200 from live site. Minor note: `sanitizeFilename` imported but unused (dead code, no functional impact). XFA not supported — acceptable per "where possible" qualifier since pdf-lib has no XFA support.
 
 ---
 
