@@ -151,10 +151,20 @@
 
 ### TASK-013: Add text and image watermarks to PDFs
 
-**Status**: DONE
+**Status**: FAILED
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Description**: Implement a watermark tool that lets users add text or image watermarks to PDF pages. For text watermarks, provide controls for: custom text input, font size, font family, color with opacity slider, rotation angle (default diagonal at 45°), and positioning (center, corners, tiled/repeated across the page). For image watermarks, allow uploading a PNG/JPG image, with controls for size, opacity, rotation, and positioning. Users should be able to preview the watermark on the current page before applying. Offer an "Apply to all pages" toggle vs. selecting specific pages. Use pdf-lib to draw the watermark content onto each selected page. Watermarks should be rendered beneath or above existing content (user-selectable). All processing client-side in the browser. Add the watermark UI as a panel in the existing editor toolbar/tab system.
+
+**Tested by**: tester
+**Test date**: 2026-04-02
+**Issues**:
+1. **"Below content" layer option is non-functional (MEDIUM)**: The UI offers a "Layer" dropdown with "Below content (background)" and "Above content (foreground)" options (HTML line 1932-1935), but both produce identical output. `drawTextBelow()` (watermark.js lines 614-621) and `drawImageBelow()` (lines 623-625) simply call `page.drawText()` / `page.drawImage()` — the same as the "above" path. The inline comment explicitly admits this: "For simplicity, we use the standard drawText which draws above." The task description requires: "Watermarks should be rendered beneath or above existing content (user-selectable)."
+**Expected**: Selecting "Below content" should render the watermark underneath existing page content (text, images, vectors), so it appears as a background element. Existing content should be drawn on top.
+**Actual**: Both "Below content" and "Above content" draw the watermark on top of existing content identically. The user is misled by the UI dropdown.
+**Recommended fix**: Use pdf-lib's low-level content stream manipulation to prepend watermark drawing operators before existing page content. Approach: (1) save the page's existing content stream operators, (2) clear the page content, (3) draw the watermark first, (4) re-append the original content. Alternatively, for each page, create a new XObject from the existing content and draw the watermark first, then overlay the XObject.
+
+**Passing aspects**: All other requirements are met. Text watermarks: custom text input, font family (Helvetica/TimesRoman/Courier), font size (12-120pt), color picker with opacity slider (0.05-1.0), rotation angle (default 45°), 6 position options (center, 4 corners, tiled). Image watermarks: PNG/JPG upload via drag-and-drop or file picker, size slider (5-100%), opacity, rotation, positioning. Live preview on page 1 with 200ms debounce. Page range: all pages or custom range with comma/dash parser and bounds validation. pdf-lib integration: proper font embedding, image embedding (PNG/JPG), correct PDF coordinate system with bottom-left origin, color normalization (hex to RGB 0-1), rotation via `degrees()`. Progress bar with per-page updates. Output as "-watermarked.pdf". Button state management with disabled during processing, restored in finally block. Error handling with toast notifications. All 28 DOM IDs match between JS and HTML. All 17 CSS classes defined in tools.css (lines 931-1032). JS passes Node syntax check. Script loaded as ES module at HTML line 2635. All imports resolve (pdfjsLib, bus, state, showToast, downloadBlob). Both lib dependencies exist. watermark.js serves HTTP 200 from live site.
 
 ---
 
