@@ -1,23 +1,20 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-02T00:16:00Z",
+  "last_review": "2026-04-02T02:18:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "25774 total failed (since last log rotation)",
-    "fail2ban_status": "active - sshd jail running, 9 currently banned, 3748 total banned",
-    "top_attackers_by_total": [
-      {"ip": "80.94.92.187", "status": "currently banned"},
-      {"ip": "195.178.110.15", "status": "currently banned"},
-      {"ip": "45.148.10.141", "status": "currently banned"},
-      {"ip": "80.94.92.167", "status": "currently banned"},
-      {"ip": "2.57.122.189", "status": "currently banned"},
-      {"ip": "45.148.10.151", "status": "currently banned"},
-      {"ip": "195.178.110.30", "status": "currently banned"},
-      {"ip": "2.57.121.25", "status": "currently banned"},
-      {"ip": "2.57.121.17", "status": "currently banned"}
+    "failed_password_attempts": "14684 in current log rotation (down from 25774 — log rotated since last review)",
+    "fail2ban_status": "active - sshd jail running, 6 currently banned, 3840 total banned",
+    "top_attackers_currently_banned": [
+      {"ip": "2.57.122.189"},
+      {"ip": "2.57.122.199"},
+      {"ip": "92.118.39.62"},
+      {"ip": "2.57.122.188"},
+      {"ip": "2.57.122.192"},
+      {"ip": "91.224.92.50"}
     ],
-    "change_since_last": "fail2ban total bans 3748 (up from 3697, +51). 9 IPs currently banned (up from 6). Continued brute-force activity from botnets. Only authorized activity from novakj."
+    "change_since_last": "fail2ban total bans 3840 (up from 3748, +92). 6 IPs currently banned (down from 9 — churn). Continued brute-force activity from botnets. Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -51,60 +48,24 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "60 usages across 20 files: insert-pages.js(7), split.js(6), stamps.js(5), viewer.js(4), pages.js(4), merge.js(4), bookmarks.js(4), redact.js(3), protect.js(3), img2pdf.js(3), upload.js(2), text-overlay.js(2), signatures.js(2), forms.js(2), crop.js(2), compare.js(2), annotate.js(2), present.js(1), ocr.js(1), metadata.js(1) — all static templates, clearing operations, static HTML entities, escaped user data, or numeric-only interpolation."
+    "innerHTML_note": "61 usages across 21 files: insert-pages.js(7), split.js(6), stamps.js(5), viewer.js(4), pages.js(4), merge.js(4), bookmarks.js(4), redact.js(3), protect.js(3), img2pdf.js(3), upload.js(2), text-overlay.js(2), signatures.js(2), forms.js(2), crop.js(2), compare.js(2), annotate.js(2), present.js(1), ocr.js(1), metadata.js(1), theme.js(1) — all static templates, clearing operations, static HTML entities, escaped user data, numeric-only interpolation, or hardcoded SVG icons."
   },
-  "stamps_module_review": {
-    "file": "js/stamps.js",
-    "task": "TASK-028",
-    "lines": 783,
-    "innerHTML_count": 5,
+  "theme_module_review": {
+    "file": "js/theme.js",
+    "task": "TASK-029",
+    "lines": 96,
+    "innerHTML_count": 1,
     "innerHTML_safe": true,
     "innerHTML_details": [
-      "Line 294: stampLayer.innerHTML='' — clearing operation",
-      "Line 340: delBtn.innerHTML='&times;' — static HTML entity",
-      "Line 481: stampLayer.innerHTML='' — clearing operation",
-      "Line 570: dialog.innerHTML=template — fully static HTML, no variable interpolation",
-      "Line 660: innerHTML = rotation + '&deg;' — rotation is parseInt() from range input (clamped -30 to 30), numeric + static entity"
+      "Line 47: btn.innerHTML = ICONS[theme] — theme validated against VALID_THEMES whitelist (line 17), ICONS is hardcoded object with static SVG strings. No user input can influence value."
     ],
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
     "xss_safe": true,
-    "user_data_handling": "Custom stamp text from input field is rendered via textContent (lines 102, 232, 325, 664). Never injected into innerHTML. Color inputs (type=color) used only for CSS styling. Numeric inputs (fontSize, rotation) parsed via parseInt, used for styling only.",
-    "event_cleanup": "Wrapper event listeners cleaned up on re-render (lines 187-191). Drag/resize use document-level mousemove/mouseup with proper cleanup in onUp handlers.",
+    "user_data_handling": "Reads from localStorage but validates against VALID_THEMES whitelist before use. setAttribute calls use hardcoded LABELS object values only.",
     "no_server_storage": true,
     "no_external_requests": true,
-    "status": "secure"
-  },
-  "annotate_module_update": {
-    "file": "js/annotate.js",
-    "changes": "Added import of embedStamps/hasStamps from stamps.js (line 11). Added hasStamps() check (line 333) and embedStamps() call (line 403) in save flow. No new innerHTML usage. No security impact.",
-    "status": "secure"
-  },
-  "present_module_review": {
-    "file": "js/present.js",
-    "task": "TASK-027",
-    "lines": 389,
-    "innerHTML_count": 1,
-    "innerHTML_safe": true,
-    "innerHTML_note": "Line 51: enterPresentation() builds fullscreen container with static HTML template. Only interpolated values are presentPage and state.totalPages — both numeric integers from internal state. No user-controlled strings in HTML.",
-    "no_eval": true,
-    "no_function_constructor": true,
-    "no_document_write": true,
-    "xss_safe": true,
-    "user_data_handling": "No user input handled. Module only reads from state.pdfDocument (already loaded PDF) and state.currentPage/totalPages (integers). Page info updated via textContent (line 225).",
-    "event_cleanup": "Keyboard listener removed on cleanup (line 134). DOM container removed on exit. Timer interval cleared. All resources properly released.",
-    "no_server_storage": true,
-    "no_external_requests": true,
-    "status": "secure"
-  },
-  "protect_module_review": {
-    "file": "js/protect.js",
-    "lines": 814,
-    "innerHTML_count": 3,
-    "innerHTML_safe": true,
-    "no_eval": true,
-    "xss_safe": true,
     "status": "secure"
   },
   "new_dependencies": {
@@ -131,7 +92,7 @@
   "ssl_certificate": {
     "valid_from": "2026-03-20",
     "valid_until": "2026-06-18",
-    "days_remaining": 78,
+    "days_remaining": 77,
     "status": "valid"
   },
   "checks_passed": [
@@ -152,6 +113,7 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "theme_module_secure",
     "stamps_module_secure",
     "present_module_secure",
     "protect_module_secure",
@@ -181,8 +143,8 @@
     "showToast_uses_textContent",
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
-    "ssl_certificate_valid_78_days",
-    "fail2ban_active_3748_total_bans",
+    "ssl_certificate_valid_77_days",
+    "fail2ban_active_3840_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -201,13 +163,12 @@
     "metadata.js has dead code: escapeHtml() function defined but never called."
   ],
   "notes": [
-    "Full security review completed — 51 checks passed, 0 critical findings",
-    "NEW: Reviewed stamps.js module (783 lines, TASK-028 stamp annotations): 5 innerHTML usages — 2 clearing operations, 1 static HTML entity (&times;), 1 fully static template (no interpolation), 1 numeric+entity (parseInt rotation + &deg;). Custom stamp text always rendered via textContent. No eval/Function/document.write. Proper event cleanup on re-render and drag/resize handlers. SECURE.",
-    "Updated annotate.js review: +3 lines changed to import and call embedStamps/hasStamps. No new innerHTML. No security impact.",
-    "Updated innerHTML count: 60 usages across 20 files (up from 55/19 — +5 from stamps.js new module).",
+    "Full security review completed — 52 checks passed, 0 critical findings.",
+    "NEW: Reviewed theme.js (96 lines, TASK-029 dark mode/theme switching): 1 innerHTML usage — sets button icon from hardcoded ICONS object with static SVG strings. Theme validated against VALID_THEMES whitelist. localStorage reads validated before use. No eval/Function/document.write. SECURE.",
+    "Updated innerHTML count: 61 usages across 21 files (up from 60/20 — +1 from theme.js new module).",
     "All JS files scanned: no eval(), Function(), document.write() found. No sensitive files or symlinks in webroot.",
-    "SSH: fail2ban total bans 3748 (+51 since last review). 9 IPs currently banned (up from 6). Only authorized activity from novakj.",
-    "SSL certificate valid until June 18, 2026 (78 days remaining).",
+    "SSH: fail2ban total bans 3840 (+92 since last review). 6 IPs currently banned. Log rotated since last review (14684 failed in current log). Only authorized activity from novakj.",
+    "SSL certificate valid until June 18, 2026 (77 days remaining).",
     "Disk usage stable at 12%, 64G free."
   ],
   "recommendations": [
