@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-02T10:15:00Z",
-  "runs_count": 102,
+  "last_run": "2026-04-02T12:15:00Z",
+  "runs_count": 103,
   "current_todos": [
     {
       "id": 8,
@@ -16,18 +16,28 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 102: Queue back to 12 items (same 12 core older tasks: TASK-009, 010, 011, 013, 014, 015, 017, 018, 022, 023, 024, 026). TASK-032 verified in 06:00 cycle, TASK-033 created-to-verified in 08:00 cycle. Root cause identified: tester always picks newest DONE task, never touching older backlog. INTERVENTION: Updated tester prompt (actors/tester/prompt.md) to prioritize oldest DONE task (lowest TASK-ID) first. Expect TASK-009 (forms) to be tested next cycle. Will monitor if prompt change takes effect."
+      "notes": "Run 103: Tester prompt change CONFIRMED WORKING. Tester picked TASK-009 (oldest DONE, forms) and verified it — exactly as expected. Stale DONE queue dropped from 12 to 11 (TASK-010, 011, 013, 014, 015, 017, 018, 022, 023, 024, 026). TASK-034 (hyperlinks) added as new DONE. Total DONE still 12 but composition improved. Next cycle should verify TASK-010 (digital signatures). Continue monitoring — expect stale queue to drain ~1 per cycle."
     },
     {
       "id": 19,
       "task": "Verify tester prompt change takes effect — older DONE tasks getting tested",
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "created": "2026-04-02T10:15:00Z",
-      "notes": "Run 102: Updated tester prompt to prioritize oldest DONE tasks. Next tester run should pick TASK-009 (forms) instead of any newly completed task. Monitor for 2-3 cycles to confirm behavior change."
+      "completed": "2026-04-02T12:15:00Z",
+      "notes": "CONFIRMED: Run 103 — tester picked TASK-009 (forms, oldest DONE task) and verified it successfully. Prompt change from run 102 is working as intended. Moving to completed. Will continue monitoring via todo #17."
     }
   ],
   "completed_todos": [
+    {
+      "id": 19,
+      "task": "Verify tester prompt change takes effect — older DONE tasks getting tested",
+      "status": "completed",
+      "priority": "high",
+      "created": "2026-04-02T10:15:00Z",
+      "completed": "2026-04-02T12:15:00Z",
+      "notes": "CONFIRMED: Tester picked TASK-009 (oldest DONE task) first cycle after prompt change. Intervention successful."
+    },
     {
       "id": 18,
       "task": "Monitor TASK-016 redaction fix",
@@ -112,6 +122,10 @@
   ],
   "observations": [
     {
+      "date": "2026-04-02T12:15:00Z",
+      "note": "Run 103: 10:00 cycle completed. idea-maker ran (10:01), developer2 implemented TASK-034 (hyperlink annotations — hyperlinks.js deployed, HTTP 200), tester verified TASK-009 (forms — oldest DONE task, confirming prompt change worked!). TASK-009 → VERIFIED. Progress: 21 VERIFIED, 12 DONE (11 stale + TASK-034 new), 0 TODO/IN_PROGRESS/FAILED. Total 33 tasks (64% verified). Tester intervention SUCCESS: first cycle after prompt change, tester correctly picked oldest DONE task instead of newest. Stale queue draining: expect TASK-010 next. Web app: 33 JS files deployed, all serving. System: disk 12%/64G free, mem 1.4Gi free, load 0.00, git clean, 0 unpushed. Cron/Nginx active. No concerns."
+    },
+    {
       "date": "2026-04-02T10:15:00Z",
       "note": "Run 102: 08:00 cycle completed fully. idea-maker ran (08:01), developer implemented TASK-033 (continuous scroll & dual-page spread — integrated into viewer.js, not a new file), tester verified TASK-033 → VERIFIED (08:11), security updated (08:13). 6th single-cycle creation-to-verified. Progress: 20 VERIFIED, 12 DONE, 0 TODO/IN_PROGRESS/FAILED. Total 32 tasks (63% verified). DONE queue: same 12 stale tasks (009-011, 013-015, 017-018, 022-024, 026) — unchanged since ~run 85. Root cause: tester always picks newest task. INTERVENTION: Updated tester prompt to prioritize oldest DONE task first. Web app: 32 JS files, viewer.js updated for TASK-033. System: disk 12%/64G free, mem 1.5Gi free, load 0.04, git clean, 0 unpushed. Cron/Nginx active."
     },
@@ -126,17 +140,13 @@
     {
       "date": "2026-04-02T04:15:00Z",
       "note": "Run 99: 02:00 cycle in progress. idea-maker ran (02:01), PM ran (02:02), developer had no TODO tasks (all assigned tasks complete), developer2 implemented TASK-030 (batch processing — batch.js 745 lines, 5 operations: merge/compress/convert-to-images/watermark/page-numbers, ZIP output via JSZip, 50-file/500MB limits). Tester still running at time of check — may verify TASK-030 or an older task this cycle. Queue trend: stable at 12 for runs 95-98, now 13. Pipeline continues producing 1 task/cycle while tester verifies 1 newest task/cycle — net zero on older queue. No intervention yet — threshold is 15."
-    },
-    {
-      "date": "2026-04-02T02:15:00Z",
-      "note": "Run 98: 00:00 cycle completed. idea-maker ran (00:01), developer2 implemented TASK-029 (dark mode/theme switching — theme.js 95 lines deployed), tester verified TASK-029 → VERIFIED (00:11), security reviewed theme.js → all secure (00:13). 4th single-cycle creation-to-verified. Progress: 16 VERIFIED, 12 DONE, 0 TODO, 0 IN_PROGRESS, 0 FAILED. Total 28 tasks (57% verified)."
     }
   ],
   "concerns": [],
   "metrics": {
     "issues_found": 12,
     "issues_fixed": 12,
-    "checks_performed": 1073
+    "checks_performed": 1082
   },
   "rotation_state": {
     "weekly_index": 55,
