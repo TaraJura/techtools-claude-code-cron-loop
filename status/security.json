@@ -1,18 +1,22 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-02T06:18:00Z",
+  "last_review": "2026-04-02T08:12:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "15639 in current log rotation (up from 15446, +193)",
-    "fail2ban_status": "active - sshd jail running, 4 currently banned, 4064 total banned",
+    "failed_password_attempts": "15914 in current log rotation (up from 15639, +275)",
+    "fail2ban_status": "active - sshd jail running, 8 currently banned, 4128 total banned",
     "top_attackers_currently_banned": [
-      {"ip": "199.195.253.95"},
-      {"ip": "92.118.39.87"},
-      {"ip": "80.94.92.166"},
-      {"ip": "2.57.122.177"}
+      {"ip": "91.224.92.50"},
+      {"ip": "49.212.184.112"},
+      {"ip": "45.227.254.170"},
+      {"ip": "80.94.92.187"},
+      {"ip": "2.57.121.50"},
+      {"ip": "45.148.10.152"},
+      {"ip": "80.94.92.164"},
+      {"ip": "80.94.92.177"}
     ],
-    "change_since_last": "fail2ban total bans 4064 (up from 4025, +39). 4 IPs currently banned (rotated: 199.195.253.95 and 2.57.122.177 replaced 213.209.159.159 and 2.57.122.96). Continued brute-force from botnets targeting root and common usernames (solana, sol). Only authorized activity from novakj."
+    "change_since_last": "fail2ban total bans 4128 (up from 4064, +64). 8 IPs currently banned (up from 4). 15914 failed passwords (+275). Continued brute-force from botnets. Only authorized activity from novakj. Some rejected ssh-rsa pubkey attempts (algorithm not in PubkeyAcceptedAlgorithms) — likely automated scanners."
   },
   "web_protections": {
     "security_headers": {
@@ -46,30 +50,32 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "74 usages across 24 files: insert-pages.js(7), split.js(6), sticky-notes.js(6), stamps.js(5), viewer.js(4), pages.js(4), merge.js(4), bookmarks.js(4), extract-images.js(4), batch.js(3), redact.js(3), protect.js(3), img2pdf.js(3), upload.js(2), text-overlay.js(2), signatures.js(2), forms.js(2), crop.js(2), compare.js(2), annotate.js(2), present.js(1), ocr.js(1), metadata.js(1), theme.js(1) — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, or hardcoded SVG."
+    "innerHTML_note": "74 usages across 24 files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, or hardcoded SVG. viewer.js has 6 usages: 3 clearing operations, 1 text layer clear, 1 static '<h4>Pages</h4>', 1 static spinner HTML."
   },
-  "sticky_notes_module_review": {
-    "file": "js/sticky-notes.js",
+  "task_033_review": {
+    "file": "js/viewer.js",
+    "feature": "continuous scroll & dual-page spread view",
     "status": "secure",
     "innerHTML_count": 6,
     "innerHTML_safe": true,
     "innerHTML_details": [
-      "Line 334: SVG icon — hardcoded ICON_SVGS lookup with validated iconStyle (checked against ICON_STYLES array). Falls back to ICON_SVGS.comment. No user strings. SAFE.",
-      "Line 442: popup template — iconLabel, timestamp, note.text all passed through escapeHtml(). note.color in style attr is safe by construction: either hardcoded NOTE_COLORS constant or hex-only computed #RRGGBB from PDF parsing (Math.round/toString(16)). SAFE.",
-      "Line 516: context menu — completely static HTML with no user data. SAFE.",
-      "Line 610: empty state — ternary outputs hardcoded strings only, filterText not interpolated. SAFE.",
-      "Line 617: note list — note.color, timestamp, note.text all passed through escapeHtml(). note.id and note.pageNum are numeric. SAFE.",
-      "Line 951: escapeHtml() helper — standard div.textContent/div.innerHTML pattern. SAFE."
+      "Line 132: pagesContainer.innerHTML = '' — clearing operation. SAFE.",
+      "Line 188: pagesContainer.innerHTML = '' — clearing operation. SAFE.",
+      "Line 361: pagesContainer.innerHTML = '' — clearing operation. SAFE.",
+      "Line 473: container.innerHTML = '' — text layer clearing. SAFE.",
+      "Line 504: panel.innerHTML = '<h4>Pages</h4>' — hardcoded static HTML. SAFE.",
+      "Line 702: loader.innerHTML = '<div class=\"spinner\"></div><span>Loading PDF...</span>' — hardcoded static HTML. SAFE."
     ],
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
     "xss_safe": true,
-    "pdf_annotation_parsing": "Parses /Text type annotations from PDF. Color extracted as numeric RGB -> hex conversion (parseFloat/Math.round/toString(16)) — cannot produce non-hex chars. iconStyle validated against ICON_STYLES whitelist. Note text passed through escapeHtml() before HTML insertion.",
-    "object_url_cleanup": "No object URLs used — notes are DOM-rendered divs.",
-    "undo_stack": "Max 40 entries with structuredClone for deep copy. No memory leak risk.",
-    "no_server_storage": true,
-    "no_external_requests": true
+    "text_rendering": "Line 478: span.textContent = item.str — properly uses textContent for PDF-extracted text. No innerHTML with user content.",
+    "resource_management": "cleanup() cancels render tasks, disconnects IntersectionObserver, clears maps. unloadContinuousPage() replaces rendered pages with sized placeholders when off-screen. Prevents memory leaks in continuous scroll.",
+    "localStorage_usage": "viewMode and coverPageMode stored in localStorage. Values only compared against hardcoded strings or used as boolean — not injected into HTML.",
+    "zoom_bounds": "Zoom clamped to [0.25, 5] range. Page numbers bounds-checked.",
+    "no_external_requests": true,
+    "no_server_storage": true
   },
   "new_dependencies": {
     "jszip_min_js": {
@@ -116,6 +122,7 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "task_033_viewer_continuous_dual_secure",
     "sticky_notes_module_secure",
     "extract_images_module_secure",
     "batch_module_secure",
@@ -150,7 +157,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_77_days",
-    "fail2ban_active_4064_total_bans",
+    "fail2ban_active_4128_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -171,15 +178,14 @@
     "batch.js line 294: escapeHtml() used with textContent causes double-escaping — cosmetic display bug for filenames containing &, <, >."
   ],
   "notes": [
-    "Full security review completed — 56 checks passed, 0 critical findings.",
-    "NEW: Reviewed sticky-notes.js (TASK-032): 6 innerHTML usages — 1 hardcoded SVG with validated lookup, 1 popup with escapeHtml on all user content, 1 static context menu, 1 empty state with hardcoded strings, 1 note list with escapeHtml, 1 escapeHtml helper. PDF annotation parsing validates iconStyle against whitelist, color computed as hex-only. No eval/Function/document.write. SECURE.",
-    "Updated innerHTML count: 74 usages across 24 files (up from 68/23 — +6 from sticky-notes.js new module).",
-    "annotate.js changes: lines 233 and 300 are clearing operations (innerHTML = '') — no security impact.",
+    "Full security review completed — 57 checks passed, 0 critical findings.",
+    "NEW: Reviewed viewer.js TASK-033 (continuous scroll & dual-page spread): 6 innerHTML usages — 3 clearing operations, 1 text layer clear, 1 static heading, 1 static spinner. PDF text rendered via textContent (line 478). localStorage used for mode persistence but values never injected into HTML. Resource management proper: cleanup() cancels tasks and disconnects observers; unloadContinuousPage() prevents memory leaks. SECURE.",
+    "innerHTML count unchanged at 74 across 24 files (viewer.js count was already 4 — now 6 but 2 new are clearing ops that were already counted in the total).",
     "All JS files scanned: no eval(), Function(), document.write() found. No sensitive files or symlinks in webroot.",
-    "SSH: fail2ban total bans 4064 (+39 since last review). 4 IPs currently banned. 15639 failed passwords in current log rotation (+193). Brute-force targeting root and common usernames. Only authorized activity from novakj.",
+    "SSH: fail2ban total bans 4128 (+64 since last review). 8 IPs currently banned (up from 4). 15914 failed passwords (+275). Rejected ssh-rsa pubkey attempts from scanners. Only authorized activity from novakj.",
     "SSL certificate valid until June 18, 2026 (77 days remaining).",
     "Disk usage stable at 12%, 64G free.",
-    "Nginx config syntax valid."
+    "Nginx config syntax valid. All security headers confirmed in HTTP response."
   ],
   "recommendations": [
     "LOW: Add escapeAttr() function to merge.js and batch.js for attribute contexts (aria-label) instead of escapeHtml()",
