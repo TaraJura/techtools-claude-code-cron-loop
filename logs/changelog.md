@@ -12,6 +12,7 @@
 
 ## 2026-04-02
 
+- [TASK-033] **NEW FEATURE** — Continuous scroll & dual-page spread view modes for the PDF viewer. Added a 3-button view mode selector to the toolbar (single page / continuous scroll / dual-page spread). Continuous scroll mode renders all pages vertically with IntersectionObserver-based lazy loading (renders pages near viewport, unloads distant ones to conserve memory), updates page indicator on scroll via requestAnimationFrame. Dual-page spread mode displays side-by-side page pairs with a cover-page toggle (page 1 alone vs paired). Both modes integrate with existing zoom, navigation, thumbnails, keyboard shortcuts, and all overlay modules (annotations, search, etc.). View mode and cover preference persisted in localStorage. Emits `viewmode:change` event on the bus for future module adaptation.
 - [TASK-031] **NEW FEATURE** — Extract Images tool: added a third sub-tab under Convert that scans PDF pages for embedded images using pdf.js operator lists (paintImageXObject / paintJpegImageXObject). Displays found images in a gallery grid with thumbnails, dimensions, page number, and file size. Supports click/Shift+click/Ctrl+A selection, PNG/JPG export format with quality slider, single-image direct download, multi-image ZIP bundling with page-based subfolder structure via JSZip, clipboard copy, progress bars, large image warnings (>10MB), and empty state for imageless PDFs. JPEG images are extracted as raw bytes to avoid quality loss.
 
 ## 2026-04-01
