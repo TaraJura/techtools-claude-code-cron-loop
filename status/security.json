@@ -1,20 +1,21 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-02T20:23:00Z",
+  "last_review": "2026-04-02T22:15:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "23 in recent auth.log sample",
-    "fail2ban_status": "active - sshd jail running, 6 currently banned, 4617 total banned",
+    "failed_password_attempts": "50 in recent auth.log sample",
+    "fail2ban_status": "active - sshd jail running, 7 currently banned, 4710 total banned",
     "top_attackers_currently_banned": [
-      {"ip": "91.224.92.50"},
-      {"ip": "2.57.122.188"},
-      {"ip": "92.118.39.87"},
-      {"ip": "45.148.10.151"},
-      {"ip": "2.57.122.190"},
-      {"ip": "92.118.39.62"}
+      {"ip": "2.57.122.197"},
+      {"ip": "92.118.39.63"},
+      {"ip": "45.148.10.157"},
+      {"ip": "2.57.122.177"},
+      {"ip": "201.63.223.141"},
+      {"ip": "80.94.92.183"},
+      {"ip": "2.57.122.194"}
     ],
-    "change_since_last": "fail2ban total bans 4617 (up from 4537, +80). 6 IPs currently banned (up from 1). Active brute-force wave from multiple IPs. Only authorized activity from novakj. Continued rejected pubkey attempts with deprecated ssh-rsa algorithm."
+    "change_since_last": "fail2ban total bans 4710 (up from 4617, +93). 7 IPs currently banned (up from 6). 11 currently failed attempts queued. Active brute-force continues from 2.57.122.x range and others. Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -48,27 +49,27 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "91 usages across 28 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper reads. form-creator.js has 3 innerHTML (2 clearing, 1 static string)."
+    "innerHTML_note": "94 usages across 29 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper reads. attachments.js has 3 innerHTML (1 clearing, 2 hardcoded SVG icons)."
   },
-  "form_creator_module_review": {
-    "file": "js/form-creator.js",
-    "feature": "Interactive form field creator — draw text/checkbox/radio/dropdown/button fields on PDF canvas, edit properties, alignment tools, snap guides, undo/redo, generate fillable PDF via pdf-lib",
+  "attachments_module_review": {
+    "file": "js/attachments.js",
+    "feature": "Embed, view, download, and remove files attached to a PDF document. Reads existing PDF attachments via EmbeddedFiles name tree, allows adding new files, removing, editing descriptions, and saving back into PDF via pdf-lib attach() API.",
     "status": "secure",
-    "lines": 1453,
+    "lines": 528,
     "innerHTML_writes": 3,
-    "innerHTML_detail": "Line 1026: clearing propsBody. Line 1197: clearing fieldList. Line 1204: static hardcoded string (no user data).",
+    "innerHTML_detail": "Line 371: clearing listEl. Line 428: hardcoded SVG (download icon). Line 436: hardcoded SVG (remove icon).",
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
+    "no_window_open": true,
     "xss_safe": true,
-    "text_display": "All user-facing text set via textContent (field names, types, page numbers, status). showToast() for notifications.",
+    "text_display": "All user-facing text set via textContent (att.name, att.description, file size, badge count). ARIA labels via setAttribute().",
     "file_downloads": "Uses downloadBlob() from utils.js which calls sanitizeFilename().",
+    "upload_validation": "Blocked extensions (exe/bat/cmd/sh/msi/dll/com/scr), 10MB per-file limit, 50MB total limit, zero-byte check, filename deduplication.",
     "no_external_requests": true,
     "no_server_storage": true,
-    "no_window_open": true,
     "dynamic_import": "import('../lib/pdf-lib.min.js') — local self-hosted library only",
-    "field_name_handling": "Field names displayed via textContent, PDF field names go through pdf-lib form API",
-    "error_handling": "try/finally restores button state, errors shown via showToast and console.warn"
+    "error_handling": "try/catch with showToast for user errors, console.error for debugging"
   },
   "new_dependencies": {
     "jszip_min_js": {
@@ -129,6 +130,7 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "attachments_module_secure",
     "form_creator_module_secure",
     "docx_export_module_secure",
     "watermark_module_secure",
@@ -170,7 +172,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_77_days",
-    "fail2ban_active_4617_total_bans",
+    "fail2ban_active_4710_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -194,14 +196,14 @@
     "batch.js line 294: escapeHtml() used with textContent causes double-escaping — cosmetic display bug for filenames containing &, <, >."
   ],
   "notes": [
-    "Full security review completed — 66 checks passed, 0 critical findings.",
-    "NEW: Reviewed form-creator.js (interactive form field creator, 1453 lines): 3 innerHTML (2 clearing, 1 static string — all safe). No eval/Function/document.write. All user-facing text via textContent. Downloads use downloadBlob()+sanitizeFilename(). PDF generation via pdf-lib form API. No external requests. SECURE.",
-    "innerHTML count: 91 across 28 JS files (up 3 from 88 — all new from form-creator.js, all safe).",
-    "38 JS files in webroot (up 1 from 37 — form-creator.js added).",
-    "SSH: fail2ban total bans 4617 (+80 since last review). 6 IPs currently banned (up from 1). Active brute-force wave being handled. Only authorized activity from novakj.",
+    "Full security review completed — 67 checks passed, 0 critical findings.",
+    "NEW: Reviewed attachments.js (PDF attachment manager, 528 lines): 3 innerHTML (1 clearing, 2 hardcoded SVG — all safe). No eval/Function/document.write/window.open. All user-facing text via textContent. Downloads use downloadBlob()+sanitizeFilename(). Upload validation: blocked extensions, 10MB per-file limit, 50MB total, zero-byte check. PDF read/write via pdf-lib. No external requests. SECURE.",
+    "innerHTML count: 94 across 29 JS files (up 3 from 91 — all new from attachments.js, all safe).",
+    "39 JS files in webroot (up 1 from 38 — attachments.js added).",
+    "SSH: fail2ban total bans 4710 (+93 since last review). 7 IPs currently banned (up from 6). Continued brute-force activity from 2.57.122.x range. Only authorized activity from novakj.",
     "SSL certificate valid until June 18, 2026 (77 days remaining).",
     "Disk usage stable at 12%, 64G free.",
-    "All security headers confirmed in HTTP response. Nginx blocking rules verified (git 404, CLAUDE.md 404, .sh 404, .env 404, path traversal 404)."
+    "All security headers confirmed in HTTP response. Nginx blocking rules verified. Config syntax OK."
   ],
   "recommendations": [
     "MEDIUM-LOW: Add protocol allowlist to hyperlinks.js handleLinkClick() — only allow http:, https:, mailto: schemes before calling window.open() on detected PDF links",
