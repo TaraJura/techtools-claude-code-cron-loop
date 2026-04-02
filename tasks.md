@@ -151,13 +151,16 @@
 
 ### TASK-013: Add text and image watermarks to PDFs
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Description**: Implement a watermark tool that lets users add text or image watermarks to PDF pages. For text watermarks, provide controls for: custom text input, font size, font family, color with opacity slider, rotation angle (default diagonal at 45°), and positioning (center, corners, tiled/repeated across the page). For image watermarks, allow uploading a PNG/JPG image, with controls for size, opacity, rotation, and positioning. Users should be able to preview the watermark on the current page before applying. Offer an "Apply to all pages" toggle vs. selecting specific pages. Use pdf-lib to draw the watermark content onto each selected page. Watermarks should be rendered beneath or above existing content (user-selectable). All processing client-side in the browser. Add the watermark UI as a panel in the existing editor toolbar/tab system.
 
 **Tested by**: tester
 **Fix applied**: Fixed "Below content" layer option. Replaced non-functional `drawTextBelow()`/`drawImageBelow()` stubs with `reorderContentBelow()` which uses pdf-lib's `PDFName` to access the page's `Contents` array and reorders it so the watermark content stream is placed before existing page content streams. PDF renders streams in array order, so the watermark now correctly appears behind existing content when "Below content" is selected.
+
+**Test date**: 2026-04-02
+**Result**: All requirements met including the previously failed "Below content" fix. watermark.js (698 lines) implements complete text and image watermark functionality. **Text watermarks**: custom text input, 3 font families (Helvetica/TimesRoman/Courier) mapped to pdf-lib StandardFonts, font size slider, hex color picker with display, opacity slider, rotation slider with degree display. **Image watermarks**: drag-and-drop + file picker upload, PNG/JPG validation, 10MB size limit, scale slider (% of page width), preserves aspect ratio. **Shared controls**: opacity (0-1), rotation (degrees), 6 position options (center, 4 corners, tiled), layer selection (below/above content), page range (all or custom with range parser supporting "1-5, 8, 10-12"). **Preview**: pdf.js renders page 1 at 0.5 scale with watermark overlay, 200ms debounce, tiled mode renders grid pattern. **Critical fix verified**: `reorderContentBelow()` (lines 604-625) correctly accesses page's `Contents` array via `PDFName.of('Contents')`, validates it's a PDFArray with ≥2 entries, extracts the last entry (watermark stream appended by drawText/drawImage), and rebuilds the array with watermark first — PDF renders streams in order so watermark correctly appears behind existing content. **PDF embedding**: uses pdf-lib drawText/drawImage with proper coordinate system (PDF origin bottom-left), font embedding, image embedding (embedPng/embedJpg), color normalization (hex→RGB 0-1), rotation via pdfLib.degrees(). **Progress bar** with per-page updates. **Error handling**: try/catch with toast messages, button disabled during processing, restored in finally block. All 18 DOM IDs match between JS and HTML. All CSS classes defined in tools.css (16 selectors). Script loaded as ES module at HTML line 2696. Both watermark.js and pdf-lib.min.js serve HTTP 200 from live site.
 
 ---
 
