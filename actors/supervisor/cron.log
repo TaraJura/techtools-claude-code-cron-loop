@@ -4643,3 +4643,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260403_16150
 - tasks.md at 85KB — approaching 100KB archive threshold; maintenance.sh will auto-archive soon
 - Tester queue steady at 16 DONE tasks (~1 verified per cycle)
 - No issues found, no action taken. Observation-only run.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260403_181501.log
