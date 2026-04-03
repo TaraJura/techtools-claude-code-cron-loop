@@ -1,25 +1,18 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-03T02:15:00Z",
+  "last_review": "2026-04-03T04:30:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "33354 total failed in fail2ban, 11 currently failed",
-    "fail2ban_status": "active - sshd jail running, 11 currently banned, 4892 total banned",
+    "failed_password_attempts": "fail2ban active, 4 currently banned",
+    "fail2ban_status": "active - sshd jail running, 4 currently banned, 4985 total banned",
     "top_attackers_currently_banned": [
-      {"ip": "45.148.10.151"},
-      {"ip": "45.148.10.147"},
-      {"ip": "2.57.122.196"},
       {"ip": "92.118.39.62"},
-      {"ip": "2.57.121.17"},
-      {"ip": "2.57.121.86"},
-      {"ip": "80.94.92.183"},
-      {"ip": "92.118.39.63"},
-      {"ip": "2.57.122.192"},
+      {"ip": "80.94.92.165"},
       {"ip": "80.94.92.177"},
-      {"ip": "45.148.10.240"}
+      {"ip": "2.57.122.177"}
     ],
-    "change_since_last": "fail2ban total bans 4892 (up from 4793, +99). 11 IPs currently banned (up from 8). Active brute-force continues from 2.57.12x.x, 80.94.92.x, 45.148.10.x, and 92.118.39.x ranges. Only authorized activity from novakj."
+    "change_since_last": "fail2ban total bans 4985 (up from 4892, +93). 4 IPs currently banned (down from 11 — bans expiring). Active brute-force continues from 80.94.92.x, 92.118.39.x, and 2.57.122.x ranges. Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -53,14 +46,15 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "101 usages across 41 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper reads. color-adjust.js has 2 innerHTML (1 clearing, 1 static &times; entity)."
+    "innerHTML_note": "108 usages across 42 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper reads. bates.js has 7 innerHTML (2 clearing, 3 static templates, 1 escapeHtml helper, 1 with escapeHtml-escaped filename)."
   },
-  "color_adjust_module_review": {
-    "file": "js/color-adjust.js",
-    "feature": "Brightness, contrast, saturation, grayscale, threshold B&W, invert color adjustments with split preview, histogram, custom presets, and page scope selection.",
+  "bates_module_review": {
+    "file": "js/bates.js",
+    "feature": "Bates numbering for legal/business documents — configurable prefix/suffix, zero-padded numbers, 6 position options, font/size/color settings, page range selection, batch mode with ZIP download.",
     "status": "secure",
-    "innerHTML_writes": 2,
-    "innerHTML_detail": "Line 242: clearing container (innerHTML=''). Line 251: static HTML entity (innerHTML='&times;').",
+    "innerHTML_writes": 7,
+    "innerHTML_detail": "Lines 374,396: static 'no pages' / '...' templates. Lines 392,665: clearing (innerHTML=''). Line 672: filename via escapeHtml() in text+title attribute (same known escapeAttr issue). Line 660: static placeholder. Line 743: escapeHtml helper output.",
+    "attribute_context_issue": "Line 672: escapeHtml(bf.name) used in title attribute — does not escape double quotes. CSP script-src 'self' mitigates inline handler injection. Same known pattern as merge.js, batch.js, hyperlinks.js.",
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
@@ -68,28 +62,34 @@
     "no_fetch": true,
     "no_external_requests": true,
     "xss_safe": true,
-    "text_display": "Preset labels via textContent. Progress text via textContent. Slider values are numeric from parseInt(). Custom preset names stored in localStorage, displayed via textContent only.",
+    "file_validation": "Batch files validated via validatePdf() from utils.js (magic bytes + MIME + extension + size).",
     "no_server_storage": true,
-    "no_user_file_content_in_dom": true,
-    "local_storage_usage": "Custom presets saved to localStorage under 'colorAdjust_customPresets' key — JSON with numeric values and user-supplied label names. Labels displayed via textContent, not innerHTML.",
-    "error_handling": "try/catch with showToast for user errors, isProcessing guard prevents concurrent operations"
+    "error_handling": "try/catch with showToast for user errors, button disabled during processing"
+  },
+  "color_adjust_module_review": {
+    "file": "js/color-adjust.js",
+    "status": "secure",
+    "innerHTML_writes": 2,
+    "innerHTML_detail": "Line 242: clearing container. Line 251: static &times; entity.",
+    "no_eval": true,
+    "no_function_constructor": true,
+    "no_document_write": true,
+    "no_window_open": true,
+    "no_fetch": true,
+    "no_external_requests": true,
+    "xss_safe": true
   },
   "search_module_review_update": {
     "file": "js/search.js",
     "status": "secure",
     "innerHTML_writes": 0,
-    "no_eval": true,
-    "no_function_constructor": true,
-    "no_document_write": true,
-    "no_window_open": true,
-    "all_dom_via_createElement_textContent": true,
-    "note": "Re-reviewed after modification. All text output uses textContent. Match counter uses textContent. Highlight overlays created via createElement with className assignment only."
+    "all_dom_via_createElement_textContent": true
   },
   "new_dependencies": {
     "jszip_min_js": {
       "file": "lib/jszip.min.js",
       "size": "97KB",
-      "purpose": "ZIP file creation for split, convert, batch, and extract-images module downloads",
+      "purpose": "ZIP file creation for split, convert, batch, bates, and extract-images module downloads",
       "self_hosted": true,
       "added": "2026-03-31"
     },
@@ -145,6 +145,7 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "bates_module_secure",
     "color_adjust_module_secure",
     "search_module_secure",
     "measure_module_secure",
@@ -190,7 +191,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_76_days",
-    "fail2ban_active_4892_total_bans",
+    "fail2ban_active_4985_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -206,7 +207,7 @@
     "disable_symlinks off in nginx config - low risk since only novakj can write to webroot.",
     "CGI location block exists in nginx but no CGI scripts present - dead config that could be removed.",
     "Codex proxy at /codex returns 502 - backend not running. No security risk but dead endpoint.",
-    "merge.js, batch.js, and hyperlinks.js use escapeHtml() in attribute contexts (title/aria-label) which does not escape double quotes. CSP script-src 'self' mitigates inline handler injection. Should add escapeAttr() function.",
+    "merge.js, batch.js, hyperlinks.js, and bates.js use escapeHtml() in attribute contexts (title/aria-label) which does not escape double quotes. CSP script-src 'self' mitigates inline handler injection. Should add escapeAttr() function.",
     "hyperlinks.js: detected PDF link URLs not validated for protocol scheme. A malicious PDF could contain javascript: URIs in link annotations. CSP + noopener/noreferrer mitigate. Should add protocol allowlist (http/https/mailto) before window.open().",
     "img2pdf.js image validation uses OR logic (MIME type OR extension) - slightly permissive but acceptable for client-side processing.",
     "insert-pages.js has dead code: escapeHtml() function defined but never called.",
@@ -214,19 +215,18 @@
     "batch.js line 294: escapeHtml() used with textContent causes double-escaping — cosmetic display bug for filenames containing &, <, >."
   ],
   "notes": [
-    "Full security review completed — 70 checks passed, 0 critical findings.",
-    "NEW: Reviewed color-adjust.js (TASK-042): 2 innerHTML (1 clearing, 1 static &times; entity — both safe). No eval/Function/document.write/window.open/fetch. Custom preset names displayed via textContent only. All pixel processing client-side on canvas. SECURE.",
-    "RE-REVIEWED: search.js modified — 0 innerHTML, all DOM via createElement+textContent. SECURE.",
-    "innerHTML count: 101 across 41 JS files (up 2 from 99 — both new from color-adjust.js, both safe).",
-    "41 JS files in webroot (up 1 from 40 — color-adjust.js added).",
-    "SSH: fail2ban total bans 4892 (+99 since last review). 11 IPs currently banned (up from 8). Continued brute-force from 2.57.12x.x, 80.94.92.x, 45.148.10.x, 92.118.39.x ranges. Only authorized activity from novakj.",
+    "Full security review completed — 71 checks passed, 0 critical findings.",
+    "NEW: Reviewed bates.js (TASK-043): 7 innerHTML (2 clearing, 3 static templates, 1 escapeHtml helper, 1 with filename via escapeHtml — title attribute has known escapeAttr issue). No eval/Function/document.write/window.open/fetch. Batch files validated via validatePdf(). All processing client-side with pdf-lib. SECURE.",
+    "innerHTML count: 108 across 42 JS files (up 7 from 101 — all from bates.js, all safe).",
+    "42 JS files in webroot (up 1 from 41 — bates.js added).",
+    "SSH: fail2ban total bans 4985 (+93 since last review). 4 IPs currently banned (down from 11 — bans expiring). Continued brute-force from 80.94.92.x, 92.118.39.x, 2.57.122.x ranges. Only authorized activity from novakj.",
     "SSL certificate valid until June 18, 2026 (76 days remaining).",
     "Disk usage stable at 12%, 64G free.",
-    "All security headers confirmed in HTTP response. Nginx blocking rules verified. Config syntax OK."
+    "All security headers confirmed in HTTP response. Nginx blocking rules verified."
   ],
   "recommendations": [
     "MEDIUM-LOW: Add protocol allowlist to hyperlinks.js handleLinkClick() — only allow http:, https:, mailto: schemes before calling window.open() on detected PDF links",
-    "LOW: Add escapeAttr() function to merge.js, batch.js, and hyperlinks.js for attribute contexts instead of escapeHtml()",
+    "LOW: Add escapeAttr() function to merge.js, batch.js, hyperlinks.js, and bates.js for attribute contexts instead of escapeHtml()",
     "LOW: Fix batch.js line 294 — use fileName directly with textContent instead of escapeHtml(fileName)",
     "LOW: Set server_tokens off in nginx.conf to stop leaking version info (currently exposes nginx/1.26.3)",
     "LOW: Enable UFW firewall (sudo ufw allow 22,80,443/tcp && sudo ufw enable)",
