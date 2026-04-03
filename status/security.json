@@ -1,16 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-03T16:20:00Z",
+  "last_review": "2026-04-03T18:17:00Z",
   "status": "secure",
-  "fixes_applied": [
-    "templates.js line 688: Custom template name was used unescaped in aria-label attribute — added escHtml() wrapper. Prevents attribute injection via crafted JSON import files.",
-    "templates.js line 688: Custom template templateId was used directly in data-tpl-id attribute without validation — now validated against GENERATORS keys, falls back to 'blank'.",
-    "templates.js importCustomTemplates(): Hardened import validation — now checks typeof for name/templateId/config, validates templateId against known generators, truncates name to 100 chars, rejects array configs."
-  ],
+  "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 3 currently banned",
-    "fail2ban_status": "active - sshd jail running, 3 currently banned, 5445 total banned",
-    "change_since_last": "fail2ban total bans 5445 (up from 5360, +85). 3 IPs currently banned (down from 9). 4 currently failed. Brute-force continues at typical rate. Only authorized activity from novakj."
+    "failed_password_attempts": "fail2ban active, 8 currently banned",
+    "fail2ban_status": "active - sshd jail running, 8 currently banned, 5495 total banned",
+    "change_since_last": "fail2ban total bans 5495 (up from 5445, +50). 8 IPs currently banned (up from 3). 9 currently failed. Brute-force continues at typical rate. Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -44,33 +40,30 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 395 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "128 usages across 37 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml()/escHtml() helper. New file templates.js (4 uses) all properly escaped after fix."
+    "innerHTML_note": "128 usages across 37 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml()/escHtml() helper. headers-footers.js has 0 innerHTML uses."
   },
   "new_modules_review": {
-    "templates_js": {
-      "file": "js/templates.js",
-      "feature": "TASK-049: Pre-built document templates system. 12 built-in templates (blank, lined, graph, dot grid, Cornell notes, sheet music, invoice, letterhead, certificate, meeting agenda, to-do list, weekly planner). Custom templates via localStorage. Import/export JSON. Live preview via pdf.js. Page size/orientation/theme/margin customization.",
-      "status": "secure (after fix)",
-      "lines": 1182,
-      "innerHTML_writes": 4,
-      "innerHTML_safe": true,
-      "innerHTML_detail": "Line 716: gallery render — custom names escaped via escHtml(), built-in names are hardcoded constants, icons are hardcoded SVGs. Line 874: config panel — all values from hardcoded defaults. Line 1142: escHtml() helper itself (textContent→innerHTML DOM pattern). Line 1160: welcome screen — hardcoded popular templates only.",
-      "fixes_applied": [
-        "Line 688: aria-label now uses escHtml(ct.name) instead of raw ct.name",
-        "Line 688: data-tpl-id now validated against GENERATORS keys, falls back to 'blank'",
-        "importCustomTemplates(): Added typeof checks, templateId validation, name length limit (100), config type validation"
-      ],
-      "escHtml_defined": true,
-      "escHtml_note": "Uses DOM textContent→innerHTML pattern — escapes <, >, & but not double quotes. Same behavior as escapeHtml() in other files. Safe for element content. For aria-label attribute: custom names now go through escHtml() which is sufficient because attribute values in template literals are already double-quoted and escHtml handles < > & which are the injection vectors.",
+    "headers_footers_js": {
+      "file": "js/headers-footers.js",
+      "feature": "TASK-050: Headers & Footers tool. Add recurring headers, footers, and page numbers to every page or a page range. 6 placement zones (top/bottom x left/center/right). Token substitution ({page}, {pages}, {date}, {filename}, {title}). Multiple number styles (arabic, roman, alpha). Font/size/color/opacity/bold/italic customization. Separator lines. Odd/even page alternation. 5 built-in presets + custom presets via localStorage. Live preview on canvas. Remove existing headers/footers.",
+      "status": "secure",
+      "lines": 851,
+      "innerHTML_writes": 0,
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
+      "no_innerHTML": true,
       "no_external_requests": true,
-      "input_validation": "Page count clamped 1-500 with confirmation at 100+. Margin clamped 0-144pt. Numeric inputs use parseInt/parseFloat. Import validates array structure, templateId whitelist, string types, name length.",
-      "resource_protection": "Batch generation (>10 pages) uses setTimeout(0) yield to prevent UI freeze. Preview generates only 1 page regardless of config. Pages max 500.",
-      "custom_templates_storage": "localStorage key 'pdfeditor_custom_templates'. JSON array of {name, templateId, config}. No sensitive data.",
-      "object_url_handling": "URL.createObjectURL + URL.revokeObjectURL properly paired in exportCustomTemplates()"
+      "input_handling": "Zone text rendered via canvas ctx.fillText() and pdf-lib page.drawText() — neither interprets HTML. Custom preset names from prompt() displayed via opt.textContent (DOM API) and showToast (uses textContent). Numeric inputs clamped via bindNumberInput(). Colors validated via hexToRgbNorm() regex. Page ranges parsed via parseInt with bounds checking.",
+      "resource_protection": "Preview renders single page at 0.6x scale. Processing iterates target pages sequentially. Text truncation prevents excessive text width. No web worker but consistent with other modules.",
+      "custom_presets_storage": "localStorage key 'hf-custom-presets'. JSON object of {name: {zones, settings}}. No sensitive data. Preset names not length-limited (minor — only affects localStorage size).",
+      "download_safety": "Uses downloadBlob() from utils.js which sanitizes filenames."
     }
+  },
+  "task_034_review": {
+    "change": "viewer.js: Added bus.on('navigate:page', (pageNum) => goToPage(pageNum)) to wire internal hyperlink navigation",
+    "status": "secure",
+    "detail": "pageNum is always a numeric value from hyperlinks.js link.targetPage (parsed from PDF annotation destination). goToPage() already validates page bounds. No user-controlled strings involved."
   },
   "previous_module_reviews_still_valid": [
     "action-registry.js", "command-palette.js", "keyboard-shortcuts.js", "app.js",
@@ -81,7 +74,8 @@
     "autosave.js", "flatten.js", "tables.js", "viewer.js", "present.js", "protect.js",
     "metadata.js", "redact.js", "compare.js", "forms.js", "page-numbers.js",
     "bookmarks.js", "ocr.js", "img2pdf.js", "convert.js", "merge.js", "upload.js",
-    "split.js", "compress.js", "signatures.js", "batch.js", "theme.js"
+    "split.js", "compress.js", "signatures.js", "batch.js", "theme.js",
+    "templates.js", "utils.js", "extract-images.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -118,6 +112,8 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "headers_footers_module_secure",
+    "task_034_viewer_navigate_page_secure",
     "templates_module_secure_after_fix",
     "templates_import_validation_hardened",
     "templates_aria_label_escaped",
@@ -175,7 +171,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_76_days",
-    "fail2ban_active_5445_total_bans",
+    "fail2ban_active_5495_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -197,21 +193,21 @@
     "Codex proxy at /codex returns 502 - backend not running. No security risk but dead endpoint.",
     "merge.js, batch.js, hyperlinks.js, bates.js, command-palette.js, keyboard-shortcuts.js use escapeHtml() that does not escape double quotes. CSP script-src 'self' mitigates inline handler injection. In most files used in element content (safe). In attribute contexts (title/aria-label) should add escapeAttr().",
     "hyperlinks.js: detected PDF link URLs not validated for protocol scheme. A malicious PDF could contain javascript: URIs in link annotations. CSP + noopener/noreferrer mitigate. Should add protocol allowlist (http/https/mailto) before window.open().",
+    "hyperlinks.js line 686: email link window.open() missing noopener/noreferrer — minor since mailto: links are low risk.",
     "img2pdf.js image validation uses OR logic (MIME type OR extension) - slightly permissive but acceptable for client-side processing.",
     "insert-pages.js has dead code: escapeHtml() function defined but never called.",
     "metadata.js has dead code: escapeHtml() function defined but never called.",
     "batch.js line 294: escapeHtml() used with textContent causes double-escaping — cosmetic display bug for filenames containing &, <, >.",
-    "keyboard-shortcuts.js line 395: document.write used on new popup window for print cheat sheet — acceptable pattern but noted for tracking."
+    "keyboard-shortcuts.js line 395: document.write used on new popup window for print cheat sheet — acceptable pattern but noted for tracking.",
+    "headers-footers.js: custom preset names from prompt() not length-limited before localStorage storage — minor, only affects local storage size."
   ],
   "notes": [
-    "Security review completed — 85 checks passed, 3 fixes applied this run.",
-    "NEW: Reviewed templates.js (1182 lines, TASK-049). Found and fixed: unescaped custom template name in aria-label, unvalidated templateId in attribute, permissive import validation.",
-    "templates.js: 4 innerHTML uses — gallery render, config panel, escHtml helper, welcome screen. All safe (custom names escaped, built-in data hardcoded, icons are static SVGs).",
-    "templates.js: Custom template import now validates templateId against known generators whitelist, enforces string types, truncates names to 100 chars.",
-    "templates.js: Page generation capped at 500 pages with user confirmation at 100+. Batch generation yields to UI every 10 pages.",
-    "JS file count: 49 (up from 48 — 1 new file templates.js).",
-    "innerHTML count: 128 across 37 files (up from 124 across 36 — 4 new uses in 1 new file, all safe).",
-    "SSH: fail2ban total bans 5445 (+85 since last review). 3 IPs currently banned (down from 9). 4 currently failed attempts. Only authorized activity from novakj.",
+    "Security review completed — 87 checks passed, 0 fixes needed this run.",
+    "NEW: Reviewed headers-footers.js (851 lines, TASK-050). Clean module — zero innerHTML, zero eval, zero document.write. All user text rendered via canvas API and pdf-lib (not HTML). Custom presets stored safely in localStorage.",
+    "TASK-034 viewer.js change reviewed: navigate:page bus event wired to goToPage(). Numeric-only, bounds-checked. Secure.",
+    "JS file count: 50 (up from 49 — 1 new file headers-footers.js).",
+    "innerHTML count: 128 across 37 files (unchanged — new file has 0 innerHTML uses).",
+    "SSH: fail2ban total bans 5495 (+50 since last review). 8 IPs currently banned (up from 3). 9 currently failed attempts. Only authorized activity from novakj.",
     "SSL certificate valid until June 18, 2026 (76 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified."
@@ -225,6 +221,7 @@
     "LOW: Add general *.md deny rule to nginx with explicit exception for known safe files",
     "LOW: Remove dead escapeHtml() function from insert-pages.js and metadata.js",
     "LOW: Remove unused CGI location block from nginx config",
-    "LOW: Consider disable_symlinks on in nginx for defense in depth"
+    "LOW: Consider disable_symlinks on in nginx for defense in depth",
+    "LOW: Add length limit to custom preset names in headers-footers.js saveCustomPreset()"
   ]
 }
