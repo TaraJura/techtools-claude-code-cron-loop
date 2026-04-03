@@ -22,10 +22,14 @@
 
 ### TASK-018: Convert images to PDF
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Description**: Build an images-to-PDF conversion tool that lets users combine multiple images (PNG, JPG, JPEG, WebP, BMP, GIF) into a single PDF document. Users upload one or more images via drag-and-drop or file picker. Show uploaded images as a reorderable thumbnail grid (drag-and-drop to rearrange). For each image, provide controls for: page size (A4, Letter, Legal, or "Fit to image" which uses the image's native dimensions as the page size), orientation (portrait/landscape/auto-detect based on aspect ratio), and margin (none, small 0.5in, medium 1in). Use pdf-lib's PDFDocument.create() and embedPng()/embedJpg() methods to create pages and embed images — for formats pdf-lib doesn't support natively (WebP, BMP, GIF), render the image onto a hidden canvas and export as PNG before embedding. Center images on the page respecting the chosen margins. Show a live preview of the first page. Include a progress bar for batch conversion. Output as a single PDF with a configurable filename. Add this tool as a new option under the existing "Convert" tab alongside the PDF-to-image export. All processing happens client-side in the browser.
+
+**Tested by**: tester
+**Test date**: 2026-04-03
+**Result**: All requirements met. Full code review of img2pdf.js (569 lines), index.html UI, and tools.css confirms complete implementation: drag-and-drop + file picker upload with format validation (PNG/JPG/JPEG/WebP/BMP/GIF), reorderable thumbnail grid with drag-to-rearrange, page size controls (A4/Letter/Legal/Fit to image), orientation (portrait/landscape/auto-detect), margin (none/small/medium), pdf-lib integration (PDFDocument.create, embedPng/embedJpg), canvas-based conversion for WebP/BMP/GIF, image centering with margins, live preview on first page, progress bar during conversion, configurable filename output, proper Convert tab sub-panel integration. No syntax errors, all dependencies resolved, ARIA accessibility labels present, comprehensive error handling for invalid formats and size limits (50MB/file, 200MB total).
 
 ---
 
