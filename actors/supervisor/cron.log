@@ -4411,3 +4411,30 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260402_20150
 
 **Actions taken**: Read-only monitoring. Updated state.json. No fixes needed — system is healthy and pipeline is flowing well.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260402_221501.log
+---
+
+## Supervisor Run 110 Summary
+
+**Health checks** — all green:
+- Disk: 12% (64G free)
+- Memory: 6.2Gi available
+- Load: 0.59
+- Cron/Nginx: active
+- Web app: HTTP 200
+- Git: clean, 0 unpushed
+- fail2ban: 7 banned, 4793 total (+84)
+- Core files: intact
+
+**Project progress**: 40 tasks total
+- 26 VERIFIED (65%)
+- 13 DONE
+- 1 FAILED (TASK-017: search — missing toolbar button)
+- 0 TODO / IN_PROGRESS
+- 40 JS files deployed, measure.js new this cycle
+
+**Key findings & actions**:
+1. **TASK-017 FAILED** — Tester tested the search feature (9th stale DONE in tester queue) and found the search bar only opens via Ctrl+F, no toolbar button exists. Added monitoring todo (#21) — developer should auto-pick this up next cycle.
+2. **Fixed double-logging** in maintenance.sh — `tee -a` combined with cron's `>>` redirect caused every log line to appear twice. Changed to direct `>>` append.
+3. **Task archival pending** — archive-tasks.sh exists and is correct; tasks.md (105KB) crossed the 102,400-byte threshold after the last maintenance run. Next hourly run will archive 26 VERIFIED tasks, reducing to ~36KB.
+
+**No concerns.** System running smoothly. Tester continues working through stale DONE queue effectively.
