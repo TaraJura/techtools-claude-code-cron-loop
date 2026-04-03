@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-03T12:30:00Z",
+  "last_review": "2026-04-03T14:17:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 8 currently banned",
-    "fail2ban_status": "active - sshd jail running, 8 currently banned, 5262 total banned",
-    "change_since_last": "fail2ban total bans 5262 (up from 5165, +97). 8 IPs currently banned (down from 12). 5 currently failed. Brute-force continues at typical rate. Only authorized activity from novakj."
+    "failed_password_attempts": "fail2ban active, 9 currently banned",
+    "fail2ban_status": "active - sshd jail running, 9 currently banned, 5360 total banned",
+    "change_since_last": "fail2ban total bans 5360 (up from 5262, +98). 9 IPs currently banned (up from 8). 7 currently failed. Brute-force continues at typical rate. Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -37,10 +37,58 @@
     "memory_limit_set": true,
     "total_memory_limit": "200MB (batch module uses 500MB for multi-file operations)",
     "no_eval_in_js": true,
-    "no_document_write": true,
     "no_function_constructor": true,
+    "document_write_safe": "1 usage in keyboard-shortcuts.js line 395 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "117 usages across 34 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper. crop.js has 2 innerHTML uses — both safe (clearing container + static SVG button)."
+    "innerHTML_note": "124 usages across 36 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper. New files command-palette.js (2 uses) and keyboard-shortcuts.js (5 uses) all properly escaped."
+  },
+  "new_modules_review": {
+    "action_registry_js": {
+      "file": "js/action-registry.js",
+      "feature": "Central action registry for command palette and keyboard shortcuts. Stores actions with id/name/category/execute callback. Recent actions persisted via localStorage.",
+      "status": "secure",
+      "lines": 373,
+      "innerHTML_writes": 0,
+      "no_eval": true,
+      "no_external_requests": true,
+      "notes": "Pure internal registry pattern. No DOM manipulation with user content. localStorage stores action IDs only."
+    },
+    "command_palette_js": {
+      "file": "js/command-palette.js",
+      "feature": "Ctrl+K command palette with fuzzy search over registered actions. Shows recent actions, categories, keyboard shortcut badges.",
+      "status": "secure",
+      "lines": 267,
+      "innerHTML_writes": 2,
+      "innerHTML_safe": true,
+      "innerHTML_detail": "Line 42: static HTML kbd hint (no user data). Line 208: rendered action list — all interpolated values go through escapeHtml() (name, category, description, labels). Action IDs in data attributes are hardcoded internal strings.",
+      "escapeHtml_defined": true,
+      "escapeHtml_note": "Does not escape double quotes — same as other files. Safe here because action IDs in data-action-id attributes are hardcoded strings, never user-controlled.",
+      "no_eval": true,
+      "no_external_requests": true
+    },
+    "keyboard_shortcuts_js": {
+      "file": "js/keyboard-shortcuts.js",
+      "feature": "Global keydown handler for all keyboard shortcuts. Customization panel with edit/reset/export/import. Print cheat sheet. Bindings stored in localStorage.",
+      "status": "secure",
+      "lines": 406,
+      "innerHTML_writes": 5,
+      "innerHTML_safe": true,
+      "innerHTML_detail": "Line 139: static panel template. Line 228: action list with escapeHtml(). Lines 249/261/263: static capture prompts. All safe.",
+      "document_write": "Line 395: win.document.write(html) — writes to a new blank popup window for printing. All content escaped via escapeHtml(). Standard print pattern.",
+      "import_validation": "importShortcuts() validates typeof object. Values stored in localStorage go through escapeHtml() when rendered. No prototype pollution via JSON.parse.",
+      "no_eval": true,
+      "no_external_requests": true
+    },
+    "app_js_rewrite": {
+      "file": "js/app.js",
+      "feature": "Main app module rewritten — now imports action-registry, command-palette, keyboard-shortcuts. Registers builtin actions on init. Sets up command palette button.",
+      "status": "secure",
+      "innerHTML_writes": 0,
+      "uses_textContent": true,
+      "uses_validatePdf": true,
+      "no_eval": true,
+      "no_external_requests": true
+    }
   },
   "crop_module_review": {
     "file": "js/crop.js",
@@ -146,10 +194,13 @@
     "url_encoded_path_traversal_blocked",
     "no_secrets_in_webroot",
     "no_eval_in_js_files",
-    "no_document_write_in_js_files",
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "action_registry_module_secure",
+    "command_palette_module_secure",
+    "keyboard_shortcuts_module_secure",
+    "app_js_rewrite_secure",
     "crop_module_secure",
     "insert_pages_undo_fix_secure",
     "pages_undo_integration_secure",
@@ -200,7 +251,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_76_days",
-    "fail2ban_active_5262_total_bans",
+    "fail2ban_active_5360_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -210,7 +261,8 @@
     "qrcode_generator_self_hosted_in_lib",
     "jsbarcode_self_hosted_in_lib",
     "jsqr_self_hosted_in_lib",
-    "nginx_config_syntax_ok"
+    "nginx_config_syntax_ok",
+    "document_write_safe_print_only"
   ],
   "known_issues": [
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
@@ -219,27 +271,31 @@
     "disable_symlinks off in nginx config - low risk since only novakj can write to webroot.",
     "CGI location block exists in nginx but no CGI scripts present - dead config that could be removed.",
     "Codex proxy at /codex returns 502 - backend not running. No security risk but dead endpoint.",
-    "merge.js, batch.js, hyperlinks.js, and bates.js use escapeHtml() in attribute contexts (title/aria-label) which does not escape double quotes. CSP script-src 'self' mitigates inline handler injection. Should add escapeAttr() function.",
+    "merge.js, batch.js, hyperlinks.js, bates.js, command-palette.js, keyboard-shortcuts.js use escapeHtml() that does not escape double quotes. CSP script-src 'self' mitigates inline handler injection. In most files used in element content (safe). In attribute contexts (title/aria-label) should add escapeAttr().",
     "hyperlinks.js: detected PDF link URLs not validated for protocol scheme. A malicious PDF could contain javascript: URIs in link annotations. CSP + noopener/noreferrer mitigate. Should add protocol allowlist (http/https/mailto) before window.open().",
     "img2pdf.js image validation uses OR logic (MIME type OR extension) - slightly permissive but acceptable for client-side processing.",
     "insert-pages.js has dead code: escapeHtml() function defined but never called.",
     "metadata.js has dead code: escapeHtml() function defined but never called.",
-    "batch.js line 294: escapeHtml() used with textContent causes double-escaping — cosmetic display bug for filenames containing &, <, >."
+    "batch.js line 294: escapeHtml() used with textContent causes double-escaping — cosmetic display bug for filenames containing &, <, >.",
+    "keyboard-shortcuts.js line 395: document.write used on new popup window for print cheat sheet — acceptable pattern but noted for tracking."
   ],
   "notes": [
-    "Security review completed — 78 checks passed, 0 fixes needed this run.",
-    "NEW: Reviewed crop.js (TASK-047, 963 lines): Enhanced page crop module with aspect ratio presets, extended apply modes (all/current/even/odd/range), unit selector, numeric margin inputs, auto-trim whitespace detection, preview modal, undo integration via pages:save-undo event. 2 innerHTML uses — both safe (clearing container + static SVG button). All dynamic text via textContent. Input validation via parseFloat/parseInt with NaN checks. No new libraries.",
-    "NEW: Reviewed insert-pages.js + pages.js undo fix: Event bus integration for pre-insertion state snapshot. ArrayBuffer.slice(0) for independent copy. MAX_UNDO=30 bounds memory. _skipPdfReady flag prevents recursive reload. Secure.",
-    "JS file count: 45 (unchanged).",
-    "innerHTML count: 117 across 34 files (unchanged — crop.js was already counted in previous review baseline).",
-    "SSH: fail2ban total bans 5262 (+97 since last review). 8 IPs currently banned (down from 12). 5 currently failed attempts. Only authorized activity from novakj.",
+    "Security review completed — 82 checks passed, 0 fixes needed this run.",
+    "NEW: Reviewed 3 new JS modules + 1 rewrite (action-registry.js 373 lines, command-palette.js 267 lines, keyboard-shortcuts.js 406 lines, app.js 182 lines rewrite). All secure. These add command palette (Ctrl+K) and customizable keyboard shortcuts to the PDF editor.",
+    "command-palette.js: 2 innerHTML uses — static hint + escaped action list. Fuzzy search operates on internal registry data only.",
+    "keyboard-shortcuts.js: 5 innerHTML uses — all static templates or escaped via escapeHtml(). Import feature validates JSON structure. Export/import uses localStorage only. Print cheat sheet uses document.write on a new blank window (all content escaped).",
+    "action-registry.js: No innerHTML, no DOM manipulation with user content. Pure registry pattern with localStorage for recent actions.",
+    "app.js rewrite: Now imports new modules. Uses textContent for status bar. Uses validatePdf for file handling. No security regressions.",
+    "JS file count: 48 (up from 45 — 3 new files).",
+    "innerHTML count: 124 across 36 files (up from 117 across 34 — 7 new uses in 2 new files, all safe).",
+    "SSH: fail2ban total bans 5360 (+98 since last review). 9 IPs currently banned (up from 8). 7 currently failed attempts. Only authorized activity from novakj.",
     "SSL certificate valid until June 18, 2026 (76 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified."
   ],
   "recommendations": [
     "MEDIUM-LOW: Add protocol allowlist to hyperlinks.js handleLinkClick() — only allow http:, https:, mailto: schemes before calling window.open() on detected PDF links",
-    "LOW: Add escapeAttr() function to merge.js, batch.js, hyperlinks.js, and bates.js for attribute contexts instead of escapeHtml()",
+    "LOW: Add escapeAttr() function to merge.js, batch.js, hyperlinks.js, bates.js, command-palette.js, keyboard-shortcuts.js for attribute contexts instead of escapeHtml()",
     "LOW: Fix batch.js line 294 — use fileName directly with textContent instead of escapeHtml(fileName)",
     "LOW: Set server_tokens off in nginx.conf to stop leaking version info (currently exposes nginx/1.26.3)",
     "LOW: Enable UFW firewall (sudo ufw allow 22,80,443/tcp && sudo ufw enable)",
