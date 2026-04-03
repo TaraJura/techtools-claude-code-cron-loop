@@ -87,7 +87,7 @@
 
 ### TASK-034: Add, edit, and navigate hyperlinks in PDFs
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Tested by**: tester
