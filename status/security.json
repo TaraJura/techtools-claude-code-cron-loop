@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-03T10:16:00Z",
+  "last_review": "2026-04-03T12:30:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 12 currently banned",
-    "fail2ban_status": "active - sshd jail running, 12 currently banned, 5165 total banned",
-    "change_since_last": "fail2ban total bans 5165 (up from 5067, +98). 12 IPs currently banned (up from 6). 14 currently failed. Brute-force continues at typical rate. Only authorized activity from novakj."
+    "failed_password_attempts": "fail2ban active, 8 currently banned",
+    "fail2ban_status": "active - sshd jail running, 8 currently banned, 5262 total banned",
+    "change_since_last": "fail2ban total bans 5262 (up from 5165, +97). 8 IPs currently banned (down from 12). 5 currently failed. Brute-force continues at typical rate. Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,31 +40,34 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "117 usages across 34 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper. annotation-summary.js has 2 innerHTML uses — both safe (static empty-state template + fully escaped list rendering)."
+    "innerHTML_note": "117 usages across 34 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper. crop.js has 2 innerHTML uses — both safe (clearing container + static SVG button)."
   },
-  "annotation_summary_module_review": {
-    "file": "js/annotation-summary.js",
-    "feature": "Annotation summary panel — collects highlights, underlines, strikethroughs, sticky notes, drawings, stamps, text overlays, and hyperlinks into a filterable/searchable list with virtualized rendering. Exports to plain text, CSV, and PDF report via pdf-lib.",
+  "crop_module_review": {
+    "file": "js/crop.js",
+    "feature": "TASK-047: Enhanced page crop tool with aspect ratio presets (A4/Letter/Square/16:9/custom), extended apply modes (all/current/even/odd/range), unit selector (pt/in/mm), numeric margin inputs, auto-trim whitespace margins, preview modal, undo integration via event bus, resize MediaBox option, rotated page handling.",
     "status": "secure",
-    "lines": 898,
+    "lines": 963,
     "innerHTML_writes": 2,
     "innerHTML_safe": true,
-    "innerHTML_detail": "Line 480: static empty-state message (no user data interpolation). Line 531: list rendering with escapeHtml() on all user content (displayText, comments). entry.color used in style attribute comes from internal annotation colors (hex validated by hexToRgbValues). typeIcon() returns hardcoded SVGs from a static map.",
-    "escapeHtml_quality": "good — escapes &, <, >, and double quotes (line 879). Better than merge/batch/hyperlinks/bates escapeHtml which lacks quote escaping.",
-    "textContent_writes": "yes (type counts display at line 471)",
+    "innerHTML_detail": "Line 265: container.innerHTML='' (clearing). Line 946: static SVG + text for button reset (no user data interpolation).",
+    "textContent_writes": "yes (dimension display at line 582, page nav at line 626)",
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
-    "no_window_open": true,
     "no_external_requests": true,
-    "csv_export_safe": true,
-    "csv_escape_function": "wraps in quotes, doubles internal quotes (line 666-671)",
-    "pdf_export_safe": true,
-    "pdf_export_uses": "pdf-lib PDFDocument.create() — no HTML injection vector",
-    "input_validation": "search input lowercased, filter types from controlled Set, sort from controlled values, parseInt for entry indices",
-    "error_handling": "try/catch with showToast for PDF export, null checks throughout",
+    "input_validation": "parseFloat for numeric margin inputs, parseInt for page ranges, parseFloat for custom aspect ratio with NaN checks, clamp() for all rect coordinates",
+    "error_handling": "try/catch with showToast for auto-trim and apply operations, validation before crop application (minimum size 50pt, non-zero cropping check)",
     "new_libraries": "none",
-    "exports_added_to_existing_modules": "6 simple getter exports added (getAnnotations, getStickyNotes, getDrawings, getStamps, getStampLibrary, getTextOverlays, getHyperlinks) — all return internal state maps, no security impact"
+    "undo_integration": "emits pages:save-undo before applying crop — same pattern as insert-pages.js"
+  },
+  "insert_pages_undo_fix_review": {
+    "file": "js/insert-pages.js + js/pages.js",
+    "feature": "Undo support added — insert-pages.js emits pages:save-undo, pages.js saves pre-insertion state (items + ArrayBuffer clone via .slice(0)), restores on undo with pdf.js reload.",
+    "status": "secure",
+    "innerHTML_safe": true,
+    "memory_management": "ArrayBuffer.slice(0) creates independent copy. History bounded at MAX_UNDO=30. Old entries shifted off. _skipPdfReady flag prevents recursive pdf:ready during restore.",
+    "no_eval": true,
+    "no_external_requests": true
   },
   "new_dependencies": {
     "jszip_min_js": {
@@ -147,6 +150,9 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "crop_module_secure",
+    "insert_pages_undo_fix_secure",
+    "pages_undo_integration_secure",
     "annotation_summary_module_secure",
     "printprep_module_secure",
     "qrbarcode_module_secure",
@@ -177,7 +183,6 @@
     "forms_module_secure",
     "drawing_module_secure",
     "page_numbers_module_secure",
-    "crop_module_secure",
     "bookmarks_module_secure",
     "ocr_module_secure",
     "img2pdf_module_secure",
@@ -195,7 +200,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_76_days",
-    "fail2ban_active_5165_total_bans",
+    "fail2ban_active_5262_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -222,11 +227,12 @@
     "batch.js line 294: escapeHtml() used with textContent causes double-escaping — cosmetic display bug for filenames containing &, <, >."
   ],
   "notes": [
-    "Security review completed — 75 checks passed, 0 fixes needed this run.",
-    "NEW: Reviewed annotation-summary.js (TASK-046, 898 lines): Annotation summary panel collecting all annotation types into a filterable, searchable, virtualized list with exports to text/CSV/PDF. 2 innerHTML uses — both safe (static empty state + fully escaped list with escapeHtml covering &<>\" characters). escapeHtml in this module is better than in merge/batch/hyperlinks/bates as it includes quote escaping. CSV export uses proper csvEscape(). PDF export uses pdf-lib (no HTML vectors). 6 simple getter exports added to existing modules — no security surface increase. No new libraries.",
-    "JS file count: 45 (up 1 from 44 — annotation-summary.js added).",
-    "innerHTML count: 117 across 34 files (up 2 from 115 across 33 — annotation-summary.js adds 2).",
-    "SSH: fail2ban total bans 5165 (+98 since last review). 12 IPs currently banned (up from 6). 14 currently failed attempts. Only authorized activity from novakj.",
+    "Security review completed — 78 checks passed, 0 fixes needed this run.",
+    "NEW: Reviewed crop.js (TASK-047, 963 lines): Enhanced page crop module with aspect ratio presets, extended apply modes (all/current/even/odd/range), unit selector, numeric margin inputs, auto-trim whitespace detection, preview modal, undo integration via pages:save-undo event. 2 innerHTML uses — both safe (clearing container + static SVG button). All dynamic text via textContent. Input validation via parseFloat/parseInt with NaN checks. No new libraries.",
+    "NEW: Reviewed insert-pages.js + pages.js undo fix: Event bus integration for pre-insertion state snapshot. ArrayBuffer.slice(0) for independent copy. MAX_UNDO=30 bounds memory. _skipPdfReady flag prevents recursive reload. Secure.",
+    "JS file count: 45 (unchanged).",
+    "innerHTML count: 117 across 34 files (unchanged — crop.js was already counted in previous review baseline).",
+    "SSH: fail2ban total bans 5262 (+97 since last review). 8 IPs currently banned (down from 12). 5 currently failed attempts. Only authorized activity from novakj.",
     "SSL certificate valid until June 18, 2026 (76 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified."
