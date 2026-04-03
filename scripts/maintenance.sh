@@ -9,7 +9,7 @@ HOME_DIR="/home/novakj"
 LOG_FILE="/home/novakj/logs/maintenance.log"
 
 log() {
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >> "$LOG_FILE"
 }
 
 log "=== Maintenance Started ==="
