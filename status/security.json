@@ -1,22 +1,25 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-03T00:15:00Z",
+  "last_review": "2026-04-03T02:15:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "18731 total in auth.log, 16 in recent sample",
-    "fail2ban_status": "active - sshd jail running, 8 currently banned, 4793 total banned",
+    "failed_password_attempts": "33354 total failed in fail2ban, 11 currently failed",
+    "fail2ban_status": "active - sshd jail running, 11 currently banned, 4892 total banned",
     "top_attackers_currently_banned": [
+      {"ip": "45.148.10.151"},
+      {"ip": "45.148.10.147"},
+      {"ip": "2.57.122.196"},
+      {"ip": "92.118.39.62"},
+      {"ip": "2.57.121.17"},
+      {"ip": "2.57.121.86"},
+      {"ip": "80.94.92.183"},
+      {"ip": "92.118.39.63"},
       {"ip": "2.57.122.192"},
       {"ip": "80.94.92.177"},
-      {"ip": "2.57.122.197"},
-      {"ip": "2.57.122.195"},
-      {"ip": "92.118.39.87"},
-      {"ip": "2.57.122.199"},
-      {"ip": "213.209.159.159"},
-      {"ip": "45.148.10.141"}
+      {"ip": "45.148.10.240"}
     ],
-    "change_since_last": "fail2ban total bans 4793 (up from 4710, +83). 8 IPs currently banned (up from 7). 7 currently failed attempts queued. Active brute-force continues from 2.57.122.x range and others. Only authorized activity from novakj."
+    "change_since_last": "fail2ban total bans 4892 (up from 4793, +99). 11 IPs currently banned (up from 8). Active brute-force continues from 2.57.12x.x, 80.94.92.x, 45.148.10.x, and 92.118.39.x ranges. Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -50,14 +53,14 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "99 usages across 40 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper reads. measure.js has 5 innerHTML (2 clearing, 1 static text, 1 hardcoded UNITS dialog, 1 measurement list with constants/numeric formatValue only)."
+    "innerHTML_note": "101 usages across 41 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper reads. color-adjust.js has 2 innerHTML (1 clearing, 1 static &times; entity)."
   },
-  "measure_module_review": {
-    "file": "js/measure.js",
-    "feature": "Distance, perimeter, and area measurement tools with SVG overlay, scale calibration, unit conversion, undo history, and exportable measurement list.",
+  "color_adjust_module_review": {
+    "file": "js/color-adjust.js",
+    "feature": "Brightness, contrast, saturation, grayscale, threshold B&W, invert color adjustments with split preview, histogram, custom presets, and page scope selection.",
     "status": "secure",
-    "innerHTML_writes": 5,
-    "innerHTML_detail": "Line 139: clearing svgOverlay. Line 701: calibrate dialog with hardcoded UNITS array (no user data). Line 845: clearing list. Line 855: static placeholder text. Line 877: measurement list item with COLORS constant, unicode icon, controlled m.type vocabulary, and numeric formatValue().",
+    "innerHTML_writes": 2,
+    "innerHTML_detail": "Line 242: clearing container (innerHTML=''). Line 251: static HTML entity (innerHTML='&times;').",
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
@@ -65,10 +68,22 @@
     "no_fetch": true,
     "no_external_requests": true,
     "xss_safe": true,
-    "text_display": "Page headers via textContent. Measurement values are numeric (formatValue returns toFixed(2)). m.type is controlled vocabulary (distance/perimeter/area). Colors from hardcoded COLORS object.",
+    "text_display": "Preset labels via textContent. Progress text via textContent. Slider values are numeric from parseInt(). Custom preset names stored in localStorage, displayed via textContent only.",
     "no_server_storage": true,
     "no_user_file_content_in_dom": true,
-    "error_handling": "try/catch with showToast for user errors"
+    "local_storage_usage": "Custom presets saved to localStorage under 'colorAdjust_customPresets' key — JSON with numeric values and user-supplied label names. Labels displayed via textContent, not innerHTML.",
+    "error_handling": "try/catch with showToast for user errors, isProcessing guard prevents concurrent operations"
+  },
+  "search_module_review_update": {
+    "file": "js/search.js",
+    "status": "secure",
+    "innerHTML_writes": 0,
+    "no_eval": true,
+    "no_function_constructor": true,
+    "no_document_write": true,
+    "no_window_open": true,
+    "all_dom_via_createElement_textContent": true,
+    "note": "Re-reviewed after modification. All text output uses textContent. Match counter uses textContent. Highlight overlays created via createElement with className assignment only."
   },
   "new_dependencies": {
     "jszip_min_js": {
@@ -116,6 +131,7 @@
     "no_sensitive_files_in_webroot",
     "no_git_files_in_webroot",
     "no_env_files_in_webroot",
+    "no_md_files_in_webroot",
     "nginx_blocks_git_404",
     "nginx_blocks_env_404",
     "nginx_blocks_claude_md_404",
@@ -129,6 +145,8 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "color_adjust_module_secure",
+    "search_module_secure",
     "measure_module_secure",
     "attachments_module_secure",
     "form_creator_module_secure",
@@ -172,7 +190,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_76_days",
-    "fail2ban_active_4793_total_bans",
+    "fail2ban_active_4892_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -196,11 +214,12 @@
     "batch.js line 294: escapeHtml() used with textContent causes double-escaping — cosmetic display bug for filenames containing &, <, >."
   ],
   "notes": [
-    "Full security review completed — 68 checks passed, 0 critical findings.",
-    "NEW: Reviewed measure.js (measurement tools module): 5 innerHTML (2 clearing, 1 static text, 1 hardcoded UNITS dialog, 1 measurement list with constants+numeric values only — all safe). No eval/Function/document.write/window.open/fetch. No external requests. No user-supplied text in innerHTML. SECURE.",
-    "innerHTML count: 99 across 40 JS files (up 5 from 94 — all new from measure.js, all safe).",
-    "40 JS files in webroot (up 1 from 39 — measure.js added).",
-    "SSH: fail2ban total bans 4793 (+83 since last review). 8 IPs currently banned (up from 7). Continued brute-force from 2.57.122.x range. Only authorized activity from novakj.",
+    "Full security review completed — 70 checks passed, 0 critical findings.",
+    "NEW: Reviewed color-adjust.js (TASK-042): 2 innerHTML (1 clearing, 1 static &times; entity — both safe). No eval/Function/document.write/window.open/fetch. Custom preset names displayed via textContent only. All pixel processing client-side on canvas. SECURE.",
+    "RE-REVIEWED: search.js modified — 0 innerHTML, all DOM via createElement+textContent. SECURE.",
+    "innerHTML count: 101 across 41 JS files (up 2 from 99 — both new from color-adjust.js, both safe).",
+    "41 JS files in webroot (up 1 from 40 — color-adjust.js added).",
+    "SSH: fail2ban total bans 4892 (+99 since last review). 11 IPs currently banned (up from 8). Continued brute-force from 2.57.12x.x, 80.94.92.x, 45.148.10.x, 92.118.39.x ranges. Only authorized activity from novakj.",
     "SSL certificate valid until June 18, 2026 (76 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified. Config syntax OK."
