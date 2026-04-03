@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-03T08:17:00Z",
+  "last_review": "2026-04-03T10:16:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 6 currently banned",
-    "fail2ban_status": "active - sshd jail running, 6 currently banned, 5067 total banned",
-    "change_since_last": "fail2ban total bans 5067 (up from 5007, +60). 6 IPs currently banned (up from 0). Brute-force continues (3 currently failed). Only authorized activity from novakj."
+    "failed_password_attempts": "fail2ban active, 12 currently banned",
+    "fail2ban_status": "active - sshd jail running, 12 currently banned, 5165 total banned",
+    "change_since_last": "fail2ban total bans 5165 (up from 5067, +98). 12 IPs currently banned (up from 6). 14 currently failed. Brute-force continues at typical rate. Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,27 +40,31 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "115 usages across 33 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper. printprep.js has 0 innerHTML — uses textContent exclusively."
+    "innerHTML_note": "117 usages across 34 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper. annotation-summary.js has 2 innerHTML uses — both safe (static empty-state template + fully escaped list rendering)."
   },
-  "printprep_module_review": {
-    "file": "js/printprep.js",
-    "feature": "Print preparation tool — N-up layout (2/4/6/9/16 pages per sheet), booklet (saddle-stitch) generation, and poster tiling with crop marks. Supports page range selection, orientation, gutter/overlap controls, and live canvas preview.",
+  "annotation_summary_module_review": {
+    "file": "js/annotation-summary.js",
+    "feature": "Annotation summary panel — collects highlights, underlines, strikethroughs, sticky notes, drawings, stamps, text overlays, and hyperlinks into a filterable/searchable list with virtualized rendering. Exports to plain text, CSV, and PDF report via pdf-lib.",
     "status": "secure",
-    "lines": 819,
-    "innerHTML_writes": 0,
-    "textContent_writes": 6,
+    "lines": 898,
+    "innerHTML_writes": 2,
+    "innerHTML_safe": true,
+    "innerHTML_detail": "Line 480: static empty-state message (no user data interpolation). Line 531: list rendering with escapeHtml() on all user content (displayText, comments). entry.color used in style attribute comes from internal annotation colors (hex validated by hexToRgbValues). typeIcon() returns hardcoded SVGs from a static map.",
+    "escapeHtml_quality": "good — escapes &, <, >, and double quotes (line 879). Better than merge/batch/hyperlinks/bates escapeHtml which lacks quote escaping.",
+    "textContent_writes": "yes (type counts display at line 471)",
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
-    "no_innerHTML": true,
-    "no_external_requests": true,
     "no_window_open": true,
-    "filename_sanitized": true,
-    "xss_safe": true,
-    "input_validation": "parseInt/parseFloat for all numeric inputs, page range bounded to valid indices",
-    "processing_yields": "setTimeout(0) every 50 sheets (N-up), 20 sides (booklet), 10 tiles (poster)",
-    "error_handling": "try/catch with showToast for all generation functions",
-    "new_libraries": "none"
+    "no_external_requests": true,
+    "csv_export_safe": true,
+    "csv_escape_function": "wraps in quotes, doubles internal quotes (line 666-671)",
+    "pdf_export_safe": true,
+    "pdf_export_uses": "pdf-lib PDFDocument.create() — no HTML injection vector",
+    "input_validation": "search input lowercased, filter types from controlled Set, sort from controlled values, parseInt for entry indices",
+    "error_handling": "try/catch with showToast for PDF export, null checks throughout",
+    "new_libraries": "none",
+    "exports_added_to_existing_modules": "6 simple getter exports added (getAnnotations, getStickyNotes, getDrawings, getStamps, getStampLibrary, getTextOverlays, getHyperlinks) — all return internal state maps, no security impact"
   },
   "new_dependencies": {
     "jszip_min_js": {
@@ -143,6 +147,7 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "annotation_summary_module_secure",
     "printprep_module_secure",
     "qrbarcode_module_secure",
     "bates_module_secure",
@@ -190,7 +195,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_76_days",
-    "fail2ban_active_5067_total_bans",
+    "fail2ban_active_5165_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -217,11 +222,11 @@
     "batch.js line 294: escapeHtml() used with textContent causes double-escaping — cosmetic display bug for filenames containing &, <, >."
   ],
   "notes": [
-    "Security review completed — 73 checks passed, 0 fixes needed this run.",
-    "NEW: Reviewed printprep.js (TASK-045, 819 lines): Print preparation module with N-up layout, booklet generation, and poster tiling. Zero innerHTML usage — all DOM text updates via textContent. No eval/Function/document.write/window.open. No external requests. Filenames sanitized via sanitizeFilename(). Input values parsed via parseInt/parseFloat. Page ranges bounded to valid indices. Processing yields via setTimeout(0). No new libraries added. SECURE.",
-    "JS file count: 44 (up 1 from 43 — printprep.js added).",
-    "innerHTML count: 115 across 33 files (unchanged — printprep.js uses 0 innerHTML).",
-    "SSH: fail2ban total bans 5067 (+60 since last review). 6 IPs currently banned (up from 0). 3 currently failed attempts. Only authorized activity from novakj.",
+    "Security review completed — 75 checks passed, 0 fixes needed this run.",
+    "NEW: Reviewed annotation-summary.js (TASK-046, 898 lines): Annotation summary panel collecting all annotation types into a filterable, searchable, virtualized list with exports to text/CSV/PDF. 2 innerHTML uses — both safe (static empty state + fully escaped list with escapeHtml covering &<>\" characters). escapeHtml in this module is better than in merge/batch/hyperlinks/bates as it includes quote escaping. CSV export uses proper csvEscape(). PDF export uses pdf-lib (no HTML vectors). 6 simple getter exports added to existing modules — no security surface increase. No new libraries.",
+    "JS file count: 45 (up 1 from 44 — annotation-summary.js added).",
+    "innerHTML count: 117 across 34 files (up 2 from 115 across 33 — annotation-summary.js adds 2).",
+    "SSH: fail2ban total bans 5165 (+98 since last review). 12 IPs currently banned (up from 6). 14 currently failed attempts. Only authorized activity from novakj.",
     "SSL certificate valid until June 18, 2026 (76 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified."
