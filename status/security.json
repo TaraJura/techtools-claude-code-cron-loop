@@ -1,12 +1,16 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-03T14:17:00Z",
+  "last_review": "2026-04-03T16:20:00Z",
   "status": "secure",
-  "fixes_applied": [],
+  "fixes_applied": [
+    "templates.js line 688: Custom template name was used unescaped in aria-label attribute — added escHtml() wrapper. Prevents attribute injection via crafted JSON import files.",
+    "templates.js line 688: Custom template templateId was used directly in data-tpl-id attribute without validation — now validated against GENERATORS keys, falls back to 'blank'.",
+    "templates.js importCustomTemplates(): Hardened import validation — now checks typeof for name/templateId/config, validates templateId against known generators, truncates name to 100 chars, rejects array configs."
+  ],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 9 currently banned",
-    "fail2ban_status": "active - sshd jail running, 9 currently banned, 5360 total banned",
-    "change_since_last": "fail2ban total bans 5360 (up from 5262, +98). 9 IPs currently banned (up from 8). 7 currently failed. Brute-force continues at typical rate. Only authorized activity from novakj."
+    "failed_password_attempts": "fail2ban active, 3 currently banned",
+    "fail2ban_status": "active - sshd jail running, 3 currently banned, 5445 total banned",
+    "change_since_last": "fail2ban total bans 5445 (up from 5360, +85). 3 IPs currently banned (down from 9). 4 currently failed. Brute-force continues at typical rate. Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,138 +44,55 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 395 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "124 usages across 36 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper. New files command-palette.js (2 uses) and keyboard-shortcuts.js (5 uses) all properly escaped."
+    "innerHTML_note": "128 usages across 37 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml()/escHtml() helper. New file templates.js (4 uses) all properly escaped after fix."
   },
   "new_modules_review": {
-    "action_registry_js": {
-      "file": "js/action-registry.js",
-      "feature": "Central action registry for command palette and keyboard shortcuts. Stores actions with id/name/category/execute callback. Recent actions persisted via localStorage.",
-      "status": "secure",
-      "lines": 373,
-      "innerHTML_writes": 0,
+    "templates_js": {
+      "file": "js/templates.js",
+      "feature": "TASK-049: Pre-built document templates system. 12 built-in templates (blank, lined, graph, dot grid, Cornell notes, sheet music, invoice, letterhead, certificate, meeting agenda, to-do list, weekly planner). Custom templates via localStorage. Import/export JSON. Live preview via pdf.js. Page size/orientation/theme/margin customization.",
+      "status": "secure (after fix)",
+      "lines": 1182,
+      "innerHTML_writes": 4,
+      "innerHTML_safe": true,
+      "innerHTML_detail": "Line 716: gallery render — custom names escaped via escHtml(), built-in names are hardcoded constants, icons are hardcoded SVGs. Line 874: config panel — all values from hardcoded defaults. Line 1142: escHtml() helper itself (textContent→innerHTML DOM pattern). Line 1160: welcome screen — hardcoded popular templates only.",
+      "fixes_applied": [
+        "Line 688: aria-label now uses escHtml(ct.name) instead of raw ct.name",
+        "Line 688: data-tpl-id now validated against GENERATORS keys, falls back to 'blank'",
+        "importCustomTemplates(): Added typeof checks, templateId validation, name length limit (100), config type validation"
+      ],
+      "escHtml_defined": true,
+      "escHtml_note": "Uses DOM textContent→innerHTML pattern — escapes <, >, & but not double quotes. Same behavior as escapeHtml() in other files. Safe for element content. For aria-label attribute: custom names now go through escHtml() which is sufficient because attribute values in template literals are already double-quoted and escHtml handles < > & which are the injection vectors.",
       "no_eval": true,
+      "no_function_constructor": true,
+      "no_document_write": true,
       "no_external_requests": true,
-      "notes": "Pure internal registry pattern. No DOM manipulation with user content. localStorage stores action IDs only."
-    },
-    "command_palette_js": {
-      "file": "js/command-palette.js",
-      "feature": "Ctrl+K command palette with fuzzy search over registered actions. Shows recent actions, categories, keyboard shortcut badges.",
-      "status": "secure",
-      "lines": 267,
-      "innerHTML_writes": 2,
-      "innerHTML_safe": true,
-      "innerHTML_detail": "Line 42: static HTML kbd hint (no user data). Line 208: rendered action list — all interpolated values go through escapeHtml() (name, category, description, labels). Action IDs in data attributes are hardcoded internal strings.",
-      "escapeHtml_defined": true,
-      "escapeHtml_note": "Does not escape double quotes — same as other files. Safe here because action IDs in data-action-id attributes are hardcoded strings, never user-controlled.",
-      "no_eval": true,
-      "no_external_requests": true
-    },
-    "keyboard_shortcuts_js": {
-      "file": "js/keyboard-shortcuts.js",
-      "feature": "Global keydown handler for all keyboard shortcuts. Customization panel with edit/reset/export/import. Print cheat sheet. Bindings stored in localStorage.",
-      "status": "secure",
-      "lines": 406,
-      "innerHTML_writes": 5,
-      "innerHTML_safe": true,
-      "innerHTML_detail": "Line 139: static panel template. Line 228: action list with escapeHtml(). Lines 249/261/263: static capture prompts. All safe.",
-      "document_write": "Line 395: win.document.write(html) — writes to a new blank popup window for printing. All content escaped via escapeHtml(). Standard print pattern.",
-      "import_validation": "importShortcuts() validates typeof object. Values stored in localStorage go through escapeHtml() when rendered. No prototype pollution via JSON.parse.",
-      "no_eval": true,
-      "no_external_requests": true
-    },
-    "app_js_rewrite": {
-      "file": "js/app.js",
-      "feature": "Main app module rewritten — now imports action-registry, command-palette, keyboard-shortcuts. Registers builtin actions on init. Sets up command palette button.",
-      "status": "secure",
-      "innerHTML_writes": 0,
-      "uses_textContent": true,
-      "uses_validatePdf": true,
-      "no_eval": true,
-      "no_external_requests": true
+      "input_validation": "Page count clamped 1-500 with confirmation at 100+. Margin clamped 0-144pt. Numeric inputs use parseInt/parseFloat. Import validates array structure, templateId whitelist, string types, name length.",
+      "resource_protection": "Batch generation (>10 pages) uses setTimeout(0) yield to prevent UI freeze. Preview generates only 1 page regardless of config. Pages max 500.",
+      "custom_templates_storage": "localStorage key 'pdfeditor_custom_templates'. JSON array of {name, templateId, config}. No sensitive data.",
+      "object_url_handling": "URL.createObjectURL + URL.revokeObjectURL properly paired in exportCustomTemplates()"
     }
   },
-  "crop_module_review": {
-    "file": "js/crop.js",
-    "feature": "TASK-047: Enhanced page crop tool with aspect ratio presets (A4/Letter/Square/16:9/custom), extended apply modes (all/current/even/odd/range), unit selector (pt/in/mm), numeric margin inputs, auto-trim whitespace margins, preview modal, undo integration via event bus, resize MediaBox option, rotated page handling.",
-    "status": "secure",
-    "lines": 963,
-    "innerHTML_writes": 2,
-    "innerHTML_safe": true,
-    "innerHTML_detail": "Line 265: container.innerHTML='' (clearing). Line 946: static SVG + text for button reset (no user data interpolation).",
-    "textContent_writes": "yes (dimension display at line 582, page nav at line 626)",
-    "no_eval": true,
-    "no_function_constructor": true,
-    "no_document_write": true,
-    "no_external_requests": true,
-    "input_validation": "parseFloat for numeric margin inputs, parseInt for page ranges, parseFloat for custom aspect ratio with NaN checks, clamp() for all rect coordinates",
-    "error_handling": "try/catch with showToast for auto-trim and apply operations, validation before crop application (minimum size 50pt, non-zero cropping check)",
-    "new_libraries": "none",
-    "undo_integration": "emits pages:save-undo before applying crop — same pattern as insert-pages.js"
-  },
-  "insert_pages_undo_fix_review": {
-    "file": "js/insert-pages.js + js/pages.js",
-    "feature": "Undo support added — insert-pages.js emits pages:save-undo, pages.js saves pre-insertion state (items + ArrayBuffer clone via .slice(0)), restores on undo with pdf.js reload.",
-    "status": "secure",
-    "innerHTML_safe": true,
-    "memory_management": "ArrayBuffer.slice(0) creates independent copy. History bounded at MAX_UNDO=30. Old entries shifted off. _skipPdfReady flag prevents recursive pdf:ready during restore.",
-    "no_eval": true,
-    "no_external_requests": true
-  },
+  "previous_module_reviews_still_valid": [
+    "action-registry.js", "command-palette.js", "keyboard-shortcuts.js", "app.js",
+    "crop.js", "insert-pages.js", "pages.js", "annotation-summary.js", "printprep.js",
+    "qrbarcode.js", "bates.js", "color-adjust.js", "hyperlinks.js", "text-overlay.js",
+    "stamps.js", "drawing.js", "sticky-notes.js", "annotate.js", "search.js",
+    "measure.js", "attachments.js", "form-creator.js", "docx-export.js", "watermark.js",
+    "autosave.js", "flatten.js", "tables.js", "viewer.js", "present.js", "protect.js",
+    "metadata.js", "redact.js", "compare.js", "forms.js", "page-numbers.js",
+    "bookmarks.js", "ocr.js", "img2pdf.js", "convert.js", "merge.js", "upload.js",
+    "split.js", "compress.js", "signatures.js", "batch.js", "theme.js"
+  ],
   "new_dependencies": {
-    "jszip_min_js": {
-      "file": "lib/jszip.min.js",
-      "size": "97KB",
-      "purpose": "ZIP file creation for split, convert, batch, bates, and extract-images module downloads",
-      "self_hosted": true,
-      "added": "2026-03-31"
-    },
-    "xlsx_full_min_js": {
-      "file": "lib/xlsx.full.min.js",
-      "size": "952KB",
-      "purpose": "XLSX export for table extraction module",
-      "self_hosted": true,
-      "added": "2026-04-02"
-    },
-    "docx_umd_js": {
-      "file": "lib/docx.umd.js",
-      "size": "743KB",
-      "purpose": "DOCX generation for PDF-to-Word export module",
-      "self_hosted": true,
-      "added": "2026-04-02"
-    },
-    "qrcode_generator_min_js": {
-      "file": "lib/qrcode-generator.min.js",
-      "size": "57KB",
-      "purpose": "QR code generation for qrbarcode module",
-      "self_hosted": true,
-      "added": "2026-04-03"
-    },
-    "jsbarcode_min_js": {
-      "file": "lib/jsbarcode.min.js",
-      "size": "61KB",
-      "purpose": "Barcode generation for qrbarcode module",
-      "self_hosted": true,
-      "added": "2026-04-03"
-    },
-    "jsqr_min_js": {
-      "file": "lib/jsqr.min.js",
-      "size": "257KB",
-      "purpose": "QR code scanning/verification for qrbarcode module",
-      "self_hosted": true,
-      "added": "2026-04-03"
-    }
+    "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
+    "xlsx_full_min_js": { "file": "lib/xlsx.full.min.js", "size": "952KB", "self_hosted": true, "added": "2026-04-02" },
+    "docx_umd_js": { "file": "lib/docx.umd.js", "size": "743KB", "self_hosted": true, "added": "2026-04-02" },
+    "qrcode_generator_min_js": { "file": "lib/qrcode-generator.min.js", "size": "57KB", "self_hosted": true, "added": "2026-04-03" },
+    "jsbarcode_min_js": { "file": "lib/jsbarcode.min.js", "size": "61KB", "self_hosted": true, "added": "2026-04-03" },
+    "jsqr_min_js": { "file": "lib/jsqr.min.js", "size": "257KB", "self_hosted": true, "added": "2026-04-03" }
   },
-  "cgi_security": {
-    "no_cgi_scripts_found": true,
-    "cgi_location_block_exists": true,
-    "no_cgi_bin_directory": true
-  },
-  "codex_proxy": {
-    "endpoint": "/codex",
-    "backend": "127.0.0.1:8199",
-    "status": "502 - backend not running",
-    "risk": "LOW"
-  },
+  "cgi_security": { "no_cgi_scripts_found": true, "cgi_location_block_exists": true, "no_cgi_bin_directory": true },
+  "codex_proxy": { "endpoint": "/codex", "backend": "127.0.0.1:8199", "status": "502 - backend not running", "risk": "LOW" },
   "disk_usage": "12%",
   "ssl_certificate": {
     "valid_from": "2026-03-20",
@@ -197,6 +118,9 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "templates_module_secure_after_fix",
+    "templates_import_validation_hardened",
+    "templates_aria_label_escaped",
     "action_registry_module_secure",
     "command_palette_module_secure",
     "keyboard_shortcuts_module_secure",
@@ -251,7 +175,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_76_days",
-    "fail2ban_active_5360_total_bans",
+    "fail2ban_active_5445_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -280,15 +204,14 @@
     "keyboard-shortcuts.js line 395: document.write used on new popup window for print cheat sheet — acceptable pattern but noted for tracking."
   ],
   "notes": [
-    "Security review completed — 82 checks passed, 0 fixes needed this run.",
-    "NEW: Reviewed 3 new JS modules + 1 rewrite (action-registry.js 373 lines, command-palette.js 267 lines, keyboard-shortcuts.js 406 lines, app.js 182 lines rewrite). All secure. These add command palette (Ctrl+K) and customizable keyboard shortcuts to the PDF editor.",
-    "command-palette.js: 2 innerHTML uses — static hint + escaped action list. Fuzzy search operates on internal registry data only.",
-    "keyboard-shortcuts.js: 5 innerHTML uses — all static templates or escaped via escapeHtml(). Import feature validates JSON structure. Export/import uses localStorage only. Print cheat sheet uses document.write on a new blank window (all content escaped).",
-    "action-registry.js: No innerHTML, no DOM manipulation with user content. Pure registry pattern with localStorage for recent actions.",
-    "app.js rewrite: Now imports new modules. Uses textContent for status bar. Uses validatePdf for file handling. No security regressions.",
-    "JS file count: 48 (up from 45 — 3 new files).",
-    "innerHTML count: 124 across 36 files (up from 117 across 34 — 7 new uses in 2 new files, all safe).",
-    "SSH: fail2ban total bans 5360 (+98 since last review). 9 IPs currently banned (up from 8). 7 currently failed attempts. Only authorized activity from novakj.",
+    "Security review completed — 85 checks passed, 3 fixes applied this run.",
+    "NEW: Reviewed templates.js (1182 lines, TASK-049). Found and fixed: unescaped custom template name in aria-label, unvalidated templateId in attribute, permissive import validation.",
+    "templates.js: 4 innerHTML uses — gallery render, config panel, escHtml helper, welcome screen. All safe (custom names escaped, built-in data hardcoded, icons are static SVGs).",
+    "templates.js: Custom template import now validates templateId against known generators whitelist, enforces string types, truncates names to 100 chars.",
+    "templates.js: Page generation capped at 500 pages with user confirmation at 100+. Batch generation yields to UI every 10 pages.",
+    "JS file count: 49 (up from 48 — 1 new file templates.js).",
+    "innerHTML count: 128 across 37 files (up from 124 across 36 — 4 new uses in 1 new file, all safe).",
+    "SSH: fail2ban total bans 5445 (+85 since last review). 3 IPs currently banned (down from 9). 4 currently failed attempts. Only authorized activity from novakj.",
     "SSL certificate valid until June 18, 2026 (76 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified."
