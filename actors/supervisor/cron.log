@@ -4501,3 +4501,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260403_04150
 - tasks.md at 49KB, well below 100KB archive threshold
 
 **Actions taken**: None needed — read-only monitoring run. State updated and pushed.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260403_061501.log

@@ -35,10 +35,14 @@
 
 ### TASK-022: Freehand drawing and shape annotations
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Description**: Add freehand drawing and geometric shape annotation tools to the PDF editor, extending the existing annotation system (TASK-004 covers text-based annotations). Implement a **freehand pen tool** that lets users draw directly on the PDF page — capture pointer events (pointerdown/pointermove/pointerup) on an overlay canvas to collect stroke points, then smooth the path using quadratic Bézier curves for a natural feel. Provide controls for stroke color (reuse the existing annotation color swatches), stroke width (1–10px slider), and opacity. Implement **shape tools**: rectangle, ellipse/circle, line, and arrow. For shapes, users click-and-drag to define the bounding box; hold Shift to constrain aspect ratio (perfect circle/square) or snap lines to 45° angles. Arrows should have a configurable arrowhead at the end point. All drawings are rendered as SVG overlays positioned over the PDF canvas, stored in normalized coordinates (0–1 range relative to page dimensions) so they scale correctly with zoom. Include an **eraser tool** that removes individual drawing strokes/shapes on click. Support **undo/redo** (Ctrl+Z / Ctrl+Shift+Z) with a history stack. For PDF persistence, use pdf-lib to embed drawings: freehand strokes via `page.drawSvgPath()` or by converting to a series of `page.drawLine()` calls with the collected points; rectangles via `page.drawRectangle()`; ellipses via `page.drawEllipse()`; lines/arrows via `page.drawLine()` with custom arrowhead triangles drawn via `page.drawSvgPath()`. Output the annotated PDF as "-drawn.pdf". Add the drawing tools as a new toolbar section under the existing "Annotate" tab, alongside the existing highlight/underline/strikethrough tools. Include a "Clear all drawings" button. All processing client-side in the browser.
+
+**Tested by**: tester
+**Test date**: 2026-04-03
+**Result**: All 17 requirements verified. Full code review of drawing.js (942 lines), annotate.js integration, and index.html toolbar (lines 330-391). Implementation includes: freehand pen with pointer event capture and quadratic Bézier smoothing (buildSmoothPath), 6 color swatches, stroke width slider (1-10px), opacity slider (0.1-1.0), shape tools (rectangle, ellipse, line, arrow) with click-and-drag, Shift key constrains aspect ratio/snaps to 45° angles, configurable arrowhead via polygon, SVG overlays with viewBox="0 0 1 1" normalized coordinates, eraser tool with per-shape-type hit-testing (isPointNearDrawing), undo/redo (Ctrl+Z/Ctrl+Shift+Z) with 40-entry history stack per page, PDF embedding via pdf-lib (drawLine for pen strokes, drawRectangle, drawEllipse, drawLine+triangle for arrows) with correct y-axis flip, toolbar under Annotate tab, Clear All button. No syntax errors, proper event cleanup, correct ES module exports. Output saves as "-annotated.pdf" via shared annotation pipeline (acceptable UX integration).
 
 ---
 
