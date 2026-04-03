@@ -1,21 +1,22 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-02T22:15:00Z",
+  "last_review": "2026-04-03T00:15:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "50 in recent auth.log sample",
-    "fail2ban_status": "active - sshd jail running, 7 currently banned, 4710 total banned",
+    "failed_password_attempts": "18731 total in auth.log, 16 in recent sample",
+    "fail2ban_status": "active - sshd jail running, 8 currently banned, 4793 total banned",
     "top_attackers_currently_banned": [
+      {"ip": "2.57.122.192"},
+      {"ip": "80.94.92.177"},
       {"ip": "2.57.122.197"},
-      {"ip": "92.118.39.63"},
-      {"ip": "45.148.10.157"},
-      {"ip": "2.57.122.177"},
-      {"ip": "201.63.223.141"},
-      {"ip": "80.94.92.183"},
-      {"ip": "2.57.122.194"}
+      {"ip": "2.57.122.195"},
+      {"ip": "92.118.39.87"},
+      {"ip": "2.57.122.199"},
+      {"ip": "213.209.159.159"},
+      {"ip": "45.148.10.141"}
     ],
-    "change_since_last": "fail2ban total bans 4710 (up from 4617, +93). 7 IPs currently banned (up from 6). 11 currently failed attempts queued. Active brute-force continues from 2.57.122.x range and others. Only authorized activity from novakj."
+    "change_since_last": "fail2ban total bans 4793 (up from 4710, +83). 8 IPs currently banned (up from 7). 7 currently failed attempts queued. Active brute-force continues from 2.57.122.x range and others. Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -49,27 +50,25 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "94 usages across 29 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper reads. attachments.js has 3 innerHTML (1 clearing, 2 hardcoded SVG icons)."
+    "innerHTML_note": "99 usages across 40 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper reads. measure.js has 5 innerHTML (2 clearing, 1 static text, 1 hardcoded UNITS dialog, 1 measurement list with constants/numeric formatValue only)."
   },
-  "attachments_module_review": {
-    "file": "js/attachments.js",
-    "feature": "Embed, view, download, and remove files attached to a PDF document. Reads existing PDF attachments via EmbeddedFiles name tree, allows adding new files, removing, editing descriptions, and saving back into PDF via pdf-lib attach() API.",
+  "measure_module_review": {
+    "file": "js/measure.js",
+    "feature": "Distance, perimeter, and area measurement tools with SVG overlay, scale calibration, unit conversion, undo history, and exportable measurement list.",
     "status": "secure",
-    "lines": 528,
-    "innerHTML_writes": 3,
-    "innerHTML_detail": "Line 371: clearing listEl. Line 428: hardcoded SVG (download icon). Line 436: hardcoded SVG (remove icon).",
+    "innerHTML_writes": 5,
+    "innerHTML_detail": "Line 139: clearing svgOverlay. Line 701: calibrate dialog with hardcoded UNITS array (no user data). Line 845: clearing list. Line 855: static placeholder text. Line 877: measurement list item with COLORS constant, unicode icon, controlled m.type vocabulary, and numeric formatValue().",
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
     "no_window_open": true,
-    "xss_safe": true,
-    "text_display": "All user-facing text set via textContent (att.name, att.description, file size, badge count). ARIA labels via setAttribute().",
-    "file_downloads": "Uses downloadBlob() from utils.js which calls sanitizeFilename().",
-    "upload_validation": "Blocked extensions (exe/bat/cmd/sh/msi/dll/com/scr), 10MB per-file limit, 50MB total limit, zero-byte check, filename deduplication.",
+    "no_fetch": true,
     "no_external_requests": true,
+    "xss_safe": true,
+    "text_display": "Page headers via textContent. Measurement values are numeric (formatValue returns toFixed(2)). m.type is controlled vocabulary (distance/perimeter/area). Colors from hardcoded COLORS object.",
     "no_server_storage": true,
-    "dynamic_import": "import('../lib/pdf-lib.min.js') — local self-hosted library only",
-    "error_handling": "try/catch with showToast for user errors, console.error for debugging"
+    "no_user_file_content_in_dom": true,
+    "error_handling": "try/catch with showToast for user errors"
   },
   "new_dependencies": {
     "jszip_min_js": {
@@ -109,7 +108,7 @@
   "ssl_certificate": {
     "valid_from": "2026-03-20",
     "valid_until": "2026-06-18",
-    "days_remaining": 77,
+    "days_remaining": 76,
     "status": "valid"
   },
   "checks_passed": [
@@ -130,6 +129,7 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "measure_module_secure",
     "attachments_module_secure",
     "form_creator_module_secure",
     "docx_export_module_secure",
@@ -171,8 +171,8 @@
     "showToast_uses_textContent",
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
-    "ssl_certificate_valid_77_days",
-    "fail2ban_active_4710_total_bans",
+    "ssl_certificate_valid_76_days",
+    "fail2ban_active_4793_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -196,12 +196,12 @@
     "batch.js line 294: escapeHtml() used with textContent causes double-escaping — cosmetic display bug for filenames containing &, <, >."
   ],
   "notes": [
-    "Full security review completed — 67 checks passed, 0 critical findings.",
-    "NEW: Reviewed attachments.js (PDF attachment manager, 528 lines): 3 innerHTML (1 clearing, 2 hardcoded SVG — all safe). No eval/Function/document.write/window.open. All user-facing text via textContent. Downloads use downloadBlob()+sanitizeFilename(). Upload validation: blocked extensions, 10MB per-file limit, 50MB total, zero-byte check. PDF read/write via pdf-lib. No external requests. SECURE.",
-    "innerHTML count: 94 across 29 JS files (up 3 from 91 — all new from attachments.js, all safe).",
-    "39 JS files in webroot (up 1 from 38 — attachments.js added).",
-    "SSH: fail2ban total bans 4710 (+93 since last review). 7 IPs currently banned (up from 6). Continued brute-force activity from 2.57.122.x range. Only authorized activity from novakj.",
-    "SSL certificate valid until June 18, 2026 (77 days remaining).",
+    "Full security review completed — 68 checks passed, 0 critical findings.",
+    "NEW: Reviewed measure.js (measurement tools module): 5 innerHTML (2 clearing, 1 static text, 1 hardcoded UNITS dialog, 1 measurement list with constants+numeric values only — all safe). No eval/Function/document.write/window.open/fetch. No external requests. No user-supplied text in innerHTML. SECURE.",
+    "innerHTML count: 99 across 40 JS files (up 5 from 94 — all new from measure.js, all safe).",
+    "40 JS files in webroot (up 1 from 39 — measure.js added).",
+    "SSH: fail2ban total bans 4793 (+83 since last review). 8 IPs currently banned (up from 7). Continued brute-force from 2.57.122.x range. Only authorized activity from novakj.",
+    "SSL certificate valid until June 18, 2026 (76 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified. Config syntax OK."
   ],
