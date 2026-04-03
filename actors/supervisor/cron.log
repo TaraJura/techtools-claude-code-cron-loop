@@ -4546,3 +4546,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260403_08150
 - Updated state.json
 
 **No intervention needed** — FAILED task follows normal pipeline flow (developer picks it up next cycle).
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260403_101501.log
