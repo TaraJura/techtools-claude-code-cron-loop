@@ -1,18 +1,14 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-03T04:30:00Z",
+  "last_review": "2026-04-03T06:20:00Z",
   "status": "secure",
-  "fixes_applied": [],
+  "fixes_applied": [
+    "FIXED: qrbarcode.js line 682 — innerHTML XSS via unescaped p.codeData (user input) in placement list. Added escapeHtml() function and applied to template literal output."
+  ],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 4 currently banned",
-    "fail2ban_status": "active - sshd jail running, 4 currently banned, 4985 total banned",
-    "top_attackers_currently_banned": [
-      {"ip": "92.118.39.62"},
-      {"ip": "80.94.92.165"},
-      {"ip": "80.94.92.177"},
-      {"ip": "2.57.122.177"}
-    ],
-    "change_since_last": "fail2ban total bans 4985 (up from 4892, +93). 4 IPs currently banned (down from 11 — bans expiring). Active brute-force continues from 80.94.92.x, 92.118.39.x, and 2.57.122.x ranges. Only authorized activity from novakj."
+    "failed_password_attempts": "fail2ban active, 0 currently banned",
+    "fail2ban_status": "active - sshd jail running, 0 currently banned, 5007 total banned",
+    "change_since_last": "fail2ban total bans 5007 (up from 4985, +22). 0 IPs currently banned (down from 4 — bans expired). Brute-force continues (13 currently failed). Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -46,44 +42,26 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "108 usages across 42 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper reads. bates.js has 7 innerHTML (2 clearing, 3 static templates, 1 escapeHtml helper, 1 with escapeHtml-escaped filename)."
+    "innerHTML_note": "115 usages across 43 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper. qrbarcode.js has 7 innerHTML (4 static/clearing, 2 static hint text, 1 placement list with escapeHtml on user data — FIXED this run)."
   },
-  "bates_module_review": {
-    "file": "js/bates.js",
-    "feature": "Bates numbering for legal/business documents — configurable prefix/suffix, zero-padded numbers, 6 position options, font/size/color settings, page range selection, batch mode with ZIP download.",
-    "status": "secure",
+  "qrbarcode_module_review": {
+    "file": "js/qrbarcode.js",
+    "feature": "QR code and barcode stamp tool — generate QR codes (URL, text, vCard, WiFi, email) and barcodes (Code128, Code39, EAN-13, UPC-A, ITF-14), preview, place on PDF pages with drag positioning, rotation, batch apply, auto-increment, verify via jsQR, embed into PDF via pdf-lib.",
+    "status": "secure (after fix)",
+    "fix_applied": "Line 682: p.codeData was interpolated into innerHTML via template literal without escaping. Added escapeHtml() and wrapped the user data output.",
     "innerHTML_writes": 7,
-    "innerHTML_detail": "Lines 374,396: static 'no pages' / '...' templates. Lines 392,665: clearing (innerHTML=''). Line 672: filename via escapeHtml() in text+title attribute (same known escapeAttr issue). Line 660: static placeholder. Line 743: escapeHtml helper output.",
-    "attribute_context_issue": "Line 672: escapeHtml(bf.name) used in title attribute — does not escape double quotes. CSP script-src 'self' mitigates inline handler injection. Same known pattern as merge.js, batch.js, hyperlinks.js.",
+    "innerHTML_detail": "Lines 368,374,381,394: preview container clearing and static hint text. Line 678: static 'no codes' hint. Line 682: placement list — p.codeData now escaped via escapeHtml(). All p.id and p.pageNum are integers (safe).",
+    "fetch_usage": "Line 787: fetch(p.imageDataUrl) — only fetches data: URLs generated internally by canvas.toDataURL(). No external requests.",
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
     "no_window_open": true,
-    "no_fetch": true,
     "no_external_requests": true,
     "xss_safe": true,
-    "file_validation": "Batch files validated via validatePdf() from utils.js (magic bytes + MIME + extension + size).",
+    "new_libraries": ["lib/qrcode-generator.min.js (57KB)", "lib/jsbarcode.min.js (61KB)", "lib/jsqr.min.js (257KB)"],
+    "libraries_self_hosted": true,
     "no_server_storage": true,
-    "error_handling": "try/catch with showToast for user errors, button disabled during processing"
-  },
-  "color_adjust_module_review": {
-    "file": "js/color-adjust.js",
-    "status": "secure",
-    "innerHTML_writes": 2,
-    "innerHTML_detail": "Line 242: clearing container. Line 251: static &times; entity.",
-    "no_eval": true,
-    "no_function_constructor": true,
-    "no_document_write": true,
-    "no_window_open": true,
-    "no_fetch": true,
-    "no_external_requests": true,
-    "xss_safe": true
-  },
-  "search_module_review_update": {
-    "file": "js/search.js",
-    "status": "secure",
-    "innerHTML_writes": 0,
-    "all_dom_via_createElement_textContent": true
+    "error_handling": "try/catch with showToast for QR/barcode generation errors and PDF embedding errors"
   },
   "new_dependencies": {
     "jszip_min_js": {
@@ -106,6 +84,27 @@
       "purpose": "DOCX generation for PDF-to-Word export module",
       "self_hosted": true,
       "added": "2026-04-02"
+    },
+    "qrcode_generator_min_js": {
+      "file": "lib/qrcode-generator.min.js",
+      "size": "57KB",
+      "purpose": "QR code generation for qrbarcode module",
+      "self_hosted": true,
+      "added": "2026-04-03"
+    },
+    "jsbarcode_min_js": {
+      "file": "lib/jsbarcode.min.js",
+      "size": "61KB",
+      "purpose": "Barcode generation for qrbarcode module",
+      "self_hosted": true,
+      "added": "2026-04-03"
+    },
+    "jsqr_min_js": {
+      "file": "lib/jsqr.min.js",
+      "size": "257KB",
+      "purpose": "QR code scanning/verification for qrbarcode module",
+      "self_hosted": true,
+      "added": "2026-04-03"
     }
   },
   "cgi_security": {
@@ -145,6 +144,7 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "qrbarcode_module_secure_after_fix",
     "bates_module_secure",
     "color_adjust_module_secure",
     "search_module_secure",
@@ -191,13 +191,16 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_76_days",
-    "fail2ban_active_4985_total_bans",
+    "fail2ban_active_5007_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
     "jszip_self_hosted_in_lib",
     "xlsx_self_hosted_in_lib",
     "docx_umd_self_hosted_in_lib",
+    "qrcode_generator_self_hosted_in_lib",
+    "jsbarcode_self_hosted_in_lib",
+    "jsqr_self_hosted_in_lib",
     "nginx_config_syntax_ok"
   ],
   "known_issues": [
@@ -215,11 +218,11 @@
     "batch.js line 294: escapeHtml() used with textContent causes double-escaping — cosmetic display bug for filenames containing &, <, >."
   ],
   "notes": [
-    "Full security review completed — 71 checks passed, 0 critical findings.",
-    "NEW: Reviewed bates.js (TASK-043): 7 innerHTML (2 clearing, 3 static templates, 1 escapeHtml helper, 1 with filename via escapeHtml — title attribute has known escapeAttr issue). No eval/Function/document.write/window.open/fetch. Batch files validated via validatePdf(). All processing client-side with pdf-lib. SECURE.",
-    "innerHTML count: 108 across 42 JS files (up 7 from 101 — all from bates.js, all safe).",
-    "42 JS files in webroot (up 1 from 41 — bates.js added).",
-    "SSH: fail2ban total bans 4985 (+93 since last review). 4 IPs currently banned (down from 11 — bans expiring). Continued brute-force from 80.94.92.x, 92.118.39.x, 2.57.122.x ranges. Only authorized activity from novakj.",
+    "Security review completed — 74 checks passed, 1 XSS fix applied.",
+    "NEW: Reviewed qrbarcode.js (TASK-044, 833 lines): FIXED innerHTML XSS on line 682 where p.codeData (user input) was interpolated without escaping. Added escapeHtml() and applied it. 7 innerHTML total (4 clearing/static, 2 hint text, 1 now-escaped placement list). fetch() only on internal data: URLs. No eval/Function/document.write/window.open. 3 new self-hosted libraries (qrcode-generator, JsBarcode, jsQR). All processing client-side with pdf-lib. SECURE after fix.",
+    "innerHTML count: 115 across 43 JS files (up 7 from 108 — all from qrbarcode.js, all safe after fix).",
+    "43 JS files in webroot (up 1 from 42 — qrbarcode.js added).",
+    "SSH: fail2ban total bans 5007 (+22 since last review). 0 IPs currently banned (down from 4 — bans expired). 13 currently failed attempts. Only authorized activity from novakj.",
     "SSL certificate valid until June 18, 2026 (76 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified."
