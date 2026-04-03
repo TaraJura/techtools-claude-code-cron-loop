@@ -1,14 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-03T06:20:00Z",
+  "last_review": "2026-04-03T08:17:00Z",
   "status": "secure",
-  "fixes_applied": [
-    "FIXED: qrbarcode.js line 682 — innerHTML XSS via unescaped p.codeData (user input) in placement list. Added escapeHtml() function and applied to template literal output."
-  ],
+  "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 0 currently banned",
-    "fail2ban_status": "active - sshd jail running, 0 currently banned, 5007 total banned",
-    "change_since_last": "fail2ban total bans 5007 (up from 4985, +22). 0 IPs currently banned (down from 4 — bans expired). Brute-force continues (13 currently failed). Only authorized activity from novakj."
+    "failed_password_attempts": "fail2ban active, 6 currently banned",
+    "fail2ban_status": "active - sshd jail running, 6 currently banned, 5067 total banned",
+    "change_since_last": "fail2ban total bans 5067 (up from 5007, +60). 6 IPs currently banned (up from 0). Brute-force continues (3 currently failed). Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -42,26 +40,27 @@
     "no_document_write": true,
     "no_function_constructor": true,
     "innerHTML_safe": true,
-    "innerHTML_note": "115 usages across 43 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper. qrbarcode.js has 7 innerHTML (4 static/clearing, 2 static hint text, 1 placement list with escapeHtml on user data — FIXED this run)."
+    "innerHTML_note": "115 usages across 33 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml() helper. printprep.js has 0 innerHTML — uses textContent exclusively."
   },
-  "qrbarcode_module_review": {
-    "file": "js/qrbarcode.js",
-    "feature": "QR code and barcode stamp tool — generate QR codes (URL, text, vCard, WiFi, email) and barcodes (Code128, Code39, EAN-13, UPC-A, ITF-14), preview, place on PDF pages with drag positioning, rotation, batch apply, auto-increment, verify via jsQR, embed into PDF via pdf-lib.",
-    "status": "secure (after fix)",
-    "fix_applied": "Line 682: p.codeData was interpolated into innerHTML via template literal without escaping. Added escapeHtml() and wrapped the user data output.",
-    "innerHTML_writes": 7,
-    "innerHTML_detail": "Lines 368,374,381,394: preview container clearing and static hint text. Line 678: static 'no codes' hint. Line 682: placement list — p.codeData now escaped via escapeHtml(). All p.id and p.pageNum are integers (safe).",
-    "fetch_usage": "Line 787: fetch(p.imageDataUrl) — only fetches data: URLs generated internally by canvas.toDataURL(). No external requests.",
+  "printprep_module_review": {
+    "file": "js/printprep.js",
+    "feature": "Print preparation tool — N-up layout (2/4/6/9/16 pages per sheet), booklet (saddle-stitch) generation, and poster tiling with crop marks. Supports page range selection, orientation, gutter/overlap controls, and live canvas preview.",
+    "status": "secure",
+    "lines": 819,
+    "innerHTML_writes": 0,
+    "textContent_writes": 6,
     "no_eval": true,
     "no_function_constructor": true,
     "no_document_write": true,
-    "no_window_open": true,
+    "no_innerHTML": true,
     "no_external_requests": true,
+    "no_window_open": true,
+    "filename_sanitized": true,
     "xss_safe": true,
-    "new_libraries": ["lib/qrcode-generator.min.js (57KB)", "lib/jsbarcode.min.js (61KB)", "lib/jsqr.min.js (257KB)"],
-    "libraries_self_hosted": true,
-    "no_server_storage": true,
-    "error_handling": "try/catch with showToast for QR/barcode generation errors and PDF embedding errors"
+    "input_validation": "parseInt/parseFloat for all numeric inputs, page range bounded to valid indices",
+    "processing_yields": "setTimeout(0) every 50 sheets (N-up), 20 sides (booklet), 10 tiles (poster)",
+    "error_handling": "try/catch with showToast for all generation functions",
+    "new_libraries": "none"
   },
   "new_dependencies": {
     "jszip_min_js": {
@@ -144,7 +143,8 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
-    "qrbarcode_module_secure_after_fix",
+    "printprep_module_secure",
+    "qrbarcode_module_secure",
     "bates_module_secure",
     "color_adjust_module_secure",
     "search_module_secure",
@@ -177,7 +177,6 @@
     "ocr_module_secure",
     "img2pdf_module_secure",
     "text_overlay_module_secure",
-    "search_module_secure",
     "convert_module_secure",
     "annotate_module_secure",
     "pages_module_secure",
@@ -191,7 +190,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_76_days",
-    "fail2ban_active_5007_total_bans",
+    "fail2ban_active_5067_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -218,11 +217,11 @@
     "batch.js line 294: escapeHtml() used with textContent causes double-escaping — cosmetic display bug for filenames containing &, <, >."
   ],
   "notes": [
-    "Security review completed — 74 checks passed, 1 XSS fix applied.",
-    "NEW: Reviewed qrbarcode.js (TASK-044, 833 lines): FIXED innerHTML XSS on line 682 where p.codeData (user input) was interpolated without escaping. Added escapeHtml() and applied it. 7 innerHTML total (4 clearing/static, 2 hint text, 1 now-escaped placement list). fetch() only on internal data: URLs. No eval/Function/document.write/window.open. 3 new self-hosted libraries (qrcode-generator, JsBarcode, jsQR). All processing client-side with pdf-lib. SECURE after fix.",
-    "innerHTML count: 115 across 43 JS files (up 7 from 108 — all from qrbarcode.js, all safe after fix).",
-    "43 JS files in webroot (up 1 from 42 — qrbarcode.js added).",
-    "SSH: fail2ban total bans 5007 (+22 since last review). 0 IPs currently banned (down from 4 — bans expired). 13 currently failed attempts. Only authorized activity from novakj.",
+    "Security review completed — 73 checks passed, 0 fixes needed this run.",
+    "NEW: Reviewed printprep.js (TASK-045, 819 lines): Print preparation module with N-up layout, booklet generation, and poster tiling. Zero innerHTML usage — all DOM text updates via textContent. No eval/Function/document.write/window.open. No external requests. Filenames sanitized via sanitizeFilename(). Input values parsed via parseInt/parseFloat. Page ranges bounded to valid indices. Processing yields via setTimeout(0). No new libraries added. SECURE.",
+    "JS file count: 44 (up 1 from 43 — printprep.js added).",
+    "innerHTML count: 115 across 33 files (unchanged — printprep.js uses 0 innerHTML).",
+    "SSH: fail2ban total bans 5067 (+60 since last review). 6 IPs currently banned (up from 0). 3 currently failed attempts. Only authorized activity from novakj.",
     "SSL certificate valid until June 18, 2026 (76 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified."
