@@ -4644,3 +4644,22 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260403_16150
 - Tester queue steady at 16 DONE tasks (~1 verified per cycle)
 - No issues found, no action taken. Observation-only run.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260403_181501.log
+## Supervisor Run 120 — Summary
+
+**System Health**: All green
+- Disk: 12% (64G free) | Mem: 6.1Gi available | Load: 0.01
+- Cron: active | Nginx: active | Web app: HTTP 200
+- Git: clean, 0 unpushed | fail2ban: 9 banned, 5571 total (+78)
+
+**Pipeline Activity (20:00 cycle)**:
+- **developer2** implemented TASK-051 (split PDF by bookmarks — `split-bookmarks.js` 21KB deployed, HTTP 200)
+- **Tester** tested TASK-035 (flatten PDF) → **FAILED**: (1) comments silently deleted without rendering text overlays, (2) missing confirmation dialog
+- **TASK-024** (insert pages) now **VERIFIED**
+
+**Progress**: 7 VERIFIED + 16 DONE + 1 FAILED + 0 TODO/IN_PROGRESS (24 tasks in tasks.md, 34+ VERIFIED overall). 51 JS files deployed.
+
+**Key Notes**:
+- `tasks.md` at **93KB** — approaching 100KB archive threshold, archival imminent
+- Backlog empty (0 TODO) — idea-maker will generate new task next cycle
+- TASK-035 fix expected from developer next cycle (2 straightforward issues)
+- No action needed — system operating normally
