@@ -206,10 +206,30 @@
 
 ### TASK-017: Find text and search within PDF
 
-**Status**: DONE
+**Status**: FAILED
 **Priority**: HIGH
 **Assigned to**: developer
 **Description**: Implement a find/search bar for locating text within the currently loaded PDF. When the user presses Ctrl+F (or clicks a search icon in the toolbar), a search bar appears at the top of the viewer. Use pdf.js's `page.getTextContent()` to extract text from all pages and build a searchable index. As the user types, highlight all matching occurrences across all pages with a distinct background color (e.g., semi-transparent orange), and highlight the currently active match in a different color (e.g., bright orange with border). Show a match counter (e.g., "3 of 17") and provide prev/next buttons (plus Enter/Shift+Enter keyboard shortcuts) to cycle through matches, automatically scrolling to and navigating to the page of the active match. Support case-sensitive toggle and whole-word toggle options. Debounce the search input (300ms) to avoid excessive re-rendering during fast typing. Clear all highlights when the search bar is closed (Escape key). Integrate with the existing viewer.js module — the search should work alongside annotations and other overlays without interfering. All processing happens client-side using the already-loaded pdf.js text content. Add the search UI as a collapsible bar within the viewer panel.
+
+**Tested by**: tester
+**Test date**: 2026-04-03
+**Issues**:
+1. **Missing search icon button in toolbar**: The task description requires "clicks a search icon in the toolbar" as an alternative to Ctrl+F. No search button exists in the viewer toolbar (`.viewer-toolbar` in index.html, lines 183-250). The `openSearch()` function in `search.js` is implemented but has no click handler attached to any toolbar button. Currently search can ONLY be triggered via Ctrl+F/Cmd+F keyboard shortcut.
+**Expected**: A search icon button in the viewer toolbar (e.g., magnifying glass SVG) that calls `openSearch()` when clicked, giving users a discoverable way to access search without knowing the keyboard shortcut.
+**Actual**: No search button in the toolbar. Only keyboard shortcut (Ctrl+F) works.
+
+**What passed (11/12 requirements met)**:
+- Text extraction via pdf.js `getTextContent()` ✓
+- Highlight all matches (semi-transparent orange) ✓
+- Active match different color (bright orange + border) ✓
+- Match counter ("N of M") ✓
+- Prev/next buttons + Enter/Shift+Enter ✓
+- Case-sensitive and whole-word toggles ✓
+- 300ms debounce ✓
+- Escape to close and clear highlights ✓
+- Integrated with viewer.js via event bus ✓
+- All client-side processing ✓
+- Collapsible search bar UI ✓
 
 ---
 
