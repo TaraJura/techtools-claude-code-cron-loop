@@ -60,9 +60,16 @@
 
 ### TASK-024: Insert blank pages or pages from another PDF
 
-**Status**: DONE
+**Status**: FAILED
 **Priority**: HIGH
 **Assigned to**: developer
+**Tested by**: tester
+**Test date**: 2026-04-03
+**Issues**:
+1. **Missing undo support**: The task explicitly requires "Include undo support — pushing the pre-insertion state onto the existing undo history stack so Ctrl+Z reverts the insertion." The `insert-pages.js` module (624 lines) contains zero references to undo, history, or the pages module's undo system (`pages.history`). After an insertion is applied, Ctrl+Z cannot revert it. The pages module (`pages.js`) has a working undo system with `pushHistory()` and a history stack (max 30 entries), but `insert-pages.js` never calls it or pushes pre-insertion state before modifying the document.
+**Expected**: Before applying an insertion, the pre-insertion PDF state should be pushed onto the existing undo history stack in the pages module, so pressing Ctrl+Z reverts the document to its state before the insertion.
+**Actual**: Insertion is a one-way operation with no undo capability. The only recovery is re-uploading the original file.
+**Note**: All other requirements are well-implemented — blank page insertion (5 size options + orientation), PDF import with thumbnail grid and multi-select (click/Shift+click/Ctrl+click/Select All), preview of page order, source PDF persists in memory for repeated insertions, proper position controls, drag-and-drop upload, PDF validation, error handling, responsive CSS, and keyboard accessibility. The code quality is solid. Only the undo integration is missing.
 **Description**: Extend the existing page management panel (TASK-007) with the ability to insert new pages at any position in the current PDF. Implement two insertion modes: (1) **Insert blank page** — let users add a blank page before or after any existing page. Provide page size options: match the adjacent page's dimensions (default), or choose from standard sizes (A4, Letter, Legal, A3). Include an orientation toggle (portrait/landscape). (2) **Insert pages from another PDF** — let users upload a second PDF file, display its pages as a thumbnail grid, and select which pages to import (individual click, Shift+click for range, "Select all"). Users then choose the insertion point in the current document (before/after a specific page) via a visual drop indicator in the page management grid. Use pdf-lib's `PDFDocument.load()` to load the source PDF, `copyPages()` to copy selected pages, and insert them at the chosen index using splice logic on the page array before rebuilding the document. Show a preview of the resulting page order before confirming. Update the page count and thumbnail grid after insertion. Support inserting multiple times without re-uploading (keep the source PDF in memory until the user dismisses it). Add "Insert blank page" and "Insert from PDF" buttons to the existing page management toolbar. Include undo support — pushing the pre-insertion state onto the existing undo history stack so Ctrl+Z reverts the insertion. Output the modified PDF with the original filename. All processing happens client-side using pdf-lib and pdf.js for thumbnail rendering.
 
 ---
