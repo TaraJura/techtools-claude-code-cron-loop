@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-03T22:21:00Z",
+  "last_review": "2026-04-04T00:30:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 7 currently banned",
-    "fail2ban_status": "active - sshd jail running, 7 currently banned, 5674 total banned",
-    "change_since_last": "fail2ban total bans 5674 (up from 5572, +102). 7 IPs currently banned (down from 8). 3 currently failed. Brute-force continues at typical rate. Only authorized activity from novakj."
+    "failed_password_attempts": "fail2ban active, 9 currently banned",
+    "fail2ban_status": "active - sshd jail running, 9 currently banned, 5768 total banned",
+    "change_since_last": "fail2ban total bans 5768 (up from 5674, +94). 9 IPs currently banned (up from 7). 4 currently failed. Brute-force continues at typical rate. Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,35 +40,25 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 395 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "142 usages across 39 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml()/escHtml()/escapeAttr() helpers. toc.js has 7 innerHTML uses (clearing, static text, escaped templates)."
+    "innerHTML_note": "146 usages across 40 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml()/escHtml()/escapeAttr() helpers. accessibility.js has 4 innerHTML uses (clearing, static templates with escapeHtml for PDF-extracted content)."
   },
   "new_modules_review": {
-    "toc_js": {
-      "file": "js/toc.js",
-      "feature": "TASK-052: Table of contents generator. Auto-generates clickable TOC from bookmarks, text analysis, or manual entries. Supports presets (classic/modern/compact), leader styles, font families, insert position. Live canvas preview. Generates TOC pages with clickable GoTo link annotations via pdf-lib.",
+    "accessibility_js": {
+      "file": "js/accessibility.js",
+      "feature": "TASK-053: PDF accessibility checker and compliance report generator. Runs WCAG-based checks (tagged PDF, language, title, bookmarks, images alt text, heading hierarchy, color contrast, form field labels). Generates score dashboard. Quick fixes for missing language and DisplayDocTitle. Exports report as PDF or JSON.",
       "status": "secure",
-      "lines": 1044,
-      "innerHTML_writes": 7,
-      "innerHTML_detail": "Lines 145,178,402: clearing containers. Line 405: static text. Lines 419,434: templates with escapeAttr() for titles and numeric-only data-idx/pageNum interpolation. Line 1033: escapeHtml() helper (DOM-based textContent→innerHTML — safe pattern).",
+      "lines": 767,
+      "innerHTML_writes": 4,
+      "innerHTML_detail": "Line 489: clearing list. Lines 504-509: static template with escapeHtml(cat.label) — cat.label is hardcoded constant. Lines 528-534: result items with escapeHtml(r.title) and escapeHtml(r.description). Line 517: severity badge uses code-controlled SEVERITY constants only.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_external_requests": true,
-      "input_handling": "Bookmark titles from PDF displayed via escapeHtml() (line 436). Manual entry titles from DOM input elements escaped via escapeAttr() for attribute contexts (line 421). Status messages use textContent (line 1014). Both escapeHtml() and escapeAttr() functions defined locally.",
-      "resource_protection": "Text analysis iterates all pages sequentially. Preview canvas redrawn on debounce (150ms). No explicit timeout but consistent with other modules. Title truncation prevents rendering overflow.",
+      "escapeHtml_method": "DOM-based textContent→innerHTML pattern (line 566-570) — safe",
+      "input_handling": "PDF-extracted content (language from /Lang entry, document title from getTitle(), form field names from getName()) all passed through escapeHtml() before innerHTML insertion. prompt() input for language quick fix goes through pdf-lib context.obj() — self-attack only, low risk.",
+      "resource_protection": "Image check capped at 50 pages, heading check at 30 pages, contrast check at 10 pages. Async yields via setTimeout(0) in updateProgress(). No explicit timeout but consistent with other modules.",
       "download_safety": "Uses downloadBlob() from utils.js which sanitizes filenames."
-    },
-    "flatten_js_update": {
-      "file": "js/flatten.js",
-      "change": "TASK-035 fix: Added confirmation dialog (native confirm()), render comment text as visible overlay before removing sticky note annotations. Comment text drawn via pdf-lib drawText() — no DOM injection.",
-      "status": "secure",
-      "detail": "No innerHTML usage. Comment text extracted from PDF /Contents annotation field goes through pdf-lib API only. Text wrapping caps at 10 lines (line 439). Confirmation dialog uses native confirm() — safe. All other flatten operations unchanged from prior review."
     }
-  },
-  "task_034_review": {
-    "change": "viewer.js: Added bus.on('navigate:page', (pageNum) => goToPage(pageNum)) to wire internal hyperlink navigation",
-    "status": "secure",
-    "detail": "pageNum is always a numeric value from hyperlinks.js link.targetPage (parsed from PDF annotation destination). goToPage() already validates page bounds. No user-controlled strings involved."
   },
   "previous_module_reviews_still_valid": [
     "action-registry.js", "command-palette.js", "keyboard-shortcuts.js", "app.js",
@@ -80,7 +70,8 @@
     "metadata.js", "redact.js", "compare.js", "forms.js", "page-numbers.js",
     "bookmarks.js", "ocr.js", "img2pdf.js", "convert.js", "merge.js", "upload.js",
     "split.js", "split-bookmarks.js", "compress.js", "signatures.js", "batch.js",
-    "theme.js", "templates.js", "utils.js", "extract-images.js", "headers-footers.js"
+    "theme.js", "templates.js", "utils.js", "extract-images.js", "headers-footers.js",
+    "toc.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -96,7 +87,7 @@
   "ssl_certificate": {
     "valid_from": "2026-03-20",
     "valid_until": "2026-06-18",
-    "days_remaining": 76,
+    "days_remaining": 75,
     "status": "valid"
   },
   "checks_passed": [
@@ -117,6 +108,7 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "accessibility_module_secure",
     "toc_module_secure",
     "flatten_js_update_secure",
     "split_bookmarks_module_secure",
@@ -179,8 +171,8 @@
     "showToast_uses_textContent",
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
-    "ssl_certificate_valid_76_days",
-    "fail2ban_active_5674_total_bans",
+    "ssl_certificate_valid_75_days",
+    "fail2ban_active_5768_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -211,13 +203,12 @@
     "headers-footers.js: custom preset names from prompt() not length-limited before localStorage storage — minor, only affects local storage size."
   ],
   "notes": [
-    "Security review completed — 91 checks passed, 0 fixes needed this run.",
-    "NEW: Reviewed toc.js (1044 lines, TASK-052). Secure — 7 innerHTML uses all safe (clearing/static text/escaped templates). Has both escapeHtml() (DOM-based) and escapeAttr() helpers. Bookmark titles escaped. No eval, no Function, no document.write, no external requests.",
-    "NEW: Reviewed flatten.js updates (TASK-035 fix). Added confirmation dialog + comment text rendering. Comment text from PDF annotations goes through pdf-lib drawText() only — no DOM injection. No innerHTML usage.",
-    "JS file count: 52 (up from 51 — 1 new file toc.js).",
-    "innerHTML count: 142 across 39 files (up from 135/38 — 7 new in toc.js, 1 new file).",
-    "SSH: fail2ban total bans 5674 (+102 since last review). 7 IPs currently banned (down from 8). 3 currently failed attempts. Only authorized activity from novakj.",
-    "SSL certificate valid until June 18, 2026 (76 days remaining).",
+    "Security review completed — 92 checks passed, 0 fixes needed this run.",
+    "NEW: Reviewed accessibility.js (767 lines, TASK-053). Secure — 4 innerHTML uses all safe (clearing + escapeHtml for PDF-extracted content). DOM-based escapeHtml() helper. PDF content (language, title, form field names) all escaped. No eval, no Function, no document.write, no external requests. Resource limits on page scanning (50/30/10 pages).",
+    "JS file count: 53 (up from 52 — 1 new file accessibility.js).",
+    "innerHTML count: 146 across 40 files (up from 142/39 — 4 new in accessibility.js, 1 new file).",
+    "SSH: fail2ban total bans 5768 (+94 since last review). 9 IPs currently banned (up from 7). 4 currently failed attempts. Only authorized activity from novakj.",
+    "SSL certificate valid until June 18, 2026 (75 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified. Path traversal blocked (404/400)."
   ],
