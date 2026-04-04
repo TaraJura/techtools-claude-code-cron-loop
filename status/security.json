@@ -1,14 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-04T02:21:00Z",
+  "last_review": "2026-04-04T04:24:00Z",
   "status": "secure",
-  "fixes_applied": [
-    "sticky-notes.js line 443: Added hex color regex validation before innerHTML interpolation. note.color now validated against /^#[0-9a-fA-F]{3,8}$/ before use in template literal. Fallback to #FFEB3B."
-  ],
+  "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 3 currently banned",
-    "fail2ban_status": "active - sshd jail running, 3 currently banned, 5870 total banned",
-    "change_since_last": "fail2ban total bans 5870 (up from 5768, +102). 3 IPs currently banned (down from 9). 2 currently failed. Brute-force continues at typical rate. Only authorized activity from novakj."
+    "failed_password_attempts": "fail2ban active, 15 currently banned",
+    "fail2ban_status": "active - sshd jail running, 15 currently banned, 5931 total banned",
+    "change_since_last": "fail2ban total bans 5931 (up from 5870, +61). 15 IPs currently banned (up from 3). 6 currently failed. Brute-force continues at typical rate. Only authorized activity from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -42,22 +40,51 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 395 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "145 usages across 39 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml()/escHtml()/escapeAttr() helpers. sticky-notes.js note.color now validated with hex regex before innerHTML use."
+    "innerHTML_note": "157 usages across 41 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml()/escHtml()/escapeAttr() helpers. New modules html-export.js and form-data.js use escapeHtml()/escHtml() for all PDF-extracted and user content."
   },
   "new_modules_review": {
-    "session_restore_task036": {
-      "files_modified": ["autosave.js", "viewer.js", "forms.js", "sticky-notes.js", "signatures.js", "drawing.js", "annotate.js"],
-      "feature": "TASK-036: Session restore re-applies all editing state (annotations, drawings, signatures, sticky notes, form values) after reloading a saved session from IndexedDB.",
-      "status": "secure (1 fix applied)",
-      "fix_applied": "sticky-notes.js: note.color now validated with hex regex before innerHTML interpolation",
+    "html_export_task054": {
+      "file": "js/html-export.js",
+      "lines": 688,
+      "feature": "TASK-054: Export PDF to HTML with responsive layout, text extraction, image embedding, themes.",
+      "status": "secure",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_external_requests": true,
-      "no_postmessage_handlers": true,
-      "localstorage_usage": "viewer.js uses localStorage for viewMode/coverMode — values used in switch/case with default fallback. Safe.",
-      "indexeddb_usage": "autosave.js stores/restores session data via IndexedDB. Restore functions in all 7 modules trust data structure from IndexedDB. IndexedDB is same-origin, so tampering = self-XSS only. Low risk.",
-      "json_parse_usage": "drawing.js uses JSON.parse(JSON.stringify()) for deep-cloning internal undo/redo state only. Safe."
+      "escape_function": "escapeHtml() using DOM textContent→innerHTML pattern — all PDF-extracted text escaped before HTML insertion.",
+      "innerHTML_usage": "1 usage in escapeHtml helper only — all HTML built with escaped interpolation.",
+      "data_uri_images": "Page fallback images rendered via canvas.toDataURL('image/png') — generated internally, safe.",
+      "sanitized_filenames": true,
+      "batch_processing": "Yields to UI every 10 pages via setTimeout(0).",
+      "jszip_integration": "Uses JSZip for multi-file export — library self-hosted."
+    },
+    "form_data_task055": {
+      "file": "js/form-data.js",
+      "lines": 908,
+      "feature": "TASK-055: Form data import/export (JSON/CSV/XML/FDF/XFDF), batch fill from spreadsheet, template management.",
+      "status": "secure",
+      "no_eval": true,
+      "no_function_constructor": true,
+      "no_document_write": true,
+      "no_external_requests": true,
+      "escape_function": "escHtml() using DOM textContent→innerHTML pattern — all user/PDF field data escaped.",
+      "innerHTML_usage": "10 usages — 3 clearing (= ''), 1 static string, 6 with escaped content via escHtml(). All safe.",
+      "import_parsing": "Supports JSON/CSV/XML/FDF/XFDF parsers. JSON.parse, DOMParser.parseFromString, regex-based FDF parsing — none execute user code.",
+      "batch_limit": "500 records max enforced.",
+      "file_validation": "Import files read as text only, no binary execution.",
+      "template_storage": "Templates saved to localStorage via JSON.stringify — no code execution.",
+      "sanitized_filenames": true,
+      "escHtml_attribute_context": "escHtml() used in double-quoted attribute contexts (option value=, data-col=) but does not escape double quotes. Same pattern as other modules. CSP script-src 'self' prevents inline handler injection. LOW priority.",
+      "setFormFieldValues_validation": "forms.js setFormFieldValues() called by form-data.js applyImport() which pre-validates: maxLen truncation, boolean parsing, dropdown option checking. form-data.js handles validation before passing to forms.js. Acceptable."
+    },
+    "forms_js_update": {
+      "file": "js/forms.js",
+      "changes": "Added getFormFields() and setFormFieldValues() exports for TASK-055 integration.",
+      "status": "secure",
+      "getFormFields": "Returns internal formState.fields array — read-only export of field data. No security concern.",
+      "setFormFieldValues": "Accepts [{name, value}] array. Sets field values directly. No HTML rendering of values — values go to PDF form fields only. Caller (form-data.js) validates inputs. Safe.",
+      "svg_innerHTML": "forms.js line 305 svg.innerHTML = paths — hardcoded SVG path strings from switch statement. Safe."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -108,6 +135,9 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "html_export_module_secure",
+    "form_data_module_secure",
+    "forms_js_update_secure",
     "session_restore_task036_reviewed",
     "sticky_notes_color_validated",
     "accessibility_module_secure",
@@ -174,7 +204,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_75_days",
-    "fail2ban_active_5870_total_bans",
+    "fail2ban_active_5931_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -194,7 +224,7 @@
     "disable_symlinks off in nginx config - low risk since only novakj can write to webroot.",
     "CGI location block exists in nginx but no CGI scripts present - dead config that could be removed.",
     "Codex proxy at /codex returns 502 - backend not running. No security risk but dead endpoint.",
-    "merge.js, batch.js, hyperlinks.js, bates.js, command-palette.js, keyboard-shortcuts.js use escapeHtml() that does not escape double quotes. CSP script-src 'self' mitigates inline handler injection. In most files used in element content (safe). In attribute contexts (title/aria-label) should add escapeAttr().",
+    "merge.js, batch.js, hyperlinks.js, bates.js, command-palette.js, keyboard-shortcuts.js, form-data.js use escapeHtml()/escHtml() that does not escape double quotes. CSP script-src 'self' mitigates inline handler injection. In most files used in element content (safe). In attribute contexts (title/aria-label/value/data-col) should add escapeAttr().",
     "hyperlinks.js: detected PDF link URLs not validated for protocol scheme. A malicious PDF could contain javascript: URIs in link annotations. CSP + noopener/noreferrer mitigate. Should add protocol allowlist (http/https/mailto) before window.open().",
     "hyperlinks.js line 686: email link window.open() missing noopener/noreferrer — minor since mailto: links are low risk.",
     "img2pdf.js image validation uses OR logic (MIME type OR extension) - slightly permissive but acceptable for client-side processing.",
@@ -203,22 +233,24 @@
     "batch.js line 294: escapeHtml() used with textContent causes double-escaping — cosmetic display bug for filenames containing &, <, >.",
     "keyboard-shortcuts.js line 395: document.write used on new popup window for print cheat sheet — acceptable pattern but noted for tracking.",
     "headers-footers.js: custom preset names from prompt() not length-limited before localStorage storage — minor, only affects local storage size.",
+    "form-data.js: template names from prompt() not length-limited before localStorage storage — minor, same pattern as headers-footers.js.",
     "Session restore (TASK-036): restoreNotes/restoreAnnotations/restoreDrawings/restoreSignatures/restoreFormValues do not validate data schema from IndexedDB. IndexedDB is same-origin so risk is self-XSS only. Low priority."
   ],
   "notes": [
-    "Security review completed — 93 checks passed, 1 fix applied this run.",
-    "REVIEWED: TASK-036 session restore changes across 7 files (autosave.js, viewer.js, forms.js, sticky-notes.js, signatures.js, drawing.js, annotate.js). Restore functions import/export editing state via IndexedDB. No eval, no Function, no document.write, no postMessage handlers, no external requests.",
-    "FIX: sticky-notes.js line 443 — note.color was interpolated directly in innerHTML template. Added hex color regex validation with fallback to #FFEB3B. Line 620 already used escapeHtml(note.color) — now consistent.",
-    "JS file count: 53 (unchanged from last review).",
-    "innerHTML count: 145 across 39 files (down 1 from 146/40 — minor variation, all safe).",
-    "SSH: fail2ban total bans 5870 (+102 since last review). 3 IPs currently banned (down from 9). 2 currently failed attempts. Only authorized activity from novakj.",
+    "Security review completed — 95 checks passed, 0 fixes needed this run.",
+    "REVIEWED: TASK-054 html-export.js (688 lines). Converts PDF pages to HTML via text extraction or image fallback. All text escaped with escapeHtml(). Uses data URIs from canvas.toDataURL(). Supports reflow/fixed layout, themes, multi-file ZIP export. No eval, no external requests, sanitized filenames. SECURE.",
+    "REVIEWED: TASK-055 form-data.js (908 lines). Form data import/export in 5 formats (JSON/CSV/XML/FDF/XFDF). Batch fill from CSV/JSON with 500-record limit. Template management via localStorage. All user data escaped with escHtml(). Import parsers don't execute code. Pre-validates values before setting form fields. SECURE.",
+    "REVIEWED: forms.js update — added getFormFields() and setFormFieldValues() exports for TASK-055 integration. getFormFields returns read-only field data. setFormFieldValues accepts validated input from form-data.js. No new HTML rendering of field values. SECURE.",
+    "JS file count: 55 (up from 53, +2 new modules: html-export.js, form-data.js).",
+    "innerHTML count: 157 across 41 files (up from 145/39 — 12 new from form-data.js/html-export.js, all safe).",
+    "SSH: fail2ban total bans 5931 (+61 since last review). 15 IPs currently banned (up from 3). 6 currently failed attempts. Only authorized activity from novakj.",
     "SSL certificate valid until June 18, 2026 (75 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404)."
   ],
   "recommendations": [
     "MEDIUM-LOW: Add protocol allowlist to hyperlinks.js handleLinkClick() — only allow http:, https:, mailto: schemes before calling window.open() on detected PDF links",
-    "LOW: Add escapeAttr() function to merge.js, batch.js, hyperlinks.js, bates.js, command-palette.js, keyboard-shortcuts.js for attribute contexts instead of escapeHtml()",
+    "LOW: Add escapeAttr() function to merge.js, batch.js, hyperlinks.js, bates.js, command-palette.js, keyboard-shortcuts.js, form-data.js for attribute contexts instead of escapeHtml()/escHtml()",
     "LOW: Fix batch.js line 294 — use fileName directly with textContent instead of escapeHtml(fileName)",
     "LOW: Set server_tokens off in nginx.conf to stop leaking version info (currently exposes nginx/1.26.3)",
     "LOW: Enable UFW firewall (sudo ufw allow 22,80,443/tcp && sudo ufw enable)",
@@ -226,7 +258,7 @@
     "LOW: Remove dead escapeHtml() function from insert-pages.js and metadata.js",
     "LOW: Remove unused CGI location block from nginx config",
     "LOW: Consider disable_symlinks on in nginx for defense in depth",
-    "LOW: Add length limit to custom preset names in headers-footers.js saveCustomPreset()",
+    "LOW: Add length limit to custom preset names in headers-footers.js saveCustomPreset() and form-data.js saveTemplate()",
     "LOW: Add basic type/schema validation in session restore functions for defense in depth"
   ]
 }
