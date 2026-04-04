@@ -1,12 +1,14 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-04T12:18:00Z",
+  "last_review": "2026-04-04T14:17:00Z",
   "status": "secure",
-  "fixes_applied": [],
+  "fixes_applied": [
+    "page-labels.js: Added escapeHtml() function (escapes &, <, >, \", ') and upgraded escapeAttr() to use it. Fixed 5 innerHTML injection points: getRangePreview output (line 338), allLabels in thumbnail strip (line 458), allLabels in label map (lines 481, 486), and preset name in button text (line 731). Previously user-controlled prefix text and prompt()-sourced preset names were inserted raw into innerHTML. CSP mitigated script execution but HTML injection was possible."
+  ],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 7 currently banned",
-    "fail2ban_status": "active - sshd jail running, 7 currently banned, 6322 total banned",
-    "change_since_last": "fail2ban total bans 6322 (up from 6221, +101). 7 IPs currently banned (up from 5). 5 currently failed. Brute-force continues at typical rate. No successful logins — only automated ssh-rsa rejections and authorized sudo from novakj."
+    "failed_password_attempts": "fail2ban active, 8 currently banned",
+    "fail2ban_status": "active - sshd jail running, 8 currently banned, 6417 total banned",
+    "change_since_last": "fail2ban total bans 6417 (up from 6322, +95). 8 IPs currently banned (up from 7). 4 currently failed. Brute-force continues at typical rate — targeting root, ubuntu, solana, sol usernames. No successful logins — only automated ssh-rsa rejections and authorized cron/sudo from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,32 +42,33 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 395 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "178 usages across 44 files (up from 174/44 — snip.js added with 5 usages: 2 clearing containers, 1 static HTML, 1 static panel template, 1 history rendering with internally-generated values only)."
+    "innerHTML_note": "186 usages across 45 files (up from 178/44 — page-labels.js added with 8 usages: 2 clearing containers, 3 with escapeHtml-protected user content, 1 static button reset, 1 static empty-state, 1 preset list with escapeHtml-protected names)."
   },
   "new_modules_review": {
-    "snip_js": {
-      "file": "js/snip.js",
-      "lines": 1075,
-      "feature": "Snip tool — draw rectangular selections on PDF pages and extract regions as PNG, JPG, cropped PDF, or text. Supports mouse/touch input, selection resizing/moving, keyboard shortcuts, clipboard copy, and history.",
-      "status": "secure",
+    "page_labels_js": {
+      "file": "js/page-labels.js",
+      "lines": 753,
+      "feature": "Page label manager — custom page numbering schemes per section (TASK-060). Supports Arabic, Roman, alphabetic styles with configurable prefix/suffix. Presets for book, academic, legal formats. Import/export config as JSON. Writes PageLabels dictionary to PDF via pdf-lib.",
+      "status": "secure (after fixes)",
+      "fixes_applied": "Added escapeHtml() with full entity escaping (&, <, >, \", '). Wrapped 5 innerHTML insertion points where user-controlled prefix or prompt()-sourced preset names were injected raw. escapeAttr() upgraded to use escapeHtml() internally, fixing prior missing & escape.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_window_open": true,
       "no_fetch": true,
-      "escape_function": "No escapeHtml defined — not needed since no user-controlled strings are inserted via innerHTML. History panel uses only internally-generated values (pageNum integer, hardcoded format strings, Date.toLocaleTimeString()).",
-      "innerHTML_usage": "5 usages — line 400: svg.innerHTML='' (clear), line 854: panel.innerHTML='' (clear), line 857: static empty-state message, line 865: history items with internally-generated values only (pageNum, format, timestamp), line 951: static panel template with no dynamic data. All safe.",
-      "text_display": "Uses textContent throughout for dynamic text: SVG badge text (line 493), dimension labels (line 518), button labels (line 597), count badges (line 834), slider values (line 1008). Correct pattern.",
-      "pdf_processing": "Operates on already-loaded state.pdfDocument — does not handle file loading or validation. File validation is upstream in app.js via validatePdf() from utils.js.",
-      "download_filenames": "Constructed from state.currentFile.name with '-snip' suffix, passed through downloadBlob() which calls sanitizeFilename(). Safe.",
-      "canvas_rendering": "Resolution multiplier up to 4x. Large pages at 4x could use significant memory but bounded by single-page processing. Low risk.",
-      "selections_array": "Unbounded — no maximum selection count enforced. Low risk since user-driven.",
-      "history_array": "Properly bounded at 10 entries via pop() after unshift(). Good practice.",
-      "data_privacy": "No server calls, no external requests, no analytics. All processing in browser memory."
+      "escape_function": "escapeHtml() defined — escapes &, <, >, \", '. Used in getRangePreview output, allLabels display, and preset name rendering.",
+      "innerHTML_usage": "8 usages — line 320: container.innerHTML='' (clear), line 331: range items with escapeHtml on preview/prefix, line 435: strip.innerHTML='' (clear), line 456: thumbnails with escapeHtml on labels, line 490: label map with escapeHtml on labels, line 682: static button reset HTML, line 725: static empty-state, line 729: preset list with escapeHtml on names. All safe after fixes.",
+      "text_display": "Uses title property for tooltips (safe). Input values populated via escapeAttr().",
+      "pdf_processing": "Reads existing PageLabels from loaded PDF via pdf-lib. Writes PageLabels dictionary on apply. Operates on copy of arrayBuffer (slice(0)). Does not handle file loading — upstream validation applies.",
+      "import_validation": "JSON config import validates: Array.isArray, non-empty, each item has numeric pageIndex and style. Sanitizes values: clamps pageIndex to valid range, validates style against STYLES map, coerces prefix to string, clamps startValue to >= 1.",
+      "download_filenames": "Uses downloadBlob() which calls sanitizeFilename(). Safe.",
+      "custom_presets_localstorage": "Preset names from prompt() not length-limited — minor, same pattern as headers-footers.js and form-data.js. Only affects localStorage size.",
+      "undo_history": "Bounded at MAX_UNDO=20 via shift(). Good practice.",
+      "data_privacy": "No server calls, no external requests. All processing client-side."
     },
-    "app_js_update": {
-      "file": "js/app.js",
-      "change": "Added 'snip' to viewer container visibility list (line 62) — shows PDF viewer when snip tool is active. Minimal change, no security impact.",
+    "action_registry_js_update": {
+      "file": "js/action-registry.js",
+      "change": "Comment header added (5 lines). No functional change, no security impact.",
       "status": "secure"
     }
   },
@@ -81,7 +84,7 @@
     "split.js", "split-bookmarks.js", "compress.js", "signatures.js", "batch.js",
     "theme.js", "templates.js", "utils.js", "extract-images.js", "headers-footers.js",
     "toc.js", "accessibility.js", "html-export.js", "form-data.js", "link-manager.js",
-    "sanitize.js", "compare.js"
+    "sanitize.js", "compare.js", "snip.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -118,8 +121,10 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "page_labels_js_xss_fixed",
+    "page_labels_js_module_secure",
+    "action_registry_comment_only_secure",
     "snip_js_module_secure",
-    "app_js_snip_integration_secure",
     "compare_task058_module_secure",
     "sanitize_module_secure",
     "link_manager_module_secure",
@@ -192,7 +197,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_75_days",
-    "fail2ban_active_6322_total_bans",
+    "fail2ban_active_6417_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -222,6 +227,7 @@
     "keyboard-shortcuts.js line 395: document.write used on new popup window for print cheat sheet — acceptable pattern but noted for tracking.",
     "headers-footers.js: custom preset names from prompt() not length-limited before localStorage storage — minor, only affects local storage size.",
     "form-data.js: template names from prompt() not length-limited before localStorage storage — minor, same pattern as headers-footers.js.",
+    "page-labels.js: custom preset names from prompt() not length-limited before localStorage storage — minor, same pattern as headers-footers.js and form-data.js.",
     "Session restore (TASK-036): restoreNotes/restoreAnnotations/restoreDrawings/restoreSignatures/restoreFormValues do not validate data schema from IndexedDB. IndexedDB is same-origin so risk is self-XSS only. Low priority.",
     "link-manager.js Find & Replace: new RegExp() from user input could cause ReDoS with pathological patterns. Low impact — only runs against URL strings (typically short). Errors caught.",
     "compare.js escapeHtml() does not escape double quotes — same pattern as other modules. Only used in element content context in HTML report, not in attributes. Safe.",
@@ -231,15 +237,15 @@
     "snip.js line 661: raw err.message from clipboard API shown in toast — minor info disclosure, clipboard errors are browser-generated."
   ],
   "notes": [
-    "Security review completed — 100 checks passed, 0 fixes needed this run.",
-    "REVIEWED: snip.js (1075 lines). Snip/region extraction tool: draw rectangles on PDF pages, extract as PNG/JPG/PDF/text, clipboard copy, selection history. No eval, no Function, no document.write, no window.open, no fetch. Uses textContent throughout for dynamic text. innerHTML usages all safe (clearing containers, static HTML, or internally-generated values only). Downloads use sanitizeFilename via downloadBlob. Fully client-side. SECURE.",
-    "REVIEWED: app.js update — added 'snip' to viewer container visibility list (line 62). Minimal change, no security impact.",
-    "JS file count: 58 (up from 57 — snip.js added).",
-    "innerHTML count: 178 across 44 files (up from 174/44 — snip.js adds 5 usages, but compare.js likely lost 1 in rewrite, net +4).",
-    "SSH: fail2ban total bans 6322 (+101 since last review). 7 IPs currently banned (up from 5). 5 currently failed. No successful logins — only brute-force attempts on root and invalid users. Only authorized cron/sudo from novakj.",
+    "Security review completed — 1 fix applied (page-labels.js innerHTML XSS hardening).",
+    "REVIEWED: page-labels.js (753 lines, TASK-060). Page label manager with section-based numbering schemes. FOUND: 5 innerHTML injection points where user-typed prefix and prompt()-sourced preset names were inserted without HTML escaping. FIXED: Added escapeHtml() function, wrapped all user-controlled innerHTML insertions. Import config validation is solid (type checks + value clamping). No eval/Function/document.write/fetch. Uses downloadBlob(sanitizeFilename). SECURE after fixes.",
+    "REVIEWED: action-registry.js update — comment header added (5 lines). No functional change.",
+    "JS file count: 59 (up from 58 — page-labels.js added).",
+    "innerHTML count: 186 across 45 files (up from 178/44 — page-labels.js adds 8 usages, all now safe).",
+    "SSH: fail2ban total bans 6417 (+95 since last review). 8 IPs currently banned (up from 7). 4 currently failed. Brute-force pattern: root, ubuntu, solana, sol usernames. No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (75 days remaining).",
     "Disk usage stable at 12%, 64G free.",
-    "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404)."
+    "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404). Nginx config syntax OK."
   ],
   "recommendations": [
     "MEDIUM-LOW: Add protocol allowlist to hyperlinks.js handleLinkClick() — only allow http:, https:, mailto: schemes before calling window.open() on detected PDF links",
@@ -251,7 +257,7 @@
     "LOW: Remove dead escapeHtml() function from insert-pages.js and metadata.js",
     "LOW: Remove unused CGI location block from nginx config",
     "LOW: Consider disable_symlinks on in nginx for defense in depth",
-    "LOW: Add length limit to custom preset names in headers-footers.js saveCustomPreset() and form-data.js saveTemplate()",
+    "LOW: Add length limit to custom preset names in headers-footers.js, form-data.js, and page-labels.js saveCustomPreset()",
     "LOW: Add basic type/schema validation in session restore functions for defense in depth",
     "LOW: snip.js line 865 — replace innerHTML template literal with textContent/DOM API for defense-in-depth"
   ]
