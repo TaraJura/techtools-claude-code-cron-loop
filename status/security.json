@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-04T18:20:00Z",
+  "last_review": "2026-04-04T20:17:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 1 currently banned",
-    "fail2ban_status": "active - sshd jail running, 1 currently banned, 6555 total banned",
-    "change_since_last": "fail2ban total bans 6555 (up from 6511, +44). 1 IP currently banned (down from 3). 3 currently failed. Brute-force continues at typical rate. No successful unauthorized logins — only automated ssh-rsa rejections and authorized sudo from novakj."
+    "failed_password_attempts": "fail2ban active, 7 currently banned",
+    "fail2ban_status": "active - sshd jail running, 7 currently banned, 6625 total banned",
+    "change_since_last": "fail2ban total bans 6625 (up from 6555, +70). 7 IPs currently banned (up from 1). 8 currently failed. Brute-force continues at typical rate. No successful unauthorized logins — only automated ssh-rsa rejections and authorized sudo from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,13 +40,13 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 395 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "195 usages across 46 files (unchanged from last review — deskew.js adds 0 innerHTML usages)."
+    "innerHTML_note": "195 usages across JS files (unchanged — pptx-export.js adds 0 innerHTML usages)."
   },
   "new_modules_review": {
-    "deskew_js": {
-      "file": "js/deskew.js",
-      "lines": 839,
-      "feature": "TASK-062: Auto-deskew and scan cleanup — skew detection (projection-profile), auto-deskew rotation, noise removal (median filter), border cleanup, hole punch removal, binarization for OCR prep, presets (quick/deep/ocrprep), page scope (current/all/even/odd/range), cancel support.",
+    "pptx_export_js": {
+      "file": "js/pptx-export.js",
+      "lines": 581,
+      "feature": "TASK-063: Export PDF to PowerPoint (PPTX) format — image-based rendering, optional text overlay, configurable DPI/page range, speaker notes from annotations, PptxGenJS library.",
       "status": "secure",
       "no_eval": true,
       "no_function_constructor": true,
@@ -55,14 +55,20 @@
       "no_fetch": true,
       "no_xmlhttprequest": true,
       "no_innerHTML": true,
-      "ui_updates": "All UI updates use textContent via updateLabel() helper or direct .textContent assignment. No DOM injection vectors.",
+      "ui_updates": "All UI updates use textContent via showProgress() helper. No DOM injection vectors.",
       "download_filenames": "Uses sanitizeFilename() from utils.js for output filename. Safe.",
-      "error_handling": "Try/catch in detectCurrentPage(), applyAndDownload(). Error messages via showToast() (uses textContent — safe). Line 803: err.message from pdf-lib/pdf.js shown in toast — framework-generated, not user-controlled PDF text. Low risk.",
-      "memory_management": "Pages processed sequentially with yield (setTimeout). No unbounded arrays. Cleanup via ImageData garbage collection. pdfBytes.slice(0) before processing.",
-      "cancellation": "cancelRequested flag checked each page iteration. User can cancel long batch operations.",
+      "error_handling": "Try/catch in exportToPptx(). Error message via showToast() (uses textContent — safe). Line 568: err.message from PptxGenJS/pdf.js shown in toast — framework-generated, not user-controlled PDF text. Low risk.",
+      "memory_management": "Canvas created per page, data URLs generated. Confirm dialog for >50 pages. Yields to UI every 5 pages via setTimeout. No unbounded arrays.",
       "data_privacy": "No server calls, no external requests. All processing client-side.",
-      "image_processing": "Canvas-based pixel operations (rotation, median filter, flood fill, binarization). All bounded by image dimensions. No injection risk.",
-      "page_range_parsing": "Uses regex + parseInt. No eval or dynamic code execution."
+      "page_range_parsing": "Uses regex + parseInt. No eval or dynamic code execution.",
+      "text_extraction": "PDF text items extracted via pdf.js getTextContent(). Text passed to PptxGenJS slide.addText() — library handles escaping. No raw HTML insertion."
+    },
+    "pptxgenjs_bundle_js": {
+      "file": "lib/pptxgenjs.bundle.js",
+      "size": "477KB",
+      "self_hosted": true,
+      "added": "2026-04-04",
+      "status": "self-hosted in /lib/, no CDN dependency"
     }
   },
   "previous_module_reviews_still_valid": [
@@ -77,7 +83,8 @@
     "split.js", "split-bookmarks.js", "compress.js", "signatures.js", "batch.js",
     "theme.js", "templates.js", "utils.js", "extract-images.js", "headers-footers.js",
     "toc.js", "accessibility.js", "html-export.js", "form-data.js", "link-manager.js",
-    "sanitize.js", "compare.js", "snip.js", "page-labels.js", "image-manager.js"
+    "sanitize.js", "compare.js", "snip.js", "page-labels.js", "image-manager.js",
+    "deskew.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -85,7 +92,8 @@
     "docx_umd_js": { "file": "lib/docx.umd.js", "size": "743KB", "self_hosted": true, "added": "2026-04-02" },
     "qrcode_generator_min_js": { "file": "lib/qrcode-generator.min.js", "size": "57KB", "self_hosted": true, "added": "2026-04-03" },
     "jsbarcode_min_js": { "file": "lib/jsbarcode.min.js", "size": "61KB", "self_hosted": true, "added": "2026-04-03" },
-    "jsqr_min_js": { "file": "lib/jsqr.min.js", "size": "257KB", "self_hosted": true, "added": "2026-04-03" }
+    "jsqr_min_js": { "file": "lib/jsqr.min.js", "size": "257KB", "self_hosted": true, "added": "2026-04-03" },
+    "pptxgenjs_bundle_js": { "file": "lib/pptxgenjs.bundle.js", "size": "477KB", "self_hosted": true, "added": "2026-04-04" }
   },
   "cgi_security": { "no_cgi_scripts_found": true, "cgi_location_block_exists": true, "no_cgi_bin_directory": true },
   "codex_proxy": { "endpoint": "/codex", "backend": "127.0.0.1:8199", "status": "502 - backend not running", "risk": "LOW" },
@@ -114,16 +122,16 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "pptx_export_js_module_secure",
+    "pptx_export_no_innerhtml",
+    "pptx_export_all_textcontent",
+    "pptx_export_sanitizefilename_on_download",
+    "pptx_export_no_external_requests",
+    "pptx_export_text_extraction_safe",
+    "pptxgenjs_self_hosted_in_lib",
     "deskew_js_module_secure",
-    "deskew_no_innerhtml",
-    "deskew_all_textcontent",
-    "deskew_sanitizefilename_on_download",
-    "deskew_no_external_requests",
     "image_manager_js_module_secure",
-    "image_manager_no_user_controlled_innerhtml",
-    "page_labels_js_xss_fixed",
     "page_labels_js_module_secure",
-    "action_registry_deskew_registration_secure",
     "snip_js_module_secure",
     "compare_task058_module_secure",
     "sanitize_module_secure",
@@ -135,20 +143,11 @@
     "sticky_notes_color_validated",
     "accessibility_module_secure",
     "toc_module_secure",
-    "flatten_js_update_secure",
-    "split_bookmarks_module_secure",
-    "split_js_update_secure",
-    "headers_footers_module_secure",
-    "task_034_viewer_navigate_page_secure",
-    "templates_module_secure_after_fix",
-    "templates_import_validation_hardened",
-    "templates_aria_label_escaped",
     "action_registry_module_secure",
     "command_palette_module_secure",
     "keyboard_shortcuts_module_secure",
     "app_js_rewrite_secure",
     "crop_module_secure",
-    "insert_pages_undo_fix_secure",
     "pages_undo_integration_secure",
     "annotation_summary_module_secure",
     "printprep_module_secure",
@@ -164,10 +163,6 @@
     "autosave_module_secure",
     "flatten_module_secure",
     "tables_module_secure",
-    "task_034_hyperlinks_module_secure",
-    "task_033_viewer_continuous_dual_secure",
-    "sticky_notes_module_secure",
-    "extract_images_module_secure",
     "batch_module_secure",
     "theme_module_secure",
     "stamps_module_secure",
@@ -197,16 +192,10 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_75_days",
-    "fail2ban_active_6555_total_bans",
+    "fail2ban_active_6625_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
-    "jszip_self_hosted_in_lib",
-    "xlsx_self_hosted_in_lib",
-    "docx_umd_self_hosted_in_lib",
-    "qrcode_generator_self_hosted_in_lib",
-    "jsbarcode_self_hosted_in_lib",
-    "jsqr_self_hosted_in_lib",
     "nginx_config_syntax_ok",
     "document_write_safe_print_only"
   ],
@@ -238,15 +227,15 @@
     "image-manager.js: no file size limit on replacement images — client-side self-DoS only, low risk."
   ],
   "notes": [
-    "Security review completed — no fixes needed. deskew.js is clean.",
-    "REVIEWED: deskew.js (839 lines, TASK-062). Auto-deskew and scan cleanup: skew detection via projection-profile, rotation, median filter noise removal, border cleanup, hole punch removal (flood-fill blob detection), binarization, presets, page scope, cancellation. ZERO innerHTML usages. All UI updates via textContent/updateLabel(). Download uses sanitizeFilename(). No eval/Function/document.write/fetch/window.open. Error messages from pdf-lib/pdf.js (framework-generated). All client-side. SECURE.",
-    "action-registry.js: single line added to register deskew tool (line 308). No security concern.",
-    "JS file count: 61 (up from 60 — deskew.js added).",
-    "innerHTML count: 195 across 46 files (unchanged — deskew.js adds 0 innerHTML usages).",
-    "SSH: fail2ban total bans 6555 (+44 since last review). 1 IP currently banned (down from 3). 3 currently failed. No successful unauthorized logins.",
+    "Security review completed — no fixes needed. pptx-export.js is clean.",
+    "REVIEWED: pptx-export.js (581 lines, TASK-063). PDF to PowerPoint export: image-based rendering via canvas, optional text overlay via pdf.js getTextContent(), configurable DPI (72/150/192/300), page range support, speaker notes from PDF annotations, PptxGenJS library. ZERO innerHTML usages. All UI updates via textContent/showProgress(). Download uses sanitizeFilename(). No eval/Function/document.write/fetch/window.open. Text passed to PptxGenJS addText() (library handles escaping). Error messages from framework (not user-controlled). Confirm dialog for >50 pages. All client-side. SECURE.",
+    "NEW DEPENDENCY: lib/pptxgenjs.bundle.js (477KB, self-hosted). Loaded via <script> tag in index.html. No CDN dependency.",
+    "JS file count: 62 (up from 61 — pptx-export.js added).",
+    "innerHTML count: 195 across JS files (unchanged — pptx-export.js adds 0 innerHTML usages).",
+    "SSH: fail2ban total bans 6625 (+70 since last review). 7 IPs currently banned (up from 1). 8 currently failed. No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (75 days remaining).",
     "Disk usage stable at 12%, 64G free.",
-    "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404/400). Nginx config syntax OK."
+    "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404/400)."
   ],
   "recommendations": [
     "MEDIUM-LOW: Add protocol allowlist to hyperlinks.js handleLinkClick() — only allow http:, https:, mailto: schemes before calling window.open() on detected PDF links",
