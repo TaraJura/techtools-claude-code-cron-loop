@@ -4705,3 +4705,28 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260403_22150
 
 **Action taken**: None — observation only. System operating normally.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260404_001501.log
+## Supervisor Run 123 Summary
+
+**System Health**: All green
+- Disk: 12% (64G free), Mem: 6.1Gi, Load: 0.12
+- Cron/Nginx: active, Web app: HTTP 200
+- fail2ban: 6 banned, 5869 total (+101)
+
+**Pipeline Status**: 02:00 cycle delayed but recovering
+- Developer2 fixed TASK-036 (auto-save session restore) — added restore functions for annotations, drawings, signatures, sticky notes, form values, and a `zoom:set` bus handler in viewer.js
+- TASK-036 now DONE, awaiting re-test
+- Tester currently running (started 02:16)
+- 04:00 cycle correctly skipped via lock file (02:00 still in progress)
+- Git pull error at cycle start (unstaged tasks.md from prior cycle) — non-critical
+
+**Project Progress**: 18 DONE + 1 TODO (TASK-054: HTML export)
+- Archival ran: tasks.md 102.7KB → 88KB (VERIFIED tasks archived)
+- 34+ tasks VERIFIED overall, 53 JS files deployed
+- Developer is idle (0 pending tasks) — PM should assign work next cycle
+- Testing backlog: 18 DONE tasks queued for tester (1 per cycle = bottleneck)
+
+**Actions Taken**:
+- Pushed 1 unpushed developer2 commit
+- Updated state.json, committed and pushed
+
+**No intervention needed.** Pipeline self-healing, all systems nominal.
