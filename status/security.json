@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-04T06:19:00Z",
+  "last_review": "2026-04-04T08:17:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 7 currently banned",
-    "fail2ban_status": "active - sshd jail running, 7 currently banned, 6019 total banned",
-    "change_since_last": "fail2ban total bans 6019 (up from 5931, +88). 7 IPs currently banned (down from 15). 4 currently failed. Brute-force continues at typical rate. Only authorized activity from novakj."
+    "failed_password_attempts": "fail2ban active, 9 currently banned",
+    "fail2ban_status": "active - sshd jail running, 9 currently banned, 6133 total banned",
+    "change_since_last": "fail2ban total bans 6133 (up from 6019, +114). 9 IPs currently banned (up from 7). 5 currently failed. Brute-force continues at typical rate. No successful logins — only automated ssh-rsa rejections and authorized sudo from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,25 +40,24 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 395 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "169 usages across 56 JS files — all safe: static templates, clearing operations, escaped user data, numeric-only interpolation, blob URLs, hardcoded SVG, or escapeHtml()/escHtml()/escapeAttr() helpers. New module link-manager.js uses escHtml() for all PDF-extracted and user-editable content."
+    "innerHTML_note": "171 usages across 43 JS files (up from 169/42 — +2 from sanitize.js, both safe: 1 uses esc() escaped data, 1 is the esc() helper itself)."
   },
   "new_modules_review": {
-    "link_manager_task056": {
-      "file": "js/link-manager.js",
-      "lines": 1313,
-      "feature": "TASK-056: PDF hyperlink extraction, validation, search, batch editing, overlay visualization, and report export.",
+    "sanitize_task057": {
+      "file": "js/sanitize.js",
+      "lines": 848,
+      "feature": "TASK-057: PDF document sanitization — scan and strip metadata, JavaScript, attachments, annotations, form data, hidden layers, thumbnails, bookmarks, internal links. Presets for maximum/privacy/security/legal. Download sanitization report.",
       "status": "secure",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_window_open": true,
-      "escape_function": "escHtml() using DOM textContent→innerHTML pattern — all PDF-extracted text and URLs escaped before HTML insertion.",
-      "innerHTML_usage": "12 usages — 1 clearing (= ''), 1 static template (panel), 2 numeric-only summaries, 4 escaped user data (table rows, preview, error), 2 static strings, 1 append (static), 1 inline-edit (escaped). All safe.",
-      "fetch_usage": "3 fetch() calls in validateUrl() for link validation (HEAD then no-cors fallback). Client-side only, user-initiated, 10s timeout, AbortController for cancellation. No SSRF risk beyond browser context.",
-      "pdf_modification": "applyUrlChangesToPdf() and removeLinksFromPdf() use pdf-lib to modify annotations. Standard pattern matching other modules.",
-      "regex_user_input": "Find & Replace dialog allows user regex via new RegExp(). Low ReDoS risk — only runs against URL strings (typically short). Errors caught and displayed.",
-      "sanitized_filenames": true,
-      "escHtml_attribute_context": "escHtml() used in double-quoted attribute contexts (value=, title=) but does not escape double quotes. Same known pattern as other modules. CSP script-src 'self' prevents inline handler injection. LOW priority."
+      "no_fetch": true,
+      "escape_function": "esc() using DOM textContent→innerHTML pattern — all PDF-extracted text (metadata, JS previews, attachment names, bookmark titles, URLs) escaped before HTML insertion.",
+      "innerHTML_usage": "2 usages — 1 setDetail() with esc()-escaped data in element content only, 1 esc() helper return. Both safe.",
+      "pdf_processing": "Uses pdf-lib PDFDocument.load with ignoreEncryption:true. Scans catalog, pages, annotations, form fields, OCG layers, outlines. Bookmark recursion depth-limited to 50. All client-side.",
+      "download_filenames": "Uses state.currentFile.name + '-sanitized.pdf' through downloadBlob() which calls sanitizeFilename().",
+      "data_privacy": "No server calls, no external requests, no analytics. PDF processed entirely in browser memory."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -72,7 +71,7 @@
     "bookmarks.js", "ocr.js", "img2pdf.js", "convert.js", "merge.js", "upload.js",
     "split.js", "split-bookmarks.js", "compress.js", "signatures.js", "batch.js",
     "theme.js", "templates.js", "utils.js", "extract-images.js", "headers-footers.js",
-    "toc.js", "accessibility.js", "html-export.js", "form-data.js"
+    "toc.js", "accessibility.js", "html-export.js", "form-data.js", "link-manager.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -109,6 +108,7 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "sanitize_module_secure",
     "link_manager_module_secure",
     "html_export_module_secure",
     "form_data_module_secure",
@@ -179,7 +179,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_75_days",
-    "fail2ban_active_6019_total_bans",
+    "fail2ban_active_6133_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -213,11 +213,11 @@
     "link-manager.js Find & Replace: new RegExp() from user input could cause ReDoS with pathological patterns. Low impact — only runs against URL strings (typically short). Errors caught."
   ],
   "notes": [
-    "Security review completed — 96 checks passed, 0 fixes needed this run.",
-    "REVIEWED: TASK-056 link-manager.js (1313 lines). Extracts hyperlinks from PDFs via pdf.js annotations API. Features: link table with filtering/sorting/search, URL validation via fetch (HEAD/no-cors with 10s timeout and AbortController), inline URL editing, find & replace with regex support, link removal, visual overlay on pages, export as CSV/JSON/HTML. Uses pdf-lib for PDF modification (URL changes and annotation removal). All user/PDF data escaped with escHtml(). No eval, no Function constructor, no document.write, no window.open. fetch() for validation only — client-side, user-initiated, does not navigate. SECURE.",
-    "JS file count: 56 (up from 55, +1 new module: link-manager.js).",
-    "innerHTML count: 169 across 56 files (up from 157/41 — 12 new from link-manager.js, all safe).",
-    "SSH: fail2ban total bans 6019 (+88 since last review). 7 IPs currently banned (down from 15). 4 currently failed attempts. Only authorized activity from novakj.",
+    "Security review completed — 97 checks passed, 0 fixes needed this run.",
+    "REVIEWED: TASK-057 sanitize.js (848 lines). PDF document sanitization tool: scans for metadata, JavaScript, attachments, annotations, form data, hidden OCG layers, thumbnails, sensitive bookmarks, internal URL links. Offers presets (maximum/privacy/security/legal). Strips selected categories via pdf-lib. Downloads sanitized PDF and optional text report. esc() function escapes all PDF-extracted data before innerHTML insertion. No eval, no Function, no document.write, no window.open, no fetch. Bookmark recursion depth-limited to 50. Fully client-side. SECURE.",
+    "JS file count: 57 (up from 56, +1 new module: sanitize.js).",
+    "innerHTML count: 171 across 43 files (up from 169/42 — +2 from sanitize.js, both safe).",
+    "SSH: fail2ban total bans 6133 (+114 since last review). 9 IPs currently banned (up from 7). 5 currently failed. No successful logins — only ssh-rsa algorithm rejections. Only authorized sudo from novakj.",
     "SSL certificate valid until June 18, 2026 (75 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404)."
