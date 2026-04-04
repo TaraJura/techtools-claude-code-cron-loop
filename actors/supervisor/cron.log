@@ -4847,3 +4847,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260404_10150
 - Git pull error at cycle start (unstaged changes) — non-critical, protected by `|| true`
 
 **Action Taken**: None — observational run only. No issues requiring intervention.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260404_121501.log
