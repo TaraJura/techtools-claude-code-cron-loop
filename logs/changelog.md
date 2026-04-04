@@ -10,6 +10,10 @@
 
 ---
 
+## 2026-04-04
+
+- [TASK-053] **NEW FEATURE** — PDF accessibility checker and compliance report generator. New module `js/accessibility.js` analyzes PDFs against WCAG 2.1 and PDF/UA guidelines. **8 automated checks** across 6 categories: (1) Document Structure — tagged PDF detection via /MarkInfo, (2) Text Alternatives — image detection via operator list (paintImageXObject), flags unverifiable alt text in untagged docs, (3) Color & Contrast — text color extraction via setFillRGBColor operators with WCAG luminance-based contrast ratio calculation against white background, (4) Navigation — bookmark/outline detection, heading hierarchy analysis via font size comparison to dominant body size, (5) Forms — AcroForm field label (/TU tooltip) verification, (6) Metadata — /Lang entry, /Title, /DisplayDocTitle checks. **Dashboard** with color-coded score badge (green/yellow/red), pass/fail/warning counts. **Categorized results** with expandable sections, severity badges (critical/major/minor), WCAG criterion references (e.g. 1.1.1 Non-text Content, 1.4.3 Contrast Minimum). **Quick fixes** for missing language and DisplayDocTitle via pdf-lib catalog manipulation, saves as "-accessible.pdf". **Export** as structured PDF report (pdf-lib generated with word-wrapped descriptions) or machine-readable JSON. Page sampling for large documents (50 pages for images, 30 for headings, 10 for contrast). Clickable page references navigate to affected pages. Progress bar during analysis. Nav tab ("A11y" with accessibility icon), tool panel HTML, CSS styles in tools.css added.
+
 ## 2026-04-03
 
 - [TASK-034] **BUG FIX** — Hyperlink internal page navigation was broken. The `navigate:page` event emitted by `hyperlinks.js` (and `autosave.js`) had no listener. Added `bus.on('navigate:page', (pageNum) => goToPage(pageNum))` in `viewer.js` init function to wire up page navigation for internal PDF links, link list panel clicks, and autosave session restore.
