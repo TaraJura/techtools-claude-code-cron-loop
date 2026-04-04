@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-04T20:17:00Z",
+  "last_review": "2026-04-04T22:14:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 7 currently banned",
-    "fail2ban_status": "active - sshd jail running, 7 currently banned, 6625 total banned",
-    "change_since_last": "fail2ban total bans 6625 (up from 6555, +70). 7 IPs currently banned (up from 1). 8 currently failed. Brute-force continues at typical rate. No successful unauthorized logins — only automated ssh-rsa rejections and authorized sudo from novakj."
+    "failed_password_attempts": "fail2ban active, 10 currently banned",
+    "fail2ban_status": "active - sshd jail running, 10 currently banned, 6723 total banned",
+    "change_since_last": "fail2ban total bans 6723 (up from 6625, +98). 10 IPs currently banned (up from 7). Brute-force continues at typical rate. No successful unauthorized logins — only automated ssh-rsa rejections and authorized sudo from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,13 +40,13 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 395 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "195 usages across JS files (unchanged — pptx-export.js adds 0 innerHTML usages)."
+    "innerHTML_note": "198 usages across JS files (up from 195 — tabs.js adds 3: 1 container.innerHTML='' clearing, 2 static SVG icons). No user-controlled content in any innerHTML."
   },
   "new_modules_review": {
-    "pptx_export_js": {
-      "file": "js/pptx-export.js",
-      "lines": 581,
-      "feature": "TASK-063: Export PDF to PowerPoint (PPTX) format — image-based rendering, optional text overlay, configurable DPI/page range, speaker notes from annotations, PptxGenJS library.",
+    "tabs_js": {
+      "file": "js/tabs.js",
+      "lines": 554,
+      "feature": "TASK-064: Multi-tab document workspace — open and edit multiple PDFs simultaneously with tab bar, context menu, keyboard shortcuts, drag-drop.",
       "status": "secure",
       "no_eval": true,
       "no_function_constructor": true,
@@ -54,25 +54,26 @@
       "no_window_open": true,
       "no_fetch": true,
       "no_xmlhttprequest": true,
-      "no_innerHTML": true,
-      "ui_updates": "All UI updates use textContent via showProgress() helper. No DOM injection vectors.",
-      "download_filenames": "Uses sanitizeFilename() from utils.js for output filename. Safe.",
-      "error_handling": "Try/catch in exportToPptx(). Error message via showToast() (uses textContent — safe). Line 568: err.message from PptxGenJS/pdf.js shown in toast — framework-generated, not user-controlled PDF text. Low risk.",
-      "memory_management": "Canvas created per page, data URLs generated. Confirm dialog for >50 pages. Yields to UI every 5 pages via setTimeout. No unbounded arrays.",
+      "innerHTML_count": 3,
+      "innerHTML_details": "Line 266: container.innerHTML='' (clearing). Lines 279, 303: static SVG icon literals — no user input. SAFE.",
+      "filename_display": "Line 288: textContent used for filename display. Line 272: title attribute set via DOM property. Line 305: aria-label via setAttribute. All safe.",
+      "context_menu": "Lines 337-387: dynamic context menu built with DOM API. Menu item labels are hardcoded strings via textContent. No user-controlled content in DOM insertion.",
+      "tab_limits": "MAX_TABS=10 — prevents unbounded tab creation.",
+      "memory_management": "ArrayBuffer stored per tab. duplicateTab() copies via .slice(0). Tab removal allows GC. beforeunload warns on unsaved changes.",
+      "drag_drop": "Tab bar drop emits bus event → handleFile in app.js → validatePdf(). File validation pipeline preserved.",
+      "keyboard_shortcuts": "Ctrl+W close, Ctrl+T open, Ctrl+Tab cycle, Ctrl+1-9 jump. preventDefault() used. No injection vectors.",
       "data_privacy": "No server calls, no external requests. All processing client-side.",
-      "page_range_parsing": "Uses regex + parseInt. No eval or dynamic code execution.",
-      "text_extraction": "PDF text items extracted via pdf.js getTextContent(). Text passed to PptxGenJS slide.addText() — library handles escaping. No raw HTML insertion."
+      "confirm_dialog": "Line 114: confirm() with file.name — native browser dialog, renders as plain text. Safe."
     },
-    "pptxgenjs_bundle_js": {
-      "file": "lib/pptxgenjs.bundle.js",
-      "size": "477KB",
-      "self_hosted": true,
-      "added": "2026-04-04",
-      "status": "self-hosted in /lib/, no CDN dependency"
+    "app_js_update": {
+      "file": "js/app.js",
+      "lines": 199,
+      "change": "Added import of openTab from tabs.js. handleFile() now calls openTab() to create tab before emitting file:loaded. Added bus listeners for tab:dropFile, tab:switched, tab:allClosed. No new innerHTML, no new security-sensitive patterns.",
+      "status": "secure"
     }
   },
   "previous_module_reviews_still_valid": [
-    "action-registry.js", "command-palette.js", "keyboard-shortcuts.js", "app.js",
+    "pptx-export.js", "action-registry.js", "command-palette.js", "keyboard-shortcuts.js",
     "crop.js", "insert-pages.js", "pages.js", "annotation-summary.js", "printprep.js",
     "qrbarcode.js", "bates.js", "color-adjust.js", "hyperlinks.js", "text-overlay.js",
     "stamps.js", "drawing.js", "sticky-notes.js", "annotate.js", "search.js",
@@ -122,6 +123,15 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "tabs_js_module_secure",
+    "tabs_js_3_innerHTML_static_svg_only",
+    "tabs_js_textContent_for_filenames",
+    "tabs_js_no_eval_fetch_window_open",
+    "tabs_js_max_10_tabs_enforced",
+    "tabs_js_drag_drop_validates_via_handleFile",
+    "tabs_js_beforeunload_unsaved_warning",
+    "app_js_update_secure",
+    "app_js_openTab_integration_clean",
     "pptx_export_js_module_secure",
     "pptx_export_no_innerhtml",
     "pptx_export_all_textcontent",
@@ -192,7 +202,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_75_days",
-    "fail2ban_active_6625_total_bans",
+    "fail2ban_active_6723_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -227,12 +237,12 @@
     "image-manager.js: no file size limit on replacement images — client-side self-DoS only, low risk."
   ],
   "notes": [
-    "Security review completed — no fixes needed. pptx-export.js is clean.",
-    "REVIEWED: pptx-export.js (581 lines, TASK-063). PDF to PowerPoint export: image-based rendering via canvas, optional text overlay via pdf.js getTextContent(), configurable DPI (72/150/192/300), page range support, speaker notes from PDF annotations, PptxGenJS library. ZERO innerHTML usages. All UI updates via textContent/showProgress(). Download uses sanitizeFilename(). No eval/Function/document.write/fetch/window.open. Text passed to PptxGenJS addText() (library handles escaping). Error messages from framework (not user-controlled). Confirm dialog for >50 pages. All client-side. SECURE.",
-    "NEW DEPENDENCY: lib/pptxgenjs.bundle.js (477KB, self-hosted). Loaded via <script> tag in index.html. No CDN dependency.",
-    "JS file count: 62 (up from 61 — pptx-export.js added).",
-    "innerHTML count: 195 across JS files (unchanged — pptx-export.js adds 0 innerHTML usages).",
-    "SSH: fail2ban total bans 6625 (+70 since last review). 7 IPs currently banned (up from 1). 8 currently failed. No successful unauthorized logins.",
+    "Security review completed — no fixes needed. tabs.js is clean.",
+    "REVIEWED: tabs.js (554 lines, TASK-064). Multi-tab document workspace: open/close/switch/duplicate/reorder PDF tabs. Tab bar with context menu, keyboard shortcuts (Ctrl+W/T/Tab/1-9), drag-drop file opening, unsaved changes warning. 3 innerHTML usages — all static SVG icons or container clearing. Filenames displayed via textContent. No eval/Function/document.write/fetch/window.open. Context menu built with DOM API using hardcoded labels via textContent. MAX_TABS=10 enforced. Drag-drop flows through validatePdf(). SECURE.",
+    "REVIEWED: app.js update (199 lines). Added openTab import and tab event wiring. No new innerHTML or security-sensitive patterns. File validation pipeline preserved via handleFile() → validatePdf(). SECURE.",
+    "JS file count: 63 (up from 62 — tabs.js added).",
+    "innerHTML count: 198 across JS files (up from 195 — tabs.js adds 3 static/clearing usages).",
+    "SSH: fail2ban total bans 6723 (+98 since last review). 10 IPs currently banned (up from 7). No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (75 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404/400)."
