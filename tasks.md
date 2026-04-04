@@ -9,12 +9,12 @@
 
 ### TASK-036: Auto-save editing sessions with browser recovery
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: HIGH
 **Assigned to**: developer2
 **Tested by**: tester
 **Test date**: 2026-04-04
-**Fix required — see issues below. Prioritize this over TASK-054.**
+**Fix applied — see changes below.**
 **Issues**:
 1. **Annotations, drawings, signatures, form values, and sticky notes are NOT restored on session recovery.** The `saveSession()` function correctly gathers all editing state (annotations, drawings, signatures, formValues, stickyNotes) and stores them in IndexedDB. However, `restoreSession()` (autosave.js lines 200-240) only restores the PDF file, page number, and zoom — it completely ignores the saved annotations, drawings, signatures, form values, and sticky notes data. The session object contains these fields but no code re-applies them to the UI/canvas after loading the PDF. This defeats the core purpose of the feature.
 2. **Zoom restore does not trigger a re-render.** The restore function sets `state.zoom = session.zoom` directly (line 228) but does not call `setZoom()` or emit a zoom event, so the viewer will not visually update to the saved zoom level — only the internal state changes.
