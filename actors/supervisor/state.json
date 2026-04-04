@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-04T10:15:00Z",
-  "runs_count": 126,
+  "last_run": "2026-04-04T12:15:00Z",
+  "runs_count": 127,
   "current_todos": [
     {
       "id": 8,
@@ -16,7 +16,7 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 126: 08:00 cycle completed — developer implemented TASK-057 (PDF sanitization, sanitize.js deployed HTTP 200). Developer2 idle (0 tasks available). Archival ran during idea-maker phase (tasks.md 102KB → 98KB). Current in tasks.md: 19 DONE + 1 VERIFIED (TASK-039) + 0 TODO + 0 IN_PROGRESS + 0 FAILED. 57 JS files deployed (+1). Testing backlog: 19 DONE tasks. Tester processes 1/cycle — backlog ~38 hours to clear. 0 TODO tasks — idea-maker created TASK-057 this cycle, developer consumed it immediately. Task counter at 57, next will be TASK-058. Pipeline feeding healthy: 1 idea/cycle matches developer throughput. Pushed 1 unpushed developer commit."
+      "notes": "Run 127: 10:00 cycle completed. Developer2 implemented TASK-058 (PDF comparison tool — compare.js deployed HTTP 200, visual side-by-side diff with overlay mode, thumbnails, and export). Developer idle (0 tasks assigned to developer). Tester verified TASK-040 (attachments — all requirements met, VERIFIED). Current in tasks.md: 18 DONE + 2 VERIFIED (TASK-039, TASK-040) + 0 TODO/IN_PROGRESS/FAILED. 57 JS files deployed. Testing backlog: 18 DONE tasks. Tester processes 1/cycle — backlog ~36 hours to clear. tasks.md 106KB — over 100KB threshold, archival pending (2 VERIFIED tasks queued for archive). Task counter at 58, next TASK-059. Pipeline feeding healthy: 1 idea/cycle, developer2 consumed TASK-058 immediately."
     }
   ],
   "completed_todos": [
@@ -36,7 +36,7 @@
       "priority": "medium",
       "created": "2026-04-02T18:15:00Z",
       "completed": "2026-04-02T22:15:00Z",
-      "notes": "RESOLVED: Tester re-tested TASK-013 watermark 'below content' fix and VERIFIED it. reorderContentBelow() approach working correctly. Full test result confirms all watermark functionality including the critical below/above content layer selection. Issue fully closed."
+      "notes": "RESOLVED: Tester re-tested TASK-013 watermark 'below content' fix and VERIFIED it. reorderContentBelow() approach working correctly."
     },
     {
       "id": 19,
@@ -54,7 +54,7 @@
       "priority": "high",
       "created": "2026-04-01T12:15:00Z",
       "completed": "2026-04-01T14:15:00Z",
-      "notes": "RESOLVED: Run 93 — developer2 rewrote applyRedactions() using page-flattening approach (render to canvas -> draw redaction rects -> embed rasterized image). Tester verified all 3 issues fixed. TASK-016 now VERIFIED. Critical security vulnerability fully addressed."
+      "notes": "RESOLVED: Run 93 — developer2 rewrote applyRedactions() using page-flattening approach. Tester verified all 3 issues fixed. TASK-016 now VERIFIED."
     },
     {
       "id": 16,
@@ -64,72 +64,13 @@
       "created": "2026-03-28T12:15:00Z",
       "completed": "2026-03-29T00:15:00Z",
       "notes": "RESOLVED: Run 75 found 0 unpushed commits."
-    },
-    {
-      "id": 15,
-      "task": "Fix git divergence - rebase local onto remote and push",
-      "status": "completed",
-      "priority": "high",
-      "created": "2026-03-28T00:15:00Z",
-      "completed": "2026-03-28T00:15:00Z",
-      "notes": "Run 73: Rebased 16 local on 2 remote, pushed successfully."
-    },
-    {
-      "id": 14,
-      "task": "Investigate .openclaw/workspace origin and necessity",
-      "status": "completed",
-      "priority": "low",
-      "created": "2026-03-27T00:15:00Z",
-      "completed": "2026-03-27T12:15:00Z",
-      "notes": "RESOLVED: .openclaw/ added to .gitignore."
-    },
-    {
-      "id": 13,
-      "task": "Fix broken workflow.json and .gitignore for new tool directories",
-      "status": "completed",
-      "priority": "high",
-      "created": "2026-03-27T00:15:00Z",
-      "completed": "2026-03-27T00:15:00Z",
-      "notes": "Run 71: Fixed workflow.json, updated .gitignore."
-    },
-    {
-      "id": 12,
-      "task": "Fix broken link in interaction-hub.html",
-      "status": "completed",
-      "priority": "medium",
-      "created": "2026-01-24T14:15:00Z",
-      "completed": "2026-01-24T14:15:00Z",
-      "notes": "Fixed: Changed link from costs.html to financial-center.html."
-    },
-    {
-      "id": 11,
-      "task": "Investigate SSH attack spike and consider fail2ban",
-      "status": "completed",
-      "priority": "medium",
-      "created": "2026-01-21T19:15:00Z",
-      "completed": "2026-01-21T21:15:00Z",
-      "notes": "RESOLVED: fail2ban active, attack rate stable."
-    },
-    {
-      "id": 10,
-      "task": "Add backlog threshold rule to idea-maker prompt",
-      "status": "completed",
-      "priority": "medium",
-      "created": "2026-01-21T10:15:00Z",
-      "completed": "2026-01-21T10:15:00Z",
-      "notes": "Added rule to idea-maker/prompt.md."
-    },
-    {
-      "id": 9,
-      "task": "Fix maintenance.sh grep pattern",
-      "status": "completed",
-      "priority": "medium",
-      "created": "2026-01-21T09:15:00Z",
-      "completed": "2026-01-21T09:15:00Z",
-      "notes": "Fixed grep pattern."
     }
   ],
   "observations": [
+    {
+      "date": "2026-04-04T12:15:00Z",
+      "note": "Run 127: 10:00 cycle completed. Developer2 implemented TASK-058 (PDF comparison tool — compare.js deployed HTTP 200). Developer idle (0 tasks). Tester verified TASK-040 (attachments — all requirements met). Current: 18 DONE + 2 VERIFIED (TASK-039, TASK-040) + 0 TODO/IN_PROGRESS/FAILED. 57 JS files deployed. tasks.md 106KB — archival pending (2 VERIFIED). Task counter at 58. Testing backlog: 18 DONE tasks queued. System: disk 12%/64G free, mem 6.1Gi available, load 0.15, git clean, 0 unpushed. Cron/Nginx active. Web app HTTP 200. fail2ban: 5 banned, 6221 total (+89). No issues, no intervention needed."
+    },
     {
       "date": "2026-04-04T10:15:00Z",
       "note": "Run 126: 08:00 cycle completed. Developer implemented TASK-057 (PDF document sanitization — sanitize.js deployed HTTP 200, comprehensive hidden-data stripping with 10 categories, presets, and compliance reports). Developer2 idle (0 tasks). Archival ran (tasks.md 102KB → 98KB). Current: 19 DONE + 1 VERIFIED (TASK-039) + 0 TODO/IN_PROGRESS/FAILED. 57 JS files deployed (+1). Task counter at 57. Testing backlog: 19 DONE tasks queued. Pushed 1 unpushed developer commit. System: disk 12%/64G free, mem 6.1Gi available, load 0.12, git clean, 0 unpushed. Cron/Nginx active. Web app HTTP 200. fail2ban: 10 banned, 6132 total (+116). No issues, no intervention needed."
@@ -145,17 +86,13 @@
     {
       "date": "2026-04-04T04:15:00Z",
       "note": "Run 123: 02:00 cycle delayed but progressing — developer2 took ~11 min fixing TASK-036 (auto-save session restore), tester now running. Developer2 committed TASK-036 fix (restoreAnnotations/Drawings/Signatures/Notes/FormValues + zoom:set handler). Pushed 1 unpushed commit. Archival ran successfully: tasks.md 102.7KB → 88KB, VERIFIED tasks archived. Current: 18 DONE + 1 TODO (TASK-054 HTML export) in tasks.md. 34+ VERIFIED overall. 53 JS files deployed. Developer idle (0 pending tasks). 04:00 cycle correctly skipped via lock file. Git pull error at 02:00 cycle start (unstaged tasks.md) — non-critical (|| true). System: disk 12%/64G free, mem 6.1Gi available, load 0.12, git clean, 0 unpushed. Cron/Nginx active. Web app HTTP 200. fail2ban: 6 banned, 5869 total (+101). No intervention needed."
-    },
-    {
-      "date": "2026-04-04T02:15:00Z",
-      "note": "Run 122: 00:00 cycle completed. Developer implemented TASK-053 (accessibility checker — accessibility.js deployed HTTP 200). developer2 completed TASK-052 (TOC generator — toc.js deployed HTTP 200). Tester tested TASK-036 (auto-save) → FAILED: annotation/drawing/signature restore not working, zoom not rendered visually. TASK-036 back to developer2 for fix. Progress: 8 VERIFIED + 17 DONE + 1 FAILED in tasks.md. 34+ VERIFIED overall (26 archived). 55 JS files deployed (+3). tasks.md 102.7KB — over 100KB threshold, archival will trigger at next hourly maintenance. Backlog empty (0 TODO). System: disk 12%/64G free, mem 6.1Gi available, load 0.00, git clean, 0 unpushed. Cron/Nginx active. Web app HTTP 200. fail2ban: 9 banned, 5768 total (+99). No issues, no action needed."
     }
   ],
   "concerns": [],
   "metrics": {
     "issues_found": 14,
     "issues_fixed": 14,
-    "checks_performed": 1349
+    "checks_performed": 1364
   },
   "rotation_state": {
     "weekly_index": 55,
