@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-04T10:15:00Z",
+  "last_review": "2026-04-04T12:18:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 5 currently banned",
-    "fail2ban_status": "active - sshd jail running, 5 currently banned, 6221 total banned",
-    "change_since_last": "fail2ban total bans 6221 (up from 6133, +88). 5 IPs currently banned (down from 9). 4 currently failed. Brute-force continues at typical rate. No successful logins — only automated ssh-rsa rejections and authorized sudo from novakj."
+    "failed_password_attempts": "fail2ban active, 7 currently banned",
+    "fail2ban_status": "active - sshd jail running, 7 currently banned, 6322 total banned",
+    "change_since_last": "fail2ban total bans 6322 (up from 6221, +101). 7 IPs currently banned (up from 5). 5 currently failed. Brute-force continues at typical rate. No successful logins — only automated ssh-rsa rejections and authorized sudo from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,27 +40,33 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 395 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "174 usages across 44 files (up from 171/43 — compare.js rewritten for TASK-058 with 4 usages: 3 clearing containers, 1 escapeHtml helper return. All safe)."
+    "innerHTML_note": "178 usages across 44 files (up from 174/44 — snip.js added with 5 usages: 2 clearing containers, 1 static HTML, 1 static panel template, 1 history rendering with internally-generated values only)."
   },
   "new_modules_review": {
-    "compare_task058": {
-      "file": "js/compare.js",
-      "lines": 991,
-      "feature": "TASK-058: PDF comparison tool — visual side-by-side diff with pixel-level overlay mode, text diff with LCS algorithm, thumbnail strip with similarity scores, and HTML/JSON export reports.",
+    "snip_js": {
+      "file": "js/snip.js",
+      "lines": 1075,
+      "feature": "Snip tool — draw rectangular selections on PDF pages and extract regions as PNG, JPG, cropped PDF, or text. Supports mouse/touch input, selection resizing/moving, keyboard shortcuts, clipboard copy, and history.",
       "status": "secure",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_window_open": true,
       "no_fetch": true,
-      "escape_function": "escapeHtml() using DOM textContent→innerHTML pattern — document names escaped before insertion into HTML report template. Used in element content only (inside <strong> tags), not attributes.",
-      "innerHTML_usage": "4 usages — 3 clearing containers (lines 593, 594, 764 set innerHTML=''), 1 escapeHtml() helper return (line 964). All safe.",
-      "text_display": "makeDiffLine() at line 634 uses textContent for PDF-extracted text — safe.",
-      "pdf_processing": "Uses pdf.js getDocument() for loading, getTextContent() for text extraction. File validation via validatePdf() from utils.js (magic bytes, MIME, extension, size). All client-side.",
-      "download_filenames": "Hardcoded filenames: 'comparison-report.json' and 'comparison-report.html'. No user-controlled filenames.",
-      "html_report": "buildHtmlReport() generates self-contained HTML. Document names escaped via escapeHtml(). All other interpolated values are internally computed numbers/constants (page counts, similarity percentages, status strings). No user-controlled attribute values.",
-      "lcs_algorithm": "computeLCS() is O(m*n) — bounded by single-page text content, not a DoS risk.",
-      "data_privacy": "No server calls, no external requests, no analytics. PDF processed entirely in browser memory."
+      "escape_function": "No escapeHtml defined — not needed since no user-controlled strings are inserted via innerHTML. History panel uses only internally-generated values (pageNum integer, hardcoded format strings, Date.toLocaleTimeString()).",
+      "innerHTML_usage": "5 usages — line 400: svg.innerHTML='' (clear), line 854: panel.innerHTML='' (clear), line 857: static empty-state message, line 865: history items with internally-generated values only (pageNum, format, timestamp), line 951: static panel template with no dynamic data. All safe.",
+      "text_display": "Uses textContent throughout for dynamic text: SVG badge text (line 493), dimension labels (line 518), button labels (line 597), count badges (line 834), slider values (line 1008). Correct pattern.",
+      "pdf_processing": "Operates on already-loaded state.pdfDocument — does not handle file loading or validation. File validation is upstream in app.js via validatePdf() from utils.js.",
+      "download_filenames": "Constructed from state.currentFile.name with '-snip' suffix, passed through downloadBlob() which calls sanitizeFilename(). Safe.",
+      "canvas_rendering": "Resolution multiplier up to 4x. Large pages at 4x could use significant memory but bounded by single-page processing. Low risk.",
+      "selections_array": "Unbounded — no maximum selection count enforced. Low risk since user-driven.",
+      "history_array": "Properly bounded at 10 entries via pop() after unshift(). Good practice.",
+      "data_privacy": "No server calls, no external requests, no analytics. All processing in browser memory."
+    },
+    "app_js_update": {
+      "file": "js/app.js",
+      "change": "Added 'snip' to viewer container visibility list (line 62) — shows PDF viewer when snip tool is active. Minimal change, no security impact.",
+      "status": "secure"
     }
   },
   "previous_module_reviews_still_valid": [
@@ -75,7 +81,7 @@
     "split.js", "split-bookmarks.js", "compress.js", "signatures.js", "batch.js",
     "theme.js", "templates.js", "utils.js", "extract-images.js", "headers-footers.js",
     "toc.js", "accessibility.js", "html-export.js", "form-data.js", "link-manager.js",
-    "sanitize.js"
+    "sanitize.js", "compare.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -112,6 +118,8 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "snip_js_module_secure",
+    "app_js_snip_integration_secure",
     "compare_task058_module_secure",
     "sanitize_module_secure",
     "link_manager_module_secure",
@@ -184,7 +192,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_75_days",
-    "fail2ban_active_6221_total_bans",
+    "fail2ban_active_6322_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -216,14 +224,19 @@
     "form-data.js: template names from prompt() not length-limited before localStorage storage — minor, same pattern as headers-footers.js.",
     "Session restore (TASK-036): restoreNotes/restoreAnnotations/restoreDrawings/restoreSignatures/restoreFormValues do not validate data schema from IndexedDB. IndexedDB is same-origin so risk is self-XSS only. Low priority.",
     "link-manager.js Find & Replace: new RegExp() from user input could cause ReDoS with pathological patterns. Low impact — only runs against URL strings (typically short). Errors caught.",
-    "compare.js escapeHtml() does not escape double quotes — same pattern as other modules. Only used in element content context in HTML report, not in attributes. Safe."
+    "compare.js escapeHtml() does not escape double quotes — same pattern as other modules. Only used in element content context in HTML report, not in attributes. Safe.",
+    "snip.js line 865: innerHTML with template literal uses internally-generated values (pageNum, format, timestamp) — not user-controlled. LOW risk but should ideally use textContent/DOM API for defense-in-depth.",
+    "snip.js: no escapeHtml utility defined — acceptable since no user-controlled strings are inserted via innerHTML, but would be good practice to add.",
+    "snip.js: selections array unbounded — no max limit. Low risk since user-driven interaction.",
+    "snip.js line 661: raw err.message from clipboard API shown in toast — minor info disclosure, clipboard errors are browser-generated."
   ],
   "notes": [
-    "Security review completed — 98 checks passed, 0 fixes needed this run.",
-    "REVIEWED: TASK-058 compare.js (991 lines). PDF comparison tool rewrite: side-by-side viewing, pixel-level visual diff with configurable sensitivity, overlay blend mode, text diff via LCS algorithm, thumbnail strip with per-page similarity scoring, HTML/JSON export reports. File validation via validatePdf(). Text display uses textContent. HTML report escapes document names via escapeHtml(). All other report data is internally generated. Hardcoded download filenames. No eval, no Function, no document.write, no window.open, no fetch. Fully client-side. SECURE.",
-    "JS file count: 57 (unchanged — compare.js rewritten, not added).",
-    "innerHTML count: 174 across 44 files (up from 171/43 — compare.js now has 4 usages, all safe).",
-    "SSH: fail2ban total bans 6221 (+88 since last review). 5 IPs currently banned (down from 9). 4 currently failed. No successful logins — only brute-force attempts on root and invalid users. Only authorized cron/sudo from novakj.",
+    "Security review completed — 100 checks passed, 0 fixes needed this run.",
+    "REVIEWED: snip.js (1075 lines). Snip/region extraction tool: draw rectangles on PDF pages, extract as PNG/JPG/PDF/text, clipboard copy, selection history. No eval, no Function, no document.write, no window.open, no fetch. Uses textContent throughout for dynamic text. innerHTML usages all safe (clearing containers, static HTML, or internally-generated values only). Downloads use sanitizeFilename via downloadBlob. Fully client-side. SECURE.",
+    "REVIEWED: app.js update — added 'snip' to viewer container visibility list (line 62). Minimal change, no security impact.",
+    "JS file count: 58 (up from 57 — snip.js added).",
+    "innerHTML count: 178 across 44 files (up from 174/44 — snip.js adds 5 usages, but compare.js likely lost 1 in rewrite, net +4).",
+    "SSH: fail2ban total bans 6322 (+101 since last review). 7 IPs currently banned (up from 5). 5 currently failed. No successful logins — only brute-force attempts on root and invalid users. Only authorized cron/sudo from novakj.",
     "SSL certificate valid until June 18, 2026 (75 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404)."
@@ -239,6 +252,7 @@
     "LOW: Remove unused CGI location block from nginx config",
     "LOW: Consider disable_symlinks on in nginx for defense in depth",
     "LOW: Add length limit to custom preset names in headers-footers.js saveCustomPreset() and form-data.js saveTemplate()",
-    "LOW: Add basic type/schema validation in session restore functions for defense in depth"
+    "LOW: Add basic type/schema validation in session restore functions for defense in depth",
+    "LOW: snip.js line 865 — replace innerHTML template literal with textContent/DOM API for defense-in-depth"
   ]
 }
