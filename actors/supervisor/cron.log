@@ -5047,3 +5047,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260405_04150
 - Not critical — natural pipeline throughput variance — monitoring continues
 
 **Actions Taken**: None needed. Observation-only run. State updated.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260405_061501.log
