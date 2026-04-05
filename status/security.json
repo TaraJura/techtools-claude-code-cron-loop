@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-05T20:20:00Z",
+  "last_review": "2026-04-05T22:27:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 8 currently banned",
-    "fail2ban_status": "active - sshd jail running, 8 currently banned, 7633 total banned",
-    "change_since_last": "fail2ban total bans 7633 (up from 7546, +87). 8 IPs currently banned (up from 7). Brute-force continues at typical rate. New IPs: 20.24.137.18, 45.227.254.170, 2.57.122.189, 101.47.135.95, 2.57.121.50, 2.57.122.188, 45.148.10.152 plus recurring 92.118.39.62. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 14 currently banned",
+    "fail2ban_status": "active - sshd jail running, 14 currently banned, 7734 total banned",
+    "change_since_last": "fail2ban total bans 7734 (up from 7633, +101). 14 IPs currently banned (up from 8). Brute-force continues at typical rate. New banned IPs: 80.94.92.187, 195.178.110.15, 45.148.10.141, 195.178.110.30, 45.148.10.240, 91.108.80.125, 102.211.152.138, 157.245.125.199, 2.57.121.86, 2.57.121.112, 2.57.122.195, 213.225.8.230, 2.57.122.196, 45.148.10.152. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,36 +40,35 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "247 usages across 57 JS files (up from 244/56 — clipboard.js adds 3: clearing container + 2 hardcoded entities). All PDF-derived content escaped. markdown-export.js simpleMarkdownToHtml escapes &<> but not double quotes — CSP-mitigated."
+    "innerHTML_note": "247 usages across 57 JS files (unchanged — guides.js uses 0 innerHTML). All PDF-derived content escaped. markdown-export.js simpleMarkdownToHtml escapes &<> but not double quotes — CSP-mitigated."
   },
   "new_modules_review": {
-    "clipboard_js": {
-      "file": "js/clipboard.js",
-      "lines": 1099,
+    "guides_js": {
+      "file": "js/guides.js",
+      "lines": 1005,
+      "task": "TASK-076",
       "status": "secure",
-      "innerHTML_count": 3,
-      "innerHTML_detail": "line 394: layer.innerHTML='' (clearing container), line 496: '&times;' (hardcoded entity), line 508: '&#10003;' (hardcoded entity). No user content in innerHTML.",
+      "innerHTML_count": 0,
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_fetch_external": true,
-      "fetch_usage": "fetch(paste.dataURL) only — data: URLs from canvas.toDataURL(), never external URLs",
       "no_window_open": true,
       "uses_textContent": true,
-      "text_handling": "line 469: textEl.textContent = paste.text (safe). Text truncated to 10000 chars at line 341.",
-      "image_handling": {
-        "source": "clipboard API only (navigator.clipboard.read / clipboardData)",
-        "auto_downscale": "MAX_IMAGE_DIM=2000 — images larger than 2000px auto-downscaled via canvas",
-        "no_blob_size_limit": "No explicit size check on clipboard blob before processing. Downscaling mitigates. Client-side self-DoS only. LOW risk.",
-        "conversion": "All images converted to PNG via canvas.toDataURL before use"
-      },
-      "pagePastes_unbounded": "No limit on number of paste items per page. Client-side self-DoS only. LOW risk.",
-      "no_processing_timeout": "No timeout on processImageBlob() canvas conversion. Client-side self-DoS only. LOW risk.",
-      "no_external_requests": true,
       "dom_api_used": true,
-      "keyboard_handlers_safe": true,
-      "context_menu_dom_api": true
+      "canvas_rendering": "All visual output via Canvas 2D API (fillRect, fillText, strokeRect) — no HTML injection surface",
+      "localStorage_usage": "JSON.parse(stored) in try/catch with fallback to defaults. Same-origin only. LOW risk.",
+      "grid_loops_bounded": "Minor grid loops guarded by spacingPx >= 4 (line 146/168). Major grid loops use majorSpacingPx = spacingPx * 4. Canvas dimensions provide natural upper bound.",
+      "drawRuler_loop": "MEDIUM: line 685 — infinite-form for loop with break at pos > canvas size. If tickPx = 0 (zoom = 0), loop never terminates. Should add guard: if (tickPx < 1) return;",
+      "grid_spacing_clamped": "Input clamped to [4, 144] at line 840 via Math.max/Math.min. Good.",
+      "no_user_content_in_dom": "Module renders only grid lines, rulers, and snap guides. No PDF content or user text inserted into DOM."
     }
+  },
+  "task076_integration_review": {
+    "clipboard_js": "Guide integration at lines 10, 794, 850-852, 863. Imports notifyDragStart/snapPosition/notifyDragEnd. Only passes numeric coords and internal IDs. No new security concerns.",
+    "signatures_js": "Guide integration at lines 10, 714-716, 727. Imports notifyDragStart/snapPosition/notifyDragEnd. Only passes numeric coords. No new security concerns.",
+    "stamps_js": "Guide integration at lines 8, 382, 390-392, 400, 423, 430, 438. Imports notifyDragStart/snapPosition/snapResize/notifyDragEnd. Only passes numeric coords. No new security concerns.",
+    "text_overlay_js": "Guide integration at lines 8, 580-582, 591, 629, 639. Imports notifyDragStart/snapPosition/snapResize/notifyDragEnd. Only passes numeric coords. No new security concerns."
   },
   "previous_module_reviews_still_valid": [
     "bg-borders.js", "markdown-export.js", "accessibility.js",
@@ -85,7 +84,8 @@
     "templates.js", "utils.js", "extract-images.js", "headers-footers.js", "toc.js",
     "html-export.js", "form-data.js", "link-manager.js", "sanitize.js", "compare.js", "snip.js",
     "page-labels.js", "image-manager.js", "deskew.js", "app.js",
-    "command-palette.js", "keyboard-shortcuts.js", "action-registry.js", "font-inspector.js"
+    "command-palette.js", "keyboard-shortcuts.js", "action-registry.js", "font-inspector.js",
+    "clipboard.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -123,22 +123,20 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "guides_js_reviewed_task076",
+    "guides_js_0_innerHTML",
+    "guides_js_no_eval_function_docwrite_fetch_windowopen",
+    "guides_js_canvas_2d_only",
+    "guides_js_textContent_for_aria",
+    "guides_js_grid_loops_bounded",
+    "guides_js_input_clamped_4_to_144",
+    "guides_js_localStorage_try_catch",
+    "task076_clipboard_integration_secure",
+    "task076_signatures_integration_secure",
+    "task076_stamps_integration_secure",
+    "task076_text_overlay_integration_secure",
     "clipboard_js_reviewed",
-    "clipboard_js_3_innerHTML_all_safe",
-    "clipboard_js_no_eval_function_docwrite",
-    "clipboard_js_textContent_for_user_text",
-    "clipboard_js_text_truncated_10k",
-    "clipboard_js_image_downscale_2000px",
-    "clipboard_js_no_external_fetch",
-    "clipboard_js_dom_api_for_menus",
     "bg_borders_js_reviewed",
-    "bg_borders_js_no_innerHTML_eval_fetch_document_write_window_open",
-    "bg_borders_js_uses_textContent",
-    "bg_borders_js_downloadBlob_from_utils",
-    "bg_borders_js_image_upload_10MB_mime_validated",
-    "bg_borders_js_object_urls_revoked",
-    "bg_borders_js_no_external_requests",
-    "bg_borders_js_pattern_loops_bounded",
     "markdown_export_js_task073_reviewed",
     "accessibility_js_task053_bugfix_secure",
     "font_inspector_js_task072_secure",
@@ -212,7 +210,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_74_days",
-    "fail2ban_active_7633_total_bans",
+    "fail2ban_active_7734_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -269,25 +267,28 @@
     "markdown-export.js: no explicit processing timeout on buildDocument(). Yields every BATCH_SIZE (10) pages via setTimeout. Client-side self-DoS only. LOW risk.",
     "bg-borders.js handleImageFile accepts image/svg+xml MIME type but applyBackgroundToPage only embeds PNG/JPEG via pdf-lib. SVG images render in canvas preview only (browser-sandboxed Image). SVG scripts/external refs blocked by browser when loaded as Image src. SAFE but slightly misleading UX — SVG backgrounds won't appear in final PDF output.",
     "bg-borders.js no explicit processing timeout on applyBgBorders(). Yields every 5 pages. Client-side self-DoS only. LOW risk.",
-    "NEW: clipboard.js — no explicit blob size limit on clipboard images before processing. MAX_IMAGE_DIM=2000 downscaling mitigates. Client-side self-DoS only. LOW risk.",
-    "NEW: clipboard.js — pagePastes Map unbounded, no max paste item limit. Client-side self-DoS only. LOW risk.",
-    "NEW: clipboard.js — no processing timeout on processImageBlob() canvas conversion. LOW risk."
+    "clipboard.js — no explicit blob size limit on clipboard images before processing. MAX_IMAGE_DIM=2000 downscaling mitigates. Client-side self-DoS only. LOW risk.",
+    "clipboard.js — pagePastes Map unbounded, no max paste item limit. Client-side self-DoS only. LOW risk.",
+    "clipboard.js — no processing timeout on processImageBlob() canvas conversion. LOW risk.",
+    "NEW: guides.js line 685 — drawRuler() infinite-form for loop. If tickPx = 0 (zoom = 0), loop never terminates and freezes UI. Should add guard: if (tickPx < 1) return; MEDIUM risk (client-side self-DoS).",
+    "NEW: guides.js — localStorage JSON.parse without schema validation. Same-origin only, falls back to defaults on error. LOW risk."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. 1 new module (clipboard.js) reviewed. SECURE.",
-    "REVIEWED: clipboard.js — 1099 lines. Clipboard paste module for pasting images/text onto PDF pages via Ctrl+V. 3 innerHTML usages (all safe: 1 clearing container, 2 hardcoded HTML entities). Text displayed via textContent (line 469). Text truncated to 10k chars. Images auto-downscaled to 2000px via canvas. fetch() only on data: URLs. No eval, Function, document.write, window.open. DOM API used for all menus. SECURE.",
-    "POSITIVE: clipboard.js uses textContent for all user-derived text and DOM API for menu creation — good security hygiene.",
-    "No changes to previously reviewed modules since last review.",
-    "JS file count: 74 (up from 73, +1 new module clipboard.js).",
+    "Security review completed — no critical fixes needed. 1 new module (guides.js) reviewed + 4 modified files (TASK-076 integration). SECURE.",
+    "REVIEWED: guides.js — 1005 lines. Snap-to-grid and alignment guides module. Renders grid/rulers/snap guides via Canvas 2D API. 0 innerHTML usages. No eval, Function, document.write, fetch, window.open. Uses textContent for aria-live announcements. All visual output via canvas fillRect/fillText/strokeRect — no HTML injection surface. Grid loops bounded by spacingPx >= 4 guard. Input clamped [4,144]. SECURE.",
+    "REVIEWED: TASK-076 integration in clipboard.js, signatures.js, stamps.js, text-overlay.js — all 4 files import guide functions and pass only numeric coordinates and internal IDs. No new DOM manipulation or user-input handling. SECURE.",
+    "POSITIVE: guides.js uses Canvas 2D API exclusively for rendering — excellent security choice, eliminates HTML injection surface entirely.",
+    "JS file count: 75 (up from 74, +1 new module guides.js).",
     "No new dependencies added since last review.",
-    "innerHTML count: 247 across 57 JS files (up from 244/56 — clipboard.js adds 3 safe usages).",
-    "SSH: fail2ban total bans 7633 (+87 since last review). 8 IPs currently banned (up from 7). Brute-force continues at typical rate. No successful unauthorized logins.",
+    "innerHTML count: 247 across 57 JS files (unchanged — guides.js uses 0 innerHTML).",
+    "SSH: fail2ban total bans 7734 (+101 since last review). 14 IPs currently banned (up from 8). Brute-force continues at typical rate. No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (74 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404).",
     "Nginx config syntax valid."
   ],
   "recommendations": [
+    "MEDIUM: guides.js line 685 — add guard before drawRuler() tick loop: if (tickPx < 1) return; to prevent infinite loop when zoom approaches 0",
     "MEDIUM-LOW: markdown-export.js line 1012 — add double-quote escaping to simpleMarkdownToHtml: text.replace(/\"/g, '&quot;') to prevent attribute breakout in <a href>",
     "MEDIUM-LOW: markdown-export.js line 1029 — add protocol allowlist for link URLs: only allow http:, https:, mailto: schemes in generated <a href> tags",
     "MEDIUM-LOW: markdown-export.js lines 942-945 — escape YAML special characters in frontmatter values: replace \" with \\\" and newlines with spaces in title/author/filename",
