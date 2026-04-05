@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-05T00:16:00Z",
+  "last_review": "2026-04-05T02:17:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 10 currently banned",
-    "fail2ban_status": "active - sshd jail running, 10 currently banned, 6835 total banned",
-    "change_since_last": "fail2ban total bans 6835 (up from 6723, +112). 10 IPs currently banned (unchanged). Brute-force continues at typical rate — targeting root, solana, slot, ubutnu. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 3 currently banned",
+    "fail2ban_status": "active - sshd jail running, 3 currently banned, 6909 total banned",
+    "change_since_last": "fail2ban total bans 6909 (up from 6835, +74). 3 IPs currently banned (down from 10). Brute-force continues at typical rate — targeting ubuntu, solana, user, oracle usernames. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,13 +40,13 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 395 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "207 usages across 64 JS files (up from 198/63 — verify-signatures.js adds 9 usages, all escaped via escapeHtml()). No user-controlled content in any innerHTML."
+    "innerHTML_note": "212 usages across 49 JS files (up from 207/49 — undo-redo.js adds 5 usages, all escaped via escapeHtml() or static HTML). No user-controlled content in any innerHTML."
   },
   "new_modules_review": {
-    "verify_signatures_js": {
-      "file": "js/verify-signatures.js",
-      "lines": 1362,
-      "feature": "TASK-065: Digital signature verification and certificate inspection — detect, parse, and verify existing digital signatures in PDFs, inspect X.509 certificates, check document integrity.",
+    "undo_redo_js": {
+      "file": "js/undo-redo.js",
+      "lines": 768,
+      "feature": "Undo/Redo system with command pattern and visual history timeline panel",
       "status": "secure",
       "no_eval": true,
       "no_function_constructor": true,
@@ -54,32 +54,45 @@
       "no_window_open": true,
       "no_fetch": true,
       "no_xmlhttprequest": true,
-      "innerHTML_count": 9,
-      "innerHTML_details": "9 usages: 4 static HTML (loading/empty states, line 900/1312/1323/1331), 4 dynamic but all PDF-derived data escaped via escapeHtml() (lines 993/1054/1080/1088), 1 is the escapeHtml() helper itself (line 1185). All SAFE.",
-      "escapeHtml": "Standard textContent/innerHTML round-trip escaper at line 1181-1186. Escapes &, <, > correctly. Does NOT escape double quotes — same pattern as other modules. Used in element content (safe). sig.status values in class names are hardcoded strings, not PDF-derived.",
-      "asn1_parser": "Custom recursive DER parser (lines 75-123). No recursion depth limit — deeply nested crafted ASN.1 could cause stack overflow. LOW-MEDIUM risk. Input bounded by PKCS#7 Contents field size.",
-      "crypto": "Uses Web Crypto API (crypto.subtle.digest, crypto.subtle.verify) — native browser APIs, secure.",
-      "regex_safety": "All regex patterns use negated character classes or simple quantifiers. No ReDoS risk.",
+      "innerHTML_count": 5,
+      "innerHTML_details": "5 usages: 1 static panel template (line 459), 1 clearing (line 514), 2 dynamic lists built by buildHistoryEntry() with all cmd.description escaped via escapeHtml() (lines 540, 669), page badges use integer values from affectedPages array. All SAFE.",
+      "escapeHtml": "Standard textContent/innerHTML round-trip escaper at line 594-598. Escapes &, <, > correctly. Does NOT escape double quotes — same pattern as other modules. Used in element content only (safe).",
+      "data_attributes": "data-history-action values are hardcoded 'undo'/'redo'. data-history-index and data-goto-page are integers from loop indices and command construction. data-undo-to is integer. All SAFE.",
+      "keyboard_shortcuts": "Ctrl+Z (undo), Ctrl+Shift+Z/Ctrl+Y (redo). Properly skips text inputs/textareas/contentEditable elements.",
+      "memory_management": "MAX_HISTORY=100, MEMORY_BUDGET_BYTES=50MB defined but only count-based trimming enforced. Commands holding large data (e.g. page snapshots) could exceed budget. LOW risk for client-side.",
+      "icon_svg": "Static SVG strings in ICON_SVG map, no user data. SAFE.",
       "data_privacy": "No server calls, no external requests. All processing client-side.",
-      "download": "downloadBlob() used for report export — filename passed through utils.js sanitization.",
-      "resource_limits": "No explicit cap on signature count parsed. No ASN.1 recursion depth limit. PDF decoded as latin1 string for regex scanning — doubles memory for large files. All LOW risk for client-side processing.",
-      "prototype_pollution": "parseRDNSequence builds result object from OID names. OID strings (digits and dots only) cannot be __proto__ or constructor. SAFE."
+      "resource_limits": "Undo stack capped at 100 entries. No unbounded growth."
+    },
+    "action_registry_js_update": {
+      "file": "js/action-registry.js",
+      "changes": "Added Edit category actions (undo/redo/history/clear-history) at lines 359-404",
+      "status": "secure",
+      "no_innerHTML": true,
+      "no_eval": true,
+      "window_undoRedo": "Accesses window._undoRedo set by app.js — internal object reference, not user-controlled. SAFE."
+    },
+    "app_js_update": {
+      "file": "js/app.js",
+      "changes": "Added undo-redo.js import, window._undoRedo exposure, undo/redo/history:clear event handlers",
+      "status": "secure",
+      "window_undoRedo": "Exposes undoRedoManager singleton on window for cross-module access. Methods are safe internal operations.",
+      "no_new_innerHTML": true,
+      "no_new_security_concerns": true
     }
   },
   "previous_module_reviews_still_valid": [
-    "tabs.js", "pptx-export.js", "action-registry.js", "command-palette.js", "keyboard-shortcuts.js",
-    "crop.js", "insert-pages.js", "pages.js", "annotation-summary.js", "printprep.js",
-    "qrbarcode.js", "bates.js", "color-adjust.js", "hyperlinks.js", "text-overlay.js",
-    "stamps.js", "drawing.js", "sticky-notes.js", "annotate.js", "search.js",
-    "measure.js", "attachments.js", "form-creator.js", "docx-export.js", "watermark.js",
-    "autosave.js", "flatten.js", "tables.js", "viewer.js", "present.js", "protect.js",
-    "metadata.js", "redact.js", "forms.js", "page-numbers.js",
-    "bookmarks.js", "ocr.js", "img2pdf.js", "convert.js", "merge.js", "upload.js",
-    "split.js", "split-bookmarks.js", "compress.js", "signatures.js", "batch.js",
-    "theme.js", "templates.js", "utils.js", "extract-images.js", "headers-footers.js",
-    "toc.js", "accessibility.js", "html-export.js", "form-data.js", "link-manager.js",
-    "sanitize.js", "compare.js", "snip.js", "page-labels.js", "image-manager.js",
-    "deskew.js", "app.js"
+    "verify-signatures.js", "tabs.js", "pptx-export.js", "action-registry.js", "command-palette.js",
+    "keyboard-shortcuts.js", "crop.js", "insert-pages.js", "pages.js", "annotation-summary.js",
+    "printprep.js", "qrbarcode.js", "bates.js", "color-adjust.js", "hyperlinks.js", "text-overlay.js",
+    "stamps.js", "drawing.js", "sticky-notes.js", "annotate.js", "search.js", "measure.js",
+    "attachments.js", "form-creator.js", "docx-export.js", "watermark.js", "autosave.js", "flatten.js",
+    "tables.js", "viewer.js", "present.js", "protect.js", "metadata.js", "redact.js", "forms.js",
+    "page-numbers.js", "bookmarks.js", "ocr.js", "img2pdf.js", "convert.js", "merge.js", "upload.js",
+    "split.js", "split-bookmarks.js", "compress.js", "signatures.js", "batch.js", "theme.js",
+    "templates.js", "utils.js", "extract-images.js", "headers-footers.js", "toc.js", "accessibility.js",
+    "html-export.js", "form-data.js", "link-manager.js", "sanitize.js", "compare.js", "snip.js",
+    "page-labels.js", "image-manager.js", "deskew.js", "app.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -117,6 +130,13 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "undo_redo_js_module_secure",
+    "undo_redo_5_innerHTML_all_escaped_or_static",
+    "undo_redo_no_eval_fetch_document_write",
+    "undo_redo_keyboard_shortcuts_skip_text_inputs",
+    "undo_redo_history_capped_100",
+    "action_registry_edit_actions_secure",
+    "app_js_undo_redo_integration_secure",
     "verify_signatures_js_module_secure",
     "verify_signatures_9_innerHTML_all_escaped",
     "verify_signatures_no_eval_fetch_window_open",
@@ -126,7 +146,6 @@
     "verify_signatures_no_prototype_pollution",
     "verify_signatures_no_redos",
     "tabs_js_module_secure",
-    "app_js_update_secure",
     "pptx_export_js_module_secure",
     "deskew_js_module_secure",
     "image_manager_js_module_secure",
@@ -191,7 +210,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_74_days",
-    "fail2ban_active_6835_total_bans",
+    "fail2ban_active_6909_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -228,15 +247,19 @@
     "verify-signatures.js: no upper bound on signature count parsed from ByteRange regex. Thousands of fake entries could slow UI rendering. LOW risk.",
     "verify-signatures.js: byteRange values from PDF not bounds-checked against file length. Uint8Array.slice() handles gracefully (returns truncated array) but could produce incorrect hash comparisons silently. LOW risk.",
     "verify-signatures.js: ASN.1 DER length field not validated against remaining data — parser continues with truncated view. LOW risk.",
-    "verify-signatures.js: escapeHtml() does not escape double quotes — same pattern as other modules. Only used in element content. sig.status in class names is hardcoded, not PDF-derived. SAFE."
+    "verify-signatures.js: escapeHtml() does not escape double quotes — same pattern as other modules. Only used in element content. sig.status in class names is hardcoded, not PDF-derived. SAFE.",
+    "undo-redo.js: MEMORY_BUDGET_BYTES (50MB) defined but not enforced — only count-based trimming (MAX_HISTORY=100). Commands holding large page data could exceed memory budget. LOW risk for client-side.",
+    "undo-redo.js: escapeHtml() does not escape double quotes — same pattern as other modules. Only used in element content (cmd.description). SAFE."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. verify-signatures.js is clean.",
-    "REVIEWED: verify-signatures.js (1362 lines, TASK-065). Digital signature verification: ASN.1/DER parser, PKCS#7/CMS parsing, X.509 certificate inspection, document integrity checking via Web Crypto API. 9 innerHTML usages — all properly escaped via escapeHtml() for PDF-derived data, or static HTML strings. No eval/Function/document.write/fetch/window.open/XMLHttpRequest. Custom ASN.1 parser is recursive without depth limit (hardening recommendation). All PDF-extracted strings (signer name, reason, location, cert fields) escaped before DOM insertion. Download filename passes through downloadBlob(). Crypto operations use native Web Crypto API. No external requests. SECURE.",
+    "Security review completed — no critical fixes needed. undo-redo.js is clean.",
+    "REVIEWED: undo-redo.js (768 lines). Undo/Redo command pattern system with visual history timeline. 5 innerHTML usages — 1 static panel template, 2 dynamic lists with escapeHtml() on all cmd.description values, 1 clearing, page badges use integer values. No eval/Function/document.write/fetch/XMLHttpRequest. Keyboard shortcuts properly skip text inputs. History capped at 100 entries. SECURE.",
+    "REVIEWED: action-registry.js update — added Edit category actions (undo/redo/history/clear-history). window._undoRedo access for isEnabled checks is internal. No new innerHTML or security concerns. SECURE.",
+    "REVIEWED: app.js update — imports undoRedoManager, exposes on window._undoRedo, adds undo/redo/history:clear event handlers. No new security concerns. SECURE.",
     "No new dependencies added since last review.",
-    "JS file count: 64 (up from 63 — verify-signatures.js added).",
-    "innerHTML count: 207 across JS files (up from 198 — verify-signatures.js adds 9, all escaped/static).",
-    "SSH: fail2ban total bans 6835 (+112 since last review). 10 IPs currently banned (unchanged). Brute-force targeting root, solana, slot, ubutnu usernames. No successful unauthorized logins.",
+    "JS file count: 65 (up from 64 — undo-redo.js added).",
+    "innerHTML count: 212 across 49 JS files (up from 207/49 — undo-redo.js adds 5, all escaped/static).",
+    "SSH: fail2ban total bans 6909 (+74 since last review). 3 IPs currently banned (down from 10). Brute-force targeting ubuntu, solana, user, oracle usernames. No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (74 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404)."
@@ -254,6 +277,7 @@
     "LOW: Remove dead escapeHtml() function from insert-pages.js and metadata.js",
     "LOW: Remove unused CGI location block from nginx config",
     "LOW: snip.js line 865 — replace innerHTML template literal with textContent/DOM API for defense-in-depth",
-    "LOW: Add file size limit check in image-manager.js replaceImage()"
+    "LOW: Add file size limit check in image-manager.js replaceImage()",
+    "LOW: undo-redo.js — enforce MEMORY_BUDGET_BYTES by estimating command payload sizes and evicting oldest when exceeded"
   ]
 }
