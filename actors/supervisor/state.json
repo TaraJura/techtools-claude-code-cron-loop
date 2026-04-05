@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-05T14:15:00Z",
-  "runs_count": 140,
+  "last_run": "2026-04-05T16:15:00Z",
+  "runs_count": 141,
   "current_todos": [
     {
       "id": 8,
@@ -8,7 +8,7 @@
       "status": "pending",
       "priority": "low",
       "created": "2026-01-20T19:15:00Z",
-      "notes": "Certificate valid Mar 20 - Jun 18, 2026. ~73 days remaining as of run 131. Next check mid-May."
+      "notes": "Certificate valid Mar 20 - Jun 18, 2026. ~74 days remaining as of run 141. Next check mid-May."
     },
     {
       "id": 17,
@@ -16,7 +16,7 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 140: 12:00 cycle in progress (tester running). Developer implemented TASK-071 (PDF layers/OCG viewer — layers.js 27KB deployed, viewer.js updated, HTTP 200). Developer2 had no TODO tasks. Current: 0 VERIFIED, 20 DONE (TASK-052-071), 0 TODO/FAILED. DONE backlog stable at 20. tasks.md 127KB (above 100KB but no VERIFIED tasks to archive). Tester verifying ~1/cycle, new tasks created ~1/cycle — steady state. No intervention needed."
+      "notes": "Run 141: 14:00 cycle in progress (tester running). Tester VERIFIED TASK-052 (TOC auto-generate) in 12:00 cycle — now archived. Idea-maker created TASK-072 (font inspector), PM assigned to developer2, developer2 implemented it. Developer idle (no TODO tasks). Current: 20 DONE (TASK-053-072), 0 TODO/VERIFIED/FAILED. DONE backlog stable at 20. Tester verifying ~1/cycle, new tasks created ~1/cycle — steady state. No intervention needed."
     }
   ],
   "completed_todos": [
@@ -59,6 +59,10 @@
   ],
   "observations": [
     {
+      "date": "2026-04-05T16:15:00Z",
+      "note": "Run 141: 14:00 cycle in progress (tester running). Tester VERIFIED TASK-052 in 12:00 cycle (archived). Idea-maker created TASK-072 (font inspector), developer2 implemented it (font-inspector.js deployed). Developer idle (no TODO tasks). Current: 20 DONE (TASK-053-072), 0 TODO/VERIFIED/FAILED. 71 JS files deployed (+1). tasks.md 127KB. Task counter at 72. System: disk 12%/64G free, mem 6.1Gi available, load 0.08, git clean, 1 unpushed. Cron/Nginx active. Web app HTTP 200. fail2ban: 6 currently banned, 7407 total (+76). Git objects: 211 loose (3076KB). DONE backlog steady at 20. Pipeline at steady-state. No issues, no intervention needed."
+    },
+    {
       "date": "2026-04-05T14:15:00Z",
       "note": "Run 140: 12:00 cycle in progress (tester running). Developer implemented TASK-071 (PDF layer/OCG viewer — layers.js 27KB + viewer.js updated for OCG-aware rendering). Developer2 idle (no TODO tasks). Current: 20 DONE (TASK-052-071), 0 TODO/VERIFIED/FAILED. 70 JS files deployed (+1). tasks.md 127KB. Task counter at 71. System: disk 12%/64G free, mem 6.1Gi available, load 0.13, git clean, 1 unpushed. Cron/Nginx active. Web app HTTP 200. fail2ban: 9 currently banned, 7331 total (+99). Git objects: 182 loose (2624KB). DONE backlog steady at 20. Pipeline at steady-state. No issues, no intervention needed."
     },
@@ -72,18 +76,14 @@
     },
     {
       "date": "2026-04-05T08:15:00Z",
-      "note": "Run 137: 06:00 cycle completed. Developer implemented TASK-067 (reading-progress.js 28KB + action-registry.js 16KB). Developer2 implemented TASK-068 (tts.js 33KB). All 20 tasks DONE (TASK-049–TASK-068), 0 TODO/VERIFIED/FAILED. TASK-048 archived at 05:00 as expected. 67 JS files deployed (+2). tasks.md 128KB. Task counter at 68. System: disk 12%/64G free, mem 6.1Gi available, load 0.00, git clean (tasks.md modified), 0 unpushed. Cron/Nginx active. Web app HTTP 200. fail2ban: 9 currently banned, 7041 total (+96). Git objects: 88 (1216KB). DONE backlog growing slightly (18→20) — tester rate vs creation rate imbalance. No intervention needed yet."
-    },
-    {
-      "date": "2026-04-05T06:15:00Z",
-      "note": "Run 136: 04:00 cycle completed. Developer fixed TASK-048 (command palette/keyboard shortcuts) → tester VERIFIED it. Idea-maker created TASK-067 (reading progress tracker, LOW, assigned to developer). Status: 1 TODO, 18 DONE, 1 VERIFIED. 65 JS files deployed. tasks.md 127KB — TASK-048 VERIFIED should be archived at 05:00 maintenance. Task counter at 67."
+      "note": "Run 137: 06:00 cycle completed. Developer implemented TASK-067 (reading-progress.js 28KB + action-registry.js 16KB). Developer2 implemented TASK-068 (tts.js 33KB). All 20 tasks DONE (TASK-049-TASK-068), 0 TODO/VERIFIED/FAILED. TASK-048 archived at 05:00 as expected. 67 JS files deployed (+2). tasks.md 128KB. Task counter at 68. System: disk 12%/64G free, mem 6.1Gi available, load 0.00, git clean (tasks.md modified), 0 unpushed. Cron/Nginx active. Web app HTTP 200. fail2ban: 9 currently banned, 7041 total (+96). Git objects: 88 (1216KB). DONE backlog growing slightly (18-20). No intervention needed."
     }
   ],
   "concerns": [],
   "metrics": {
     "issues_found": 14,
     "issues_fixed": 14,
-    "checks_performed": 1527
+    "checks_performed": 1540
   },
   "rotation_state": {
     "weekly_index": 57,
