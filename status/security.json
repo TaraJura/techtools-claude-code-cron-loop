@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-05T16:20:00Z",
+  "last_review": "2026-04-05T18:20:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 5 currently banned",
-    "fail2ban_status": "active - sshd jail running, 5 currently banned, 7496 total banned",
-    "change_since_last": "fail2ban total bans 7496 (up from 7407, +89). 5 IPs currently banned (down from 6). Brute-force continues at typical rate. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 7 currently banned",
+    "fail2ban_status": "active - sshd jail running, 7 currently banned, 7546 total banned",
+    "change_since_last": "fail2ban total bans 7546 (up from 7496, +50). 7 IPs currently banned (up from 5). Brute-force continues at typical rate from 80.94.92.x, 92.118.39.x, 165.154.6.x, 213.209.159.x ranges. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,48 +40,36 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "244 usages across 56 JS files (up from 243 across 55 — 1 new module markdown-export.js with 1 innerHTML, 1 modified module accessibility.js unchanged at 4 innerHTML). All PDF-derived content escaped in accessibility.js (DOM-based escapeHtml). markdown-export.js simpleMarkdownToHtml escapes &<> but not double quotes — CSP-mitigated."
+    "innerHTML_note": "244 usages across 56 JS files (unchanged from last review — bg-borders.js has 0 innerHTML). All PDF-derived content escaped. markdown-export.js simpleMarkdownToHtml escapes &<> but not double quotes — CSP-mitigated."
   },
   "new_modules_review": {
-    "markdown_export_js_task073": {
-      "file": "js/markdown-export.js",
-      "lines": 1123,
-      "status": "secure_with_csp_mitigation",
-      "innerHTML_count": 1,
-      "innerHTML_details": "Line 992: previewRendered.innerHTML = simpleMarkdownToHtml(content). simpleMarkdownToHtml (line 1008) escapes &<> at line 1012 BEFORE applying markdown transformations. Link URLs from PDF annotations inserted into <a href> at line 1029 — double quotes not escaped. CSP script-src 'self' blocks both inline handlers and javascript: URIs.",
-      "no_eval": true,
-      "no_function_constructor": true,
-      "no_document_write": true,
-      "no_fetch": true,
-      "no_window_open": true,
-      "sanitizeFilename_used": true,
-      "downloadBlob_used": true,
-      "escapeHtml_implementation": "Inline regex at line 1012: escapes & < > but NOT double quotes. Applied before markdown→HTML conversion.",
-      "link_handling": "Line 839: PDF annotation URLs inserted into markdown [text](url). Line 1029: markdown links converted to <a href>. URL not validated for protocol scheme. CSP blocks javascript: URIs on navigation.",
-      "yaml_frontmatter": "Lines 942-945: PDF metadata (Title, Author) and filename embedded in YAML frontmatter with double quotes. Not escaped — double quotes or newlines in metadata could break YAML syntax in exported file. No XSS risk (text file download).",
-      "memory": "BATCH_SIZE=10 pages for yielding. PREVIEW_PAGE_LIMIT=20. extractTextItems unbounded per page. cachedExtraction keyed by fingerprint. LOW risk — browser enforces limits.",
-      "no_timeout": "No explicit processing timeout on buildDocument() — yields every BATCH_SIZE pages. Client-side self-DoS only. LOW risk.",
-      "clipboard": "Line 1108: navigator.clipboard.writeText(content) — copies plain text only. SAFE.",
-      "file_export": "Lines 1074-1079: uses sanitizeFilename + downloadBlob from utils.js. Proper Blob construction. SAFE."
-    },
-    "accessibility_js_task053_bugfix": {
-      "file": "js/accessibility.js",
-      "lines": 766,
+    "bg_borders_js": {
+      "file": "js/bg-borders.js",
+      "lines": 1478,
       "status": "secure",
-      "change": "TASK-053 bookmark bug fix — checkBookmarks() now uses catalog.lookup(catalog.get(PDFName.of('Outlines'))) to properly detect PDF outlines/bookmarks via pdf-lib catalog.",
-      "innerHTML_count": 4,
-      "innerHTML_details": "Line 489: list.innerHTML='' to clear (SAFE). Line 504: summary.innerHTML with escapeHtml(cat.label) — cat.label is hardcoded constant (SAFE). Lines 528-534: item.innerHTML with escapeHtml(r.title) and escapeHtml(r.description) — DOM-based escaping (SAFE).",
-      "escapeHtml_implementation": "DOM-based (textContent→innerHTML) at line 566-569. Robust — escapes all HTML entities including quotes.",
+      "innerHTML_count": 0,
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_fetch": true,
       "no_window_open": true,
-      "fix_attribute_contexts": "Line 514: r.status in class name — internal value ('pass','fail','warning'). Line 517: r.severity in class name — internal. Line 525: r.fix in data-fix — internal string. All SAFE.",
-      "no_security_regression": true
+      "no_innerHTML": true,
+      "uses_textContent": true,
+      "downloadBlob_used": true,
+      "sanitizeFilename_via_downloadBlob": true,
+      "image_upload": {
+        "mime_validation": "image/png, image/jpeg, image/svg+xml",
+        "size_limit": "10MB",
+        "magic_bytes_check": "not explicit — relies on MIME type only. PNG/JPEG embedded in PDF via pdf-lib embedPng/embedJpg. SVG accepted by handleImageFile but not embeddable (only PNG/JPEG paths in applyBackgroundToPage). SVG used only in canvas Image preview (browser-sandboxed).",
+        "object_url_revoked": true
+      },
+      "no_processing_timeout": "No explicit timeout on applyBgBorders(). Yields every 5 pages. Client-side self-DoS only. LOW risk.",
+      "no_external_requests": true,
+      "pattern_loops_bounded": "All pattern/dot/grid/chevron loops bounded by page dimensions — no infinite loop risk."
     }
   },
   "previous_module_reviews_still_valid": [
+    "markdown-export.js", "accessibility.js",
     "layers.js", "bookmark-editor.js", "page-resize.js", "tts.js", "reading-progress.js",
     "undo-redo.js", "verify-signatures.js", "tabs.js", "pptx-export.js",
     "crop.js", "insert-pages.js", "pages.js", "annotation-summary.js",
@@ -132,15 +120,16 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "bg_borders_js_reviewed",
+    "bg_borders_js_no_innerHTML_eval_fetch_document_write_window_open",
+    "bg_borders_js_uses_textContent",
+    "bg_borders_js_downloadBlob_from_utils",
+    "bg_borders_js_image_upload_10MB_mime_validated",
+    "bg_borders_js_object_urls_revoked",
+    "bg_borders_js_no_external_requests",
+    "bg_borders_js_pattern_loops_bounded",
     "markdown_export_js_task073_reviewed",
-    "markdown_export_js_no_eval_fetch_document_write_window_open",
-    "markdown_export_js_1_innerHTML_csp_mitigated",
-    "markdown_export_js_sanitizeFilename_used",
-    "markdown_export_js_downloadBlob_used",
-    "markdown_export_js_clipboard_text_only",
     "accessibility_js_task053_bugfix_secure",
-    "accessibility_js_no_security_regression",
-    "accessibility_js_escapeHtml_dom_based",
     "font_inspector_js_task072_secure",
     "layers_js_task071_secure",
     "bookmark_editor_js_task070_secure",
@@ -212,7 +201,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_74_days",
-    "fail2ban_active_7496_total_bans",
+    "fail2ban_active_7546_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -264,20 +253,21 @@
     "bookmark-editor.js: jsonToTree() recursive with no depth limit on imported JSON. User imports own files. LOW risk.",
     "font-inspector.js: exportReportJSON() does not use sanitizeFilename from utils.js — download attribute prevents path traversal but inconsistent with other modules. LOW risk.",
     "font-inspector.js: no explicit processing timeout on scanFonts() — has abortScan mechanism but no auto-timeout. Client-side self-DoS only. LOW risk.",
-    "NEW: markdown-export.js line 992: innerHTML = simpleMarkdownToHtml(content) — simpleMarkdownToHtml escapes &<> (line 1012) but not double quotes. Link URLs from PDF annotations reach <a href> at line 1029. Double-quote in URL could break attribute. javascript: URIs possible. CSP script-src 'self' blocks both vectors. MEDIUM-LOW risk.",
-    "NEW: markdown-export.js lines 942-945: YAML frontmatter — PDF metadata Title/Author embedded with double quotes but not escaped. Quotes/newlines in metadata break YAML syntax in exported .md file. Data integrity issue, no direct XSS. LOW risk.",
-    "NEW: markdown-export.js: no explicit processing timeout on buildDocument(). Yields every BATCH_SIZE (10) pages via setTimeout. Client-side self-DoS only. LOW risk."
+    "markdown-export.js line 992: innerHTML = simpleMarkdownToHtml(content) — simpleMarkdownToHtml escapes &<> (line 1012) but not double quotes. Link URLs from PDF annotations reach <a href> at line 1029. Double-quote in URL could break attribute. javascript: URIs possible. CSP script-src 'self' blocks both vectors. MEDIUM-LOW risk.",
+    "markdown-export.js lines 942-945: YAML frontmatter — PDF metadata Title/Author embedded with double quotes but not escaped. Quotes/newlines in metadata break YAML syntax in exported .md file. Data integrity issue, no direct XSS. LOW risk.",
+    "markdown-export.js: no explicit processing timeout on buildDocument(). Yields every BATCH_SIZE (10) pages via setTimeout. Client-side self-DoS only. LOW risk.",
+    "NEW: bg-borders.js handleImageFile accepts image/svg+xml MIME type but applyBackgroundToPage only embeds PNG/JPEG via pdf-lib. SVG images render in canvas preview only (browser-sandboxed Image). SVG scripts/external refs blocked by browser when loaded as Image src. SAFE but slightly misleading UX — SVG backgrounds won't appear in final PDF output.",
+    "NEW: bg-borders.js no explicit processing timeout on applyBgBorders(). Yields every 5 pages. Client-side self-DoS only. LOW risk."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. 1 new module (markdown-export.js) reviewed, 1 modified module (accessibility.js) re-verified. SECURE with CSP mitigations.",
-    "REVIEWED: markdown-export.js (TASK-073) — 1123 lines. PDF to Markdown/Text export with intelligent formatting detection (headings, lists, tables, links, code blocks, images). 1 innerHTML usage in preview renderer — simpleMarkdownToHtml escapes &<> before markdown transformation. Uses sanitizeFilename + downloadBlob from utils.js. Clipboard export uses writeText (text-only). No eval, fetch, document.write, window.open. SECURE with CSP mitigation for link handling.",
-    "REVIEWED: accessibility.js (TASK-053 bugfix) — 766 lines. Bookmark detection fix: checkBookmarks() now uses catalog.lookup(catalog.get(PDFName.of('Outlines'))) for reliable PDF outline detection. DOM-based escapeHtml at line 566. 4 innerHTML usages — all properly escaped. No security regression from bugfix.",
-    "POSITIVE: markdown-export.js uses sanitizeFilename from utils.js for file downloads — better practice than font-inspector.js and layers.js.",
-    "No changes to viewer.js, layers.js, font-inspector.js since last review.",
-    "JS file count: 72 (up from 71, +1 new module markdown-export.js).",
+    "Security review completed — no critical fixes needed. 1 new module (bg-borders.js) reviewed. SECURE.",
+    "REVIEWED: bg-borders.js — 1478 lines. Background & borders module for PDF pages (solid/gradient/image/pattern backgrounds + simple/double/decorative borders). Zero innerHTML usages. All DOM text via textContent. Uses downloadBlob from utils.js (sanitizeFilename). Image upload validates MIME (png/jpeg/svg) + 10MB limit. Object URLs revoked. No eval, fetch, document.write, window.open. Pattern loops bounded by page dimensions. SECURE.",
+    "POSITIVE: bg-borders.js has zero innerHTML and zero security-sensitive API usage — cleanest module in the codebase.",
+    "No changes to previously reviewed modules since last review.",
+    "JS file count: 73 (up from 72, +1 new module bg-borders.js).",
     "No new dependencies added since last review.",
-    "innerHTML count: 244 across 56 JS files (up from 243 across 55 — +1 in new markdown-export.js).",
-    "SSH: fail2ban total bans 7496 (+89 since last review). 5 IPs currently banned (down 1 from 6). Brute-force continues at typical rate from 2.57.122.x and 80.94.92.x ranges. No successful unauthorized logins.",
+    "innerHTML count: 244 across 56 JS files (unchanged — bg-borders.js has 0 innerHTML).",
+    "SSH: fail2ban total bans 7546 (+50 since last review). 7 IPs currently banned (up from 5). Brute-force continues at typical rate from 80.94.92.x, 92.118.39.x, 165.154.6.x, 213.209.159.x ranges. No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (74 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404).",
@@ -304,6 +294,7 @@
     "LOW: snip.js line 865 — replace innerHTML template literal with textContent/DOM API for defense-in-depth",
     "LOW: Add file size limit check in image-manager.js replaceImage()",
     "LOW: undo-redo.js — enforce MEMORY_BUDGET_BYTES by estimating command payload sizes and evicting oldest when exceeded",
-    "LOW: bookmark-editor.js — add recursion depth limit to outlineToTree() and jsonToTree() for defense-in-depth"
+    "LOW: bookmark-editor.js — add recursion depth limit to outlineToTree() and jsonToTree() for defense-in-depth",
+    "LOW: bg-borders.js — SVG images accepted by handleImageFile but silently ignored in PDF output. Consider showing a toast warning when SVG is selected, or remove SVG from validTypes."
   ]
 }
