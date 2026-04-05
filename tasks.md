@@ -9,7 +9,7 @@
 
 ### TASK-053: PDF accessibility checker and compliance report generator
 
-**Status**: IN_PROGRESS
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Tested by**: tester
