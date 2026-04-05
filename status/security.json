@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-05T18:20:00Z",
+  "last_review": "2026-04-05T20:20:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 7 currently banned",
-    "fail2ban_status": "active - sshd jail running, 7 currently banned, 7546 total banned",
-    "change_since_last": "fail2ban total bans 7546 (up from 7496, +50). 7 IPs currently banned (up from 5). Brute-force continues at typical rate from 80.94.92.x, 92.118.39.x, 165.154.6.x, 213.209.159.x ranges. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 8 currently banned",
+    "fail2ban_status": "active - sshd jail running, 8 currently banned, 7633 total banned",
+    "change_since_last": "fail2ban total bans 7633 (up from 7546, +87). 8 IPs currently banned (up from 7). Brute-force continues at typical rate. New IPs: 20.24.137.18, 45.227.254.170, 2.57.122.189, 101.47.135.95, 2.57.121.50, 2.57.122.188, 45.148.10.152 plus recurring 92.118.39.62. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,36 +40,39 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "244 usages across 56 JS files (unchanged from last review — bg-borders.js has 0 innerHTML). All PDF-derived content escaped. markdown-export.js simpleMarkdownToHtml escapes &<> but not double quotes — CSP-mitigated."
+    "innerHTML_note": "247 usages across 57 JS files (up from 244/56 — clipboard.js adds 3: clearing container + 2 hardcoded entities). All PDF-derived content escaped. markdown-export.js simpleMarkdownToHtml escapes &<> but not double quotes — CSP-mitigated."
   },
   "new_modules_review": {
-    "bg_borders_js": {
-      "file": "js/bg-borders.js",
-      "lines": 1478,
+    "clipboard_js": {
+      "file": "js/clipboard.js",
+      "lines": 1099,
       "status": "secure",
-      "innerHTML_count": 0,
+      "innerHTML_count": 3,
+      "innerHTML_detail": "line 394: layer.innerHTML='' (clearing container), line 496: '&times;' (hardcoded entity), line 508: '&#10003;' (hardcoded entity). No user content in innerHTML.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
-      "no_fetch": true,
+      "no_fetch_external": true,
+      "fetch_usage": "fetch(paste.dataURL) only — data: URLs from canvas.toDataURL(), never external URLs",
       "no_window_open": true,
-      "no_innerHTML": true,
       "uses_textContent": true,
-      "downloadBlob_used": true,
-      "sanitizeFilename_via_downloadBlob": true,
-      "image_upload": {
-        "mime_validation": "image/png, image/jpeg, image/svg+xml",
-        "size_limit": "10MB",
-        "magic_bytes_check": "not explicit — relies on MIME type only. PNG/JPEG embedded in PDF via pdf-lib embedPng/embedJpg. SVG accepted by handleImageFile but not embeddable (only PNG/JPEG paths in applyBackgroundToPage). SVG used only in canvas Image preview (browser-sandboxed).",
-        "object_url_revoked": true
+      "text_handling": "line 469: textEl.textContent = paste.text (safe). Text truncated to 10000 chars at line 341.",
+      "image_handling": {
+        "source": "clipboard API only (navigator.clipboard.read / clipboardData)",
+        "auto_downscale": "MAX_IMAGE_DIM=2000 — images larger than 2000px auto-downscaled via canvas",
+        "no_blob_size_limit": "No explicit size check on clipboard blob before processing. Downscaling mitigates. Client-side self-DoS only. LOW risk.",
+        "conversion": "All images converted to PNG via canvas.toDataURL before use"
       },
-      "no_processing_timeout": "No explicit timeout on applyBgBorders(). Yields every 5 pages. Client-side self-DoS only. LOW risk.",
+      "pagePastes_unbounded": "No limit on number of paste items per page. Client-side self-DoS only. LOW risk.",
+      "no_processing_timeout": "No timeout on processImageBlob() canvas conversion. Client-side self-DoS only. LOW risk.",
       "no_external_requests": true,
-      "pattern_loops_bounded": "All pattern/dot/grid/chevron loops bounded by page dimensions — no infinite loop risk."
+      "dom_api_used": true,
+      "keyboard_handlers_safe": true,
+      "context_menu_dom_api": true
     }
   },
   "previous_module_reviews_still_valid": [
-    "markdown-export.js", "accessibility.js",
+    "bg-borders.js", "markdown-export.js", "accessibility.js",
     "layers.js", "bookmark-editor.js", "page-resize.js", "tts.js", "reading-progress.js",
     "undo-redo.js", "verify-signatures.js", "tabs.js", "pptx-export.js",
     "crop.js", "insert-pages.js", "pages.js", "annotation-summary.js",
@@ -120,6 +123,14 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "clipboard_js_reviewed",
+    "clipboard_js_3_innerHTML_all_safe",
+    "clipboard_js_no_eval_function_docwrite",
+    "clipboard_js_textContent_for_user_text",
+    "clipboard_js_text_truncated_10k",
+    "clipboard_js_image_downscale_2000px",
+    "clipboard_js_no_external_fetch",
+    "clipboard_js_dom_api_for_menus",
     "bg_borders_js_reviewed",
     "bg_borders_js_no_innerHTML_eval_fetch_document_write_window_open",
     "bg_borders_js_uses_textContent",
@@ -201,7 +212,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_74_days",
-    "fail2ban_active_7546_total_bans",
+    "fail2ban_active_7633_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -219,7 +230,7 @@
     "layers.js lines 505-507: OCG usage dictionary values (printState/viewState/exportState) from PDF inserted into innerHTML without escaping. A crafted PDF could inject HTML in the layer details popover. CSP blocks script execution. MEDIUM-LOW risk.",
     "layers.js line 295,297,300: escapeHtml(group.name) in aria-label and title attributes — escapeHtml doesn't escape double quotes. Layer names from PDF OCG structure. CSP mitigates. LOW risk.",
     "layers.js local downloadBlob() does not use sanitizeFilename from utils.js — download attribute prevents path traversal but inconsistent with other modules. LOW risk.",
-    "layers.js exportFlattenLayers: no processing timeout — renders all pages at 2x scale. Client-side self-DoS for large PDFs. LOW risk.",
+    "layers.js exportFlattenLayers: no processing timeout — renders all pages at 2x scale. Client-side self-DoS only for large PDFs. LOW risk.",
     "bookmark-editor.js line 461: escapeHtml(item.title) in value attribute inside innerHTML template — escapeHtml doesn't escape double quotes. Bookmark titles from PDF outline or user input. CSP blocks inline handlers. Self-XSS only. LOW risk.",
     "reading-progress.js line 387: bookmark name (bm.name) used unescaped in title attribute inside innerHTML. Self-XSS only — user sets own bookmark names, data in same-origin localStorage. LOW risk.",
     "reading-progress.js line 550: escapeHtml(doc.name) in title attribute — escapeHtml doesn't escape double quotes. Self-XSS only — doc.name from user-selected file. LOW risk.",
@@ -256,18 +267,21 @@
     "markdown-export.js line 992: innerHTML = simpleMarkdownToHtml(content) — simpleMarkdownToHtml escapes &<> (line 1012) but not double quotes. Link URLs from PDF annotations reach <a href> at line 1029. Double-quote in URL could break attribute. javascript: URIs possible. CSP script-src 'self' blocks both vectors. MEDIUM-LOW risk.",
     "markdown-export.js lines 942-945: YAML frontmatter — PDF metadata Title/Author embedded with double quotes but not escaped. Quotes/newlines in metadata break YAML syntax in exported .md file. Data integrity issue, no direct XSS. LOW risk.",
     "markdown-export.js: no explicit processing timeout on buildDocument(). Yields every BATCH_SIZE (10) pages via setTimeout. Client-side self-DoS only. LOW risk.",
-    "NEW: bg-borders.js handleImageFile accepts image/svg+xml MIME type but applyBackgroundToPage only embeds PNG/JPEG via pdf-lib. SVG images render in canvas preview only (browser-sandboxed Image). SVG scripts/external refs blocked by browser when loaded as Image src. SAFE but slightly misleading UX — SVG backgrounds won't appear in final PDF output.",
-    "NEW: bg-borders.js no explicit processing timeout on applyBgBorders(). Yields every 5 pages. Client-side self-DoS only. LOW risk."
+    "bg-borders.js handleImageFile accepts image/svg+xml MIME type but applyBackgroundToPage only embeds PNG/JPEG via pdf-lib. SVG images render in canvas preview only (browser-sandboxed Image). SVG scripts/external refs blocked by browser when loaded as Image src. SAFE but slightly misleading UX — SVG backgrounds won't appear in final PDF output.",
+    "bg-borders.js no explicit processing timeout on applyBgBorders(). Yields every 5 pages. Client-side self-DoS only. LOW risk.",
+    "NEW: clipboard.js — no explicit blob size limit on clipboard images before processing. MAX_IMAGE_DIM=2000 downscaling mitigates. Client-side self-DoS only. LOW risk.",
+    "NEW: clipboard.js — pagePastes Map unbounded, no max paste item limit. Client-side self-DoS only. LOW risk.",
+    "NEW: clipboard.js — no processing timeout on processImageBlob() canvas conversion. LOW risk."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. 1 new module (bg-borders.js) reviewed. SECURE.",
-    "REVIEWED: bg-borders.js — 1478 lines. Background & borders module for PDF pages (solid/gradient/image/pattern backgrounds + simple/double/decorative borders). Zero innerHTML usages. All DOM text via textContent. Uses downloadBlob from utils.js (sanitizeFilename). Image upload validates MIME (png/jpeg/svg) + 10MB limit. Object URLs revoked. No eval, fetch, document.write, window.open. Pattern loops bounded by page dimensions. SECURE.",
-    "POSITIVE: bg-borders.js has zero innerHTML and zero security-sensitive API usage — cleanest module in the codebase.",
+    "Security review completed — no critical fixes needed. 1 new module (clipboard.js) reviewed. SECURE.",
+    "REVIEWED: clipboard.js — 1099 lines. Clipboard paste module for pasting images/text onto PDF pages via Ctrl+V. 3 innerHTML usages (all safe: 1 clearing container, 2 hardcoded HTML entities). Text displayed via textContent (line 469). Text truncated to 10k chars. Images auto-downscaled to 2000px via canvas. fetch() only on data: URLs. No eval, Function, document.write, window.open. DOM API used for all menus. SECURE.",
+    "POSITIVE: clipboard.js uses textContent for all user-derived text and DOM API for menu creation — good security hygiene.",
     "No changes to previously reviewed modules since last review.",
-    "JS file count: 73 (up from 72, +1 new module bg-borders.js).",
+    "JS file count: 74 (up from 73, +1 new module clipboard.js).",
     "No new dependencies added since last review.",
-    "innerHTML count: 244 across 56 JS files (unchanged — bg-borders.js has 0 innerHTML).",
-    "SSH: fail2ban total bans 7546 (+50 since last review). 7 IPs currently banned (up from 5). Brute-force continues at typical rate from 80.94.92.x, 92.118.39.x, 165.154.6.x, 213.209.159.x ranges. No successful unauthorized logins.",
+    "innerHTML count: 247 across 57 JS files (up from 244/56 — clipboard.js adds 3 safe usages).",
+    "SSH: fail2ban total bans 7633 (+87 since last review). 8 IPs currently banned (up from 7). Brute-force continues at typical rate. No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (74 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404).",
@@ -295,6 +309,7 @@
     "LOW: Add file size limit check in image-manager.js replaceImage()",
     "LOW: undo-redo.js — enforce MEMORY_BUDGET_BYTES by estimating command payload sizes and evicting oldest when exceeded",
     "LOW: bookmark-editor.js — add recursion depth limit to outlineToTree() and jsonToTree() for defense-in-depth",
-    "LOW: bg-borders.js — SVG images accepted by handleImageFile but silently ignored in PDF output. Consider showing a toast warning when SVG is selected, or remove SVG from validTypes."
+    "LOW: bg-borders.js — SVG images accepted by handleImageFile but silently ignored in PDF output. Consider showing a toast warning when SVG is selected, or remove SVG from validTypes.",
+    "LOW: clipboard.js — consider adding max paste count limit (e.g., 50 items per page) for defense-in-depth"
   ]
 }
