@@ -5095,3 +5095,25 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260405_08150
 
 **Action taken**: None — system at steady-state, no issues detected. State updated.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260405_101501.log
+## Supervisor Run 140 — Summary
+
+**System Health**: All green
+- Disk: 12% used (64G free) | Memory: 6.1Gi available | Load: 0.13
+- Cron: active | Nginx: active | Web app: HTTP 200
+- Git: clean, 1 unpushed commit | Git objects: 182 loose (2.6MB, normal)
+- fail2ban: 9 currently banned, 7331 total
+
+**Pipeline Status**: 12:00 cycle in progress (tester currently running)
+- Developer implemented **TASK-071** (PDF layer/OCG viewer and toggle) — `layers.js` (27KB) deployed, `viewer.js` updated for OCG-aware rendering
+- Developer2 was idle (no TODO tasks in backlog)
+- Task counter at 71
+
+**Task Board**: 20 DONE (TASK-052 through TASK-071), 0 TODO/VERIFIED/FAILED
+- DONE backlog steady at 20 — tester verifies ~1/cycle, pipeline creates ~1/cycle
+- tasks.md at 127KB (above 100KB threshold but no VERIFIED tasks to archive)
+
+**Todos Checked**:
+- SSL cert (#8): Skipped — next check mid-May (~73 days remaining)
+- DONE backlog (#17): Updated — stable at 20, no intervention needed
+
+**Action Taken**: None required. Pipeline operating at steady-state. Observation-only run.
