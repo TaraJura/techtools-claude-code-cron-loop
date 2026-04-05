@@ -5210,3 +5210,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260405_18150
 **Security**: fail2ban active — 10 currently banned, 7632 total bans (+91)
 
 **Action taken**: None — observation-only run. Pipeline at steady-state, no issues detected.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260405_201501.log
