@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-05T06:21:00Z",
+  "last_review": "2026-04-05T08:15:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 8 currently banned",
-    "fail2ban_status": "active - sshd jail running, 8 currently banned, 7044 total banned",
-    "change_since_last": "fail2ban total bans 7044 (up from 6941, +103). 8 IPs currently banned (down from 9). Brute-force continues at typical rate. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 6 currently banned",
+    "fail2ban_status": "active - sshd jail running, 6 currently banned, 7138 total banned",
+    "change_since_last": "fail2ban total bans 7138 (up from 7044, +94). 6 IPs currently banned (down from 8). Brute-force continues at typical rate. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,55 +40,32 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "225 usages across 51 JS files (up from 212 across 49 — due to 2 new modules tts.js and reading-progress.js). No user-controlled content in any innerHTML."
+    "innerHTML_note": "226 usages across 52 JS files (up from 225 across 51 — 1 new module page-resize.js). No user-controlled content in any innerHTML."
   },
   "new_modules_review": {
-    "tts_js_task068": {
-      "file": "js/tts.js",
-      "lines": 1005,
+    "page_resize_js_task069": {
+      "file": "js/page-resize.js",
+      "lines": 1028,
       "status": "secure",
-      "innerHTML_count": 3,
-      "innerHTML_details": "Line 177: static SVG icon. Line 191: static control bar template with internal prefs.speed/prefs.volume values (numbers). Line 307: select.innerHTML='' to clear. All SAFE — no PDF/user content in innerHTML.",
+      "innerHTML_count": 1,
+      "innerHTML_details": "Line 456: select.innerHTML='' to clear dropdown options. SAFE — no user content.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_fetch": true,
       "no_window_open": true,
-      "pdf_text_handling": "PDF text extracted via pdf.js getTextContent() API, fed to Web Speech API SpeechSynthesisUtterance — never injected into DOM as HTML. SAFE.",
-      "highlight_rendering": "Uses canvas overlay for word/sentence highlighting — no HTML injection. SAFE.",
-      "voice_select": "Uses textContent for option text, DOM API for optgroup — no innerHTML with external content. SAFE.",
-      "speech_api_only": "All audio uses browser Web Speech API (speechSynthesis) — no external network requests. SAFE.",
-      "pageTextCache": "Map cleared on file load/pdf ready. Bounded by document page count. Acceptable.",
-      "recursive_pattern": "speakCurrentSentence() recurses on empty sentences. Bounded by sentence count per page (finite). LOW risk."
-    },
-    "reading_progress_js_task068": {
-      "file": "js/reading-progress.js",
-      "lines": 871,
-      "status": "secure",
-      "innerHTML_count": 10,
-      "innerHTML_details": "Lines 147, 336, 374, 457, 533, 637: static HTML templates. Line 378: innerHTML='' to clear. Line 671: escapeHtml() utility. Lines 386, 545: use escapeHtml(bm.name) and escapeHtml(doc.name) for text content.",
-      "no_eval": true,
-      "no_function_constructor": true,
-      "no_document_write": true,
-      "no_fetch": true,
-      "no_window_open": true,
-      "escapeHtml_pattern": "Uses textContent/innerHTML trick — escapes <, >, & but NOT double quotes. Same pattern as other modules.",
-      "attribute_context_issue": "Line 387: title=\"Navigate to ${bm.name}\" — bm.name from user-set bookmark name, unescaped in attribute. Line 550: title=\"${escapeHtml(doc.name)}\" — escapeHtml doesn't escape quotes. Both are self-XSS only (localStorage data, same-origin). LOW risk.",
-      "localStorage_bounded": "MAX_RECENT=20 docs, bookmarks per-document. Acceptable storage usage.",
-      "import_data": "Accepts JSON file, validates fingerprint field exists. No code execution from imported data. SAFE.",
-      "cross_tab_sync": "storage event listener parses JSON from same-origin localStorage. SAFE."
-    },
-    "action_registry_js_update": {
-      "file": "js/action-registry.js",
-      "lines": 471,
-      "changes": "Added 5 reading-progress action registrations (reading.bookmark, reading.next-unread, reading.stats, reading.resume, reading.clear-history). All execute callbacks emit bus events.",
-      "status": "secure",
-      "no_new_innerHTML": true,
-      "no_eval": true,
-      "no_new_security_concerns": true
+      "text_display": "All user-visible text set via textContent (lines 443, 449, 462, 593, 615, 622, 634, 683, 796). SAFE.",
+      "file_download": "Uses downloadBlob() + sanitizeFilename() from utils.js for output filename. SAFE.",
+      "dimension_clamping": "MAX_PT=14400, MIN_PT=1, clamped in getTargetSizePt(). Prevents extreme page sizes.",
+      "page_range_parsing": "parsePageRange() validates page numbers against total count, uses Set for dedup. SAFE.",
+      "pdf_lib_loading": "Dynamic script load from local ./lib/pdf-lib.min.js — fixed source, not user-controlled. SAFE.",
+      "error_handling": "try/catch around applyResize() and preview rendering. Errors shown via showToast(). SAFE.",
+      "no_timeout": "No processing timeout on applyResize() — client-side self-DoS only if used with very large PDFs. LOW risk.",
+      "html_template": "All HTML in index.html is static markup with no dynamic content injection. SAFE."
     }
   },
   "previous_module_reviews_still_valid": [
+    "tts.js", "reading-progress.js",
     "undo-redo.js", "verify-signatures.js", "tabs.js", "pptx-export.js",
     "crop.js", "insert-pages.js", "pages.js", "annotation-summary.js",
     "printprep.js", "qrbarcode.js", "bates.js", "color-adjust.js", "hyperlinks.js", "text-overlay.js",
@@ -100,7 +77,7 @@
     "templates.js", "utils.js", "extract-images.js", "headers-footers.js", "toc.js", "accessibility.js",
     "html-export.js", "form-data.js", "link-manager.js", "sanitize.js", "compare.js", "snip.js",
     "page-labels.js", "image-manager.js", "deskew.js", "app.js",
-    "command-palette.js", "keyboard-shortcuts.js"
+    "command-palette.js", "keyboard-shortcuts.js", "action-registry.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -138,6 +115,12 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
+    "page_resize_js_task069_secure",
+    "page_resize_js_no_eval_fetch_document_write",
+    "page_resize_js_1_innerHTML_clear_only",
+    "page_resize_js_all_text_via_textContent",
+    "page_resize_js_dimension_clamping",
+    "page_resize_js_sanitized_download",
     "tts_js_task068_secure",
     "tts_js_no_eval_fetch_document_write",
     "tts_js_pdf_text_to_speech_api_only",
@@ -213,7 +196,7 @@
     "downloadBlob_uses_sanitizeFilename",
     "security_headers_present_verified",
     "ssl_certificate_valid_74_days",
-    "fail2ban_active_7044_total_bans",
+    "fail2ban_active_7138_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -254,20 +237,20 @@
     "verify-signatures.js: ASN.1 DER length field not validated against remaining data — parser continues with truncated view. LOW risk.",
     "verify-signatures.js: escapeHtml() does not escape double quotes — same pattern as other modules. Only used in element content. sig.status in class names is hardcoded, not PDF-derived. SAFE.",
     "undo-redo.js: MEMORY_BUDGET_BYTES (50MB) defined but not enforced — only count-based trimming (MAX_HISTORY=100). Commands holding large page data could exceed memory budget. LOW risk for client-side.",
-    "undo-redo.js: escapeHtml() does not escape double quotes — same pattern as other modules. Only used in element content (cmd.description). SAFE."
+    "undo-redo.js: escapeHtml() does not escape double quotes — same pattern as other modules. Only used in element content (cmd.description). SAFE.",
+    "page-resize.js: no processing timeout on applyResize() — client-side self-DoS only for very large PDFs. LOW risk."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. 2 new modules (tts.js, reading-progress.js) and action-registry.js update all SECURE.",
-    "REVIEWED: tts.js (TASK-068) — 1005 lines. Text-to-speech reader using Web Speech API. 3 innerHTML usages (static SVG icon, static control bar template, select.innerHTML='' clear). PDF text extracted via pdf.js API and sent to SpeechSynthesisUtterance — never injected as HTML. Canvas-based highlighting — no DOM injection. No eval, fetch, document.write, window.open. SECURE.",
-    "REVIEWED: reading-progress.js (TASK-068) — 871 lines. Reading progress tracker with session bookmarks, page visit tracking, recent documents. 10 innerHTML usages (static templates + escapeHtml()-escaped names). Import accepts JSON, validates fingerprint, no code execution. localStorage bounded (MAX_RECENT=20). SECURE with LOW-risk known issues (escapeHtml quote escaping in title attributes — self-XSS only).",
-    "REVIEWED: action-registry.js update — added 5 reading-progress actions. All emit bus events. No security concerns.",
-    "JS file count: 67 (up from 65, +2 new modules).",
+    "Security review completed — no critical fixes needed. 1 new module (page-resize.js) SECURE.",
+    "REVIEWED: page-resize.js (TASK-069) — 1028 lines. Page resize/reformat tool with custom dimensions, margins, bleed, trim marks. 1 innerHTML usage (select.innerHTML='' to clear). All text display via textContent. File download via downloadBlob()+sanitizeFilename(). Dimensions clamped (1-14400 pt). pdf-lib loaded from local ./lib/. No eval, fetch, document.write, window.open. SECURE.",
+    "JS file count: 68 (up from 67, +1 new module page-resize.js).",
     "No new dependencies added since last review.",
-    "innerHTML count: 225 across 51 JS files (up from 212 across 49).",
-    "SSH: fail2ban total bans 7044 (+103 since last review). 8 IPs currently banned (down from 9). No successful unauthorized logins.",
+    "innerHTML count: 226 across 52 JS files (up from 225 across 51).",
+    "SSH: fail2ban total bans 7138 (+94 since last review). 6 IPs currently banned (down from 8). No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (74 days remaining).",
     "Disk usage stable at 12%, 64G free.",
-    "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404)."
+    "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404).",
+    "Nginx config syntax valid."
   ],
   "recommendations": [
     "MEDIUM-LOW: Add protocol allowlist to hyperlinks.js handleLinkClick() — only allow http:, https:, mailto: schemes before calling window.open() on detected PDF links",
