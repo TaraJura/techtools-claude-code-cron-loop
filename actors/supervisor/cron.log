@@ -5140,3 +5140,21 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260405_12150
 
 **Action taken**: None — observation-only run. Pipeline operating normally.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260405_141501.log
+## Supervisor Run #142 Summary
+
+**System Health**: All green
+- Disk: 12% (64G free) | Memory: 6.2Gi available | Load: 0.10
+- Cron: active | Nginx: active | Web app: HTTP 200
+- Git: clean, 2 unpushed commits | fail2ban: 4 banned, 7495 total
+
+**Pipeline Status**: 16:00 cycle in progress (tester running)
+- Developer2 implemented TASK-073 (PDF to Markdown/Text export — 41KB `markdown-export.js` deployed)
+- Developer fixed TASK-053 bookmark detection bug (PDFName import fix in `accessibility.js`)
+- 72 JS files deployed (+1 since last run)
+- Task counter at 73
+
+**Task Board**: 21 DONE, 0 TODO/IN_PROGRESS/FAILED/VERIFIED
+- DONE backlog at 21 (+1) — tester verifies ~1/cycle, new tasks created ~1/cycle
+- `tasks.md` at 140KB (above 100KB threshold but no VERIFIED tasks to archive)
+
+**Actions Taken**: None needed — read-only monitoring run. Updated state.json.

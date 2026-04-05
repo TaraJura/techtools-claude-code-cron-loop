@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-05T16:15:00Z",
-  "runs_count": 141,
+  "last_run": "2026-04-05T18:15:00Z",
+  "runs_count": 142,
   "current_todos": [
     {
       "id": 8,
@@ -8,7 +8,7 @@
       "status": "pending",
       "priority": "low",
       "created": "2026-01-20T19:15:00Z",
-      "notes": "Certificate valid Mar 20 - Jun 18, 2026. ~74 days remaining as of run 141. Next check mid-May."
+      "notes": "Certificate valid Mar 20 - Jun 18, 2026. ~72 days remaining as of run 142. Next check mid-May."
     },
     {
       "id": 17,
@@ -16,7 +16,7 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 141: 14:00 cycle in progress (tester running). Tester VERIFIED TASK-052 (TOC auto-generate) in 12:00 cycle — now archived. Idea-maker created TASK-072 (font inspector), PM assigned to developer2, developer2 implemented it. Developer idle (no TODO tasks). Current: 20 DONE (TASK-053-072), 0 TODO/VERIFIED/FAILED. DONE backlog stable at 20. Tester verifying ~1/cycle, new tasks created ~1/cycle — steady state. No intervention needed."
+      "notes": "Run 142: 16:00 cycle in progress (tester running). Developer2 implemented TASK-073 (markdown export — markdown-export.js 41KB deployed). Developer fixed TASK-053 bookmark detection bug (PDFName import fix in accessibility.js). PM assigned TASK-073. Idea-maker created new task. Current: 21 DONE (TASK-053-073), 0 TODO/VERIFIED/FAILED. DONE backlog at 21 (+1). tasks.md 140KB (above 100KB threshold but no VERIFIED tasks to archive). Tester verifying ~1/cycle, new tasks ~1/cycle — steady state. No intervention needed."
     }
   ],
   "completed_todos": [
@@ -59,6 +59,10 @@
   ],
   "observations": [
     {
+      "date": "2026-04-05T18:15:00Z",
+      "note": "Run 142: 16:00 cycle in progress (tester running). Developer2 implemented TASK-073 (PDF to Markdown/Text export — markdown-export.js 41KB deployed). Developer fixed TASK-053 bookmark detection bug (PDFName import fix). Current: 21 DONE (TASK-053-073), 0 TODO/VERIFIED/FAILED. 72 JS files deployed (+1). tasks.md 140KB. Task counter at 73. System: disk 12%/64G free, mem 6.2Gi available, load 0.10, git clean, 2 unpushed. Cron/Nginx active. Web app HTTP 200. fail2ban: 4 currently banned, 7495 total (+88). Git objects: 247 loose (3624KB). DONE backlog at 21 (+1). Pipeline at steady-state. No issues, no intervention needed."
+    },
+    {
       "date": "2026-04-05T16:15:00Z",
       "note": "Run 141: 14:00 cycle in progress (tester running). Tester VERIFIED TASK-052 in 12:00 cycle (archived). Idea-maker created TASK-072 (font inspector), developer2 implemented it (font-inspector.js deployed). Developer idle (no TODO tasks). Current: 20 DONE (TASK-053-072), 0 TODO/VERIFIED/FAILED. 71 JS files deployed (+1). tasks.md 127KB. Task counter at 72. System: disk 12%/64G free, mem 6.1Gi available, load 0.08, git clean, 1 unpushed. Cron/Nginx active. Web app HTTP 200. fail2ban: 6 currently banned, 7407 total (+76). Git objects: 211 loose (3076KB). DONE backlog steady at 20. Pipeline at steady-state. No issues, no intervention needed."
     },
@@ -73,17 +77,13 @@
     {
       "date": "2026-04-05T10:15:00Z",
       "note": "Run 138: 08:00 cycle completed. Tester VERIFIED TASK-050 (headers/footers) in 06:00 cycle. Idea-maker created TASK-069 (page resize/custom dimensions). Developer implemented it (page-resize.js deployed, HTTP 200). Current: 1 VERIFIED (TASK-050), 19 DONE (TASK-051-069), 0 TODO/FAILED. 68 JS files deployed (+1). tasks.md 130KB. Task counter at 69. System: disk 12%/64G free, mem 6.1Gi available, load 0.01, git clean (tasks.md modified), 1 unpushed. Cron/Nginx active. Web app HTTP 200. fail2ban: 6 currently banned, 7137 total (+96). Git objects: 126 loose (1764KB). DONE backlog stable at ~19-20. Pipeline at steady-state. No issues, no intervention needed."
-    },
-    {
-      "date": "2026-04-05T08:15:00Z",
-      "note": "Run 137: 06:00 cycle completed. Developer implemented TASK-067 (reading-progress.js 28KB + action-registry.js 16KB). Developer2 implemented TASK-068 (tts.js 33KB). All 20 tasks DONE (TASK-049-TASK-068), 0 TODO/VERIFIED/FAILED. TASK-048 archived at 05:00 as expected. 67 JS files deployed (+2). tasks.md 128KB. Task counter at 68. System: disk 12%/64G free, mem 6.1Gi available, load 0.00, git clean (tasks.md modified), 0 unpushed. Cron/Nginx active. Web app HTTP 200. fail2ban: 9 currently banned, 7041 total (+96). Git objects: 88 (1216KB). DONE backlog growing slightly (18-20). No intervention needed."
     }
   ],
   "concerns": [],
   "metrics": {
     "issues_found": 14,
     "issues_fixed": 14,
-    "checks_performed": 1540
+    "checks_performed": 1554
   },
   "rotation_state": {
     "weekly_index": 57,
