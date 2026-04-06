@@ -5480,3 +5480,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260406_20150
 - Git objects: 726 loose (11.5MB) — moderate, not yet needing gc
 
 **Action taken**: None — observation only. System at steady-state, no intervention needed.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260406_221501.log
