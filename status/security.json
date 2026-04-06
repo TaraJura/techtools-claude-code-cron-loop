@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-06T06:20:00Z",
+  "last_review": "2026-04-06T08:16:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 9 currently banned",
-    "fail2ban_status": "active - sshd jail running, 9 currently banned, 8036 total banned",
-    "change_since_last": "fail2ban total bans 8036 (up from 7937, +99). 9 IPs currently banned (up from 8). Brute-force continues at typical rate. New IPs: 147.50.103.212, 2.57.122.194, 154.73.168.229, 2.57.122.190, 193.46.255.86. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 13 currently banned",
+    "fail2ban_status": "active - sshd jail running, 13 currently banned, 8135 total banned",
+    "change_since_last": "fail2ban total bans 8135 (up from 8036, +99). 13 IPs currently banned (up from 9). Multiple IPs in 2.57.122.x/2.57.121.x range suggest coordinated brute-force. New IPs: 51.195.138.37, 58.229.141.26, 39.117.79.36, 2.57.122.197, 149.50.150.222, 14.29.198.130, 2.57.122.193, 2.57.122.177, 2.57.121.112, 213.209.159.159, 2.57.122.195. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,31 +40,37 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "260 usages across 79 JS files (unchanged count — epub-export.js has 0 innerHTML usages)."
+    "innerHTML_note": "271 usages across 80 JS files (up from 260/79 — statistics.js adds 11 new usages)."
   },
   "changed_files_review": {
-    "epub_export_js": {
-      "task": "TASK-080 - PDF to EPUB Export",
-      "status": "NEW FILE — 898 lines",
-      "innerHTML_count": 0,
+    "statistics_js": {
+      "task": "TASK-081 - Document Statistics & Content Analysis Dashboard",
+      "status": "NEW FILE — 488 lines",
+      "innerHTML_count": 11,
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_network_calls": true,
       "no_localStorage": true,
-      "escapeXml_function": "Covers all 5 XML entities (&, <, >, \", '). Used for all text content in reflow XHTML bodies (line 315) and most metadata contexts.",
-      "sanitizeFilename_used": "Line 872 — sanitizeFilename from utils.js used for download filename. SAFE.",
-      "fixed_layout_title_unescaped": "Line 591: <title>${chapter.title}</title> in fixed-layout XHTML — not XML-escaped. When chapterSplit='bookmarks', bookmark titles from PDF are raw. Creates potentially malformed XHTML in downloaded EPUB. Not web XSS (content in ZIP file). MEDIUM-LOW risk.",
-      "double_escaping_headings": "Reflow path: heading text escaped at line 315 (structurePageContent), then escaped again at line 629 in <title>. Cosmetic display issue in EPUB TOC. LOW risk.",
-      "flattenOutline_recursion": "Line 336: recursive with no depth limit. PDF outlines typically shallow. Client-side self-DoS only. LOW risk.",
-      "no_processing_timeout": "exportEpub has no timeout. Cover rendered at 1600px, pages at 150 DPI. Could use significant memory for large PDFs. Client-side self-DoS only. LOW risk.",
-      "loaded_via": "script tag in index.html line 6249 (type=module)",
+      "esc_function": "Uses textContent→innerHTML DOM pattern (line 448-452). Escapes <, >, & properly. Does NOT escape double quotes — same limitation as escapeHtml() in other modules.",
+      "esc_in_attributes": "Lines 299, 321: esc(f.name) and esc(img.name) used in title attributes. Font names and image names come from PDF via pdf.js. Double-quote in these values could break attribute boundary. CSP script-src 'self' mitigates inline handler injection. MEDIUM-LOW risk.",
+      "esc_in_content": "All other esc() usages are in element content — properly escaped. SAFE.",
+      "countOutline_recursion": "Line 199: recursive with no depth limit. PDF outlines typically shallow. Client-side self-DoS only. LOW risk.",
+      "no_processing_timeout": "runAnalysis() has abort mechanism but no auto-timeout. Yields every 5 pages. Client-side self-DoS only for large PDFs. LOW risk.",
+      "export_filename": "Lines 429, 443: downloadBlob from utils.js used for export — does not call sanitizeFilename. Browser download attribute prevents path traversal. LOW risk but inconsistent.",
+      "csv_export_safe": "CSV contains only integers and measurements. No user-controlled text injected. SAFE.",
+      "json_export_safe": "JSON.stringify serialization. SAFE.",
+      "loaded_via": "script tag in index.html line 6393 (type=module)",
       "security_status": "secure — no critical issues"
     },
     "action_registry_js": {
-      "task": "TASK-080 — added EPUB export action registration",
-      "status": "UPDATED — added 'convert.epub' action (lines 360-370)",
-      "changes": "New action registration only: id='convert.epub', name='Export to EPUB'. Triggers UI tab switch. No security-relevant changes.",
+      "task": "No statistics-specific action registered — statistics.js uses bus events directly",
+      "status": "No changes since last review for TASK-081",
+      "security_status": "secure"
+    },
+    "index_html": {
+      "task": "TASK-081 — added statistics panel HTML and script tag",
+      "changes": "Static HTML panel with containers for analysis sections. No dynamic content in HTML. Script tag at line 6393. No security-relevant issues.",
       "security_status": "secure"
     }
   },
@@ -84,7 +90,7 @@
     "page-labels.js", "image-manager.js", "deskew.js", "app.js",
     "command-palette.js", "keyboard-shortcuts.js", "action-registry.js", "font-inspector.js",
     "clipboard.js", "guides.js", "annotation-exchange.js", "pdfa.js", "multiselect.js",
-    "epub-export.js"
+    "epub-export.js", "statistics.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -122,16 +128,16 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
-    "epub_export_js_reviewed_task080",
-    "epub_export_js_no_innerHTML",
-    "epub_export_js_no_eval_function_docwrite",
-    "epub_export_js_escapeXml_covers_5_entities",
-    "epub_export_js_sanitizeFilename_used",
-    "action_registry_js_epub_registration_safe",
-    "all_79_js_files_accounted_for",
+    "statistics_js_reviewed_task081",
+    "statistics_js_no_eval_function_docwrite",
+    "statistics_js_esc_function_proper",
+    "statistics_js_11_innerHTML_all_escaped",
+    "action_registry_js_no_changes_for_task081",
+    "index_html_statistics_panel_safe",
+    "all_80_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_73_days",
-    "fail2ban_active_8036_total_bans",
+    "fail2ban_active_8135_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -146,6 +152,7 @@
     "CGI location block exists in nginx but no CGI scripts present - dead config that could be removed.",
     "Codex proxy at /codex returns 502 - backend not running. No security risk but dead endpoint.",
     "merge.js, batch.js, hyperlinks.js, bates.js, command-palette.js, keyboard-shortcuts.js, form-data.js, link-manager.js, reading-progress.js, bookmark-editor.js, layers.js use escapeHtml()/escHtml() that does not escape double quotes. CSP script-src 'self' mitigates inline handler injection. In most files used in element content (safe). In attribute contexts (title/aria-label/value/data-col) should add escapeAttr().",
+    "statistics.js esc() function (lines 448-452) does not escape double quotes — same pattern as escapeHtml() in other modules. Used in title attributes with PDF-derived font names (line 299) and image names (line 321). CSP mitigates. MEDIUM-LOW risk.",
     "layers.js lines 505-507: OCG usage dictionary values (printState/viewState/exportState) from PDF inserted into innerHTML without escaping. A crafted PDF could inject HTML in the layer details popover. CSP blocks script execution. MEDIUM-LOW risk.",
     "layers.js line 295,297,300: escapeHtml(group.name) in aria-label and title attributes — escapeHtml doesn't escape double quotes. Layer names from PDF OCG structure. CSP mitigates. LOW risk.",
     "layers.js local downloadBlob() does not use sanitizeFilename from utils.js — download attribute prevents path traversal but inconsistent with other modules. LOW risk.",
@@ -202,15 +209,18 @@
     "epub-export.js line 591: fixed-layout <title>${chapter.title}</title> not XML-escaped. When chapterSplit='bookmarks', bookmark titles from PDF are raw. Creates potentially malformed XHTML in downloaded EPUB. Not web XSS. MEDIUM-LOW risk.",
     "epub-export.js: double-escaping in reflow+headings path — heading text escaped at line 315, then again at line 629 in <title>. Cosmetic issue in EPUB. LOW risk.",
     "epub-export.js line 336: flattenOutline() recursive with no depth limit. PDF outlines typically shallow. Client-side self-DoS only. LOW risk.",
-    "epub-export.js: no processing timeout on exportEpub(). Cover rendered at 1600px, pages at 150 DPI. Client-side self-DoS for large PDFs. LOW risk."
+    "epub-export.js: no processing timeout on exportEpub(). Cover rendered at 1600px, pages at 150 DPI. Client-side self-DoS for large PDFs. LOW risk.",
+    "statistics.js countOutline() (line 199) recursive with no depth limit. PDF outlines typically shallow. Client-side self-DoS only. LOW risk.",
+    "statistics.js runAnalysis() has no auto-timeout. Has abort mechanism. Yields every 5 pages. Client-side self-DoS for large PDFs. LOW risk.",
+    "statistics.js export filenames (lines 429, 443) not passed through sanitizeFilename. downloadBlob from utils.js handles download attribute. LOW risk."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. 1 new file reviewed (epub-export.js TASK-080), 1 updated file (action-registry.js). SECURE.",
-    "REVIEWED: epub-export.js (TASK-080) — PDF to EPUB export with reflow/fixed layout, chapter splitting by page/headings/bookmarks, cover generation, JSZip packaging. 0 innerHTML usages. escapeXml() properly covers 5 entities. sanitizeFilename used for download. No eval/Function/document.write/network calls.",
-    "JS file count: 79 (up from 78 — epub-export.js added).",
-    "innerHTML count: 260 across 79 JS files (unchanged — epub-export.js has 0).",
-    "No new dependencies added — epub-export.js uses existing JSZip (lib/jszip.min.js).",
-    "SSH: fail2ban total bans 8036 (+99 since last review). 9 IPs currently banned (up from 8). Brute-force continues at typical rate. No successful unauthorized logins.",
+    "Security review completed — no critical fixes needed. 1 new file reviewed (statistics.js TASK-081). SECURE.",
+    "REVIEWED: statistics.js (TASK-081) — Document statistics dashboard with overview, text analysis, font inventory, image analysis, structure breakdown, file size breakdown, page dimensions. 11 innerHTML usages, all escaped via esc() function. No eval/Function/document.write/network calls/localStorage.",
+    "JS file count: 80 (up from 79 — statistics.js added).",
+    "innerHTML count: 271 across 80 JS files (up from 260/79 — statistics.js adds 11).",
+    "No new dependencies added — statistics.js uses only existing modules (app.js, utils.js, pdf-lib).",
+    "SSH: fail2ban total bans 8135 (+99 since last review). 13 IPs currently banned (up from 9). Multiple IPs in 2.57.122.x/2.57.121.x range — coordinated brute-force campaign. No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (73 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404).",
@@ -218,6 +228,7 @@
   ],
   "recommendations": [
     "MEDIUM: guides.js line 685 — add guard before drawRuler() tick loop: if (tickPx < 1) return; to prevent infinite loop when zoom approaches 0",
+    "MEDIUM-LOW: statistics.js lines 299, 321 — esc() in title attributes with PDF-derived font/image names. Add double-quote escaping: return d.innerHTML.replace(/\"/g, '&quot;') or use a separate escAttr() for attribute contexts",
     "MEDIUM-LOW: epub-export.js line 591 — escape chapter.title in fixed-layout <title>: use <title>${escapeXml(chapter.title)}</title>",
     "MEDIUM-LOW: epub-export.js line 315/629 — avoid double-escaping: store raw text in structurePageContent, escape only at output point in generateChapterXHTML",
     "MEDIUM-LOW: markdown-export.js line 1012 — add double-quote escaping to simpleMarkdownToHtml: text.replace(/\"/g, '&quot;') to prevent attribute breakout in <a href>",
@@ -225,11 +236,13 @@
     "MEDIUM-LOW: markdown-export.js lines 942-945 — escape YAML special characters in frontmatter values: replace \" with \\\" and newlines with spaces in title/author/filename",
     "MEDIUM-LOW: Escape OCG usage values in layers.js lines 505-507 — wrap printState/viewState/exportState with escapeHtml() before inserting into HTML",
     "MEDIUM-LOW: Add protocol allowlist to hyperlinks.js handleLinkClick() — only allow http:, https:, mailto: schemes before calling window.open() on detected PDF links",
+    "LOW: statistics.js countOutline() (line 199) — add recursion depth limit (maxDepth=20) for defense-in-depth",
     "LOW: epub-export.js line 336 — add recursion depth limit (maxDepth=20) to flattenOutline() for defense-in-depth",
     "LOW: Add ASN.1 recursion depth limit (maxDepth=50) to verify-signatures.js parseASN1() for defense against crafted deeply nested structures",
     "LOW: Add upper bound cap (MAX_SIGNATURES=100) to verify-signatures.js signature parsing loop",
     "LOW: Add bounds validation on byteRange values in verify-signatures.js before slicing PDF bytes",
-    "LOW: Add escapeAttr() function to modules using escapeHtml() in attribute contexts (layers.js, bookmark-editor.js, reading-progress.js, link-manager.js) — font-inspector.js already has this, use as reference",
+    "LOW: Add escapeAttr() function to modules using escapeHtml()/esc() in attribute contexts (statistics.js, layers.js, bookmark-editor.js, reading-progress.js, link-manager.js) — font-inspector.js already has this, use as reference",
+    "LOW: statistics.js — use sanitizeFilename from utils.js for export filenames for consistency",
     "LOW: layers.js — use sanitizeFilename from utils.js in downloadBlob or import downloadBlob from utils.js for consistency",
     "LOW: font-inspector.js — use sanitizeFilename from utils.js in exportReportJSON for consistency",
     "LOW: Fix batch.js line 294 — use fileName directly with textContent instead of escapeHtml(fileName)",
