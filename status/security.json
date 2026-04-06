@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-06T16:20:00Z",
+  "last_review": "2026-04-06T18:23:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 3 currently banned",
-    "fail2ban_status": "active - sshd jail running, 3 currently banned, 8418 total banned",
-    "change_since_last": "fail2ban total bans 8418 (up from 8321, +97). 3 IPs currently banned (down from 13). Active brute-force from 92.118.39.63 (solana, sol), 80.94.92.165 (sol), 45.148.10.121 (root), 82.152.132.24 (root), 205.210.31.102 (connection reset). Generic usernames only. No server-specific reconnaissance. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 7 currently banned",
+    "fail2ban_status": "active - sshd jail running, 7 currently banned, 8466 total banned",
+    "change_since_last": "fail2ban total bans 8466 (up from 8418, +48). 7 IPs currently banned (up from 3). Active brute-force from 212.87.220.74, 193.46.255.86, 80.94.92.165, 193.32.162.151, 200.118.150.20, 2.57.122.177, 41.242.115.83. Generic usernames only (solana, sol, ftpuser, sammy, sgf, testuser, ajay, postgres, hduser, ubuntu, oracle, root, soldev). No server-specific reconnaissance. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,50 +40,27 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "287 usages across 84 JS files (up from 282/82 — smart-redact.js added 5 innerHTML uses, all safe: 1 hardcoded string, 1 escaped user content via DOM-based escapeHtml, 1 escapeHtml utility, 1 clearing, 1 escaped custom patterns)."
+    "innerHTML_note": "288 usages across 85 JS files (up from 287/84 — minimap.js added 1 innerHTML use: clearing only)."
   },
   "changed_files_review": {
-    "smart_redact_js": {
-      "task": "TASK-085 - Smart pattern-based redaction — auto-detect PII for one-click redaction",
-      "status": "NEW — 789 lines",
-      "innerHTML_count": 5,
-      "innerHTML_safe": "1 hardcoded string (line 347), 1 escaped user content via DOM escapeHtml (line 401), 1 escapeHtml utility function (line 457), 1 clearing '' (line 628), 1 escaped custom patterns (line 632). ALL SAFE.",
+    "minimap_js": {
+      "task": "TASK-086 - PDF Minimap — document overview strip for fast navigation",
+      "status": "NEW — 603 lines",
+      "innerHTML_count": 1,
+      "innerHTML_safe": "1 clearing '' (line 588). SAFE.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_window_open": true,
-      "escapeHtml_function": "Lines 454-458: DOM-based approach (createElement div, textContent, innerHTML). Safest method — handles all special chars including quotes. Best practice.",
-      "sanitizeFilename_used": "Download filename passes through downloadBlob() which calls sanitizeFilename() internally (utils.js line 89). SAFE.",
-      "showToast_safe": "showToast uses textContent (utils.js line 109). match.masked displayed safely. SAFE.",
-      "title_attribute_safe": "Line 545: el.title set via DOM property assignment (not innerHTML). SAFE.",
-      "custom_regex": "User-defined patterns validated with new RegExp() in main thread (line 596). Sent to worker for execution. ReDoS possible but worker isolation mitigates. LOW risk.",
-      "no_scan_timeout": "No auto-timeout on pattern scan. Worker terminated on completion/error. Client-side self-DoS only. LOW risk.",
-      "web_worker": "Pattern scanning runs in dedicated web worker (smart-redact-worker.js). Worker properly terminated after scan (line 292). SAFE.",
+      "dom_manipulation": "All via createElement/textContent/appendChild. SAFE.",
+      "querySelector_safe": "data-page selectors use parseInt'd numbers only. SAFE.",
+      "cache_bounded": "MAX_CACHE=200 with FIFO eviction (lines 269-274). Good.",
+      "resize_bounded": "Width clamped 50-200px (line 508). SAFE.",
+      "localStorage": "JSON.parse in try/catch. Same-origin only. LOW risk.",
+      "scroll_listener": "Uses passive:true. Good practice.",
+      "no_file_handling": "UI navigation only — no file uploads or external requests.",
       "loaded_via": "script tag in index.html (type=module)",
       "security_status": "secure — no issues found"
-    },
-    "smart_redact_worker_js": {
-      "task": "TASK-085 - Smart pattern-based redaction worker",
-      "status": "NEW — 384 lines",
-      "no_dom_access": "Web worker — no document, window, or DOM APIs available",
-      "no_eval": true,
-      "no_function_constructor": true,
-      "regex_patterns": "Built-in patterns are hardcoded with validated ranges (SSN, credit card, email, phone, DOB, IP, bank, passport). Custom patterns from user input — ReDoS possible but worker-isolated. LOW risk.",
-      "luhn_validation": "Credit card matches validated with Luhn algorithm. Reduces false positives. SAFE.",
-      "masking": "PII values masked before display (maskValue function). Shows only last 4 digits for SSN/CC/phone. SAFE.",
-      "security_status": "secure — no issues found"
-    },
-    "app_js": {
-      "task": "TASK-085 integration",
-      "change": "Line 94: Added 'smart-redact' to viewer container visibility list. Hardcoded string. SAFE."
-    },
-    "action_registry_js": {
-      "task": "TASK-085 integration",
-      "change": "Lines 331-333: 3 new hardcoded action entries for smart-redact tab. SAFE."
-    },
-    "context_menu_js": {
-      "task": "TASK-085 integration",
-      "change": "Line 637: New menu item 'Scan Page for Sensitive Data' with hardcoded SVG icon and tab click handler. SAFE."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -103,7 +80,7 @@
     "command-palette.js", "keyboard-shortcuts.js", "action-registry.js", "font-inspector.js",
     "clipboard.js", "guides.js", "annotation-exchange.js", "pdfa.js", "multiselect.js",
     "epub-export.js", "statistics.js", "context-menu.js", "auto-crop.js", "ocr.js",
-    "smart-redact.js", "smart-redact-worker.js"
+    "smart-redact.js", "smart-redact-worker.js", "minimap.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -141,23 +118,16 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
-    "smart_redact_js_reviewed_task085",
-    "smart_redact_js_5_innerHTML_all_safe",
-    "smart_redact_js_dom_escapeHtml_best_practice",
-    "smart_redact_js_no_eval_function_docwrite_windowopen",
-    "smart_redact_js_sanitizeFilename_via_downloadBlob",
-    "smart_redact_js_showToast_uses_textContent",
-    "smart_redact_worker_js_reviewed_task085",
-    "smart_redact_worker_js_no_dom_access",
-    "smart_redact_worker_js_luhn_validation",
-    "smart_redact_worker_js_pii_masking",
-    "app_js_integration_safe",
-    "action_registry_js_integration_safe",
-    "context_menu_js_integration_safe",
-    "all_84_js_files_accounted_for",
+    "minimap_js_reviewed_task086",
+    "minimap_js_1_innerHTML_clearing_safe",
+    "minimap_js_no_eval_function_docwrite_windowopen",
+    "minimap_js_dom_only_manipulation",
+    "minimap_js_cache_bounded_200",
+    "minimap_js_no_file_handling",
+    "all_85_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_73_days",
-    "fail2ban_active_8418_total_bans",
+    "fail2ban_active_8466_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -244,14 +214,12 @@
     "NOTE: ocr.js escapeHtml() (line 950) correctly escapes double quotes via string replacement — second-best practice."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. 2 new files (TASK-085: smart-redact.js, smart-redact-worker.js) + 3 modified files. SECURE.",
-    "REVIEWED: smart-redact.js (TASK-085) — Smart PII detection and redaction. 789 lines (new). Auto-detects SSN, credit cards, emails, phone numbers, DOB, IP addresses, bank accounts, passport numbers. Custom user-defined patterns supported. Pattern scanning runs in web worker. Redaction flattens pages to images. 5 innerHTML uses (all safe — escapeHtml on user content, hardcoded strings, clearing). DOM-based escapeHtml (safest method). sanitizeFilename via downloadBlob. showToast uses textContent. No eval/Function/document.write/window.open. Clean module.",
-    "REVIEWED: smart-redact-worker.js (TASK-085) — PII pattern matching worker. 384 lines (new). Runs regex-based scanning off main thread. Built-in patterns for 8 PII categories. Luhn algorithm for credit card validation. PII values masked before display. No DOM access (web worker). No eval/Function. Clean module.",
-    "REVIEWED: app.js, action-registry.js, context-menu.js — TASK-085 integration changes. All hardcoded values. SAFE.",
-    "JS file count: 84 (up from 82 — +smart-redact.js, +smart-redact-worker.js).",
-    "innerHTML count: 287 across 84 JS files (up from 282/82 — smart-redact.js added 5 innerHTML uses, all safe).",
+    "Security review completed — no critical fixes needed. 1 new file (TASK-086: minimap.js). SECURE.",
+    "REVIEWED: minimap.js (TASK-086) — Document overview minimap sidebar. 603 lines (new). Lazy-rendered page thumbnails via IntersectionObserver. Click-to-navigate, drag viewport indicator, hover preview, search/annotation markers. Resizable sidebar (50-200px). 1 innerHTML use (clearing only). All DOM manipulation via createElement/textContent/appendChild. No eval/Function/document.write/window.open. No file handling. Thumbnail cache bounded at 200 with FIFO eviction. Clean module.",
+    "JS file count: 85 (up from 84 — +minimap.js).",
+    "innerHTML count: 288 across 85 JS files (up from 287/84 — minimap.js added 1 innerHTML use, clearing only).",
     "No new dependencies added.",
-    "SSH: fail2ban total bans 8418 (+97 since last review). 3 IPs currently banned (down from 13). Active brute-force from 92.118.39.63, 80.94.92.165, 45.148.10.121, 82.152.132.24. Generic usernames only (solana, sol, root). No successful unauthorized logins.",
+    "SSH: fail2ban total bans 8466 (+48 since last review). 7 IPs currently banned (up from 3). Active brute-force from 212.87.220.74, 193.46.255.86, 80.94.92.165, 193.32.162.151, 200.118.150.20, 2.57.122.177, 41.242.115.83. Generic usernames only. No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (73 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed. Nginx blocking rules verified. Config syntax valid."
