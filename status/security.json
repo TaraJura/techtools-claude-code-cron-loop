@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-06T00:16:00Z",
+  "last_review": "2026-04-06T02:25:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 7 currently banned",
-    "fail2ban_status": "active - sshd jail running, 7 currently banned, 7827 total banned",
-    "change_since_last": "fail2ban total bans 7827 (up from 7734, +93). 7 IPs currently banned (down from 14). Brute-force continues at typical rate. Currently banned: 45.227.254.170, 92.118.39.95, 213.209.159.159, 45.148.10.152, 45.148.10.157, 80.94.92.177, 2.57.122.189. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 4 currently banned",
+    "fail2ban_status": "active - sshd jail running, 4 currently banned, 7903 total banned",
+    "change_since_last": "fail2ban total bans 7903 (up from 7827, +76). 4 IPs currently banned (down from 7). Brute-force continues at typical rate. Currently banned: 2.57.122.177, 80.94.92.177, 80.94.92.183, 92.118.39.87. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,31 +40,53 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "248 usages across 57 JS files (+1 from link-manager.js TASK-056 fixes). All PDF-derived content escaped. markdown-export.js simpleMarkdownToHtml escapes &<> but not double quotes — CSP-mitigated."
+    "innerHTML_note": "258 usages across 78 JS files (+10 from annotation-exchange.js, pdfa.js). All PDF-derived content escaped. Same patterns as existing modules."
   },
   "changed_files_review": {
-    "app_js": {
-      "change": "Added 'link-manager' to viewer container visibility toggle (line 94)",
-      "security_impact": "none — UI display logic only",
-      "status": "secure"
+    "pdfa_js": {
+      "task": "TASK-077 - PDF/A Compliance Checker & Converter",
+      "status": "NEW FILE",
+      "innerHTML_count": 5,
+      "innerHTML_safe": "3 clearing (innerHTML=''), 2 templates with escapeHtml() on all user/PDF data. criterion.label and statusIcon are constants.",
+      "escapeHtml": "textContent/innerHTML DOM trick — same pattern as other modules, doesn't escape double quotes. Used only in element content (safe).",
+      "escapeXml": "Properly escapes all 5 XML entities (&<>\"'). Used for XMP metadata generation. GOOD.",
+      "no_eval": true,
+      "no_function_constructor": true,
+      "no_document_write": true,
+      "imports_sanitizeFilename": "imported but not directly called — downloadBlob from utils.js handles download",
+      "processing_timeout": "none — client-side self-DoS only for large PDFs. LOW risk.",
+      "security_status": "secure"
     },
-    "link_manager_js": {
-      "task": "TASK-056 fixes",
-      "innerHTML_count": 10,
+    "annotation_exchange_js": {
+      "task": "Annotation Exchange (FDF/XFDF) - export/import annotations",
+      "status": "NEW FILE",
+      "innerHTML_count": 5,
+      "innerHTML_safe": "Line 843: static HTML template (no user data). Line 945: static string. Line 950: hardcoded labels + numbers. Line 1032: escapeHtml(fileName) and escapeHtml(warnings). Line 1115: escapeHtml definition.",
+      "import_parsing": "Uses DOMParser with 'text/xml' — safe XML parsing. Parsed data used as numeric/string fields in annotation structures.",
+      "file_picker_accepts": ".xfdf,.fdf only",
+      "no_file_size_limit_on_import": "XFDF files are text, typically small. No explicit size check. LOW risk, client-side self-DoS only.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_window_open": true,
-      "escHtml_used": true,
-      "protocol_validation": "Add Link dialog enforces https/http/mailto only (line 1264)",
-      "fetch_urls": "Client-side URL validation via fetch (CORS-limited). Used for link status checking only.",
-      "regex_from_user": "Find & Replace uses new RegExp(userInput) — caught in try/catch. Known ReDoS risk, low impact.",
-      "status": "secure"
+      "security_status": "secure"
     },
-    "css_tools_css": {
-      "change": "Style updates",
-      "security_impact": "none",
-      "status": "secure"
+    "action_registry_js": {
+      "change": "Modified today — new action registrations for pdfa and annotation-exchange modules",
+      "innerHTML_count": 0,
+      "no_eval": true,
+      "no_function_constructor": true,
+      "security_impact": "none — action registry is a dispatch table",
+      "security_status": "secure"
+    },
+    "app_js": {
+      "change": "Modified today — added 'pdfa' and 'annotation-exchange' to module imports/initialization",
+      "security_impact": "none — UI wiring only",
+      "security_status": "secure"
+    },
+    "link_manager_js": {
+      "change": "Modified today (timestamp updated) — previously reviewed in last cycle",
+      "security_status": "secure (no new changes)"
     }
   },
   "previous_module_reviews_still_valid": [
@@ -82,7 +104,7 @@
     "html-export.js", "form-data.js", "link-manager.js", "sanitize.js", "compare.js", "snip.js",
     "page-labels.js", "image-manager.js", "deskew.js", "app.js",
     "command-palette.js", "keyboard-shortcuts.js", "action-registry.js", "font-inspector.js",
-    "clipboard.js", "guides.js"
+    "clipboard.js", "guides.js", "annotation-exchange.js", "pdfa.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -120,22 +142,19 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
-    "app_js_link_manager_toggle_safe",
-    "link_manager_js_task056_fixes_reviewed",
-    "link_manager_js_protocol_validation_good",
-    "link_manager_js_no_window_open",
-    "link_manager_js_escHtml_used",
-    "guides_js_reviewed_task076",
-    "guides_js_0_innerHTML",
-    "guides_js_canvas_2d_only",
-    "task076_integrations_secure",
-    "clipboard_js_reviewed",
-    "bg_borders_js_reviewed",
-    "markdown_export_js_task073_reviewed",
-    "all_75_js_files_accounted_for",
+    "pdfa_js_reviewed_task077",
+    "pdfa_js_escapeXml_properly_escapes_quotes",
+    "pdfa_js_escapeHtml_element_content_only",
+    "annotation_exchange_js_reviewed",
+    "annotation_exchange_js_domparser_xml_safe",
+    "annotation_exchange_js_escapeHtml_used",
+    "annotation_exchange_js_file_picker_restricted",
+    "action_registry_js_no_dangerous_patterns",
+    "app_js_wiring_only",
+    "all_78_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_73_days",
-    "fail2ban_active_7827_total_bans",
+    "fail2ban_active_7903_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -196,16 +215,22 @@
     "clipboard.js — pagePastes Map unbounded, no max paste item limit. Client-side self-DoS only. LOW risk.",
     "clipboard.js — no processing timeout on processImageBlob() canvas conversion. LOW risk.",
     "guides.js line 685 — drawRuler() infinite-form for loop. If tickPx = 0 (zoom = 0), loop never terminates and freezes UI. Should add guard: if (tickPx < 1) return; MEDIUM risk (client-side self-DoS).",
-    "guides.js — localStorage JSON.parse without schema validation. Same-origin only, falls back to defaults on error. LOW risk."
+    "guides.js — localStorage JSON.parse without schema validation. Same-origin only, falls back to defaults on error. LOW risk.",
+    "pdfa.js: sanitizeFilename imported but not called on download filename — downloadBlob from utils.js handles the download attribute. LOW risk.",
+    "pdfa.js: no processing timeout on runValidation() or convertToPdfA(). Client-side self-DoS only. LOW risk.",
+    "annotation-exchange.js: no file size limit on XFDF import — XFDF files are text, typically small. Client-side self-DoS only. LOW risk.",
+    "annotation-exchange.js: parsePageRange unbounded Set growth from page range input — user-driven. LOW risk."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. 2 changed files reviewed (app.js, link-manager.js TASK-056 fixes). SECURE.",
-    "REVIEWED: app.js — added 'link-manager' to viewer container toggle. UI-only change, no security impact.",
-    "REVIEWED: link-manager.js TASK-056 fixes — 10 innerHTML usages, all escaped with escHtml(). escHtml() uses textContent/innerHTML DOM trick (same pattern as other modules, doesn't escape double quotes). Protocol validation on Add Link dialog enforces https/http/mailto. No window.open(), no eval, no document.write. Fetch calls for URL validation are client-side CORS-limited. SECURE.",
-    "JS file count: 75 (unchanged from last review).",
-    "innerHTML count: 248 across 57 JS files (+1 from link-manager.js TASK-056 fixes).",
+    "Security review completed — no critical fixes needed. 5 changed files reviewed (pdfa.js NEW, annotation-exchange.js NEW, action-registry.js, app.js, link-manager.js). SECURE.",
+    "REVIEWED: pdfa.js (TASK-077) — PDF/A compliance checker. 5 innerHTML usages, all safe (3 clearing, 2 with escapeHtml on user data). escapeXml properly escapes quotes for XMP metadata. No eval/Function/document.write.",
+    "REVIEWED: annotation-exchange.js — XFDF annotation export/import. 5 innerHTML usages, all safe (static templates + escapeHtml on filenames/warnings). Import uses DOMParser('text/xml') — safe parsing. File picker restricted to .xfdf/.fdf.",
+    "REVIEWED: action-registry.js — new action registrations for pdfa and annotation-exchange. No innerHTML, no eval. Pure dispatch table.",
+    "REVIEWED: app.js — module wiring for new features. UI-only changes.",
+    "JS file count: 78 (+3 from last review: annotation-exchange.js, pdfa.js, and 1 file previously uncounted).",
+    "innerHTML count: 258 across 78 JS files (+10 from new modules).",
     "No new dependencies added since last review.",
-    "SSH: fail2ban total bans 7827 (+93 since last review). 7 IPs currently banned (down from 14). Brute-force continues at typical rate. No successful unauthorized logins.",
+    "SSH: fail2ban total bans 7903 (+76 since last review). 4 IPs currently banned (down from 7). Brute-force continues at typical rate. No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (73 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404).",
