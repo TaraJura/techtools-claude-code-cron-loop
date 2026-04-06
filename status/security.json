@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-06T04:20:00Z",
+  "last_review": "2026-04-06T06:20:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 8 currently banned",
-    "fail2ban_status": "active - sshd jail running, 8 currently banned, 7937 total banned",
-    "change_since_last": "fail2ban total bans 7937 (up from 7903, +34). 8 IPs currently banned (up from 4). Brute-force continues at typical rate. Currently banned: 45.148.10.152, 2.57.122.196, 2.57.122.193, 80.94.92.166, 45.148.10.141, 2.57.121.50, 2.57.122.208, 2.57.122.191. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 9 currently banned",
+    "fail2ban_status": "active - sshd jail running, 9 currently banned, 8036 total banned",
+    "change_since_last": "fail2ban total bans 8036 (up from 7937, +99). 9 IPs currently banned (up from 8). Brute-force continues at typical rate. New IPs: 147.50.103.212, 2.57.122.194, 154.73.168.229, 2.57.122.190, 193.46.255.86. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,24 +40,31 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "260 usages across 78 JS files (+2 from multiselect.js). All PDF-derived content escaped. Same patterns as existing modules."
+    "innerHTML_note": "260 usages across 79 JS files (unchanged count — epub-export.js has 0 innerHTML usages)."
   },
   "changed_files_review": {
-    "multiselect_js": {
-      "task": "TASK-079 - Multi-Select Annotation Management",
-      "status": "NEW FILE",
-      "innerHTML_count": 2,
-      "innerHTML_safe": "1 clearing (innerHTML=''), 1 template with hardcoded icon/label values only — no user/PDF content. SAFE.",
-      "no_escapeHtml_needed": "No user-controlled or PDF-derived content reaches innerHTML. Context menu items are all hardcoded strings.",
+    "epub_export_js": {
+      "task": "TASK-080 - PDF to EPUB Export",
+      "status": "NEW FILE — 898 lines",
+      "innerHTML_count": 0,
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_network_calls": true,
       "no_localStorage": true,
-      "prompt_usage": "Line 1288: prompt() for group name — result stored in-memory only (namedGroups array), displayed via showToast (textContent). Not used in innerHTML. SAFE.",
-      "querySelectorAll_safe": "data-attribute selectors use parseInt'd IDs only — no injection vector.",
-      "loaded_via": "script tag in index.html line 6099 (type=module), not imported by app.js",
-      "unbounded_collections": "selectedItems Map and namedGroups array have no size limits. Client-side, user-driven only. LOW risk.",
+      "escapeXml_function": "Covers all 5 XML entities (&, <, >, \", '). Used for all text content in reflow XHTML bodies (line 315) and most metadata contexts.",
+      "sanitizeFilename_used": "Line 872 — sanitizeFilename from utils.js used for download filename. SAFE.",
+      "fixed_layout_title_unescaped": "Line 591: <title>${chapter.title}</title> in fixed-layout XHTML — not XML-escaped. When chapterSplit='bookmarks', bookmark titles from PDF are raw. Creates potentially malformed XHTML in downloaded EPUB. Not web XSS (content in ZIP file). MEDIUM-LOW risk.",
+      "double_escaping_headings": "Reflow path: heading text escaped at line 315 (structurePageContent), then escaped again at line 629 in <title>. Cosmetic display issue in EPUB TOC. LOW risk.",
+      "flattenOutline_recursion": "Line 336: recursive with no depth limit. PDF outlines typically shallow. Client-side self-DoS only. LOW risk.",
+      "no_processing_timeout": "exportEpub has no timeout. Cover rendered at 1600px, pages at 150 DPI. Could use significant memory for large PDFs. Client-side self-DoS only. LOW risk.",
+      "loaded_via": "script tag in index.html line 6249 (type=module)",
+      "security_status": "secure — no critical issues"
+    },
+    "action_registry_js": {
+      "task": "TASK-080 — added EPUB export action registration",
+      "status": "UPDATED — added 'convert.epub' action (lines 360-370)",
+      "changes": "New action registration only: id='convert.epub', name='Export to EPUB'. Triggers UI tab switch. No security-relevant changes.",
       "security_status": "secure"
     }
   },
@@ -76,7 +83,8 @@
     "html-export.js", "form-data.js", "link-manager.js", "sanitize.js", "compare.js", "snip.js",
     "page-labels.js", "image-manager.js", "deskew.js", "app.js",
     "command-palette.js", "keyboard-shortcuts.js", "action-registry.js", "font-inspector.js",
-    "clipboard.js", "guides.js", "annotation-exchange.js", "pdfa.js", "multiselect.js"
+    "clipboard.js", "guides.js", "annotation-exchange.js", "pdfa.js", "multiselect.js",
+    "epub-export.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -114,14 +122,16 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
-    "multiselect_js_reviewed_task079",
-    "multiselect_js_no_user_data_in_innerHTML",
-    "multiselect_js_prompt_safe_textContent_only",
-    "multiselect_js_querySelectorAll_parseInt_safe",
-    "all_78_js_files_accounted_for",
+    "epub_export_js_reviewed_task080",
+    "epub_export_js_no_innerHTML",
+    "epub_export_js_no_eval_function_docwrite",
+    "epub_export_js_escapeXml_covers_5_entities",
+    "epub_export_js_sanitizeFilename_used",
+    "action_registry_js_epub_registration_safe",
+    "all_79_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_73_days",
-    "fail2ban_active_7937_total_bans",
+    "fail2ban_active_8036_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -188,15 +198,19 @@
     "annotation-exchange.js: no file size limit on XFDF import — XFDF files are text, typically small. Client-side self-DoS only. LOW risk.",
     "annotation-exchange.js: parsePageRange unbounded Set growth from page range input — user-driven. LOW risk.",
     "multiselect.js: selectedItems Map and namedGroups array unbounded — no max selection/group count. Client-side, user-driven only. LOW risk.",
-    "multiselect.js: group name from prompt() not length-limited — stored in memory only, not persisted. LOW risk."
+    "multiselect.js: group name from prompt() not length-limited — stored in memory only, not persisted. LOW risk.",
+    "epub-export.js line 591: fixed-layout <title>${chapter.title}</title> not XML-escaped. When chapterSplit='bookmarks', bookmark titles from PDF are raw. Creates potentially malformed XHTML in downloaded EPUB. Not web XSS. MEDIUM-LOW risk.",
+    "epub-export.js: double-escaping in reflow+headings path — heading text escaped at line 315, then again at line 629 in <title>. Cosmetic issue in EPUB. LOW risk.",
+    "epub-export.js line 336: flattenOutline() recursive with no depth limit. PDF outlines typically shallow. Client-side self-DoS only. LOW risk.",
+    "epub-export.js: no processing timeout on exportEpub(). Cover rendered at 1600px, pages at 150 DPI. Client-side self-DoS for large PDFs. LOW risk."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. 1 new file reviewed (multiselect.js TASK-079). SECURE.",
-    "REVIEWED: multiselect.js (TASK-079) — Multi-select annotation management with rubber-band selection, bulk ops, alignment, grouping. 2 innerHTML usages: 1 clearing, 1 hardcoded context menu items (no user/PDF content). No eval/Function/document.write. No network/localStorage. prompt() for group name used in textContent only.",
-    "JS file count: 78 (unchanged from last review — multiselect.js new, count stable).",
-    "innerHTML count: 260 across 78 JS files (+2 from multiselect.js).",
-    "No new dependencies added since last review.",
-    "SSH: fail2ban total bans 7937 (+34 since last review). 8 IPs currently banned (up from 4). Brute-force continues at typical rate. No successful unauthorized logins.",
+    "Security review completed — no critical fixes needed. 1 new file reviewed (epub-export.js TASK-080), 1 updated file (action-registry.js). SECURE.",
+    "REVIEWED: epub-export.js (TASK-080) — PDF to EPUB export with reflow/fixed layout, chapter splitting by page/headings/bookmarks, cover generation, JSZip packaging. 0 innerHTML usages. escapeXml() properly covers 5 entities. sanitizeFilename used for download. No eval/Function/document.write/network calls.",
+    "JS file count: 79 (up from 78 — epub-export.js added).",
+    "innerHTML count: 260 across 79 JS files (unchanged — epub-export.js has 0).",
+    "No new dependencies added — epub-export.js uses existing JSZip (lib/jszip.min.js).",
+    "SSH: fail2ban total bans 8036 (+99 since last review). 9 IPs currently banned (up from 8). Brute-force continues at typical rate. No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (73 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404).",
@@ -204,11 +218,14 @@
   ],
   "recommendations": [
     "MEDIUM: guides.js line 685 — add guard before drawRuler() tick loop: if (tickPx < 1) return; to prevent infinite loop when zoom approaches 0",
+    "MEDIUM-LOW: epub-export.js line 591 — escape chapter.title in fixed-layout <title>: use <title>${escapeXml(chapter.title)}</title>",
+    "MEDIUM-LOW: epub-export.js line 315/629 — avoid double-escaping: store raw text in structurePageContent, escape only at output point in generateChapterXHTML",
     "MEDIUM-LOW: markdown-export.js line 1012 — add double-quote escaping to simpleMarkdownToHtml: text.replace(/\"/g, '&quot;') to prevent attribute breakout in <a href>",
     "MEDIUM-LOW: markdown-export.js line 1029 — add protocol allowlist for link URLs: only allow http:, https:, mailto: schemes in generated <a href> tags",
     "MEDIUM-LOW: markdown-export.js lines 942-945 — escape YAML special characters in frontmatter values: replace \" with \\\" and newlines with spaces in title/author/filename",
     "MEDIUM-LOW: Escape OCG usage values in layers.js lines 505-507 — wrap printState/viewState/exportState with escapeHtml() before inserting into HTML",
     "MEDIUM-LOW: Add protocol allowlist to hyperlinks.js handleLinkClick() — only allow http:, https:, mailto: schemes before calling window.open() on detected PDF links",
+    "LOW: epub-export.js line 336 — add recursion depth limit (maxDepth=20) to flattenOutline() for defense-in-depth",
     "LOW: Add ASN.1 recursion depth limit (maxDepth=50) to verify-signatures.js parseASN1() for defense against crafted deeply nested structures",
     "LOW: Add upper bound cap (MAX_SIGNATURES=100) to verify-signatures.js signature parsing loop",
     "LOW: Add bounds validation on byteRange values in verify-signatures.js before slicing PDF bytes",
