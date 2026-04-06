@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-06T02:25:00Z",
+  "last_review": "2026-04-06T04:20:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 4 currently banned",
-    "fail2ban_status": "active - sshd jail running, 4 currently banned, 7903 total banned",
-    "change_since_last": "fail2ban total bans 7903 (up from 7827, +76). 4 IPs currently banned (down from 7). Brute-force continues at typical rate. Currently banned: 2.57.122.177, 80.94.92.177, 80.94.92.183, 92.118.39.87. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 8 currently banned",
+    "fail2ban_status": "active - sshd jail running, 8 currently banned, 7937 total banned",
+    "change_since_last": "fail2ban total bans 7937 (up from 7903, +34). 8 IPs currently banned (up from 4). Brute-force continues at typical rate. Currently banned: 45.148.10.152, 2.57.122.196, 2.57.122.193, 80.94.92.166, 45.148.10.141, 2.57.121.50, 2.57.122.208, 2.57.122.191. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,53 +40,25 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "258 usages across 78 JS files (+10 from annotation-exchange.js, pdfa.js). All PDF-derived content escaped. Same patterns as existing modules."
+    "innerHTML_note": "260 usages across 78 JS files (+2 from multiselect.js). All PDF-derived content escaped. Same patterns as existing modules."
   },
   "changed_files_review": {
-    "pdfa_js": {
-      "task": "TASK-077 - PDF/A Compliance Checker & Converter",
+    "multiselect_js": {
+      "task": "TASK-079 - Multi-Select Annotation Management",
       "status": "NEW FILE",
-      "innerHTML_count": 5,
-      "innerHTML_safe": "3 clearing (innerHTML=''), 2 templates with escapeHtml() on all user/PDF data. criterion.label and statusIcon are constants.",
-      "escapeHtml": "textContent/innerHTML DOM trick — same pattern as other modules, doesn't escape double quotes. Used only in element content (safe).",
-      "escapeXml": "Properly escapes all 5 XML entities (&<>\"'). Used for XMP metadata generation. GOOD.",
+      "innerHTML_count": 2,
+      "innerHTML_safe": "1 clearing (innerHTML=''), 1 template with hardcoded icon/label values only — no user/PDF content. SAFE.",
+      "no_escapeHtml_needed": "No user-controlled or PDF-derived content reaches innerHTML. Context menu items are all hardcoded strings.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
-      "imports_sanitizeFilename": "imported but not directly called — downloadBlob from utils.js handles download",
-      "processing_timeout": "none — client-side self-DoS only for large PDFs. LOW risk.",
+      "no_network_calls": true,
+      "no_localStorage": true,
+      "prompt_usage": "Line 1288: prompt() for group name — result stored in-memory only (namedGroups array), displayed via showToast (textContent). Not used in innerHTML. SAFE.",
+      "querySelectorAll_safe": "data-attribute selectors use parseInt'd IDs only — no injection vector.",
+      "loaded_via": "script tag in index.html line 6099 (type=module), not imported by app.js",
+      "unbounded_collections": "selectedItems Map and namedGroups array have no size limits. Client-side, user-driven only. LOW risk.",
       "security_status": "secure"
-    },
-    "annotation_exchange_js": {
-      "task": "Annotation Exchange (FDF/XFDF) - export/import annotations",
-      "status": "NEW FILE",
-      "innerHTML_count": 5,
-      "innerHTML_safe": "Line 843: static HTML template (no user data). Line 945: static string. Line 950: hardcoded labels + numbers. Line 1032: escapeHtml(fileName) and escapeHtml(warnings). Line 1115: escapeHtml definition.",
-      "import_parsing": "Uses DOMParser with 'text/xml' — safe XML parsing. Parsed data used as numeric/string fields in annotation structures.",
-      "file_picker_accepts": ".xfdf,.fdf only",
-      "no_file_size_limit_on_import": "XFDF files are text, typically small. No explicit size check. LOW risk, client-side self-DoS only.",
-      "no_eval": true,
-      "no_function_constructor": true,
-      "no_document_write": true,
-      "no_window_open": true,
-      "security_status": "secure"
-    },
-    "action_registry_js": {
-      "change": "Modified today — new action registrations for pdfa and annotation-exchange modules",
-      "innerHTML_count": 0,
-      "no_eval": true,
-      "no_function_constructor": true,
-      "security_impact": "none — action registry is a dispatch table",
-      "security_status": "secure"
-    },
-    "app_js": {
-      "change": "Modified today — added 'pdfa' and 'annotation-exchange' to module imports/initialization",
-      "security_impact": "none — UI wiring only",
-      "security_status": "secure"
-    },
-    "link_manager_js": {
-      "change": "Modified today (timestamp updated) — previously reviewed in last cycle",
-      "security_status": "secure (no new changes)"
     }
   },
   "previous_module_reviews_still_valid": [
@@ -104,7 +76,7 @@
     "html-export.js", "form-data.js", "link-manager.js", "sanitize.js", "compare.js", "snip.js",
     "page-labels.js", "image-manager.js", "deskew.js", "app.js",
     "command-palette.js", "keyboard-shortcuts.js", "action-registry.js", "font-inspector.js",
-    "clipboard.js", "guides.js", "annotation-exchange.js", "pdfa.js"
+    "clipboard.js", "guides.js", "annotation-exchange.js", "pdfa.js", "multiselect.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -142,19 +114,14 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
-    "pdfa_js_reviewed_task077",
-    "pdfa_js_escapeXml_properly_escapes_quotes",
-    "pdfa_js_escapeHtml_element_content_only",
-    "annotation_exchange_js_reviewed",
-    "annotation_exchange_js_domparser_xml_safe",
-    "annotation_exchange_js_escapeHtml_used",
-    "annotation_exchange_js_file_picker_restricted",
-    "action_registry_js_no_dangerous_patterns",
-    "app_js_wiring_only",
+    "multiselect_js_reviewed_task079",
+    "multiselect_js_no_user_data_in_innerHTML",
+    "multiselect_js_prompt_safe_textContent_only",
+    "multiselect_js_querySelectorAll_parseInt_safe",
     "all_78_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_73_days",
-    "fail2ban_active_7903_total_bans",
+    "fail2ban_active_7937_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -219,18 +186,17 @@
     "pdfa.js: sanitizeFilename imported but not called on download filename — downloadBlob from utils.js handles the download attribute. LOW risk.",
     "pdfa.js: no processing timeout on runValidation() or convertToPdfA(). Client-side self-DoS only. LOW risk.",
     "annotation-exchange.js: no file size limit on XFDF import — XFDF files are text, typically small. Client-side self-DoS only. LOW risk.",
-    "annotation-exchange.js: parsePageRange unbounded Set growth from page range input — user-driven. LOW risk."
+    "annotation-exchange.js: parsePageRange unbounded Set growth from page range input — user-driven. LOW risk.",
+    "multiselect.js: selectedItems Map and namedGroups array unbounded — no max selection/group count. Client-side, user-driven only. LOW risk.",
+    "multiselect.js: group name from prompt() not length-limited — stored in memory only, not persisted. LOW risk."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. 5 changed files reviewed (pdfa.js NEW, annotation-exchange.js NEW, action-registry.js, app.js, link-manager.js). SECURE.",
-    "REVIEWED: pdfa.js (TASK-077) — PDF/A compliance checker. 5 innerHTML usages, all safe (3 clearing, 2 with escapeHtml on user data). escapeXml properly escapes quotes for XMP metadata. No eval/Function/document.write.",
-    "REVIEWED: annotation-exchange.js — XFDF annotation export/import. 5 innerHTML usages, all safe (static templates + escapeHtml on filenames/warnings). Import uses DOMParser('text/xml') — safe parsing. File picker restricted to .xfdf/.fdf.",
-    "REVIEWED: action-registry.js — new action registrations for pdfa and annotation-exchange. No innerHTML, no eval. Pure dispatch table.",
-    "REVIEWED: app.js — module wiring for new features. UI-only changes.",
-    "JS file count: 78 (+3 from last review: annotation-exchange.js, pdfa.js, and 1 file previously uncounted).",
-    "innerHTML count: 258 across 78 JS files (+10 from new modules).",
+    "Security review completed — no critical fixes needed. 1 new file reviewed (multiselect.js TASK-079). SECURE.",
+    "REVIEWED: multiselect.js (TASK-079) — Multi-select annotation management with rubber-band selection, bulk ops, alignment, grouping. 2 innerHTML usages: 1 clearing, 1 hardcoded context menu items (no user/PDF content). No eval/Function/document.write. No network/localStorage. prompt() for group name used in textContent only.",
+    "JS file count: 78 (unchanged from last review — multiselect.js new, count stable).",
+    "innerHTML count: 260 across 78 JS files (+2 from multiselect.js).",
     "No new dependencies added since last review.",
-    "SSH: fail2ban total bans 7903 (+76 since last review). 4 IPs currently banned (down from 7). Brute-force continues at typical rate. No successful unauthorized logins.",
+    "SSH: fail2ban total bans 7937 (+34 since last review). 8 IPs currently banned (up from 4). Brute-force continues at typical rate. No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (73 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404).",
