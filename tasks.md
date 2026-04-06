@@ -9,7 +9,7 @@
 
 ### TASK-065: Digital signature verification and certificate inspection tool
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: HIGH
 **Assigned to**: developer
 **Previously failed**: Yes — see issues below from tester (2026-04-06)
