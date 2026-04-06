@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-06T12:14:00Z",
+  "last_review": "2026-04-06T14:20:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 3 currently banned",
-    "fail2ban_status": "active - sshd jail running, 3 currently banned, 8232 total banned",
-    "change_since_last": "fail2ban total bans 8232 (up from 8198, +34). 3 IPs currently banned (up from 0): 195.178.110.30, 92.118.39.87, 213.209.159.142. NEW: 213.209.159.142 attempting targeted usernames 'techtools' and 'cronloop' — indicates reconnaissance specific to this server. Ongoing generic brute-force from 92.118.39.x, 80.94.92.x ranges. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 13 currently banned",
+    "fail2ban_status": "active - sshd jail running, 13 currently banned, 8321 total banned",
+    "change_since_last": "fail2ban total bans 8321 (up from 8232, +89). 13 IPs currently banned (up from 3). Active brute-force from 2.57.121.x/2.57.122.x range (5 IPs), 80.94.92.x (2 IPs), 195.178.110.15, 103.176.79.139, 103.174.114.50, 193.46.255.86, 38.224.73.139. Generic usernames attempted: ubuntu, sol, setup, jibs, eugene, user, root. No server-specific reconnaissance in this window. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,28 +40,31 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "276 usages across 82 JS files (unchanged count — auto-crop.js has 0 innerHTML)."
+    "innerHTML_note": "282 usages across 82 JS files (up from 276 — ocr.js rewrite added 6 innerHTML uses, all safe: 4 clearing operations, 1 hardcoded lang data, 1 static SVG)."
   },
   "changed_files_review": {
-    "auto_crop_js": {
-      "task": "TASK-083 - Auto-crop whitespace margins",
-      "status": "NEW FILE — 669 lines",
-      "innerHTML_count": 0,
+    "ocr_js": {
+      "task": "TASK-084 - Advanced OCR configuration panel with multi-language support and confidence visualization",
+      "status": "REWRITTEN — 1054 lines (up from previous version)",
+      "innerHTML_count": 7,
+      "innerHTML_safe": "4 clearing (''), 1 from hardcoded ALL_LANGUAGES array (not user-controlled), 1 tag from hardcoded array, 1 static SVG restore button. ALL SAFE.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_window_open": true,
-      "no_network_calls": true,
-      "no_localStorage": true,
-      "no_sessionStorage": true,
-      "no_indexedDB": true,
-      "text_display_safe": "Uses textContent for UI updates (lines 68, 433, 468, 567). SAFE.",
-      "canvas_usage": "Creates canvas elements for page analysis at 150 DPI. Uses getImageData for pixel scanning. Standard browser API. SAFE.",
-      "pdf_lib_usage": "Sets CropBox via pdf-lib page.setCropBox() — non-destructive crop. Standard API. SAFE.",
-      "parsePageRange": "Bounded by total page count parameter. Set growth limited. SAFE.",
-      "dynamic_import": "Line 606: import('../lib/pdf-lib.min.js') — relative path to self-hosted lib. SAFE.",
-      "no_processing_timeout": "analyzePages and applyAutoCrop have no hard timeout. Yields every BATCH_SIZE (5) pages via requestIdleCallback. Client-side self-DoS only for large PDFs. LOW risk.",
-      "canvas_cleanup": "Canvas elements created in analyzePage() not explicitly released after each page. GC handles. LOW risk for large batch analysis.",
+      "no_network_calls": "Tesseract.js may fetch language data files, handled by library",
+      "no_localStorage_abuse": "Reads/writes OCR settings (STORAGE_KEY). Same-origin. SAFE.",
+      "text_display_safe": "Confidence view uses textContent (lines 831, 838, 878, 895, 904). SAFE.",
+      "title_attribute_safe": "Line 905: word.text in title attribute via DOM property assignment (not innerHTML). SAFE.",
+      "escapeHtml_function": "Line 950-952: escapes &, <, >, and double quotes. BETTER than other modules — includes &quot;. Used for hOCR export. SAFE.",
+      "sanitizeFilename_used": "Lines 422, 946, 1010: download filenames properly sanitized. SAFE.",
+      "dynamic_import": "Line 968: import('../lib/pdf-lib.min.js') — relative path to self-hosted lib. SAFE.",
+      "parsePageRange": "Lines 470-489: bounded by totalPages parameter. Set growth limited. SAFE.",
+      "language_selection": "Max 5 simultaneous languages enforced (line 233). Language codes from hardcoded ALL_LANGUAGES array only. SAFE.",
+      "canvas_usage": "Creates canvas for page rendering at configurable DPI. DPI from slider (UI-bounded). Standard browser API. SAFE.",
+      "preprocessing": "Image preprocessing (contrast, binarize, denoise) operates on canvas pixel data. No external calls. SAFE.",
+      "no_processing_timeout": "OCR extraction has manual cancel button but no auto-timeout. Client-side self-DoS only for large PDFs with high DPI. LOW risk.",
+      "canvas_cleanup": "Canvas elements created in renderPageToCanvas() not explicitly released — GC handles. LOW risk.",
       "loaded_via": "script tag in index.html (type=module)",
       "security_status": "secure — no issues found"
     }
@@ -75,14 +78,14 @@
     "stamps.js", "drawing.js", "sticky-notes.js", "annotate.js", "search.js", "measure.js",
     "attachments.js", "form-creator.js", "docx-export.js", "watermark.js", "autosave.js", "flatten.js",
     "tables.js", "viewer.js", "present.js", "protect.js", "metadata.js", "redact.js", "forms.js",
-    "page-numbers.js", "bookmarks.js", "ocr.js", "img2pdf.js", "convert.js", "merge.js", "upload.js",
+    "page-numbers.js", "bookmarks.js", "img2pdf.js", "convert.js", "merge.js", "upload.js",
     "split.js", "split-bookmarks.js", "compress.js", "signatures.js", "batch.js", "theme.js",
     "templates.js", "utils.js", "extract-images.js", "headers-footers.js", "toc.js",
     "html-export.js", "form-data.js", "link-manager.js", "sanitize.js", "compare.js", "snip.js",
     "page-labels.js", "image-manager.js", "deskew.js", "app.js",
     "command-palette.js", "keyboard-shortcuts.js", "action-registry.js", "font-inspector.js",
     "clipboard.js", "guides.js", "annotation-exchange.js", "pdfa.js", "multiselect.js",
-    "epub-export.js", "statistics.js", "context-menu.js", "auto-crop.js"
+    "epub-export.js", "statistics.js", "context-menu.js", "auto-crop.js", "ocr.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -120,22 +123,23 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
-    "auto_crop_js_reviewed_task083",
-    "auto_crop_js_no_innerHTML",
-    "auto_crop_js_no_eval_function_docwrite",
-    "auto_crop_js_no_window_open",
-    "auto_crop_js_no_network_storage",
-    "auto_crop_js_textContent_safe",
+    "ocr_js_reviewed_task084",
+    "ocr_js_7_innerHTML_all_safe",
+    "ocr_js_no_eval_function_docwrite",
+    "ocr_js_no_window_open",
+    "ocr_js_escapeHtml_includes_dblquote",
+    "ocr_js_sanitizeFilename_on_downloads",
+    "ocr_js_textContent_for_user_content",
+    "ocr_js_language_selection_bounded",
     "all_82_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_73_days",
-    "fail2ban_active_8232_total_bans",
+    "fail2ban_active_8321_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
     "nginx_config_syntax_ok",
-    "document_write_safe_print_only",
-    "targeted_ssh_recon_detected_banned"
+    "document_write_safe_print_only"
   ],
   "known_issues": [
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
@@ -208,15 +212,18 @@
     "statistics.js runAnalysis() has no auto-timeout. Has abort mechanism. Yields every 5 pages. Client-side self-DoS for large PDFs. LOW risk.",
     "statistics.js export filenames (lines 429, 443) not passed through sanitizeFilename. downloadBlob from utils.js handles download attribute. LOW risk.",
     "auto-crop.js: no processing timeout on analyzePages/applyAutoCrop. Yields every BATCH_SIZE (5) pages via requestIdleCallback. Client-side self-DoS only. LOW risk.",
-    "auto-crop.js: canvas elements in analyzePage() not explicitly released — GC handles cleanup. LOW risk for large batch analysis."
+    "auto-crop.js: canvas elements in analyzePage() not explicitly released — GC handles cleanup. LOW risk for large batch analysis.",
+    "ocr.js: no auto-timeout on OCR extraction — has manual cancel button. Client-side self-DoS only for large PDFs with high DPI. LOW risk.",
+    "ocr.js: canvas elements in renderPageToCanvas() not explicitly released — GC handles. LOW risk.",
+    "NOTE: ocr.js escapeHtml() (line 950) correctly escapes double quotes — best practice among all modules. Other modules should adopt this pattern."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. 1 new file reviewed (auto-crop.js TASK-083). SECURE.",
-    "REVIEWED: auto-crop.js (TASK-083) — Auto-crop whitespace margins tool. 669 lines. 0 innerHTML, 0 eval/Function/document.write, 0 window.open. Uses canvas pixel analysis for content boundary detection and pdf-lib CropBox for non-destructive cropping. All UI text via textContent. No network calls, no storage APIs. Clean module.",
-    "JS file count: 82 (up from 81 — auto-crop.js added).",
-    "innerHTML count: 276 across 82 JS files (unchanged count — auto-crop.js has 0).",
+    "Security review completed — no critical fixes needed. 1 file rewritten (ocr.js TASK-084). SECURE.",
+    "REVIEWED: ocr.js (TASK-084) — Advanced OCR configuration panel. 1054 lines (rewrite). Multi-language support (42 langs, max 5 simultaneous), preprocessing (binarize/contrast/denoise), confidence visualization, hOCR export, searchable PDF export. 7 innerHTML uses (4 clearing, 2 hardcoded data, 1 static SVG). All user-facing text via textContent. escapeHtml includes double-quote escaping. sanitizeFilename on all downloads. No eval/Function/document.write/window.open. Clean module.",
+    "JS file count: 82 (unchanged).",
+    "innerHTML count: 282 across 82 JS files (up from 276 — ocr.js rewrite added 6 net innerHTML uses, all safe).",
     "No new dependencies added.",
-    "SSH: fail2ban total bans 8232 (+34 since last review). 3 IPs currently banned: 195.178.110.30, 92.118.39.87, 213.209.159.142. NOTABLE: 213.209.159.142 attempting targeted usernames 'techtools' and 'cronloop' — server-specific reconnaissance, not generic brute-force. Fail2ban caught and banned. No successful unauthorized logins.",
+    "SSH: fail2ban total bans 8321 (+89 since last review). 13 IPs currently banned (up from 3). Active brute-force from 2.57.121.x/2.57.122.x and 80.94.92.x ranges. Generic usernames only (ubuntu, sol, setup, jibs, eugene, user, root). No server-specific reconnaissance in this window. No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (73 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed. Nginx blocking rules verified. Config syntax valid."
@@ -232,6 +239,7 @@
     "MEDIUM-LOW: markdown-export.js lines 942-945 — escape YAML special characters in frontmatter values",
     "MEDIUM-LOW: Escape OCG usage values in layers.js lines 505-507",
     "MEDIUM-LOW: Add protocol allowlist to hyperlinks.js handleLinkClick()",
+    "LOW: Adopt ocr.js escapeHtml pattern (with &quot;) across all modules that have escapeHtml/esc functions",
     "LOW: statistics.js countOutline() — add recursion depth limit",
     "LOW: epub-export.js line 336 — add recursion depth limit to flattenOutline()",
     "LOW: verify-signatures.js parseASN1() — add recursion depth limit",
