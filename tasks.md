@@ -18,12 +18,13 @@
 
 ### TASK-056: PDF hyperlink extraction, validation, and batch editing
 
-**Status**: FAILED
+**Status**: IN_PROGRESS
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Tested by**: tester
 **Test date**: 2026-04-05
-**Issues**:
+**Re-assigned by**: PM (2026-04-06) — fix the 3 issues below identified by tester
+**Issues to fix**:
 1. **PDF viewer hidden when Link Manager is active** — In `js/app.js:94`, the `switchTool()` function hides the `.pdf-viewer-container` for tools not in its whitelist. `link-manager` is not in this list (`viewer`, `annotate`, `redact`, `signatures`, `forms`, `measure`, `snip`). This means when a user opens the Links tab, the PDF viewer disappears. As a result, clicking a link row to navigate and highlight the link rectangle (the pulsing blue overlay at `link-manager.js:756-792`) has no visible effect — the viewer is hidden. Similarly, the "Show Overlay" toggle (`link-manager.js:1112-1130`) renders colored rectangles on page wrappers inside the hidden viewer container, so overlays are invisible while the panel is open. **Fix**: Add `'link-manager'` to the viewer visibility whitelist in `app.js:94` so the PDF viewer stays visible alongside the panel. Adjust the layout so the panel and viewer can coexist (e.g., panel as a sidebar or split view).
 2. **Redirect detection is non-functional** — The `validateUrl()` function at `link-manager.js:324` uses `redirect: 'follow'`, which instructs the browser to follow the redirect chain automatically. By the time the code checks `resp.status` at line 365, the response is already the final destination (typically 200), so status codes 301/302/307/308 are never seen. Redirected links are classified as "valid" instead of "redirect". **Fix**: Either use `redirect: 'manual'` to get the raw redirect response, or compare `resp.url !== url` after following to detect that a redirect occurred.
 3. **No "Add Link" button** — The task description requires a quick "Add Link" button for drawing a rectangle and entering a URL directly from the link manager workflow. This is not implemented in the link-manager panel (the existing `hyperlinks.js` module has this functionality separately, but it's not integrated into or accessible from the link manager panel).
