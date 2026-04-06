@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-06T08:16:00Z",
+  "last_review": "2026-04-06T10:16:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 13 currently banned",
-    "fail2ban_status": "active - sshd jail running, 13 currently banned, 8135 total banned",
-    "change_since_last": "fail2ban total bans 8135 (up from 8036, +99). 13 IPs currently banned (up from 9). Multiple IPs in 2.57.122.x/2.57.121.x range suggest coordinated brute-force. New IPs: 51.195.138.37, 58.229.141.26, 39.117.79.36, 2.57.122.197, 149.50.150.222, 14.29.198.130, 2.57.122.193, 2.57.122.177, 2.57.121.112, 213.209.159.159, 2.57.122.195. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 0 currently banned",
+    "fail2ban_status": "active - sshd jail running, 0 currently banned, 8198 total banned",
+    "change_since_last": "fail2ban total bans 8198 (up from 8135, +63). 0 IPs currently banned (down from 13). Ongoing brute-force from 2.57.122.x/2.57.121.x range continues. New IPs: 195.178.110.15, 117.80.229.47, 45.148.10.147, 80.94.92.168. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,37 +40,31 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "271 usages across 80 JS files (up from 260/79 — statistics.js adds 11 new usages)."
+    "innerHTML_note": "276 usages across 81 JS files (up from 271/80 — context-menu.js adds 5 usages: 3 clearing, 2 hardcoded SVG icons)."
   },
   "changed_files_review": {
-    "statistics_js": {
-      "task": "TASK-081 - Document Statistics & Content Analysis Dashboard",
-      "status": "NEW FILE — 488 lines",
-      "innerHTML_count": 11,
+    "context_menu_js": {
+      "task": "TASK-082 - Context-sensitive right-click menu system",
+      "status": "NEW FILE — 738 lines",
+      "innerHTML_count": 5,
+      "innerHTML_detail": "3 clearing (lines 145, 240, 380), 2 hardcoded SVG icons (lines 166, 179). No user-controlled data in innerHTML.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_network_calls": true,
-      "no_localStorage": true,
-      "esc_function": "Uses textContent→innerHTML DOM pattern (line 448-452). Escapes <, >, & properly. Does NOT escape double quotes — same limitation as escapeHtml() in other modules.",
-      "esc_in_attributes": "Lines 299, 321: esc(f.name) and esc(img.name) used in title attributes. Font names and image names come from PDF via pdf.js. Double-quote in these values could break attribute boundary. CSP script-src 'self' mitigates inline handler injection. MEDIUM-LOW risk.",
-      "esc_in_content": "All other esc() usages are in element content — properly escaped. SAFE.",
-      "countOutline_recursion": "Line 199: recursive with no depth limit. PDF outlines typically shallow. Client-side self-DoS only. LOW risk.",
-      "no_processing_timeout": "runAnalysis() has abort mechanism but no auto-timeout. Yields every 5 pages. Client-side self-DoS only for large PDFs. LOW risk.",
-      "export_filename": "Lines 429, 443: downloadBlob from utils.js used for export — does not call sanitizeFilename. Browser download attribute prevents path traversal. LOW risk but inconsistent.",
-      "csv_export_safe": "CSV contains only integers and measurements. No user-controlled text injected. SAFE.",
-      "json_export_safe": "JSON.stringify serialization. SAFE.",
-      "loaded_via": "script tag in index.html line 6393 (type=module)",
+      "no_localStorage_user_data": true,
+      "localStorage_note": "Line 24: stores boolean preference ('true'/'false') only. SAFE.",
+      "labels_safe": "All menu labels use textContent (lines 172, 184). SAFE.",
+      "icons_safe": "SVG icons are hardcoded in icons object (lines 488-523). Not user-controlled. SAFE.",
+      "link_url_issue": "Line 643: window.open(ctx.url, '_blank', 'noopener') — opens PDF-derived URL without protocol allowlist. ctx.url from link.dataset.linkUrl || link.dataset.pdfLink || link.href (line 453). A javascript: URI in a PDF link annotation could execute. CSP script-src 'self' + noopener mitigate. Same pattern as hyperlinks.js. MEDIUM-LOW risk.",
+      "event_listeners": "Properly added on openMenu and removed on closeMenu. No memory leaks. SAFE.",
+      "keyboard_nav": "Keyboard handler (lines 272-337) properly scoped to open menu state. SAFE.",
+      "loaded_via": "script tag in index.html (type=module)",
       "security_status": "secure — no critical issues"
     },
-    "action_registry_js": {
-      "task": "No statistics-specific action registered — statistics.js uses bus events directly",
-      "status": "No changes since last review for TASK-081",
-      "security_status": "secure"
-    },
     "index_html": {
-      "task": "TASK-081 — added statistics panel HTML and script tag",
-      "changes": "Static HTML panel with containers for analysis sections. No dynamic content in HTML. Script tag at line 6393. No security-relevant issues.",
+      "task": "TASK-082 — added context menu CSS and script tag",
+      "changes": "Static CSS styles for context menu component. Script tag for context-menu.js. No security-relevant issues.",
       "security_status": "secure"
     }
   },
@@ -90,7 +84,7 @@
     "page-labels.js", "image-manager.js", "deskew.js", "app.js",
     "command-palette.js", "keyboard-shortcuts.js", "action-registry.js", "font-inspector.js",
     "clipboard.js", "guides.js", "annotation-exchange.js", "pdfa.js", "multiselect.js",
-    "epub-export.js", "statistics.js"
+    "epub-export.js", "statistics.js", "context-menu.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -128,16 +122,15 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
-    "statistics_js_reviewed_task081",
-    "statistics_js_no_eval_function_docwrite",
-    "statistics_js_esc_function_proper",
-    "statistics_js_11_innerHTML_all_escaped",
-    "action_registry_js_no_changes_for_task081",
-    "index_html_statistics_panel_safe",
-    "all_80_js_files_accounted_for",
+    "context_menu_js_reviewed_task082",
+    "context_menu_js_no_eval_function_docwrite",
+    "context_menu_js_labels_use_textContent",
+    "context_menu_js_icons_hardcoded_svgs",
+    "context_menu_js_5_innerHTML_safe",
+    "all_81_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_73_days",
-    "fail2ban_active_8135_total_bans",
+    "fail2ban_active_8198_total_bans",
     "web_app_serving_200",
     "disk_space_ok_12pct",
     "ssh_only_authorized_activity",
@@ -162,6 +155,7 @@
     "reading-progress.js line 550: escapeHtml(doc.name) in title attribute — escapeHtml doesn't escape double quotes. Self-XSS only — doc.name from user-selected file. LOW risk.",
     "hyperlinks.js: detected PDF link URLs not validated for protocol scheme. A malicious PDF could contain javascript: URIs in link annotations. CSP + noopener/noreferrer mitigate. Should add protocol allowlist (http/https/mailto) before window.open().",
     "hyperlinks.js line 686: email link window.open() missing noopener/noreferrer — minor since mailto: links are low risk.",
+    "context-menu.js line 643: window.open(ctx.url, '_blank', 'noopener') — opens PDF-derived URL without protocol allowlist. Same pattern as hyperlinks.js. A javascript: URI could execute if CSP does not block it. CSP script-src 'self' mitigates. MEDIUM-LOW risk.",
     "img2pdf.js image validation uses OR logic (MIME type OR extension) - slightly permissive but acceptable for client-side processing.",
     "insert-pages.js has dead code: escapeHtml() function defined but never called.",
     "metadata.js has dead code: escapeHtml() function defined but never called.",
@@ -215,12 +209,12 @@
     "statistics.js export filenames (lines 429, 443) not passed through sanitizeFilename. downloadBlob from utils.js handles download attribute. LOW risk."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. 1 new file reviewed (statistics.js TASK-081). SECURE.",
-    "REVIEWED: statistics.js (TASK-081) — Document statistics dashboard with overview, text analysis, font inventory, image analysis, structure breakdown, file size breakdown, page dimensions. 11 innerHTML usages, all escaped via esc() function. No eval/Function/document.write/network calls/localStorage.",
-    "JS file count: 80 (up from 79 — statistics.js added).",
-    "innerHTML count: 271 across 80 JS files (up from 260/79 — statistics.js adds 11).",
-    "No new dependencies added — statistics.js uses only existing modules (app.js, utils.js, pdf-lib).",
-    "SSH: fail2ban total bans 8135 (+99 since last review). 13 IPs currently banned (up from 9). Multiple IPs in 2.57.122.x/2.57.121.x range — coordinated brute-force campaign. No successful unauthorized logins.",
+    "Security review completed — no critical fixes needed. 1 new file reviewed (context-menu.js TASK-082). SECURE.",
+    "REVIEWED: context-menu.js (TASK-082) — Context-sensitive right-click menu with 8 context types (text-selection, annotation, thumbnail, image, formfield, blank, link, tab). 5 innerHTML usages (3 clearing, 2 hardcoded SVG). All labels use textContent. No eval/Function/document.write/network calls. One issue: window.open(ctx.url) without protocol allowlist (same as hyperlinks.js).",
+    "JS file count: 81 (up from 80 — context-menu.js added).",
+    "innerHTML count: 276 across 81 JS files (up from 271/80 — context-menu.js adds 5).",
+    "No new dependencies added — context-menu.js uses only existing modules (app.js, utils.js, tabs.js).",
+    "SSH: fail2ban total bans 8198 (+63 since last review). 0 IPs currently banned (down from 13). Ongoing brute-force from 2.57.122.x/2.57.121.x range. No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (73 days remaining).",
     "Disk usage stable at 12%, 64G free.",
     "All security headers confirmed in HTTP response. Nginx blocking rules verified (git/env/CLAUDE.md/sh/traversal all return 404).",
@@ -228,6 +222,7 @@
   ],
   "recommendations": [
     "MEDIUM: guides.js line 685 — add guard before drawRuler() tick loop: if (tickPx < 1) return; to prevent infinite loop when zoom approaches 0",
+    "MEDIUM-LOW: context-menu.js line 643 — add protocol allowlist before window.open(ctx.url): only allow http:, https:, mailto: schemes. Same fix needed in hyperlinks.js.",
     "MEDIUM-LOW: statistics.js lines 299, 321 — esc() in title attributes with PDF-derived font/image names. Add double-quote escaping: return d.innerHTML.replace(/\"/g, '&quot;') or use a separate escAttr() for attribute contexts",
     "MEDIUM-LOW: epub-export.js line 591 — escape chapter.title in fixed-layout <title>: use <title>${escapeXml(chapter.title)}</title>",
     "MEDIUM-LOW: epub-export.js line 315/629 — avoid double-escaping: store raw text in structurePageContent, escape only at output point in generateChapterXHTML",
