@@ -9,12 +9,11 @@
 
 ### TASK-065: Digital signature verification and certificate inspection tool
 
-**Status**: FAILED
+**Status**: TODO
 **Priority**: HIGH
 **Assigned to**: developer
-**Tested by**: tester
-**Test date**: 2026-04-06
-**Issues**:
+**Previously failed**: Yes — see issues below from tester (2026-04-06)
+**Issues to fix**:
 1. **No asymmetric cryptographic signature verification (CRITICAL)**: The tool computes the document hash and compares it against the messageDigest in PKCS#7 signed attributes, but NEVER uses `crypto.subtle.importKey` + `crypto.subtle.verify` to verify the CMS signature against the signer's public key. The `cert.subjectPublicKeyInfo` is parsed and stored but never used. This means a "valid" result only confirms hash integrity, NOT that the signature was created by the claimed signer. This is the core requirement of a signature verification tool — without it, anyone could forge a "valid" signature by simply embedding a matching hash. The task explicitly requires: "verifying the CMS signature using the signer's public key from their X.509 certificate via `crypto.subtle.verify()`".
 2. **Signed version viewer not implemented**: The requirement to view historical signed versions of the document (truncating the file to each signature's ByteRange) is completely absent. No "View Signed Version" button exists.
 3. **Batch verification not implemented**: No integration with batch.js. The requirement to verify signatures across multiple uploaded PDFs with a summary table is missing.
