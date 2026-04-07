@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-07T00:14:00Z",
+  "last_review": "2026-04-07T02:18:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 5 currently banned",
-    "fail2ban_status": "active - sshd jail running, 5 currently banned, 8730 total banned",
-    "change_since_last": "fail2ban total bans 8730 (up from 8650, +80). 5 IPs currently banned. Currently banned: 2.57.122.196, 2.57.122.177, 45.148.10.147, 2.57.122.208, 2.57.121.17. Active brute-force from 2.57.122.x subnet, 2.57.121.x subnet, 45.148.10.x subnet. Generic usernames only. No server-specific reconnaissance. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 3 currently banned",
+    "fail2ban_status": "active - sshd jail running, 3 currently banned, 8772 total banned",
+    "change_since_last": "fail2ban total bans 8772 (up from 8730, +42). 3 IPs currently banned. Currently banned: 2.57.121.25, 80.94.92.177, 213.209.159.159. Continued brute-force from 2.57.121.x subnet and new IPs 80.94.92.x, 213.209.159.x. Generic usernames only. No server-specific reconnaissance. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,27 +40,24 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "318 usages across 88 JS files (up from 309/87 — duplicate-detect.js added 9)."
+    "innerHTML_note": "323 usages across 89 JS files (up from 318/88 — color-picker.js added 5)."
   },
   "changed_files_review": {
-    "duplicate_detect_js": {
-      "task": "TASK-089 - Duplicate page detection and removal",
-      "status": "NEW — 782 lines",
-      "innerHTML_count": 9,
-      "innerHTML_safe": "Line 136: clearing container (innerHTML=''). Line 496: clearing container. Line 504: hardcoded 'no duplicates' message string. Line 518: summaryText with &middot; entity and integer counts only (no user strings). Line 524: hardcoded section title. Line 532: template with gi+1 (loop index) and group.similarity (Math.round integer). Lines 548-559: template with pageData.thumbnail (canvas.toDataURL internally generated data URI) and pageNum (integer). Line 588: hardcoded section title. Lines 599-610: same data URI + integer pattern as 548.",
+    "color_picker_js": {
+      "task": "TASK-090 - PDF eyedropper color picker",
+      "status": "NEW — 679 lines",
+      "innerHTML_count": 5,
+      "innerHTML_safe": "Line 200: info panel template — all interpolated values are internally-computed: hex from rgbToHex (integer-derived #XXXXXX format), rgb/hsl/cmyk from conversion functions (integer-derived strings), pageNum (integer from DOM dataset), contrast ratios (number.toFixed(1)), wcagLevel (returns fixed strings 'AAA'/'AA'/'AA large'/'Fail'). formatRow() inserts hardcoded labels ('HEX','RGB','HSL','CMYK') and color format strings into data-value attributes — no user-controlled strings. Line 263: hardcoded HTML entity &#9733;. Line 267: hardcoded HTML entities &#9733;/&#9734;. Line 312: clearing container (innerHTML=''). Line 600: hardcoded SVG markup for toolbar button icon.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_window_open": true,
-      "no_external_requests": "No fetch/XMLHttpRequest/sendBeacon. All processing local.",
-      "no_escapeHtml_defined": "Acceptable — no user-controlled strings inserted via innerHTML. All values are internally-generated integers or data URIs.",
-      "imports": "bus, state from app.js; showToast, downloadBlob, sanitizeFilename, formatFileSize from utils.js; registry from action-registry.js",
-      "sanitizeFilename_used": true,
-      "downloadBlob_used": true,
-      "levenshtein_bounded": "Text comparison capped at 2000 chars via substring. Two-row Uint16Array optimization. Memory-bounded. GOOD.",
-      "confirm_before_removal": "Uses confirm() dialog before page removal. Validates selectedForRemoval.size < totalPages to prevent removing all pages. GOOD.",
-      "loaded_via": "script tag in index.html line 6924 (type=module)",
-      "security_status": "secure — no critical or medium issues found. 2 LOW-risk notes (no processing timeout, canvas not explicitly released)."
+      "no_external_requests": "No fetch/XMLHttpRequest/sendBeacon. All processing local — reads canvas pixels only.",
+      "imports": "bus, state from app.js; showToast from utils.js; registry from action-registry.js",
+      "localStorage_usage": "HISTORY_KEY ('color-picker-history') and FAVORITES_KEY ('color-picker-favorites') store hex color arrays. loadJSON() has try/catch fallback. MAX_HISTORY=20 bounds history array. Favorites array unbounded but user-driven (user clicks to add). Same-origin only.",
+      "canvas_usage": "Reads pixels via getImageData on existing pdf.js page canvases. Creates loupe canvas (120x120) for magnification preview. willReadFrequently hint set. No tainted canvas risk — same-origin canvases only.",
+      "loaded_via": "script tag in index.html (type=module)",
+      "security_status": "secure — no critical or medium issues found. 1 LOW-risk note (favorites array unbounded in localStorage)."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -81,7 +78,8 @@
     "clipboard.js", "guides.js", "annotation-exchange.js", "pdfa.js", "multiselect.js",
     "epub-export.js", "statistics.js", "context-menu.js", "auto-crop.js", "ocr.js",
     "smart-redact.js", "smart-redact-worker.js", "minimap.js",
-    "verify-signatures.js", "interleave.js", "annotate.js", "annotation-presets.js"
+    "verify-signatures.js", "interleave.js", "annotate.js", "annotation-presets.js",
+    "duplicate-detect.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -119,17 +117,16 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
-    "duplicate_detect_js_reviewed_task089",
-    "duplicate_detect_js_9_innerHTML_all_safe",
-    "duplicate_detect_js_no_eval_function_docwrite_windowopen",
-    "duplicate_detect_js_no_external_requests",
-    "duplicate_detect_js_uses_sanitizeFilename",
-    "duplicate_detect_js_levenshtein_bounded_2000chars",
-    "duplicate_detect_js_confirm_before_removal",
-    "all_88_js_files_accounted_for",
+    "color_picker_js_reviewed_task090",
+    "color_picker_js_5_innerHTML_all_safe",
+    "color_picker_js_no_eval_function_docwrite_windowopen",
+    "color_picker_js_no_external_requests",
+    "color_picker_js_canvas_reads_only",
+    "color_picker_js_localStorage_bounded_history",
+    "all_89_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_72_days",
-    "fail2ban_active_8730_total_bans",
+    "fail2ban_active_8772_total_bans",
     "web_app_serving_200",
     "disk_space_ok_13pct",
     "ssh_only_authorized_activity",
@@ -220,18 +217,19 @@
     "duplicate-detect.js: no processing timeout on startScan(). Uses BATCH_SIZE=20 with setTimeout yielding. Client-side self-DoS only for large PDFs. LOW risk.",
     "duplicate-detect.js: canvas elements in processPage() not explicitly released — GC handles. LOW risk.",
     "duplicate-detect.js: pageHashes array unbounded — grows with page count. Bounded by pdf.js page count limit. LOW risk.",
+    "color-picker.js: favorites array in localStorage unbounded — no max limit. User-driven (click to add). Same-origin only. LOW risk.",
     "NOTE: smart-redact.js escapeHtml() (lines 454-458) uses DOM-based approach (createElement, textContent, innerHTML) — safest method, handles all chars including quotes. Best practice among all modules. Other modules should adopt this pattern.",
     "NOTE: interleave.js escapeHtml() (lines 461-465) also uses DOM-based approach — same best practice as smart-redact.js.",
     "NOTE: annotation-presets.js escHtml() (lines 779-783) also uses DOM-based approach — same best practice as smart-redact.js and interleave.js.",
     "NOTE: ocr.js escapeHtml() (line 950) correctly escapes double quotes via string replacement — second-best practice."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. 1 new file (TASK-089: duplicate-detect.js). SECURE.",
-    "REVIEWED: duplicate-detect.js (TASK-089) — Duplicate page detection and removal. 782 lines (new). Perceptual hashing (pHash) for visual comparison, Levenshtein distance for text comparison (capped at 2000 chars), blank page detection. 9 innerHTML uses reviewed: all safe — hardcoded strings, integer values, and internally-generated data URIs only. No user-controlled strings in innerHTML. No eval/Function/document.write/window.open. No external requests. Uses sanitizeFilename and downloadBlob from utils.js. confirm() dialog before page removal. Validates cannot remove all pages. No new dependencies.",
-    "JS file count: 88 (up from 87 — +duplicate-detect.js).",
-    "innerHTML count: 318 across 88 JS files (up from 309/87 — +9 from duplicate-detect.js).",
+    "Security review completed — no critical fixes needed. 1 new file (TASK-090: color-picker.js). SECURE.",
+    "REVIEWED: color-picker.js (TASK-090) — PDF eyedropper color picker. 679 lines (new). Samples pixel colors from pdf.js page canvases, displays in HEX/RGB/HSL/CMYK with WCAG contrast ratios, magnifying loupe, history/favorites in localStorage. 5 innerHTML uses reviewed: all safe — hardcoded strings, HTML entities, integer values, and internally-generated color format strings only. No user-controlled strings in innerHTML. data-value attributes use color format strings (no double quotes possible). No eval/Function/document.write/window.open. No external requests. No file uploads/downloads. Uses canvas getImageData for pixel sampling (same-origin only). localStorage bounded for history (MAX_HISTORY=20), favorites unbounded but user-driven.",
+    "JS file count: 89 (up from 88 — +color-picker.js).",
+    "innerHTML count: 323 across 89 JS files (up from 318/88 — +5 from color-picker.js).",
     "No new dependencies added.",
-    "SSH: fail2ban total bans 8730 (+80 since last review). 5 IPs currently banned. Active brute-force from 2.57.122.x, 2.57.121.x, 45.148.10.x subnets. Generic usernames only. No successful unauthorized logins.",
+    "SSH: fail2ban total bans 8772 (+42 since last review). 3 IPs currently banned. Continued brute-force from 2.57.121.x subnet and new IPs. Generic usernames only. No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (72 days remaining).",
     "Disk usage stable at 13%, 63G free.",
     "All security headers confirmed. Nginx blocking rules verified. Config syntax valid."
@@ -272,6 +270,7 @@
     "LOW: bg-borders.js — warn user when SVG selected (won't appear in PDF output)",
     "LOW: clipboard.js — add max paste count limit",
     "LOW: auto-crop.js — consider explicitly releasing canvas elements after each page analysis in batch mode",
-    "LOW: duplicate-detect.js — consider adding processing timeout for scan operations on very large PDFs"
+    "LOW: duplicate-detect.js — consider adding processing timeout for scan operations on very large PDFs",
+    "LOW: color-picker.js — consider adding max limit to favorites array in localStorage"
   ]
 }
