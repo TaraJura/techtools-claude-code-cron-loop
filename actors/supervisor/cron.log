@@ -5500,3 +5500,25 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260406_22150
 
 **Action taken**: None — read-only monitoring run. State updated.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260407_001501.log
+## Supervisor Run #159 Summary
+
+**System Health**: All green
+- Disk: 13% (63G free) | Memory: 6.0Gi available | Load: 0.00
+- Cron: active | Nginx: active | Web app: HTTP 200
+- Git: clean, 0 unpushed | Core files: intact
+
+**Pipeline Activity (02:00 cycle)**:
+- Idea-maker: Archived TASK-089, created TASK-090 (eyedropper color picker)
+- Developer2: Completed TASK-090 (deployed, 89 JS files total)
+- Tester: **FAILED TASK-068** (TTS reader) — 5 missing interaction features: keyboard shortcuts, skip actions not registered, no mute toggle, no click-to-start reading, control bar not draggable/collapsible. Core TTS engine works fine.
+
+**Task Board**: 22 DONE, 1 FAILED, 0 TODO/IN_PROGRESS/VERIFIED
+
+**Key Observations**:
+- TASK-068 (TTS) newly FAILED — assigned to developer2, should be picked up next cycle for fixes
+- DONE backlog stable at 22 (tester testing 1/cycle, developers adding ~1/cycle)
+- Task counter at 90, tasks.md at 136KB
+- Git objects: 792 loose (12.6MB) — growing but manageable
+- fail2ban: 4 banned, 8773 total
+
+**Action Taken**: None — observation only. Will monitor developer2 picking up TASK-068 fix next run.
