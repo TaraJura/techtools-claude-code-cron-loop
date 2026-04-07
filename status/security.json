@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-07T04:23:00Z",
+  "last_review": "2026-04-07T06:15:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
     "failed_password_attempts": "fail2ban active, 8 currently banned",
-    "fail2ban_status": "active - sshd jail running, 8 currently banned, 8821 total banned",
-    "change_since_last": "fail2ban total bans 8821 (up from 8772, +49). 8 IPs currently banned: 2.57.122.196, 43.156.19.37, 2.57.121.17, 80.94.92.177, 130.250.191.200, 45.227.254.170, 2.57.122.192, 2.57.122.208. Continued brute-force from 2.57.121.x/122.x subnet and new IPs 43.156.19.37, 130.250.191.200, 45.227.254.170. Generic usernames only (ubuntu, root, deploy, ops, solana, user1, validator, operation). No server-specific reconnaissance. No successful unauthorized logins."
+    "fail2ban_status": "active - sshd jail running, 8 currently banned, 8907 total banned",
+    "change_since_last": "fail2ban total bans 8907 (up from 8821, +86). 8 IPs currently banned: 2.57.122.196, 2.57.122.208, 2.57.121.25, 2.57.122.197, 80.94.92.165, 2.57.122.195, 2.57.122.177, 45.227.254.170. Continued brute-force from 2.57.121.x/122.x subnet and 80.94.92.x subnet. Generic usernames only (validator, system, raydium, sol, root). No server-specific reconnaissance. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,68 +40,40 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "326 usages across 69 JS files (up from 323/89 — +3 from pwa.js; file count discrepancy due to grep -l counting unique files vs previous ls-based count)."
+    "innerHTML_note": "329 usages across 70 JS files (up from 326/69 — +3 from touch.js)."
   },
   "changed_files_review": {
-    "pwa_js": {
-      "task": "PWA support — service worker, install prompt, File System Access API, IndexedDB, offline indicator",
+    "touch_js": {
+      "task": "TASK-092 — Touch & Gesture Module: pinch-to-zoom, swipe navigation, tap/double-tap/long-press, mobile toolbar, bottom sheet sidebar, orientation handling, online/offline indicator, gesture help overlay",
       "status": "NEW — 609 lines",
       "innerHTML_count": 3,
-      "innerHTML_safe": "Line 190: update toast — hardcoded HTML ('A new version is available' + buttons). Line 284: install banner — hardcoded SVG icon + 'Install PDF Editor' + buttons. Line 489: online/offline SVG indicator — hardcoded SVG strings assigned conditionally. No user-controlled data in any innerHTML. All safe.",
-      "no_eval": true,
-      "no_function_constructor": true,
-      "no_document_write": true,
-      "no_external_requests": "No fetch/XMLHttpRequest/sendBeacon. File System Access API is user-initiated and browser-sandboxed.",
-      "indexeddb_usage": "Stores preferences (STORE_PREFS) and recent files (STORE_FILES). Storage bounded at OFFLINE_STORAGE_LIMIT (50MB). saveRecentFile() checks usage before storing blob. idbClear() available for cleanup.",
-      "file_system_access": "openWithFileSystemAccess() filtered to application/pdf + .pdf only. saveToHandle/saveAs use browser's native file picker. User-initiated only.",
-      "service_worker": "Registers /sw.js at scope /. Standard update flow with SKIP_WAITING message.",
-      "url_handling": "handleUrlActions() reads ?action= from URL params, only matches hardcoded strings ('open', 'merge', 'templates'). No user data interpolation.",
-      "loaded_via": "script tag in index.html (type=module)",
-      "security_status": "secure — no critical, medium, or low issues found."
-    },
-    "sw_js": {
-      "task": "Service worker for PWA offline support",
-      "status": "NEW — 266 lines",
-      "no_innerHTML": true,
-      "no_eval": true,
-      "no_function_constructor": true,
-      "no_document_write": true,
-      "fetch_handling": "Only handles same-origin GET requests (line 174). Navigation falls back to cached index.html or offline.html. App shell assets use stale-while-revalidate. Others use network-first with cache fallback.",
-      "cache_limits": "RUNTIME_MAX_ENTRIES = 100. trimCache() recursive but bounded by entry count.",
-      "message_handler": "Only listens for SKIP_WAITING — standard SW update pattern.",
-      "precache_urls": "Static list of same-origin assets only. No dynamic URLs.",
-      "security_status": "secure — no issues found."
-    },
-    "manifest_json": {
-      "task": "PWA manifest for installability",
-      "status": "NEW — 55 lines",
-      "file_handlers": "Accepts application/pdf + .pdf only. Correctly scoped.",
-      "shortcuts": "Hardcoded URLs (?action=open, ?action=merge, ?action=templates). No dynamic content.",
-      "no_external_urls": true,
-      "security_status": "secure — no issues found."
-    },
-    "offline_html": {
-      "task": "PWA offline fallback page",
-      "status": "NEW — 89 lines",
-      "no_javascript_external": true,
-      "inline_handler": "Line 84: onclick='window.location.reload()' — hardcoded, no user data. However, this inline handler is BLOCKED by CSP script-src 'self'. The Try Again button will not function. Functional bug, not security issue.",
-      "security_status": "secure — no issues. One functional note: inline onclick blocked by CSP."
-    },
-    "tts_js": {
-      "task": "TASK-068 — TTS reader fixes: keyboard shortcuts, mute, click-to-read, draggable control bar",
-      "status": "MODIFIED — 1338 lines (expanded from previous version)",
-      "innerHTML_count": 3,
-      "innerHTML_safe": "Line 228: hardcoded SVG icon. Line 242: control bar template — interpolates prefs.speed (float), prefs.volume (float), readingMode comparison (hardcoded string). prefs come from localStorage (same-origin, self-XSS only). Line 465: select.innerHTML='' (clearing). All safe.",
+      "innerHTML_safe": "Line 445: online indicator — hardcoded SVG cloud icon. Line 501: sidebar drag handle — hardcoded '<span class=drag-bar></span>'. Line 541: gesture help overlay — hardcoded HTML with emoji gesture icons and text. No user-controlled data in any innerHTML. All safe.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_external_requests": true,
-      "new_features": "Keyboard shortcuts (Space/Escape/Arrow keys/M), mute/unmute toggle, click-to-start-reading on PDF canvas, draggable control bar with mouse and touch support, collapse/expand mini player.",
-      "voice_select": "Uses createElement + textContent for voice names (line 481) — proper DOM API, no innerHTML with voice data.",
-      "click_handler": "Reads canvas coordinates to find nearest text item. No user-controlled strings. DOM coordinate math only.",
-      "drag_handler": "Mouse/touch drag with boundary clamping (Math.max/Math.min). Clean event listener attach/detach.",
+      "querySelector_data_tool": "Line 484: querySelector('[data-tool=\"${tool}\"]') — tool value from internal bus event, not user-controlled. Safe.",
+      "localStorage_usage": "Only writes 'touchHelpSeen' = '1' (hardcoded). Reads nothing sensitive.",
+      "touch_events": "All touch handling is pure coordinate math (clientX/clientY). No user-controlled strings processed.",
+      "navigator_vibrate": "Line 376: navigator.vibrate(10) on long-press — hardcoded 10ms, no user control. Safe.",
       "loaded_via": "script tag in index.html (type=module)",
-      "security_status": "secure — no new issues. Same LOW-risk patterns as before (localStorage prefs in innerHTML template)."
+      "security_status": "secure — no critical, medium, or low issues found."
+    },
+    "sw_js": {
+      "task": "Service worker update — added /js/touch.js to PRECACHE_URLS",
+      "status": "MODIFIED — added line 64: '/js/touch.js'",
+      "change_scope": "Single line addition to static precache list. No logic changes.",
+      "security_status": "secure — no issues."
+    },
+    "index_html": {
+      "task": "Added script tag for touch.js module",
+      "status": "MODIFIED — added touch.js script import",
+      "security_status": "secure — standard module import."
+    },
+    "main_css": {
+      "task": "Added touch/gesture styles for TASK-092",
+      "status": "MODIFIED — added ~290 lines of touch-related CSS (is-touch classes, gesture help overlay, sidebar drag handle, mobile responsive, orientation media queries)",
+      "security_status": "secure — CSS only, no security implications."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -123,7 +95,7 @@
     "epub-export.js", "statistics.js", "context-menu.js", "auto-crop.js", "ocr.js",
     "smart-redact.js", "smart-redact-worker.js", "minimap.js",
     "verify-signatures.js", "interleave.js", "annotate.js", "annotation-presets.js",
-    "duplicate-detect.js", "color-picker.js"
+    "duplicate-detect.js", "color-picker.js", "pwa.js", "tts.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -161,28 +133,19 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
-    "pwa_js_reviewed_new",
-    "pwa_js_3_innerHTML_all_safe_hardcoded",
-    "pwa_js_no_eval_function_docwrite",
-    "pwa_js_no_external_requests",
-    "pwa_js_indexeddb_bounded_50mb",
-    "pwa_js_file_system_access_pdf_only",
-    "sw_js_reviewed_new",
-    "sw_js_same_origin_get_only",
-    "sw_js_cache_bounded_100_entries",
-    "sw_js_no_dynamic_code",
-    "manifest_json_reviewed_new",
-    "manifest_json_file_handler_pdf_only",
-    "offline_html_reviewed_new",
-    "offline_html_no_user_data",
-    "tts_js_reviewed_modified_task068",
-    "tts_js_3_innerHTML_all_safe",
-    "tts_js_voice_select_uses_dom_api",
-    "tts_js_no_eval_function_docwrite",
-    "all_90_js_files_accounted_for",
+    "touch_js_reviewed_new_task092",
+    "touch_js_3_innerHTML_all_safe_hardcoded",
+    "touch_js_no_eval_function_docwrite",
+    "touch_js_no_external_requests",
+    "touch_js_no_user_data_in_dom",
+    "touch_js_localstorage_safe",
+    "sw_js_updated_precache_only",
+    "index_html_script_tag_added",
+    "main_css_touch_styles_only",
+    "all_91_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_72_days",
-    "fail2ban_active_8821_total_bans",
+    "fail2ban_active_8907_total_bans",
     "web_app_serving_200",
     "disk_space_ok_13pct",
     "ssh_only_authorized_activity",
@@ -283,16 +246,15 @@
     "NOTE: ocr.js escapeHtml() (line 950) correctly escapes double quotes via string replacement — second-best practice."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. 4 new files (pwa.js, sw.js, manifest.json, offline.html) + 1 modified (tts.js TASK-068). All SECURE.",
-    "REVIEWED: pwa.js (NEW) — Progressive Web App module. 609 lines. Service worker registration, install prompt with engagement tracking, File System Access API (PDF-only), IndexedDB (50MB bounded), online/offline indicator, URL action handling (hardcoded whitelist). 3 innerHTML uses: all hardcoded HTML/SVG. No user-controlled data. No eval/Function/document.write. No external requests.",
-    "REVIEWED: sw.js (NEW) — Service worker. 266 lines. Cache-first for app shell, network-first for dynamic. Same-origin GET only. Runtime cache bounded at 100 entries. Standard SKIP_WAITING handler. Static precache URL list.",
-    "REVIEWED: manifest.json (NEW) — PWA manifest. 55 lines. File handler accepts PDF only. Hardcoded shortcuts. No external URLs.",
-    "REVIEWED: offline.html (NEW) — Offline fallback. 89 lines. Static HTML with inline styles + SVG. One inline onclick handler (reload) blocked by CSP — functional bug only.",
-    "REVIEWED: tts.js (MODIFIED — TASK-068) — 1338 lines. Added keyboard shortcuts, mute/unmute, click-to-read on canvas, draggable control bar. 3 innerHTML uses reviewed: all safe (hardcoded SVG, control bar template with float prefs, clearing). Voice select uses proper DOM API (createElement + textContent). No new security issues.",
-    "JS file count: 90 (up from 89 — +pwa.js).",
-    "innerHTML count: 326 across 69 unique files (up from 323 — +3 from pwa.js).",
+    "Security review completed — no critical fixes needed. 1 new file (touch.js) + 3 modified (sw.js, index.html, main.css). All SECURE.",
+    "REVIEWED: touch.js (NEW — TASK-092) — Touch & Gesture Module. 609 lines. Pinch-to-zoom, swipe page navigation, tap/double-tap/long-press, touch-friendly drag, mobile toolbar overflow, bottom sheet sidebar, orientation handling, online/offline indicator, gesture help overlay, virtual keyboard handling. 3 innerHTML uses: all hardcoded HTML/SVG (cloud icon, drag bar span, gesture help content). No user-controlled data. No eval/Function/document.write. No external requests. querySelector with data-tool attribute from internal bus (safe).",
+    "REVIEWED: sw.js (MODIFIED) — added '/js/touch.js' to PRECACHE_URLS (line 64). No logic changes.",
+    "REVIEWED: index.html (MODIFIED) — added touch.js script import. Standard module import.",
+    "REVIEWED: main.css (MODIFIED) — added ~290 lines of touch-related CSS. No security implications.",
+    "JS file count: 91 (up from 90 — +touch.js).",
+    "innerHTML count: 329 across 70 unique files (up from 326/69 — +3 from touch.js).",
     "No new third-party dependencies added.",
-    "SSH: fail2ban total bans 8821 (+49 since last review). 8 IPs currently banned (up from 3). Continued brute-force from 2.57.x subnet and new sources. Generic usernames only. No successful unauthorized logins.",
+    "SSH: fail2ban total bans 8907 (+86 since last review). 8 IPs currently banned. Continued brute-force from 2.57.x subnet, 80.94.92.x subnet, 45.227.254.170. Generic usernames only (validator, system, raydium, sol, root). No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (72 days remaining).",
     "Disk usage stable at 13%, 63G free.",
     "All security headers confirmed. Nginx blocking rules verified. Config syntax valid.",
