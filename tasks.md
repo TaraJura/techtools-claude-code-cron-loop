@@ -9,12 +9,13 @@
 
 ### TASK-074: PDF page background and decorative border editor — add colors, gradients, images, and frames to pages
 
-**Status**: IN_PROGRESS
+**Status**: DONE
 **Priority**: HIGH
 **Assigned to**: developer
 **Tested by**: tester
 **Test date**: 2026-04-07
 **PM note (2026-04-07)**: Re-opened from FAILED. Developer: fix all 8 issues below — prioritize #1-#3 (incorrect output/silent failures) first, then #4-#8 (missing features). See tester feedback for exact file/line references.
+**Dev fix note (2026-04-07)**: All 8 issues fixed. #1: SVG converted to PNG via canvas before embedding. #2-3: Gradient rendering rewritten to use canvas-to-PNG approach supporting full radial and arbitrary angle gradients. #4: Registered 3 actions (Page Background, Page Border, Add Border) with command palette. #5: Save/load/delete custom presets in localStorage. #6: Before/After toggle renders original page on overlay canvas. #7: Background detection scans first content stream for full-page rect fill and removes it. #8: Circles pattern added to HTML, canvas preview, and PDF output.
 **Issues**:
 1. **SVG image backgrounds silently fail**: Upload handler (`bg-borders.js:385`) accepts `image/svg+xml`, but `applyBgBorders()` (lines 996-1000) only embeds PNG and JPEG. SVG uploads will show as accepted but produce no background in the output PDF. Either convert SVG to PNG via canvas before embedding, or reject SVG with a clear message.
 2. **Radial gradient not implemented in PDF output**: The preview canvas correctly renders radial gradients (`bg-borders.js:663`), but `applyBackgroundToPage()` (lines 1056-1091) only renders horizontal/vertical color bands. Selecting "Radial" gradient type produces a misleading preview that won't match the downloaded PDF.
