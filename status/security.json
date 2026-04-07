@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-06T22:25:00Z",
+  "last_review": "2026-04-07T00:14:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
     "failed_password_attempts": "fail2ban active, 5 currently banned",
-    "fail2ban_status": "active - sshd jail running, 5 currently banned, 8650 total banned",
-    "change_since_last": "fail2ban total bans 8650 (up from 8554, +96). 5 IPs currently banned (same count). Currently banned: 2.57.122.188, 45.148.10.147, 45.148.10.157, 2.57.122.193, 80.94.92.166. Active brute-force from 2.57.122.x subnet, 45.148.10.x subnet, 80.94.92.x subnet. Generic usernames only (root, shred, shreded, solana, bootstrap). No server-specific reconnaissance. No successful unauthorized logins."
+    "fail2ban_status": "active - sshd jail running, 5 currently banned, 8730 total banned",
+    "change_since_last": "fail2ban total bans 8730 (up from 8650, +80). 5 IPs currently banned. Currently banned: 2.57.122.196, 2.57.122.177, 45.148.10.147, 2.57.122.208, 2.57.121.17. Active brute-force from 2.57.122.x subnet, 2.57.121.x subnet, 45.148.10.x subnet. Generic usernames only. No server-specific reconnaissance. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,37 +40,27 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "309 usages across 87 JS files (up from 298/86 — annotation-presets.js added 11)."
+    "innerHTML_note": "318 usages across 88 JS files (up from 309/87 — duplicate-detect.js added 9)."
   },
   "changed_files_review": {
-    "annotation_presets_js": {
-      "task": "TASK-088 - Annotation style presets and quick-apply palette",
-      "status": "NEW — 849 lines",
-      "innerHTML_count": 11,
-      "innerHTML_safe": "Line 209: hardcoded palette HTML template (no user data). Line 248: clearing container. Lines 264, 279: hardcoded SVG icons from getTypeIconMini(). Line 433: hardcoded manager modal template. Line 491: clearing list. Line 537: hardcoded SVG from getTypeIconMini(). Line 782: part of escHtml function. Lines 303, 309: active.name NOT escaped — see known_issues. Line 501-528: template with escHtml(preset.name) in value attribute + preset.color in style attribute.",
-      "unescaped_name_issue": "Lines 303, 309: ${active.name} inserted directly into innerHTML without escaping. Preset names are user-editable (via input field or JSON import). Self-XSS only — user sets own preset names. CSP script-src 'self' blocks inline script execution. LOW risk.",
-      "escHtml_in_value_attr": "Line 507: value=\"${escHtml(preset.name)}\" — escHtml DOM-based approach doesn't escape double quotes. Preset name with double quote could break out of value attribute. Self-XSS only. CSP mitigates. LOW risk.",
-      "color_in_style_attr": "Line 505: style=\"background:${preset.color}\" — color validated via regex in importJSON(), and HTML type=color input returns valid hex for UI edits. Only exploitable via direct localStorage tampering. LOW risk.",
+    "duplicate_detect_js": {
+      "task": "TASK-089 - Duplicate page detection and removal",
+      "status": "NEW — 782 lines",
+      "innerHTML_count": 9,
+      "innerHTML_safe": "Line 136: clearing container (innerHTML=''). Line 496: clearing container. Line 504: hardcoded 'no duplicates' message string. Line 518: summaryText with &middot; entity and integer counts only (no user strings). Line 524: hardcoded section title. Line 532: template with gi+1 (loop index) and group.similarity (Math.round integer). Lines 548-559: template with pageData.thumbnail (canvas.toDataURL internally generated data URI) and pageNum (integer). Line 588: hardcoded section title. Lines 599-610: same data URI + integer pattern as 548.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_window_open": true,
-      "no_external_requests": "No fetch/XMLHttpRequest. All processing local.",
-      "localStorage_usage": "3 keys: presets data (JSON array), palette position (JSON {x,y}), collapsed state (boolean string). JSON.parse with try/catch fallback. Same-origin only.",
-      "import_validation": "importJSON() validates: Array.isArray check, requires name/type/color as strings, regex validates color (#hex6), type allowlist (highlight/underline/strikethrough), opacity 0-1 bounds, strokeWidth >= 0.5, shortcut /^[1-9]$/. Names truncated to 50 chars. New IDs assigned. GOOD.",
-      "name_length_limit": "add()/update() do not enforce name length limit (only importJSON limits to 50). User can type long names via UI input (maxlength=50 on HTML input mitigates). localStorage-only storage. LOW risk.",
-      "escHtml_method": "DOM-based (createElement+textContent+innerHTML) — same best practice as smart-redact.js and interleave.js.",
-      "loaded_via": "script tag in index.html line 6787 (type=module)",
-      "context_menu_integration": "getPresetContextMenuItems() returns preset data with p.color in inline style. Context menu renders this — color validated. SAFE.",
-      "window_globals": "Sets window._presetActiveColor (color string) and window._presetManager (manager instance) and window._presetContextMenuItems (function ref). Used for cross-module communication. No XSS vector.",
-      "security_status": "secure — no critical issues found. 2 LOW-risk findings (unescaped name in status display, escHtml in value attribute)."
-    },
-    "annotate_js": {
-      "task": "TASK-088 - Minor update for preset integration",
-      "status": "UPDATED — 480 lines (minor changes only)",
-      "changes_summary": "Added bus.on('annotate:tool') listener with type allowlist validation (line 35-39). Added window._presetActiveColor fallback for preset color (line 165).",
-      "security_impact": "Minimal. Tool type validated against allowlist ['highlight', 'underline', 'strikethrough', 'text']. Preset color is a string used as annotation.color (goes through hexToRgb() which validates format). No new innerHTML. No new XSS vectors.",
-      "security_status": "secure — no issues from changes"
+      "no_external_requests": "No fetch/XMLHttpRequest/sendBeacon. All processing local.",
+      "no_escapeHtml_defined": "Acceptable — no user-controlled strings inserted via innerHTML. All values are internally-generated integers or data URIs.",
+      "imports": "bus, state from app.js; showToast, downloadBlob, sanitizeFilename, formatFileSize from utils.js; registry from action-registry.js",
+      "sanitizeFilename_used": true,
+      "downloadBlob_used": true,
+      "levenshtein_bounded": "Text comparison capped at 2000 chars via substring. Two-row Uint16Array optimization. Memory-bounded. GOOD.",
+      "confirm_before_removal": "Uses confirm() dialog before page removal. Validates selectedForRemoval.size < totalPages to prevent removing all pages. GOOD.",
+      "loaded_via": "script tag in index.html line 6924 (type=module)",
+      "security_status": "secure — no critical or medium issues found. 2 LOW-risk notes (no processing timeout, canvas not explicitly released)."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -91,7 +81,7 @@
     "clipboard.js", "guides.js", "annotation-exchange.js", "pdfa.js", "multiselect.js",
     "epub-export.js", "statistics.js", "context-menu.js", "auto-crop.js", "ocr.js",
     "smart-redact.js", "smart-redact-worker.js", "minimap.js",
-    "verify-signatures.js", "interleave.js", "annotate.js"
+    "verify-signatures.js", "interleave.js", "annotate.js", "annotation-presets.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -108,7 +98,7 @@
   "ssl_certificate": {
     "valid_from": "2026-03-20",
     "valid_until": "2026-06-18",
-    "days_remaining": 73,
+    "days_remaining": 72,
     "status": "valid"
   },
   "checks_passed": [
@@ -129,18 +119,17 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
-    "annotation_presets_js_reviewed_task088",
-    "annotation_presets_js_11_innerHTML_reviewed",
-    "annotation_presets_js_no_eval_function_docwrite_windowopen",
-    "annotation_presets_js_dom_based_escHtml",
-    "annotation_presets_js_import_validates_color_type_opacity",
-    "annotation_presets_js_no_external_requests",
-    "annotate_js_preset_integration_reviewed",
-    "annotate_js_tool_type_allowlist_validated",
-    "all_87_js_files_accounted_for",
+    "duplicate_detect_js_reviewed_task089",
+    "duplicate_detect_js_9_innerHTML_all_safe",
+    "duplicate_detect_js_no_eval_function_docwrite_windowopen",
+    "duplicate_detect_js_no_external_requests",
+    "duplicate_detect_js_uses_sanitizeFilename",
+    "duplicate_detect_js_levenshtein_bounded_2000chars",
+    "duplicate_detect_js_confirm_before_removal",
+    "all_88_js_files_accounted_for",
     "security_headers_present_verified",
-    "ssl_certificate_valid_73_days",
-    "fail2ban_active_8650_total_bans",
+    "ssl_certificate_valid_72_days",
+    "fail2ban_active_8730_total_bans",
     "web_app_serving_200",
     "disk_space_ok_13pct",
     "ssh_only_authorized_activity",
@@ -228,20 +217,22 @@
     "ocr.js: canvas elements in renderPageToCanvas() not explicitly released — GC handles. LOW risk.",
     "smart-redact.js: custom regex from user input can cause ReDoS in worker. Worker isolation mitigates — main thread unaffected. LOW risk.",
     "smart-redact.js: no auto-timeout on pattern scan. Worker terminated on completion/error. Client-side self-DoS only. LOW risk.",
+    "duplicate-detect.js: no processing timeout on startScan(). Uses BATCH_SIZE=20 with setTimeout yielding. Client-side self-DoS only for large PDFs. LOW risk.",
+    "duplicate-detect.js: canvas elements in processPage() not explicitly released — GC handles. LOW risk.",
+    "duplicate-detect.js: pageHashes array unbounded — grows with page count. Bounded by pdf.js page count limit. LOW risk.",
     "NOTE: smart-redact.js escapeHtml() (lines 454-458) uses DOM-based approach (createElement, textContent, innerHTML) — safest method, handles all chars including quotes. Best practice among all modules. Other modules should adopt this pattern.",
     "NOTE: interleave.js escapeHtml() (lines 461-465) also uses DOM-based approach — same best practice as smart-redact.js.",
     "NOTE: annotation-presets.js escHtml() (lines 779-783) also uses DOM-based approach — same best practice as smart-redact.js and interleave.js.",
     "NOTE: ocr.js escapeHtml() (line 950) correctly escapes double quotes via string replacement — second-best practice."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. 2 changed files (TASK-088: annotation-presets.js NEW, annotate.js UPDATED). SECURE.",
-    "REVIEWED: annotation-presets.js (TASK-088) — Annotation style presets and quick-apply palette. 849 lines (new). Preset manager class with localStorage persistence, floating quick-apply palette, preset manager modal, import/export JSON, keyboard shortcuts (1-9), drag-and-drop reorder, command palette integration. 11 innerHTML uses reviewed: 2 have unescaped preset name (self-XSS only, LOW), rest are hardcoded HTML/SVGs or use escHtml. DOM-based escHtml (best practice). Import validates color regex, type allowlist, opacity bounds, shortcut pattern. No eval/Function/document.write/window.open. No external requests. No new dependencies.",
-    "REVIEWED: annotate.js (TASK-088 update) — 480 lines. Minor changes: added bus listener for preset tool activation with type allowlist, added preset color fallback. No new innerHTML. No security impact.",
-    "JS file count: 87 (up from 86 — +annotation-presets.js).",
-    "innerHTML count: 309 across 87 JS files (up from 298/86 — +11 from annotation-presets.js).",
+    "Security review completed — no critical fixes needed. 1 new file (TASK-089: duplicate-detect.js). SECURE.",
+    "REVIEWED: duplicate-detect.js (TASK-089) — Duplicate page detection and removal. 782 lines (new). Perceptual hashing (pHash) for visual comparison, Levenshtein distance for text comparison (capped at 2000 chars), blank page detection. 9 innerHTML uses reviewed: all safe — hardcoded strings, integer values, and internally-generated data URIs only. No user-controlled strings in innerHTML. No eval/Function/document.write/window.open. No external requests. Uses sanitizeFilename and downloadBlob from utils.js. confirm() dialog before page removal. Validates cannot remove all pages. No new dependencies.",
+    "JS file count: 88 (up from 87 — +duplicate-detect.js).",
+    "innerHTML count: 318 across 88 JS files (up from 309/87 — +9 from duplicate-detect.js).",
     "No new dependencies added.",
-    "SSH: fail2ban total bans 8650 (+96 since last review). 5 IPs currently banned. Active brute-force from 2.57.122.x, 45.148.10.x, 80.94.92.x subnets. Generic usernames only (root, shred, shreded, solana, bootstrap). No successful unauthorized logins.",
-    "SSL certificate valid until June 18, 2026 (73 days remaining).",
+    "SSH: fail2ban total bans 8730 (+80 since last review). 5 IPs currently banned. Active brute-force from 2.57.122.x, 2.57.121.x, 45.148.10.x subnets. Generic usernames only. No successful unauthorized logins.",
+    "SSL certificate valid until June 18, 2026 (72 days remaining).",
     "Disk usage stable at 13%, 63G free.",
     "All security headers confirmed. Nginx blocking rules verified. Config syntax valid."
   ],
@@ -280,6 +271,7 @@
     "LOW: bookmark-editor.js — add recursion depth limits to outlineToTree() and jsonToTree()",
     "LOW: bg-borders.js — warn user when SVG selected (won't appear in PDF output)",
     "LOW: clipboard.js — add max paste count limit",
-    "LOW: auto-crop.js — consider explicitly releasing canvas elements after each page analysis in batch mode"
+    "LOW: auto-crop.js — consider explicitly releasing canvas elements after each page analysis in batch mode",
+    "LOW: duplicate-detect.js — consider adding processing timeout for scan operations on very large PDFs"
   ]
 }
