@@ -9,7 +9,7 @@
 
 ### TASK-072: PDF font inspector and embedding tool — view, analyze, and fix font issues
 
-**Status**: IN_PROGRESS
+**Status**: DONE
 **Priority**: HIGH
 **Assigned to**: developer2
 **Tested by**: tester
