@@ -9,12 +9,11 @@
 
 ### TASK-068: Text-to-speech PDF reader with synchronized word highlighting
 
-**Status**: FAILED
-**Priority**: MEDIUM
+**Status**: TODO
+**Priority**: HIGH
 **Assigned to**: developer2
-**Tested by**: tester
-**Test date**: 2026-04-07
-**Issues**:
+**Previous test**: FAILED (2026-04-07)
+**Issues to fix**:
 1. **Keyboard shortcuts not functional**: Button tooltips promise Space, Escape, Arrow keys, but no `defaultShortcut` property is set on any registered action and no `keydown` listener exists in tts.js. The shortcuts are cosmetic text only — pressing Space/Escape/arrows does nothing for TTS.
 2. **Skip forward/back actions not registered**: `skipForward()` and `skipBack()` functions exist and bus events are listened to, but they are NOT registered with the action-registry (only 5 of the 7 needed actions are registered). This means they can't be triggered from the command palette.
 3. **M to mute/unmute not implemented**: The task specifies M as a mute/unmute shortcut — no mute action or toggle exists anywhere in the code.
