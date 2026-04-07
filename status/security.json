@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-07T18:20:00Z",
+  "last_review": "2026-04-07T20:25:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 2 currently banned",
-    "fail2ban_status": "active - sshd jail running, 2 currently banned, 9375 total banned",
-    "change_since_last": "fail2ban total bans 9375 (up from 9340, +35). 2 IPs currently banned: 92.118.39.87, 80.94.92.187. Continued brute-force from 80.94.92.x, 195.178.110.x, 45.148.10.x, 84.239.42.x, 171.244.37.x, 187.212.40.x subnets. Generic usernames only (sol, solana, Admin, admin, root). No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 4 currently banned",
+    "fail2ban_status": "active - sshd jail running, 4 currently banned, 9440 total banned",
+    "change_since_last": "fail2ban total bans 9440 (up from 9375, +65). 4 IPs currently banned: 102.210.148.92, 45.64.74.51, 211.213.96.6, 80.94.92.164. Continued brute-force from 80.94.92.x, 112.216.120.x, 164.92.160.x, 217.154.192.x, 186.96.151.x subnets. Generic usernames only (ali, latitude, esunny, n8n, lighthouse, test2, postgres, gitlab-runner, ubuntu, sammy, root). No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,21 +40,32 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "347+ usages across 97 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts. page-tabs.js has unescaped user labels but CSP mitigates and data is self-set."
+    "innerHTML_note": "347+ usages across 98 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts. page-tabs.js has unescaped user labels but CSP mitigates and data is self-set."
   },
   "changed_files_review": {
-    "page_tabs_js": {
-      "task": "NEW file — Sticky page tab markers for PDF navigation, ~1530 lines",
+    "comparison_slider_js": {
+      "task": "NEW file — Before/After comparison slider for PDF page operations (TASK-099), ~740 lines",
       "status": "NEW — reviewed in full",
       "innerHTML_count": 3,
-      "innerHTML_analysis": "Line 941: navigator panel built from template literal. tab.label (user input from prompt() or imported JSON) inserted into element content at line 930 without escaping. Also in aria-label attribute at line 928 without quote escaping. Line 901: navigatorSearch (user input) in value attribute without quote escaping. Line 1108: static template with TAB_COLORS/TAB_ICONS constants — SAFE. Line 1399: context menu with internal data — SAFE.",
-      "escaping_function": "None defined. No escapeHtml/escHtml imported or declared.",
-      "import_function": "Lines 119-145: importTabs() reads JSON file, concatenates tab objects into allTabs without schema validation. Imported tab.label values flow unescaped into innerHTML. CSP blocks inline handlers. Self-XSS only since user initiates import.",
-      "data_persistence": "localStorage — same-origin only.",
+      "innerHTML_analysis": "Line 158: toolbar template with escHtml(cs.operationName) — properly escaped. Line 207: static slider grip HTML — SAFE. Line 234: static status bar with kbd elements — SAFE.",
+      "escaping_function": "escHtml() at line 695 using div.textContent/div.innerHTML DOM pattern — correct implementation, escapes all HTML entities including quotes.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
-      "security_status": "MEDIUM-LOW — user labels unescaped in innerHTML but CSP mitigates script injection. Self-XSS only (user sets own labels via prompt or imports own JSON). Same pattern as other modules. Should add escapeHtml() for defense-in-depth."
+      "canvas_operations": "All canvas drawing uses internal numeric/canvas data. No user strings rendered to canvas unsafely.",
+      "event_listeners": "Mouse/touch/keyboard handlers properly scoped. cleanup function removes document-level listeners.",
+      "security_status": "CLEAN — properly escapes user-facing strings, uses DOM APIs correctly, no dangerous patterns."
+    },
+    "bg_borders_js": {
+      "task": "MODIFIED file — Background/borders module, 1816 lines",
+      "status": "MODIFIED — reviewed changes",
+      "innerHTML_count": 1,
+      "innerHTML_analysis": "Line 1744: container.innerHTML = '' — clearing content only. SAFE.",
+      "user_input_handling": "Uses textContent and .value for all user input display — safe DOM patterns. No escapeHtml needed as no innerHTML with user data.",
+      "no_eval": true,
+      "no_function_constructor": true,
+      "no_document_write": true,
+      "security_status": "CLEAN — safe DOM patterns, no dangerous operations."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -78,7 +89,7 @@
     "verify-signatures.js", "interleave.js", "annotate.js", "annotation-presets.js",
     "duplicate-detect.js", "color-picker.js", "pwa.js", "tts.js", "touch.js",
     "reader.js", "form-detect.js", "cloud-storage.js", "font-inspector.js",
-    "repair.js", "split-by-size.js", "page-tabs.js"
+    "repair.js", "split-by-size.js", "page-tabs.js", "comparison-slider.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -117,11 +128,12 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "page_tabs_js_reviewed_medium_low",
-    "all_97_js_files_accounted_for",
+    "comparison_slider_js_reviewed_clean",
+    "bg_borders_js_changes_reviewed_clean",
+    "all_98_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_72_days",
-    "fail2ban_active_9375_total_bans",
+    "fail2ban_active_9440_total_bans",
     "web_app_serving_200",
     "disk_space_ok_13pct",
     "ssh_only_authorized_activity",
