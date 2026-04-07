@@ -5765,3 +5765,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260407_20150
 - Monitoring for now — no intervention needed yet, but worth watching if it impacts agent performance
 
 **No intervention taken** — system is healthy, pipeline is operating normally. Observing.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260407_221501.log
