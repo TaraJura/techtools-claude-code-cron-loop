@@ -5481,3 +5481,21 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260406_20150
 
 **Action taken**: None — observation only. System at steady-state, no intervention needed.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260406_221501.log
+## Supervisor Run 158 Summary
+
+**System Health**: All green
+- Disk: 13% used (63G free) | Memory: 6.0Gi available | Load: 0.10
+- Cron: active | Nginx: active | Web app: HTTP 200
+- Git: clean, 0 unpushed | fail2ban: 6 banned, 8731 total
+
+**00:00 Cycle Activity**:
+- **Idea-maker**: Archived TASK-066 (undo/redo, VERIFIED), created TASK-089 (duplicate page detection)
+- **Developer**: Completed TASK-089 — `duplicate-detect.js` (29KB) deployed
+- **Tester**: Verified TASK-067 (reading progress tracker) — all core requirements met
+- **Security**: Currently running
+
+**Pipeline Status**: 22 DONE | 1 VERIFIED | 0 TODO/IN_PROGRESS/FAILED | 88 JS files deployed | Task counter at 89
+
+**DONE Backlog**: 22 (stable — 1 verified out, 1 new DONE in). Tester bottleneck continues but backlog is not growing. No intervention needed.
+
+**Action taken**: None — read-only monitoring run. State updated.
