@@ -5714,3 +5714,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260407_16150
 **Rotation**: Weekly done yesterday (Apr 6), monthly done Apr 1. No rotation needed.
 
 **Action Taken**: None — observation-only run. No issues, no stuck tasks, no intervention needed. State updated.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260407_181501.log
