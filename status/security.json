@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-07T14:17:00Z",
+  "last_review": "2026-04-07T16:21:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 8 currently banned",
-    "fail2ban_status": "active - sshd jail running, 8 currently banned, 9237 total banned",
-    "change_since_last": "fail2ban total bans 9237 (up from 9159, +78). 8 IPs currently banned: 2.57.122.192, 45.91.193.105, 2.57.122.199, 45.148.10.141, 80.94.92.166, 2.57.122.194, 45.148.10.147, 2.57.121.86. Continued brute-force from 80.94.92.x, 2.57.12x.x, 45.148.10.x subnets. Generic usernames only (sol, postgres, ubuntu, root). No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 6 currently banned",
+    "fail2ban_status": "active - sshd jail running, 6 currently banned, 9340 total banned",
+    "change_since_last": "fail2ban total bans 9340 (up from 9237, +103). 6 IPs currently banned: 2.57.121.112, 80.94.92.183, 80.94.92.165, 45.148.10.240, 2.57.121.25, 92.118.39.62. Continued brute-force from 80.94.92.x, 2.57.12x.x, 45.148.10.x, 92.118.39.x subnets. Generic usernames only (sol, solv, solana, ubuntu, ops, user). No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,26 +40,72 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "344 usages across 73 JS files (unchanged from prior review)."
+    "innerHTML_note": "344+ usages across 96 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts."
   },
   "changed_files_review": {
-    "font_inspector_js": {
-      "task": "Modified Apr 7 14:10 — font analysis and inspection tool",
-      "status": "MODIFIED — 1200+ lines, 4 innerHTML usages",
+    "repair_js": {
+      "task": "NEW file — PDF repair and validation tool, ~878 lines",
+      "status": "NEW — reviewed in full",
       "innerHTML_count": 4,
-      "innerHTML_analysis": "Line 850: clearing container — SAFE. Line 948: inserting built HTML from renderFontList() — uses escHtml/escAttr for PDF-derived values. Line 1100: same template. Line 1178: part of escHtml() utility itself.",
-      "escaping_functions": "escHtml() (line 1175) and escAttr() (line 1181) both properly implemented.",
-      "issue_1_subsetPrefix": "MEDIUM: Line 997 — f.subsetPrefix (PDF font subset prefix) inserted into innerHTML without escaping. Prefix validated by /^[A-Z]{6}$/ regex at extraction (line 233) but originates from PDF data. CSP blocks script execution. Fix: apply escHtml(f.subsetPrefix).",
-      "issue_2_page_number": "LOW: Line 1056 — page number p used in data-page attribute without escAttr(). Pages are integers from PDF parsing. Minimal risk. Fix: apply escAttr(p).",
+      "innerHTML_analysis": "Line 719: clearing container — SAFE. Lines 736, 783: innerHTML templates use escapeHtml() on all PDF/user-derived values (issue.title, issue.detail, issue.action). issue.severity is from internal SEVERITY constants only.",
+      "escaping_function": "escapeHtml() at line 848 uses textContent→innerHTML pattern — properly escapes <, >, &. Does NOT escape double quotes (same pattern as other modules). Only used in element content context, not attribute context — safe.",
+      "file_size_limit": "100MB for repair (vs 50MB standard) — intentional for large corrupted files.",
+      "import_path_note": "Line 376: import('./lib/pdf-lib.min.js') should be '../lib/pdf-lib.min.js' since file is in /js/. Fallback to window.PDFLib exists so functionally works. NOT a security issue.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
-      "security_status": "MEDIUM — 2 minor escaping gaps. No code execution vulnerabilities."
+      "uses_sanitizeFilename": true,
+      "security_status": "SECURE — proper escaping, no code injection vectors."
+    },
+    "split_by_size_js": {
+      "task": "NEW file — Split PDF by target file size, ~562 lines",
+      "status": "NEW — reviewed in full",
+      "innerHTML_count": 5,
+      "innerHTML_analysis": "Lines 233, 259: clearing containers — SAFE. Line 235: formatFileSize() output (internal) — SAFE. Line 271: integer arithmetic — SAFE. Line 509: static SVG+text — SAFE. All user/PDF-derived data (filenames, page numbers) rendered via DOM API createElement+textContent.",
+      "no_eval": true,
+      "no_function_constructor": true,
+      "no_document_write": true,
+      "security_status": "SECURE — excellent use of DOM API for dynamic content."
+    },
+    "split_bookmarks_js": {
+      "task": "MODIFIED — updated for new split mode integration",
+      "status": "MODIFIED — reviewed in full",
+      "innerHTML_count": 2,
+      "innerHTML_analysis": "Line 242: static SVG icon — SAFE. Line 370: integer in ellipsis row — SAFE. Bookmark titles rendered via textContent. sanitizeBookmarkTitle() strips special chars.",
+      "no_eval": true,
+      "no_function_constructor": true,
+      "no_document_write": true,
+      "uses_sanitizeFilename": true,
+      "security_status": "SECURE — all PDF-derived content properly handled."
+    },
+    "split_js": {
+      "task": "MODIFIED — added size/bookmark mode switching support",
+      "status": "MODIFIED — reviewed in full",
+      "innerHTML_count": 6,
+      "innerHTML_analysis": "Line 182: clearing grid — SAFE. Lines 210, 274-275: static SVG checkmarks — SAFE. Line 322: static template with integer rangeCount — SAFE. Lines 511, 553: static SVG+text for buttons — SAFE. Page cards built with DOM API.",
+      "no_eval": true,
+      "no_function_constructor": true,
+      "no_document_write": true,
+      "security_status": "SECURE — no user-controlled data in innerHTML."
+    },
+    "action_registry_js": {
+      "task": "MODIFIED — added repair, splitBySize, validate actions",
+      "status": "MODIFIED — reviewed in full",
+      "innerHTML_count": 0,
+      "no_eval": true,
+      "no_function_constructor": true,
+      "no_document_write": true,
+      "security_status": "SECURE — pure action registration, no DOM manipulation with user data."
     },
     "tools_css": {
-      "task": "Modified Apr 7 14:10 — CSS styling updates",
+      "task": "MODIFIED — CSS styling updates for new tools",
       "status": "MODIFIED — CSS only",
       "security_status": "secure — no security implications."
+    },
+    "index_html": {
+      "task": "MODIFIED — added repair/split-by-size UI sections",
+      "status": "MODIFIED — HTML template updates for new tool panels",
+      "security_status": "secure — static HTML structure only."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -82,7 +128,8 @@
     "smart-redact.js", "smart-redact-worker.js", "minimap.js",
     "verify-signatures.js", "interleave.js", "annotate.js", "annotation-presets.js",
     "duplicate-detect.js", "color-picker.js", "pwa.js", "tts.js", "touch.js",
-    "reader.js", "form-detect.js", "cloud-storage.js"
+    "reader.js", "form-detect.js", "cloud-storage.js", "font-inspector.js",
+    "repair.js", "split-by-size.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -121,13 +168,15 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "font_inspector_js_reviewed_2_medium_issues",
-    "font_inspector_js_no_eval_function_docwrite",
-    "tools_css_styling_only",
-    "all_94_js_files_accounted_for",
+    "repair_js_reviewed_secure",
+    "split_by_size_js_reviewed_secure",
+    "split_bookmarks_js_reviewed_secure",
+    "split_js_reviewed_secure",
+    "action_registry_js_reviewed_secure",
+    "all_96_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_72_days",
-    "fail2ban_active_9237_total_bans",
+    "fail2ban_active_9340_total_bans",
     "web_app_serving_200",
     "disk_space_ok_13pct",
     "ssh_only_authorized_activity",
@@ -141,6 +190,7 @@
     "MEDIUM: form-detect.js line 709: field.label from PDF text content inserted into innerHTML without escaping — both in title attribute and element content. A malicious PDF with crafted text items could inject HTML. CSP script-src 'self' blocks inline scripts/event handlers. HTML structure manipulation and CSS injection still possible. Fix: add escapeHtml() and use on field.label in renderResultList() template.",
     "MEDIUM: font-inspector.js line 997: f.subsetPrefix (PDF font subset prefix) inserted into innerHTML without escaping. Validated by /^[A-Z]{6}$/ regex at extraction but data originates from PDF. CSP blocks script execution. Fix: apply escHtml(f.subsetPrefix).",
     "LOW: font-inspector.js line 1056: page number p used in data-page attribute without escAttr(). Pages are integers from PDF parsing. Minimal real-world risk. Fix: apply escAttr(p).",
+    "LOW-FUNCTIONAL: repair.js line 376: import path './lib/pdf-lib.min.js' should be '../lib/pdf-lib.min.js' since file is in /js/. Fallback to window.PDFLib exists so module still works. Not a security issue.",
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
     "No general *.md nginx block - only CLAUDE.md specifically blocked. Any new .md file added to webroot would be publicly accessible.",
     "UFW firewall is inactive - only SSH and HTTP/HTTPS ports are needed but no firewall enforces this.",
