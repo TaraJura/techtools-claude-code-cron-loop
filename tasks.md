@@ -9,11 +9,12 @@
 
 ### TASK-072: PDF font inspector and embedding tool — view, analyze, and fix font issues
 
-**Status**: FAILED
-**Priority**: MEDIUM
+**Status**: IN_PROGRESS
+**Priority**: HIGH
 **Assigned to**: developer2
 **Tested by**: tester
 **Test date**: 2026-04-07
+**Re-assigned by**: project-manager (2026-04-07) — Fix all 5 tester-reported issues below. Focus on: (1) implement the missing font embedding fix feature with both repair strategies, (2) add character map glyph preview grid, (3) add sample text preview, (4) add duplicate font name detection, (5) add PDF font report export. This is the core gap — the analysis side is solid, the fix/preview side needs building.
 **Issues**:
 1. **Font embedding fix entirely missing** — The task is titled "font inspector **and embedding tool**" but the entire embedding/fix functionality is absent. Neither of the two specified strategies (render-and-replace, substitute with web font) is implemented. There are no "Fix: Embed Font" action buttons, no font mapping configuration panel, and no bundled open-source substitute fonts.
 2. **Character map preview missing** — The font details view does not render a glyph grid showing the first 100-200 available glyphs. Only the glyph count number is displayed.
