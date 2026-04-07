@@ -10,6 +10,10 @@
 
 ---
 
+## 2026-04-07
+
+- [SECURITY] Security review — 4 new PWA files (pwa.js, sw.js, manifest.json, offline.html) + modified tts.js (TASK-068). All reviewed and secure. No critical or medium issues found. New finding: offline.html inline onclick handler blocked by CSP (functional bug, not security). JS count: 90 files, 326 innerHTML usages — all safe. fail2ban: 8821 total bans (+49). SSL valid 72 days.
+
 ## 2026-04-06
 
 - [TASK-088] **NEW FEATURE** — Annotation style presets and quick-apply palette. New module `js/annotation-presets.js` adds a complete preset system for annotation styles. **Preset Manager**: Modal panel with CRUD operations for presets — each stores annotation type (highlight/underline/strikethrough), fill color, opacity, and keyboard shortcut (1-9). 8 built-in defaults: Error (red), Question (yellow), Approved (green), Important (orange underline), Reference (blue underline), Comment (purple), Redline (red strikethrough), Draft Note (gray). Users can edit, duplicate, delete, reorder via drag-and-drop. **Quick-Apply Palette**: Floating toolbar appears when annotation mode is active, showing preset swatches with type icons. Click to activate a preset (sets both tool type and color). Active preset shown with border ring. Draggable with position persistence. Collapsible to save space. **Style Inheritance**: Active preset color flows to annotation creation. Modified indicator when user changes style while preset is active, with "Update" option. **Import/Export**: Export presets as JSON file, import from JSON with validation and sanitization. Enables team style guide sharing. **Keyboard Shortcuts**: Keys 1-9 activate presets in annotation mode (scoped to avoid conflicts). **Integration**: Registered in command palette as "Manage Annotation Presets", "Export/Import Style Presets". Context menu items exposed for "Apply Preset" submenu. "Presets" button added to annotation toolbar. All presets persisted in localStorage. Respects dark/light/sepia themes via CSS custom properties.
