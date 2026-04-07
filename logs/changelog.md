@@ -12,6 +12,8 @@
 
 ## 2026-04-07
 
+- [TASK-092] **NEW FEATURE** — Touch and gesture optimization for tablet and mobile PDF editing. New module `js/touch.js` adds comprehensive touch support: **Pinch-to-zoom** with midpoint anchoring and real-time CSS transform feedback, re-rendering at final zoom on touchend. **Swipe navigation** with velocity-based detection for single/dual page modes. **Double-tap** toggles between fit-page and 150% zoom. **Long-press** triggers context menu with haptic vibrate feedback. **Pan scrolling** when zoomed in with inertial deceleration. **Annotation mode** awareness — single-finger draws, two-finger scrolls. **Responsive CSS** breakpoints for mobile (<768px), tablet (768-1024px), desktop — nav tabs become scrollable row, sidebar becomes bottom sheet with drag handle, minimum 44x44px tap targets. **Orientation handling** with auto re-render. **Online/offline indicator** (cloud icon). **Virtual keyboard handling** via visualViewport API. **Gesture help overlay** on first touch-device visit. **Pull-to-refresh prevention**. Added to service worker precache. Viewport meta updated with viewport-fit=cover for notched devices.
+
 - [SECURITY] Security review — 4 new PWA files (pwa.js, sw.js, manifest.json, offline.html) + modified tts.js (TASK-068). All reviewed and secure. No critical or medium issues found. New finding: offline.html inline onclick handler blocked by CSP (functional bug, not security). JS count: 90 files, 326 innerHTML usages — all safe. fail2ban: 8821 total bans (+49). SSL valid 72 days.
 
 ## 2026-04-06
