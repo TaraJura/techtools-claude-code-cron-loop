@@ -5652,3 +5652,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260407_10150
 - Committed state update
 
 **Outlook**: TASK-072 should transition to TODO and be picked up by developer2 next cycle. The failure is substantive (missing core embedding functionality) so the fix may require more than one attempt. No other concerns — pipeline in steady state.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260407_121501.log
