@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-07T06:15:00Z",
+  "last_review": "2026-04-07T08:18:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 8 currently banned",
-    "fail2ban_status": "active - sshd jail running, 8 currently banned, 8907 total banned",
-    "change_since_last": "fail2ban total bans 8907 (up from 8821, +86). 8 IPs currently banned: 2.57.122.196, 2.57.122.208, 2.57.121.25, 2.57.122.197, 80.94.92.165, 2.57.122.195, 2.57.122.177, 45.227.254.170. Continued brute-force from 2.57.121.x/122.x subnet and 80.94.92.x subnet. Generic usernames only (validator, system, raydium, sol, root). No server-specific reconnaissance. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 7 currently banned",
+    "fail2ban_status": "active - sshd jail running, 7 currently banned, 9010 total banned",
+    "change_since_last": "fail2ban total bans 9010 (up from 8907, +103). 7 IPs currently banned: 2.57.122.177, 2.57.122.192, 2.57.122.195, 2.57.122.190, 92.118.39.62, 80.94.92.187, 45.148.10.157. Continued brute-force from 2.57.122.x subnet, 92.118.39.x subnet, 80.94.92.x subnet, and 45.148.10.x subnet. New IP: 195.178.110.30 (single attempt). Generic usernames only (sol, solv, solana, cex, root). No server-specific reconnaissance. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,39 +40,39 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "329 usages across 70 JS files (up from 326/69 — +3 from touch.js)."
+    "innerHTML_note": "335 usages across 71 JS files (up from 329/70 — +6 from reader.js)."
   },
   "changed_files_review": {
-    "touch_js": {
-      "task": "TASK-092 — Touch & Gesture Module: pinch-to-zoom, swipe navigation, tap/double-tap/long-press, mobile toolbar, bottom sheet sidebar, orientation handling, online/offline indicator, gesture help overlay",
-      "status": "NEW — 609 lines",
-      "innerHTML_count": 3,
-      "innerHTML_safe": "Line 445: online indicator — hardcoded SVG cloud icon. Line 501: sidebar drag handle — hardcoded '<span class=drag-bar></span>'. Line 541: gesture help overlay — hardcoded HTML with emoji gesture icons and text. No user-controlled data in any innerHTML. All safe.",
+    "reader_js": {
+      "task": "TASK-093 — Reader Mode with Content Reflow: distraction-free reflowable text view, text extraction, heading/list/paragraph detection, paginated and continuous scroll, reading customization (font, theme, spacing), progress tracking, reading time estimate, keyboard/touch navigation",
+      "status": "NEW — 931 lines",
+      "innerHTML_count": 6,
+      "innerHTML_safe": "Line 433: loading indicator — hardcoded HTML. Line 438-442: no-text notice — hardcoded strings. Line 444: page content — data.html generated from textItemsToHTML() which escapeHTML()-sanitizes all text. Line 472: clearing content (empty string). Line 528: image-only notice — hardcoded HTML. Line 533: page content — same as line 444, uses escaped content.",
+      "escapeHTML_quality": "Lines 186-189: escapes &, <, >, double quotes, and single quotes. BEST PRACTICE — properly handles attribute contexts unlike most other modules.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_external_requests": true,
-      "querySelector_data_tool": "Line 484: querySelector('[data-tool=\"${tool}\"]') — tool value from internal bus event, not user-controlled. Safe.",
-      "localStorage_usage": "Only writes 'touchHelpSeen' = '1' (hardcoded). Reads nothing sensitive.",
-      "touch_events": "All touch handling is pure coordinate math (clientX/clientY). No user-controlled strings processed.",
-      "navigator_vibrate": "Line 376: navigator.vibrate(10) on long-press — hardcoded 10ms, no user control. Safe.",
-      "loaded_via": "script tag in index.html (type=module)",
+      "localStorage_usage": "Reads/writes reader preferences (fontSize, fontFamily, theme, lineSpacing, columnWidth, scrollMode, showImages) with fixed LS_PREFIX keys. Reading position saved per document (keyed by filename+size). No sensitive data.",
+      "template_literal_html": "Lines 211, 215, 218, 232: template literals build HTML with escapeHTML()-sanitized text content and hardcoded tag names. dirAttr is hardcoded ' dir=\"rtl\"' or empty. Safe.",
+      "column_detection": "detectColumns() and splitByColumns() use internal coordinate math only. No user-controlled strings.",
+      "loaded_via": "script tag in index.html line 7008 (type=module)",
       "security_status": "secure — no critical, medium, or low issues found."
     },
     "sw_js": {
-      "task": "Service worker update — added /js/touch.js to PRECACHE_URLS",
-      "status": "MODIFIED — added line 64: '/js/touch.js'",
-      "change_scope": "Single line addition to static precache list. No logic changes.",
+      "task": "Service worker — reader.js NOT added to PRECACHE_URLS",
+      "status": "NOT MODIFIED since last review for reader.js. reader.js is missing from precache list.",
+      "note": "Functional gap only — reader.js won't work offline. Not a security issue.",
       "security_status": "secure — no issues."
     },
     "index_html": {
-      "task": "Added script tag for touch.js module",
-      "status": "MODIFIED — added touch.js script import",
-      "security_status": "secure — standard module import."
+      "task": "Added reader mode panel HTML and script tag for reader.js (TASK-093)",
+      "status": "MODIFIED — added reader panel markup (toolbar, controls, content area) and reader.js script import at line 7008",
+      "security_status": "secure — standard HTML panel with data attributes and button elements. No inline event handlers. No user-controlled content."
     },
     "main_css": {
-      "task": "Added touch/gesture styles for TASK-092",
-      "status": "MODIFIED — added ~290 lines of touch-related CSS (is-touch classes, gesture help overlay, sidebar drag handle, mobile responsive, orientation media queries)",
+      "task": "Added reader mode styles for TASK-093",
+      "status": "MODIFIED — added reader panel CSS (themes, typography, responsive, progress bar)",
       "security_status": "secure — CSS only, no security implications."
     }
   },
@@ -95,7 +95,7 @@
     "epub-export.js", "statistics.js", "context-menu.js", "auto-crop.js", "ocr.js",
     "smart-redact.js", "smart-redact-worker.js", "minimap.js",
     "verify-signatures.js", "interleave.js", "annotate.js", "annotation-presets.js",
-    "duplicate-detect.js", "color-picker.js", "pwa.js", "tts.js"
+    "duplicate-detect.js", "color-picker.js", "pwa.js", "tts.js", "touch.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -133,19 +133,19 @@
     "no_function_constructor_in_js",
     "innerHTML_safe_all_files",
     "pdf_validation_complete_4_checks",
-    "touch_js_reviewed_new_task092",
-    "touch_js_3_innerHTML_all_safe_hardcoded",
-    "touch_js_no_eval_function_docwrite",
-    "touch_js_no_external_requests",
-    "touch_js_no_user_data_in_dom",
-    "touch_js_localstorage_safe",
-    "sw_js_updated_precache_only",
-    "index_html_script_tag_added",
-    "main_css_touch_styles_only",
-    "all_91_js_files_accounted_for",
+    "reader_js_reviewed_new_task093",
+    "reader_js_6_innerHTML_all_safe",
+    "reader_js_escapeHTML_best_practice",
+    "reader_js_no_eval_function_docwrite",
+    "reader_js_no_external_requests",
+    "reader_js_no_user_data_unescaped_in_dom",
+    "reader_js_localstorage_safe",
+    "index_html_reader_panel_added",
+    "main_css_reader_styles_only",
+    "all_92_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_72_days",
-    "fail2ban_active_8907_total_bans",
+    "fail2ban_active_9010_total_bans",
     "web_app_serving_200",
     "disk_space_ok_13pct",
     "ssh_only_authorized_activity",
@@ -240,21 +240,25 @@
     "color-picker.js: favorites array in localStorage unbounded — no max limit. User-driven (click to add). Same-origin only. LOW risk.",
     "tts.js line 242: control bar innerHTML uses ${prefs.speed} and ${prefs.volume} from localStorage. Same-origin self-XSS only. CSP blocks inline handlers. LOW risk.",
     "tts.js: pageTextCache Map grows with page count — bounded by PDF page count. LOW risk.",
+    "reader.js: no processing timeout on extractAllPages() — uses batches of 20 with requestAnimationFrame yield. Client-side self-DoS only for large PDFs >200 pages (mitigated by 200-page threshold). LOW risk.",
+    "reader.js: pageCache Map grows with page count — bounded by PDF page count and 200-page extraction limit for large docs. LOW risk.",
+    "reader.js: isRTLText() detection logic likely broken — match() without global flag returns at most 1 match, so matches.length (=1) > text.length * 0.2 is false for text > 5 chars. Functional bug, not security issue.",
+    "reader.js: sw.js PRECACHE_URLS missing '/js/reader.js' — reader mode won't work offline. Functional gap, not security issue.",
+    "NOTE: reader.js escapeHTML() (lines 186-189) properly escapes &, <, >, double quotes (&quot;), and single quotes (&#x27;). Best practice among string-based escape functions. Other modules should adopt this pattern for string-based escaping.",
     "NOTE: smart-redact.js escapeHtml() (lines 454-458) uses DOM-based approach (createElement, textContent, innerHTML) — safest method, handles all chars including quotes. Best practice among all modules. Other modules should adopt this pattern.",
     "NOTE: interleave.js escapeHtml() (lines 461-465) also uses DOM-based approach — same best practice as smart-redact.js.",
     "NOTE: annotation-presets.js escHtml() (lines 779-783) also uses DOM-based approach — same best practice as smart-redact.js and interleave.js.",
     "NOTE: ocr.js escapeHtml() (line 950) correctly escapes double quotes via string replacement — second-best practice."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. 1 new file (touch.js) + 3 modified (sw.js, index.html, main.css). All SECURE.",
-    "REVIEWED: touch.js (NEW — TASK-092) — Touch & Gesture Module. 609 lines. Pinch-to-zoom, swipe page navigation, tap/double-tap/long-press, touch-friendly drag, mobile toolbar overflow, bottom sheet sidebar, orientation handling, online/offline indicator, gesture help overlay, virtual keyboard handling. 3 innerHTML uses: all hardcoded HTML/SVG (cloud icon, drag bar span, gesture help content). No user-controlled data. No eval/Function/document.write. No external requests. querySelector with data-tool attribute from internal bus (safe).",
-    "REVIEWED: sw.js (MODIFIED) — added '/js/touch.js' to PRECACHE_URLS (line 64). No logic changes.",
-    "REVIEWED: index.html (MODIFIED) — added touch.js script import. Standard module import.",
-    "REVIEWED: main.css (MODIFIED) — added ~290 lines of touch-related CSS. No security implications.",
-    "JS file count: 91 (up from 90 — +touch.js).",
-    "innerHTML count: 329 across 70 unique files (up from 326/69 — +3 from touch.js).",
+    "Security review completed — no critical fixes needed. 1 new file (reader.js) + 2 modified (index.html, main.css). All SECURE.",
+    "REVIEWED: reader.js (NEW — TASK-093) — Reader Mode with Content Reflow. 931 lines. Text extraction from PDF pages, structural analysis (headings, paragraphs, lists, columns, RTL), reflowable HTML rendering, paginated and continuous scroll modes, lazy loading with IntersectionObserver, reading preferences (font size/family, theme, line spacing, column width), progress bar, reading time estimation, keyboard navigation, touch swipe, copy-all-text. 6 innerHTML uses: 4 hardcoded HTML, 2 with escapeHTML()-sanitized text content. escapeHTML properly escapes all 5 HTML special chars including quotes. No eval/Function/document.write. No external requests.",
+    "REVIEWED: index.html (MODIFIED) — added reader mode panel HTML markup and script tag at line 7008. Standard module import and semantic HTML with data attributes.",
+    "REVIEWED: main.css (MODIFIED) — added reader mode CSS styles. No security implications.",
+    "JS file count: 92 (up from 91 — +reader.js).",
+    "innerHTML count: 335 across 71 unique files (up from 329/70 — +6 from reader.js).",
     "No new third-party dependencies added.",
-    "SSH: fail2ban total bans 8907 (+86 since last review). 8 IPs currently banned. Continued brute-force from 2.57.x subnet, 80.94.92.x subnet, 45.227.254.170. Generic usernames only (validator, system, raydium, sol, root). No successful unauthorized logins.",
+    "SSH: fail2ban total bans 9010 (+103 since last review). 7 IPs currently banned. Continued brute-force from 2.57.122.x, 92.118.39.x, 80.94.92.x, 45.148.10.x subnets. New IP: 195.178.110.30. Generic usernames only (sol, solv, solana, cex, root). No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (72 days remaining).",
     "Disk usage stable at 13%, 63G free.",
     "All security headers confirmed. Nginx blocking rules verified. Config syntax valid.",
@@ -298,6 +302,8 @@
     "LOW: clipboard.js — add max paste count limit",
     "LOW: auto-crop.js — consider explicitly releasing canvas elements after each page analysis in batch mode",
     "LOW: duplicate-detect.js — consider adding processing timeout for scan operations on very large PDFs",
-    "LOW: color-picker.js — consider adding max limit to favorites array in localStorage"
+    "LOW: color-picker.js — consider adding max limit to favorites array in localStorage",
+    "LOW: reader.js — fix isRTLText() to use matchAll() or global flag for accurate RTL percentage detection",
+    "LOW: sw.js — add '/js/reader.js' to PRECACHE_URLS for offline reader mode support"
   ]
 }
