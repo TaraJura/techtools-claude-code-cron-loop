@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-07T08:18:00Z",
+  "last_review": "2026-04-07T10:18:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 7 currently banned",
-    "fail2ban_status": "active - sshd jail running, 7 currently banned, 9010 total banned",
-    "change_since_last": "fail2ban total bans 9010 (up from 8907, +103). 7 IPs currently banned: 2.57.122.177, 2.57.122.192, 2.57.122.195, 2.57.122.190, 92.118.39.62, 80.94.92.187, 45.148.10.157. Continued brute-force from 2.57.122.x subnet, 92.118.39.x subnet, 80.94.92.x subnet, and 45.148.10.x subnet. New IP: 195.178.110.30 (single attempt). Generic usernames only (sol, solv, solana, cex, root). No server-specific reconnaissance. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 2 currently banned",
+    "fail2ban_status": "active - sshd jail running, 2 currently banned, 9106 total banned",
+    "change_since_last": "fail2ban total bans 9106 (up from 9010, +96). 2 IPs currently banned: 80.94.92.187, 2.57.122.208. Continued brute-force from 2.57.122.x, 80.94.92.x, 92.118.39.x subnets. Generic usernames only (ubuntu, sol, cmu). No server-specific reconnaissance. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,40 +40,40 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "335 usages across 71 JS files (up from 329/70 — +6 from reader.js)."
+    "innerHTML_note": "338 usages across 72 JS files (up from 335/71 — +3 from form-detect.js)."
   },
   "changed_files_review": {
-    "reader_js": {
-      "task": "TASK-093 — Reader Mode with Content Reflow: distraction-free reflowable text view, text extraction, heading/list/paragraph detection, paginated and continuous scroll, reading customization (font, theme, spacing), progress tracking, reading time estimate, keyboard/touch navigation",
-      "status": "NEW — 931 lines",
-      "innerHTML_count": 6,
-      "innerHTML_safe": "Line 433: loading indicator — hardcoded HTML. Line 438-442: no-text notice — hardcoded strings. Line 444: page content — data.html generated from textItemsToHTML() which escapeHTML()-sanitizes all text. Line 472: clearing content (empty string). Line 528: image-only notice — hardcoded HTML. Line 533: page content — same as line 444, uses escaped content.",
-      "escapeHTML_quality": "Lines 186-189: escapes &, <, >, double quotes, and single quotes. BEST PRACTICE — properly handles attribute contexts unlike most other modules.",
+    "form_detect_js": {
+      "task": "TASK-094 — Intelligent Form Auto-Detection: scan static PDFs for form-like elements (underlines, boxes, checkboxes, signature blocks) and convert them to fillable interactive fields.",
+      "status": "NEW — 922 lines",
+      "innerHTML_count": 3,
+      "innerHTML_safe": "Line 675: summary display — hardcoded HTML with computed numbers/counts. SAFE. Line 693: empty-state message — hardcoded string. SAFE. Line 697-726: result list — field.label from PDF text content is NOT ESCAPED in title attribute and element content. MEDIUM risk — see known_issues.",
+      "no_escapeHtml": "No escapeHtml function defined in this module. field.label originates from PDF textContent item.str (lines 320, 347, 369, 394, 417, 439, 464). A crafted PDF could inject HTML via text items.",
+      "csp_mitigation": "CSP script-src 'self' blocks inline script execution and event handlers. HTML injection and CSS injection still possible.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
       "no_external_requests": true,
-      "localStorage_usage": "Reads/writes reader preferences (fontSize, fontFamily, theme, lineSpacing, columnWidth, scrollMode, showImages) with fixed LS_PREFIX keys. Reading position saved per document (keyed by filename+size). No sensitive data.",
-      "template_literal_html": "Lines 211, 215, 218, 232: template literals build HTML with escapeHTML()-sanitized text content and hardcoded tag names. dirAttr is hardcoded ' dir=\"rtl\"' or empty. Safe.",
-      "column_detection": "detectColumns() and splitByColumns() use internal coordinate math only. No user-controlled strings.",
-      "loaded_via": "script tag in index.html line 7008 (type=module)",
-      "security_status": "secure — no critical, medium, or low issues found."
+      "no_localStorage": true,
+      "field_name_sanitized": "Line 824: .replace(/[^a-zA-Z0-9_\\-  ]/g, '').substring(0, 40) — properly sanitized for pdf-lib form field names.",
+      "downloadBlob_usage": "Line 887: uses downloadBlob from utils.js — consistent with other modules.",
+      "loaded_via": "script tag in index.html line 6984 (type=module)",
+      "security_status": "MEDIUM issue: unescaped field.label in innerHTML. CSP mitigates script execution. No critical issues."
     },
-    "sw_js": {
-      "task": "Service worker — reader.js NOT added to PRECACHE_URLS",
-      "status": "NOT MODIFIED since last review for reader.js. reader.js is missing from precache list.",
-      "note": "Functional gap only — reader.js won't work offline. Not a security issue.",
-      "security_status": "secure — no issues."
+    "tools_css": {
+      "task": "Added form auto-detection styles for TASK-094",
+      "status": "MODIFIED — added .fd-auto-section and related CSS classes",
+      "security_status": "secure — CSS only, no security implications."
     },
     "index_html": {
-      "task": "Added reader mode panel HTML and script tag for reader.js (TASK-093)",
-      "status": "MODIFIED — added reader panel markup (toolbar, controls, content area) and reader.js script import at line 7008",
+      "task": "Added form auto-detection panel HTML and script tag for form-detect.js (TASK-094)",
+      "status": "MODIFIED — added form-detect panel markup (buttons, progress bar, result list, filter controls) and form-detect.js script import at line 6984",
       "security_status": "secure — standard HTML panel with data attributes and button elements. No inline event handlers. No user-controlled content."
     },
-    "main_css": {
-      "task": "Added reader mode styles for TASK-093",
-      "status": "MODIFIED — added reader panel CSS (themes, typography, responsive, progress bar)",
-      "security_status": "secure — CSS only, no security implications."
+    "sw_js": {
+      "task": "Service worker — form-detect.js added to PRECACHE_URLS",
+      "status": "MODIFIED — added '/js/form-detect.js' to precache list. reader.js still missing from precache.",
+      "security_status": "secure — no issues."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -95,7 +95,8 @@
     "epub-export.js", "statistics.js", "context-menu.js", "auto-crop.js", "ocr.js",
     "smart-redact.js", "smart-redact-worker.js", "minimap.js",
     "verify-signatures.js", "interleave.js", "annotate.js", "annotation-presets.js",
-    "duplicate-detect.js", "color-picker.js", "pwa.js", "tts.js", "touch.js"
+    "duplicate-detect.js", "color-picker.js", "pwa.js", "tts.js", "touch.js",
+    "reader.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -131,21 +132,21 @@
     "no_secrets_in_webroot",
     "no_eval_in_js_files",
     "no_function_constructor_in_js",
-    "innerHTML_safe_all_files",
+    "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "reader_js_reviewed_new_task093",
-    "reader_js_6_innerHTML_all_safe",
-    "reader_js_escapeHTML_best_practice",
-    "reader_js_no_eval_function_docwrite",
-    "reader_js_no_external_requests",
-    "reader_js_no_user_data_unescaped_in_dom",
-    "reader_js_localstorage_safe",
-    "index_html_reader_panel_added",
-    "main_css_reader_styles_only",
-    "all_92_js_files_accounted_for",
+    "form_detect_js_reviewed_new_task094",
+    "form_detect_js_3_innerHTML_1_medium_issue",
+    "form_detect_js_field_label_unescaped",
+    "form_detect_js_no_eval_function_docwrite",
+    "form_detect_js_no_external_requests",
+    "form_detect_js_field_names_sanitized",
+    "tools_css_styling_only",
+    "index_html_form_detect_panel_added",
+    "sw_js_form_detect_added_to_precache",
+    "all_93_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_72_days",
-    "fail2ban_active_9010_total_bans",
+    "fail2ban_active_9106_total_bans",
     "web_app_serving_200",
     "disk_space_ok_13pct",
     "ssh_only_authorized_activity",
@@ -153,6 +154,7 @@
     "document_write_safe_print_only"
   ],
   "known_issues": [
+    "MEDIUM: form-detect.js line 709: field.label from PDF text content inserted into innerHTML without escaping — both in title attribute and element content. A malicious PDF with crafted text items could inject HTML. CSP script-src 'self' blocks inline scripts/event handlers. HTML structure manipulation and CSS injection still possible. Fix: add escapeHtml() and use on field.label in renderResultList() template.",
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
     "No general *.md nginx block - only CLAUDE.md specifically blocked. Any new .md file added to webroot would be publicly accessible.",
     "UFW firewall is inactive - only SSH and HTTP/HTTPS ports are needed but no firewall enforces this.",
@@ -244,6 +246,8 @@
     "reader.js: pageCache Map grows with page count — bounded by PDF page count and 200-page extraction limit for large docs. LOW risk.",
     "reader.js: isRTLText() detection logic likely broken — match() without global flag returns at most 1 match, so matches.length (=1) > text.length * 0.2 is false for text > 5 chars. Functional bug, not security issue.",
     "reader.js: sw.js PRECACHE_URLS missing '/js/reader.js' — reader mode won't work offline. Functional gap, not security issue.",
+    "form-detect.js: no processing timeout on detectAllPages() — uses yieldToUI() between pages but no overall timeout. Client-side self-DoS only. LOW risk.",
+    "form-detect.js: fd.detected array unbounded — grows with all detected fields across all pages. Bounded by page count and heuristic limits. LOW risk.",
     "NOTE: reader.js escapeHTML() (lines 186-189) properly escapes &, <, >, double quotes (&quot;), and single quotes (&#x27;). Best practice among string-based escape functions. Other modules should adopt this pattern for string-based escaping.",
     "NOTE: smart-redact.js escapeHtml() (lines 454-458) uses DOM-based approach (createElement, textContent, innerHTML) — safest method, handles all chars including quotes. Best practice among all modules. Other modules should adopt this pattern.",
     "NOTE: interleave.js escapeHtml() (lines 461-465) also uses DOM-based approach — same best practice as smart-redact.js.",
@@ -251,20 +255,22 @@
     "NOTE: ocr.js escapeHtml() (line 950) correctly escapes double quotes via string replacement — second-best practice."
   ],
   "notes": [
-    "Security review completed — no critical fixes needed. 1 new file (reader.js) + 2 modified (index.html, main.css). All SECURE.",
-    "REVIEWED: reader.js (NEW — TASK-093) — Reader Mode with Content Reflow. 931 lines. Text extraction from PDF pages, structural analysis (headings, paragraphs, lists, columns, RTL), reflowable HTML rendering, paginated and continuous scroll modes, lazy loading with IntersectionObserver, reading preferences (font size/family, theme, line spacing, column width), progress bar, reading time estimation, keyboard navigation, touch swipe, copy-all-text. 6 innerHTML uses: 4 hardcoded HTML, 2 with escapeHTML()-sanitized text content. escapeHTML properly escapes all 5 HTML special chars including quotes. No eval/Function/document.write. No external requests.",
-    "REVIEWED: index.html (MODIFIED) — added reader mode panel HTML markup and script tag at line 7008. Standard module import and semantic HTML with data attributes.",
-    "REVIEWED: main.css (MODIFIED) — added reader mode CSS styles. No security implications.",
-    "JS file count: 92 (up from 91 — +reader.js).",
-    "innerHTML count: 335 across 71 unique files (up from 329/70 — +6 from reader.js).",
+    "Security review completed — 1 MEDIUM issue found in new file. 1 new file (form-detect.js) + 3 modified (index.html, tools.css, sw.js).",
+    "REVIEWED: form-detect.js (NEW — TASK-094) — Intelligent Form Auto-Detection. 922 lines. Scans PDF operator list for graphics (lines, rectangles) and text content to detect form-like elements. Heuristic detection of text inputs, checkboxes, radio buttons, signatures, date fields, textareas. Canvas overlay for visual field highlighting. Result list with filter/confidence controls. Generates fillable PDF via pdf-lib. 3 innerHTML uses: 2 safe (hardcoded), 1 MEDIUM (unescaped field.label from PDF text). No eval/Function/document.write. No external requests. No localStorage.",
+    "REVIEWED: index.html (MODIFIED) — added form-detect panel HTML markup and script tag at line 6984. Standard module import and semantic HTML with data attributes.",
+    "REVIEWED: tools.css (MODIFIED) — added form-detect CSS styles. No security implications.",
+    "REVIEWED: sw.js (MODIFIED) — added '/js/form-detect.js' to PRECACHE_URLS. reader.js still missing.",
+    "JS file count: 93 (up from 92 — +form-detect.js).",
+    "innerHTML count: 338 across 72 unique files (up from 335/71 — +3 from form-detect.js).",
     "No new third-party dependencies added.",
-    "SSH: fail2ban total bans 9010 (+103 since last review). 7 IPs currently banned. Continued brute-force from 2.57.122.x, 92.118.39.x, 80.94.92.x, 45.148.10.x subnets. New IP: 195.178.110.30. Generic usernames only (sol, solv, solana, cex, root). No successful unauthorized logins.",
+    "SSH: fail2ban total bans 9106 (+96 since last review). 2 IPs currently banned. Continued brute-force from 2.57.122.x, 80.94.92.x, 92.118.39.x subnets. Generic usernames only (ubuntu, sol, cmu). No successful unauthorized logins.",
     "SSL certificate valid until June 18, 2026 (72 days remaining).",
     "Disk usage stable at 13%, 63G free.",
     "All security headers confirmed. Nginx blocking rules verified. Config syntax valid.",
     "Path traversal blocked (404 on ../, 400 on URL-encoded)."
   ],
   "recommendations": [
+    "MEDIUM: form-detect.js line 709 — escape field.label before inserting into innerHTML. Add escapeHtml() (use reader.js pattern: escape &, <, >, double quotes, single quotes) and apply to field.label in both title attribute and element content in renderResultList() template",
     "LOW-MEDIUM: offline.html — replace inline onclick with addEventListener in a <script> block, or add CSP 'unsafe-hashes' with sha256 hash of 'window.location.reload()' to allow just that handler",
     "MEDIUM: guides.js line 685 — add guard before drawRuler() tick loop: if (tickPx < 1) return; to prevent infinite loop when zoom approaches 0",
     "MEDIUM-LOW: context-menu.js line 643 — add protocol allowlist before window.open(ctx.url): only allow http:, https:, mailto: schemes. Same fix needed in hyperlinks.js.",
