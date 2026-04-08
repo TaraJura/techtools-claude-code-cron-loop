@@ -12,6 +12,8 @@
 
 ## 2026-04-08
 
+- **NEW FEATURE** — TASK-112: Auto page rotation detection and correction. Analyzes PDF pages to identify incorrectly rotated pages (90°/180°/270°) using text-transform analysis from pdf.js `getTextContent()` with image-based edge-density heuristic fallback for scanned pages without text. Shows thumbnail grid with color-coded indicators (green=correct, orange=rotated, gray=uncertain) and a summary line. One-click "Auto-Fix All" applies corrections via pdf-lib `/Rotate` entry (non-destructive). Manual per-page override buttons. Integrated with: action registry (`rotation-detect.analyze`, `rotation-detect.fix-all`), command palette, undo/redo system, event bus (`pages:rotation-detected`, `pages:rotation-fixed`), batch processing. New file: `js/auto-rotate.js`. Modified: `index.html`, `css/tools.css`.
+
 - **Bug fix**: Fixed TypeError in `measure.js` — `ensureSvgOverlay` crashed on null `viewport` during tool switching. Added null guards in both `onPageRendered` and `ensureSvgOverlay`. Verified with full 74-tab sweep: 0 console errors.
 
 - **INFRASTRUCTURE** (supervisor) — Fixed Chrome/MCP memory leak in pipeline. 10 orphaned `chrome-devtools-mcp` processes (ppid=1) from old cycles were keeping Chrome browsers alive, consuming ~10GB RSS. Available RAM had dropped to 539Mi. Killed orphans, freed 4.7GB (recovered to 5.3Gi). Added cleanup block to `scripts/cron-orchestrator.sh` that runs at each cycle start: kills orphaned MCP processes and removes stale `/tmp/puppeteer_dev_chrome_profile-*` directories.
