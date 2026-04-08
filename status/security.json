@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-08T06:25:00Z",
+  "last_review": "2026-04-08T08:17:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 9 currently banned",
-    "fail2ban_status": "active - sshd jail running, 9 currently banned, 9835 total banned",
-    "change_since_last": "fail2ban total bans 9835 (up from 9722, +113). 9 IPs currently banned: 195.178.110.218, 45.148.10.157, 2.57.121.86, 161.132.45.15, 45.227.254.170, 80.94.92.167, 45.148.10.147, 2.57.122.188, 2.57.122.96. Continued brute-force from recurring subnets (2.57.x.x, 80.94.x.x, 45.148.x.x). Generic usernames only. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 7 currently banned",
+    "fail2ban_status": "active - sshd jail running, 7 currently banned, 9939 total banned",
+    "change_since_last": "fail2ban total bans 9939 (up from 9835, +104). 7 IPs currently banned: 2.57.122.188, 2.57.122.191, 2.57.121.112, 195.178.110.15, 2.57.122.196, 45.148.10.151, 45.148.10.157. Continued brute-force from recurring subnets (2.57.x.x, 80.94.x.x, 45.148.x.x, 195.178.x.x). Generic usernames only (admin, root, solr, ops, ubuntu, user). No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -43,42 +43,27 @@
     "innerHTML_note": "350+ usages across 103 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts."
   },
   "changed_files_review": {
-    "open_url_js": {
-      "task": "TASK-104: NEW file — Open PDF from URL, ~588 lines",
-      "status": "NEW — reviewed in full",
-      "innerHTML_count": 1,
-      "innerHTML_note": "Line 38: dialog template with escapeHtml(entry.name) and escapeHtml(truncateUrl(entry.url)). History entries from localStorage properly escaped. SAFE.",
-      "eval_count": 0,
-      "function_constructor_count": 0,
-      "document_write_count": 0,
-      "dom_manipulation": "All safe — uses createElement, textContent for errors, DOM-based escapeHtml (line 421). showToast uses textContent.",
-      "url_validation": "validateUrl() enforces http/https protocol only (line 171). Rejects javascript:, data:, file: etc.",
-      "rate_limiting": "5 fetches per 60 seconds (lines 182-189). Prevents abuse.",
-      "fetch_timeout": "30 seconds via AbortController (line 14, 237-239).",
-      "file_size_limit": "100MB — checked both via Content-Length header AND streaming byte count. Larger than 50MB standard but file still passes through normal PDF loading pipeline.",
-      "pdf_validation": "Magic bytes check (%PDF-) on fetched data before loading (line 317-321, 526-529).",
-      "filename_sanitization": "sanitizeDisplayName() strips <>\"'\\|?*: characters (line 407). Used for display only.",
-      "drag_and_drop": "initUrlDrop() validates URL protocol (http/https only) before fetch (line 481-488).",
-      "history_storage": "localStorage with MAX_HISTORY=10, properly escaped when rendered.",
-      "external_requests": "Client-side fetch() with CORS mode — browser's same-origin policy applies. Not SSRF.",
-      "security_status": "CLEAN — well-implemented with proper input validation, rate limiting, timeouts, size checks, and PDF validation."
-    },
-    "annotation_exchange_js": {
-      "task": "NEW file — Annotation Exchange (FDF/XFDF export/import), ~1908 lines",
-      "status": "NEW — reviewed in full",
+    "pages_js": {
+      "task": "TASK-105: Multi-page selection with batch page operations",
+      "status": "MODIFIED — reviewed in full (1089 lines)",
       "innerHTML_count": 7,
-      "innerHTML_note": "Lines 1379, 1451, 1514, 1519, 1627, 1715, 1823. All safe: static templates or properly escaped via DOM-based escapeHtml(). Author dropdown uses createElement/textContent. Summary counts use hardcoded label strings and numeric counts only.",
+      "innerHTML_note": "Lines 190 (grid clear), 234/332 (static SVG checkmark), 688 (static SVG apply button), 817 (static batch bar template), 907 (static move dialog template), 969 (static confirm dialog template). All innerHTML uses static SVG/HTML templates only — zero user-controlled or PDF-derived content. SAFE.",
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
-      "xfdf_import": "Uses DOMParser (no script execution). Values extracted via getAttribute/textContent. All numeric values type-converted via parseInt/parseFloat/Number. Text content stored as data, rendered by existing (reviewed) annotation modules.",
-      "fdf_import": "Regex-based parser (extractFdfAnnotDicts, parseFdfAnnotDict). All extracted values type-converted. No raw strings inserted into DOM.",
-      "link_url_import": "URLs from imported XFDF/FDF link annotations are not protocol-validated — same pre-existing pattern as hyperlinks.js (already tracked in known_issues). Not a new vulnerability.",
-      "file_picker": "Limited to .xfdf,.fdf extensions (line 1569).",
-      "escapeHtml": "DOM-based approach (createElement + textContent + innerHTML) — properly escapes all HTML chars including quotes.",
-      "external_requests": false,
-      "client_side_only": true,
-      "security_status": "CLEAN — proper input parsing, escaping, and type validation throughout."
+      "dom_manipulation": "All dynamic content uses textContent (dialog titles/descriptions at lines 1012-1013, page counts at lines 346/353, move-max at line 956). DOM elements created via createElement. Integer values from parseInt with NaN check (line 926).",
+      "user_input_handling": "Move-to dialog accepts numeric input via <input type=number> — validated with parseInt and NaN/range check before use. No string injection vectors.",
+      "drag_and_drop": "Internal drag-and-drop between page cards only. dataTransfer.setData uses String(gridIndex) — integer. No external data accepted.",
+      "context_menu": "Delegates to context-menu.js openMenu() — menu labels built from internal count (n) and static strings. No user input in labels.",
+      "download_filename": "Uses baseName from state.currentFile.name with .pdf stripped, appended with '_reordered.pdf' or '_extracted_Npages.pdf'. Passed through downloadBlob (which uses sanitizeFilename from utils.js). SAFE.",
+      "undo_system": "Stores arrayBuffer.slice(0) copies for insert-undo. pdfjsLib.getDocument called on internal buffer. No external data paths.",
+      "querySelector_injection": "Template literals in querySelector use integer idx from internal Set — not user-controlled. SAFE.",
+      "security_status": "CLEAN — well-implemented with proper DOM API usage, no unsafe patterns."
+    },
+    "tools_css": {
+      "task": "CSS styling updates for TASK-105 batch bar and multi-select UI",
+      "status": "MODIFIED — CSS only, no security impact",
+      "security_status": "N/A — styling only"
     }
   },
   "previous_module_reviews_still_valid": [
@@ -142,12 +127,11 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "open_url_js_reviewed_clean",
-    "annotation_exchange_js_reviewed_clean",
+    "pages_js_task105_reviewed_clean",
     "all_103_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_71_days",
-    "fail2ban_active_9835_total_bans",
+    "fail2ban_active_9939_total_bans",
     "web_app_serving_200",
     "disk_space_ok_13pct",
     "ssh_only_authorized_activity",
