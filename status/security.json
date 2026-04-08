@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-08T16:22:00Z",
+  "last_review": "2026-04-08T18:30:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 8 currently banned",
-    "fail2ban_status": "active - sshd jail running, 8 currently banned, 10235 total banned",
-    "change_since_last": "fail2ban total bans 10235 (up from 10148, +87). 8 IPs currently banned: 195.178.110.30, 80.94.92.164, 103.76.120.225, 191.101.59.180, 45.137.172.116, 38.110.1.185, 122.177.244.200, 191.101.59.182. Continued brute-force from generic usernames. No successful unauthorized logins — all accepted logins are pubkey auth for novakj from 37.188.158.105."
+    "failed_password_attempts": "fail2ban active, 6 currently banned",
+    "fail2ban_status": "active - sshd jail running, 6 currently banned, 10256 total banned",
+    "change_since_last": "fail2ban total bans 10256 (up from 10235, +21). 6 IPs currently banned: 52.169.217.131, 165.232.137.75, 195.178.110.30, 179.33.210.213, 102.211.152.138, 80.94.92.167. Continued brute-force from generic usernames (admin, solana, steam, jack, slv, root). No successful unauthorized logins — all accepted logins are pubkey auth for novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,47 +40,30 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "350+ usages across 108 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "350+ usages across 109 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "callout_js": {
-      "task": "TASK-110: Callout text annotation tool — FreeText with leader line",
-      "status": "NEW FILE — reviewed in full (1092 lines)",
+    "auto_rotate_js": {
+      "task": "TASK-112: Auto page rotation detection and correction",
+      "status": "NEW FILE — reviewed in full (666 lines)",
       "innerHTML_count": 4,
-      "innerHTML_note": "Line 369: placement preview SVG with internal numeric coordinates and module-level color variables. Line 561: leader line SVG with internal geometry and callout.borderColor/activeColor. Line 622: static × character for delete button. Line 946: leader line update during drag — same pattern as line 561.",
-      "user_text_rendering": "callout.text rendered via textContent at line 612 — safe.",
-      "color_values_in_svg": "callout.borderColor and activeColor interpolated into SVG fill/stroke attributes. Both from internal fmt object and color picker events — no external import vector. Color values not validated against regex but no import path exists to inject arbitrary strings.",
+      "innerHTML_note": "Line 73: clearing grid (empty string). Line 371: clearing grid (empty string). Line 421: card template with numeric idx and internal indicator HTML (correctionNeeded is a number, status classes are internal strings). Line 459: clearing thumbnail container before appending canvas.",
+      "user_text_rendering": "No user-controlled text rendered via innerHTML. Page numbers are loop indices. Status labels are internal strings.",
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "no_localstorage": true,
       "no_indexeddb": true,
       "no_external_requests": true,
-      "security_status": "CLEAN — all innerHTML is internal SVG geometry, text uses textContent, no external data sources"
+      "uses_sanitize_filename": true,
+      "processing_safety": "Concurrency limited to 4 workers. Image analysis at 72 DPI (1x scale). Cancel support via cancelRequested flag. Try/catch around all async operations.",
+      "security_status": "CLEAN — all innerHTML is internal numeric/label data, downloads use sanitizeFilename, no external data sources"
     },
-    "annotation_exchange_js": {
-      "task": "TASK-110: Added callout XFDF export support",
-      "status": "MODIFIED — added callout case at lines 126-131 (collection) and 371-399 (XFDF export)",
-      "innerHTML_count": 0,
-      "note": "Uses DOM APIs (setAttribute, textContent) for XFDF generation. No import path for callouts from XFDF — imported FreeText goes to text overlays, not callouts.",
-      "security_status": "CLEAN — DOM APIs only, no new innerHTML or injection vectors"
-    },
-    "annotation_summary_js": {
-      "task": "TASK-110: Added callout type to annotation summary",
-      "status": "MODIFIED — added callout collection at lines 283-297",
-      "innerHTML_count": 0,
-      "note": "Callout text goes through escapeHtml() which escapes &, <, >, and \" — handles all attribute and element content contexts properly.",
-      "security_status": "CLEAN — existing escapeHtml handles callout data safely"
-    },
-    "annotate_js": {
-      "task": "TASK-110: Added embedCallouts import and call during PDF save",
-      "status": "MODIFIED — import wiring only",
-      "security_status": "CLEAN — no new innerHTML or security patterns"
-    },
-    "action_registry_js": {
-      "task": "TASK-110: Added callout action registration",
-      "status": "MODIFIED — one new action entry",
-      "security_status": "CLEAN — static registration data"
+    "measure_js_fix": {
+      "task": "Fix SYSTEM CRITICAL: measure.js TypeError on tool switch",
+      "status": "MODIFIED — null guards added at lines 102 and 115",
+      "change": "Added 'if (!wrapper || !viewport) return;' at onPageRendered (line 102) and ensureSvgOverlay (line 115). Prevents TypeError when viewport is null during rapid tool switching.",
+      "security_status": "CLEAN — defensive null guards only, no new attack surface"
     }
   },
   "previous_module_reviews_still_valid": [
@@ -106,7 +89,8 @@
     "reader.js", "form-detect.js", "cloud-storage.js", "font-inspector.js",
     "repair.js", "split-by-size.js", "page-tabs.js", "text-edit.js",
     "toolbar-manager.js", "magnifier.js", "open-url.js", "find-replace.js",
-    "custom-stamps.js", "event-bus.js", "recent-files.js", "callout.js"
+    "custom-stamps.js", "event-bus.js", "recent-files.js", "callout.js",
+    "auto-rotate.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -138,6 +122,7 @@
     "nginx_blocks_claude_md_404",
     "nginx_blocks_sh_404",
     "nginx_blocks_py_404",
+    "nginx_config_syntax_ok",
     "path_traversal_blocked",
     "url_encoded_path_traversal_blocked",
     "no_secrets_in_webroot",
@@ -145,19 +130,15 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "callout_js_task110_reviewed_clean",
-    "annotation_exchange_js_callout_export_reviewed_clean",
-    "annotation_summary_js_callout_support_reviewed_clean",
-    "annotate_js_callout_wiring_reviewed_clean",
-    "action_registry_js_callout_entry_reviewed_clean",
-    "all_108_js_files_accounted_for",
+    "auto_rotate_js_task112_reviewed_clean",
+    "measure_js_null_guard_fix_reviewed_clean",
+    "all_109_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_71_days",
-    "fail2ban_active_10235_total_bans",
+    "fail2ban_active_10256_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
-    "nginx_config_syntax_ok",
     "document_write_safe_print_only"
   ],
   "known_issues": [
