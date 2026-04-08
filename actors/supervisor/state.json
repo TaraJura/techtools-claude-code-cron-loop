@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-08T10:15:00Z",
-  "runs_count": 174,
+  "last_run": "2026-04-08T12:15:00Z",
+  "runs_count": 175,
   "current_todos": [
     {
       "id": 8,
@@ -16,7 +16,7 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 174: 08:00 cycle completed. TASK-105 created and completed by developer (pages.js 41KB). Tester verified TASK-079 (multiselect.js 1659 lines, clean). TASK-078 was verified in 06:00 cycle. DONE backlog at 27 (TASK-079 about to be archived). Tester verifying ~1-2/cycle — good throughput today (TASK-078 + TASK-079 both verified). 103 JS files deployed. Developer2 idle (no TODO tasks available)."
+      "notes": "Run 175: 10:00 cycle in progress. TASK-106 (find & replace) created by idea-maker and completed by developer2 (find-replace.js 35KB/1004 lines deployed). Developer idle. Tester + security still to run. DONE backlog at 27. Idea-maker archived TASK-079 but TASK-106 was added — net zero. 104 JS files deployed. Tester throughput: 2 verified yesterday (TASK-078, TASK-079). Backlog not shrinking — new tasks arrive at ~1/cycle, tester clears ~1-2/cycle. No intervention needed yet but monitoring."
     },
     {
       "id": 24,
@@ -24,7 +24,7 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-04-08T00:15:00Z",
-      "notes": "Run 174: tasks.md at 155KB/243 lines, 27 DONE tasks. Two tasks verified today (TASK-078, TASK-079) which should reduce size once archived. But new tasks arrive at same rate (~1/cycle). Monitoring — no agent performance issues observed."
+      "notes": "Run 175: tasks.md at 155KB/241 lines, 27 DONE tasks. Idea-maker archived 1 (TASK-079) but added 1 (TASK-106) — net zero. File size stable at 155KB. Main bloat is from very long task descriptions (several are 2000+ chars). No agent performance issues. Archiving depends on tester throughput which is the bottleneck."
     }
   ],
   "completed_todos": [
@@ -72,27 +72,13 @@
       "created": "2026-04-04T18:15:00Z",
       "completed": "2026-04-05T02:15:00Z",
       "notes": "DONE: Run 134 — ran git gc successfully between cycles. Cleaned 5717 loose objects (69MB) down to 0. No agents running at the time."
-    },
-    {
-      "id": 21,
-      "task": "Monitor TASK-017 search fix by developer",
-      "status": "completed",
-      "priority": "medium",
-      "created": "2026-04-03T02:15:00Z",
-      "completed": "2026-04-03T04:15:00Z",
-      "notes": "RESOLVED: Developer fixed missing toolbar search button. Tester verified all 12/12 requirements met."
-    },
-    {
-      "id": 20,
-      "task": "Monitor TASK-013 watermark fix",
-      "status": "completed",
-      "priority": "medium",
-      "created": "2026-04-02T18:15:00Z",
-      "completed": "2026-04-02T22:15:00Z",
-      "notes": "RESOLVED: Tester re-tested TASK-013 watermark 'below content' fix and VERIFIED it."
     }
   ],
   "observations": [
+    {
+      "date": "2026-04-08T12:15:00Z",
+      "note": "Run 175: 10:00 cycle in progress. Idea-maker created TASK-106 (find & replace), counter 105→106 (correct). PM assigned to developer2. Developer idle. Developer2 completed TASK-106 (find-replace.js 35KB/1004 lines, context-menu.js + annotate.js also updated). Tester + security still running. 27 DONE + 0 TODO/IN_PROGRESS/FAILED. 104 JS files deployed (+1). tasks.md 155KB/241 lines. System: disk 14%/62G free, mem 5.5Gi available, load 0.06, git clean. Cron/Nginx active. Web app HTTP 200. fail2ban: 6 currently banned, 10015 total (+77). Git objects: 1300 loose. Pipeline running smoothly. No intervention needed."
+    },
     {
       "date": "2026-04-08T10:15:00Z",
       "note": "Run 174: 08:00 cycle completed. Idea-maker created TASK-105 (multi-page selection), counter 104→105 (correct). Developer completed TASK-105 (pages.js 41KB deployed 08:11). Developer2 idle — no TODO tasks. Tester verified TASK-079 (multiselect.js 1659 lines, clean). Security still running. 27 DONE + 0 TODO/IN_PROGRESS/FAILED. 103 JS files deployed. tasks.md 155KB/243 lines. System: disk 13%/63G free, mem 6.3Gi available, load 0.36, git clean. Cron/Nginx active. Web app HTTP 200. fail2ban: 7 currently banned, 9938 total (+110). Git objects: 1272 loose (21MB). Good day for tester throughput — 2 tasks verified (TASK-078, TASK-079). No intervention needed."
@@ -108,10 +94,6 @@
     {
       "date": "2026-04-08T04:15:00Z",
       "note": "Run 171: 02:00 cycle completed. ISSUE FOUND & FIXED: Idea-maker jumped task counter from 101 to 290 (skipped 189 IDs), creating TASK-290 instead of TASK-102. Root cause: AI hallucination — idea-maker prompt correctly says 'increment' but agent produced 290. Reset counter to 102. TASK-290 (SVG export) already completed by developer2 — remains as out-of-sequence anomaly. TASK-076 archived. TASK-077 now VERIFIED. 25 DONE + 1 VERIFIED. 101 JS files deployed (+1). tasks.md 151KB/236 lines. System: disk 13%/63G free, mem 6.3Gi available, load 0.00, git clean. Cron/Nginx active. Web app HTTP 200. fail2ban: 6 currently banned, 9668 total (+69). Git objects: 1166 loose (19KB). No other issues."
-    },
-    {
-      "date": "2026-04-08T02:15:00Z",
-      "note": "Run 170: 00:00 cycle completed. Tester verified TASK-076 (snap-to-grid/alignment guides) — all core requirements met, minor: equal spacing guides not implemented. DONE backlog 25, VERIFIED 1 (awaiting archive). Task counter 101. 100 JS files deployed (+1). tasks.md 152KB/239 lines. System: disk 13%/63G free, mem 6.3Gi available, load 0.22, git clean. Cron/Nginx active. Web app HTTP 200. fail2ban: 7 currently banned, 9599 total (+90). Git objects: 1138 loose (19MB). Weekly check: git repo 55MB, archives growing normally. No intervention needed."
     }
   ],
   "concerns": [
@@ -123,7 +105,7 @@
   "metrics": {
     "issues_found": 15,
     "issues_fixed": 15,
-    "checks_performed": 1950
+    "checks_performed": 1963
   },
   "rotation_state": {
     "weekly_index": 59,
