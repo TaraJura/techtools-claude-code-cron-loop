@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-08T00:18:00Z",
+  "last_review": "2026-04-08T02:16:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 6 currently banned",
-    "fail2ban_status": "active - sshd jail running, 6 currently banned, 9598 total banned",
-    "change_since_last": "fail2ban total bans 9598 (up from 9510, +88). 6 IPs currently banned: 2.57.122.199, 2.57.122.196, 2.57.122.208, 45.148.10.147, 92.118.39.63, 2.57.122.190. Continued brute-force from 2.57.122.x and 45.148.10.x subnets. Generic usernames only. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 5 currently banned",
+    "fail2ban_status": "active - sshd jail running, 5 currently banned, 9668 total banned",
+    "change_since_last": "fail2ban total bans 9668 (up from 9598, +70). 5 IPs currently banned: 92.118.39.62, 103.28.89.75, 80.94.92.166, 80.94.92.167, 2.57.121.25. Continued brute-force from recurring subnets. Generic usernames only. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,19 +40,24 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "347+ usages across 99 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts. toolbar-manager.js has unescaped preset names but self-XSS only and CSP mitigates."
+    "innerHTML_note": "347+ usages across 99+ JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts."
   },
   "changed_files_review": {
-    "toolbar_manager_js": {
-      "task": "NEW file — Toolbar customization module, ~843 lines",
+    "svg_export_js": {
+      "task": "TASK-290: NEW file — SVG vector export module, ~436 lines",
       "status": "NEW — reviewed in full",
-      "innerHTML_count": 6,
-      "innerHTML_analysis": "Lines 402, 565: clearing content (innerHTML = ''). Line 405: static 'All tools visible' message. Lines 465-499: static overlay HTML with no user data. Lines 417-418: textContent from existing DOM spans + hardcoded ALL_TOOL_IDS. Line 572: custom preset name from user text input in data-preset attribute and element content — self-XSS only, CSP mitigates. Line 746-749: static overflow palette HTML.",
+      "innerHTML_count": 2,
+      "innerHTML_analysis": "Line 300: clearing content (innerHTML = ''). Line 307: static 'Preview unavailable' string — no user/PDF data.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
-      "dom_api_usage": "Most UI built with createElement/appendChild. Drag-and-drop uses standard HTML5 API. Data from localStorage only (same-origin).",
-      "security_status": "CLEAN — low-risk self-XSS pattern in custom preset names, CSP blocks script execution."
+      "xml_escaping": "escapeXml() at line 412 escapes &, <, >, double quotes, and single quotes — properly applied to item.str and item.fontName from PDF text content before SVG insertion. More complete than escapeHtml() in other modules.",
+      "filename_handling": "Uses sanitizeFilename() from utils.js for download names. Good.",
+      "client_side_only": true,
+      "no_external_requests": true,
+      "memory_cleanup": "Canvas dimensions zeroed after rendering.",
+      "no_processing_timeout": "Export loop has no timeout — client-side self-DoS for very large PDFs (1000 pages at high scale). LOW risk.",
+      "security_status": "CLEAN — proper XML escaping, no dangerous patterns, client-side only."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -76,7 +81,8 @@
     "verify-signatures.js", "interleave.js", "annotate.js", "annotation-presets.js",
     "duplicate-detect.js", "color-picker.js", "pwa.js", "tts.js", "touch.js",
     "reader.js", "form-detect.js", "cloud-storage.js", "font-inspector.js",
-    "repair.js", "split-by-size.js", "page-tabs.js", "text-edit.js"
+    "repair.js", "split-by-size.js", "page-tabs.js", "text-edit.js",
+    "toolbar-manager.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -115,11 +121,12 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
+    "svg_export_js_reviewed_clean",
     "toolbar_manager_js_reviewed_clean",
     "all_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_71_days",
-    "fail2ban_active_9598_total_bans",
+    "fail2ban_active_9668_total_bans",
     "web_app_serving_200",
     "disk_space_ok_13pct",
     "ssh_only_authorized_activity",
@@ -170,6 +177,7 @@
     "snip.js: no escapeHtml utility defined — acceptable since no user-controlled strings are inserted via innerHTML, but would be good practice to add.",
     "snip.js: selections array unbounded — no max limit. Low risk since user-driven interaction.",
     "snip.js line 661: raw err.message from clipboard API shown in toast — minor info disclosure, clipboard errors are browser-generated.",
-    "page-tabs.js importTabs() reads JSON file without schema validation — imported tab objects concatenated directly into allTabs. Malformed data could cause rendering errors. Not a direct security issue but poor input validation."
+    "page-tabs.js importTabs() reads JSON file without schema validation — imported tab objects concatenated directly into allTabs. Malformed data could cause rendering errors. Not a direct security issue but poor input validation.",
+    "svg-export.js: no processing timeout on multi-page export loop — client-side self-DoS for large PDFs at high scale. LOW risk."
   ]
 }
