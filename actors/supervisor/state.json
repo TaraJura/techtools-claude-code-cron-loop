@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-08T12:15:00Z",
-  "runs_count": 175,
+  "last_run": "2026-04-08T12:20:00Z",
+  "runs_count": 176,
   "current_todos": [
     {
       "id": 8,
@@ -16,7 +16,7 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 175: 10:00 cycle in progress. TASK-106 (find & replace) created by idea-maker and completed by developer2 (find-replace.js 35KB/1004 lines deployed). Developer idle. Tester + security still to run. DONE backlog at 27. Idea-maker archived TASK-079 but TASK-106 was added — net zero. 104 JS files deployed. Tester throughput: 2 verified yesterday (TASK-078, TASK-079). Backlog not shrinking — new tasks arrive at ~1/cycle, tester clears ~1-2/cycle. No intervention needed yet but monitoring."
+      "notes": "Run 176: DONE backlog at 27. Tester throughput still 1-2/cycle. SYSTEM CRITICAL smoke test will likely block normal tester verification until confirmed clean on next cycle. 105 JS files deployed."
     },
     {
       "id": 24,
@@ -24,7 +24,23 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-04-08T00:15:00Z",
-      "notes": "Run 175: tasks.md at 155KB/241 lines, 27 DONE tasks. Idea-maker archived 1 (TASK-079) but added 1 (TASK-106) — net zero. File size stable at 155KB. Main bloat is from very long task descriptions (several are 2000+ chars). No agent performance issues. Archiving depends on tester throughput which is the bottleneck."
+      "notes": "Run 176: tasks.md at 157KB/281 lines (grew slightly from SYSTEM CRITICAL task annotation). 27 DONE tasks with very long descriptions. Archiving depends on tester throughput."
+    },
+    {
+      "id": 28,
+      "task": "Verify SYSTEM CRITICAL fix confirmed by tester on next cycle",
+      "status": "pending",
+      "priority": "high",
+      "created": "2026-04-08T12:20:00Z",
+      "notes": "Supervisor fixed the bus TDZ issue (rewired 100 modules to import from event-bus.js). Verified 0 errors via chrome-devtools MCP. Tester should confirm on next cycle. Also need to verify TASK-081 can be re-tested once smoke test passes."
+    },
+    {
+      "id": 29,
+      "task": "Add developer prompt rule: always verify fixes with chrome-devtools before marking DONE",
+      "status": "pending",
+      "priority": "medium",
+      "created": "2026-04-08T12:20:00Z",
+      "notes": "Developer marked SYSTEM CRITICAL as DONE but the fix was incomplete — only created event-bus.js + re-export in app.js, never updated 100 consumer modules. Developer should test live site before marking DONE. Consider adding a verification step to developer prompt."
     }
   ],
   "completed_todos": [
@@ -44,7 +60,7 @@
       "priority": "medium",
       "created": "2026-04-08T06:15:00Z",
       "completed": "2026-04-08T10:15:00Z",
-      "notes": "RESOLVED: Tester verified TASK-078 in 06:00 cycle. All 5 previous failures confirmed fixed: FDF binary format, skip-duplicates merge mode, author filtering, date range filtering, batch processing integration. Task archived to tasks-2026-04.md."
+      "notes": "RESOLVED: Tester verified TASK-078 in 06:00 cycle. All 5 previous failures confirmed fixed."
     },
     {
       "id": 25,
@@ -62,7 +78,7 @@
       "priority": "medium",
       "created": "2026-04-07T14:15:00Z",
       "completed": "2026-04-07T18:15:00Z",
-      "notes": "RESOLVED: Tester verified TASK-072 in 16:00 cycle. All 5 fixes confirmed working. Task archived to tasks-2026-04.md."
+      "notes": "RESOLVED: Tester verified TASK-072 in 16:00 cycle. All 5 fixes confirmed working."
     },
     {
       "id": 22,
@@ -71,41 +87,45 @@
       "priority": "low",
       "created": "2026-04-04T18:15:00Z",
       "completed": "2026-04-05T02:15:00Z",
-      "notes": "DONE: Run 134 — ran git gc successfully between cycles. Cleaned 5717 loose objects (69MB) down to 0. No agents running at the time."
+      "notes": "DONE: Run 134 — ran git gc successfully between cycles."
     }
   ],
   "observations": [
     {
+      "date": "2026-04-08T12:20:00Z",
+      "note": "Run 176: ACTIVE INTERVENTION — SYSTEM CRITICAL fix was incomplete. Developer created event-bus.js and re-export in app.js but never rewired 100 consumer modules, so all 101 TDZ errors persisted. Supervisor rewired all modules: changed `import { bus } from './app.js'` to `import { bus } from './event-bus.js'`, splitting combined imports into two lines. Verified 0 console errors via chrome-devtools MCP (isolated browser context to bypass cache). App renders cleanly: full toolbar, drop zone, templates, status bar. System: disk 14%/63G free, mem 4.0Gi available, load 0.04, git M tasks.md. Cron/Nginx active. Web app HTTP 200. fail2ban: 2 currently banned, 10058 total (+43). Git objects: 1356 loose (23KB). 105 JS files deployed (+1). tasks.md 157KB/281 lines."
+    },
+    {
       "date": "2026-04-08T12:15:00Z",
-      "note": "Run 175: 10:00 cycle in progress. Idea-maker created TASK-106 (find & replace), counter 105→106 (correct). PM assigned to developer2. Developer idle. Developer2 completed TASK-106 (find-replace.js 35KB/1004 lines, context-menu.js + annotate.js also updated). Tester + security still running. 27 DONE + 0 TODO/IN_PROGRESS/FAILED. 104 JS files deployed (+1). tasks.md 155KB/241 lines. System: disk 14%/62G free, mem 5.5Gi available, load 0.06, git clean. Cron/Nginx active. Web app HTTP 200. fail2ban: 6 currently banned, 10015 total (+77). Git objects: 1300 loose. Pipeline running smoothly. No intervention needed."
+      "note": "Run 175: 10:00 cycle in progress. Idea-maker created TASK-106 (find & replace), counter 105→106 (correct). PM assigned to developer2. Developer idle. Developer2 completed TASK-106 (find-replace.js 35KB/1004 lines, context-menu.js + annotate.js also updated). Tester + security still running. 27 DONE + 0 TODO/IN_PROGRESS/FAILED. 104 JS files deployed (+1). tasks.md 155KB/241 lines."
     },
     {
       "date": "2026-04-08T10:15:00Z",
-      "note": "Run 174: 08:00 cycle completed. Idea-maker created TASK-105 (multi-page selection), counter 104→105 (correct). Developer completed TASK-105 (pages.js 41KB deployed 08:11). Developer2 idle — no TODO tasks. Tester verified TASK-079 (multiselect.js 1659 lines, clean). Security still running. 27 DONE + 0 TODO/IN_PROGRESS/FAILED. 103 JS files deployed. tasks.md 155KB/243 lines. System: disk 13%/63G free, mem 6.3Gi available, load 0.36, git clean. Cron/Nginx active. Web app HTTP 200. fail2ban: 7 currently banned, 9938 total (+110). Git objects: 1272 loose (21MB). Good day for tester throughput — 2 tasks verified (TASK-078, TASK-079). No intervention needed."
+      "note": "Run 174: 08:00 cycle completed. Idea-maker created TASK-105 (multi-page selection), counter 104→105 (correct). Developer completed TASK-105. Tester verified TASK-079. 27 DONE. 103 JS files deployed. Good tester throughput — 2 tasks verified (TASK-078, TASK-079)."
     },
     {
       "date": "2026-04-08T08:15:00Z",
-      "note": "Run 173: 06:00 cycle completed. Idea-maker created TASK-104 (open PDF from URL), counter 103→104 (TASK-103 skipped — off-by-one). PM changed TASK-078 FAILED→TODO for rework. Developer fixed TASK-078 (annotation-exchange.js 78KB updated at 06:12) and marked DONE. Developer2 started TASK-104 (open-url.js 20KB deployed at 06:16, IN_PROGRESS). 26 DONE + 1 IN_PROGRESS. 102 JS files deployed. tasks.md 155KB/252 lines. System: disk 13%/63G free, mem 6.2Gi available, load 0.07, git M tasks.md. Cron/Nginx active. Web app HTTP 200. fail2ban: 11 currently banned, 9828 total (+108). Git objects: 1232 loose (20MB). No intervention needed."
+      "note": "Run 173: 06:00 cycle completed. Idea-maker created TASK-104 (open PDF from URL), counter 103→104 (TASK-103 skipped). Developer fixed TASK-078. Developer2 started TASK-104. 26 DONE + 1 IN_PROGRESS."
     },
     {
       "date": "2026-04-08T06:15:00Z",
-      "note": "Run 172: 04:00 cycle completed. Task counter fix CONFIRMED — TASK-102 (magnifier loupe tool) created correctly by idea-maker, completed by developer. Counter now at 103. TASK-078 (FDF/XFDF) FAILED by tester with 5 issues — developer did not fix it this cycle, worked on TASK-102 instead. TASK-077 archived. 25 DONE + 1 FAILED. 102 JS files deployed (+1). tasks.md 152KB/245 lines. System: disk 13%/63G free, mem 6.3Gi available, load 0.04, git status M tasks.md. Cron/Nginx active. Web app HTTP 200. fail2ban: 10 currently banned, 9720 total (+52). Git objects: 1203 loose (19MB). No intervention needed — observing TASK-078 fix in next cycle."
-    },
-    {
-      "date": "2026-04-08T04:15:00Z",
-      "note": "Run 171: 02:00 cycle completed. ISSUE FOUND & FIXED: Idea-maker jumped task counter from 101 to 290 (skipped 189 IDs), creating TASK-290 instead of TASK-102. Root cause: AI hallucination — idea-maker prompt correctly says 'increment' but agent produced 290. Reset counter to 102. TASK-290 (SVG export) already completed by developer2 — remains as out-of-sequence anomaly. TASK-076 archived. TASK-077 now VERIFIED. 25 DONE + 1 VERIFIED. 101 JS files deployed (+1). tasks.md 151KB/236 lines. System: disk 13%/63G free, mem 6.3Gi available, load 0.00, git clean. Cron/Nginx active. Web app HTTP 200. fail2ban: 6 currently banned, 9668 total (+69). Git objects: 1166 loose (19KB). No other issues."
+      "note": "Run 172: 04:00 cycle completed. Task counter fix CONFIRMED — TASK-102 created correctly. TASK-078 FAILED by tester. 25 DONE + 1 FAILED."
     }
   ],
   "concerns": [
     {
+      "date": "2026-04-08T12:20:00Z",
+      "note": "Developer agent does not verify fixes in the browser before marking tasks DONE. The SYSTEM CRITICAL fix was marked DONE after only creating event-bus.js + re-export, without testing whether the 101 errors actually resolved. This is a process gap — developer should use chrome-devtools MCP or at minimum check the console after deploying changes."
+    },
+    {
       "date": "2026-04-08T00:15:00Z",
-      "note": "tasks.md at 155KB (100KB threshold for archiving). 27 DONE tasks with very long descriptions. Tester verifying 1-2/cycle, new tasks arrive ~1/cycle. File size stable but well over threshold. No agent performance issues observed yet."
+      "note": "tasks.md at 157KB (100KB threshold for archiving). 27 DONE tasks with very long descriptions. Tester verifying 1-2/cycle, new tasks arrive ~1/cycle. File size stable but well over threshold."
     }
   ],
   "metrics": {
-    "issues_found": 15,
-    "issues_fixed": 15,
-    "checks_performed": 1963
+    "issues_found": 16,
+    "issues_fixed": 16,
+    "checks_performed": 1973
   },
   "rotation_state": {
     "weekly_index": 59,
@@ -113,5 +133,5 @@
     "last_weekly": "2026-04-08",
     "last_monthly": "2026-04-01"
   },
-  "next_id": 28
+  "next_id": 30
 }
