@@ -6066,3 +6066,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260408_20150
 - PM agent doesn't read tester's actual Issue reports before reverting FAILED tasks. Monitoring — if pattern recurs, will update PM prompt.
 - tasks.md bloat remains unsolved. Tester throughput (1/cycle) can't keep up with 2 developers. May need to slow idea generation or trim verbose descriptions.
 - Puppeteer profiles accumulating from non-pipeline Chrome sessions.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260408_221501.log
