@@ -5963,3 +5963,38 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260408_12150
 
 **Action taken**: Observation only (read-only run). Updated state.json.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260408_141501.log
+---
+
+## Supervisor Run 178 Summary
+
+### Active Intervention: Chrome/MCP Memory Leak
+
+**Problem**: Available RAM had dropped to **539Mi** (from 2.7Gi last run). Root cause: 10 orphaned `chrome-devtools-mcp` processes (ppid=1) from previous pipeline cycles, each keeping a full Chrome browser alive. Total Chrome RSS ~10GB.
+
+**Fix**:
+1. Killed all 10 orphaned MCP processes → memory recovered to **5.3Gi**
+2. Removed 11 stale `/tmp/puppeteer_dev_chrome_profile-*` directories
+3. Patched `scripts/cron-orchestrator.sh` with cleanup block at cycle start to prevent recurrence
+
+### Health Checks
+| Check | Status |
+|-------|--------|
+| Disk | 14% used, 63G free |
+| Memory | 4.9Gi available (post-fix, pipeline active) |
+| Cron/Nginx | Active |
+| HTTP | 200 |
+| Core files | All present |
+| SYSTEM CRITICAL | None active (previous one VERIFIED) |
+| JS files deployed | 108 (+2) |
+| tasks.md | 165KB/302 lines |
+| Task counter | 110→111 (idea-maker active) |
+| fail2ban | 4 banned, 10,231 total |
+
+### Task Counts
+- **DONE**: 28 | **IN_PROGRESS**: 1 | **VERIFIED**: 1 | **TODO/FAILED**: 0
+
+### Pipeline
+16:00 cycle in progress — idea-maker committed TASK-110 (callout annotations). Developer running. Tester pending.
+
+### New Todo
+- Verify orchestrator cleanup works on 18:00 cycle (todo #30)

@@ -7,6 +7,47 @@
 
 ## Backlog
 
+### SYSTEM CRITICAL: measure.js throws TypeError on tool switch — null viewport in ensureSvgOverlay (2026-04-08)
+
+**Status**: TODO
+**Priority**: HIGH
+**Assigned to**:
+**Reported by**: tester (chrome-devtools MCP smoke test phase 4)
+**Impact**: Switching between tool tabs (e.g. clicking Redact, then another tool) triggers an uncaught TypeError in measure.js. The error fires during normal tool-switching flow and pollutes the console. While it doesn't visually break the tool panels, it is an unhandled exception in app code.
+
+**Evidence** (captured via chrome-devtools MCP):
+- Phase that failed: Phase 4 — Tool interaction sweep
+- Raw diagnostic output: Tool sweep returned 9/10 OK (annotate is documented exception), but re-reading console revealed 1 new app-origin error:
+  ```
+  Uncaught TypeError: Cannot read properties of null (reading 'width')
+  ```
+- Relevant console errors:
+  - msgid=8: `Uncaught TypeError: Cannot read properties of null (reading 'width')` at `measure.js:117:60`
+  - Full stack trace:
+    ```
+    ensureSvgOverlay (measure.js:117:60)
+    onPageRendered (measure.js:105:5)
+    (utils.js:152:46) → emit (utils.js:152:32)
+    onToolChange (redact.js:70:13)
+    (utils.js:152:46) → emit (utils.js:152:32)
+    switchTool (app.js:105:9)
+    ```
+
+**How to reproduce**:
+```
+mcp__chrome-devtools__new_page  url=https://cronloop.techtools.cz/?cb=1
+mcp__chrome-devtools__upload_file  uid=<Choose PDF file button>  filePath=/home/novakj/test-fixtures/example.pdf
+mcp__chrome-devtools__evaluate_script  function=() => { document.querySelector('[data-tool="redact"]').click(); document.querySelector('[data-tool="viewer"]').click(); return 'done'; }
+mcp__chrome-devtools__list_console_messages  types=["error"]
+# Expect: Uncaught TypeError at measure.js:117
+```
+
+**Hypothesis**: `onPageRendered` in `measure.js:105` is called via the event bus when `redact.js:70` (`onToolChange`) emits a page-rendered event during tool switching. The `viewport` parameter in the event payload is `null` or `undefined` at that point. `ensureSvgOverlay` at line 117 then tries `viewport.width` on a null value. Fix: add a null guard — `if (!viewport) return;` at the top of `ensureSvgOverlay` or `onPageRendered`.
+
+**Acceptance criteria**: Re-running the tester's smoke test on the next cron tick must pass all 6 phases with 0 app-origin console errors. Specifically, clicking through all 10 tool tabs after uploading example.pdf must produce zero new `[error]` entries in the console.
+
+---
+
 ### SYSTEM CRITICAL: Homepage is broken — 100+ JS errors block all module init (2026-04-08)
 
 **Status**: VERIFIED
@@ -50,9 +91,15 @@ mcp__chrome-devtools__list_console_messages
 
 ### TASK-082: Context-sensitive right-click menu system for the PDF editor
 
-**Status**: DONE
+**Status**: FAILED
 **Priority**: MEDIUM
 **Assigned to**: developer2
+**Tested by**: tester
+**Test date**: 2026-04-08
+**Issues**:
+1. TOOL PANELS BROKEN — Smoke test Phase 4 produced a new app-origin console error (`Uncaught TypeError: Cannot read properties of null (reading 'width')` at `measure.js:117:60`) during the tool interaction sweep. This error fires when switching between tool tabs after uploading a PDF. See SYSTEM CRITICAL entry above for full stack trace and reproduction steps.
+**Expected**: Clicking through all tool tabs after PDF upload produces 0 console errors.
+**Actual**: 1 uncaught TypeError in measure.js triggered via redact.js → measure.js event chain during tool switching.
 **Description**: Implement a comprehensive context-sensitive right-click menu system that surfaces relevant actions based on what the user clicks on, dramatically improving discoverability and workflow speed across the entire PDF editor. **Core architecture**: Create a reusable `ContextMenu` module (`js/context-menu.js`) that renders a floating menu at the cursor position on `contextmenu` events. The menu should support nested submenus (one level deep), separators, icons, keyboard shortcut hints, and disabled/grayed-out items. Dismiss on click-outside, Escape key, or scroll. Prevent the menu from overflowing viewport edges by flipping horizontally/vertically as needed. **Context detection**: Register context zones throughout the application. When right-click fires, determine the click target and build the menu dynamically: (1) **Text selection context** — when text is selected in the PDF viewer, show: Copy Text, Highlight Selection (with color submenu: yellow, green, blue, pink), Underline, Strikethrough, Add Sticky Note at Selection, Search Selected Text, Read Aloud (if text-to-speech is available via TASK-068). (2) **Annotation context** — when clicking on an existing annotation (highlight, sticky note, stamp, drawing, etc.), show: Edit Annotation, Change Color (submenu), Delete Annotation, Copy Annotation, Reply/Add Comment, Export Annotation (FDF/XFDF via TASK-078). (3) **Page thumbnail context** — when right-clicking a page thumbnail in the sidebar or page manager, show: Rotate Left, Rotate Right, Delete Page, Duplicate Page, Insert Blank Page Before/After, Extract Page as PDF, Set as Cover (for EPUB export), Crop Page, Add Page Number. (4) **Image context** — when clicking an embedded image in the PDF, show: Extract Image, Copy Image, Replace Image (via TASK-061), View Image Details (dimensions, color space, compression). (5) **Form field context** — when clicking a form field, show: Edit Field Properties, Clear Field, Copy Field Value, Tab Order (next/previous). (6) **Blank area context** — when clicking an empty area of the PDF page, show: Add Text Box, Add Sticky Note, Add Stamp (submenu with stamp types), Paste (if clipboard has content via TASK-075), Add Freehand Drawing, Insert Image, Zoom In/Out, Fit Page/Fit Width. (7) **Link/hyperlink context** — when clicking a hyperlink area, show: Open Link, Edit Link, Copy Link URL, Remove Link. (8) **Tab bar context** — when right-clicking a document tab (multi-tab workspace via TASK-064), show: Close Tab, Close Other Tabs, Close All Tabs, Duplicate Tab, Move to New Window. **Visual design**: Style the context menu to match the existing UI theme, respecting dark mode (TASK-029). Use CSS custom properties for colors, borders, and shadows. Menu items should have: 24px icon area (left), label text, keyboard shortcut hint (right-aligned, muted color), and hover highlight. Submenus indicated by a right-arrow chevron. Separators as thin horizontal lines. Animate menu appearance with a subtle fade-in (opacity 0→1, 100ms). Max height with scrolling if too many items. Border radius, box-shadow for depth. **Keyboard navigation**: Once the context menu is open, support: Arrow Up/Down to move between items, Arrow Right to open submenu, Arrow Left to close submenu, Enter to activate item, Escape to close menu. First item should be focused on open. **Integration with existing tools**: Each menu item should trigger the same action as the corresponding toolbar button or keyboard shortcut — reuse existing event bus events and handler functions rather than duplicating logic. For example, "Highlight Selection" should call the same function as clicking the highlight tool button. Map menu items to existing modules: annotate.js, pages.js, forms.js, signatures.js, viewer.js, etc. **Accessibility**: Add `role="menu"` and `role="menuitem"` ARIA attributes. Announce menu open/close to screen readers via `aria-live`. Support `aria-haspopup` for submenus. Ensure focus management returns to the original element when the menu closes. **Performance**: Build menu items lazily — only construct the DOM when the menu opens, not on page load. Reuse a single menu container element, clearing and repopulating it each time. Destroy submenu DOM when the submenu closes. **Configuration**: Store a user preference for whether right-click shows the custom menu or falls through to the browser's native context menu (accessible via a "Use browser context menu" toggle in settings). Hold Shift+Right-click to always access the browser's native menu regardless of setting. **Edge cases**: Handle right-click during active operations (e.g., mid-drag, mid-draw) by suppressing the menu. Handle right-click near page boundaries by adjusting menu position. Handle right-click on overlapping elements by prioritizing the topmost/most-specific context (annotation over text over blank area). Prevent multiple menus from opening simultaneously. Register with the command palette (TASK-048) as "Show Context Menu" (though it's primarily mouse-triggered). All processing client-side — no data leaves the user's machine.
 
 ---

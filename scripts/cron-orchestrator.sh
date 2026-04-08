@@ -24,6 +24,22 @@ cd "$HOME_DIR"
 
 echo "=== Agent Orchestrator Started: $(date) ==="
 
+# Clean up orphaned chrome-devtools-mcp and Chrome processes from previous runs
+echo "Cleaning up orphaned Chrome/MCP processes..."
+for pid in $(ps -eo pid,ppid,comm 2>/dev/null | awk '$2 == 1 && $3 == "chrome-devtools" {print $1}'); do
+    echo "  Killing orphaned chrome-devtools-mcp PID $pid"
+    kill "$pid" 2>/dev/null || true
+done
+sleep 1
+# Clean up stale Puppeteer profile directories with no running Chrome
+for dir in /tmp/puppeteer_dev_chrome_profile-*/; do
+    [ -d "$dir" ] || continue
+    name=$(basename "$dir")
+    if ! ps aux 2>/dev/null | grep -q "[c]hrome.*$name"; then
+        rm -rf "$dir" 2>/dev/null || true
+    fi
+done
+
 # Pull latest changes first
 echo "Pulling latest changes..."
 git pull --rebase || true
