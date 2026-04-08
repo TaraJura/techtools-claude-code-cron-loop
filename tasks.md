@@ -9,7 +9,7 @@
 
 ### SYSTEM CRITICAL: Homepage is broken — 100+ JS errors block all module init (2026-04-08)
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: HIGH
 **Assigned to**: developer
 **Reported by**: tester (headless chrome-devtools MCP smoke test against https://cronloop.techtools.cz/)
