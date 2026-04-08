@@ -241,7 +241,7 @@ Log to `logs/changelog.md` ONLY for:
 | project-manager | Assign and prioritize tasks | 2nd |
 | developer | Implement PDF editor features | 3rd |
 | developer2 | Implement features (parallel) | 4th |
-| tester | Verify PDF operations work | 5th |
+| tester | Verify PDF operations work in a real headless browser via `chrome-devtools` MCP (homepage smoke test + console-error check + example.pdf upload) | 5th |
 | security | Security review (file uploads, XSS) | 6th (last) |
 
 ### Supervisor (Every 2 hours at :15)

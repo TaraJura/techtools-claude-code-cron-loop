@@ -110,7 +110,7 @@ An **autonomous AI factory** that builds a professional PDF editor web applicati
 | **project-manager** | Planning | Assigns and prioritizes tasks |
 | **developer** | Implementation | Builds PDF editor features |
 | **developer2** | Implementation | Builds features in parallel |
-| **tester** | QA | Verifies PDF operations work correctly |
+| **tester** | QA | Loads the live site in headless Chrome via the `chrome-devtools` MCP, fails the run on any app-origin console error, and uploads an example PDF on every cycle to verify the upload pipeline |
 | **security** | Security | Reviews file upload security, XSS prevention |
 
 ### Supervisor (Every 2 hours at :15)
