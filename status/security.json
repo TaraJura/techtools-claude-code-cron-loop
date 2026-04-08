@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-08T02:16:00Z",
+  "last_review": "2026-04-08T04:18:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 5 currently banned",
-    "fail2ban_status": "active - sshd jail running, 5 currently banned, 9668 total banned",
-    "change_since_last": "fail2ban total bans 9668 (up from 9598, +70). 5 IPs currently banned: 92.118.39.62, 103.28.89.75, 80.94.92.166, 80.94.92.167, 2.57.121.25. Continued brute-force from recurring subnets. Generic usernames only. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 12 currently banned",
+    "fail2ban_status": "active - sshd jail running, 12 currently banned, 9722 total banned",
+    "change_since_last": "fail2ban total bans 9722 (up from 9668, +54). 12 IPs currently banned: 45.148.10.141, 2.57.122.192, 2.57.121.118, 2.57.122.197, 2.57.122.190, 124.226.216.189, 156.227.233.77, 45.144.233.56, 195.178.110.15, 58.186.20.143, 95.58.255.251, 80.94.92.166. Continued brute-force from recurring subnets (2.57.x.x, 80.94.x.x). Generic usernames only (root, mysql, ubuntu, linuxuser, test3, smb, solv, solana). No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,28 +40,28 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "347+ usages across 99+ JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts."
+    "innerHTML_note": "347+ usages across 102 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts."
   },
   "changed_files_review": {
-    "svg_export_js": {
-      "task": "TASK-290: NEW file — SVG vector export module, ~436 lines",
+    "magnifier_js": {
+      "task": "TASK-102: NEW file — Floating magnifier loupe tool, ~641 lines",
       "status": "NEW — reviewed in full",
-      "innerHTML_count": 2,
-      "innerHTML_analysis": "Line 300: clearing content (innerHTML = ''). Line 307: static 'Preview unavailable' string — no user/PDF data.",
-      "no_eval": true,
-      "no_function_constructor": true,
-      "no_document_write": true,
-      "xml_escaping": "escapeXml() at line 412 escapes &, <, >, double quotes, and single quotes — properly applied to item.str and item.fontName from PDF text content before SVG insertion. More complete than escapeHtml() in other modules.",
-      "filename_handling": "Uses sanitizeFilename() from utils.js for download names. Good.",
+      "innerHTML_count": 0,
+      "eval_count": 0,
+      "function_constructor_count": 0,
+      "document_write_count": 0,
+      "dom_manipulation": "All safe — uses createElement, textContent, setAttribute, classList, style properties. No HTML string construction.",
+      "localStorage_usage": "loadSettings() validates all values with type checks and range bounds (magnification MIN_MAG-MAX_MAG, lensSize MIN_SIZE-MAX_SIZE, lensShape exact match 'circle'/'rect', pixelGrid typeof boolean). Properly hardened.",
+      "user_input": "No file handling, no PDF content extraction. Only mouse/touch coordinates and keyboard events — all safe numeric/enum values.",
+      "memory_management": "Pins capped at MAX_PINS=4. hiResCanvas single-page only, rebuilt per page. Cleanup on pdf:close (deactivate, removeAllPins, nullify hiResCanvas).",
+      "no_processing_timeout": "buildHiResBuffer renders single page at 3x scale — no timeout, but single-page only. LOW risk.",
+      "external_requests": false,
       "client_side_only": true,
-      "no_external_requests": true,
-      "memory_cleanup": "Canvas dimensions zeroed after rendering.",
-      "no_processing_timeout": "Export loop has no timeout — client-side self-DoS for very large PDFs (1000 pages at high scale). LOW risk.",
-      "security_status": "CLEAN — proper XML escaping, no dangerous patterns, client-side only."
+      "security_status": "CLEAN — no dangerous patterns, all DOM manipulation via safe APIs, proper input validation."
     }
   },
   "previous_module_reviews_still_valid": [
-    "bg-borders.js", "comparison-slider.js", "markdown-export.js", "accessibility.js",
+    "svg-export.js", "bg-borders.js", "comparison-slider.js", "markdown-export.js", "accessibility.js",
     "layers.js", "bookmark-editor.js", "page-resize.js", "reading-progress.js",
     "undo-redo.js", "tabs.js", "pptx-export.js",
     "crop.js", "insert-pages.js", "pages.js", "annotation-summary.js",
@@ -121,12 +121,13 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
+    "magnifier_js_reviewed_clean",
     "svg_export_js_reviewed_clean",
     "toolbar_manager_js_reviewed_clean",
-    "all_js_files_accounted_for",
+    "all_102_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_71_days",
-    "fail2ban_active_9668_total_bans",
+    "fail2ban_active_9722_total_bans",
     "web_app_serving_200",
     "disk_space_ok_13pct",
     "ssh_only_authorized_activity",
@@ -178,6 +179,7 @@
     "snip.js: selections array unbounded — no max limit. Low risk since user-driven interaction.",
     "snip.js line 661: raw err.message from clipboard API shown in toast — minor info disclosure, clipboard errors are browser-generated.",
     "page-tabs.js importTabs() reads JSON file without schema validation — imported tab objects concatenated directly into allTabs. Malformed data could cause rendering errors. Not a direct security issue but poor input validation.",
-    "svg-export.js: no processing timeout on multi-page export loop — client-side self-DoS for large PDFs at high scale. LOW risk."
+    "svg-export.js: no processing timeout on multi-page export loop — client-side self-DoS for large PDFs at high scale. LOW risk.",
+    "magnifier.js: buildHiResBuffer renders single page at 3x scale with no timeout — LOW risk, single-page only."
   ]
 }
