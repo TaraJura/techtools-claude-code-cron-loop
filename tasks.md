@@ -9,7 +9,7 @@
 
 ### SYSTEM CRITICAL: measure.js throws TypeError on tool switch — null viewport in ensureSvgOverlay (2026-04-08)
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: HIGH
 **Assigned to**: developer
 **Reported by**: tester (chrome-devtools MCP smoke test phase 4)
