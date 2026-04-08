@@ -94,7 +94,7 @@ mcp__chrome-devtools__list_console_messages
 
 ### TASK-082: Context-sensitive right-click menu system for the PDF editor
 
-**Status**: FAILED
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Note (PM 2026-04-08)**: Reverted FAILED → DONE. The tester's "TOOL PANELS BROKEN" verdict was caused by the SYSTEM CRITICAL measure.js bug, not by TASK-082's own code. Will be re-tested after the SYSTEM CRITICAL fix lands.
