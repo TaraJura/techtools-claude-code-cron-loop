@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-08T20:22:00Z",
+  "last_review": "2026-04-08T22:25:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 2 currently banned",
-    "fail2ban_status": "active - sshd jail running, 2 currently banned, 10293 total banned",
-    "change_since_last": "fail2ban total bans 10293 (up from 10256, +37). 2 IPs currently banned: 80.94.92.167, 80.94.92.177. Continued brute-force from generic usernames. No successful unauthorized logins — all accepted logins are pubkey auth for novakj from 37.188.158.105."
+    "failed_password_attempts": "fail2ban active, 7 currently banned",
+    "fail2ban_status": "active - sshd jail running, 7 currently banned, 10330 total banned",
+    "change_since_last": "fail2ban total bans 10330 (up from 10293, +37). 7 IPs currently banned: 2.57.122.196, 80.94.92.177, 2.57.121.86, 2.57.121.118, 2.57.122.188, 80.94.92.186, 2.57.121.112. Continued brute-force from generic usernames (root, admin, ubuntu, sol). No successful unauthorized logins — all accepted logins are pubkey auth for novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,25 +40,24 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "350+ usages across 110 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "350+ usages across 111 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "smart_split_js": {
-      "task": "TASK-113: Intelligent content-aware document splitting (Smart Split)",
-      "status": "NEW FILE — reviewed in full (739 lines)",
-      "innerHTML_count": 4,
-      "innerHTML_note": "Line 532: clearing list (empty string). Line 544: clearing list (empty string). Line 576: row template with numeric sp.page, internal methodIcon/methodLabel constants, escapeHtml(sp.heading) for PDF-derived text, and internal confClass/confidence strings. Line 606: escapeHtml helper returning d.innerHTML (safe DOM-based escaping).",
-      "user_text_rendering": "PDF-derived heading text properly escaped via DOM-based escapeHtml() at line 580. All other template values are internal numerics or string constants.",
-      "escapeHtml_implementation": "Lines 603-607: DOM-based (createElement + textContent + innerHTML). Safe for element content. Does not escape double quotes but heading text is only used in element content, not in attribute contexts.",
+    "annotation_replies_js": {
+      "task": "TASK-114: Annotation reply threading — threaded comment discussions on PDF annotations",
+      "status": "NEW FILE — reviewed in full (797 lines)",
+      "innerHTML_count": 2,
+      "innerHTML_note": "Line 234: header template with internal constants only (STATUS_LABELS, STATUSES). Line 259: static empty-state message. Both safe.",
+      "user_text_rendering": "Author names (line 413), reply text (line 428), badge counts (line 591) all use textContent — properly safe from XSS.",
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
-      "no_localstorage": true,
-      "no_indexeddb": true,
+      "no_localstorage_for_replies": true,
+      "uses_sessionStorage": true,
       "no_external_requests": true,
-      "uses_sanitize_filename": true,
-      "processing_safety": "Concurrency limited to 4 workers. Blank detection at 72 DPI (low resolution). Try/catch around all async operations. No explicit analysis timeout — client-side self-DoS only for very large PDFs.",
-      "security_status": "CLEAN — heading text escaped via DOM-based escapeHtml, downloads use sanitizeFilename, no external data sources, no persistent storage"
+      "importReplies_validation": "Checks data is object and thread.replies is Array. Does not validate individual reply schema. Data rendered via textContent — no XSS risk.",
+      "css_selector_injection": "LOW: findAnnotationElement() uses annotKey in querySelector attribute selectors without CSS.escape(). Could cause SyntaxError with crafted keys from imported data. Not exploitable for XSS — only returns element reference.",
+      "security_status": "CLEAN — all user/external text rendered via textContent, no dangerous patterns, no persistent storage beyond sessionStorage"
     }
   },
   "previous_module_reviews_still_valid": [
@@ -82,10 +81,10 @@
     "verify-signatures.js", "interleave.js", "annotate.js", "annotation-presets.js",
     "duplicate-detect.js", "color-picker.js", "pwa.js", "tts.js", "touch.js",
     "reader.js", "form-detect.js", "cloud-storage.js", "font-inspector.js",
-    "repair.js", "split-by-size.js", "page-tabs.js", "text-edit.js",
+    "repair.js", "page-tabs.js", "text-edit.js",
     "toolbar-manager.js", "magnifier.js", "open-url.js", "find-replace.js",
     "custom-stamps.js", "event-bus.js", "recent-files.js", "callout.js",
-    "auto-rotate.js", "smart-split.js"
+    "auto-rotate.js", "smart-split.js", "annotation-replies.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -111,7 +110,6 @@
     "no_sensitive_files_in_webroot",
     "no_git_files_in_webroot",
     "no_env_files_in_webroot",
-    "no_md_files_in_webroot",
     "nginx_blocks_git_404",
     "nginx_blocks_env_404",
     "nginx_blocks_claude_md_404",
@@ -125,11 +123,11 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "smart_split_js_task113_reviewed_clean",
-    "all_110_js_files_accounted_for",
+    "annotation_replies_js_task114_reviewed_clean",
+    "all_111_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_71_days",
-    "fail2ban_active_10293_total_bans",
+    "fail2ban_active_10330_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
@@ -150,6 +148,7 @@
     "LOW: font-inspector.js line 1056: page number p used in data-page attribute without escAttr(). Pages are integers from PDF parsing. Minimal real-world risk. Fix: apply escAttr(p).",
     "LOW-FUNCTIONAL: repair.js line 376: import path './lib/pdf-lib.min.js' should be '../lib/pdf-lib.min.js' since file is in /js/. Fallback to window.PDFLib exists so module still works. Not a security issue.",
     "LOW: find-replace.js line 301: new RegExp(query, flags) from user search input — ReDoS possible with pathological patterns but self-DoS only. try/catch handles invalid regex. Same pattern as link-manager.js.",
+    "LOW: annotation-replies.js findAnnotationElement() lines 610-617: annotKey from imported data used directly in querySelector attribute selectors without CSS.escape(). Crafted keys could cause SyntaxError or match unintended elements. Not exploitable for XSS — only returns element reference. Self-XSS/import vector only.",
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
     "No general *.md nginx block - only CLAUDE.md specifically blocked. Any new .md file added to webroot would be publicly accessible.",
     "UFW firewall is inactive - only SSH and HTTP/HTTPS ports are needed but no firewall enforces this.",
