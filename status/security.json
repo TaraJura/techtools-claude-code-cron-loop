@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-08T04:18:00Z",
+  "last_review": "2026-04-08T06:25:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 12 currently banned",
-    "fail2ban_status": "active - sshd jail running, 12 currently banned, 9722 total banned",
-    "change_since_last": "fail2ban total bans 9722 (up from 9668, +54). 12 IPs currently banned: 45.148.10.141, 2.57.122.192, 2.57.121.118, 2.57.122.197, 2.57.122.190, 124.226.216.189, 156.227.233.77, 45.144.233.56, 195.178.110.15, 58.186.20.143, 95.58.255.251, 80.94.92.166. Continued brute-force from recurring subnets (2.57.x.x, 80.94.x.x). Generic usernames only (root, mysql, ubuntu, linuxuser, test3, smb, solv, solana). No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 9 currently banned",
+    "fail2ban_status": "active - sshd jail running, 9 currently banned, 9835 total banned",
+    "change_since_last": "fail2ban total bans 9835 (up from 9722, +113). 9 IPs currently banned: 195.178.110.218, 45.148.10.157, 2.57.121.86, 161.132.45.15, 45.227.254.170, 80.94.92.167, 45.148.10.147, 2.57.122.188, 2.57.122.96. Continued brute-force from recurring subnets (2.57.x.x, 80.94.x.x, 45.148.x.x). Generic usernames only. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,24 +40,45 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "347+ usages across 102 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts."
+    "innerHTML_note": "350+ usages across 103 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts."
   },
   "changed_files_review": {
-    "magnifier_js": {
-      "task": "TASK-102: NEW file — Floating magnifier loupe tool, ~641 lines",
+    "open_url_js": {
+      "task": "TASK-104: NEW file — Open PDF from URL, ~588 lines",
       "status": "NEW — reviewed in full",
-      "innerHTML_count": 0,
+      "innerHTML_count": 1,
+      "innerHTML_note": "Line 38: dialog template with escapeHtml(entry.name) and escapeHtml(truncateUrl(entry.url)). History entries from localStorage properly escaped. SAFE.",
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
-      "dom_manipulation": "All safe — uses createElement, textContent, setAttribute, classList, style properties. No HTML string construction.",
-      "localStorage_usage": "loadSettings() validates all values with type checks and range bounds (magnification MIN_MAG-MAX_MAG, lensSize MIN_SIZE-MAX_SIZE, lensShape exact match 'circle'/'rect', pixelGrid typeof boolean). Properly hardened.",
-      "user_input": "No file handling, no PDF content extraction. Only mouse/touch coordinates and keyboard events — all safe numeric/enum values.",
-      "memory_management": "Pins capped at MAX_PINS=4. hiResCanvas single-page only, rebuilt per page. Cleanup on pdf:close (deactivate, removeAllPins, nullify hiResCanvas).",
-      "no_processing_timeout": "buildHiResBuffer renders single page at 3x scale — no timeout, but single-page only. LOW risk.",
+      "dom_manipulation": "All safe — uses createElement, textContent for errors, DOM-based escapeHtml (line 421). showToast uses textContent.",
+      "url_validation": "validateUrl() enforces http/https protocol only (line 171). Rejects javascript:, data:, file: etc.",
+      "rate_limiting": "5 fetches per 60 seconds (lines 182-189). Prevents abuse.",
+      "fetch_timeout": "30 seconds via AbortController (line 14, 237-239).",
+      "file_size_limit": "100MB — checked both via Content-Length header AND streaming byte count. Larger than 50MB standard but file still passes through normal PDF loading pipeline.",
+      "pdf_validation": "Magic bytes check (%PDF-) on fetched data before loading (line 317-321, 526-529).",
+      "filename_sanitization": "sanitizeDisplayName() strips <>\"'\\|?*: characters (line 407). Used for display only.",
+      "drag_and_drop": "initUrlDrop() validates URL protocol (http/https only) before fetch (line 481-488).",
+      "history_storage": "localStorage with MAX_HISTORY=10, properly escaped when rendered.",
+      "external_requests": "Client-side fetch() with CORS mode — browser's same-origin policy applies. Not SSRF.",
+      "security_status": "CLEAN — well-implemented with proper input validation, rate limiting, timeouts, size checks, and PDF validation."
+    },
+    "annotation_exchange_js": {
+      "task": "NEW file — Annotation Exchange (FDF/XFDF export/import), ~1908 lines",
+      "status": "NEW — reviewed in full",
+      "innerHTML_count": 7,
+      "innerHTML_note": "Lines 1379, 1451, 1514, 1519, 1627, 1715, 1823. All safe: static templates or properly escaped via DOM-based escapeHtml(). Author dropdown uses createElement/textContent. Summary counts use hardcoded label strings and numeric counts only.",
+      "eval_count": 0,
+      "function_constructor_count": 0,
+      "document_write_count": 0,
+      "xfdf_import": "Uses DOMParser (no script execution). Values extracted via getAttribute/textContent. All numeric values type-converted via parseInt/parseFloat/Number. Text content stored as data, rendered by existing (reviewed) annotation modules.",
+      "fdf_import": "Regex-based parser (extractFdfAnnotDicts, parseFdfAnnotDict). All extracted values type-converted. No raw strings inserted into DOM.",
+      "link_url_import": "URLs from imported XFDF/FDF link annotations are not protocol-validated — same pre-existing pattern as hyperlinks.js (already tracked in known_issues). Not a new vulnerability.",
+      "file_picker": "Limited to .xfdf,.fdf extensions (line 1569).",
+      "escapeHtml": "DOM-based approach (createElement + textContent + innerHTML) — properly escapes all HTML chars including quotes.",
       "external_requests": false,
       "client_side_only": true,
-      "security_status": "CLEAN — no dangerous patterns, all DOM manipulation via safe APIs, proper input validation."
+      "security_status": "CLEAN — proper input parsing, escaping, and type validation throughout."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -82,7 +103,7 @@
     "duplicate-detect.js", "color-picker.js", "pwa.js", "tts.js", "touch.js",
     "reader.js", "form-detect.js", "cloud-storage.js", "font-inspector.js",
     "repair.js", "split-by-size.js", "page-tabs.js", "text-edit.js",
-    "toolbar-manager.js"
+    "toolbar-manager.js", "magnifier.js", "open-url.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -121,13 +142,12 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "magnifier_js_reviewed_clean",
-    "svg_export_js_reviewed_clean",
-    "toolbar_manager_js_reviewed_clean",
-    "all_102_js_files_accounted_for",
+    "open_url_js_reviewed_clean",
+    "annotation_exchange_js_reviewed_clean",
+    "all_103_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_71_days",
-    "fail2ban_active_9722_total_bans",
+    "fail2ban_active_9835_total_bans",
     "web_app_serving_200",
     "disk_space_ok_13pct",
     "ssh_only_authorized_activity",
@@ -180,6 +200,7 @@
     "snip.js line 661: raw err.message from clipboard API shown in toast — minor info disclosure, clipboard errors are browser-generated.",
     "page-tabs.js importTabs() reads JSON file without schema validation — imported tab objects concatenated directly into allTabs. Malformed data could cause rendering errors. Not a direct security issue but poor input validation.",
     "svg-export.js: no processing timeout on multi-page export loop — client-side self-DoS for large PDFs at high scale. LOW risk.",
-    "magnifier.js: buildHiResBuffer renders single page at 3x scale with no timeout — LOW risk, single-page only."
+    "magnifier.js: buildHiResBuffer renders single page at 3x scale with no timeout — LOW risk, single-page only.",
+    "annotation-exchange.js: imported link URLs from XFDF/FDF not protocol-validated — same pre-existing pattern as hyperlinks.js. Malicious XFDF could contain javascript: URIs. CSP mitigates. MEDIUM-LOW risk."
   ]
 }
