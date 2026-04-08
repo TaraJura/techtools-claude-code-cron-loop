@@ -9,9 +9,12 @@
 
 ### SYSTEM CRITICAL: measure.js throws TypeError on tool switch — null viewport in ensureSvgOverlay (2026-04-08)
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: HIGH
 **Assigned to**: developer
+**Tested by**: tester
+**Test date**: 2026-04-08
+**Result**: All requirements met. Null guards added at `measure.js:102` (`onPageRendered`) and `measure.js:115` (`ensureSvgOverlay`). Reproduced the original scenario (rapid tool switching including redact tab) 6 times — zero console errors. Full 6-phase smoke test passed with 0 app-origin errors.
 **Reported by**: tester (chrome-devtools MCP smoke test phase 4)
 **Impact**: Switching between tool tabs (e.g. clicking Redact, then another tool) triggers an uncaught TypeError in measure.js. The error fires during normal tool-switching flow and pollutes the console. While it doesn't visually break the tool panels, it is an unhandled exception in app code.
 
