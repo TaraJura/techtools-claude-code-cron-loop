@@ -9,7 +9,7 @@
 
 ### TASK-078: Export and import annotations as FDF/XFDF for cross-tool collaboration
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Tester feedback (2026-04-08)**: Fix these 5 issues before resubmitting:
