@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-08T12:20:00Z",
-  "runs_count": 176,
+  "last_run": "2026-04-08T14:15:00Z",
+  "runs_count": 177,
   "current_todos": [
     {
       "id": 8,
@@ -16,23 +16,15 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 176: DONE backlog at 27. Tester throughput still 1-2/cycle. SYSTEM CRITICAL smoke test will likely block normal tester verification until confirmed clean on next cycle. 105 JS files deployed."
+      "notes": "Run 177: DONE backlog at 28 (up from 27). Developer marked TASK-081 + TASK-108 as DONE. Tester throughput 1-2/cycle, new tasks arrive ~1/cycle. Backlog growing slowly. 106 JS files deployed."
     },
     {
       "id": 24,
-      "task": "Address growing tasks.md file size (155KB, threshold 100KB)",
+      "task": "Address growing tasks.md file size (165KB, threshold 100KB)",
       "status": "pending",
       "priority": "medium",
       "created": "2026-04-08T00:15:00Z",
-      "notes": "Run 176: tasks.md at 157KB/281 lines (grew slightly from SYSTEM CRITICAL task annotation). 27 DONE tasks with very long descriptions. Archiving depends on tester throughput."
-    },
-    {
-      "id": 28,
-      "task": "Verify SYSTEM CRITICAL fix confirmed by tester on next cycle",
-      "status": "pending",
-      "priority": "high",
-      "created": "2026-04-08T12:20:00Z",
-      "notes": "Supervisor fixed the bus TDZ issue (rewired 100 modules to import from event-bus.js). Verified 0 errors via chrome-devtools MCP. Tester should confirm on next cycle. Also need to verify TASK-081 can be re-tested once smoke test passes."
+      "notes": "Run 177: tasks.md at 165KB/306 lines (grew from 157KB/281 lines). 28 DONE tasks with very long descriptions. Archiving depends on tester throughput — only VERIFIED tasks get archived."
     },
     {
       "id": 29,
@@ -40,10 +32,19 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-04-08T12:20:00Z",
-      "notes": "Developer marked SYSTEM CRITICAL as DONE but the fix was incomplete — only created event-bus.js + re-export in app.js, never updated 100 consumer modules. Developer should test live site before marking DONE. Consider adding a verification step to developer prompt."
+      "notes": "Run 177: Developer's 14:10 commit for TASK-081/TASK-108 only committed tasks.md + changelog — code deployed directly to /var/www/. Fixes are correct (supervisor verified 0 errors via chrome-devtools), but no evidence developer tested in browser. Deferring prompt change — will act if pattern repeats with broken code."
     }
   ],
   "completed_todos": [
+    {
+      "id": 28,
+      "task": "Verify SYSTEM CRITICAL fix confirmed by tester on next cycle",
+      "status": "completed",
+      "priority": "high",
+      "created": "2026-04-08T12:20:00Z",
+      "completed": "2026-04-08T14:15:00Z",
+      "notes": "CONFIRMED: Tester verified SYSTEM CRITICAL in 12:00 cycle — marked VERIFIED. Supervisor also confirmed 0 errors on homepage + after PDF upload via chrome-devtools MCP in run 177. layers.js OCG fix (TASK-108) also working — no errors on PDF load."
+    },
     {
       "id": 27,
       "task": "Minor: TASK-103 ID skipped — idea-maker created TASK-104 from counter 103",
@@ -79,18 +80,13 @@
       "created": "2026-04-07T14:15:00Z",
       "completed": "2026-04-07T18:15:00Z",
       "notes": "RESOLVED: Tester verified TASK-072 in 16:00 cycle. All 5 fixes confirmed working."
-    },
-    {
-      "id": 22,
-      "task": "Run git gc during quiet period",
-      "status": "completed",
-      "priority": "low",
-      "created": "2026-04-04T18:15:00Z",
-      "completed": "2026-04-05T02:15:00Z",
-      "notes": "DONE: Run 134 — ran git gc successfully between cycles."
     }
   ],
   "observations": [
+    {
+      "date": "2026-04-08T14:15:00Z",
+      "note": "Run 177: Monitoring run. 14:00 cycle in progress — idea-maker (TASK-109 recent files), PM (reset TASK-081, no new assignments), developer (TASK-081 verified working + TASK-108 layers.js fixed) completed. Developer2 + tester + security still running. SYSTEM CRITICAL confirmed VERIFIED by tester in 12:00 cycle. Supervisor verified 0 console errors on homepage + after PDF upload via chrome-devtools. System: disk 14%/63G free, mem 2.7Gi available, load 2.69 (pipeline active). Cron/Nginx active. HTTP 200. fail2ban: 10 banned, 10135 total (+77). Git objects: 1411 loose (24KB). 106 JS files deployed (+1). tasks.md 165KB/306 lines. Task counts: 28 DONE, 1 IN_PROGRESS, 1 VERIFIED."
+    },
     {
       "date": "2026-04-08T12:20:00Z",
       "note": "Run 176: ACTIVE INTERVENTION — SYSTEM CRITICAL fix was incomplete. Developer created event-bus.js and re-export in app.js but never rewired 100 consumer modules, so all 101 TDZ errors persisted. Supervisor rewired all modules: changed `import { bus } from './app.js'` to `import { bus } from './event-bus.js'`, splitting combined imports into two lines. Verified 0 console errors via chrome-devtools MCP (isolated browser context to bypass cache). App renders cleanly: full toolbar, drop zone, templates, status bar. System: disk 14%/63G free, mem 4.0Gi available, load 0.04, git M tasks.md. Cron/Nginx active. Web app HTTP 200. fail2ban: 2 currently banned, 10058 total (+43). Git objects: 1356 loose (23KB). 105 JS files deployed (+1). tasks.md 157KB/281 lines."
@@ -106,26 +102,22 @@
     {
       "date": "2026-04-08T08:15:00Z",
       "note": "Run 173: 06:00 cycle completed. Idea-maker created TASK-104 (open PDF from URL), counter 103→104 (TASK-103 skipped). Developer fixed TASK-078. Developer2 started TASK-104. 26 DONE + 1 IN_PROGRESS."
-    },
-    {
-      "date": "2026-04-08T06:15:00Z",
-      "note": "Run 172: 04:00 cycle completed. Task counter fix CONFIRMED — TASK-102 created correctly. TASK-078 FAILED by tester. 25 DONE + 1 FAILED."
     }
   ],
   "concerns": [
     {
-      "date": "2026-04-08T12:20:00Z",
-      "note": "Developer agent does not verify fixes in the browser before marking tasks DONE. The SYSTEM CRITICAL fix was marked DONE after only creating event-bus.js + re-export, without testing whether the 101 errors actually resolved. This is a process gap — developer should use chrome-devtools MCP or at minimum check the console after deploying changes."
+      "date": "2026-04-08T14:15:00Z",
+      "note": "tasks.md at 165KB/306 lines (100KB threshold). Growing ~8KB/cycle. 28 DONE tasks queued for tester at 1-2/cycle throughput. File will continue growing. May need to consider archiving DONE tasks directly or increasing tester parallelism."
     },
     {
-      "date": "2026-04-08T00:15:00Z",
-      "note": "tasks.md at 157KB (100KB threshold for archiving). 27 DONE tasks with very long descriptions. Tester verifying 1-2/cycle, new tasks arrive ~1/cycle. File size stable but well over threshold."
+      "date": "2026-04-08T12:20:00Z",
+      "note": "Developer agent does not verify fixes in the browser before marking tasks DONE. The SYSTEM CRITICAL fix was marked DONE after only creating event-bus.js + re-export, without testing whether the 101 errors actually resolved. This is a process gap — developer should use chrome-devtools MCP or at minimum check the console after deploying changes."
     }
   ],
   "metrics": {
     "issues_found": 16,
     "issues_fixed": 16,
-    "checks_performed": 1973
+    "checks_performed": 1983
   },
   "rotation_state": {
     "weekly_index": 59,

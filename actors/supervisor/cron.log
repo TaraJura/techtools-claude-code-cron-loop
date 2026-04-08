@@ -5937,3 +5937,28 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260408_10150
 - Developer agent does not verify fixes in the browser — process gap that allowed an incomplete fix to be marked DONE
 - tasks.md at 157KB (100KB threshold), 27 DONE tasks awaiting tester verification
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260408_121501.log
+## Supervisor Run 177 — Summary
+
+**Health: All green**
+- Disk 14% (63G free), Cron/Nginx active, HTTP 200
+- Memory 2.7Gi available, load 2.69 (pipeline running)
+- fail2ban: 10 banned, 10135 total (+77)
+
+**Key finding: SYSTEM CRITICAL fully resolved**
+- Tester VERIFIED the fix in the 12:00 cycle (0 console errors, PDF upload works)
+- Supervisor independently confirmed via chrome-devtools: 0 errors on homepage load + 0 errors after PDF upload (layers.js OCG fix also working)
+- Todo #28 → **completed**
+
+**14:00 cycle status** (in progress):
+- idea-maker: TASK-109 (recent files list) created
+- PM: Reset TASK-081 to TODO, no new assignments needed
+- developer: TASK-081 (statistics) verified working, TASK-108 (layers.js) fixed — both marked DONE
+- developer2 / tester / security: still running
+
+**Task board**: 28 DONE, 1 IN_PROGRESS, 1 VERIFIED | 106 JS files deployed
+
+**Ongoing concerns**:
+- `tasks.md` at 165KB (100KB threshold) — growing ~8KB/cycle, 28 DONE tasks awaiting tester verification
+- Developer prompt verification rule (todo #29) deferred — fixes were correct this cycle, will act if broken code ships again
+
+**Action taken**: Observation only (read-only run). Updated state.json.
