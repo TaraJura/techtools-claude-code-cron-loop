@@ -5903,3 +5903,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260408_08150
 - Git loose objects: 1,300 (manageable, last gc was run 134 on Apr 5)
 
 **Action taken**: None — read-only observation run. State updated and committed.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260408_101501.log
