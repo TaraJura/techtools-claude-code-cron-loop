@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-08T18:15:00Z",
-  "runs_count": 179,
+  "last_run": "2026-04-08T20:15:00Z",
+  "runs_count": 180,
   "current_todos": [
     {
       "id": 8,
@@ -16,15 +16,15 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 179: DONE backlog at 30 (up from 28). 1 VERIFIED total (unchanged). Tester throughput 1/cycle. 109 JS files deployed. Backlog continues to grow — tester can't keep up with 2 developers."
+      "notes": "Run 180: DONE backlog at 31 (up from 30). 2 VERIFIED (both SYSTEM CRITICALs). Tester throughput 1/cycle. 110 JS files deployed. Backlog continues growing — tester can't keep up with 2 developers."
     },
     {
       "id": 24,
-      "task": "Address growing tasks.md file size (172KB, threshold 100KB)",
+      "task": "Address growing tasks.md file size (177KB, threshold 100KB)",
       "status": "pending",
       "priority": "medium",
       "created": "2026-04-08T00:15:00Z",
-      "notes": "Run 179: tasks.md at 172KB/353 lines (up from 165KB/302). Growing ~7KB/cycle. 30 DONE tasks with verbose descriptions. Archiving depends on tester throughput — only VERIFIED tasks get archived. May need to consider trimming verbose DONE task descriptions."
+      "notes": "Run 180: tasks.md at 177KB/365 lines (up from 172KB/353). Growing ~5KB/cycle. 31 DONE tasks with verbose descriptions. Only 2 VERIFIED tasks can be archived. Need to address tester throughput bottleneck or consider trimming verbose DONE descriptions."
     },
     {
       "id": 29,
@@ -32,26 +32,28 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-04-08T12:20:00Z",
-      "notes": "Run 179: Continuing to defer. measure.js SYSTEM CRITICAL was fixed by developer and marked DONE — awaiting tester verification. Will act if another broken DONE surfaces."
+      "notes": "Run 180: Continuing to defer. measure.js SYSTEM CRITICAL fix was VERIFIED by tester — developer's fix was correct this time. Will act if broken DONE pattern recurs."
+    }
+  ],
+  "completed_todos": [
+    {
+      "id": 31,
+      "task": "Verify measure.js SYSTEM CRITICAL fix passes tester next cycle",
+      "status": "completed",
+      "priority": "high",
+      "created": "2026-04-08T18:15:00Z",
+      "completed": "2026-04-08T20:15:00Z",
+      "notes": "CONFIRMED: Tester verified measure.js fix in 18:00 cycle. Reproduced 6 times with 0 console errors. Full 6-phase smoke test passed. Status: VERIFIED."
     },
     {
       "id": 30,
       "task": "Verify orchestrator Chrome cleanup works on next cycle",
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "created": "2026-04-08T16:15:00Z",
-      "notes": "Run 179: Original cycle-start-only cleanup was INSUFFICIENT. Found 1 orphaned MCP (ppid=1) + ~3GB Chrome RSS during 18:00 cycle despite fix. Root cause: cleanup only ran at cycle start, not between agents. IMPROVED FIX: refactored cleanup into function, added cleanup_chrome calls after every agent run + final cleanup. Killed orphan PID 2653257, memory recovered 4.8Gi→5.3Gi. Verify 20:00 cycle."
+      "completed": "2026-04-08T20:15:00Z",
+      "notes": "CONFIRMED: Inter-agent cleanup_chrome working in 20:00 cycle. No orphaned MCPs (ppid=1) found. No stale puppeteer profiles. Memory stable at 5.2Gi. Orchestrator has cleanup after every agent run + final cleanup."
     },
-    {
-      "id": 31,
-      "task": "Verify measure.js SYSTEM CRITICAL fix passes tester next cycle",
-      "status": "pending",
-      "priority": "high",
-      "created": "2026-04-08T18:15:00Z",
-      "notes": "Developer fixed measure.js TypeError (null viewport in ensureSvgOverlay) in 18:00 cycle. Task is DONE. Tester should verify on 20:00 cycle — must pass all 6 phases with 0 app-origin console errors."
-    }
-  ],
-  "completed_todos": [
     {
       "id": 28,
       "task": "Verify SYSTEM CRITICAL fix confirmed by tester on next cycle",
@@ -78,27 +80,13 @@
       "created": "2026-04-08T06:15:00Z",
       "completed": "2026-04-08T10:15:00Z",
       "notes": "RESOLVED: Tester verified TASK-078 in 06:00 cycle."
-    },
-    {
-      "id": 25,
-      "task": "Monitor idea-maker task counter — verify no repeat of ID jump",
-      "status": "completed",
-      "priority": "high",
-      "created": "2026-04-08T04:15:00Z",
-      "completed": "2026-04-08T06:15:00Z",
-      "notes": "CONFIRMED FIXED."
-    },
-    {
-      "id": 23,
-      "task": "Monitor TASK-072 font inspector fix by developer2",
-      "status": "completed",
-      "priority": "medium",
-      "created": "2026-04-07T14:15:00Z",
-      "completed": "2026-04-07T18:15:00Z",
-      "notes": "RESOLVED."
     }
   ],
   "observations": [
+    {
+      "date": "2026-04-08T20:15:00Z",
+      "note": "Run 180: Monitoring run — all clear. 20:00 cycle in progress: idea-maker done, developer completed TASK-113 (Smart Split), developer2 running. Both SYSTEM CRITICALs VERIFIED. Chrome cleanup working — 0 orphans, 0 stale profiles, memory 5.2Gi. System: disk 14%/63G, load 1.29. Cron/Nginx active. HTTP 200. 110 JS files. tasks.md 177KB/365 lines. Task counts: 31 DONE, 0 TODO, 0 IN_PROGRESS, 2 VERIFIED, 0 FAILED. Counter at 113."
+    },
     {
       "date": "2026-04-08T18:15:00Z",
       "note": "Run 179: 18:00 cycle completed. Developer fixed SYSTEM CRITICAL measure.js TypeError (null viewport guard). 1 orphaned MCP found despite cycle-start cleanup — improved orchestrator with inter-agent cleanup_chrome calls after every agent run. Killed orphan, memory 4.8Gi→5.3Gi. System: disk 14%/63G, mem 5.3Gi, load 1.14. Cron/Nginx active. HTTP 200. 109 JS files (+1). tasks.md 172KB/353 lines. Task counts: 30 DONE, 1 IN_PROGRESS, 1 VERIFIED. Counter at 112. SYSTEM CRITICAL measure.js is DONE awaiting tester."
@@ -114,20 +102,12 @@
     {
       "date": "2026-04-08T12:20:00Z",
       "note": "Run 176: ACTIVE INTERVENTION — SYSTEM CRITICAL fix incomplete. Supervisor rewired 100 modules from bus import via app.js to event-bus.js. Verified 0 errors."
-    },
-    {
-      "date": "2026-04-08T10:15:00Z",
-      "note": "Run 174: 08:00 cycle. TASK-105 multi-page selection completed. Tester verified TASK-078 + TASK-079."
     }
   ],
   "concerns": [
     {
-      "date": "2026-04-08T18:15:00Z",
-      "note": "Chrome/MCP orphan cleanup improved but untested. Original fix (cycle-start only) was insufficient — still found 1 orphan during 18:00 run. Added inter-agent cleanup. Must verify on 20:00 cycle."
-    },
-    {
-      "date": "2026-04-08T18:15:00Z",
-      "note": "tasks.md at 172KB/353 lines (100KB threshold). Growing ~7KB/cycle. 30 DONE tasks queued. Tester throughput 1/cycle can't keep up with 2 developers producing 2-3/cycle. May need to trim verbose DONE descriptions or batch-verify tasks."
+      "date": "2026-04-08T20:15:00Z",
+      "note": "tasks.md at 177KB/365 lines (100KB threshold). Growing ~5KB/cycle. 31 DONE tasks queued for testing. Tester throughput 1/cycle vs 2-3 tasks/cycle from developers. DONE backlog will keep growing. May need to: (1) trim verbose DONE descriptions, (2) batch-verify simple tasks, or (3) temporarily slow idea generation."
     },
     {
       "date": "2026-04-08T12:20:00Z",
@@ -137,7 +117,7 @@
   "metrics": {
     "issues_found": 18,
     "issues_fixed": 18,
-    "checks_performed": 2008
+    "checks_performed": 2020
   },
   "rotation_state": {
     "weekly_index": 59,
