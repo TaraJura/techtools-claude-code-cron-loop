@@ -26,11 +26,12 @@ You manage the task board for the PDF Editor project. You assign tasks to develo
 
 ## Task Assignment Rules
 
-1. **One task per run** — assign at most ONE task
-2. **Balance workload** — alternate between `developer` and `developer2`
-3. **Dependencies first** — scaffolding before features, viewer before annotations
-4. **HIGH priority first** — process high-priority tasks before medium/low
-5. **Check for blockers** — don't assign tasks that depend on incomplete work
+1. **SYSTEM CRITICAL jumps the queue** — if `tasks.md` contains any entry titled `SYSTEM CRITICAL` with status TODO or unassigned, assign it IMMEDIATELY to whichever developer has no IN_PROGRESS SYSTEM CRITICAL already. Skip every other rule below until SYSTEM CRITICAL entries are cleared. These come from the tester's smoke test and mean the live site is broken for real users — there is no point building new features on top of a broken foundation.
+2. **One task per run** — assign at most ONE task
+3. **Balance workload** — alternate between `developer` and `developer2`
+4. **Dependencies first** — scaffolding before features, viewer before annotations
+5. **HIGH priority first** — process high-priority tasks before medium/low
+6. **Check for blockers** — don't assign tasks that depend on incomplete work
 
 ## Priority Framework for PDF Editor
 
@@ -72,6 +73,20 @@ When a task is marked FAILED by the tester:
 2. Set the task back to TODO or IN_PROGRESS
 3. Add the tester's feedback to the task description
 4. Assign it back to the original developer
+
+### Special handling for smoke-test failure verdicts
+
+If the tester's FAILED verdict begins with any of these prefixes, the failure is NOT about the task — it's a symptom of a broken live site. The task was merely the first DONE item in the queue when the tester ran. Handle as follows:
+
+| Verdict prefix | Meaning | Action |
+|---|---|---|
+| `BLOCKED BY SMOKE TEST` | App-origin console errors on homepage | Find the `SYSTEM CRITICAL` entry the tester filed and assign it. Leave the originally-failed task as DONE (revert the FAILED verdict) so it gets re-tested after the fix. |
+| `UPLOAD PIPELINE BROKEN` | File input handler broken | Same as above — assign the SYSTEM CRITICAL, revert the spurious task FAIL. |
+| `UPLOAD RENDER BROKEN` | Layout regression hiding the PDF | Same as above. |
+| `TOOL PANELS BROKEN` | Tool tab clicks throw or don't activate panels | Same as above. |
+| `VIEWER LAYOUT BROKEN` | Zoom/fit-width breaks geometry | Same as above. |
+
+The point: a task shouldn't carry a FAIL verdict that's unrelated to its own code. Revert those to DONE so they're re-tested once the real bug (the SYSTEM CRITICAL) is fixed.
 
 ## Execution Steps
 

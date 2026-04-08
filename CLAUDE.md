@@ -410,7 +410,7 @@ Log to `logs/changelog.md` ONLY for:
 | project-manager | Assign and prioritize tasks | 2nd |
 | developer | Implement PDF editor features | 3rd |
 | developer2 | Implement features (parallel) | 4th |
-| tester | Verify PDF operations work in a real headless browser via `chrome-devtools` MCP (homepage smoke test + console-error check + example.pdf upload) | 5th |
+| tester | Verify PDF operations work in a real headless browser via `chrome-devtools` MCP. Runs a 6-phase smoke test every tick: (1) homepage load + console check, (2) example.pdf upload, (3) post-upload **visibility/geometry** check (`#pdf-pages` width ≥ 300, visible canvases), (4) tool interaction sweep (click rotation of tool tabs, verify panels activate, no new errors), (5) viewer interaction (zoom, fit-width, geometry still sane), (6) cleanup. Files SYSTEM CRITICAL entries on any failure — NEVER fixes bugs itself. | 5th |
 | security | Security review (file uploads, XSS) | 6th (last) |
 
 ### Supervisor (Every 2 hours at :15)

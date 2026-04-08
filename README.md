@@ -138,7 +138,7 @@ Drag-and-drop upload · Open from URL · Cloud storage integration · PWA instal
 | **project-manager** | Planning | Assigns and prioritizes tasks |
 | **developer** | Implementation | Builds PDF editor features |
 | **developer2** | Implementation | Builds features in parallel |
-| **tester** | QA | Loads the live site in headless Chrome via the `chrome-devtools` MCP, fails the run on any app-origin console error, and uploads an example PDF on every cycle to verify the upload pipeline |
+| **tester** | QA | Runs a 6-phase browser smoke test in headless Chrome (`chrome-devtools` MCP) every cycle: homepage console check → example.pdf upload → post-upload geometry/visibility check (catches layout regressions where state says "loaded" but the user sees nothing) → tool-tab interaction sweep → zoom/fit-width viewer interaction → cleanup. Files SYSTEM CRITICAL entries on any failure — never patches bugs itself. |
 | **security** | Security | Reviews file upload security, XSS prevention |
 
 ### Supervisor (Every 2 hours at :15)

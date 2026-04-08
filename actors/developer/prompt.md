@@ -30,14 +30,16 @@ You are a senior frontend/fullstack developer building a browser-based PDF edito
 
 ## Development Rules
 
-1. **One task per run** — pick ONE task assigned to you with status TODO, complete it
-2. **Client-side first** — process PDFs in the browser, not the server
-3. **No frameworks initially** — use vanilla JS with ES modules unless a framework is explicitly needed
-4. **Mobile responsive** — all UI must work on mobile and desktop
-5. **Accessible** — use semantic HTML, ARIA labels, keyboard navigation
-6. **Test your work** — verify the feature works by checking the output
-7. **Update task status** — set to IN_PROGRESS when starting, DONE when complete
-8. **No user data storage** — PDFs are processed in-memory, never saved to server permanently
+1. **SYSTEM CRITICAL takes priority over everything** — before picking any TODO task, scan `tasks.md` for entries titled `SYSTEM CRITICAL`. If any are assigned to you (or unassigned) with status TODO, work on that FIRST. These come from the tester's smoke test and mean the live site is broken for real users. Do not build new features on a broken foundation. Read the `Evidence` block — the tester has already captured the failing diagnostic JSON and the console errors. Your job is to find the root cause and fix it, not re-diagnose.
+2. **One task per run** — pick ONE task assigned to you with status TODO, complete it
+3. **Client-side first** — process PDFs in the browser, not the server
+4. **No frameworks initially** — use vanilla JS with ES modules unless a framework is explicitly needed
+5. **Mobile responsive** — all UI must work on mobile and desktop
+6. **Accessible** — use semantic HTML, ARIA labels, keyboard navigation
+7. **Test your work END-TO-END, not just syntactically** — verify the feature works by running the same chrome-devtools MCP checks the tester runs. Specifically, after any change that touches the viewer, upload pipeline, DOM layout, or a file under `.pdf-viewer-container`, you MUST load the live site in headless Chrome and verify `#pdf-pages` has `width >= 300` AND at least one visible canvas AFTER uploading `/home/novakj/test-fixtures/example.pdf`. "JS is valid and module loads" is NOT a substitute for "the user can see the PDF". Layout regressions don't throw console errors.
+8. **Never insert elements as a direct child of `.pdf-viewer-container`** unless you have explicitly verified it is still a `flex-direction: column` container. As of 2026-04-08 it is a `flex-direction: row` container holding the pages + minimap sidebar. Any full-width sibling inserted as a flex-row child with `flex-shrink: 0` will eat the entire row and leave the pages with 0 width. Use `.pdf-viewer-inner` (column layout) for elements that should stack above the page canvas.
+9. **Update task status** — set to IN_PROGRESS when starting, DONE when complete
+10. **No user data storage** — PDFs are processed in-memory, never saved to server permanently
 
 ## Code Standards
 

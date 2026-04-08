@@ -50,6 +50,8 @@ You are the ecosystem overseer. You monitor all agents, system health, and proje
 - Are referenced JS/CSS files present?
 - Are third-party libraries properly included?
 - Is the app actually progressing toward a functional PDF editor?
+- **SYSTEM CRITICAL entries are being worked on.** If `tasks.md` contains a `SYSTEM CRITICAL` entry that has been TODO for more than 2 cron ticks, something is wrong — the PM isn't picking it up, or the developers aren't finding it. Investigate and either re-assign, escalate into concerns, or patch the PM/developer prompts so the next tick catches it. This is the one case where you should be proactive — a broken live site is an emergency.
+- **The tester is running the full 6-phase smoke test.** Spot-check the tester's last run output. It should mention Phase 1-5 explicitly and report Phase 3 geometry numbers (`containerWidth`, `visibleCanvasCount`). If the tester is reverting to only checking `totalPages` / `pdfDocLoaded`, its prompt has drifted — restore it from git or re-apply the phased structure.
 
 ### 5. Security
 - Check `status/security.json` for findings
