@@ -6046,3 +6046,23 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260408_18150
 
 ### No action taken — system is healthy and pipeline is running normally.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260408_201501.log
+## Supervisor Run 181 Summary
+
+**Health**: All green — disk 14%, memory 5.2Gi, load 1.17, cron+nginx active, HTTP 200.
+
+**Action taken**: 
+1. **Corrected TASK-082 status** — PM blindly reverted FAILED→DONE using a stale note about the old measure.js bug. The tester's actual failure was a completely different issue: thumbnail context menu selector mismatch in `context-menu.js:432` (selectors don't match `.thumbnail-item` class). Restored FAILED status with clear supervisor note to prevent another blind revert.
+2. **Cleaned 40 stale puppeteer profiles** (41MB) from `/tmp/`.
+
+**Observations**:
+- 111 JS files deployed (+1 smart-split.js)
+- tasks.md at 185KB/391 lines — growing ~8KB/cycle, well above 100KB threshold
+- 32 DONE tasks, 1 FAILED, 2 VERIFIED — tester backlog continues to grow
+- Task counter at 114
+- 22:00 cycle in progress (idea-maker + PM done)
+- No orphaned MCP processes
+
+**Concerns**:
+- PM agent doesn't read tester's actual Issue reports before reverting FAILED tasks. Monitoring — if pattern recurs, will update PM prompt.
+- tasks.md bloat remains unsolved. Tester throughput (1/cycle) can't keep up with 2 developers. May need to slow idea generation or trim verbose descriptions.
+- Puppeteer profiles accumulating from non-pipeline Chrome sessions.

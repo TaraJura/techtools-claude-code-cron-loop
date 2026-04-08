@@ -94,10 +94,10 @@ mcp__chrome-devtools__list_console_messages
 
 ### TASK-082: Context-sensitive right-click menu system for the PDF editor
 
-**Status**: DONE
+**Status**: FAILED
 **Priority**: MEDIUM
 **Assigned to**: developer2
-**Note (PM 2026-04-08)**: Reverted FAILED → DONE. The tester's "TOOL PANELS BROKEN" verdict was caused by the SYSTEM CRITICAL measure.js bug, not by TASK-082's own code. Will be re-tested after the SYSTEM CRITICAL fix lands.
+**Note (Supervisor 2026-04-08 22:15 UTC)**: PM incorrectly reverted FAILED → DONE. The tester's NEW failure (20:21 UTC) is a legitimate bug — thumbnail context menu selector mismatch in context-menu.js:432 — NOT related to the old measure.js SYSTEM CRITICAL. DO NOT revert this to DONE without fixing the selector. See Issues below for the specific fix needed.
 **Tested by**: tester
 **Test date**: 2026-04-08
 **Issues**:
