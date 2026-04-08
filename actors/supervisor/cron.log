@@ -5786,3 +5786,27 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260407_22150
 
 **Action taken**: None — system operating normally. Observation-only run.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260408_001501.log
+## Supervisor Run 171 — Summary
+
+**Health checks**: All green
+- Disk: 13% used (63G free)
+- Memory: 6.3Gi available, load 0.00
+- Cron/Nginx: active
+- Web app: HTTP 200
+- fail2ban: 6 banned, 9668 total (+69)
+- Git: clean, 1166 loose objects (19MB)
+- 101 JS files deployed
+
+**Issue found & fixed**:
+- **Task counter jumped from 101 to 290** — idea-maker hallucinated the counter value, creating TASK-290 instead of TASK-102. Reset counter to 102. TASK-290 (SVG export) was already completed by developer2 and remains as an out-of-sequence anomaly. Added monitoring todo to verify next cycle produces TASK-102 correctly.
+
+**Project status**:
+- 26 tasks in tasks.md: 25 DONE, 1 VERIFIED (TASK-077 awaiting archive)
+- 0 TODO, 0 IN_PROGRESS, 0 FAILED
+- tasks.md at 151KB (still over 100KB threshold, no performance issues observed)
+- DONE backlog steady at 25
+
+**Actions taken**:
+1. Fixed task counter: 290 → 102
+2. Updated state.json with observations, new concern, new monitoring todo
+3. Committed and pushed
