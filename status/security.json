@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-07T22:16:00Z",
+  "last_review": "2026-04-08T00:18:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 8 currently banned",
-    "fail2ban_status": "active - sshd jail running, 8 currently banned, 9510 total banned",
-    "change_since_last": "fail2ban total bans 9510 (up from 9440, +70). 8 IPs currently banned: 2.57.122.189, 45.148.10.147, 45.148.10.157, 118.185.85.137, 2.57.121.17, 92.118.39.62, 2.57.122.191, 2.57.121.50. Continued brute-force from 2.57.12x.x and 45.148.10.x subnets. Generic usernames only. No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 6 currently banned",
+    "fail2ban_status": "active - sshd jail running, 6 currently banned, 9598 total banned",
+    "change_since_last": "fail2ban total bans 9598 (up from 9510, +88). 6 IPs currently banned: 2.57.122.199, 2.57.122.196, 2.57.122.208, 45.148.10.147, 92.118.39.63, 2.57.122.190. Continued brute-force from 2.57.122.x and 45.148.10.x subnets. Generic usernames only. No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,31 +40,19 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "347+ usages across 98 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts. page-tabs.js has unescaped user labels but CSP mitigates and data is self-set."
+    "innerHTML_note": "347+ usages across 99 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts. toolbar-manager.js has unescaped preset names but self-XSS only and CSP mitigates."
   },
   "changed_files_review": {
-    "annotate_js": {
-      "task": "MODIFIED file — Annotation tools module, ~489 lines",
-      "status": "MODIFIED — reviewed in full",
-      "innerHTML_count": 2,
-      "innerHTML_analysis": "Lines 244, 311: annotLayer.innerHTML = '' — clearing content only. SAFE.",
-      "no_eval": true,
-      "no_function_constructor": true,
-      "no_document_write": true,
-      "dom_api_usage": "All user/PDF content handled via createElement, textContent, dataset, style properties. No user strings in innerHTML.",
-      "template_literal_in_title": "el.title uses annotation.type from internal state (only 'highlight'|'underline'|'strikethrough'). SAFE.",
-      "security_status": "CLEAN — safe DOM patterns, no dangerous operations."
-    },
-    "text_edit_js": {
-      "task": "NEW file — Inline text editing module (TASK-100), ~716 lines",
+    "toolbar_manager_js": {
+      "task": "NEW file — Toolbar customization module, ~843 lines",
       "status": "NEW — reviewed in full",
-      "innerHTML_count": 2,
-      "innerHTML_analysis": "Line 419: fontSelect.innerHTML with static option elements, family value from resolveFontFamily() which returns only fixed strings ('sans-serif'|'serif'|'monospace'). SAFE. Lines 623-627: banner.innerHTML with static SVG and text, no user data. SAFE.",
-      "user_input_handling": "PDF text content displayed via textarea.value (not innerHTML). All editor UI built with createElement/appendChild. Font/color/size inputs use DOM value properties.",
+      "innerHTML_count": 6,
+      "innerHTML_analysis": "Lines 402, 565: clearing content (innerHTML = ''). Line 405: static 'All tools visible' message. Lines 465-499: static overlay HTML with no user data. Lines 417-418: textContent from existing DOM spans + hardcoded ALL_TOOL_IDS. Line 572: custom preset name from user text input in data-preset attribute and element content — self-XSS only, CSP mitigates. Line 746-749: static overflow palette HTML.",
       "no_eval": true,
       "no_function_constructor": true,
       "no_document_write": true,
-      "security_status": "CLEAN — properly uses DOM APIs, no user/PDF content in innerHTML, safe patterns throughout."
+      "dom_api_usage": "Most UI built with createElement/appendChild. Drag-and-drop uses standard HTML5 API. Data from localStorage only (same-origin).",
+      "security_status": "CLEAN — low-risk self-XSS pattern in custom preset names, CSP blocks script execution."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -106,7 +94,7 @@
   "ssl_certificate": {
     "valid_from": "2026-03-20",
     "valid_until": "2026-06-18",
-    "days_remaining": 72,
+    "days_remaining": 71,
     "status": "valid"
   },
   "checks_passed": [
@@ -127,12 +115,11 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "annotate_js_reviewed_clean",
-    "text_edit_js_reviewed_clean",
+    "toolbar_manager_js_reviewed_clean",
     "all_js_files_accounted_for",
     "security_headers_present_verified",
-    "ssl_certificate_valid_72_days",
-    "fail2ban_active_9510_total_bans",
+    "ssl_certificate_valid_71_days",
+    "fail2ban_active_9598_total_bans",
     "web_app_serving_200",
     "disk_space_ok_13pct",
     "ssh_only_authorized_activity",
@@ -146,6 +133,7 @@
     "MEDIUM: form-detect.js line 709: field.label from PDF text content inserted into innerHTML without escaping — both in title attribute and element content. A malicious PDF with crafted text items could inject HTML. CSP script-src 'self' blocks inline scripts/event handlers. HTML structure manipulation and CSS injection still possible. Fix: add escapeHtml() and use on field.label in renderResultList() template.",
     "MEDIUM: font-inspector.js line 997: f.subsetPrefix (PDF font subset prefix) inserted into innerHTML without escaping. Validated by /^[A-Z]{6}$/ regex at extraction but data originates from PDF. CSP blocks script execution. Fix: apply escHtml(f.subsetPrefix).",
     "MEDIUM-LOW: page-tabs.js line 930: tab.label (user input from prompt() or imported JSON file) inserted into innerHTML without escaping. Also in aria-label attribute at line 928 without quote escaping. navigatorSearch at line 901 in value attribute without quote escaping. No escapeHtml function defined. CSP blocks script execution. Self-XSS only — user sets own labels or imports own JSON. Fix: add escapeHtml() and apply to label/search values.",
+    "LOW: toolbar-manager.js line 572: custom preset name (user text input) and key (from localStorage) inserted into innerHTML in data-preset attribute and element content without escaping. Self-XSS only — user sets own preset names. CSP blocks script execution.",
     "LOW: font-inspector.js line 1056: page number p used in data-page attribute without escAttr(). Pages are integers from PDF parsing. Minimal real-world risk. Fix: apply escAttr(p).",
     "LOW-FUNCTIONAL: repair.js line 376: import path './lib/pdf-lib.min.js' should be '../lib/pdf-lib.min.js' since file is in /js/. Fallback to window.PDFLib exists so module still works. Not a security issue.",
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
