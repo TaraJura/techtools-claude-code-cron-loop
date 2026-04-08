@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-08T10:22:00Z",
+  "last_review": "2026-04-08T12:36:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 5 currently banned",
-    "fail2ban_status": "active - sshd jail running, 5 currently banned, 10017 total banned",
-    "change_since_last": "fail2ban total bans 10017 (up from 9939, +78). 5 IPs currently banned: 92.118.39.63, 92.118.39.62, 92.118.39.56, 103.91.246.101, 213.209.159.159. Continued brute-force from recurring subnets (92.118.x.x, 103.91.x.x, 213.209.x.x, 193.32.x.x, 171.231.x.x). Generic usernames only (root, dsm, ubuntu, jolene, jito, installer, shredstream). No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 4 currently banned",
+    "fail2ban_status": "active - sshd jail running, 4 currently banned, 10067 total banned",
+    "change_since_last": "fail2ban total bans 10067 (up from 10017, +50). 4 IPs currently banned: 78.134.49.171, 80.94.92.166, 197.153.57.103, 165.154.6.104. Continued brute-force from generic usernames (root, bravo, server, sol). No successful unauthorized logins — all accepted logins are pubkey auth for novakj from 37.188.158.105."
   },
   "web_protections": {
     "security_headers": {
@@ -40,45 +40,34 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "350+ usages across 104 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts."
+    "innerHTML_note": "350+ usages across 106 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "find_replace_js": {
-      "task": "TASK-106: Find and Replace module",
-      "status": "NEW FILE — reviewed in full (1004 lines)",
-      "innerHTML_count": 5,
-      "innerHTML_note": "Line 72: static SVG/HTML template for replace row UI. Line 110: static SVG icon for toggle button. Line 643: static template with integer unreplacedMatches.length. Line 672: preview dialog uses escapeHtml() on all PDF/user-derived strings (before, matchText, actualReplacement, after). Line 992: escapeHtml() implementation itself. All SAFE.",
-      "escapeHtml_quality": "Uses createElement('div')+textContent+innerHTML pattern — properly escapes <, >, &, and double quotes. Better than escapeHtml in older modules.",
+    "custom_stamps_js": {
+      "task": "TASK-107: Custom stamp creator and stamp library manager",
+      "status": "NEW FILE — reviewed in full (~1260 lines)",
+      "innerHTML_count": 12,
+      "innerHTML_note": "Line 130: static HTML template from constants (SAFE). Line 798: section header with lib.length integer (SAFE). Lines 848, 859: HTML entities for star/ellipsis icons (SAFE). Line 898, 903: static label or empty-clear (SAFE). Line 988: static context menu buttons (SAFE). Lines 823, 825, 916, 918: stamp.name, stamp.overlayText, stamp.imageData, stamp.text, custom.textColor/borderColor from localStorage or imported JSON inserted without escaping — see known_issues. Line 931: preset.borderColor/text from hardcoded presets (SAFE).",
+      "escapeHtml_defined": false,
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
-      "new_regexp_from_user_input": "Line 301: new RegExp(query, flags) from search input with try/catch. ReDoS possible but self-DoS only (user controls own input). Same pattern as link-manager.js. LOW risk.",
-      "zero_length_match_protection": "Line 316: regex.lastIndex++ prevents infinite loop on zero-length regex matches. GOOD.",
-      "dom_manipulation": "Replace preview dialog built with DOM APIs (createElement). Dynamic text uses textContent or escapeHtml(). Numeric values from array.length/indexOf. Page numbers are integers from searchIndex.",
-      "pdf_modification": "applyFindReplaceEdits() modifies pdf-lib PDFDocument — covers text with white rectangles and redraws replacement text. Uses internal pendingReplacements array only. No external data paths.",
-      "security_status": "CLEAN — well-implemented with proper escaping, no unsafe patterns."
+      "import_validation": "importLibrary() at line 1163: JSON.parse with basic structural checks (id, name, type must exist). No sanitization of stamp.name, stamp.text, stamp.overlayText, stamp.imageData, or color fields. Crafted JSON could inject HTML via these fields.",
+      "image_upload_validation": "handleImageUpload() at line 374: validates MIME (png/jpeg/svg+xml), size (2MB), dimensions (2000x2000). Image stored as data: URL. SVG allowed — scripts blocked when rendered via <img> tag.",
+      "security_status": "MEDIUM — innerHTML with unsanitized stamp data from localStorage/import. CSP mitigates script execution."
     },
-    "annotate_js": {
-      "task": "Integration of find-replace into download pipeline",
-      "status": "MODIFIED — added import of find-replace.js and calls to applyFindReplaceEdits/hasFindReplaceEdits in download handler",
-      "innerHTML_count": 2,
-      "innerHTML_note": "Lines 245, 312: element clearing (= ''). SAFE.",
-      "new_security_patterns": "None — only added function calls to find-replace module exports.",
-      "security_status": "CLEAN — no new security concerns."
+    "event_bus_js": {
+      "task": "Supervisor fix — extract shared event bus to break circular dependencies",
+      "status": "NEW FILE — reviewed in full (13 lines)",
+      "innerHTML_count": 0,
+      "eval_count": 0,
+      "description": "Thin wrapper: imports EventBus from utils.js, exports singleton instance. No security concerns.",
+      "security_status": "CLEAN"
     },
-    "context_menu_js": {
-      "task": "Added Find and Replace option to text-selection context menu",
-      "status": "MODIFIED — added line 543: new menu item for Find and Replace",
-      "innerHTML_count": 5,
-      "innerHTML_note": "Lines 145, 240, 380: element clearing. Line 166: static SVG icon from icons constant. Line 179: static SVG arrow. All SAFE.",
-      "new_menu_item": "Line 543: Sets search input value via .value property (not innerHTML) with selected text (ctx.text), then invokes find-replace action via registry. SAFE.",
-      "pre_existing_issue": "window.open(ctx.url) at line 649 without protocol allowlist — previously tracked, line shifted from 643 to 649.",
-      "security_status": "CLEAN — no new security concerns."
-    },
-    "viewer_css": {
-      "task": "CSS styling updates for find-replace UI",
-      "status": "MODIFIED — CSS only, no security impact",
-      "security_status": "N/A — styling only"
+    "module_rewiring": {
+      "task": "Supervisor fix — rewire 100 modules to import bus from event-bus.js",
+      "status": "REVIEWED — import path changes only (app.js → event-bus.js), no new security patterns",
+      "security_status": "CLEAN — no logic changes, import source changed only"
     }
   },
   "previous_module_reviews_still_valid": [
@@ -103,7 +92,8 @@
     "duplicate-detect.js", "color-picker.js", "pwa.js", "tts.js", "touch.js",
     "reader.js", "form-detect.js", "cloud-storage.js", "font-inspector.js",
     "repair.js", "split-by-size.js", "page-tabs.js", "text-edit.js",
-    "toolbar-manager.js", "magnifier.js", "open-url.js", "find-replace.js"
+    "toolbar-manager.js", "magnifier.js", "open-url.js", "find-replace.js",
+    "custom-stamps.js", "event-bus.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -142,13 +132,13 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "find_replace_js_task106_reviewed_clean",
-    "annotate_js_find_replace_integration_clean",
-    "context_menu_js_find_replace_item_clean",
-    "all_104_js_files_accounted_for",
+    "custom_stamps_js_task107_reviewed_medium",
+    "event_bus_js_reviewed_clean",
+    "module_rewiring_reviewed_clean",
+    "all_106_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_71_days",
-    "fail2ban_active_10017_total_bans",
+    "fail2ban_active_10067_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
@@ -156,6 +146,9 @@
     "document_write_safe_print_only"
   ],
   "known_issues": [
+    "MEDIUM: custom-stamps.js lines 823, 825: stamp.name in alt attribute and stamp.overlayText in element content inserted via innerHTML without escaping. Data from localStorage or imported JSON. A crafted import file with stamp.name='\" onload=\"alert(1)' or stamp.overlayText='<img src=x onerror=alert(1)>' would inject HTML. CSP script-src 'self' blocks inline handlers/scripts. HTML structure manipulation still possible. Fix: add escapeHtml() to module and apply to stamp.name, stamp.overlayText.",
+    "MEDIUM: custom-stamps.js lines 916, 918: custom.name, custom.text (8 chars), custom.imageData, custom.textColor, custom.borderColor from localStorage/import inserted via innerHTML without escaping. Same import vector as above. Colors could break out of style attribute with double quotes. CSP mitigates. Fix: escape all user-controlled values or use DOM APIs.",
+    "MEDIUM: custom-stamps.js importLibrary() (line 1163-1199): imported JSON stamps only validated for structural fields (id, name, type). No sanitization of text content, imageData URL, overlay text, or color values. imageData not validated as data: URL — could be an external tracking URL. Fix: validate imageData starts with 'data:', sanitize text fields.",
     "CRITICAL-FUNCTIONAL: cloud-storage.js loads 4 external SDK scripts (apis.google.com, accounts.google.com/gsi, dropbox.com, alcdn.msauth.net) but CSP script-src 'self' blocks them all. The cloud storage feature is entirely non-functional. To fix: either (a) self-host the SDKs in /lib/ and add SRI hashes, or (b) add the 4 domains to CSP script-src. Option (a) is strongly preferred for security — external SDKs are supply chain risk without SRI. Option (b) broadens attack surface.",
     "MEDIUM: cloud-storage.js line 525: r.fileName and r.path from localStorage (originating from cloud provider API responses) inserted into innerHTML without escaping — in title attribute and element content. Cloud file names can be set by other users sharing files. A shared file named '<img src=x onerror=alert(1)>.pdf' injects HTML. CSP script-src 'self' blocks inline scripts/event handlers. HTML structure and CSS injection still possible. Fix: add escapeHtml() and apply to r.fileName and r.path in renderRecentFiles() template.",
     "MEDIUM: cloud-storage.js line 663: f.name and f.id from Microsoft Graph API inserted into innerHTML without escaping — in data-name, data-id attributes and element content. OneDrive filenames can be set by file sharers. Double-quote in f.id could break data-id attribute. Fix: escape f.name and f.id in showOnedrivePicker() template.",
