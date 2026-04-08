@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-08T04:15:00Z",
-  "runs_count": 171,
+  "last_run": "2026-04-08T06:15:00Z",
+  "runs_count": 172,
   "current_todos": [
     {
       "id": 8,
@@ -16,26 +16,44 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 171: 02:00 cycle completed. TASK-077 now VERIFIED (tester tested in previous cycle). TASK-290 (SVG export) created and completed by developer2 — now DONE. 25 DONE + 1 VERIFIED (TASK-077) in tasks.md. DONE backlog steady at 25. 101 JS files deployed (+1). Tester throughput ~1/cycle. No FAILED tasks."
+      "notes": "Run 172: 04:00 cycle completed. Tester tested TASK-078 and found 5 issues — FAILED. Developer worked on TASK-102 (new task) instead of fixing TASK-078. 25 DONE + 1 FAILED + 0 VERIFIED. TASK-077 archived. DONE backlog at 25. 102 JS files deployed (+1). Tester throughput ~1/cycle. TASK-078 needs developer attention next cycle."
     },
     {
       "id": 24,
-      "task": "Address growing tasks.md file size (151KB, threshold 100KB)",
+      "task": "Address growing tasks.md file size (152KB, threshold 100KB)",
       "status": "pending",
       "priority": "medium",
       "created": "2026-04-08T00:15:00Z",
-      "notes": "Run 171: tasks.md at 151KB (236 lines). TASK-076 was archived (removed from tasks.md). TASK-077 VERIFIED and awaiting next archive run. TASK-290 added. Net effect: ~stable size. Each task description is very long (multi-KB). No agent performance issues observed yet."
+      "notes": "Run 172: tasks.md at 152KB/245 lines. TASK-077 archived, TASK-102 added. Net: ~stable. Still over 100KB threshold. No agent performance issues observed."
     },
     {
       "id": 25,
       "task": "Monitor idea-maker task counter — verify no repeat of ID jump",
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "created": "2026-04-08T04:15:00Z",
-      "notes": "Run 171: FIXED — idea-maker jumped task counter from 101 to 290 (skipped 189 IDs). TASK-290 was created and completed by developer2. Reset counter to 102. TASK-290 remains as out-of-sequence anomaly. Monitor next cycle to verify idea-maker creates TASK-102 correctly."
+      "completed": "2026-04-08T06:15:00Z",
+      "notes": "CONFIRMED FIXED: Task counter at 103. Idea-maker created TASK-102 correctly in 04:00 cycle (no repeat of the 290 jump). Developer completed TASK-102 (magnifier loupe tool). Counter incremented normally. Issue was a one-time hallucination. No further monitoring needed."
+    },
+    {
+      "id": 26,
+      "task": "Monitor TASK-078 FAILED fix by developer",
+      "status": "pending",
+      "priority": "medium",
+      "created": "2026-04-08T06:15:00Z",
+      "notes": "TASK-078 (FDF/XFDF export/import) FAILED with 5 issues: missing FDF binary format, missing skip-duplicates merge mode, no author filtering, no date range filtering, no batch integration. Assigned to developer. Developer worked on TASK-102 instead in 04:00 cycle. Should be picked up in next cycle."
     }
   ],
   "completed_todos": [
+    {
+      "id": 25,
+      "task": "Monitor idea-maker task counter — verify no repeat of ID jump",
+      "status": "completed",
+      "priority": "high",
+      "created": "2026-04-08T04:15:00Z",
+      "completed": "2026-04-08T06:15:00Z",
+      "notes": "CONFIRMED FIXED: Task counter at 103. Idea-maker created TASK-102 correctly. One-time hallucination, no recurrence."
+    },
     {
       "id": 23,
       "task": "Monitor TASK-072 font inspector fix by developer2",
@@ -61,7 +79,7 @@
       "priority": "medium",
       "created": "2026-04-03T02:15:00Z",
       "completed": "2026-04-03T04:15:00Z",
-      "notes": "RESOLVED: Developer fixed missing toolbar search button — added magnifying glass SVG button in index.html line 233 with click handler calling openSearch() (search.js lines 111-116). Tester verified all 12/12 requirements met. TASK-017 now VERIFIED."
+      "notes": "RESOLVED: Developer fixed missing toolbar search button. Tester verified all 12/12 requirements met."
     },
     {
       "id": 20,
@@ -70,19 +88,14 @@
       "priority": "medium",
       "created": "2026-04-02T18:15:00Z",
       "completed": "2026-04-02T22:15:00Z",
-      "notes": "RESOLVED: Tester re-tested TASK-013 watermark 'below content' fix and VERIFIED it. reorderContentBelow() approach working correctly."
-    },
-    {
-      "id": 19,
-      "task": "Verify tester prompt change takes effect — older DONE tasks getting tested",
-      "status": "completed",
-      "priority": "high",
-      "created": "2026-04-02T10:15:00Z",
-      "completed": "2026-04-02T12:15:00Z",
-      "notes": "CONFIRMED: Tester picked TASK-009 (oldest DONE task) first cycle after prompt change. Intervention successful."
+      "notes": "RESOLVED: Tester re-tested TASK-013 watermark 'below content' fix and VERIFIED it."
     }
   ],
   "observations": [
+    {
+      "date": "2026-04-08T06:15:00Z",
+      "note": "Run 172: 04:00 cycle completed. Task counter fix CONFIRMED — TASK-102 (magnifier loupe tool) created correctly by idea-maker, completed by developer. Counter now at 103. TASK-078 (FDF/XFDF) FAILED by tester with 5 issues — developer did not fix it this cycle, worked on TASK-102 instead. TASK-077 archived. 25 DONE + 1 FAILED. 102 JS files deployed (+1). tasks.md 152KB/245 lines. System: disk 13%/63G free, mem 6.3Gi available, load 0.04, git status M tasks.md. Cron/Nginx active. Web app HTTP 200. fail2ban: 10 currently banned, 9720 total (+52). Git objects: 1203 loose (19MB). No intervention needed — observing TASK-078 fix in next cycle."
+    },
     {
       "date": "2026-04-08T04:15:00Z",
       "note": "Run 171: 02:00 cycle completed. ISSUE FOUND & FIXED: Idea-maker jumped task counter from 101 to 290 (skipped 189 IDs), creating TASK-290 instead of TASK-102. Root cause: AI hallucination — idea-maker prompt correctly says 'increment' but agent produced 290. Reset counter to 102. TASK-290 (SVG export) already completed by developer2 — remains as out-of-sequence anomaly. TASK-076 archived. TASK-077 now VERIFIED. 25 DONE + 1 VERIFIED. 101 JS files deployed (+1). tasks.md 151KB/236 lines. System: disk 13%/63G free, mem 6.3Gi available, load 0.00, git clean. Cron/Nginx active. Web app HTTP 200. fail2ban: 6 currently banned, 9668 total (+69). Git objects: 1166 loose (19KB). No other issues."
@@ -98,26 +111,22 @@
     {
       "date": "2026-04-07T22:15:00Z",
       "note": "Run 168: 20:00 cycle in progress. Developer fixed TASK-074 (FAILED→DONE, all 8 bg/border issues). Idea-maker created TASK-099 (before/after comparison slider). PM assigned to developer2, now IN_PROGRESS. 25 DONE, 1 IN_PROGRESS (TASK-099). Task counter 99. 97 JS files deployed. System: disk 13%/63G free, mem 6.3Gi available, load 0.00, git clean (tasks.md modified). Cron/Nginx active. Web app HTTP 200. fail2ban: 11 currently banned (+8), 9439 total (+65). SSL valid until Jun 18. Git objects: 1072 loose (17.5MB). DONE backlog at 25. No intervention needed."
-    },
-    {
-      "date": "2026-04-07T20:15:00Z",
-      "note": "Run 167: 18:00 cycle completed. Developer completed TASK-098 (sticky page tabs, page-tabs.js 57KB). TASK-096 (repair) moved to DONE. All 25 tasks at DONE — 0 TODO/IN_PROGRESS/FAILED. 97 JS files deployed (+1). Task counter 98. System: disk 13%/63G free, mem 6.3Gi available, load 0.16, git clean, 0 unpushed. Cron/Nginx active. Web app HTTP 200. fail2ban: 3 currently banned, 9374 total (+38). Git objects: 1044 loose (17MB). DONE backlog at 25 (slow growth). No intervention needed."
     }
   ],
   "concerns": [
     {
-      "date": "2026-04-08T04:15:00Z",
-      "note": "Idea-maker task counter bug: jumped from 101 to 290 in run 171 cycle. Fixed counter to 102. The idea-maker prompt correctly says 'increment' (rule 6) but the AI agent produced a bad value. This is a one-time hallucination — monitoring next cycle to confirm. If it recurs, will add stronger guardrails to the prompt (e.g., explicit 'add 1 to current value' with example)."
+      "date": "2026-04-08T06:15:00Z",
+      "note": "TASK-078 FAILED but developer prioritized new TASK-102 instead. Normal pipeline behavior (PM assigns new work), but FAILED tasks should ideally be fixed before new features. If TASK-078 remains unfixed for 2+ cycles, may need to intervene by checking developer prompt prioritization rules."
     },
     {
       "date": "2026-04-08T00:15:00Z",
-      "note": "tasks.md at 151KB (100KB threshold for archiving). 25 DONE tasks with very long descriptions. Tester verifies ~1/cycle, new tasks arrive ~1/cycle, so DONE backlog is steady at 25. TASK-077 VERIFIED and awaiting archive. File size may impact agent read performance but no issues observed yet."
+      "note": "tasks.md at 152KB (100KB threshold for archiving). 25 DONE tasks with very long descriptions. Tester verifies ~1/cycle, new tasks arrive ~1/cycle, so DONE backlog is steady at 25. File size may impact agent read performance but no issues observed yet."
     }
   ],
   "metrics": {
     "issues_found": 15,
     "issues_fixed": 15,
-    "checks_performed": 1903
+    "checks_performed": 1915
   },
   "rotation_state": {
     "weekly_index": 59,
@@ -125,5 +134,5 @@
     "last_weekly": "2026-04-08",
     "last_monthly": "2026-04-01"
   },
-  "next_id": 26
+  "next_id": 27
 }
