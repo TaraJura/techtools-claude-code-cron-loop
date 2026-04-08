@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-08T08:17:00Z",
+  "last_review": "2026-04-08T10:22:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 7 currently banned",
-    "fail2ban_status": "active - sshd jail running, 7 currently banned, 9939 total banned",
-    "change_since_last": "fail2ban total bans 9939 (up from 9835, +104). 7 IPs currently banned: 2.57.122.188, 2.57.122.191, 2.57.121.112, 195.178.110.15, 2.57.122.196, 45.148.10.151, 45.148.10.157. Continued brute-force from recurring subnets (2.57.x.x, 80.94.x.x, 45.148.x.x, 195.178.x.x). Generic usernames only (admin, root, solr, ops, ubuntu, user). No successful unauthorized logins."
+    "failed_password_attempts": "fail2ban active, 5 currently banned",
+    "fail2ban_status": "active - sshd jail running, 5 currently banned, 10017 total banned",
+    "change_since_last": "fail2ban total bans 10017 (up from 9939, +78). 5 IPs currently banned: 92.118.39.63, 92.118.39.62, 92.118.39.56, 103.91.246.101, 213.209.159.159. Continued brute-force from recurring subnets (92.118.x.x, 103.91.x.x, 213.209.x.x, 193.32.x.x, 171.231.x.x). Generic usernames only (root, dsm, ubuntu, jolene, jito, installer, shredstream). No successful unauthorized logins."
   },
   "web_protections": {
     "security_headers": {
@@ -40,28 +40,43 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "350+ usages across 103 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts."
+    "innerHTML_note": "350+ usages across 104 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts."
   },
   "changed_files_review": {
-    "pages_js": {
-      "task": "TASK-105: Multi-page selection with batch page operations",
-      "status": "MODIFIED — reviewed in full (1089 lines)",
-      "innerHTML_count": 7,
-      "innerHTML_note": "Lines 190 (grid clear), 234/332 (static SVG checkmark), 688 (static SVG apply button), 817 (static batch bar template), 907 (static move dialog template), 969 (static confirm dialog template). All innerHTML uses static SVG/HTML templates only — zero user-controlled or PDF-derived content. SAFE.",
+    "find_replace_js": {
+      "task": "TASK-106: Find and Replace module",
+      "status": "NEW FILE — reviewed in full (1004 lines)",
+      "innerHTML_count": 5,
+      "innerHTML_note": "Line 72: static SVG/HTML template for replace row UI. Line 110: static SVG icon for toggle button. Line 643: static template with integer unreplacedMatches.length. Line 672: preview dialog uses escapeHtml() on all PDF/user-derived strings (before, matchText, actualReplacement, after). Line 992: escapeHtml() implementation itself. All SAFE.",
+      "escapeHtml_quality": "Uses createElement('div')+textContent+innerHTML pattern — properly escapes <, >, &, and double quotes. Better than escapeHtml in older modules.",
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
-      "dom_manipulation": "All dynamic content uses textContent (dialog titles/descriptions at lines 1012-1013, page counts at lines 346/353, move-max at line 956). DOM elements created via createElement. Integer values from parseInt with NaN check (line 926).",
-      "user_input_handling": "Move-to dialog accepts numeric input via <input type=number> — validated with parseInt and NaN/range check before use. No string injection vectors.",
-      "drag_and_drop": "Internal drag-and-drop between page cards only. dataTransfer.setData uses String(gridIndex) — integer. No external data accepted.",
-      "context_menu": "Delegates to context-menu.js openMenu() — menu labels built from internal count (n) and static strings. No user input in labels.",
-      "download_filename": "Uses baseName from state.currentFile.name with .pdf stripped, appended with '_reordered.pdf' or '_extracted_Npages.pdf'. Passed through downloadBlob (which uses sanitizeFilename from utils.js). SAFE.",
-      "undo_system": "Stores arrayBuffer.slice(0) copies for insert-undo. pdfjsLib.getDocument called on internal buffer. No external data paths.",
-      "querySelector_injection": "Template literals in querySelector use integer idx from internal Set — not user-controlled. SAFE.",
-      "security_status": "CLEAN — well-implemented with proper DOM API usage, no unsafe patterns."
+      "new_regexp_from_user_input": "Line 301: new RegExp(query, flags) from search input with try/catch. ReDoS possible but self-DoS only (user controls own input). Same pattern as link-manager.js. LOW risk.",
+      "zero_length_match_protection": "Line 316: regex.lastIndex++ prevents infinite loop on zero-length regex matches. GOOD.",
+      "dom_manipulation": "Replace preview dialog built with DOM APIs (createElement). Dynamic text uses textContent or escapeHtml(). Numeric values from array.length/indexOf. Page numbers are integers from searchIndex.",
+      "pdf_modification": "applyFindReplaceEdits() modifies pdf-lib PDFDocument — covers text with white rectangles and redraws replacement text. Uses internal pendingReplacements array only. No external data paths.",
+      "security_status": "CLEAN — well-implemented with proper escaping, no unsafe patterns."
     },
-    "tools_css": {
-      "task": "CSS styling updates for TASK-105 batch bar and multi-select UI",
+    "annotate_js": {
+      "task": "Integration of find-replace into download pipeline",
+      "status": "MODIFIED — added import of find-replace.js and calls to applyFindReplaceEdits/hasFindReplaceEdits in download handler",
+      "innerHTML_count": 2,
+      "innerHTML_note": "Lines 245, 312: element clearing (= ''). SAFE.",
+      "new_security_patterns": "None — only added function calls to find-replace module exports.",
+      "security_status": "CLEAN — no new security concerns."
+    },
+    "context_menu_js": {
+      "task": "Added Find and Replace option to text-selection context menu",
+      "status": "MODIFIED — added line 543: new menu item for Find and Replace",
+      "innerHTML_count": 5,
+      "innerHTML_note": "Lines 145, 240, 380: element clearing. Line 166: static SVG icon from icons constant. Line 179: static SVG arrow. All SAFE.",
+      "new_menu_item": "Line 543: Sets search input value via .value property (not innerHTML) with selected text (ctx.text), then invokes find-replace action via registry. SAFE.",
+      "pre_existing_issue": "window.open(ctx.url) at line 649 without protocol allowlist — previously tracked, line shifted from 643 to 649.",
+      "security_status": "CLEAN — no new security concerns."
+    },
+    "viewer_css": {
+      "task": "CSS styling updates for find-replace UI",
       "status": "MODIFIED — CSS only, no security impact",
       "security_status": "N/A — styling only"
     }
@@ -88,7 +103,7 @@
     "duplicate-detect.js", "color-picker.js", "pwa.js", "tts.js", "touch.js",
     "reader.js", "form-detect.js", "cloud-storage.js", "font-inspector.js",
     "repair.js", "split-by-size.js", "page-tabs.js", "text-edit.js",
-    "toolbar-manager.js", "magnifier.js", "open-url.js"
+    "toolbar-manager.js", "magnifier.js", "open-url.js", "find-replace.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -102,7 +117,7 @@
   },
   "cgi_security": { "no_cgi_scripts_found": true, "cgi_location_block_exists": true, "no_cgi_bin_directory": true },
   "codex_proxy": { "endpoint": "/codex", "backend": "127.0.0.1:8199", "status": "502 - backend not running", "risk": "LOW" },
-  "disk_usage": "13%",
+  "disk_usage": "14%",
   "ssl_certificate": {
     "valid_from": "2026-03-20",
     "valid_until": "2026-06-18",
@@ -127,13 +142,15 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "pages_js_task105_reviewed_clean",
-    "all_103_js_files_accounted_for",
+    "find_replace_js_task106_reviewed_clean",
+    "annotate_js_find_replace_integration_clean",
+    "context_menu_js_find_replace_item_clean",
+    "all_104_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_71_days",
-    "fail2ban_active_9939_total_bans",
+    "fail2ban_active_10017_total_bans",
     "web_app_serving_200",
-    "disk_space_ok_13pct",
+    "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
     "nginx_config_syntax_ok",
     "document_write_safe_print_only"
@@ -148,6 +165,7 @@
     "LOW: toolbar-manager.js line 572: custom preset name (user text input) and key (from localStorage) inserted into innerHTML in data-preset attribute and element content without escaping. Self-XSS only — user sets own preset names. CSP blocks script execution.",
     "LOW: font-inspector.js line 1056: page number p used in data-page attribute without escAttr(). Pages are integers from PDF parsing. Minimal real-world risk. Fix: apply escAttr(p).",
     "LOW-FUNCTIONAL: repair.js line 376: import path './lib/pdf-lib.min.js' should be '../lib/pdf-lib.min.js' since file is in /js/. Fallback to window.PDFLib exists so module still works. Not a security issue.",
+    "LOW: find-replace.js line 301: new RegExp(query, flags) from user search input — ReDoS possible with pathological patterns but self-DoS only. try/catch handles invalid regex. Same pattern as link-manager.js.",
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
     "No general *.md nginx block - only CLAUDE.md specifically blocked. Any new .md file added to webroot would be publicly accessible.",
     "UFW firewall is inactive - only SSH and HTTP/HTTPS ports are needed but no firewall enforces this.",
@@ -166,7 +184,7 @@
     "reading-progress.js line 550: escapeHtml(doc.name) in title attribute — escapeHtml doesn't escape double quotes. Self-XSS only — doc.name from user-selected file. LOW risk.",
     "hyperlinks.js: detected PDF link URLs not validated for protocol scheme. A malicious PDF could contain javascript: URIs in link annotations. CSP + noopener/noreferrer mitigate. Should add protocol allowlist (http/https/mailto) before window.open().",
     "hyperlinks.js line 686: email link window.open() missing noopener/noreferrer — minor since mailto: links are low risk.",
-    "context-menu.js line 643: window.open(ctx.url, '_blank', 'noopener') — opens PDF-derived URL without protocol allowlist. Same pattern as hyperlinks.js. A javascript: URI could execute if CSP does not block it. CSP script-src 'self' mitigates. MEDIUM-LOW risk.",
+    "context-menu.js line 649: window.open(ctx.url, '_blank', 'noopener') — opens PDF-derived URL without protocol allowlist. Same pattern as hyperlinks.js. A javascript: URI could execute if CSP does not block it. CSP script-src 'self' mitigates. MEDIUM-LOW risk.",
     "img2pdf.js image validation uses OR logic (MIME type OR extension) - slightly permissive but acceptable for client-side processing.",
     "insert-pages.js has dead code: escapeHtml() function defined but never called.",
     "metadata.js has dead code: escapeHtml() function defined but never called.",
