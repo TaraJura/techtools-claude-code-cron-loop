@@ -24,24 +24,149 @@ For detailed information about the autonomous architecture, see `docs/autonomous
 
 ### What We're Building
 
-A full-featured, browser-based PDF editor at https://cronloop.techtools.cz with:
+A full-featured, browser-based PDF editor at https://cronloop.techtools.cz. The app is a **Progressive Web App** (installable, offline-capable via service worker) with ~100 features already shipped, organized into the following categories:
 
-| Feature | Description |
-|---------|-------------|
-| **PDF Viewer** | Render and navigate PDFs using pdf.js |
-| **Annotations** | Highlight, underline, strikethrough, comments, sticky notes |
-| **Merge/Split** | Combine multiple PDFs or extract page ranges |
-| **Page Management** | Reorder, rotate, delete, insert pages |
-| **Form Filling** | Detect and fill PDF form fields |
-| **Digital Signatures** | Draw or upload signatures, place on documents |
-| **Text Editing** | Add/modify text overlays on PDF pages |
-| **OCR** | Extract text from scanned PDFs using Tesseract.js |
-| **Conversion** | PDF to/from images, export to other formats |
-| **Batch Processing** | Apply operations to multiple files |
-| **Templates** | Pre-built document templates |
-| **Watermarks** | Add text/image watermarks |
-| **Redaction** | Permanently remove sensitive content |
-| **Bookmarks** | Navigate and manage PDF bookmarks |
+#### Viewing & Navigation
+| Feature | Module | Description |
+|---------|--------|-------------|
+| **PDF Viewer** | `viewer.js` | Render PDFs via pdf.js, zoom, pan, rotate |
+| **Minimap** | `minimap.js` | Document overview minimap |
+| **Magnifier** | `magnifier.js` | Loupe/zoom magnifier |
+| **Presentation Mode** | `present.js` | Full-screen presentation |
+| **Reader Mode** | `reader.js` | Distraction-free reading view |
+| **Reading Progress** | `reading-progress.js` | Persistent reading position tracker |
+| **Search** | `search.js` | Find text in document |
+| **Find & Replace** | `find-replace.js` | Search and replace text |
+| **Bookmarks** | `bookmarks.js`, `bookmark-editor.js` | Navigate and edit PDF bookmarks |
+| **Table of Contents** | `toc.js` | Auto-generate / browse TOC |
+| **Tabs** | `tabs.js`, `page-tabs.js` | Multi-document tabs |
+| **Compare** | `compare.js`, `comparison-slider.js` | Visual diff between PDFs |
+
+#### Annotation & Markup
+| Feature | Module | Description |
+|---------|--------|-------------|
+| **Highlight / Underline / Strikethrough** | `annotate.js` | Standard text markup |
+| **Free Draw** | `drawing.js` | Pen/brush free-draw |
+| **Stamps** | `stamps.js` | Built-in approval/status stamps |
+| **Custom Stamps** | `custom-stamps.js` | User-created stamp library |
+| **Sticky Notes** | `sticky-notes.js` | Comment notes on pages |
+| **Text Overlay** | `text-overlay.js` | Add text on top of PDFs |
+| **Text Edit** | `text-edit.js` | Edit existing PDF text |
+| **Annotation Summary** | `annotation-summary.js` | List/jump to all annotations |
+| **Annotation Exchange** | `annotation-exchange.js` | Import/export annotations (FDF/XFDF) |
+| **Annotation Presets** | `annotation-presets.js` | Saveable annotation styles |
+| **Multi-Select** | `multiselect.js` | Select multiple annotations |
+| **Color Picker** | `color-picker.js` | Annotation color picker |
+
+#### Document Manipulation
+| Feature | Module | Description |
+|---------|--------|-------------|
+| **Merge** | `merge.js` | Combine multiple PDFs |
+| **Interleave** | `interleave.js` | Interleave pages from two PDFs |
+| **Split (Ranges)** | `split.js` | Split into page ranges |
+| **Split by Bookmarks** | `split-bookmarks.js` | Split at bookmark boundaries |
+| **Split by Size** | `split-by-size.js` | Split into chunks under N MB |
+| **Page Management** | `pages.js` | Reorder, rotate, delete, duplicate |
+| **Page Resize** | `page-resize.js` | Resize pages to standard formats |
+| **Insert Pages** | `insert-pages.js` | Insert blank/existing pages |
+| **Crop** | `crop.js`, `auto-crop.js` | Manual and auto crop margins |
+| **Deskew** | `deskew.js` | Straighten skewed scans |
+| **Color Adjust** | `color-adjust.js` | Brightness/contrast/grayscale |
+
+#### Forms & Signatures
+| Feature | Module | Description |
+|---------|--------|-------------|
+| **Form Filling** | `forms.js` | Fill interactive PDF forms |
+| **Form Data Import/Export** | `form-data.js` | FDF/XFDF/JSON round-trip |
+| **Form Creator** | `form-creator.js` | Create new form fields |
+| **Form Detect** | `form-detect.js` | Auto-detect fields on flat PDFs |
+| **Digital Signatures** | `signatures.js` | Draw/type/upload signatures |
+| **Signature Verification** | `verify-signatures.js` | Verify embedded digital signatures |
+
+#### Conversion & Export
+| Feature | Module | Description |
+|---------|--------|-------------|
+| **OCR** | `ocr.js` | Tesseract.js text recognition |
+| **PDF ↔ Image** | `convert.js` | Render pages to PNG/JPEG |
+| **Image to PDF** | `img2pdf.js` | Build PDF from images |
+| **Extract Images** | `extract-images.js` | Pull all images out of a PDF |
+| **Extract Tables** | `tables.js` | Detect and export tables (CSV/XLSX) |
+| **DOCX Export** | `docx-export.js` | Export to Word (`docx`) |
+| **PPTX Export** | `pptx-export.js` | Export to PowerPoint (`pptxgenjs`) |
+| **HTML Export** | `html-export.js` | Export to HTML |
+| **Markdown Export** | `markdown-export.js` | Export to Markdown |
+| **EPUB Export** | `epub-export.js` | Export to EPUB |
+| **SVG Export** | `svg-export.js` | Export pages as SVG |
+
+#### Security & Privacy
+| Feature | Module | Description |
+|---------|--------|-------------|
+| **Password Protect** | `protect.js` | Encrypt PDFs with a password |
+| **Manual Redaction** | `redact.js` | Black-box redact regions |
+| **Smart Redaction** | `smart-redact.js`, `smart-redact-worker.js` | Auto-detect and redact PII (worker-based) |
+| **Sanitize** | `sanitize.js` | Strip JS, embedded files, hidden layers |
+| **Flatten** | `flatten.js` | Bake annotations and form data into pages |
+
+#### Document Enhancements
+| Feature | Module | Description |
+|---------|--------|-------------|
+| **Watermarks** | `watermark.js` | Text/image watermarks |
+| **Bates Numbering** | `bates.js` | Legal-style Bates numbering |
+| **Page Numbers** | `page-numbers.js` | Add page numbers |
+| **Page Labels** | `page-labels.js` | Custom page labels (i, ii, A1, ...) |
+| **Headers & Footers** | `headers-footers.js` | Page headers/footers |
+| **Backgrounds & Borders** | `bg-borders.js` | Page backgrounds and borders |
+| **Hyperlinks** | `hyperlinks.js`, `link-manager.js` | Add/manage internal & external links |
+| **QR / Barcode** | `qrbarcode.js` | Generate / scan QR codes and barcodes |
+
+#### Optimization & Compliance
+| Feature | Module | Description |
+|---------|--------|-------------|
+| **Compress** | `compress.js` | Reduce PDF file size |
+| **PDF/A** | `pdfa.js` | Convert to PDF/A archival format |
+| **Print Prep** | `printprep.js` | Print preparation (bleed, marks) |
+| **Repair** | `repair.js` | Repair corrupted PDFs |
+| **Font Inspector** | `font-inspector.js` | Inspect embedded fonts |
+| **Statistics** | `statistics.js` | Document analytics (pages, fonts, sizes) |
+| **Metadata** | `metadata.js` | Edit title/author/subject/keywords |
+
+#### Productivity
+| Feature | Module | Description |
+|---------|--------|-------------|
+| **Batch Processing** | `batch.js` | Apply ops to many files |
+| **Templates** | `templates.js` | Pre-built document templates |
+| **Snip** | `snip.js` | Snipping tool / region capture |
+| **Measure** | `measure.js` | Distance/area measurements |
+| **Guides** | `guides.js` | Rulers and snap guides |
+| **Layers** | `layers.js` | Optional Content Group (OCG) management |
+| **Attachments** | `attachments.js` | Attached file manager |
+| **Duplicate Detect** | `duplicate-detect.js` | Find duplicate pages |
+| **Image Manager** | `image-manager.js` | Catalog images in a doc |
+| **Clipboard** | `clipboard.js` | Copy/paste helpers |
+| **Undo/Redo** | `undo-redo.js` | Global undo stack |
+| **Autosave** | `autosave.js` | Auto-save edits to local storage |
+
+#### UI & Accessibility
+| Feature | Module | Description |
+|---------|--------|-------------|
+| **Accessibility** | `accessibility.js` | ARIA, screen-reader support |
+| **Keyboard Shortcuts** | `keyboard-shortcuts.js` | Hotkey system |
+| **Command Palette** | `command-palette.js` | Cmd/Ctrl+K command runner |
+| **Context Menu** | `context-menu.js` | Right-click menus |
+| **Toolbar Manager** | `toolbar-manager.js` | Customizable toolbars |
+| **Theme** | `theme.js` | Light/dark theme switcher |
+| **Touch Gestures** | `touch.js` | Mobile/tablet touch input |
+| **Text-to-Speech** | `tts.js` | Read PDF aloud |
+
+#### Integration & Storage
+| Feature | Module | Description |
+|---------|--------|-------------|
+| **Drag-and-Drop Upload** | `upload.js` | Local file ingest |
+| **Open from URL** | `open-url.js` | Load PDFs from a URL |
+| **Cloud Storage** | `cloud-storage.js` | Cloud provider integration |
+| **PWA** | `pwa.js`, `sw.js`, `manifest.json` | Installable, offline-capable |
+| **Action Registry** | `action-registry.js` | Central command registry |
+| **Event Bus** | `event-bus.js` | Inter-module messaging |
 
 ### Tech Stack
 
@@ -50,31 +175,75 @@ A full-featured, browser-based PDF editor at https://cronloop.techtools.cz with:
 | **PDF Rendering** | pdf.js (Mozilla) | View and render PDF pages in browser |
 | **PDF Manipulation** | pdf-lib | Merge, split, modify PDF structure |
 | **OCR** | Tesseract.js | Optical character recognition |
-| **Frontend** | HTML/CSS/JavaScript | UI components and interactions |
-| **Build System** | Vite or esbuild (TBD) | Bundle and optimize frontend |
-| **Backend** | Node.js (if needed) | Heavy processing, file management |
-| **Web Server** | Nginx | Serve the application, handle SSL |
+| **DOCX Export** | docx.umd.js | Export PDFs to Word documents |
+| **PPTX Export** | pptxgenjs | Export PDFs to PowerPoint |
+| **Spreadsheet I/O** | xlsx (SheetJS) | Table extraction to XLSX/CSV |
+| **Archive Handling** | JSZip | EPUB/DOCX/zip packaging |
+| **QR / Barcodes** | qrcode-generator, jsBarcode, jsQR | Generate and scan codes |
+| **Frontend** | HTML / CSS / Vanilla ES Modules | UI components and interactions |
+| **No Build Step** | Native ES modules | Scripts loaded directly via `<script type="module">` |
+| **PWA** | Service Worker + manifest.json | Installable, offline-capable |
+| **Web Server** | Nginx + Let's Encrypt SSL | Serve the application |
 | **Hosting** | Ubuntu 25.04 VPS | cronloop.techtools.cz |
+
+> **Architecture note**: The app is 100% client-side. There is no backend, no build step, and no bundler — modules are loaded natively by the browser. PDFs never leave the user's device.
 
 ### Web Application Structure
 
 ```
 /var/www/cronloop.techtools.cz/
-├── index.html          # Main application entry point
-├── css/                # Stylesheets
-├── js/                 # JavaScript modules
-│   ├── app.js          # Main application
-│   ├── viewer.js       # PDF viewer (pdf.js integration)
-│   ├── annotate.js     # Annotation tools
-│   ├── merge.js        # Merge/split functionality
-│   ├── forms.js        # Form filling
-│   ├── signatures.js   # Digital signatures
-│   ├── ocr.js          # OCR integration
-│   └── convert.js      # Format conversion
-├── lib/                # Third-party libraries (pdf.js, pdf-lib, Tesseract.js)
-├── assets/             # Icons, images, fonts
-├── templates/          # Document templates
-└── uploads/            # Temporary file storage (gitignored)
+├── index.html          # Main application entry (single-page app)
+├── manifest.json       # PWA manifest
+├── sw.js               # Service worker (offline cache)
+├── offline.html        # Offline fallback page
+├── favicon.ico
+├── css/
+│   ├── main.css        # Layout, header, app shell
+│   ├── viewer.css      # PDF viewer styles
+│   └── tools.css       # Tool panels and dialogs
+├── js/                 # ~100 ES module feature files
+│   ├── app.js                  # Bootstrap & wiring
+│   ├── event-bus.js            # Inter-module pub/sub
+│   ├── action-registry.js      # Central action registry
+│   ├── viewer.js               # pdf.js viewer
+│   ├── upload.js               # Drag-and-drop upload
+│   ├── annotate.js             # Highlight/underline/strikethrough
+│   ├── drawing.js              # Free draw
+│   ├── stamps.js               # Built-in stamps
+│   ├── custom-stamps.js        # Custom stamp creator
+│   ├── sticky-notes.js         # Sticky note comments
+│   ├── text-overlay.js         # Add text overlays
+│   ├── text-edit.js            # Edit existing PDF text
+│   ├── merge.js / split.js     # Document combine / split
+│   ├── pages.js                # Reorder/rotate/delete
+│   ├── forms.js / form-*.js    # Form filling, creating, detecting
+│   ├── signatures.js           # Draw/upload signatures
+│   ├── verify-signatures.js    # Verify embedded signatures
+│   ├── ocr.js                  # Tesseract OCR
+│   ├── redact.js               # Manual redaction
+│   ├── smart-redact*.js        # PII auto-redact (worker)
+│   ├── compress.js             # PDF compression
+│   ├── watermark.js            # Watermarks
+│   ├── pdfa.js                 # PDF/A conversion
+│   ├── batch.js                # Batch processing
+│   ├── pwa.js                  # PWA installer
+│   └── ... (~80 more)          # See feature table above
+├── lib/                # Third-party libraries (no build step)
+│   ├── pdf.min.mjs             # pdf.js viewer
+│   ├── pdf.worker.min.mjs      # pdf.js worker
+│   ├── pdf-lib.min.js          # PDF manipulation
+│   ├── tesseract.min.js        # OCR
+│   ├── jszip.min.js            # ZIP/EPUB/DOCX packaging
+│   ├── docx.umd.js             # DOCX export
+│   ├── pptxgenjs.bundle.js     # PPTX export
+│   ├── xlsx.full.min.js        # Spreadsheet I/O
+│   ├── qrcode-generator.min.js # QR generation
+│   ├── jsbarcode.min.js        # Barcode generation
+│   └── jsqr.min.js             # QR scanning
+├── assets/
+│   ├── icons/                  # PWA icons + UI icons
+│   └── fonts/                  # Embedded fonts
+└── templates/                  # Document templates
 ```
 
 ## Critical Rules

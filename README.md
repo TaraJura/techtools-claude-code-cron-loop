@@ -23,24 +23,44 @@ An **autonomous AI factory** that builds a professional PDF editor web applicati
 
 ---
 
-## PDF Editor Features (Planned)
+## PDF Editor Features
 
-| Feature | Status | Description |
-|---------|--------|-------------|
-| PDF Viewer | TODO | View and navigate PDFs with zoom, thumbnails |
-| File Upload/Download | TODO | Drag-and-drop upload, save modified PDFs |
-| Annotations | TODO | Highlight, underline, strikethrough, comments |
-| Merge PDFs | TODO | Combine multiple PDFs into one |
-| Split PDF | TODO | Extract page ranges into separate files |
-| Page Management | TODO | Reorder, rotate, delete pages |
-| OCR | TODO | Extract text from scanned PDFs |
-| Form Filling | TODO | Fill interactive PDF form fields |
-| Digital Signatures | TODO | Draw/type/upload signatures |
-| Text Editing | TODO | Add text overlays to PDF pages |
-| Watermarks | TODO | Add text/image watermarks |
-| Redaction | TODO | Permanently remove sensitive content |
-| Batch Processing | TODO | Apply operations to multiple files |
-| Bookmarks | TODO | Navigate and manage PDF bookmarks |
+The PDF editor is a **Progressive Web App** — installable, offline-capable, and runs entirely in the browser. PDFs never leave your device. The agents have shipped ~100 features across the categories below.
+
+### Viewing & Navigation
+PDF viewer (pdf.js) · Minimap · Magnifier loupe · Presentation mode · Reader mode · Reading-progress tracker · Search · Find & replace · Bookmarks (browse + edit) · Auto table of contents · Multi-document tabs · Visual compare with side-by-side & slider diff
+
+### Annotation & Markup
+Highlight / underline / strikethrough · Free draw · Built-in stamps · Custom stamp creator and library · Sticky notes · Text overlays · Edit existing PDF text · Annotation summary list · FDF/XFDF import & export · Annotation presets · Multi-select · Color picker
+
+### Document Manipulation
+Merge · Interleave pages from two PDFs · Split by ranges, bookmarks, or file size · Reorder / rotate / delete / duplicate pages · Resize pages to standard formats · Insert blank or existing pages · Manual & auto crop · Deskew scanned pages · Brightness / contrast / grayscale adjust
+
+### Forms & Signatures
+Fill interactive PDF forms · Form data import/export (FDF, XFDF, JSON) · Form-field creator · Auto-detect fields on flat PDFs · Draw / type / upload digital signatures · Verify embedded digital signatures
+
+### Conversion & Export
+OCR (Tesseract.js) · PDF ↔ Image (PNG / JPEG) · Image to PDF · Extract images · Extract tables to CSV / XLSX · Export to **DOCX**, **PPTX**, **HTML**, **Markdown**, **EPUB**, **SVG**
+
+### Security & Privacy
+Password protection / encryption · Manual redaction · Smart PII auto-redaction (worker-based) · Sanitize (strip JS, embedded files, hidden layers) · Flatten annotations into pages
+
+### Document Enhancements
+Text & image watermarks · Bates numbering (legal) · Page numbers · Custom page labels (i, ii, A1, …) · Headers & footers · Backgrounds & borders · Hyperlinks & link manager · QR / barcode generation and scanning
+
+### Optimization & Compliance
+Compress PDFs · PDF/A archival conversion · Print preparation (bleed, marks) · Repair corrupted PDFs · Font inspector · Document statistics · Metadata editor
+
+### Productivity
+Batch processing · Document templates · Snipping tool · Distance / area measurements · Rulers and snap guides · OCG layer management · Attached-file manager · Duplicate-page detection · Image catalog · Clipboard helpers · Global undo / redo · Autosave to local storage
+
+### UI & Accessibility
+ARIA / screen-reader support · Keyboard shortcuts · Cmd/Ctrl+K command palette · Right-click context menu · Customizable toolbars · Light / dark theme · Touch gestures · Text-to-speech
+
+### Integration & Storage
+Drag-and-drop upload · Open from URL · Cloud storage integration · PWA install + offline service worker · Central action registry · Inter-module event bus
+
+> The full per-module feature table is in [CLAUDE.md](CLAUDE.md).
 
 ## Architecture
 
@@ -94,11 +114,19 @@ An **autonomous AI factory** that builds a professional PDF editor web applicati
 | **PDF Rendering** | pdf.js (Mozilla) | Render PDF pages in the browser |
 | **PDF Manipulation** | pdf-lib | Merge, split, modify PDFs |
 | **OCR** | Tesseract.js | Extract text from scanned PDFs |
-| **Frontend** | HTML/CSS/JavaScript | User interface |
-| **Web Server** | Nginx 1.26.3 + SSL | Serve the application |
+| **DOCX Export** | docx.umd.js | Word document export |
+| **PPTX Export** | pptxgenjs | PowerPoint export |
+| **Spreadsheets** | xlsx (SheetJS) | Table extraction → XLSX/CSV |
+| **Archives** | JSZip | EPUB / DOCX / zip packaging |
+| **QR / Barcode** | qrcode-generator, jsBarcode, jsQR | Generate and scan codes |
+| **Frontend** | HTML/CSS + native ES modules | User interface (no build step) |
+| **PWA** | Service Worker + manifest.json | Installable, offline-capable |
+| **Web Server** | Nginx 1.26.3 + Let's Encrypt SSL | Serve the application |
 | **AI Engine** | Claude Code | Autonomous development |
 | **Scheduling** | Cron | Run agents every 2 hours |
 | **Version Control** | Git + GitHub | Track all changes |
+
+> 100% client-side. No backend, no bundler — modules are loaded directly by the browser. PDFs never leave the user's device.
 
 ## Agents
 
@@ -172,12 +200,41 @@ Each agent has a prompt file at `actors/<agent>/prompt.md` defining its behavior
 │   ├── cleanup.sh
 │   └── health-check.sh
 │
-/var/www/cronloop.techtools.cz/  # PDF Editor web app
-├── index.html
+/var/www/cronloop.techtools.cz/  # PDF Editor web app (PWA)
+├── index.html             # Single-page app entry point
+├── manifest.json          # PWA manifest
+├── sw.js                  # Service worker (offline cache)
+├── offline.html           # Offline fallback page
 ├── css/
-├── js/
-├── lib/                   # pdf.js, pdf-lib, Tesseract.js
-└── assets/
+│   ├── main.css
+│   ├── viewer.css
+│   └── tools.css
+├── js/                    # ~100 ES module feature files
+│   ├── app.js                  # Bootstrap & wiring
+│   ├── event-bus.js            # Inter-module pub/sub
+│   ├── action-registry.js      # Central action registry
+│   ├── viewer.js               # pdf.js viewer
+│   ├── annotate.js             # Highlight/underline/strikethrough
+│   ├── merge.js / split.js     # Combine / split docs
+│   ├── forms.js / signatures.js
+│   ├── ocr.js                  # Tesseract OCR
+│   ├── redact.js / smart-redact.js
+│   ├── docx-export.js / pptx-export.js / epub-export.js / ...
+│   └── ... (~80 more)          # See CLAUDE.md for the full table
+├── lib/                   # Vendored libraries (no build step)
+│   ├── pdf.min.mjs / pdf.worker.min.mjs   # pdf.js
+│   ├── pdf-lib.min.js                     # PDF manipulation
+│   ├── tesseract.min.js                   # OCR
+│   ├── jszip.min.js                       # ZIP/EPUB/DOCX
+│   ├── docx.umd.js                        # DOCX export
+│   ├── pptxgenjs.bundle.js                # PPTX export
+│   ├── xlsx.full.min.js                   # Spreadsheet I/O
+│   ├── qrcode-generator.min.js / jsbarcode.min.js / jsqr.min.js
+│   └── ...
+├── assets/
+│   ├── icons/             # PWA + UI icons
+│   └── fonts/             # Embedded fonts
+└── templates/             # Document templates
 ```
 
 ## Scheduled Tasks (Cron)
