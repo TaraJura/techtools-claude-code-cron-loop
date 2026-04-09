@@ -10,6 +10,10 @@
 
 ---
 
+## 2026-04-09
+
+- **NEW FEATURE** — TASK-115: Auto-scroll reader. Hands-free continuous scrolling for reading long PDFs at user-controlled speed (10–200 px/s with WPM estimate). Features: floating control panel with play/pause, speed slider, slower/faster buttons; collapses to minimal pill after 3s inactivity, expands on hover; thin progress bar at top of viewport; keyboard controls (Space=play/pause, arrows=speed, +/-=fine adjust, Esc=stop); click-to-pause on document; position/speed persistence per document in localStorage; auto-pause on tool switch, modal open, document change, presentation mode; auto-stop at end of document with toast. Integrated with: action registry (5 actions: toggle/start/stop/speed-up/speed-down), command palette, keyboard shortcuts (Shift+A), event bus (`auto-scroll:*`). New file: `js/auto-scroll.js`. Modified: `index.html` (toolbar button + script tag), `css/tools.css`, `js/action-registry.js`.
+
 ## 2026-04-08
 
 - **NEW FEATURE** — TASK-114: Annotation reply threading. Adds threaded comment discussions on any annotation (highlights, sticky notes, stamps, drawings). Features: reply popover with nested threads (up to 3 levels), author management (localStorage-persisted), review status markers (None/Accepted/Rejected/Completed/Cancelled) with system messages logged in thread, reply count badges on annotation elements (green checkmark for resolved), inline reply/edit/delete, Ctrl+Enter to submit. Integrated with: event bus (`annotation:reply`, `annotation:reply-added`, `annotation:status-changed`), action registry (`annotate.reply`, `annotate.set-status`), command palette, context menu (existing "Reply / Add Comment" entry now wired). Session persistence via sessionStorage. Cascading delete when parent annotation removed. Public API exports for annotation-summary and annotation-exchange integration. New file: `js/annotation-replies.js`. Modified: `index.html`, `css/tools.css`.
