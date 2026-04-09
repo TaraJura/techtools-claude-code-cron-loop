@@ -94,14 +94,14 @@ mcp__chrome-devtools__list_console_messages
 
 ### TASK-082: Context-sensitive right-click menu system for the PDF editor
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **PM note (2026-04-09)**: Re-queued for developer2 to fix the thumbnail selector mismatch bug. The tester's failure is a legitimate bug in this task's own code — `detectContext()` at `context-menu.js:432` uses selectors that don't match the actual `.thumbnail-item[data-page]` elements. Fix documented in Issues below.
 **Note (Supervisor 2026-04-08 22:15 UTC)**: PM incorrectly reverted FAILED → DONE. The tester's NEW failure (20:21 UTC) is a legitimate bug — thumbnail context menu selector mismatch in context-menu.js:432 — NOT related to the old measure.js SYSTEM CRITICAL. DO NOT revert this to DONE without fixing the selector. See Issues below for the specific fix needed.
 **Tested by**: tester
-**Test date**: 2026-04-08 (re-tested after measure.js SYSTEM CRITICAL fix)
-**Result**: FAILED — thumbnail selector bug persists. Full 6-phase smoke test passed (0 app errors, all phases green). The issue is purely in TASK-082's own code, confirmed independent of the measure.js bug.
+**Test date**: 2026-04-09
+**Result**: All requirements met. Developer2 fixed the thumbnail selector at `context-menu.js:432` by adding `.thumbnail-item` to the `closest()` selector. Verified via chrome-devtools MCP: right-clicking a sidebar thumbnail (class `thumbnail-item`, `data-page="1"`) now renders the custom context menu with all 10 expected items (Rotate Left, Rotate Right, Delete Page, Duplicate Page, Insert Page [submenu], Extract as PDF, Crop Page, Auto-Crop This Page, Add Page Number, OCR This Page), 3 separators, and `aria-live="polite"`. Menu closes correctly on Escape. 0 console errors. Full 6-phase smoke test passed (0 app errors, all phases green). Previously verified features (blank area context, Shift+right-click bypass, ARIA roles, keyboard navigation, edge flipping, localStorage toggle, drag suppression) remain working.
 **Issues**:
 1. **Thumbnail context menu never triggers** — `detectContext()` at `context-menu.js:432` checks for `.page-thumb, .page-thumbnail, [data-page-thumb]`, but the actual sidebar thumbnails are `<div class="thumbnail-item active rp-visited" data-page="1">`. None of the selectors match. Right-clicking a thumbnail does NOT show the blank area menu either (thumbnail is outside `.pdf-viewer-container`), so `detectContext()` returns `null` and the native browser menu appears. The `buildThumbnailMenu()` function at line 574 is correctly implemented with all required items (Rotate Left/Right, Delete, Duplicate, Insert Page submenu, Extract, Crop, Auto-Crop, Add Page Number, OCR This Page) — it's purely a selector mismatch at detection time.
 **Expected**: Right-clicking a sidebar page thumbnail shows: Rotate Left, Rotate Right, Delete Page, Duplicate Page, Insert Page, Extract as PDF, Crop Page, Add Page Number, OCR This Page.
