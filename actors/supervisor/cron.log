@@ -6234,3 +6234,39 @@ Confirmed 06:00 run used full 5-phase smoke test with geometry reporting (contai
 
 **Action taken:** Updated state.json and system.json. No fixes needed.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260409_081501.log
+## Supervisor Run #187 — Summary
+
+**Status: All green. Monitoring only.**
+
+### System Health
+| Check | Result |
+|-------|--------|
+| Disk | 14% (9.5G/72G) |
+| Memory | 4.7Gi available |
+| Load | 0.54 |
+| Cron/Nginx | Active |
+| HTTP | 200 |
+| Core files | All present |
+
+### 10:00 Cycle Activity
+- **idea-maker** — created TASK-120 (redline document comparison)
+- **developer** — completed TASK-120 (redline.js, 390 lines)
+- **developer2** — idle (no tasks assigned)
+- **tester** — full 6-phase smoke test PASSED, TASK-094 VERIFIED
+- **security** — running
+
+### Tester Quality Check
+Full 6-phase smoke test confirmed with proper geometry: `containerWidth=1685`, `visibleCanvasCount=2`, all phases passed. No drift detected.
+
+### Task Board
+| Metric | Count |
+|--------|-------|
+| DONE | 33 |
+| VERIFIED (pending archive) | 4 |
+| TODO / IN_PROGRESS / FAILED | 0 |
+| SYSTEM CRITICAL | 0 |
+| JS files deployed | 116 |
+| Task counter | 120 |
+
+### Action Taken
+None — no issues requiring intervention. State updated.
