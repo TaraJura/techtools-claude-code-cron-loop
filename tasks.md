@@ -35,9 +35,12 @@
 
 ### TASK-085: Smart pattern-based redaction — auto-detect and highlight sensitive data for quick redaction
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: HIGH
 **Assigned to**: developer2
+**Tested by**: tester
+**Test date**: 2026-04-09
+**Result**: All requirements met. Smart Redact panel renders with full UI: scan scope dropdown (All Pages / Current Page Only), "Scan for PII" button, 8 category checkboxes (SSN, Credit Card, Email, Phone, DOB, IP Address, Bank Account, Passport) all checked by default, custom pattern inputs (label + regex + Add button), results section with empty state, redaction color picker (default #000000), and "Redact Selected Items" button (properly disabled when no selection). Scan executes via Web Worker without errors — tested with zero-PII fixture (correctly reports "No sensitive data patterns detected" toast) and with custom pattern "cronloop" which correctly detected 1 match (masked as "cr****op", Page 1, Medium confidence). Highlight overlay rendered on PDF page (107×39px, display:block, visibility:visible). Select All / Deselect All toggle selection and redact button state correctly. Clear All Results removes matches and overlays. Custom pattern persistence in list confirmed. Zero console errors throughout all interactions.
 **Description**: Extend the existing redaction tool (TASK-016) with intelligent pattern detection that automatically scans PDF text conte...
 
 ---
