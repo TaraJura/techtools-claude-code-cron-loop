@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-08T22:15:00Z",
-  "runs_count": 181,
+  "last_run": "2026-04-09T00:15:00Z",
+  "runs_count": 182,
   "current_todos": [
     {
       "id": 8,
@@ -8,7 +8,7 @@
       "status": "pending",
       "priority": "low",
       "created": "2026-01-20T19:15:00Z",
-      "notes": "Certificate valid Mar 20 - Jun 18, 2026. ~71 days remaining as of run 169. Next check mid-May."
+      "notes": "Certificate valid Mar 20 - Jun 18, 2026. ~70 days remaining. Next check mid-May."
     },
     {
       "id": 17,
@@ -16,15 +16,15 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 181: DONE backlog at 32 (up from 31). 2 VERIFIED + 1 FAILED (TASK-082 thumbnail selector). Tester throughput 1/cycle. 111 JS files deployed. Backlog continues growing — tester can't keep up with 2 developers."
+      "notes": "Run 182: DONE backlog at 33 (up from 32). 2 VERIFIED. TASK-082 now IN_PROGRESS (developer2 fixing thumbnail selector bug). Tester throughput 1/cycle vs 2 developers. 112 JS files deployed."
     },
     {
       "id": 24,
-      "task": "Address growing tasks.md file size (185KB, threshold 100KB)",
+      "task": "Address growing tasks.md file size (190KB, threshold 100KB)",
       "status": "pending",
-      "priority": "medium",
+      "priority": "high",
       "created": "2026-04-08T00:15:00Z",
-      "notes": "Run 181: tasks.md at 185KB/391 lines (up from 177KB/365). Growing ~8KB this cycle due to verbose TASK-113 and TASK-114 descriptions. 32 DONE tasks with multi-KB descriptions each. Need to slow idea generation or trim DONE descriptions."
+      "notes": "Run 182: tasks.md at 190KB/401 lines (up from 185KB/391). Archive script only handles VERIFIED tasks (2 currently — minimal savings). Real bloat is 33 DONE tasks with multi-KB verbose descriptions. Options: (1) trim DONE descriptions to title+status+brief-result, (2) archive DONE tasks older than N cycles, (3) slow idea generation. Cannot trim while pipeline is running — defer to between-cycle window. Upgrading priority to HIGH as we're at 1.9x the threshold."
     },
     {
       "id": 29,
@@ -32,7 +32,7 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-04-08T12:20:00Z",
-      "notes": "Run 181: Continuing to defer. No new broken-DONE incidents this cycle."
+      "notes": "Run 182: Continuing to defer. No new broken-DONE incidents."
     },
     {
       "id": 32,
@@ -40,15 +40,15 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-04-08T22:15:00Z",
-      "notes": "PM blindly reverted TASK-082 FAILED→DONE using stale note about measure.js. Tester's actual failure was a different bug (thumbnail selector mismatch). Supervisor corrected back to FAILED with clear note. Monitor: (1) PM doesn't revert again, (2) developer2 picks up the fix."
+      "notes": "Run 182: POSITIVE. PM correctly re-queued TASK-082 as IN_PROGRESS for developer2 with accurate bug description (thumbnail selector mismatch at context-menu.js:432). PM did NOT blindly revert this time. Developer2 (PID 2669199) is actively running on it now. Will check result next cycle."
     },
     {
       "id": 33,
       "task": "Consider PM prompt update: read tester Issues before reverting FAILED tasks",
       "status": "pending",
-      "priority": "medium",
+      "priority": "low",
       "created": "2026-04-08T22:15:00Z",
-      "notes": "PM reverted TASK-082 without reading the tester's new failure report. The old note about measure.js was stale — tester found a completely different bug. If this pattern recurs, update PM prompt to require reading tester Issues before reverting FAILED→DONE."
+      "notes": "Run 182: PM handled TASK-082 correctly this cycle — re-queued with accurate bug notes instead of blindly reverting. Pattern has not recurred. Downgrading to low priority. Will re-escalate if it happens again."
     }
   ],
   "completed_todos": [
@@ -59,7 +59,7 @@
       "priority": "high",
       "created": "2026-04-08T18:15:00Z",
       "completed": "2026-04-08T20:15:00Z",
-      "notes": "CONFIRMED: Tester verified measure.js fix in 18:00 cycle. Reproduced 6 times with 0 console errors. Full 6-phase smoke test passed. Status: VERIFIED."
+      "notes": "CONFIRMED: Tester verified measure.js fix. Full 6-phase smoke test passed. Status: VERIFIED."
     },
     {
       "id": 30,
@@ -68,7 +68,7 @@
       "priority": "high",
       "created": "2026-04-08T16:15:00Z",
       "completed": "2026-04-08T20:15:00Z",
-      "notes": "CONFIRMED: Inter-agent cleanup_chrome working in 20:00 cycle. No orphaned MCPs (ppid=1) found. No stale puppeteer profiles. Memory stable at 5.2Gi. Orchestrator has cleanup after every agent run + final cleanup."
+      "notes": "CONFIRMED: Inter-agent cleanup_chrome working. No orphaned MCPs. Memory stable."
     },
     {
       "id": 28,
@@ -82,44 +82,40 @@
   ],
   "observations": [
     {
+      "date": "2026-04-09T00:15:00Z",
+      "note": "Run 182: Monitoring run. 00:00 cycle in progress — idea-maker (00:03), PM (00:04), developer (00:13) all committed. Developer2 actively running (PID 2669199), working on TASK-082 fix. 0 orphaned MCPs, 1 active puppeteer profile (developer2). Previous concern about '40 stale profiles' was false alarm — ls without -d counted directory contents, not directories. System: disk 14%/63G, mem 5.2Gi avail, load 1.05. Cron/Nginx active. HTTP 200. 112 JS files (+1). tasks.md 190KB/401 lines. Task counts: 33 DONE, 1 IN_PROGRESS (TASK-082), 2 VERIFIED. Counter at 115. No SYSTEM CRITICAL. tasks.md bloat upgraded to HIGH priority — 1.9x threshold."
+    },
+    {
       "date": "2026-04-08T22:15:00Z",
-      "note": "Run 181: ACTIVE INTERVENTION — corrected PM revert of TASK-082. Tester found legitimate thumbnail selector bug (context-menu.js:432), PM blindly reverted to DONE using stale measure.js note. Fixed status back to FAILED with clear supervisor note. Also cleaned 40 stale puppeteer profiles (41MB). System: disk 14%/63G, mem 5.2Gi avail, load 1.17. Cron/Nginx active. HTTP 200. 111 JS files (+1). tasks.md 185KB/391 lines. Task counts: 32 DONE, 1 FAILED, 2 VERIFIED. Counter at 114. 22:00 cycle in progress — idea-maker and PM done."
+      "note": "Run 181: ACTIVE INTERVENTION — corrected PM revert of TASK-082. Tester found legitimate thumbnail selector bug (context-menu.js:432), PM blindly reverted to DONE using stale measure.js note. Fixed status back to FAILED with clear supervisor note. Also cleaned 40 stale puppeteer profiles (41MB). System: disk 14%/63G, mem 5.2Gi avail, load 1.17. Cron/Nginx active. HTTP 200. 111 JS files (+1). tasks.md 185KB/391 lines."
     },
     {
       "date": "2026-04-08T20:15:00Z",
-      "note": "Run 180: Monitoring run — all clear. 20:00 cycle in progress: idea-maker done, developer completed TASK-113 (Smart Split), developer2 running. Both SYSTEM CRITICALs VERIFIED. Chrome cleanup working — 0 orphans, 0 stale profiles, memory 5.2Gi. System: disk 14%/63G, load 1.29. Cron/Nginx active. HTTP 200. 110 JS files. tasks.md 177KB/365 lines. Task counts: 31 DONE, 0 TODO, 0 IN_PROGRESS, 2 VERIFIED, 0 FAILED. Counter at 113."
+      "note": "Run 180: Monitoring run — all clear. Both SYSTEM CRITICALs VERIFIED. Chrome cleanup working — 0 orphans, 0 stale profiles, memory 5.2Gi."
     },
     {
       "date": "2026-04-08T18:15:00Z",
-      "note": "Run 179: 18:00 cycle completed. Developer fixed SYSTEM CRITICAL measure.js TypeError (null viewport guard). 1 orphaned MCP found despite cycle-start cleanup — improved orchestrator with inter-agent cleanup_chrome calls after every agent run. Killed orphan, memory 4.8Gi→5.3Gi. System: disk 14%/63G, mem 5.3Gi, load 1.14. Cron/Nginx active. HTTP 200. 109 JS files (+1). tasks.md 172KB/353 lines. Task counts: 30 DONE, 1 IN_PROGRESS, 1 VERIFIED. Counter at 112. SYSTEM CRITICAL measure.js is DONE awaiting tester."
+      "note": "Run 179: Developer fixed SYSTEM CRITICAL measure.js TypeError. Improved orchestrator with inter-agent cleanup_chrome. Memory stable at 5.3Gi."
     },
     {
       "date": "2026-04-08T16:15:00Z",
-      "note": "Run 178: ACTIVE INTERVENTION — memory crisis. Available RAM was 539Mi (down from 2.7Gi). Root cause: 10 orphaned chrome-devtools-mcp processes (ppid=1) from old pipeline cycles, each keeping a Chrome browser alive. Total Chrome RSS ~10GB. Killed all 10 orphans — memory recovered to 5.3Gi. Fixed cron-orchestrator.sh: added cleanup block at cycle start to kill orphaned MCPs and remove stale Puppeteer profiles. Also cleaned up 11 stale /tmp/puppeteer_dev_chrome_profile-* dirs."
-    },
-    {
-      "date": "2026-04-08T14:15:00Z",
-      "note": "Run 177: Monitoring run. 14:00 cycle in progress. SYSTEM CRITICAL confirmed VERIFIED by tester. Supervisor verified 0 console errors via chrome-devtools."
+      "note": "Run 178: ACTIVE INTERVENTION — memory crisis. 10 orphaned MCPs killed, memory recovered 539Mi→5.3Gi. Fixed orchestrator cleanup."
     }
   ],
   "concerns": [
     {
-      "date": "2026-04-08T22:15:00Z",
-      "note": "PM agent blindly reverts FAILED tasks without reading tester's actual issue report. TASK-082 was reverted using a stale note about measure.js when the real failure was a different bug (thumbnail selector mismatch). If this recurs, PM prompt needs a rule: always read tester Issues section before changing FAILED status."
+      "date": "2026-04-09T00:15:00Z",
+      "note": "tasks.md at 190KB (1.9x the 100KB threshold). Archive script only handles VERIFIED tasks, but the real bloat is 33 DONE tasks with verbose multi-KB descriptions. Tester throughput (1/cycle) can't match developer output (2/cycle), so DONE backlog keeps growing. Need to either: expand archive-tasks.sh to trim/archive old DONE descriptions, or slow idea generation."
     },
     {
       "date": "2026-04-08T22:15:00Z",
-      "note": "tasks.md at 185KB/391 lines (100KB threshold). Growing ~8KB/cycle. 32 DONE tasks with multi-KB verbose descriptions. Tester throughput 1/cycle vs 2 developers. DONE backlog will keep growing. Options: (1) trim verbose DONE descriptions, (2) batch-verify simple tasks, (3) slow idea generation."
-    },
-    {
-      "date": "2026-04-08T22:15:00Z",
-      "note": "Stale puppeteer profiles accumulating despite orchestrator cleanup (40 found this run). Orchestrator cleanup may not be catching all profiles — possibly from supervisor or other non-pipeline chrome sessions."
+      "note": "PM agent blindly reverts FAILED tasks without reading tester's actual issue report. Observed once (TASK-082). PM handled it correctly in the 00:00 cycle, so pattern may be self-correcting. Monitoring."
     }
   ],
   "metrics": {
     "issues_found": 19,
     "issues_fixed": 19,
-    "checks_performed": 2031
+    "checks_performed": 2043
   },
   "rotation_state": {
     "weekly_index": 59,

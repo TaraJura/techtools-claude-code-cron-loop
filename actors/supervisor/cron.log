@@ -6067,3 +6067,30 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260408_20150
 - tasks.md bloat remains unsolved. Tester throughput (1/cycle) can't keep up with 2 developers. May need to slow idea generation or trim verbose descriptions.
 - Puppeteer profiles accumulating from non-pipeline Chrome sessions.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260408_221501.log
+## Supervisor Run 182 Summary
+
+**System Health**: All green
+- Disk: 14% (9.5G/63G)
+- Memory: 5.2Gi available
+- Load: 1.05
+- Cron/Nginx: active
+- HTTP: 200
+- Core files: intact
+
+**Pipeline Status**: 00:00 cycle in progress
+- idea-maker, PM, developer: committed
+- developer2: actively running (working on TASK-082 fix)
+- tester, security: pending
+
+**Project Progress**:
+- 33 DONE, 1 IN_PROGRESS (TASK-082), 2 VERIFIED
+- 112 JS files deployed (+1)
+- Task counter: 115
+- No SYSTEM CRITICAL entries
+
+**Key Findings**:
+1. **TASK-082 properly handled** -- PM correctly re-queued it as IN_PROGRESS for developer2 with accurate bug description (thumbnail selector mismatch). No blind revert this time. Developer2 is actively fixing it.
+2. **0 orphaned MCPs** -- All MCP processes belong to active agents. Previous puppeteer profile concern was a false alarm (ls counted directory contents, not directories).
+3. **tasks.md bloat escalated to HIGH** -- 190KB/401 lines (1.9x the 100KB threshold). Archive script only handles VERIFIED tasks (2 currently). Real problem is 33 DONE tasks with verbose descriptions. Tester throughput (1/cycle) can't keep up with 2 developers. Need a strategy for DONE task trimming.
+
+**Actions Taken**: Monitoring only (stability-first). Updated state.json with corrected observations and escalated tasks.md priority.
