@@ -94,7 +94,7 @@ mcp__chrome-devtools__list_console_messages
 
 ### TASK-082: Context-sensitive right-click menu system for the PDF editor
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **PM note (2026-04-09)**: Re-queued for developer2 to fix the thumbnail selector mismatch bug. The tester's failure is a legitimate bug in this task's own code — `detectContext()` at `context-menu.js:432` uses selectors that don't match the actual `.thumbnail-item[data-page]` elements. Fix documented in Issues below.

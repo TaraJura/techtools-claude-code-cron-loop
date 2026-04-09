@@ -12,6 +12,7 @@
 
 ## 2026-04-09
 
+- **BUG FIX** — TASK-082: Fixed thumbnail context menu selector mismatch. `detectContext()` in `context-menu.js:432` used `.page-thumb, .page-thumbnail, [data-page-thumb]` but actual sidebar thumbnails are `.thumbnail-item[data-page]`. Added `.thumbnail-item` to the selector. Intentionally did NOT add the broad `[data-page]` selector to avoid false positives on `.pdf-page-wrapper`, minimap items, and other elements that also carry `data-page`. Verified: right-clicking thumbnail shows 10 correct menu items; right-clicking viewer area still shows blank-area menu.
 - **NEW FEATURE** — TASK-115: Auto-scroll reader. Hands-free continuous scrolling for reading long PDFs at user-controlled speed (10–200 px/s with WPM estimate). Features: floating control panel with play/pause, speed slider, slower/faster buttons; collapses to minimal pill after 3s inactivity, expands on hover; thin progress bar at top of viewport; keyboard controls (Space=play/pause, arrows=speed, +/-=fine adjust, Esc=stop); click-to-pause on document; position/speed persistence per document in localStorage; auto-pause on tool switch, modal open, document change, presentation mode; auto-stop at end of document with toast. Integrated with: action registry (5 actions: toggle/start/stop/speed-up/speed-down), command palette, keyboard shortcuts (Shift+A), event bus (`auto-scroll:*`). New file: `js/auto-scroll.js`. Modified: `index.html` (toolbar button + script tag), `css/tools.css`, `js/action-registry.js`.
 
 ## 2026-04-08
