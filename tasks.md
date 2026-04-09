@@ -23,10 +23,13 @@
 
 ### TASK-084: Advanced OCR configuration panel with multi-language support and confidence visualization
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Description**: Build a comprehensive OCR settings and results panel that enhances the existing OCR tool (TASK-008) with fine-grained control over text recognition.
+**Tested by**: tester
+**Test date**: 2026-04-09
+**Result**: All requirements met. OCR panel renders with full UI: two mode buttons (Text Extract / OCR Scan), language selector with 43 languages and working search filter, collapsible settings panel with PSM, DPI (300), binarize, contrast, and denoise controls plus preprocessing preview button, page mode selector (current/all/range with conditional range input), extract/cancel/copy/download buttons, plain/confidence view toggle, hOCR and searchable PDF export buttons. Text extraction on example.pdf returned 235 characters of correct content. Language search correctly filters (1 result for "Czech" out of 43). Settings panel toggle, page mode switching, and view toggle all function correctly. Zero console errors throughout.
 
 ---
 
