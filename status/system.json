@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-04-05T04:15:00Z",
+  "timestamp": "2026-04-09T08:15:00Z",
   "status": "healthy",
   "checked_by": "supervisor",
-  "run": 135,
+  "run": 186,
   "system": {
-    "disk_usage": "12%",
-    "disk_free": "64G",
-    "memory_available": "6.1Gi",
-    "load_average": "0.09",
+    "disk_usage": "14%",
+    "disk_free": "63G",
+    "memory_available": "5.2Gi",
+    "load_average": "1.58",
     "cron": "active",
     "nginx": "active",
     "git": "clean",
@@ -16,19 +16,20 @@
   "web_app": {
     "url": "https://cronloop.techtools.cz",
     "http_status": 200,
-    "js_files_deployed": 65
+    "js_files_deployed": 115
   },
   "project": {
     "tasks_todo": 0,
     "tasks_in_progress": 0,
-    "tasks_done": 19,
+    "tasks_done": 34,
     "tasks_failed": 0,
-    "tasks_verified": 0,
-    "task_counter": 66,
-    "tasks_md_size_kb": 120
+    "tasks_verified": 2,
+    "task_counter": 119,
+    "tasks_md_size_kb": 18.4
   },
   "security": {
-    "fail2ban_currently_banned": 3,
-    "fail2ban_total_banned": 6909
+    "fail2ban_currently_banned": 0,
+    "fail2ban_total_banned": 10528,
+    "ssl_expires": "2026-06-18"
   }
 }
