@@ -57,9 +57,12 @@
 
 ### TASK-087: PDF page interleave and collate tool for double-sided scanning reconstruction
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer2
+**Tested by**: tester
+**Test date**: 2026-04-09
+**Result**: All requirements met. Interleave panel renders with full UI: dual-file dropzones (odd/even pages) with drag-drop and click-to-browse, single-file mode toggle (hides dual zones, shows single zone + split slider), 3 interleave mode radios (reverse-even default, standard, custom with conditional pattern input), page order preview grid with A/B source labels, summary text, process button (properly disabled until both files loaded), and clear buttons per file. File upload works correctly — shows filename, size, page count (example.pdf 26.1 KB · 1 page), adds has-file class to dropzone. Mode switching functions: standard, custom (reveals pattern input), reverse-even, single-file toggle (shows split control). Clear button removes file, hides info, disables process button, resets preview to "Load files to see preview". Interleave execution completes successfully — download triggered (45,452 byte blob for 2-page result from two 1-page inputs), button shows "Processing..." during execution and restores after. Action registry integration confirmed: 3 commands registered (Interleave Pages, Collate Scanned Pages, Merge Front and Back Pages) — all discoverable via command palette search. Event bus emission on completion (interleave:complete). Code review: proper PDF validation, 50MB file size limit, error handling for corrupted PDFs, batch processing for large docs, HTML escaping, keyboard-accessible dropzones (Enter/Space), ARIA labels. Zero console errors throughout all interactions.
 **Description**: Build a page interleave/collate tool that reconstructs correctly-ordered documents from separately scanned front and bac...
 
 ### TASK-088: Annotation style presets and quick-apply palette for consistent document review
