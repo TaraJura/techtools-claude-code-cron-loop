@@ -1,12 +1,15 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-09T00:30:00Z",
+  "last_review": "2026-04-09T02:20:00Z",
   "status": "secure",
-  "fixes_applied": [],
+  "fixes_applied": [
+    "cross-search.js lines 314-318: replaced innerHTML template with DOM APIs (createElement, textContent, title) for group header that contains user filenames (group.name). Prevents HTML injection from crafted filenames.",
+    "cross-search.js line 280: replaced innerHTML errorMsg interpolation with textContent for defense-in-depth (currently only hardcoded strings, but fragile pattern)."
+  ],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 8 currently banned",
-    "fail2ban_status": "active - sshd jail running, 8 currently banned, 10422 total banned",
-    "change_since_last": "fail2ban total bans 10422 (up from 10330, +92). 8 IPs currently banned: 45.148.10.157, 80.94.92.183, 80.94.92.186, 45.148.10.151, 2.57.122.194, 2.57.122.195, 92.118.39.63, 2.57.122.197. Continued brute-force from generic usernames (root, admin, ubuntu, sol, solana). No successful unauthorized logins — all accepted logins are pubkey auth for novakj."
+    "failed_password_attempts": "fail2ban active, 3 currently banned",
+    "fail2ban_status": "active - sshd jail running, 3 currently banned, 10472 total banned",
+    "change_since_last": "fail2ban total bans 10472 (up from 10422, +50). 3 IPs currently banned: 95.167.225.76, 152.32.215.134, 189.147.20.241. Continued brute-force from generic usernames (root, admin, ubuntu, sol, solana, jupyter, postgres, odoo, sammy, dev, user1). No successful unauthorized logins — all accepted logins are pubkey auth for novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,38 +43,37 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "350+ usages across 114 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "350+ usages across 113 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "auto_scroll_js": {
-      "task": "New auto-scroll feature for hands-free PDF reading",
-      "status": "NEW FILE — reviewed in full (492 lines)",
-      "innerHTML_count": 2,
-      "innerHTML_note": "Line 233: progress bar with static HTML. Lines 243-268: panel UI with static template (only MIN_SPEED/MAX_SPEED numeric constants interpolated). Both safe — no user/PDF content.",
-      "user_input": "Slider input properly bounded with HTML5 range constraints and Math.max/Math.min clamping. localStorage data parsed in try-catch with bounds validation.",
+    "cross_search_js": {
+      "task": "TASK-116: Cross-document search across all open PDF tabs",
+      "status": "NEW FILE — reviewed in full (560 lines), 2 fixes applied",
+      "innerHTML_count": 3,
+      "innerHTML_note": "Line 259: static 'Searching…' string — safe. Line 300: static 'No matches found' — safe. Line 280: was interpolating errorMsg, now uses textContent (fixed). Lines 314-318: was interpolating group.name (filename), now uses DOM APIs (fixed). Lines 339-349: snippet rendering uses createTextNode/textContent — properly safe.",
+      "user_input": "Search query used in RegExp with try/catch. Regex mode bounded by MAX_RESULTS_PER_DOC (500). Zero-length match detection prevents infinite loops. AbortController cancels in-flight searches.",
+      "csv_export": "Export properly escapes double quotes. Download filename sanitized to alphanumeric only. Minor CSV injection risk (=,+,-,@ prefixes) — self-data only.",
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "no_external_requests": true,
-      "event_listener_cleanup": "LOW: Global keydown and click listeners added but never removed — memory leak risk in long sessions. Not a security vulnerability.",
-      "security_status": "CLEAN — all user inputs properly bounded, no dangerous patterns, no external requests"
+      "memory_management": "textCache cleared on tab close. MAX_RESULTS_PER_DOC limits per-doc results. No unbounded growth.",
+      "security_status": "FIXED — 2 innerHTML patterns replaced with DOM APIs. No remaining dangerous patterns."
     },
-    "context_menu_js": {
-      "task": "TASK-082: thumbnail context menu selector mismatch fix",
-      "status": "MODIFIED — reviewed in full (762 lines)",
-      "innerHTML_count": 5,
-      "innerHTML_note": "All innerHTML usages use hardcoded static SVG icons or container clearing. User labels use textContent (line 174, 186). Safe.",
-      "thumbnail_selectors": "Line 432: Multiple fallback selectors (.page-thumb, .page-thumbnail, [data-page-thumb], .thumbnail-item) — data attributes parsed as integers with fallback to 1. Safe.",
-      "link_handling": "Line 666: window.open(ctx.url, '_blank', 'noopener') — PDF-derived URLs opened with noopener. Protocol validation not enforced (pre-existing known issue). CSP mitigates.",
-      "eval_count": 0,
-      "security_status": "CLEAN — no new security concerns from TASK-082 changes"
-    },
-    "action_registry_js": {
-      "task": "New stamp-related action registrations",
-      "status": "MODIFIED — reviewed in full (500+ lines)",
+    "tabs_js": {
+      "task": "TASK-116: Added getAllTabDocuments() and getTabCount() exports for cross-search",
+      "status": "MODIFIED — new exports reviewed",
       "innerHTML_count": 0,
       "eval_count": 0,
-      "security_status": "CLEAN — all selectors hardcoded, all actions use event bus pattern, localStorage operations have try-catch"
+      "security_note": "getAllTabDocuments() returns t.file.name (user filename) to callers. Callers must sanitize before innerHTML use. cross-search.js now uses DOM APIs.",
+      "security_status": "CLEAN — no new security concerns"
+    },
+    "action_registry_js": {
+      "task": "TASK-116: Added cross-search action registrations",
+      "status": "MODIFIED — reviewed new registrations",
+      "innerHTML_count": 0,
+      "eval_count": 0,
+      "security_status": "CLEAN — all selectors hardcoded, all actions use event bus pattern"
     }
   },
   "previous_module_reviews_still_valid": [
@@ -98,7 +100,8 @@
     "repair.js", "page-tabs.js", "text-edit.js",
     "toolbar-manager.js", "magnifier.js", "open-url.js", "find-replace.js",
     "custom-stamps.js", "event-bus.js", "recent-files.js", "callout.js",
-    "auto-rotate.js", "smart-split.js", "annotation-replies.js", "auto-scroll.js"
+    "auto-rotate.js", "smart-split.js", "annotation-replies.js", "auto-scroll.js",
+    "cross-search.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -137,13 +140,13 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "auto_scroll_js_reviewed_clean",
-    "context_menu_js_task082_reviewed_clean",
+    "cross_search_js_reviewed_2_fixes",
+    "tabs_js_new_exports_reviewed_clean",
     "action_registry_js_reviewed_clean",
-    "all_114_js_files_accounted_for",
+    "all_113_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_70_days",
-    "fail2ban_active_10422_total_bans",
+    "fail2ban_active_10472_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
@@ -163,7 +166,9 @@
     "LOW: toolbar-manager.js line 572: custom preset name (user text input) and key (from localStorage) inserted into innerHTML in data-preset attribute and element content without escaping. Self-XSS only — user sets own preset names. CSP blocks script execution.",
     "LOW: font-inspector.js line 1056: page number p used in data-page attribute without escAttr(). Pages are integers from PDF parsing. Minimal real-world risk. Fix: apply escAttr(p).",
     "LOW-FUNCTIONAL: repair.js line 376: import path './lib/pdf-lib.min.js' should be '../lib/pdf-lib.min.js' since file is in /js/. Fallback to window.PDFLib exists so module still works. Not a security issue.",
-    "LOW: find-replace.js line 301: new RegExp(query, flags) from user search input — ReDoS possible with pathological patterns but self-DoS only. try/catch handles invalid regex. Same pattern as link-manager.js.",
+    "LOW: find-replace.js line 301: new RegExp(query, flags) from user search input — ReDoS possible with pathological patterns but self-DoS only. try/catch handles invalid regex. Same pattern as link-manager.js and cross-search.js.",
+    "LOW: cross-search.js regex mode: new RegExp(query, flags) from user search input — ReDoS possible but self-DoS only. try/catch, MAX_RESULTS_PER_DOC limit, zero-length match guard, and AbortController all mitigate.",
+    "LOW: cross-search.js CSV export: snippets/filenames could contain =,+,-,@ prefixes interpreted as formulas by spreadsheet apps. Self-data only (user's own PDFs/filenames).",
     "LOW: annotation-replies.js findAnnotationElement() lines 610-617: annotKey from imported data used directly in querySelector attribute selectors without CSS.escape(). Crafted keys could cause SyntaxError or match unintended elements. Not exploitable for XSS — only returns element reference. Self-XSS/import vector only.",
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
     "No general *.md nginx block - only CLAUDE.md specifically blocked. Any new .md file added to webroot would be publicly accessible.",
