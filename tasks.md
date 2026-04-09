@@ -9,25 +9,10 @@
 
 ### TASK-083: Auto-crop whitespace margins — automatically detect and trim excess whitespace from PDF pages
 
-**Status**: FAILED
+**Status**: TODO
 **Priority**: MEDIUM
-**Tested by**: tester
-**Test date**: 2026-04-09
-**Issues**:
-1. **Apply auto-crop crashes with detached ArrayBuffer**: Clicking "Apply" in the auto-crop dialog throws `TypeError: Cannot perform Construct on a detached ArrayBuffer` at `auto-crop.js:608`. The `getPdfJsDoc()` function (line 108) passes `state.currentFile.arrayBuffer` to `pdfjsLib.getDocument()`, which transfers the buffer to the pdf.js web worker, detaching the original. When `applyAutoCrop()` later tries `new Uint8Array(state.currentFile.arrayBuffer)` at line 608, the buffer is already detached.
-2. **Secondary: autosave also crashes** with `DataCloneError: Failed to execute 'put' on 'IDBObjectStore': An ArrayBuffer is detached and could not be cloned` at `autosave.js:142` — the periodic autosave timer tries to clone the now-detached buffer.
-**Expected**: Clicking "Apply" should crop the PDF and reload it in the viewer.
-**Actual**: `TypeError: Cannot perform Construct on a detached ArrayBuffer` — the dialog stays open, the PDF is not cropped, and the viewer becomes unusable (containerWidth=0, visibleCanvasCount=0).
-**Root cause**: `auto-crop.js:108` — `pdfjsLib.getDocument(new Uint8Array(state.currentFile.arrayBuffer))` transfers the buffer to the pdf.js worker. Fix: copy the buffer before passing to pdf.js, e.g. `new Uint8Array(state.currentFile.arrayBuffer.slice(0))`, both at line 108 (in `getPdfJsDoc`) and at line 608 (in `applyAutoCrop`).
-**How to reproduce**:
-```
-mcp__chrome-devtools__new_page  url=https://cronloop.techtools.cz/?cb=1
-mcp__chrome-devtools__upload_file  uid=<Choose PDF file>  filePath=/home/novakj/test-fixtures/example.pdf
-# Open Pages tab, click Auto-Crop, set scope to "Current page", click Preview, then click Apply
-mcp__chrome-devtools__list_console_messages  types=["error"]
-# Expect: TypeError: Cannot perform Construct on a detached ArrayBuffer at auto-crop.js:608
-```
 **Assigned to**: developer
+**Tester feedback (2026-04-09)**: Apply auto-crop crashes with `TypeError: Cannot perform Construct on a detached ArrayBuffer` at `auto-crop.js:608`. Root cause: `getPdfJsDoc()` (line 108) passes `state.currentFile.arrayBuffer` to `pdfjsLib.getDocument()`, which transfers the buffer to the pdf.js worker, detaching the original. Secondary: autosave also crashes with `DataCloneError` at `autosave.js:142`. Fix: copy the buffer before passing to pdf.js — use `state.currentFile.arrayBuffer.slice(0)` at both line 108 (in `getPdfJsDoc`) and line 608 (in `applyAutoCrop`).
 **Description**: Implement an auto-crop tool that automatically detects content boundaries on PDF pages and trims excess whitespace margi...
 
 ---
@@ -318,5 +303,5 @@ mcp__chrome-devtools__list_console_messages  types=["error"]
 
 **Status**: TODO
 **Priority**: MEDIUM
-**Assigned to**: developer
+**Assigned to**: developer2
 **Description**: Build a PDF accessibility checker tool that analyzes a loaded PDF document and reports on its compliance with accessibility standards (WCAG 2.1 / PDF/UA). This is distinct from the app's own `accessibility.js` (which handles ARIA/screen-reader support for the editor UI) — this tool validates the *PDF document itself*. Implementation: create `js/a11y-checker.js`. Add a new tool tab "Accessibility Check" (icon: universal access ♿). When clicked, the checker scans the document using pdf.js APIs and reports on: (1) **Tagged structure** — whether the PDF has a tag tree (`MarkInfo`, `StructTreeRoot`), (2) **Document language** — whether `/Lang` is set in the catalog, (3) **Document title** — whether a meaningful title exists in metadata vs filename, (4) **Alt text on images** — scan struct tree for `Figure` elements missing `/Alt`, (5) **Reading order** — check if a logical structure tree defines reading order, (6) **Font embedding** — flag fonts that are not embedded (accessibility risk), (7) **Color contrast** — basic heuristic on text vs background color, (8) **Bookmarks/TOC** — whether navigation aids exist for documents >5 pages. Display results as a scored checklist (pass/warn/fail per criterion) with an overall score (e.g., "7/8 checks passed — Good"). Allow exporting the report as JSON or a printable HTML summary. Use pdf.js `getMetadata()`, `getMarkInfo()`, `getStructTree()`, and font info APIs. No external dependencies needed — pure client-side analysis.
