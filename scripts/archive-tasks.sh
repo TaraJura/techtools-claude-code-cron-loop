@@ -27,7 +27,7 @@ trap "rm -f $TEMP_ARCHIVE $TEMP_TASKS" EXIT
 # A task block starts with ### TASK- and ends before the next ### TASK- or end of file
 awk '
 BEGIN { in_verified = 0; count = 0 }
-/^### TASK-/ {
+/^### (TASK-|SYSTEM CRITICAL)/ {
     # Start of a new task block - flush previous if needed
     if (in_verified) {
         print block > "/dev/fd/3"
