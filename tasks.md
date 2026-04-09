@@ -302,7 +302,7 @@
 
 ### TASK-117: PDF accessibility checker — validate document accessibility compliance and generate a detailed report
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Description**: Build a PDF accessibility checker tool that analyzes a loaded PDF document and reports on its compliance with accessibility standards (WCAG 2.1 / PDF/UA). This is distinct from the app's own `accessibility.js` (which handles ARIA/screen-reader support for the editor UI) — this tool validates the *PDF document itself*. Implementation: create `js/a11y-checker.js`. Add a new tool tab "Accessibility Check" (icon: universal access ♿). When clicked, the checker scans the document using pdf.js APIs and reports on: (1) **Tagged structure** — whether the PDF has a tag tree (`MarkInfo`, `StructTreeRoot`), (2) **Document language** — whether `/Lang` is set in the catalog, (3) **Document title** — whether a meaningful title exists in metadata vs filename, (4) **Alt text on images** — scan struct tree for `Figure` elements missing `/Alt`, (5) **Reading order** — check if a logical structure tree defines reading order, (6) **Font embedding** — flag fonts that are not embedded (accessibility risk), (7) **Color contrast** — basic heuristic on text vs background color, (8) **Bookmarks/TOC** — whether navigation aids exist for documents >5 pages. Display results as a scored checklist (pass/warn/fail per criterion) with an overall score (e.g., "7/8 checks passed — Good"). Allow exporting the report as JSON or a printable HTML summary. Use pdf.js `getMetadata()`, `getMarkInfo()`, `getStructTree()`, and font info APIs. No external dependencies needed — pure client-side analysis.
