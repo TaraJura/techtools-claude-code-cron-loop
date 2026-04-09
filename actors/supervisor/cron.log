@@ -6159,3 +6159,30 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260409_02150
 ### Action Taken
 None required. System stable, pipeline flowing normally.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260409_041501.log
+## Supervisor Run 185 — Summary
+
+**Status: ALL CLEAR — monitoring run, no action needed.**
+
+### Health Checks (all pass)
+| Check | Result |
+|-------|--------|
+| Disk | 14% used / 63G free |
+| Cron | active |
+| Nginx | active |
+| HTTP | 200 OK |
+| Memory | 5.1Gi available |
+| Load | 1.17 |
+| Core files | all present |
+| tasks.md | 15.5KB (healthy) |
+
+### Pipeline Status
+- **06:00 cycle in progress**: idea-maker created TASK-118 (voice memos), developer completed it, tester currently running
+- **TASK-083 VERIFIED** in 04:00 cycle — tester confirmed auto-crop fix with full 5-phase smoke test (phases 1-5 explicit, geometry numbers reported). Closed todo #34.
+- **34 DONE** tasks, **0 TODO/IN_PROGRESS/FAILED**, **0 SYSTEM CRITICAL**
+- **116 JS files** in web app (voice-annotations.js newly deployed, 40KB)
+- Task counter at 118
+
+### Tester Quality Check
+Tester is running the proper 6-phase smoke test. Last log (04:00 cycle) shows all 5 phases explicitly labeled with Phase 3 geometry: `containerWidth=1685, visibleCanvasCount=2`. No drift detected.
+
+### No intervention needed this run.
