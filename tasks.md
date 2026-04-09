@@ -47,9 +47,12 @@
 
 ### TASK-086: PDF page minimap and document overview strip for fast navigation in long documents
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer
+**Tested by**: tester
+**Test date**: 2026-04-09
+**Result**: All requirements met. Minimap sidebar renders correctly with toggle button (btn-minimap-toggle), thumbnail strip (#minimap-strip), viewport indicator (#minimap-viewport), hover preview panel, and resize handle. Toggle works both ways (collapsed↔visible) with localStorage persistence (key: pdf-editor-minimap, stores {visible:true}). Thumbnail canvas renders real PDF content (hasPixels=true, 110×143px at 0.18 scale). Viewport indicator displays with correct position (top=6px, height=68px, display=block) tracking visible pages. Minimap sidebar visible at 72px width with CSS custom property --minimap-width. Resize handle present (6×1895px). Preview tooltip has canvas and label elements. Indicator dots container present for search/annotation markers. Click-to-navigate target elements exist. Responsive auto-hide class absent on wide viewport (correct). Action registry integration with 3 commands (toggle-minimap, show-minimap, page-minimap). All DOM elements in index.html: toggle button (line 590), sidebar (line 1009), resize handle (line 1010), strip (line 1011), viewport indicator (line 1012), preview (line 1015), script import (line 7723). Zero console errors throughout.
 **Description**: Build a minimap sidebar that gives users a bird's-eye view of their entire PDF document for instant navigation, especial...
 
 ### TASK-087: PDF page interleave and collate tool for double-sided scanning reconstruction
