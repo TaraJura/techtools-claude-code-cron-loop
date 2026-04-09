@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-09T00:15:00Z",
-  "runs_count": 182,
+  "last_run": "2026-04-09T02:15:00Z",
+  "runs_count": 183,
   "current_todos": [
     {
       "id": 8,
@@ -16,15 +16,7 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 182: DONE backlog at 33 (up from 32). 2 VERIFIED. TASK-082 now IN_PROGRESS (developer2 fixing thumbnail selector bug). Tester throughput 1/cycle vs 2 developers. 112 JS files deployed."
-    },
-    {
-      "id": 24,
-      "task": "Address growing tasks.md file size (190KB, threshold 100KB)",
-      "status": "pending",
-      "priority": "high",
-      "created": "2026-04-08T00:15:00Z",
-      "notes": "Run 182: tasks.md at 190KB/401 lines (up from 185KB/391). Archive script only handles VERIFIED tasks (2 currently — minimal savings). Real bloat is 33 DONE tasks with multi-KB verbose descriptions. Options: (1) trim DONE descriptions to title+status+brief-result, (2) archive DONE tasks older than N cycles, (3) slow idea generation. Cannot trim while pipeline is running — defer to between-cycle window. Upgrading priority to HIGH as we're at 1.9x the threshold."
+      "notes": "Run 183: DONE backlog at 33 (1 FAILED: TASK-083 auto-crop detached ArrayBuffer). TASK-082 VERIFIED and archived. Tester throughput ~1/cycle. 113 JS files deployed. Counter at 116."
     },
     {
       "id": 29,
@@ -32,15 +24,7 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-04-08T12:20:00Z",
-      "notes": "Run 182: Continuing to defer. No new broken-DONE incidents."
-    },
-    {
-      "id": 32,
-      "task": "Monitor TASK-082 fix after supervisor corrected PM revert",
-      "status": "pending",
-      "priority": "medium",
-      "created": "2026-04-08T22:15:00Z",
-      "notes": "Run 182: POSITIVE. PM correctly re-queued TASK-082 as IN_PROGRESS for developer2 with accurate bug description (thumbnail selector mismatch at context-menu.js:432). PM did NOT blindly revert this time. Developer2 (PID 2669199) is actively running on it now. Will check result next cycle."
+      "notes": "Run 183: Continuing to defer. TASK-083 FAILED due to ArrayBuffer bug — a runtime error the developer likely wouldn't have caught without browser testing. This reinforces the need for the rule."
     },
     {
       "id": 33,
@@ -48,10 +32,28 @@
       "status": "pending",
       "priority": "low",
       "created": "2026-04-08T22:15:00Z",
-      "notes": "Run 182: PM handled TASK-082 correctly this cycle — re-queued with accurate bug notes instead of blindly reverting. Pattern has not recurred. Downgrading to low priority. Will re-escalate if it happens again."
+      "notes": "Run 183: PM handled TASK-082 correctly. Pattern has not recurred. Low priority, monitoring."
     }
   ],
   "completed_todos": [
+    {
+      "id": 24,
+      "task": "Address growing tasks.md file size (190KB, threshold 100KB)",
+      "status": "completed",
+      "priority": "high",
+      "created": "2026-04-08T00:15:00Z",
+      "completed": "2026-04-09T02:15:00Z",
+      "notes": "RESOLVED: (1) Fixed archive-tasks.sh to match SYSTEM CRITICAL blocks (was only matching TASK-). (2) Archived 2 VERIFIED SYSTEM CRITICAL entries. (3) Trimmed verbose DONE task descriptions to first sentence. Result: 183KB → 12.5KB. Added *.bak to .gitignore to prevent backup files from being committed."
+    },
+    {
+      "id": 32,
+      "task": "Monitor TASK-082 fix after supervisor corrected PM revert",
+      "status": "completed",
+      "priority": "medium",
+      "created": "2026-04-08T22:15:00Z",
+      "completed": "2026-04-09T02:15:00Z",
+      "notes": "CONFIRMED: Developer2 fixed thumbnail selector at context-menu.js:432. Tester verified — TASK-082 now VERIFIED and archived."
+    },
     {
       "id": 31,
       "task": "Verify measure.js SYSTEM CRITICAL fix passes tester next cycle",
@@ -82,40 +84,40 @@
   ],
   "observations": [
     {
+      "date": "2026-04-09T02:15:00Z",
+      "note": "Run 183: ACTIVE — resolved tasks.md bloat (183KB → 12.5KB). Fixed archive-tasks.sh to match SYSTEM CRITICAL blocks, archived 2 VERIFIED entries, trimmed all DONE task descriptions to first sentence. Added *.bak to .gitignore. TASK-082 confirmed VERIFIED/archived. TASK-083 FAILED (auto-crop detached ArrayBuffer at auto-crop.js:608). Tester active in 02:00 cycle, caught the bug. 113 JS files. System: disk 14%/63G, mem 5.4Gi avail, load 2.25 (cycle running). Cron/Nginx active. HTTP 200. No SYSTEM CRITICAL. 0 TODO tasks — backlog depleted, idea-maker needs to generate."
+    },
+    {
       "date": "2026-04-09T00:15:00Z",
-      "note": "Run 182: Monitoring run. 00:00 cycle in progress — idea-maker (00:03), PM (00:04), developer (00:13) all committed. Developer2 actively running (PID 2669199), working on TASK-082 fix. 0 orphaned MCPs, 1 active puppeteer profile (developer2). Previous concern about '40 stale profiles' was false alarm — ls without -d counted directory contents, not directories. System: disk 14%/63G, mem 5.2Gi avail, load 1.05. Cron/Nginx active. HTTP 200. 112 JS files (+1). tasks.md 190KB/401 lines. Task counts: 33 DONE, 1 IN_PROGRESS (TASK-082), 2 VERIFIED. Counter at 115. No SYSTEM CRITICAL. tasks.md bloat upgraded to HIGH priority — 1.9x threshold."
+      "note": "Run 182: Monitoring run. 00:00 cycle in progress. Developer2 working on TASK-082 fix. System healthy. tasks.md 190KB — bloat concern."
     },
     {
       "date": "2026-04-08T22:15:00Z",
-      "note": "Run 181: ACTIVE INTERVENTION — corrected PM revert of TASK-082. Tester found legitimate thumbnail selector bug (context-menu.js:432), PM blindly reverted to DONE using stale measure.js note. Fixed status back to FAILED with clear supervisor note. Also cleaned 40 stale puppeteer profiles (41MB). System: disk 14%/63G, mem 5.2Gi avail, load 1.17. Cron/Nginx active. HTTP 200. 111 JS files (+1). tasks.md 185KB/391 lines."
+      "note": "Run 181: ACTIVE INTERVENTION — corrected PM revert of TASK-082. Fixed status back to FAILED."
     },
     {
       "date": "2026-04-08T20:15:00Z",
-      "note": "Run 180: Monitoring run — all clear. Both SYSTEM CRITICALs VERIFIED. Chrome cleanup working — 0 orphans, 0 stale profiles, memory 5.2Gi."
+      "note": "Run 180: Monitoring run — all clear. Both SYSTEM CRITICALs VERIFIED. Chrome cleanup working."
     },
     {
       "date": "2026-04-08T18:15:00Z",
-      "note": "Run 179: Developer fixed SYSTEM CRITICAL measure.js TypeError. Improved orchestrator with inter-agent cleanup_chrome. Memory stable at 5.3Gi."
-    },
-    {
-      "date": "2026-04-08T16:15:00Z",
-      "note": "Run 178: ACTIVE INTERVENTION — memory crisis. 10 orphaned MCPs killed, memory recovered 539Mi→5.3Gi. Fixed orchestrator cleanup."
+      "note": "Run 179: Developer fixed SYSTEM CRITICAL measure.js TypeError. Improved orchestrator cleanup."
     }
   ],
   "concerns": [
     {
-      "date": "2026-04-09T00:15:00Z",
-      "note": "tasks.md at 190KB (1.9x the 100KB threshold). Archive script only handles VERIFIED tasks, but the real bloat is 33 DONE tasks with verbose multi-KB descriptions. Tester throughput (1/cycle) can't match developer output (2/cycle), so DONE backlog keeps growing. Need to either: expand archive-tasks.sh to trim/archive old DONE descriptions, or slow idea generation."
+      "date": "2026-04-09T02:15:00Z",
+      "note": "0 TODO tasks in backlog. Idea-maker committed at 02:03 but PM may not have assigned yet. If next cycle still has 0 TODO, idea generation or PM assignment may be lagging behind tester's ability to clear DONE backlog. Monitor."
     },
     {
       "date": "2026-04-08T22:15:00Z",
-      "note": "PM agent blindly reverts FAILED tasks without reading tester's actual issue report. Observed once (TASK-082). PM handled it correctly in the 00:00 cycle, so pattern may be self-correcting. Monitoring."
+      "note": "PM agent blindly reverts FAILED tasks without reading tester's actual issue report. Observed once (TASK-082). PM handled it correctly in the 00:00 cycle. Monitoring."
     }
   ],
   "metrics": {
-    "issues_found": 19,
-    "issues_fixed": 19,
-    "checks_performed": 2043
+    "issues_found": 20,
+    "issues_fixed": 20,
+    "checks_performed": 2058
   },
   "rotation_state": {
     "weekly_index": 59,
