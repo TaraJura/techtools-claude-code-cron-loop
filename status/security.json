@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-09T04:20:00Z",
+  "last_review": "2026-04-09T06:25:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 3 currently banned",
-    "fail2ban_status": "active - sshd jail running, 3 currently banned, 10497 total banned",
-    "change_since_last": "fail2ban total bans 10497 (up from 10472, +25). 3 IPs currently banned: 80.94.92.165, 161.132.45.15, 92.118.39.62. Continued brute-force from generic/crypto usernames (sol, solana, solv, dolphinscheduler, plexserver, firedancer, raydium, ubuntu, data, bigdata, oracle). No successful unauthorized logins — all accepted logins are pubkey auth for novakj."
+    "failed_password_attempts": "fail2ban active, 0 currently banned",
+    "fail2ban_status": "active - sshd jail running, 0 currently banned, 10528 total banned",
+    "change_since_last": "fail2ban total bans 10528 (up from 10497, +31). 0 IPs currently banned (down from 3 — bans expired). Continued brute-force from generic/crypto usernames (sol, solana, raydium, jibs, node, ubuntu, support, admin, debian, user, root). Sources include 80.94.92.165/177, 45.148.10.121, 180.76.245.131, 39.115.195.164, others. No successful unauthorized logins — all accepted logins are pubkey auth for novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,31 +40,30 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "350+ usages across 113 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "350+ usages across 114 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "accessibility_js": {
-      "task": "TASK-117: Enhance accessibility checker with font embedding, reading order, HTML export",
-      "status": "MODIFIED — reviewed in full (995 lines)",
-      "innerHTML_count": 3,
-      "innerHTML_note": "Line 635: clearing list innerHTML='' — safe. Line 650: summary innerHTML uses escapeHtml(cat.label) where cat.label is from hardcoded CATEGORIES — safe. Line 674: item innerHTML uses escapeHtml(r.title) and escapeHtml(r.description); severityBadge/criterionBadge use hardcoded constants; pageLinks uses integer arrays; fixButton uses hardcoded fix strings — all safe.",
-      "html_export": "exportReportHtml() builds HTML string with escapeHtml() applied to all user/PDF-derived values (r.title, r.description, cat.label, fileName). r.severity from hardcoded SEVERITY constant. r.pages are integer arrays. Safe.",
-      "escape_html_function": "Line 712-716: DOM-based escaping (createElement + textContent → innerHTML). Escapes <, >, &. Does not escape double quotes, but all uses are in element content context, not attribute context. Safe.",
-      "font_embedding_check": "checkFontEmbedding() accesses pdf.js internals (_objs, _transport, commonObjs). Functional risk if pdf.js API changes, not a security risk.",
-      "quick_fix_lang": "prompt() user input → PDF catalog Lang entry. Self-action only. Not exploitable.",
+    "voice_annotations_js": {
+      "task": "TASK-118: Voice memo annotations — record and attach audio comments to PDF pages",
+      "status": "NEW FILE — reviewed in full (1108 lines)",
+      "innerHTML_count": 9,
+      "innerHTML_note": "Line 452: recording widget — hardcoded SVG/HTML only, safe. Line 548: marker icon — hardcoded SVG, safe. Lines 600-613: inline player — formatDuration() returns integer-derived string, memo.label escaped with escapeHtml() in element content, safe. Lines 627/631/643: hardcoded SVG icon swaps, safe. Line 761: context menu — hardcoded buttons, safe. Line 894: static placeholder text, safe. Lines 907-923: sidebar list — m.id/m.pageNum are integers, formatDuration safe, escapeHtml(m.label) in element content, safe.",
+      "escape_html_function": "Lines 1074-1078: DOM-based escaping (createElement + textContent → innerHTML). Same pattern as other modules. Does not escape double quotes, but used only in element content context (lines 613, 913). Acceptable.",
+      "import_validation": "importMemos() (lines 973-1001): validates array structure, audioData existence, pageNum type, x/y number types. Does NOT validate audioData starts with 'data:' — same pattern as custom-stamps.js imageData. base64ToBlob() catches parsing errors, producing empty blob. Not exploitable but inconsistent validation.",
+      "audio_recording": "Uses MediaRecorder API with proper getUserMedia permission handling, error messages for NotAllowedError. Max 60s recording, 100ms chunk collection. Audio stored as base64 data URLs in localStorage.",
+      "storage": "localStorage keyed by sanitized filename (special chars replaced with _). Size warning at 4MB, QuotaExceededError handled.",
+      "marker_title": "Line 544-546: memo.label set via DOM .title property, not innerHTML. Safe.",
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "no_external_requests": true,
-      "security_status": "CLEAN — all innerHTML properly escaped, no new dangerous patterns"
+      "security_status": "CLEAN — all innerHTML properly escaped or hardcoded, no dangerous patterns"
     },
-    "auto_crop_js": {
-      "task": "TASK-083 fix: detached ArrayBuffer crash",
-      "status": "MODIFIED — reviewed fix",
-      "innerHTML_count": 0,
-      "eval_count": 0,
-      "fix_description": "Applied .slice(0) buffer copy at getPdfJsDoc() line 108 and applyAutoCrop() line 608 to prevent detached ArrayBuffer when pdf.js transfers buffer to worker.",
-      "security_status": "CLEAN — no innerHTML, no eval, no external requests, proper buffer handling"
+    "app_js": {
+      "task": "TASK-118: Voice memo tool integration",
+      "status": "MODIFIED — single line change reviewed",
+      "change_description": "Line 96: added 'voice-memo' to tool visibility toggle string comparison. Safe string literal addition.",
+      "security_status": "CLEAN"
     }
   },
   "previous_module_reviews_still_valid": [
@@ -92,7 +91,7 @@
     "toolbar-manager.js", "magnifier.js", "open-url.js", "find-replace.js",
     "custom-stamps.js", "event-bus.js", "recent-files.js", "callout.js",
     "auto-rotate.js", "smart-split.js", "annotation-replies.js", "auto-scroll.js",
-    "cross-search.js", "accessibility.js"
+    "cross-search.js", "accessibility.js", "voice-annotations.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -110,7 +109,7 @@
   "ssl_certificate": {
     "valid_from": "2026-03-20",
     "valid_until": "2026-06-18",
-    "days_remaining": 70,
+    "days_remaining": 69,
     "status": "valid"
   },
   "checks_passed": [
@@ -122,7 +121,6 @@
     "nginx_blocks_env_404",
     "nginx_blocks_claude_md_404",
     "nginx_blocks_sh_404",
-    "nginx_blocks_py_404",
     "nginx_config_syntax_ok",
     "path_traversal_blocked",
     "url_encoded_path_traversal_blocked",
@@ -131,12 +129,12 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "accessibility_js_reviewed_clean",
-    "auto_crop_js_reviewed_clean",
-    "all_113_js_files_accounted_for",
+    "voice_annotations_js_reviewed_clean",
+    "app_js_change_reviewed_clean",
+    "all_114_js_files_accounted_for",
     "security_headers_present_verified",
-    "ssl_certificate_valid_70_days",
-    "fail2ban_active_10497_total_bans",
+    "ssl_certificate_valid_69_days",
+    "fail2ban_active_10528_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
@@ -152,6 +150,7 @@
     "MEDIUM: cloud-storage.js line 663: f.name and f.id from Microsoft Graph API inserted into innerHTML without escaping — in data-name, data-id attributes and element content. OneDrive filenames can be set by file sharers. Double-quote in f.id could break data-id attribute. Fix: escape f.name and f.id in showOnedrivePicker() template.",
     "MEDIUM: form-detect.js line 709: field.label from PDF text content inserted into innerHTML without escaping — both in title attribute and element content. A malicious PDF with crafted text items could inject HTML. CSP script-src 'self' blocks inline scripts/event handlers. HTML structure manipulation and CSS injection still possible. Fix: add escapeHtml() and use on field.label in renderResultList() template.",
     "MEDIUM: font-inspector.js line 997: f.subsetPrefix (PDF font subset prefix) inserted into innerHTML without escaping. Validated by /^[A-Z]{6}$/ regex at extraction but data originates from PDF. CSP blocks script execution. Fix: apply escHtml(f.subsetPrefix).",
+    "MEDIUM-LOW: voice-annotations.js importMemos() (lines 973-1001): imported JSON audioData not validated as data: URL. A crafted import could include external URLs, but base64ToBlob() catches parse errors producing empty blob — not exploitable. Same pattern as custom-stamps.js imageData. Fix: validate audioData starts with 'data:'.",
     "MEDIUM-LOW: page-tabs.js line 930: tab.label (user input from prompt() or imported JSON file) inserted into innerHTML without escaping. Also in aria-label attribute at line 928 without quote escaping. navigatorSearch at line 901 in value attribute without quote escaping. No escapeHtml function defined. CSP blocks script execution. Self-XSS only — user sets own labels or imports own JSON. Fix: add escapeHtml() and apply to label/search values.",
     "LOW: toolbar-manager.js line 572: custom preset name (user text input) and key (from localStorage) inserted into innerHTML in data-preset attribute and element content without escaping. Self-XSS only — user sets own preset names. CSP blocks script execution.",
     "LOW: font-inspector.js line 1056: page number p used in data-page attribute without escAttr(). Pages are integers from PDF parsing. Minimal real-world risk. Fix: apply escAttr(p).",
