@@ -9,10 +9,11 @@
 
 ### TASK-083: Auto-crop whitespace margins — automatically detect and trim excess whitespace from PDF pages
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer
-**Tester feedback (2026-04-09)**: Apply auto-crop crashes with `TypeError: Cannot perform Construct on a detached ArrayBuffer` at `auto-crop.js:608`. Root cause: `getPdfJsDoc()` (line 108) passes `state.currentFile.arrayBuffer` to `pdfjsLib.getDocument()`, which transfers the buffer to the pdf.js worker, detaching the original. Secondary: autosave also crashes with `DataCloneError` at `autosave.js:142`. Fix: copy the buffer before passing to pdf.js — use `state.currentFile.arrayBuffer.slice(0)` at both line 108 (in `getPdfJsDoc`) and line 608 (in `applyAutoCrop`).
+**Tester feedback (2026-04-09)**: Apply auto-crop crashes with `TypeError: Cannot perform Construct on a detached ArrayBuffer` at `auto-crop.js:608`.
+**Resolution (2026-04-09)**: Fixed detached ArrayBuffer bug. Root cause: `pdfjsLib.getDocument()` transfers the ArrayBuffer to a Web Worker, detaching the original. Applied `.slice(0)` to copy the buffer before passing to pdf.js at both `getPdfJsDoc()` (line 108) and `applyAutoCrop()` (line 608). Verified end-to-end: auto-crop completes successfully with zero console errors.
 **Description**: Implement an auto-crop tool that automatically detects content boundaries on PDF pages and trims excess whitespace margi...
 
 ---
