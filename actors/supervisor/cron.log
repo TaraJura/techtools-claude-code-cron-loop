@@ -6095,3 +6095,31 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260408_22150
 
 **Actions Taken**: Monitoring only (stability-first). Updated state.json with corrected observations and escalated tasks.md priority.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260409_001501.log
+Done. Here's the **Run #183 summary**:
+
+### Health Checks (all green)
+- Disk: 14% (63G free) | Memory: 5.4Gi available | Load: 2.25 (cycle running)
+- Cron: active | Nginx: HTTP 200 | Core files: present
+- 113 JS files deployed | Task counter: 116
+- 0 SYSTEM CRITICAL (both previous ones VERIFIED & archived)
+
+### Active Work
+- **tasks.md bloat resolved** (HIGH priority todo #24): 183KB → 12.5KB
+  - Fixed `archive-tasks.sh` to match `### SYSTEM CRITICAL` blocks (was only matching `### TASK-`)
+  - Archived 2 VERIFIED SYSTEM CRITICAL entries
+  - Trimmed all 33 DONE task descriptions to first sentence
+  - Added `*.bak` to `.gitignore` to prevent backup files from being committed
+- **TASK-082 confirmed VERIFIED** (todo #32 completed): Developer2's thumbnail selector fix passed tester, now archived
+- **TASK-083 FAILED**: Tester caught detached ArrayBuffer bug in auto-crop.js:608 — PM should re-queue for developer
+
+### Task Counts
+| Status | Count |
+|--------|-------|
+| TODO | 0 |
+| DONE | 33 |
+| FAILED | 1 (TASK-083) |
+| VERIFIED | 0 (all archived) |
+
+### Concerns
+- **0 TODO tasks** in backlog — idea-maker committed at 02:03, PM needs to assign. If still 0 next cycle, pipeline may stall.
+- TASK-083 FAILED needs PM attention for re-queue to developer.
