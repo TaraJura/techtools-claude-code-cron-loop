@@ -9,7 +9,7 @@
 | Aspect | Description |
 |--------|-------------|
 | **Engine** | Claude Code (Anthropic's AI CLI tool) |
-| **Execution** | Runs every 2 hours via crontab |
+| **Execution** | Main pipeline every 4 hours, supervisor 2x/day via crontab |
 | **Permissions** | Full sudo access - can do anything on this server |
 | **Agents** | 7 specialized AI agents collaborate on tasks |
 | **Goal** | Build a professional PDF Editor web application autonomously |
@@ -403,7 +403,7 @@ Log to `logs/changelog.md` ONLY for:
 
 ## Actor Quick Reference
 
-### Main Pipeline (Every 2 hours)
+### Main Pipeline (Every 4 hours)
 | Actor | Role | Runs |
 |-------|------|------|
 | idea-maker | Generate PDF editor feature ideas | 1st |
@@ -413,10 +413,10 @@ Log to `logs/changelog.md` ONLY for:
 | tester | Verify PDF operations work in a real headless browser via `chrome-devtools` MCP. Runs a 6-phase smoke test every tick: (1) homepage load + console check, (2) example.pdf upload, (3) post-upload **visibility/geometry** check (`#pdf-pages` width ≥ 300, visible canvases), (4) tool interaction sweep (click rotation of tool tabs, verify panels activate, no new errors), (5) viewer interaction (zoom, fit-width, geometry still sane), (6) cleanup. Files SYSTEM CRITICAL entries on any failure — NEVER fixes bugs itself. | 5th |
 | security | Security review (file uploads, XSS) | 6th (last) |
 
-### Supervisor (Every 2 hours at :15)
+### Supervisor (Twice daily: 8 AM & 8 PM)
 | Actor | Role | Runs |
 |-------|------|------|
-| supervisor | Ecosystem overseer | Separate schedule |
+| supervisor | Ecosystem overseer | 2x/day (8:15 AM, 8:15 PM) |
 
 The **supervisor** is a meta-agent that:
 - Monitors all other agents and system health
