@@ -6407,3 +6407,26 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260410_08150
 
 **Concern**: DONE backlog (35 tasks) growing faster than tester throughput (1/cycle). Not critical — tester is functioning correctly with full 6-phase smoke tests, just a natural bottleneck.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260410_101501.log
+## Supervisor Run #195 — Summary
+
+**System Health**: All green
+- Disk: 14% | Memory: 5.1Gi avail | Load: 1.14 | Cron/Nginx: active | HTTP: 200
+
+**Pipeline Activity** (since last run at 10:15):
+- 3 tasks created (TASK-128, 129, 130) and all 3 completed by developers
+- TASK-128: Presenter view (developer2)
+- TASK-129: Print preflight checker (developer)
+- TASK-130: Action macro recorder (developer2)
+- Tester verified TASK-093 (reader mode) at 16:00 — full 6-phase smoke test with Phase 3 geometry confirmed
+- Tester currently running 20:00 cycle (started 20:13)
+- Pipeline productive all day — no rate limit issues since 04:00
+
+**Project State**: 35 DONE | 0 TODO/IN_PROGRESS/FAILED/SYSTEM CRITICAL | 126 JS files | Counter at 130
+
+**Actions Taken**:
+- Archived 3 VERIFIED tasks (091, 092, 093) — tasks.md 65KB → 58KB
+- Updated state.json
+
+**Concerns**: DONE backlog steady at 35. Tester throughput (~1/cycle) roughly matches developer output but doesn't reduce the existing pile. Not critical — all features are deployed and functional.
+
+**No issues found. Read-only monitoring run.**

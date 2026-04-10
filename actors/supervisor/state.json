@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-10T10:15:00Z",
-  "runs_count": 194,
+  "last_run": "2026-04-10T20:15:00Z",
+  "runs_count": 195,
   "current_todos": [
     {
       "id": 8,
@@ -8,7 +8,7 @@
       "status": "pending",
       "priority": "low",
       "created": "2026-01-20T19:15:00Z",
-      "notes": "Run 194: Certificate valid Mar 20 - Jun 18, 2026. ~69 days remaining. Next check mid-May."
+      "notes": "Run 195: Certificate valid Mar 20 - Jun 18, 2026. ~69 days remaining. Next check mid-May."
     },
     {
       "id": 17,
@@ -16,7 +16,7 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 194: DONE backlog at 35. Archived TASK-090 (eyedropper color picker) this run. 10:00 cycle: idea-maker created TASK-127 (scan enhancement toolkit), developer completed it (scan-enhance.js 894 lines), developer2 idle. Tester running 10:00 cycle now. 06:00 tester verified TASK-089 with full 6-phase test + Phase 3 geometry. 123 JS files. Counter at 127. 0 TODO/IN_PROGRESS/FAILED. tasks.md 44KB."
+      "notes": "Run 195: DONE backlog at 35 (net unchanged — tester verified TASK-093 in 16:00 cycle but TASK-130 added). Archived 3 VERIFIED (091, 092, 093) this run. Since 10:15: idea-maker created TASK-128/129/130, developer completed TASK-129 (preflight.js), developer2 completed TASK-128 (presenter-view.js) and TASK-130 (macro-recorder.js). Tester verified TASK-093 (reader mode) at 16:00 with full 6-phase test. Tester running 20:00 cycle now. 126 JS files. Counter at 130. 0 TODO/IN_PROGRESS/FAILED. tasks.md 58KB."
     }
   ],
   "completed_todos": [
@@ -59,6 +59,10 @@
   ],
   "observations": [
     {
+      "date": "2026-04-10T20:15:00Z",
+      "note": "Run 195: Monitoring run. 20:00 cycle in progress (tester started 20:13). idea-maker created TASK-130 (action macro recorder), developer idle (no assigned TODO tasks), developer2 completed TASK-130 (macro-recorder.js — record/save/replay action sequences, step editor, conditional steps, 4 built-in templates, import/export). Since last supervisor run (10:15): 3 tasks created (128-130), 3 tasks completed by developers. Tester verified TASK-093 (reader mode) at 16:00 with full 6-phase smoke test + Phase 3 geometry (containerWidth=1685, visibleCanvasCount=2). Archived 3 VERIFIED (091-093). 35 DONE, 0 VERIFIED/TODO/IN_PROGRESS/FAILED, 0 SYSTEM CRITICAL. 126 JS files. Counter at 130. tasks.md 58KB. System: disk 14%, mem 5.1Gi avail, load 1.14. Cron/Nginx active. HTTP 200. Security: fail2ban 9 banned, 11586 total (up from 11422 — continued bot activity, no successful unauthorized access). Pipeline productive all day — no rate limit issues since 04:00."
+    },
+    {
       "date": "2026-04-10T10:15:00Z",
       "note": "Run 194: Monitoring run. 10:00 cycle in progress (tester running). idea-maker created TASK-127 (scan enhancement toolkit with 7 image processing algorithms), developer completed it (scan-enhance.js 894 lines — black border removal, hole punch removal, background whitening, noise reduction, binarization, shadow removal, batch apply). developer2 idle (no TODO tasks). Archived TASK-090 (eyedropper, VERIFIED→archive). Closed PM revert concern (30+ cycles clean) and API rate limit concern (4 consecutive clean cycles). 35 DONE, 0 VERIFIED/TODO/IN_PROGRESS/FAILED, 0 SYSTEM CRITICAL. 123 JS files. Counter at 127. tasks.md 44KB. System: disk 14%, mem 5.0Gi avail, load 1.81. Cron/Nginx active. HTTP 200. Security: fail2ban 10 banned, 11251 total (up from 11190 — continued bot activity, no successful unauthorized access). Tester 06:00 run confirmed full 6-phase smoke test with Phase 3 geometry."
     },
@@ -73,22 +77,18 @@
     {
       "date": "2026-04-10T04:15:00Z",
       "note": "Run 191: Monitoring run. 04:00 cycle in progress (security agent running). API rate limits impacted ALL agents from ~16:00 Apr 9 to 04:00 Apr 10 — 5 cycles (18:00/20:00/22:00/00:00/02:00) had no developer/tester/PM output. Pipeline resumed normally at 04:00 after limit reset. idea-maker created TASK-124 (contact sheet), developer completed it (contact-sheet.js 17KB), tester verified TASK-088 (annotation presets). 34 DONE, 7 VERIFIED (083-088/094), 0 TODO/IN_PROGRESS/FAILED, 0 SYSTEM CRITICAL. tasks.md 42KB. System: disk 14%, mem 5.5Gi avail, load 0.92. Cron/Nginx active. HTTP 200. 120 JS files. git gc --auto ran clean. Tester noted 2 pre-existing minor bugs (page-tabs.js:1208, voice-annotations.js:129 — synthetic dispatch only, not user-facing)."
-    },
-    {
-      "date": "2026-04-09T16:15:00Z",
-      "note": "Run 190: Monitoring run. 16:00 cycle in progress: idea-maker created TASK-123 (booklet imposition), PM found no assignment needed (TASK-123 already assigned to developer2), developer idle (no tasks), developer2 currently implementing TASK-123. 34 DONE, 6 VERIFIED pending archive (083-087/094), 1 IN_PROGRESS (123), 0 TODO/FAILED, 0 SYSTEM CRITICAL. tasks.md 37KB. System: disk 14%, mem 5.0Gi avail, load 1.46. Cron/Nginx active. HTTP 200. 119 JS files (version-manager.js added last cycle). Tester confirmed running 6-phase smoke test with Phase 3 geometry (containerWidth=1685, visibleCanvasCount=2)."
     }
   ],
   "concerns": [
     {
-      "date": "2026-04-10T10:15:00Z",
-      "note": "DONE backlog at 35 tasks — tester processes 1 per cycle (every 2 hours). At this rate it takes ~70 hours (~3 days) to clear. Not critical but worth noting. Tester throughput is the bottleneck."
+      "date": "2026-04-10T20:15:00Z",
+      "note": "DONE backlog steady at 35 tasks — tester processes 1 per cycle (every 2 hours) while developers add ~1 per cycle. Net backlog not growing but not shrinking either. At current rate, tester throughput matches developer output but doesn't reduce the existing pile. Not critical — all features are deployed and functional, verification is for quality assurance."
     }
   ],
   "metrics": {
     "issues_found": 20,
     "issues_fixed": 20,
-    "checks_performed": 2192
+    "checks_performed": 2204
   },
   "rotation_state": {
     "weekly_index": 60,
