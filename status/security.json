@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-10T16:22:00Z",
+  "last_review": "2026-04-10T20:21:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 10 currently banned",
-    "fail2ban_status": "active - sshd jail running, 10 currently banned, 11422 total banned",
-    "change_since_last": "fail2ban total bans 11422 (up from 11345, +77 since 12:20 UTC). 10 IPs currently banned (up from 1): 2.57.122.177 195.178.110.30 2.57.121.17 45.148.10.141 80.94.92.165 195.178.110.15 92.118.39.63 45.227.254.170 80.94.92.177 2.57.122.190. Continued brute-force from bot networks targeting root/admin/ubuntu/sol usernames. No successful unauthorized logins — all accepted sessions are publickey for novakj."
+    "failed_password_attempts": "15325 in current auth.log",
+    "fail2ban_status": "active - sshd jail running, 7 currently banned, 11587 total banned",
+    "change_since_last": "fail2ban total bans 11587 (up from 11422, +165 since 16:22 UTC). 7 IPs currently banned: 183.87.154.155 45.148.10.147 80.94.92.164 2.57.122.196 45.148.10.152 80.94.92.167 45.148.10.240. Continued brute-force from bot networks. No successful unauthorized logins — all accepted sessions are publickey for novakj from 109.81.28.74."
   },
   "web_protections": {
     "security_headers": {
@@ -40,33 +40,39 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "350+ usages across 125 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "350+ usages across 126 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "preflight_js": {
-      "task": "TASK-129: Print preflight checker with 10 production-quality checks",
-      "status": "NEW FILE — reviewed in full (793 lines)",
-      "innerHTML_count": 1,
+    "macro_recorder_js": {
+      "task": "TASK-130: Action macro recorder",
+      "status": "NEW FILE — reviewed in full (926 lines)",
+      "innerHTML_count": 14,
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "external_requests": false,
-      "escapeHtml_quality": "Properly escapes &, <, >, and double quotes — better than most other modules",
-      "detail_escaping": "r.details items properly escaped with escapeHtml() at line 624. HTML export at lines 673-696 also properly escaped throughout.",
-      "summary_escaping": "MEDIUM-LOW: r.summary at line 617 inserted into innerHTML without escaping. Most summaries are internally-generated numbers/strings. Color space summary (line 216) interpolates PDF-derived color space names via csName. Error fallback (line 574) interpolates err.message. CSP script-src 'self' blocks inline scripts. HTML structure manipulation theoretically possible with crafted PDF color space names.",
-      "resource_consideration": "No processing timeout — all 10 checks iterate through all pages. Ink coverage check renders every page at 0.15 scale. Client-side self-DoS only for very large PDFs. Same pattern as contact-sheet.js, booklet.js, nup.js. LOW risk.",
-      "security_status": "CLEAN — no eval, no external requests, proper detail escaping, summary escaping is MEDIUM-LOW risk with CSP mitigation"
+      "escHtml_quality": "Uses textContent→innerHTML pattern (line 847-851). Escapes <, >, & but NOT double quotes. Same pattern as most other modules.",
+      "element_content_escaping": "All user/imported data in element content contexts (macro.name, macro.description, step names, error messages) properly escaped with escHtml(). Lines 202, 206, 222, 311, 521, 524, 652, 664, 734, 735.",
+      "attribute_escaping": "MEDIUM-LOW: escHtml() used in value attributes at lines 202, 206 (macro name/description in input value). escHtml does not escape double quotes — allows attribute breakout with crafted names containing double quotes. Data from user prompt or imported JSON. CSP blocks inline script execution.",
+      "import_color_validation": "MEDIUM: imported data.color (line 804) used directly in style='background:${macro.color}' at line 520 without validation. A crafted import JSON with double-quote in color value could break out of style attribute. CSP blocks inline handlers. Fix: validate color matches /^#[0-9a-fA-F]{3,8}$/.",
+      "import_validation": "MEDIUM-LOW: importMacro() (lines 768-815) validates _type and steps array existence. Does NOT validate: name type/length, description type/length, color format, step.condition structure, step.params content. Steps checked against registry (warning only, not rejected). Imported step actionIds that don't exist in registry are stored and rendered but cannot execute.",
+      "macro_id_safety": "SAFE: imported macros always get generateId() (line 800), never use the original imported id.",
+      "recording_indicator": "SAFE: line 149-155 — static HTML content only, no user data.",
+      "condition_editor": "SAFE: condition values from imported JSON are rendered in pre-selected dropdown options and number input. evaluateCondition() handles unknown types safely by returning true.",
+      "retry_loop": "SAFE: retry on step failure (line 602-604) requires user interaction each iteration — not an automated infinite loop.",
+      "resource_consideration": "No overall macro execution timeout. Steps execute sequentially with 500ms delay. Each step relies on the underlying action's own timeout/resource handling. User can abort via fail dialog. Same pattern as batch.js. LOW risk.",
+      "step_count_limit": "No limit on imported macro step count. Could cause slow rendering with very large step lists. LOW risk — user-initiated import.",
+      "security_status": "CLEAN — no eval, no external requests, proper element content escaping. Import validation and color attribute escaping noted as MEDIUM/MEDIUM-LOW with CSP mitigation."
     },
     "index_html": {
-      "task": "TASK-129: Preflight UI panel",
-      "status": "MODIFIED — preflight tool tab and panel added",
-      "change_description": "Static HTML panel with profile select, run button, export buttons, progress bar, results container. Custom check toggles. All static content, no dynamic user data in template.",
+      "task": "TASK-130: Macro recorder UI panel",
+      "status": "MODIFIED — macro tab button (line 238) and panel (lines 7846-7852) added, script loaded (line 8449)",
+      "change_description": "Static HTML: nav tab button with SVG icon, panel with header and placeholder body div (#macro-body). Script loaded as type=module. All static content, no dynamic user data in template.",
       "security_status": "CLEAN"
     },
-    "tools_css": {
-      "task": "TASK-129: Preflight styles",
-      "status": "MODIFIED — preflight CSS classes added",
-      "security_status": "N/A — CSS only"
+    "action_registry_js": {
+      "status": "Filesystem timestamp newer than last review but file content matches previously reviewed version. action-registry.js was already in previous_module_reviews_still_valid. No substantive code changes detected for TASK-130.",
+      "security_status": "PREVIOUSLY REVIEWED — still valid"
     }
   },
   "previous_module_reviews_still_valid": [
@@ -98,7 +104,7 @@
     "drawing.js", "shape-recognition.js", "redline.js", "form-autofill.js",
     "version-manager.js", "contact-sheet.js", "booklet.js", "nup.js",
     "multi-window.js", "scan-enhance.js", "presenter-view.js",
-    "preflight.js"
+    "preflight.js", "macro-recorder.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -136,13 +142,12 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "preflight_js_reviewed_clean",
+    "macro_recorder_js_reviewed_clean",
     "index_html_changes_reviewed_clean",
-    "tools_css_changes_reviewed_clean",
-    "all_125_js_files_accounted_for",
+    "all_126_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_69_days",
-    "fail2ban_active_11422_total_bans",
+    "fail2ban_active_11587_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
@@ -150,18 +155,21 @@
     "idb_version_storage_safe"
   ],
   "known_issues": [
-    "MEDIUM: recent-files.js lines 407, 414, 620, 623, 630, 641: doc.fileName (from file.name → IndexedDB) inserted into innerHTML without escaping — in aria-label, title, data-rf-name attributes and element content. A file with HTML special chars in its name (e.g., '\"><img src=x onerror=alert(1)>.pdf') would inject HTML. CSP script-src 'self' blocks inline handlers/scripts. HTML structure manipulation still possible. Fix: import or define escapeHtml() and apply to all doc.fileName insertions in renderWelcomeRecent(), renderPanelContent(), and renderPanelCard().",
+    "MEDIUM: recent-files.js lines 407, 414, 620, 623, 630, 641: doc.fileName (from file.name -> IndexedDB) inserted into innerHTML without escaping — in aria-label, title, data-rf-name attributes and element content. A file with HTML special chars in its name (e.g., '\"><img src=x onerror=alert(1)>.pdf') would inject HTML. CSP script-src 'self' blocks inline handlers/scripts. HTML structure manipulation still possible. Fix: import or define escapeHtml() and apply to all doc.fileName insertions in renderWelcomeRecent(), renderPanelContent(), and renderPanelCard().",
     "MEDIUM: custom-stamps.js lines 823, 825: stamp.name in alt attribute and stamp.overlayText in element content inserted via innerHTML without escaping. Data from localStorage or imported JSON. A crafted import file with stamp.name='\" onload=\"alert(1)' or stamp.overlayText='<img src=x onerror=alert(1)>' would inject HTML. CSP script-src 'self' blocks inline handlers/scripts. HTML structure manipulation still possible. Fix: add escapeHtml() to module and apply to stamp.name, stamp.overlayText.",
     "MEDIUM: custom-stamps.js lines 916, 918: custom.name, custom.text (8 chars), custom.imageData, custom.textColor, custom.borderColor from localStorage/import inserted via innerHTML without escaping. Same import vector as above. Colors could break out of style attribute with double quotes. CSP mitigates. Fix: escape all user-controlled values or use DOM APIs.",
     "MEDIUM: custom-stamps.js importLibrary() (line 1163-1199): imported JSON stamps only validated for structural fields (id, name, type). No sanitization of text content, imageData URL, overlay text, or color values. imageData not validated as data: URL — could be an external tracking URL. Fix: validate imageData starts with 'data:', sanitize text fields.",
+    "MEDIUM: macro-recorder.js line 520/804: imported data.color used directly in style='background:${macro.color}' without validation. A crafted import JSON with double-quote in color value could break out of style attribute. CSP blocks inline handlers. Fix: validate color matches /^#[0-9a-fA-F]{3,8}$/.",
     "CRITICAL-FUNCTIONAL: cloud-storage.js loads 4 external SDK scripts (apis.google.com, accounts.google.com/gsi, dropbox.com, alcdn.msauth.net) but CSP script-src 'self' blocks them all. The cloud storage feature is entirely non-functional. To fix: either (a) self-host the SDKs in /lib/ and add SRI hashes, or (b) add the 4 domains to CSP script-src. Option (a) is strongly preferred for security — external SDKs are supply chain risk without SRI. Option (b) broadens attack surface.",
     "MEDIUM: cloud-storage.js line 525: r.fileName and r.path from localStorage (originating from cloud provider API responses) inserted into innerHTML without escaping — in title attribute and element content. Cloud file names can be set by other users sharing files. A shared file named '<img src=x onerror=alert(1)>.pdf' injects HTML. CSP script-src 'self' blocks inline scripts/event handlers. HTML structure and CSS injection still possible. Fix: add escapeHtml() and apply to r.fileName and r.path in renderRecentFiles() template.",
     "MEDIUM: cloud-storage.js line 663: f.name and f.id from Microsoft Graph API inserted into innerHTML without escaping — in data-name, data-id attributes and element content. OneDrive filenames can be set by file sharers. Double-quote in f.id could break data-id attribute. Fix: escape f.name and f.id in showOnedrivePicker() template.",
     "MEDIUM: form-detect.js line 709: field.label from PDF text content inserted into innerHTML without escaping — both in title attribute and element content. A malicious PDF with crafted text items could inject HTML. CSP script-src 'self' blocks inline scripts/event handlers. HTML structure manipulation and CSS injection still possible. Fix: add escapeHtml() and use on field.label in renderResultList() template.",
     "MEDIUM: font-inspector.js line 997: f.subsetPrefix (PDF font subset prefix) inserted into innerHTML without escaping. Validated by /^[A-Z]{6}$/ regex at extraction but data originates from PDF. CSP blocks script execution. Fix: apply escHtml(f.subsetPrefix).",
+    "MEDIUM-LOW: macro-recorder.js lines 202, 206: escHtml() used in input value attributes but does not escape double quotes. Macro name/description containing double quotes can break out of value attribute. Data from user prompt or imported JSON. CSP blocks inline script execution. Self-XSS/import vector. Fix: use escAttr() for attribute contexts.",
+    "MEDIUM-LOW: macro-recorder.js importMacro() (lines 768-815): validates _type and steps existence but does not validate name type/length, description type/length, color format, step.condition structure, or step.params content. Steps with unrecognized actionIds are stored and rendered but cannot execute. Low exploitability — import is user-initiated.",
     "MEDIUM-LOW: preflight.js line 617: r.summary inserted into innerHTML without escaping. Most summaries are internally-generated numbers/strings. Color space summary (line 216) interpolates PDF-derived color space names (csName from pdf.js operator args). Error fallback (line 574) interpolates err.message. CSP script-src 'self' blocks inline scripts. HTML structure manipulation theoretically possible. Fix: apply escapeHtml() to r.summary in renderResults().",
     "MEDIUM-LOW: voice-annotations.js importMemos() (lines 973-1001): imported JSON audioData not validated as data: URL. A crafted import could include external URLs, but base64ToBlob() catches parse errors producing empty blob — not exploitable. Same pattern as custom-stamps.js imageData. Fix: validate audioData starts with 'data:'.",
-    "MEDIUM-LOW: version-manager.js line 395: v.name in title attribute not double-quote escaped — escHtml() uses DOM textContent→innerHTML which does not escape double quotes. v.name from imported ZIP manifest could break out of title attribute. v.id in data-id attributes (lines 393, 405-408) safe when self-generated but unvalidated on import. CSP mitigates script execution. Fix: add escAttr() for attribute contexts or validate imported entry fields.",
+    "MEDIUM-LOW: version-manager.js line 395: v.name in title attribute not double-quote escaped — escHtml() uses DOM textContent->innerHTML which does not escape double quotes. v.name from imported ZIP manifest could break out of title attribute. v.id in data-id attributes (lines 393, 405-408) safe when self-generated but unvalidated on import. CSP mitigates script execution. Fix: add escAttr() for attribute contexts or validate imported entry fields.",
     "MEDIUM-LOW: version-manager.js importVersions() (lines 296-333): imported manifest entries not schema-validated. No checks on entry.id format, entry.name length, or entry structure. Imported entry.id used directly in data-id HTML attributes. Low exploitability — import is user-initiated from user's own files, CSP blocks scripts.",
     "MEDIUM-LOW: page-tabs.js line 930: tab.label (user input from prompt() or imported JSON file) inserted into innerHTML without escaping. Also in aria-label attribute at line 928 without quote escaping. navigatorSearch at line 901 in value attribute without quote escaping. No escapeHtml function defined. CSP blocks script execution. Self-XSS only — user sets own labels or imports own JSON. Fix: add escapeHtml() and apply to label/search values.",
     "LOW: toolbar-manager.js line 572: custom preset name (user text input) and key (from localStorage) inserted into innerHTML in data-preset attribute and element content without escaping. Self-XSS only — user sets own preset names. CSP blocks script execution.",
@@ -176,6 +184,8 @@
     "LOW: scan-enhance.js: no explicit processing timeout on multi-page enhancement loop. OUTPUT_SCALE=2.0 means ~9MB ImageData per page. Cancel button provides user escape. Client-side self-DoS only. Same pattern as svg-export.js, contact-sheet.js, booklet.js, nup.js.",
     "LOW: presenter-view.js sendThumbnails() renders all pages at 128x96 scale with no page count limit or timeout. For 1000-page PDF could generate significant rendering load and BroadcastChannel traffic. Client-side self-DoS only. Same pattern as contact-sheet.js, booklet.js, nup.js.",
     "LOW: preflight.js no processing timeout — all 10 checks iterate all pages. Ink coverage renders every page at 0.15 scale. Client-side self-DoS only for very large PDFs. Same pattern as contact-sheet.js, booklet.js, nup.js.",
+    "LOW: macro-recorder.js no overall macro execution timeout. Steps execute sequentially with 500ms delay. User can abort via fail dialog. Same pattern as batch.js.",
+    "LOW: macro-recorder.js no limit on imported macro step count. Could cause slow rendering with very large step lists. User-initiated import only.",
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
     "No general *.md nginx block - only CLAUDE.md specifically blocked. Any new .md file added to webroot would be publicly accessible.",
     "UFW firewall is inactive - only SSH and HTTP/HTTPS ports are needed but no firewall enforces this.",
