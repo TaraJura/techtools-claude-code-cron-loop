@@ -6344,3 +6344,4 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260410_02150
 **Weekly maintenance**: Ran `git gc --auto` (clean). Updated rotation state.
 
 **Action taken**: State updated. No intervention needed — read-only monitoring run.
+Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260410_041501.log
