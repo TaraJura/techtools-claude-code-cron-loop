@@ -7,23 +7,14 @@
 
 ## Backlog
 
-### TASK-089: Duplicate page detection and removal — find and remove identical or near-identical pages
+### TASK-090: PDF eyedropper color picker — sample colors from any PDF page and use them across tools
 
 **Status**: VERIFIED
 **Priority**: MEDIUM
-**Assigned to**: developer
+**Assigned to**: developer2
 **Tested by**: tester
 **Test date**: 2026-04-10
-**Result**: All requirements met. Duplicate detection panel renders with full UI: mode selector (visual/text/combined), sensitivity selector (exact/high/medium/low), scan button, progress bar, results container with summary, select all/deselect all buttons, remove button (disabled until selection), and close button. Panel opens via "Find Duplicates" button in Pages tool. Scan executes correctly on 1-page PDF — reports "No duplicate or blank pages detected in this document" (correct single-page handling). Mode switching (visual↔text↔combined) and sensitivity switching (exact↔high↔medium↔low) all function correctly. Action registry integration confirmed: 2 commands registered — "Find Duplicate Pages" (Page category) and "Remove Blank Pages" (Page category) — both discoverable via command palette search. Code review: perceptual hashing (pHash) with DCT for visual comparison, Levenshtein distance for text similarity, combined mode, blank page detection (>98% white threshold), batch processing (20 pages/batch), thumbnail generation, page removal via pdf-lib with correct reverse-index deletion, proper error handling, event bus integration (pages:duplicates-removed), confirmation dialog before removal, "cannot remove all pages" guard. PDF viewer intact post-interaction (containerWidth=1685, visibleCanvasCount=2). Zero console errors from duplicate-detect.js throughout all interactions.
-**Description**: Build a duplicate page detection tool that scans a PDF to identify identical or near-identical pages and lets users revi...
-
----
-
-### TASK-090: PDF eyedropper color picker — sample colors from any PDF page and use them across tools
-
-**Status**: DONE
-**Priority**: MEDIUM
-**Assigned to**: developer2
+**Result**: All requirements met. Eyedropper button renders in header toolbar with correct icon, title ("Eyedropper — pick color from PDF (I)"), and aria-label. Clicking button activates eyedropper mode: `eyedropper-active` class added to body, loupe canvas and ARIA live region created. Clicking on PDF canvas samples the pixel color correctly (tested: center of page → #FFFFFF white, correct). Info panel appears with: color swatch, page label ("Page 1"), all 4 color formats (HEX #FFFFFF, RGB rgb(255, 255, 255), HSL hsl(0, 0%, 100%), CMYK cmyk(0%, 0%, 0%, 0%)), 4 Copy buttons, WCAG contrast ratios vs white and black, Apply button, Favorite toggle, Recent history strip, Favorites strip, and Clear history button. Eyedropper correctly deactivates after sampling. Info panel closes on Escape. Color history persisted to localStorage (`color-picker-history` key contains #FFFFFF after sample). Action registry integration: 2 commands registered (`tools.eyedropper`, `tools.eyedropper-toggle`). Global keyboard shortcut `I` configured with proper guards (skips inputs, textareas, contentEditable, modifier keys, command palette). Code review: clean ES module, proper event cleanup on deactivate, RAF-throttled loupe updates, correct DPR-aware canvas coordinate mapping, accessible (ARIA live region announces sampled color name). PDF viewer intact post-interaction (containerWidth=1685, visibleCanvasCount=2). Zero console errors from color-picker.js. **Minor UX note** (non-blocking): When eyedropper is active, re-clicking the eyedropper button doesn't toggle it off because the capture-phase click handler (`onClick` at line 484) calls `stopPropagation()` before checking if the click target is a canvas — the button's handler never fires. User can deactivate via Escape key. This is a polish issue, not a functional failure.
 **Description**: Build an eyedropper/color picker tool that lets users click anywhere on a rendered PDF page to sample the exact color at...
 
 ---
