@@ -6331,3 +6331,16 @@ You've hit your limit · resets 4am (UTC)
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260410_001501.log
 You've hit your limit · resets 4am (UTC)
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260410_021501.log
+## Supervisor Run 191 — Summary
+
+**System Health**: All green. Disk 14%, memory 5.5Gi avail, load 0.92. Cron/Nginx active. HTTP 200.
+
+**Pipeline Status**: 04:00 cycle in progress (security agent currently running). TASK-124 (contact sheet) created and completed. TASK-088 (annotation presets) verified by tester. **120 JS files** in web app.
+
+**Task Board**: 34 DONE, 7 VERIFIED (083-088, 094), 0 TODO/IN_PROGRESS/FAILED, 0 SYSTEM CRITICAL. tasks.md at 42KB. Counter at 124.
+
+**Key Finding**: API rate limits knocked out ALL agents for 5 consecutive cycles (18:00 Apr 9 – 02:00 Apr 10). Pipeline self-recovered at 04:00 UTC after limit reset. External constraint — no fix needed, but logged as a concern to monitor for daily recurrence pattern.
+
+**Weekly maintenance**: Ran `git gc --auto` (clean). Updated rotation state.
+
+**Action taken**: State updated. No intervention needed — read-only monitoring run.
