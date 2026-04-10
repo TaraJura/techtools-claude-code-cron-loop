@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-10T08:18:00Z",
+  "last_review": "2026-04-10T10:18:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "fail2ban active, 10 currently banned",
-    "fail2ban_status": "active - sshd jail running, 10 currently banned, 11251 total banned",
-    "change_since_last": "fail2ban total bans 11251 (up from 11190, +61). 10 IPs currently banned (up from 2): 2.57.122.189, 175.107.32.186, 45.148.10.141, 43.128.149.159, 152.32.211.151, 217.154.192.185, 2.57.121.86, 2.57.122.192, 80.94.92.166, 2.57.122.195. Continued brute-force from bot networks (root, admin1, postgres, deploy, test, bot, acs, solv usernames). No successful unauthorized logins — all accepted sessions are publickey for novakj."
+    "failed_password_attempts": "fail2ban active, 2 currently banned",
+    "fail2ban_status": "active - sshd jail running, 2 currently banned, 11323 total banned",
+    "change_since_last": "fail2ban total bans 11323 (up from 11251, +72). 2 IPs currently banned (down from 10): 80.94.92.166, 2.57.122.177. Continued brute-force from bot networks. No successful unauthorized logins — all accepted sessions are publickey for novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,35 +40,30 @@
     "no_function_constructor": true,
     "document_write_safe": "1 usage in keyboard-shortcuts.js line 416 — writes to newly opened blank window for print cheat sheet only. All content escaped via escapeHtml(). Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "350+ usages across 122 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "350+ usages across 123 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "multi_window_js": {
-      "task": "TASK-126: Multi-window PDF viewer with BroadcastChannel sync",
-      "status": "NEW FILE — reviewed in full (694 lines)",
-      "innerHTML_count": "1 — line 543: static string '<span>Detached Viewer</span>', no user input. SAFE.",
+    "scan_enhance_js": {
+      "task": "TASK-127: Scan enhancement toolkit with 7 image processing algorithms",
+      "status": "NEW FILE — reviewed in full (895 lines)",
+      "innerHTML_count": 0,
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "no_external_requests": true,
-      "broadcast_channel": "Same-origin only (BroadcastChannel API). Messages contain page numbers, zoom levels, and PDF ArrayBuffer. No user-controlled data inserted into HTML.",
-      "template_html": "buildPopoutHTML() generates self-contained HTML page via template literal. Interpolates only CHANNEL_NAME (constant), popoutId (internal counter 'pdf-popout-N'), and origin (location.origin). No user input in template. SAFE.",
-      "window_open": "Opens blob URL from internally-generated HTML. URL revoked after window load. SAFE.",
-      "text_display": "All dynamic text updates use textContent. No user-controlled values in innerHTML or template HTML.",
-      "resource_cleanup": "Blob URL revoked on window load, BroadcastChannel closed on beforeunload, closed pop-outs cleaned via 2s polling interval.",
-      "input_bounds": "Page numbers clamped to 1-totalPages, zoom clamped to 0.25-5.0.",
-      "description": "Pop-out PDF viewer for dual-monitor workflows. Opens PDF in a separate window via BroadcastChannel sync. Sync for page navigation and zoom. Detached panel fallback when pop-ups blocked. Keyboard navigation in pop-out.",
-      "security_status": "CLEAN — no XSS vectors, no eval, no external requests, all text via textContent, BroadcastChannel is same-origin only"
-    },
-    "app_js": {
-      "task": "TASK-126: Multi-window module import",
-      "status": "MODIFIED — import statement added for multi-window.js module",
-      "security_status": "CLEAN"
+      "text_display": "All dynamic text updates use textContent (line 746 progress text). No user-controlled values in innerHTML.",
+      "filename_sanitization": "Uses sanitizeFilename() from utils.js (line 779) for download filename.",
+      "download_method": "Uses downloadBlob() from utils.js (line 780).",
+      "cancel_mechanism": "cancelRequested flag with cancel button — user can abort multi-page processing.",
+      "image_processing": "7 algorithms (border removal, hole punch removal, shadow removal, background whitening, noise reduction median/gaussian, binarization otsu/manual/sauvola) — all operate on Canvas 2D ImageData pixels. No DOM injection.",
+      "resource_consideration": "OUTPUT_SCALE=2.0 means ~9MB ImageData per page. No explicit page count limit in enhancement loop but cancel button provides escape. No explicit timeout — same pattern as svg-export.js, contact-sheet.js, booklet.js, nup.js.",
+      "description": "Client-side scan cleanup toolkit. Renders PDF pages to canvas, applies pixel-level image processing, embeds enhanced images back into PDF via pdf-lib.",
+      "security_status": "CLEAN — no XSS vectors, no eval, no external requests, all text via textContent, sanitizeFilename for downloads"
     },
     "index_html": {
-      "task": "TASK-126: Multi-window UI",
-      "status": "MODIFIED — nav tab and tool panel added for multi-window module",
-      "change_description": "Static HTML controls for pop-out viewer: buttons, sync toggles, status display. No dynamic content.",
+      "task": "TASK-127: Scan enhancement UI",
+      "status": "MODIFIED — nav tab and tool panel added for scan-enhance module",
+      "change_description": "Static HTML controls: checkboxes, sliders, radio buttons, select dropdowns, buttons, canvas, progress bar. No dynamic content. Script tag added at line 8332.",
       "security_status": "CLEAN"
     }
   },
@@ -100,7 +95,7 @@
     "cross-search.js", "accessibility.js", "voice-annotations.js",
     "drawing.js", "shape-recognition.js", "redline.js", "form-autofill.js",
     "version-manager.js", "contact-sheet.js", "booklet.js", "nup.js",
-    "multi-window.js"
+    "multi-window.js", "scan-enhance.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -138,13 +133,12 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "multi_window_js_reviewed_clean",
-    "app_js_changes_reviewed_clean",
+    "scan_enhance_js_reviewed_clean",
     "index_html_changes_reviewed_clean",
-    "all_122_js_files_accounted_for",
+    "all_123_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_69_days",
-    "fail2ban_active_11251_total_bans",
+    "fail2ban_active_11323_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
@@ -174,6 +168,7 @@
     "LOW: annotation-replies.js findAnnotationElement() lines 610-617: annotKey from imported data used directly in querySelector attribute selectors without CSS.escape(). Crafted keys could cause SyntaxError or match unintended elements. Not exploitable for XSS — only returns element reference. Self-XSS/import vector only.",
     "LOW: contact-sheet.js, booklet.js, nup.js: no explicit processing timeout — renders/embeds all pages serially. Client-side self-DoS only for very large PDFs. Same pattern as svg-export.js. LOW risk.",
     "LOW: multi-window.js: no explicit limit on number of pop-out windows. popoutCounter increments unboundedly. Client-side self-DoS only — user-initiated. LOW risk.",
+    "LOW: scan-enhance.js: no explicit processing timeout on multi-page enhancement loop. OUTPUT_SCALE=2.0 means ~9MB ImageData per page. Cancel button provides user escape. Client-side self-DoS only. Same pattern as svg-export.js, contact-sheet.js, booklet.js, nup.js.",
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
     "No general *.md nginx block - only CLAUDE.md specifically blocked. Any new .md file added to webroot would be publicly accessible.",
     "UFW firewall is inactive - only SSH and HTTP/HTTPS ports are needed but no firewall enforces this.",
