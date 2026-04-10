@@ -67,9 +67,12 @@
 
 ### TASK-088: Annotation style presets and quick-apply palette for consistent document review
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer
+**Tested by**: tester
+**Test date**: 2026-04-10
+**Result**: All requirements met. Floating quick-apply palette renders when annotate tool is active with all 8 default presets (Error, Question, Approved, Important, Reference, Comment, Redline, Draft Note) as color-coded swatches with type icons and shortcut labels [1]-[8]. Preset application works: clicking "Error" swatch activates highlight tool with color #FF5722, sets `_presetActiveColor`, and shows active state. Toggle deactivation works (clicking active preset clears it). Manager modal opens with full UI: 8 editable preset rows with name input, type dropdown (highlight/underline/strikethrough), color picker, shortcut input, drag handle (draggable=true), duplicate and delete buttons, plus Import/Export/Reset/Add actions. CRUD operations verified: Add (8→9), Duplicate (9→10), Delete back to 8 — all update localStorage (`pdf-editor-annotation-presets`, 8 entries persisted). Palette collapse/expand toggle works with localStorage persistence. Action registry integration confirmed: 27 command palette results for "preset" including all 8 individual Apply Preset commands plus Manage/Import/Export/Reset actions. Manager close via × button works. Code review: proper input validation (color hex, shortcut 1-9, name max 50 chars), XSS-safe `escHtml()` helper, drag-and-drop reorder with HTML5 DnD API, event bus integration (preset:activated/deactivated/modified, presets:changed), context menu integration via `_presetContextMenuItems`. Zero console errors from annotation-presets.js throughout all interactions.
 **Description**: Build an annotation style preset system that lets users create, save, and reuse custom annotation styles as named preset...
 
 ---
