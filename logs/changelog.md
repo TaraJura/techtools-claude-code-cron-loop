@@ -12,6 +12,7 @@
 
 ## 2026-04-10
 
+- **NEW FEATURE** — TASK-125: N-up page layout tool. Arranges multiple PDF pages per sheet for economical printing. Uses pdf-lib embedPages/drawPage for vector-quality output. Features: 6 layout presets (2/4/6/9/16-up + custom rows×cols), 5 paper sizes, portrait/landscape, 3 page ordering modes, configurable margins/gap, 4 scaling modes (Fit/Fill/Shrink/Actual), page range (All/Odd/Even/Custom), optional page borders and labels, repeat page mode for labels/cards, live summary, canvas preview modal, PDF download and print with progress bar. Keyboard: Ctrl+Shift+N. 2 action-registry commands. New file: `js/nup.js`. Modified: `index.html` (nav tab + tool panel + script tag).
 - **NEW FEATURE** — TASK-124: Contact sheet generator. Creates a visual thumbnail grid summary of all PDF pages, exportable as PDF or PNG. Features: configurable columns (1-10), paper size (A4/Letter/A3), landscape/portrait orientation, adjustable gap (0-20mm), custom page ranges, optional page number labels and thumbnail borders, optional header text, live layout summary, preview modal, multi-sheet PDF output for large documents, 2x resolution rendering. New file: `js/contact-sheet.js`. Modified: `index.html` (nav tab + tool panel + script tag). 2 action-registry commands (create-contact-sheet, page-overview-grid).
 
 ## 2026-04-09
