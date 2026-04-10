@@ -10,6 +10,10 @@
 
 ---
 
+## 2026-04-10
+
+- **NEW FEATURE** — TASK-124: Contact sheet generator. Creates a visual thumbnail grid summary of all PDF pages, exportable as PDF or PNG. Features: configurable columns (1-10), paper size (A4/Letter/A3), landscape/portrait orientation, adjustable gap (0-20mm), custom page ranges, optional page number labels and thumbnail borders, optional header text, live layout summary, preview modal, multi-sheet PDF output for large documents, 2x resolution rendering. New file: `js/contact-sheet.js`. Modified: `index.html` (nav tab + tool panel + script tag). 2 action-registry commands (create-contact-sheet, page-overview-grid).
+
 ## 2026-04-09
 
 - **NEW FEATURE** — TASK-122: Document snapshot and version manager. Save, browse, compare, and restore named PDF checkpoints using IndexedDB storage. Features: save named snapshots with optional notes; version history timeline sorted by newest with file size deltas; thumbnail preview on hover (pdf.js low-res render); restore any version (reloads into viewer); download individual snapshots as PDF; two-version comparison selection (emits `compare:versions` on bus); auto-snapshot toggle before destructive operations (merge, split, redact, flatten, compress, crop, deskew, protect); export/import full version bundles as ZIP (JSZip); storage management with per-doc and global size display, 100MB warning. Keyboard: Ctrl+Shift+V (quick save), Ctrl+Alt+V (open panel). 3 action-registry commands (save-version, show-versions, restore-version). New file: `js/version-manager.js`. Modified: `index.html` (tab button + tool panel + script tag), `css/tools.css` (version manager styles + dark mode).
