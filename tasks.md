@@ -7,23 +7,14 @@
 
 ## Backlog
 
-### TASK-090: PDF eyedropper color picker — sample colors from any PDF page and use them across tools
+### TASK-091: Progressive Web App (PWA) mode — installable offline-capable PDF editor with file system access
 
 **Status**: VERIFIED
 **Priority**: MEDIUM
-**Assigned to**: developer2
+**Assigned to**: developer
 **Tested by**: tester
 **Test date**: 2026-04-10
-**Result**: All requirements met. Eyedropper button renders in header toolbar with correct icon, title ("Eyedropper — pick color from PDF (I)"), and aria-label. Clicking button activates eyedropper mode: `eyedropper-active` class added to body, loupe canvas and ARIA live region created. Clicking on PDF canvas samples the pixel color correctly (tested: center of page → #FFFFFF white, correct). Info panel appears with: color swatch, page label ("Page 1"), all 4 color formats (HEX #FFFFFF, RGB rgb(255, 255, 255), HSL hsl(0, 0%, 100%), CMYK cmyk(0%, 0%, 0%, 0%)), 4 Copy buttons, WCAG contrast ratios vs white and black, Apply button, Favorite toggle, Recent history strip, Favorites strip, and Clear history button. Eyedropper correctly deactivates after sampling. Info panel closes on Escape. Color history persisted to localStorage (`color-picker-history` key contains #FFFFFF after sample). Action registry integration: 2 commands registered (`tools.eyedropper`, `tools.eyedropper-toggle`). Global keyboard shortcut `I` configured with proper guards (skips inputs, textareas, contentEditable, modifier keys, command palette). Code review: clean ES module, proper event cleanup on deactivate, RAF-throttled loupe updates, correct DPR-aware canvas coordinate mapping, accessible (ARIA live region announces sampled color name). PDF viewer intact post-interaction (containerWidth=1685, visibleCanvasCount=2). Zero console errors from color-picker.js. **Minor UX note** (non-blocking): When eyedropper is active, re-clicking the eyedropper button doesn't toggle it off because the capture-phase click handler (`onClick` at line 484) calls `stopPropagation()` before checking if the click target is a canvas — the button's handler never fires. User can deactivate via Escape key. This is a polish issue, not a functional failure.
-**Description**: Build an eyedropper/color picker tool that lets users click anywhere on a rendered PDF page to sample the exact color at...
-
----
-
-### TASK-091: Progressive Web App (PWA) mode — installable offline-capable PDF editor with file system access
-
-**Status**: DONE
-**Priority**: MEDIUM
-**Assigned to**: developer
+**Result**: All requirements met. **manifest.json**: valid PWA manifest with name, short_name, description, start_url="/", scope="/", display="standalone", theme_color, background_color, 10 icons (48–512px including 2 maskable), 3 shortcuts (Open/Merge/Templates), file_handlers for application/pdf. **Service worker (sw.js)**: registered and active in browser, precaches 100+ app shell URLs (HTML, CSS, JS, libs, icons), cache-first/stale-while-revalidate for shell assets, network-first for dynamic content, offline fallback to offline.html, skipWaiting message handler, old cache cleanup on activate, runtime cache trimming (100 entry limit). **pwa.js module**: IndexedDB wrapper (pdf-editor-db, stores: preferences + recent-files), File System Access API integration (showOpenFilePicker/showSaveFilePicker with PDF type filter), LaunchQueue file handler for OS-level PDF associations, install prompt with engagement tracking (30s timer or 2+ file opens, 7-day dismiss cooldown), update notification toast with "Update"/"Later" buttons, online/offline indicator in status bar with live cloud/cloud-off SVG icons and toast notifications, dynamic theme-color meta tag synced to light/dark/sepia themes via MutationObserver, version check with "Updated to vX" toast, URL action handling for manifest shortcuts (?action=open/merge/templates), window.pwa API exposing 10 methods. **Meta tags**: theme-color (#f5f5f5 in light mode), viewport (width=device-width, initial-scale=1.0, viewport-fit=cover), apple-mobile-web-app-capable, apple-touch-icon. **offline.html**: present. **All 10 icon PNGs exist on disk.** Zero console errors from pwa.js or sw.js. PDF viewer intact post-interaction (containerWidth=1685, visibleCanvasCount=2).
 **Description**: Convert the PDF editor into a fully installable Progressive Web App (PWA) that works offline, integrates with the operat...
 
 ---
