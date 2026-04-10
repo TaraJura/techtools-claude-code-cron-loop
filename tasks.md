@@ -373,6 +373,15 @@
 
 ---
 
+### TASK-124: PDF contact sheet generator — create a visual thumbnail grid summary of all document pages
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Description**: Build a contact sheet generator that creates a visual overview of an entire PDF document by rendering all pages as small thumbnails arranged in a configurable grid layout — useful for document previews, archival, filing, and quick visual reference. Implementation: create `js/contact-sheet.js`. Add a new tool tab "Contact Sheet" (icon: grid/gallery). Features: (1) **Grid layout** — render all pages of the loaded PDF as scaled-down thumbnails in a grid. Default layout: auto-calculated columns to fit the target page size (e.g., 4×5 for 20 pages on A4 landscape). User can override with a columns spinner (2–10). (2) **Target format** — output as a new PDF (one or more pages if the grid overflows) or as a PNG/JPEG image. Paper size dropdown: A4, Letter, A3, or custom dimensions. Orientation: portrait or landscape. (3) **Thumbnail options** — configurable margin/gap between thumbnails (default 5mm), optional page number label beneath each thumbnail (font size auto-scaled), optional thin border around each thumbnail. (4) **Page range** — select all pages, a custom range (e.g., "1-10, 15, 20-25"), or only bookmarked pages. (5) **Header/footer** — optional document title (from metadata or user-typed) centered at the top of the contact sheet, and generation date at the bottom. (6) **Rendering** — use pdf.js to render each page to an offscreen canvas at reduced resolution (e.g., 150 DPI scaled to thumbnail size), then compose them onto a final canvas or directly into a new PDF via pdf-lib by embedding each thumbnail as a JPEG image. Show a progress bar during generation for large documents. (7) **Preview** — display a live preview of the contact sheet layout before exporting, rendered in a modal. (8) **Export** — "Download PDF" and "Download Image" buttons. For PDF output, use pdf-lib to create new pages at the target size and embed thumbnail images. For image output, use canvas `toBlob()`. Register with the action registry (actions: `create-contact-sheet`, `page-overview-grid`) and event bus. Keyboard shortcut: `Ctrl+Shift+G` to open contact sheet panel. No external dependencies — uses existing pdf.js for rendering and pdf-lib for PDF generation.
+
+---
+
 ### TASK-123: Booklet imposition layout — rearrange pages for saddle-stitch booklet printing
 
 **Status**: DONE
