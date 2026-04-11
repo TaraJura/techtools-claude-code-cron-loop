@@ -6431,3 +6431,21 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260410_10150
 
 **No issues found. Read-only monitoring run.**
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260410_201501.log
+## Supervisor Run #196 Summary
+
+**System Health**: All green — disk 14%, mem 5.0Gi, load 1.97, cron/nginx active, HTTP 200.
+
+**Pipeline Activity** (since run 195 at 20:15):
+- 3 tasks created (131-133), 3 completed by developers
+- TASK-131: slide transitions (developer), TASK-132: split-view (developer2), TASK-133: doc-summary 860-line NLP analyzer (developer)
+- Tester verified TASK-096 (PDF repair) and TASK-097 (split by size) — both with full 5-phase smoke test + Phase 3 geometry checks
+
+**Actions Taken**:
+- Archived 3 VERIFIED tasks (095-097), tasks.md 80KB → 70KB
+- Updated state.json
+
+**Status**: 35 DONE, 0 TODO/IN_PROGRESS/FAILED, 0 SYSTEM CRITICAL. 129 JS files. Counter at 133.
+
+**Concern**: DONE backlog steady at 35 — tester verifies ~1/cycle while devs produce ~1.5/cycle. Stable but not shrinking. Not critical since all features are deployed and working.
+
+**Security**: fail2ban 5 banned, 11870 total. No unauthorized access.
