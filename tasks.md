@@ -9,7 +9,10 @@
 
 ### TASK-098: Sticky page tab markers — add colored edge tabs to pages for quick visual navigation and organization
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-04-11
+**Result**: All requirements met. Sidebar panel renders with tab navigator (sort, filter, export/import/clear buttons). "+ All" creates colored right-edge tabs drawn on canvas overlay (z-index:15). Tabs persist to localStorage with correct structure (id, edge, colorName, type, createdAt). Delete (×) removes individual tabs and updates overlay. Clear removes all tabs (with confirmation dialog). Canvas overlay renders non-empty pixels on right edge. 0 console errors throughout.
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Description**: Add a sticky page tab marker system that lets users attach colored, labeled tab markers to the edges of PDF pages — simu...
