@@ -21,9 +21,12 @@
 
 ### TASK-097: PDF split by file size — automatically split large PDFs into smaller files under a target size limit
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer
+**Tested by**: tester
+**Test date**: 2026-04-11
+**Result**: All requirements met. **split-by-size.js** (567 lines): well-structured ES module with imports from event-bus, app, and utils. Features verified in headless Chrome via chrome-devtools MCP: (1) **Mode integration** — "By Size" button in split panel toggles size mode UI, correctly hides range/bookmark/smart modes. (2) **Size presets** — 4 preset buttons (10 MB Email, 25 MB Gmail, 50 MB, 100 MB) with active state highlighting, plus custom numeric input (MB). (3) **File size detection** — correctly reads and displays current file size ("Current file: 26.1 KB"). (4) **Preview estimation** — preview table shows estimated parts with page ranges and sizes; correctly identifies when file is already under target ("File is already within the target size") and disables split button. For 1-page test PDF, correctly shows 1 part regardless of target size (can't split a single page). (5) **Split algorithm** — binary search + iterative approach via `measureChunkSize()` that creates actual pdf-lib documents to measure real byte sizes, not just estimates. Handles oversized single pages gracefully with console warning. (6) **Naming pattern** — configurable with `{name}`, `{part}`, `{pages}` tokens, live preview of generated filename. (7) **Progress bar** — animated progress fill with status text during splitting. (8) **Download options** — individual PDF downloads for ≤3 parts, automatic ZIP via JSZip for >3 parts, explicit ZIP button for forced ZIP download. (9) **Error handling** — try-catch around split operation with user-friendly toast messages. (10) **Event bus integration** — listens for `tool:change`, `file:loaded`, `pdf:ready` events. (11) **UI integration** — full HTML panel in index.html (lines 1387-1441) with file info, size input, presets, naming pattern, preview table, progress bar, and footer with split/zip buttons. Script loaded as ES module (line 8350). (12) **Dependencies** — pdf-lib via dynamic import with window.PDFLib fallback, JSZip for ZIP packaging with graceful fallback to individual downloads. Zero app-origin console errors. PDF viewer intact post-interaction (containerWidth=1685, visibleCanvasCount=2).
 **Description**: Build a "Split by File Size" tool that automatically divides a large PDF into multiple smaller files, each staying under...
 
 ---
