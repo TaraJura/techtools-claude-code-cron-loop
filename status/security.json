@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-11T04:20:00Z",
+  "last_review": "2026-04-11T08:26:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "16226 in current auth.log",
-    "fail2ban_status": "active - sshd jail running, 5 currently banned, 11870 total banned",
-    "change_since_last": "fail2ban total bans 11870 (up from 11706, +164 since 00:20 UTC). 5 IPs currently banned: 2.57.121.17 45.148.10.152 45.148.10.141 45.148.10.147 80.94.92.183. Continued brute-force from bot networks. No successful unauthorized logins — all accepted sessions are publickey for novakj from authorized IPs (109.81.28.74, 109.81.94.33, 109.81.20.141, 37.188.158.105)."
+    "failed_password_attempts": "16855 in current auth.log",
+    "fail2ban_status": "active - sshd jail running, 5 currently banned, 12072 total banned",
+    "change_since_last": "fail2ban total bans 12072 (up from 11870, +202 since 04:20 UTC). 5 IPs currently banned: 2.57.121.112 80.94.92.167 80.94.92.177 2.57.122.208 80.94.92.165. Continued brute-force from bot networks. No successful unauthorized logins — all accepted sessions are publickey for novakj from authorized IPs (37.188.158.105, 109.81.28.74)."
   },
   "web_protections": {
     "security_headers": {
@@ -40,28 +40,31 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "350+ usages across 128 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "350+ usages across 129 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "split_view_js": {
-      "task": "TASK-132: Split-screen document view",
-      "status": "NEW FILE — reviewed in full (617 lines)",
-      "innerHTML_count": 9,
+    "doc_summary_js": {
+      "task": "NEW FILE — Document Summary / NLP analysis tool",
+      "status": "NEW FILE — reviewed in full (861 lines)",
+      "innerHTML_count": 1,
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "external_requests": false,
-      "innerHTML_safety": "Line 68: static SVG icon, SAFE. Lines 238-256: toolbar template with state.totalPages (int), panes[side].currentPage (int), Math.round(zoom*100) (int) — internal numeric values only, SAFE. Lines 300, 309, 322, 334, 425: static SVG templates, SAFE. Lines 518, 560: clearing container with empty string, SAFE.",
-      "text_rendering": "renderTextLayer() (lines 559-573) uses span.textContent for PDF text items — proper XSS-safe pattern.",
-      "resource_safety": "renderTasks cancelled on re-render and cleanup. No infinite loops. No unbounded arrays. scrollRAF properly cancelled.",
-      "localStorage_usage": "Stores orientation and split ratio. Numeric and string constants only.",
-      "import_export": "None — no JSON import/export functionality.",
-      "security_status": "CLEAN — no eval, no external requests, no user/PDF content in innerHTML, text rendering uses textContent."
+      "innerHTML_safety": "renderResults() builds large HTML template via innerHTML. All PDF-derived text (keywords, sentences, headings, topic labels, word frequency, language label) is escaped via escHtml() using DOM textContent->innerHTML pattern. escHtml() used exclusively in element content, never in attribute contexts — double-quote limitation does not apply. data-page attributes use integers only. langNote uses data.language.label from fixed internal label map (English/Spanish/French/German). scoreCard() uses internally-computed numeric values only. SAFE.",
+      "resource_safety": "TextRank builds O(n²) similarity matrix for sentences — bounded by sentence count, not page count. hashString limits to first 10000 chars. No explicit processing timeout but isProcessing flag prevents concurrent runs. Client-side self-DoS only for very large documents. Same pattern as other modules.",
+      "export_safety": "sanitizeFilename() imported from utils.js and applied to download filename. Export content (markdown/JSON/text) is derived from analysis data, not raw PDF. downloadBlob() used for file downloads.",
+      "security_status": "CLEAN — no eval, no external requests, no user/PDF content in innerHTML without escaping, all text rendering uses escHtml()."
     },
     "index_html": {
-      "task": "TASK-132: split-view.js script tag added",
-      "status": "MODIFIED — line 8450: <script type=\"module\" src=\"js/split-view.js\"></script> added",
-      "change_description": "Single script tag addition. Static content, no dynamic user data.",
+      "task": "doc-summary.js script tag and UI panel added",
+      "status": "MODIFIED — script tag at line 8499, nav tab at line 242, panel at line 8227",
+      "change_description": "Static UI additions for doc-summary tool. No dynamic user data.",
+      "security_status": "CLEAN"
+    },
+    "other_modified_files": {
+      "files_checked": ["action-registry.js", "app.js", "booklet.js", "contact-sheet.js", "form-autofill.js", "macro-recorder.js", "multi-window.js", "nup.js", "preflight.js", "present.js", "presenter-view.js", "redline.js", "scan-enhance.js", "slide-transitions.js", "split-view.js", "version-manager.js"],
+      "status": "Spot-checked all 16 recently modified files. No new security-relevant patterns introduced. All user/PDF-derived data properly escaped. No new eval, Function constructor, document.write, or external fetch calls.",
       "security_status": "CLEAN"
     }
   },
@@ -95,7 +98,7 @@
     "version-manager.js", "contact-sheet.js", "booklet.js", "nup.js",
     "multi-window.js", "scan-enhance.js", "presenter-view.js",
     "preflight.js", "macro-recorder.js", "slide-transitions.js",
-    "split-view.js"
+    "split-view.js", "doc-summary.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -133,17 +136,19 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
+    "doc_summary_js_reviewed_clean",
     "split_view_js_reviewed_clean",
     "index_html_changes_reviewed_clean",
-    "all_128_js_files_accounted_for",
+    "all_129_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_68_days",
-    "fail2ban_active_11870_total_bans",
+    "fail2ban_active_12072_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
     "document_write_safe_popup_windows_only",
-    "idb_version_storage_safe"
+    "idb_version_storage_safe",
+    "16_modified_files_spot_checked_clean"
   ],
   "known_issues": [
     "MEDIUM: recent-files.js lines 407, 414, 620, 623, 630, 641: doc.fileName (from file.name -> IndexedDB) inserted into innerHTML without escaping — in aria-label, title, data-rf-name attributes and element content. A file with HTML special chars in its name (e.g., '\"><img src=x onerror=alert(1)>.pdf') would inject HTML. CSP script-src 'self' blocks inline handlers/scripts. HTML structure manipulation still possible. Fix: import or define escapeHtml() and apply to all doc.fileName insertions in renderWelcomeRecent(), renderPanelContent(), and renderPanelCard().",
@@ -178,6 +183,7 @@
     "LOW: macro-recorder.js no overall macro execution timeout. Steps execute sequentially with 500ms delay. User can abort via fail dialog. Same pattern as batch.js.",
     "LOW: macro-recorder.js no limit on imported macro step count. Could cause slow rendering with very large step lists. User-initiated import only.",
     "LOW: slide-transitions.js importPreset() (lines 623-651): no schema validation on imported JSON. Accepts any values for global/easing/duration/etc. Not exploitable — values used only in numeric contexts, switch case matching with fallthrough, and easing key lookup with fallback. User-initiated import only.",
+    "LOW: doc-summary.js: TextRank builds O(n²) sentence similarity matrix with no explicit timeout. Client-side self-DoS only for very large documents. isProcessing flag prevents concurrent runs. Same pattern as other analysis modules.",
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
     "No general *.md nginx block - only CLAUDE.md specifically blocked. Any new .md file added to webroot would be publicly accessible.",
     "UFW firewall is inactive - only SSH and HTTP/HTTPS ports are needed but no firewall enforces this.",
