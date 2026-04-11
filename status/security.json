@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-11T00:20:00Z",
+  "last_review": "2026-04-11T04:20:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "15689 in current auth.log",
-    "fail2ban_status": "active - sshd jail running, 2 currently banned, 11706 total banned",
-    "change_since_last": "fail2ban total bans 11706 (up from 11587, +119 since 20:21 UTC). 2 IPs currently banned: 80.94.92.167 195.178.110.30. Continued brute-force from bot networks. No successful unauthorized logins — all accepted sessions are publickey for novakj from 109.81.28.74."
+    "failed_password_attempts": "16226 in current auth.log",
+    "fail2ban_status": "active - sshd jail running, 5 currently banned, 11870 total banned",
+    "change_since_last": "fail2ban total bans 11870 (up from 11706, +164 since 00:20 UTC). 5 IPs currently banned: 2.57.121.17 45.148.10.152 45.148.10.141 45.148.10.147 80.94.92.183. Continued brute-force from bot networks. No successful unauthorized logins — all accepted sessions are publickey for novakj from authorized IPs (109.81.28.74, 109.81.94.33, 109.81.20.141, 37.188.158.105)."
   },
   "web_protections": {
     "security_headers": {
@@ -40,38 +40,27 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "350+ usages across 127 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "350+ usages across 128 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "slide_transitions_js": {
-      "task": "TASK-131: Presentation slide transition effects",
-      "status": "NEW FILE — reviewed in full (816 lines)",
-      "innerHTML_count": 2,
+    "split_view_js": {
+      "task": "TASK-132: Split-screen document view",
+      "status": "NEW FILE — reviewed in full (617 lines)",
+      "innerHTML_count": 9,
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "external_requests": false,
-      "innerHTML_safety": "Line 390: cell.innerHTML with hardcoded TRANSITION_TYPES icon/name — static data only, SAFE. Lines 406-462: panel.innerHTML with module-level variables (duration as int, autoAdvanceDelay as int, boolean checked attrs) — no user/PDF content, SAFE.",
-      "import_validation": "LOW: importPreset() (lines 623-651) parses JSON without schema validation. Accepts any global/easing/duration values. However: globalTransition falls through switch with no effect for unknown types. easingName falls back to ease-in-out. duration used as numeric timer value. No values rendered in innerHTML. Not exploitable.",
-      "resource_safety": "animate() uses requestAnimationFrame, resolves at raw>=1 or abort. autoAdvance countdown properly cleared. No infinite loop risk.",
-      "localStorage_usage": "Stores/loads settings keyed by document hash. Same-origin only.",
-      "security_status": "CLEAN — no eval, no external requests, no user/PDF content in innerHTML. Import validation basic but values used safely."
-    },
-    "present_js": {
-      "task": "TASK-131: Modified to integrate slide transitions",
-      "status": "MODIFIED — reviewed in full (459 lines, down from previous version)",
-      "innerHTML_count": 1,
-      "eval_count": 0,
-      "function_constructor_count": 0,
-      "document_write_count": 0,
-      "external_requests": false,
-      "innerHTML_safety": "Lines 60-90: container.innerHTML with presentPage (int) and state.totalPages (int). All other dynamic text uses textContent (lines 158, 279). SAFE.",
-      "integration_safety": "Imports from slide-transitions.js use only exported functions for animation and settings. No user/PDF data passed to innerHTML. countdown display uses textContent.",
-      "security_status": "CLEAN"
+      "innerHTML_safety": "Line 68: static SVG icon, SAFE. Lines 238-256: toolbar template with state.totalPages (int), panes[side].currentPage (int), Math.round(zoom*100) (int) — internal numeric values only, SAFE. Lines 300, 309, 322, 334, 425: static SVG templates, SAFE. Lines 518, 560: clearing container with empty string, SAFE.",
+      "text_rendering": "renderTextLayer() (lines 559-573) uses span.textContent for PDF text items — proper XSS-safe pattern.",
+      "resource_safety": "renderTasks cancelled on re-render and cleanup. No infinite loops. No unbounded arrays. scrollRAF properly cancelled.",
+      "localStorage_usage": "Stores orientation and split ratio. Numeric and string constants only.",
+      "import_export": "None — no JSON import/export functionality.",
+      "security_status": "CLEAN — no eval, no external requests, no user/PDF content in innerHTML, text rendering uses textContent."
     },
     "index_html": {
-      "task": "TASK-131: slide-transitions.js script tag added",
-      "status": "MODIFIED — line 8393: <script type=\"module\" src=\"js/slide-transitions.js\"></script> added",
+      "task": "TASK-132: split-view.js script tag added",
+      "status": "MODIFIED — line 8450: <script type=\"module\" src=\"js/split-view.js\"></script> added",
       "change_description": "Single script tag addition. Static content, no dynamic user data.",
       "security_status": "CLEAN"
     }
@@ -105,7 +94,8 @@
     "drawing.js", "shape-recognition.js", "redline.js", "form-autofill.js",
     "version-manager.js", "contact-sheet.js", "booklet.js", "nup.js",
     "multi-window.js", "scan-enhance.js", "presenter-view.js",
-    "preflight.js", "macro-recorder.js", "slide-transitions.js"
+    "preflight.js", "macro-recorder.js", "slide-transitions.js",
+    "split-view.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -143,13 +133,12 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "slide_transitions_js_reviewed_clean",
-    "present_js_modified_reviewed_clean",
+    "split_view_js_reviewed_clean",
     "index_html_changes_reviewed_clean",
-    "all_127_js_files_accounted_for",
+    "all_128_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_68_days",
-    "fail2ban_active_11706_total_bans",
+    "fail2ban_active_11870_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
