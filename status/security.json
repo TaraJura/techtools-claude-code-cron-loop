@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-10T20:21:00Z",
+  "last_review": "2026-04-11T00:20:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "15325 in current auth.log",
-    "fail2ban_status": "active - sshd jail running, 7 currently banned, 11587 total banned",
-    "change_since_last": "fail2ban total bans 11587 (up from 11422, +165 since 16:22 UTC). 7 IPs currently banned: 183.87.154.155 45.148.10.147 80.94.92.164 2.57.122.196 45.148.10.152 80.94.92.167 45.148.10.240. Continued brute-force from bot networks. No successful unauthorized logins — all accepted sessions are publickey for novakj from 109.81.28.74."
+    "failed_password_attempts": "15689 in current auth.log",
+    "fail2ban_status": "active - sshd jail running, 2 currently banned, 11706 total banned",
+    "change_since_last": "fail2ban total bans 11706 (up from 11587, +119 since 20:21 UTC). 2 IPs currently banned: 80.94.92.167 195.178.110.30. Continued brute-force from bot networks. No successful unauthorized logins — all accepted sessions are publickey for novakj from 109.81.28.74."
   },
   "web_protections": {
     "security_headers": {
@@ -40,39 +40,40 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "350+ usages across 126 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "350+ usages across 127 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "macro_recorder_js": {
-      "task": "TASK-130: Action macro recorder",
-      "status": "NEW FILE — reviewed in full (926 lines)",
-      "innerHTML_count": 14,
+    "slide_transitions_js": {
+      "task": "TASK-131: Presentation slide transition effects",
+      "status": "NEW FILE — reviewed in full (816 lines)",
+      "innerHTML_count": 2,
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "external_requests": false,
-      "escHtml_quality": "Uses textContent→innerHTML pattern (line 847-851). Escapes <, >, & but NOT double quotes. Same pattern as most other modules.",
-      "element_content_escaping": "All user/imported data in element content contexts (macro.name, macro.description, step names, error messages) properly escaped with escHtml(). Lines 202, 206, 222, 311, 521, 524, 652, 664, 734, 735.",
-      "attribute_escaping": "MEDIUM-LOW: escHtml() used in value attributes at lines 202, 206 (macro name/description in input value). escHtml does not escape double quotes — allows attribute breakout with crafted names containing double quotes. Data from user prompt or imported JSON. CSP blocks inline script execution.",
-      "import_color_validation": "MEDIUM: imported data.color (line 804) used directly in style='background:${macro.color}' at line 520 without validation. A crafted import JSON with double-quote in color value could break out of style attribute. CSP blocks inline handlers. Fix: validate color matches /^#[0-9a-fA-F]{3,8}$/.",
-      "import_validation": "MEDIUM-LOW: importMacro() (lines 768-815) validates _type and steps array existence. Does NOT validate: name type/length, description type/length, color format, step.condition structure, step.params content. Steps checked against registry (warning only, not rejected). Imported step actionIds that don't exist in registry are stored and rendered but cannot execute.",
-      "macro_id_safety": "SAFE: imported macros always get generateId() (line 800), never use the original imported id.",
-      "recording_indicator": "SAFE: line 149-155 — static HTML content only, no user data.",
-      "condition_editor": "SAFE: condition values from imported JSON are rendered in pre-selected dropdown options and number input. evaluateCondition() handles unknown types safely by returning true.",
-      "retry_loop": "SAFE: retry on step failure (line 602-604) requires user interaction each iteration — not an automated infinite loop.",
-      "resource_consideration": "No overall macro execution timeout. Steps execute sequentially with 500ms delay. Each step relies on the underlying action's own timeout/resource handling. User can abort via fail dialog. Same pattern as batch.js. LOW risk.",
-      "step_count_limit": "No limit on imported macro step count. Could cause slow rendering with very large step lists. LOW risk — user-initiated import.",
-      "security_status": "CLEAN — no eval, no external requests, proper element content escaping. Import validation and color attribute escaping noted as MEDIUM/MEDIUM-LOW with CSP mitigation."
+      "innerHTML_safety": "Line 390: cell.innerHTML with hardcoded TRANSITION_TYPES icon/name — static data only, SAFE. Lines 406-462: panel.innerHTML with module-level variables (duration as int, autoAdvanceDelay as int, boolean checked attrs) — no user/PDF content, SAFE.",
+      "import_validation": "LOW: importPreset() (lines 623-651) parses JSON without schema validation. Accepts any global/easing/duration values. However: globalTransition falls through switch with no effect for unknown types. easingName falls back to ease-in-out. duration used as numeric timer value. No values rendered in innerHTML. Not exploitable.",
+      "resource_safety": "animate() uses requestAnimationFrame, resolves at raw>=1 or abort. autoAdvance countdown properly cleared. No infinite loop risk.",
+      "localStorage_usage": "Stores/loads settings keyed by document hash. Same-origin only.",
+      "security_status": "CLEAN — no eval, no external requests, no user/PDF content in innerHTML. Import validation basic but values used safely."
     },
-    "index_html": {
-      "task": "TASK-130: Macro recorder UI panel",
-      "status": "MODIFIED — macro tab button (line 238) and panel (lines 7846-7852) added, script loaded (line 8449)",
-      "change_description": "Static HTML: nav tab button with SVG icon, panel with header and placeholder body div (#macro-body). Script loaded as type=module. All static content, no dynamic user data in template.",
+    "present_js": {
+      "task": "TASK-131: Modified to integrate slide transitions",
+      "status": "MODIFIED — reviewed in full (459 lines, down from previous version)",
+      "innerHTML_count": 1,
+      "eval_count": 0,
+      "function_constructor_count": 0,
+      "document_write_count": 0,
+      "external_requests": false,
+      "innerHTML_safety": "Lines 60-90: container.innerHTML with presentPage (int) and state.totalPages (int). All other dynamic text uses textContent (lines 158, 279). SAFE.",
+      "integration_safety": "Imports from slide-transitions.js use only exported functions for animation and settings. No user/PDF data passed to innerHTML. countdown display uses textContent.",
       "security_status": "CLEAN"
     },
-    "action_registry_js": {
-      "status": "Filesystem timestamp newer than last review but file content matches previously reviewed version. action-registry.js was already in previous_module_reviews_still_valid. No substantive code changes detected for TASK-130.",
-      "security_status": "PREVIOUSLY REVIEWED — still valid"
+    "index_html": {
+      "task": "TASK-131: slide-transitions.js script tag added",
+      "status": "MODIFIED — line 8393: <script type=\"module\" src=\"js/slide-transitions.js\"></script> added",
+      "change_description": "Single script tag addition. Static content, no dynamic user data.",
+      "security_status": "CLEAN"
     }
   },
   "previous_module_reviews_still_valid": [
@@ -104,7 +105,7 @@
     "drawing.js", "shape-recognition.js", "redline.js", "form-autofill.js",
     "version-manager.js", "contact-sheet.js", "booklet.js", "nup.js",
     "multi-window.js", "scan-enhance.js", "presenter-view.js",
-    "preflight.js", "macro-recorder.js"
+    "preflight.js", "macro-recorder.js", "slide-transitions.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -122,7 +123,7 @@
   "ssl_certificate": {
     "valid_from": "2026-03-20",
     "valid_until": "2026-06-18",
-    "days_remaining": 69,
+    "days_remaining": 68,
     "status": "valid"
   },
   "checks_passed": [
@@ -142,12 +143,13 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "macro_recorder_js_reviewed_clean",
+    "slide_transitions_js_reviewed_clean",
+    "present_js_modified_reviewed_clean",
     "index_html_changes_reviewed_clean",
-    "all_126_js_files_accounted_for",
+    "all_127_js_files_accounted_for",
     "security_headers_present_verified",
-    "ssl_certificate_valid_69_days",
-    "fail2ban_active_11587_total_bans",
+    "ssl_certificate_valid_68_days",
+    "fail2ban_active_11706_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
@@ -158,7 +160,7 @@
     "MEDIUM: recent-files.js lines 407, 414, 620, 623, 630, 641: doc.fileName (from file.name -> IndexedDB) inserted into innerHTML without escaping — in aria-label, title, data-rf-name attributes and element content. A file with HTML special chars in its name (e.g., '\"><img src=x onerror=alert(1)>.pdf') would inject HTML. CSP script-src 'self' blocks inline handlers/scripts. HTML structure manipulation still possible. Fix: import or define escapeHtml() and apply to all doc.fileName insertions in renderWelcomeRecent(), renderPanelContent(), and renderPanelCard().",
     "MEDIUM: custom-stamps.js lines 823, 825: stamp.name in alt attribute and stamp.overlayText in element content inserted via innerHTML without escaping. Data from localStorage or imported JSON. A crafted import file with stamp.name='\" onload=\"alert(1)' or stamp.overlayText='<img src=x onerror=alert(1)>' would inject HTML. CSP script-src 'self' blocks inline handlers/scripts. HTML structure manipulation still possible. Fix: add escapeHtml() to module and apply to stamp.name, stamp.overlayText.",
     "MEDIUM: custom-stamps.js lines 916, 918: custom.name, custom.text (8 chars), custom.imageData, custom.textColor, custom.borderColor from localStorage/import inserted via innerHTML without escaping. Same import vector as above. Colors could break out of style attribute with double quotes. CSP mitigates. Fix: escape all user-controlled values or use DOM APIs.",
-    "MEDIUM: custom-stamps.js importLibrary() (line 1163-1199): imported JSON stamps only validated for structural fields (id, name, type). No sanitization of text content, imageData URL, overlay text, or color values. imageData not validated as data: URL — could be an external tracking URL. Fix: validate imageData starts with 'data:', sanitize text fields.",
+    "MEDIUM: custom-stamps.js importLibrary() (line 1163-1199): imported JSON stamps only validated for structural fields (id, name, type). No sanitization of text content, imageData URL, overlay text, or color values. imageData not validated as data: URL — could be an external tracking URL. CSP blocks inline handlers. Fix: validate imageData starts with 'data:', sanitize text fields.",
     "MEDIUM: macro-recorder.js line 520/804: imported data.color used directly in style='background:${macro.color}' without validation. A crafted import JSON with double-quote in color value could break out of style attribute. CSP blocks inline handlers. Fix: validate color matches /^#[0-9a-fA-F]{3,8}$/.",
     "CRITICAL-FUNCTIONAL: cloud-storage.js loads 4 external SDK scripts (apis.google.com, accounts.google.com/gsi, dropbox.com, alcdn.msauth.net) but CSP script-src 'self' blocks them all. The cloud storage feature is entirely non-functional. To fix: either (a) self-host the SDKs in /lib/ and add SRI hashes, or (b) add the 4 domains to CSP script-src. Option (a) is strongly preferred for security — external SDKs are supply chain risk without SRI. Option (b) broadens attack surface.",
     "MEDIUM: cloud-storage.js line 525: r.fileName and r.path from localStorage (originating from cloud provider API responses) inserted into innerHTML without escaping — in title attribute and element content. Cloud file names can be set by other users sharing files. A shared file named '<img src=x onerror=alert(1)>.pdf' injects HTML. CSP script-src 'self' blocks inline scripts/event handlers. HTML structure and CSS injection still possible. Fix: add escapeHtml() and apply to r.fileName and r.path in renderRecentFiles() template.",
@@ -186,6 +188,7 @@
     "LOW: preflight.js no processing timeout — all 10 checks iterate all pages. Ink coverage renders every page at 0.15 scale. Client-side self-DoS only for very large PDFs. Same pattern as contact-sheet.js, booklet.js, nup.js.",
     "LOW: macro-recorder.js no overall macro execution timeout. Steps execute sequentially with 500ms delay. User can abort via fail dialog. Same pattern as batch.js.",
     "LOW: macro-recorder.js no limit on imported macro step count. Could cause slow rendering with very large step lists. User-initiated import only.",
+    "LOW: slide-transitions.js importPreset() (lines 623-651): no schema validation on imported JSON. Accepts any values for global/easing/duration/etc. Not exploitable — values used only in numeric contexts, switch case matching with fallthrough, and easing key lookup with fallback. User-initiated import only.",
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
     "No general *.md nginx block - only CLAUDE.md specifically blocked. Any new .md file added to webroot would be publicly accessible.",
     "UFW firewall is inactive - only SSH and HTTP/HTTPS ports are needed but no firewall enforces this.",
