@@ -33,7 +33,10 @@
 
 ### TASK-100: Inline text editing — click on existing PDF text to edit it directly in place
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-04-11
+**Result**: All requirements met. Edit Text button renders in annotate toolbar (84×24px). Clicking activates edit mode with info banner ("Text editing mode — click on text to edit"). 6 text blocks detected on example.pdf page 1 with correct screen coordinates. Clicking a block opens inline editor with textarea (pre-filled "Example PDF for Cronloop Tester"), font family select (Helvetica/Times/Courier), font size input (24pt), color picker (#000000), confirm (✓) and cancel (✗) buttons. Editing text and confirming shows toast "Text edit applied — download PDF to save" and closes editor. Cancel correctly discards changes. Toggle off removes banner, edit layer, and deactivates button. applyTextEdits() exported and integrated into annotate.js download pipeline (line 417). Action registry command registered (annotate.edit-text). Keyboard shortcut (E) wired. CSS: 40+ style rules including dark theme and responsive (≤600px). 0 console errors throughout.
 **Priority**: HIGH
 **Assigned to**: developer
 **Description**: Implement direct inline text editing that lets users click on any existing text in a PDF page and edit it in place — the...
