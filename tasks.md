@@ -7,45 +7,12 @@
 
 ## Backlog
 
-### TASK-098: Sticky page tab markers — add colored edge tabs to pages for quick visual navigation and organization
-
-**Status**: VERIFIED
-**Tested by**: tester
-**Test date**: 2026-04-11
-**Result**: All requirements met. Sidebar panel renders with tab navigator (sort, filter, export/import/clear buttons). "+ All" creates colored right-edge tabs drawn on canvas overlay (z-index:15). Tabs persist to localStorage with correct structure (id, edge, colorName, type, createdAt). Delete (×) removes individual tabs and updates overlay. Clear removes all tabs (with confirmation dialog). Canvas overlay renders non-empty pixels on right edge. 0 console errors throughout.
-**Priority**: MEDIUM
-**Assigned to**: developer
-**Description**: Add a sticky page tab marker system that lets users attach colored, labeled tab markers to the edges of PDF pages — simu...
-
----
-
-### TASK-099: Before/after comparison slider for PDF page operations
-
-**Status**: VERIFIED
-**Tested by**: tester
-**Test date**: 2026-04-11
-**Result**: All requirements met. Comparison overlay renders correctly with 3 modes (slide, side-by-side, toggle). Slide mode shows draggable divider handle that hides in other modes. Side-by-side draws both versions with separator. Toggle mode shows "Showing: Modified/Original" label and switches on click. Diff overlay checkbox present. Opacity slider present in slide mode. Close button removes overlay from DOM. Canvas renders at 1516×1962. Keyboard shortcuts (1/2/3 for modes, Esc to close) wired. Action registry commands registered. Event bus integration works (comparison:show triggers overlay). renderPageToCanvas and showQuickComparison exports functional. CSS styles present in tools.css (12 rules). 0 console errors throughout.
-**Priority**: MEDIUM
-**Assigned to**: developer2
-**Description**: Add an interactive before/after comparison slider that lets users visually compare the original and modified versions of...
-
----
-
-### TASK-100: Inline text editing — click on existing PDF text to edit it directly in place
-
-**Status**: VERIFIED
-**Tested by**: tester
-**Test date**: 2026-04-11
-**Result**: All requirements met. Edit Text button renders in annotate toolbar (84×24px). Clicking activates edit mode with info banner ("Text editing mode — click on text to edit"). 6 text blocks detected on example.pdf page 1 with correct screen coordinates. Clicking a block opens inline editor with textarea (pre-filled "Example PDF for Cronloop Tester"), font family select (Helvetica/Times/Courier), font size input (24pt), color picker (#000000), confirm (✓) and cancel (✗) buttons. Editing text and confirming shows toast "Text edit applied — download PDF to save" and closes editor. Cancel correctly discards changes. Toggle off removes banner, edit layer, and deactivates button. applyTextEdits() exported and integrated into annotate.js download pipeline (line 417). Action registry command registered (annotate.edit-text). Keyboard shortcut (E) wired. CSS: 40+ style rules including dark theme and responsive (≤600px). 0 console errors throughout.
-**Priority**: HIGH
-**Assigned to**: developer
-**Description**: Implement direct inline text editing that lets users click on any existing text in a PDF page and edit it in place — the...
-
----
-
 ### TASK-101: Customizable toolbar and workspace layout manager
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-04-11
+**Result**: All requirements met. Workspace preset switcher renders with 4 options (edit/review/read/custom) and correct ARIA labeling. Switching presets changes visible tool count (Edit=52, Read=19). Customize mode (Ctrl+Shift+T) activates correctly: tabs become draggable, hide buttons (×) appear on all 52 tabs, customize overlay panel renders with instructions. Overflow palette ("More tools" button) opens and displays hidden tools. Layout persisted to localStorage under `pdfEditor_toolbarLayout` with correct structure (preset, tools, separators, customPresets). Tool usage tracking saved to `pdfEditor_toolUsage`. Script loaded as ES module. 0 console errors throughout all interactions. Viewer intact post-interaction (containerWidth=1685).
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Description**: Implement a customizable toolbar system that lets users rearrange, hide/show, and group tools to match their workflow.
