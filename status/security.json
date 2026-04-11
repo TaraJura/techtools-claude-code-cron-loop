@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-11T12:19:00Z",
+  "last_review": "2026-04-11T16:19:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "17033 in current auth.log",
-    "fail2ban_status": "active - sshd jail running, 3 currently banned, 12120 total banned",
-    "change_since_last": "fail2ban total bans 12120 (up from 12072, +48 since 08:26 UTC). 3 IPs currently banned: 80.94.92.171 92.118.39.63 80.94.92.167. Continued brute-force from bot networks. No successful unauthorized logins — all accepted sessions are publickey for novakj with same ED25519 key."
+    "failed_password_attempts": "76121 total failed in current auth.log",
+    "fail2ban_status": "active - sshd jail running, 3 currently banned, 12277 total banned",
+    "change_since_last": "fail2ban total bans 12277 (up from 12120, +157 since 12:19 UTC). 3 IPs currently banned: 80.94.92.165 2.57.122.208 213.209.159.159. Continued brute-force from bot networks. No successful unauthorized logins — all accepted sessions are publickey for novakj with same ED25519 key. Last human login: 2026-04-10 from 109.81.28.74."
   },
   "web_protections": {
     "security_headers": {
@@ -40,34 +40,25 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "350+ usages across 130 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "350+ usages across 131 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "camera_scanner_js": {
-      "task": "TASK-134: NEW FILE — Camera document scanner",
-      "status": "NEW FILE — reviewed in full (913 lines)",
+    "auto_link_js": {
+      "task": "NEW FILE — Auto-detect and link URLs, emails, phones, page references in PDFs",
+      "status": "NEW FILE — reviewed in full (623 lines)",
       "innerHTML_count": 2,
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "external_requests": false,
-      "innerHTML_safety": "renderGallery() at line 696 writes static hint text. Lines 700-720 build thumbnail gallery — all interpolated values are internally generated: dataUrl from canvas.toDataURL() (never user-controlled), idx from Array.map index (integer), page.rotation (integer 0/90/180/270). No user-derived or PDF-derived text content in any innerHTML. SAFE.",
-      "resource_safety": "MAX_PAGES=50 limit. Output canvas clamped to 6000x6000 max (line 514-515). isProcessing flag prevents concurrent operations. Hough transform O(w*h*180) bounded by video frame dimensions. hysteresisThreshold while loop always terminates (values only transition 1→2, never back). No explicit timeout but bounded computation. Client-side self-DoS only pattern.",
-      "camera_access": "Uses navigator.mediaDevices.getUserMedia with proper permission handling — NotAllowedError caught and reported. Torch toggle uses applyConstraints with try/catch. Stream tracks properly stopped in stopCamera().",
-      "download_safety": "sanitizeFilename() imported from utils.js and applied to download filename. Programmatic filename uses ISO date string (safe characters only).",
-      "privacy": "Camera frames processed entirely client-side. No server upload, no external requests, no analytics. Canvas data stays in-memory.",
-      "security_status": "CLEAN — no eval, no external requests, no user/PDF content in innerHTML, proper camera permission handling, resource limits in place."
-    },
-    "index_html": {
-      "task": "camera-scanner.js script tag and UI panel added",
-      "status": "MODIFIED — script tag at line 8608, nav tab at line 246, panel at line 8274",
-      "change_description": "Static HTML UI additions for camera-scanner tool. Select inputs with fixed option values. Checkbox toggles. No dynamic user data in HTML.",
-      "security_status": "CLEAN"
-    },
-    "action_registry_js": {
-      "task": "Modified (timestamp change only — no camera-scanner registration found in file)",
-      "status": "No new security-relevant changes detected",
-      "security_status": "CLEAN"
+      "innerHTML_safety": "updateResultsPanel() at lines 340-358 builds result list HTML. All PDF-derived values (r.key, r.text, r.context) passed through escapeHtml(). Icons/labels are hardcoded. Page numbers are integers. SAFE with known escapeHtml limitation.",
+      "escapeHtml_limitation": "escapeHtml() (line 389) uses textContent/innerHTML DOM technique — escapes <, >, & but NOT double quotes. Used in data-key, data-al-key, data-al-dismiss attributes where r.key contains PDF text. A PDF with double-quote chars in matched text could break attribute context. CSP script-src 'self' blocks inline handlers. Same pre-existing pattern as ~15 other modules.",
+      "uri_construction": "Lines 173-178: URL regex only matches http/https/www/domain patterns. Constructed URIs always start with https://, mailto:, or tel:. No javascript: URI possible. SAFE.",
+      "csv_export": "Lines 562-563: d.text quoted but not protected against CSV formula injection (=,+,-,@). Self-data only. Same pattern as cross-search.js. LOW risk.",
+      "resource_safety": "No explicit timeout on full-document scan. Iterates all pages sequentially. Client-side self-DoS only. Same pattern as other analysis modules. LOW risk.",
+      "download_safety": "Line 578: hardcoded filename 'auto-link-report.csv/json'. No user input in filename. SAFE.",
+      "privacy": "All processing client-side. No external requests. No server upload. SAFE.",
+      "security_status": "CLEAN — no eval, no external requests, proper escapeHtml on all PDF-derived innerHTML, URI construction safe (no javascript: possible). Known limitation: escapeHtml doesn't escape double quotes in attribute contexts (CSP mitigates)."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -100,7 +91,8 @@
     "version-manager.js", "contact-sheet.js", "booklet.js", "nup.js",
     "multi-window.js", "scan-enhance.js", "presenter-view.js",
     "preflight.js", "macro-recorder.js", "slide-transitions.js",
-    "split-view.js", "doc-summary.js", "camera-scanner.js"
+    "split-view.js", "doc-summary.js", "camera-scanner.js",
+    "auto-link.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -138,18 +130,18 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "camera_scanner_js_reviewed_clean",
-    "index_html_changes_reviewed_clean",
-    "all_130_js_files_accounted_for",
+    "auto_link_js_reviewed_clean",
+    "all_131_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_68_days",
-    "fail2ban_active_12120_total_bans",
+    "fail2ban_active_12277_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
     "document_write_safe_popup_windows_only",
     "idb_version_storage_safe",
-    "camera_getUserMedia_permission_handled"
+    "camera_getUserMedia_permission_handled",
+    "auto_link_uri_construction_safe"
   ],
   "known_issues": [
     "MEDIUM: recent-files.js lines 407, 414, 620, 623, 630, 641: doc.fileName (from file.name -> IndexedDB) inserted into innerHTML without escaping — in aria-label, title, data-rf-name attributes and element content. A file with HTML special chars in its name (e.g., '\"><img src=x onerror=alert(1)>.pdf') would inject HTML. CSP script-src 'self' blocks inline handlers/scripts. HTML structure manipulation still possible. Fix: import or define escapeHtml() and apply to all doc.fileName insertions in renderWelcomeRecent(), renderPanelContent(), and renderPanelCard().",
@@ -168,7 +160,10 @@
     "MEDIUM-LOW: voice-annotations.js importMemos() (lines 973-1001): imported JSON audioData not validated as data: URL. A crafted import could include external URLs, but base64ToBlob() catches parse errors producing empty blob — not exploitable. Same pattern as custom-stamps.js imageData. Fix: validate audioData starts with 'data:'.",
     "MEDIUM-LOW: version-manager.js line 395: v.name in title attribute not double-quote escaped — escHtml() uses DOM textContent->innerHTML which does not escape double quotes. v.name from imported ZIP manifest could break out of title attribute. v.id in data-id attributes (lines 393, 405-408) safe when self-generated but unvalidated on import. CSP mitigates script execution. Fix: add escAttr() for attribute contexts or validate imported entry fields.",
     "MEDIUM-LOW: version-manager.js importVersions() (lines 296-333): imported manifest entries not schema-validated. No checks on entry.id format, entry.name length, or entry structure. Imported entry.id used directly in data-id HTML attributes. Low exploitability — import is user-initiated from user's own files, CSP blocks scripts.",
+    "MEDIUM-LOW: auto-link.js escapeHtml() (line 389) doesn't escape double quotes. Used in data-key, data-al-key, data-al-dismiss attributes (lines 348-354) where r.key contains PDF text content. CSP script-src 'self' blocks inline handlers. Same pattern as ~15 other modules. Fix: escape double quotes or use DOM APIs for attribute setting.",
     "MEDIUM-LOW: page-tabs.js line 930: tab.label (user input from prompt() or imported JSON file) inserted into innerHTML without escaping. Also in aria-label attribute at line 928 without quote escaping. navigatorSearch at line 901 in value attribute without quote escaping. No escapeHtml function defined. CSP blocks script execution. Self-XSS only — user sets own labels or imports own JSON. Fix: add escapeHtml() and apply to label/search values.",
+    "LOW: auto-link.js CSV export (lines 562-563) d.text quoted but not protected against CSV formula injection. Self-data only. Same pattern as cross-search.js.",
+    "LOW: auto-link.js no processing timeout on full-document scan. Iterates all pages. Client-side self-DoS only. Same pattern as other analysis modules.",
     "LOW: toolbar-manager.js line 572: custom preset name (user text input) and key (from localStorage) inserted into innerHTML in data-preset attribute and element content without escaping. Self-XSS only — user sets own preset names. CSP blocks script execution.",
     "LOW: font-inspector.js line 1056: page number p used in data-page attribute without escAttr(). Pages are integers from PDF parsing. Minimal real-world risk. Fix: apply escAttr(p).",
     "LOW-FUNCTIONAL: repair.js line 376: import path './lib/pdf-lib.min.js' should be '../lib/pdf-lib.min.js' since file is in /js/. Fallback to window.PDFLib exists so module still works. Not a security issue.",
@@ -184,7 +179,7 @@
     "LOW: macro-recorder.js no overall macro execution timeout. Steps execute sequentially with 500ms delay. User can abort via fail dialog. Same pattern as batch.js.",
     "LOW: macro-recorder.js no limit on imported macro step count. Could cause slow rendering with very large step lists. User-initiated import only.",
     "LOW: slide-transitions.js importPreset() (lines 623-651): no schema validation on imported JSON. Accepts any values for global/easing/duration/etc. Not exploitable — values used only in numeric contexts, switch case matching with fallthrough, and easing key lookup with fallback. User-initiated import only.",
-    "LOW: doc-summary.js: TextRank builds O(n²) sentence similarity matrix with no explicit timeout. Client-side self-DoS only for very large documents. isProcessing flag prevents concurrent runs. Same pattern as other analysis modules.",
+    "LOW: doc-summary.js: TextRank builds O(n^2) sentence similarity matrix with no explicit timeout. Client-side self-DoS only for very large documents. isProcessing flag prevents concurrent runs. Same pattern as other analysis modules.",
     "LOW: camera-scanner.js: no explicit processing timeout on edge detection / perspective correction pipeline. Bounded by video frame dimensions (max 1920x1080 from getUserMedia constraints) and 6000x6000 output cap. Client-side self-DoS only.",
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
     "No general *.md nginx block - only CLAUDE.md specifically blocked. Any new .md file added to webroot would be publicly accessible.",
