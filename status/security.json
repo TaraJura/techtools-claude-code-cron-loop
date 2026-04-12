@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-12T08:25:00Z",
+  "last_review": "2026-04-12T12:28:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "37 in current auth.log segment (200 lines sampled)",
-    "fail2ban_status": "active - sshd jail running, 3 currently banned, 12743 total banned",
-    "change_since_last": "fail2ban total bans 12743 (up from 12619, +124 since 04:31 UTC). 3 IPs currently banned: 80.94.92.177 80.94.92.165 92.118.39.63. Continued brute-force from bot networks. No successful unauthorized logins — only sudo commands from novakj."
+    "failed_password_attempts": "39 in current auth.log segment (200 lines sampled)",
+    "fail2ban_status": "active - sshd jail running, 2 currently banned, 12821 total banned",
+    "change_since_last": "fail2ban total bans 12821 (up from 12743, +78 since 08:25 UTC). 2 IPs currently banned: 92.118.39.63 89.190.156.34. Continued brute-force from bot networks. No successful unauthorized logins — only sudo commands from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,25 +40,31 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "357+ usages across 135 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "357+ usages across 136 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "object_editor_js": {
-      "task": "NEW FILE — Object Editor: inline select, move, resize, delete embedded images/graphics on PDF pages",
-      "status": "NEW FILE — reviewed in full (1220 lines)",
-      "innerHTML_count": 7,
+    "multi_page_apply_js": {
+      "task": "NEW FILE — TASK-141: Multi-page annotation applicator — replicate stamps, text overlays, and signatures across page ranges",
+      "status": "NEW FILE — reviewed in full (556 lines)",
+      "innerHTML_count": 1,
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "external_requests": false,
       "storage_usage": "none — no localStorage, sessionStorage, or IndexedDB",
       "import_export": "none — no import/export JSON functions (no crafted data vector)",
-      "innerHTML_safety": "All 7 innerHTML usages use hardcoded strings or interpolate internally-generated numeric values (imgWidth, imgHeight, pdfW, pdfH, scaleX, scaleY, opacity, rotation, streamSize). obj.colorSpace is set internally to 'Grayscale'/'RGB'/'RGBA'. obj.isJpeg is boolean. obj.thumbnailUrl is blob: URL from URL.createObjectURL(). No PDF-derived text strings are interpolated into innerHTML.",
-      "file_input_note": "replaceImage() uses input.accept='image/jpeg,image/png,image/webp' as UI hint. No MIME/magic byte server validation, but client-side only — pdf-lib embedPng/embedJpg will reject invalid image data. User replaces their own images. Acceptable.",
-      "object_url_note": "LOW: thumbnailUrl blob URLs are revoked on replacement (line 677) but not on deactivate/new PDF load (line 978). Memory leak, not security issue.",
-      "timeout_note": "LOW: activate() scans all pages (line 986) without processing timeout. Client-side self-DoS only for very large PDFs. Same pattern as contact-sheet.js, booklet.js, nup.js.",
-      "positive_notes": "Good: no eval, no Function, no document.write, no external requests, no storage, no import/export. All processing client-side. Proper event cleanup via document removeEventListener in drag/resize handlers. Undo/redo integration. confirm() dialog before multi-delete.",
-      "security_status": "CLEAN — no security issues. Two LOW notes (object URL leak, no scan timeout) consistent with existing patterns."
+      "innerHTML_safety": "Single innerHTML usage at line 233 builds dialog UI from hardcoded HTML template string. No user or PDF-derived data interpolated. All dynamic text inserted via textContent (lines 335, 344, 345, 346, 414). SAFE.",
+      "file_input_note": "No file input. Module works with existing annotation data from stamps/text-overlay/signature storage maps.",
+      "timeout_note": "Yields to UI every 10 iterations via requestAnimationFrame (line 194-196). Bounded by totalPages (max 1000). LOW risk.",
+      "positive_notes": "Good: no eval, no Function, no document.write, no external requests, no storage, no import/export. All dynamic text via textContent. Proper undo/redo integration. Page range parsing uses parseInt with bounds checking. Event cleanup on pdf:close.",
+      "security_status": "CLEAN — no security issues."
+    },
+    "context_menu_js": {
+      "task": "MODIFIED — added buildPlacedAnnotationMenu() for multi-page apply context menu integration",
+      "status": "MODIFIED — reviewed changed sections",
+      "changes": "Added 3a detection block (lines 438-450) for placed stamps/text-overlays/signatures. Added buildPlacedAnnotationMenu() function (lines 565-586) with context menu items: Apply to Other Pages, Delete, Copy.",
+      "innerHTML_safety": "Labels from local subtypeLabels map (hardcoded). multiPageIcon is hardcoded SVG string. No user or PDF-derived data in innerHTML. SAFE.",
+      "security_status": "CLEAN — no security issues in changed code."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -93,7 +99,7 @@
     "preflight.js", "macro-recorder.js", "slide-transitions.js",
     "split-view.js", "doc-summary.js", "camera-scanner.js",
     "auto-link.js", "voice-commands.js", "form-tab-order.js",
-    "form-validation.js", "object-editor.js"
+    "form-validation.js", "object-editor.js", "multi-page-apply.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -131,11 +137,12 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "object_editor_js_reviewed_clean",
-    "all_135_js_files_accounted_for",
+    "multi_page_apply_js_reviewed_clean",
+    "context_menu_js_changes_reviewed_clean",
+    "all_136_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_67_days",
-    "fail2ban_active_12743_total_bans",
+    "fail2ban_active_12821_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
