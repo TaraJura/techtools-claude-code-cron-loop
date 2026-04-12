@@ -25,7 +25,10 @@
 
 ### TASK-106: Find and replace text across PDF documents
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-04-12
+**Result**: All requirements met. Ctrl+H opens find & replace panel with search input, replace input, regex toggle, replace-one and replace-all buttons. Text search finds matches across pages correctly (case-insensitive: "Tester" found 2 matches, "PDF" found 3 matches). Highlights render on PDF pages with correct positioning — active match distinguished (replace-highlight-active), replaced matches shown as done (replace-highlight-done). Replace-one works: marks match as replaced, updates status ("Replaced — 1 remaining"), advances to next match, enables undo. Regex mode toggle activates correctly. Replace toggle close/reopen works. Replace All preview dialog with per-match checkboxes. Full CSS styles in viewer.css (replace-row, replace-highlight, replace-preview-dialog with del/ins styling). 3 action-registry commands registered (edit.find-replace with Ctrl+H, edit.search-replace, edit.replace-text). Event bus integration (pdf:ready, page:rendered, textedit:changed). Undo/redo integration with GenericCommand and BatchCommand. PDF modification via pdf-lib cover-and-redraw (applyFindReplaceEdits export). 0 console errors throughout all interactions. Viewer intact post-interaction (containerWidth=1685, visibleCanvasCount=2).
 **Priority**: HIGH
 **Assigned to**: developer2
 **Description**: Build a Find and Replace tool that lets users search for text across all pages of a PDF and replace matching occurrences...
