@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-12T04:31:00Z",
+  "last_review": "2026-04-12T08:25:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "343 in current auth.log rotation (rotated since last review)",
-    "fail2ban_status": "active - sshd jail running, 6 currently banned, 12619 total banned",
-    "change_since_last": "fail2ban total bans 12619 (up from 12513, +106 since 00:19 UTC). 6 IPs currently banned: 2.57.122.195 80.94.92.167 213.209.159.159 92.118.39.62 45.227.254.170 2.57.122.188. Continued brute-force from multiple bot networks. auth.log recently rotated — 343 failures in new log. No successful unauthorized logins — only sudo commands from novakj."
+    "failed_password_attempts": "37 in current auth.log segment (200 lines sampled)",
+    "fail2ban_status": "active - sshd jail running, 3 currently banned, 12743 total banned",
+    "change_since_last": "fail2ban total bans 12743 (up from 12619, +124 since 04:31 UTC). 3 IPs currently banned: 80.94.92.177 80.94.92.165 92.118.39.63. Continued brute-force from bot networks. No successful unauthorized logins — only sudo commands from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,28 +40,25 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "350+ usages across 134 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "357+ usages across 135 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "form_validation_js": {
-      "task": "TASK-139: NEW FILE — Form field validation rules editor (required fields, format masks, regex patterns, conditional validation)",
-      "status": "NEW FILE — reviewed in full (1419 lines)",
-      "innerHTML_count": 16,
+    "object_editor_js": {
+      "task": "NEW FILE — Object Editor: inline select, move, resize, delete embedded images/graphics on PDF pages",
+      "status": "NEW FILE — reviewed in full (1220 lines)",
+      "innerHTML_count": 7,
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "external_requests": false,
-      "escHtml_function": "Lines 1403-1407: textContent->innerHTML pattern — does NOT escape double quotes. Same pattern as ~15 other modules.",
-      "escAttr_function": "Lines 1409-1411: replaces \", <, > — used correctly in value/title attribute contexts. Good practice.",
-      "innerHTML_safety": "Most innerHTML usages use hardcoded data, escHtml(), or escAttr() correctly. Four MEDIUM-LOW issues identified below.",
-      "issue_1": "MEDIUM-LOW: line 1022: cond.operator and cond.ruleType from fvState.conditions interpolated unescaped in innerHTML <span> element content. Conditions can be imported via importRules() without schema validation. A crafted import JSON with operator='<img src=x onerror=alert(1)>' injects HTML. CSP script-src 'self' blocks inline handlers. HTML structure manipulation possible. Fix: apply escHtml() to cond.operator and cond.ruleType.",
-      "issue_2": "MEDIUM-LOW: line 1055: f.type (PDF form field type from getFormFields()) interpolated unescaped in option element text via innerHTML. Same pattern as form-tab-order.js line 224. CSP mitigates. Fix: escape f.type.",
-      "issue_3": "MEDIUM-LOW: line 1060: r.type used in option value without escAttr(). describeRule() output at line 353 includes rule.params.presetName unescaped. Both can come from imported JSON. Could break out of option value attribute. CSP mitigates. Fix: use escAttr() for option value, escHtml() for option text.",
-      "issue_4": "MEDIUM-LOW: importRules() lines 1299-1333: imported JSON only validates data.rules existence. No schema validation on rules structure, conditions, operator values, ruleType values, or regex patterns. Same lax import pattern as ~10 other modules. User-initiated import only.",
-      "regex_note": "LOW: line 648: new RegExp(rule.params.pattern) from user/imported regex pattern — ReDoS possible with pathological patterns. try/catch handles syntax errors but not catastrophic backtracking. Self-DoS only.",
-      "querySelector_note": "LOW: lines 812, 835, 863: querySelector with PDF-derived fieldId in attribute selector without CSS.escape(). Could cause SyntaxError with crafted field IDs. Same pattern as annotation-replies.js. Not exploitable for XSS.",
-      "positive_notes": "Good: file defines both escHtml() and escAttr() and uses them appropriately in most contexts. No eval, no Function(), no document.write, no external requests. All processing client-side. Proper cleanup via detachFieldListeners().",
-      "security_status": "CLEAN — no eval, no external requests. Four MEDIUM-LOW innerHTML issues (unescaped imported data and PDF-derived field types, CSP mitigated). Same patterns as existing modules."
+      "storage_usage": "none — no localStorage, sessionStorage, or IndexedDB",
+      "import_export": "none — no import/export JSON functions (no crafted data vector)",
+      "innerHTML_safety": "All 7 innerHTML usages use hardcoded strings or interpolate internally-generated numeric values (imgWidth, imgHeight, pdfW, pdfH, scaleX, scaleY, opacity, rotation, streamSize). obj.colorSpace is set internally to 'Grayscale'/'RGB'/'RGBA'. obj.isJpeg is boolean. obj.thumbnailUrl is blob: URL from URL.createObjectURL(). No PDF-derived text strings are interpolated into innerHTML.",
+      "file_input_note": "replaceImage() uses input.accept='image/jpeg,image/png,image/webp' as UI hint. No MIME/magic byte server validation, but client-side only — pdf-lib embedPng/embedJpg will reject invalid image data. User replaces their own images. Acceptable.",
+      "object_url_note": "LOW: thumbnailUrl blob URLs are revoked on replacement (line 677) but not on deactivate/new PDF load (line 978). Memory leak, not security issue.",
+      "timeout_note": "LOW: activate() scans all pages (line 986) without processing timeout. Client-side self-DoS only for very large PDFs. Same pattern as contact-sheet.js, booklet.js, nup.js.",
+      "positive_notes": "Good: no eval, no Function, no document.write, no external requests, no storage, no import/export. All processing client-side. Proper event cleanup via document removeEventListener in drag/resize handlers. Undo/redo integration. confirm() dialog before multi-delete.",
+      "security_status": "CLEAN — no security issues. Two LOW notes (object URL leak, no scan timeout) consistent with existing patterns."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -96,7 +93,7 @@
     "preflight.js", "macro-recorder.js", "slide-transitions.js",
     "split-view.js", "doc-summary.js", "camera-scanner.js",
     "auto-link.js", "voice-commands.js", "form-tab-order.js",
-    "form-validation.js"
+    "form-validation.js", "object-editor.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -134,11 +131,11 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "form_validation_js_reviewed_clean",
-    "all_134_js_files_accounted_for",
+    "object_editor_js_reviewed_clean",
+    "all_135_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_67_days",
-    "fail2ban_active_12619_total_bans",
+    "fail2ban_active_12743_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
@@ -195,6 +192,8 @@
     "LOW: slide-transitions.js importPreset() (lines 623-651): no schema validation on imported JSON. Accepts any values for global/easing/duration/etc. Not exploitable — values used only in numeric contexts, switch case matching with fallthrough, and easing key lookup with fallback. User-initiated import only.",
     "LOW: doc-summary.js: TextRank builds O(n^2) sentence similarity matrix with no explicit timeout. Client-side self-DoS only for very large documents. isProcessing flag prevents concurrent runs. Same pattern as other analysis modules.",
     "LOW: camera-scanner.js: no explicit processing timeout on edge detection / perspective correction pipeline. Bounded by video frame dimensions (max 1920x1080 from getUserMedia constraints) and 6000x6000 output cap. Client-side self-DoS only.",
+    "LOW: object-editor.js: activate() scans all pages without processing timeout. Client-side self-DoS only for very large PDFs. Same pattern as contact-sheet.js, booklet.js, nup.js.",
+    "LOW: object-editor.js: blob URLs from thumbnailUrl not revoked on deactivate/new PDF load. Memory leak, not security issue.",
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
     "No general *.md nginx block - only CLAUDE.md specifically blocked. Any new .md file added to webroot would be publicly accessible.",
     "UFW firewall is inactive - only SSH and HTTP/HTTPS ports are needed but no firewall enforces this.",
