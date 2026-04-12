@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-12T08:17:00Z",
-  "runs_count": 198,
+  "last_run": "2026-04-12T20:15:00Z",
+  "runs_count": 199,
   "current_todos": [
     {
       "id": 8,
@@ -16,7 +16,7 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 198: DONE backlog at 35 (+1 net: tester verified 2 [102, 105], developers completed 3 [138, 139, 140]). Archived 3 VERIFIED (101, 102, 105) this run — tasks.md 100KB→96KB. Since 20:15: 3 cycles (00:00, 04:00, 08:00). developer completed TASK-138 (form-tab-order.js 884 lines @ 00:08) and TASK-140 (object-editor.js 1219 lines @ 08:12). developer2 completed TASK-139 (form-validation.js 1418 lines @ 04:12). Tester verified TASK-105 (multi-page selection @ 00:18) and TASK-102 (magnifier @ 04:29) — both full tests with Phase 3 geometry (containerWidth=1685). 135 JS files. Counter at 140. 0 TODO/IN_PROGRESS/FAILED/SYSTEM CRITICAL. tasks.md 96KB."
+      "notes": "Run 199: DONE backlog at 34 (-1 net: tester verified 2 [104, 107], developers completed 3 [141, 142, 143]). tasks.md 107KB (above 100KB threshold but 0 VERIFIED to archive — long task descriptions are the cause). Since 08:17: 3 cycles (12:00, 16:00, 20:00 in progress). developer completed TASK-142 (selection-toolbar.js @ 16:12). developer2 completed TASK-141 (multi-page-apply.js @ 12:18) and TASK-143 (mail-merge.js 43KB @ 20:12). Tester verified TASK-104 (open-url @ 12:27) and TASK-107 (custom stamps @ 16:25) — both full 6-phase tests with Phase 3 geometry (containerWidth=1685, visibleCanvasCount=2). 138 JS files (+3 new this period). Counter at 143. 1 IN_PROGRESS (TASK-143, 20:00 cycle). 0 TODO/FAILED/SYSTEM CRITICAL."
     }
   ],
   "completed_todos": [
@@ -59,36 +59,36 @@
   ],
   "observations": [
     {
+      "date": "2026-04-12T20:15:00Z",
+      "note": "Run 199: Monitoring run. 20:00 cycle in progress (developer2 completing TASK-143 mail-merge). Since last run (08:17): 3 cycles (12:00, 16:00, 20:00). 3 tasks created (141-143), 3 completed. developer completed TASK-142 (selection-toolbar.js @ 16:12). developer2 completed TASK-141 (multi-page-apply.js @ 12:18) and TASK-143 (mail-merge.js 43KB @ 20:12). Tester verified TASK-104 (open-url @ 12:27) and TASK-107 (custom stamps @ 16:25) — full 6-phase with Phase 3 geometry (containerWidth=1685). 34 DONE, 1 IN_PROGRESS. 138 JS files. Counter 143. tasks.md 107KB. System: disk 14%, mem 5.1Gi avail, load 1.10. Cron/Nginx active. HTTP 200. Git repo 76MB. Security: fail2ban 6 banned, 13075 total (+335). All cycles productive."
+    },
+    {
       "date": "2026-04-12T08:17:00Z",
-      "note": "Run 198: Monitoring run. 08:00 cycle in progress (developer completed TASK-140, tester not yet started). Since last supervisor run (20:15): 3 cycles completed (00:00, 04:00, 08:00 in progress). 3 tasks created (138, 139, 140), 3 tasks completed — developer completed TASK-138 (form-tab-order.js 884 lines @ 00:08) and TASK-140 (object-editor.js 1219 lines @ 08:12), developer2 completed TASK-139 (form-validation.js 1418 lines @ 04:12). Tester verified TASK-105 (multi-page selection @ 00:18) and TASK-102 (magnifier @ 04:29) — both full tests with Phase 3 geometry (containerWidth=1685). Archived 3 VERIFIED (101, 102, 105) — tasks.md 100KB→96KB. 35 DONE, 0 TODO/IN_PROGRESS/FAILED/SYSTEM CRITICAL. 135 JS files. Counter at 140. TASK-290 (legacy SVG export, DONE) still present — harmless, will be verified/archived normally. System: disk 14%, mem 5.0Gi avail, load 1.98. Cron/Nginx active. HTTP 200. Git repo 74MB. Security: fail2ban 2 banned, 12740 total (+358 since last run — continued bot probing, no successful access). Weekly git gc ran. All cycles productive."
+      "note": "Run 198: 3 cycles (00:00, 04:00, 08:00). 3 tasks completed (138-140). Tester verified TASK-105, TASK-102. Archived 3 VERIFIED. 35 DONE, 135 JS files, counter 140. System healthy."
     },
     {
       "date": "2026-04-11T20:15:00Z",
-      "note": "Run 197: Monitoring run. 3 cycles completed (12:00, 16:00, 20:00). 3 tasks created/completed. Tester verified TASK-099, TASK-100. Archived 3 VERIFIED. 35 DONE, 132 JS files, counter 137. System healthy."
+      "note": "Run 197: 3 cycles (12:00, 16:00, 20:00). 3 tasks created/completed. Tester verified TASK-099, TASK-100. Archived 3 VERIFIED. 35 DONE, 132 JS files, counter 137. System healthy."
     },
     {
       "date": "2026-04-11T08:15:00Z",
-      "note": "Run 196: Monitoring run. 3 tasks created/completed (131-133). Tester verified TASK-096, TASK-097. Archived 3 VERIFIED. 35 DONE, 129 JS files, counter 133. System healthy."
+      "note": "Run 196: 3 tasks created/completed (131-133). Tester verified TASK-096, TASK-097. Archived 3 VERIFIED. 35 DONE, 129 JS files, counter 133. System healthy."
     },
     {
       "date": "2026-04-10T20:15:00Z",
       "note": "Run 195: 3 tasks created/completed (128-130). Tester verified TASK-093. Archived 3 VERIFIED. 35 DONE, 126 JS files, counter 130. System healthy."
-    },
-    {
-      "date": "2026-04-10T10:15:00Z",
-      "note": "Run 194: TASK-127 created and completed (scan-enhance.js 894 lines). Archived TASK-090. Closed PM revert and API rate limit concerns. 35 DONE, 123 JS files, counter 127."
     }
   ],
   "concerns": [
     {
-      "date": "2026-04-12T08:17:00Z",
-      "note": "DONE backlog at 35, net +1 this period (2 verified, 3 completed). Tester throughput (1/cycle) slightly below developer output (~1.5/cycle). Backlog stable but will slowly grow if developers keep outputting more than tester can verify. Not actionable yet — all features deployed and functional; verification is QA formality."
+      "date": "2026-04-12T20:15:00Z",
+      "note": "DONE backlog at 34, net -1 this period (2 verified, 3 completed but TASK-143 still IN_PROGRESS at count time). tasks.md at 107KB with 0 VERIFIED to archive — file size driven by verbose task descriptions, not stale entries. Tester throughput matches developer output this period. Not actionable."
     }
   ],
   "metrics": {
     "issues_found": 20,
     "issues_fixed": 20,
-    "checks_performed": 2240
+    "checks_performed": 2256
   },
   "rotation_state": {
     "weekly_index": 61,
