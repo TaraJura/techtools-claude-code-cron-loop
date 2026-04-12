@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-12T16:27:00Z",
+  "last_review": "2026-04-12T20:25:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "50 in current auth.log segment (200 lines sampled)",
-    "fail2ban_status": "active - sshd jail running, 1 currently banned, 12990 total banned",
-    "change_since_last": "fail2ban total bans 12990 (up from 12821, +169 since 12:28 UTC). 1 IP currently banned: 113.163.156.190. Continued brute-force from bot networks. No successful unauthorized logins — only sudo commands from novakj."
+    "failed_password_attempts": "multiple in current auth.log segment (200 lines sampled)",
+    "fail2ban_status": "active - sshd jail running, 6 currently banned, 13081 total banned",
+    "change_since_last": "fail2ban total bans 13081 (up from 12990, +91 since 16:27 UTC). 6 IPs currently banned: 2.57.122.195, 2.57.121.69, 195.178.110.30, 195.178.110.15, 45.148.10.152, 92.118.39.63. Continued brute-force from bot networks (root, solana, lighthouse usernames). No successful unauthorized logins — only sudo commands from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,42 +40,29 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "357+ usages across 137 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "357+ usages across 138 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "selection_toolbar_js": {
-      "task": "NEW FILE — TASK-142: Contextual text selection toolbar — floating quick-action bar on text select",
-      "status": "NEW FILE — reviewed in full (487 lines)",
-      "innerHTML_count": 1,
+    "mail_merge_js": {
+      "task": "NEW FILE — mail merge: template PDF + CSV/JSON data → batch personalized PDFs",
+      "status": "NEW FILE — reviewed in full (963 lines)",
+      "innerHTML_count": 3,
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
-      "external_requests": "Google search (user-initiated, encodeURIComponent-encoded, noopener)",
-      "storage_usage": "localStorage — boolean enable flag and hex color string only",
-      "innerHTML_safety": "Single innerHTML at line 136: btn.innerHTML = '' — literal empty string to clear color-dot button content. SAFE.",
-      "text_display": "All button labels via textContent (line 138). No user/PDF-derived content in DOM insertion.",
-      "url_construction": "doSearchWeb() line 461: window.open('https://www.google.com/search?q=' + encodeURIComponent(text), '_blank', 'noopener'). Properly encoded, hardcoded safe domain, noopener set. SAFE.",
-      "event_bus_integration": "Emits to annotate:applyToSelection, sticky-notes:addAt, redact:addFromSelection — all receiving modules previously reviewed and clean.",
-      "positive_notes": "Good: no eval, no Function, no document.write, textContent for all labels, encodeURIComponent for URL params, noopener on window.open, proper DOM APIs throughout.",
-      "security_status": "CLEAN — no security issues."
-    },
-    "sticky_notes_js": {
-      "task": "MODIFIED — added bus.on('sticky-notes:addAt') handler for selection toolbar integration",
-      "status": "MODIFIED — reviewed changed section",
-      "changes": "Added event listener (approx lines 66-82) that creates a note from x/y/pageNum/text parameters. Follows existing note creation pattern — structuredClone, bounds clamping, no innerHTML.",
-      "security_status": "CLEAN — no security issues in changed code."
-    },
-    "redact_js": {
-      "task": "MODIFIED — added bus.on('redact:addFromSelection') handler for selection toolbar integration",
-      "status": "MODIFIED — reviewed changed section",
-      "changes": "Added event listener (approx lines 36-52) that reads selection rects and creates geometry-only marks (x/y/width/height). No text content stored, no innerHTML.",
-      "security_status": "CLEAN — no security issues in changed code."
-    },
-    "annotate_js": {
-      "task": "MODIFIED — added bus.on('annotate:applyToSelection') handler for selection toolbar integration",
-      "status": "MODIFIED — reviewed changed section",
-      "changes": "Added event listener (approx lines 44-70) that creates annotation from selection rects with type/color from event. Uses existing getSelectionRects/renderAnnotation functions. selection.removeAllRanges() called after.",
-      "security_status": "CLEAN — no security issues in changed code."
+      "external_requests": "none",
+      "storage_usage": "localStorage — merge history (mapping config, row/var counts, output mode). Bounded to 10 entries.",
+      "esc_function": "Lines 604-608: uses textContent→innerHTML pattern. Escapes <, >, & but NOT double quotes. Same pattern as ~15 other modules.",
+      "innerHTML_safety_render": "render() at line 421: large innerHTML template. All user-controlled values (CSV headers, data values, template variable names, settings) passed through esc(). esc() doesn't escape double quotes — used in data-var, value, data-col, title attributes. CSV/JSON-derived data could break out of double-quoted attributes. CSP script-src 'self' blocks inline handlers. Self-XSS/import vector only.",
+      "innerHTML_safety_history": "renderHistory() at line 596: history data from localStorage. All values are internally generated numbers/dates. SAFE.",
+      "innerHTML_safety_validation": "startGeneration() line 779-781: i.column (CSV header name) inserted into validation warning innerHTML WITHOUT esc(). A crafted CSV with HTML in column header name injects HTML. CSP script-src 'self' blocks inline handlers. MEDIUM-LOW risk.",
+      "csv_parser": "Custom RFC 4180 parser (lines 38-91). No eval, no code execution. Safe.",
+      "json_parser": "Uses JSON.parse (line 97). Validates array of objects. Safe.",
+      "file_import": "Accepts .csv and .json via file input. No file size limit check — client-side self-DoS only for very large files.",
+      "zip_filename_sanitization": "Line 357: replaces <, >, :, \", /, \\, |, ?, * with underscore. Good.",
+      "processing_timeout": "No explicit timeout on generateMergedDocuments loop. Cancel button (cancelled flag) provides user escape. Yields to UI every 5 iterations. Client-side self-DoS only.",
+      "positive_notes": "Good: no eval, no Function, no document.write, no external requests, esc() applied to all major user data insertions, cancel mechanism for long operations, history bounded to 10 entries, zip filenames sanitized.",
+      "security_status": "CLEAN with noted MEDIUM-LOW issues (same pattern as existing modules)."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -111,7 +98,7 @@
     "split-view.js", "doc-summary.js", "camera-scanner.js",
     "auto-link.js", "voice-commands.js", "form-tab-order.js",
     "form-validation.js", "object-editor.js", "multi-page-apply.js",
-    "selection-toolbar.js"
+    "selection-toolbar.js", "mail-merge.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -149,14 +136,11 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "selection_toolbar_js_reviewed_clean",
-    "sticky_notes_js_changes_reviewed_clean",
-    "redact_js_changes_reviewed_clean",
-    "annotate_js_changes_reviewed_clean",
-    "all_137_js_files_accounted_for",
+    "mail_merge_js_reviewed_clean",
+    "all_138_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_67_days",
-    "fail2ban_active_12990_total_bans",
+    "fail2ban_active_13081_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
@@ -177,6 +161,8 @@
     "MEDIUM: cloud-storage.js line 663: f.name and f.id from Microsoft Graph API inserted into innerHTML without escaping — in data-name, data-id attributes and element content. OneDrive filenames can be set by file sharers. Double-quote in f.id could break data-id attribute. Fix: escape f.name and f.id in showOnedrivePicker() template.",
     "MEDIUM: form-detect.js line 709: field.label from PDF text content inserted into innerHTML without escaping — both in title attribute and element content. A malicious PDF with crafted text items could inject HTML. CSP script-src 'self' blocks inline scripts/event handlers. HTML structure manipulation and CSS injection still possible. Fix: add escapeHtml() and use on field.label in renderResultList() template.",
     "MEDIUM: font-inspector.js line 997: f.subsetPrefix (PDF font subset prefix) inserted into innerHTML without escaping. Validated by /^[A-Z]{6}$/ regex at extraction but data originates from PDF. CSP blocks script execution. Fix: apply escHtml(f.subsetPrefix).",
+    "MEDIUM-LOW: mail-merge.js line 779-781: i.column (CSV header name) in validation warning innerHTML NOT escaped with esc(). A crafted CSV with HTML in column headers injects HTML in the validation display. CSP script-src 'self' blocks inline handlers. Self-XSS/import vector only. Fix: apply esc() to i.column.",
+    "MEDIUM-LOW: mail-merge.js esc() function (lines 604-608) doesn't escape double quotes. Used in data-var, value, data-col, title attributes with CSV/JSON-derived values. Same pattern as ~15 other modules. CSP mitigates.",
     "MEDIUM-LOW: macro-recorder.js lines 202, 206: escHtml() used in input value attributes but does not escape double quotes. Macro name/description containing double quotes can break out of value attribute. Data from user prompt or imported JSON. CSP blocks inline script execution. Self-XSS/import vector. Fix: use escAttr() for attribute contexts.",
     "MEDIUM-LOW: macro-recorder.js importMacro() (lines 768-815): validates _type and steps existence but does not validate name type/length, description type/length, color format, step.condition structure, or step.params content. Steps with unrecognized actionIds are stored and rendered but cannot execute. Low exploitability — import is user-initiated.",
     "MEDIUM-LOW: preflight.js line 617: r.summary inserted into innerHTML without escaping. Most summaries are internally-generated numbers/strings. Color space summary (line 216) interpolates PDF-derived color space names (csName from pdf.js operator args). Error fallback (line 574) interpolates err.message. CSP script-src 'self' blocks inline scripts. HTML structure manipulation theoretically possible. Fix: apply escapeHtml() to r.summary in renderResults().",
@@ -215,6 +201,8 @@
     "LOW: camera-scanner.js: no explicit processing timeout on edge detection / perspective correction pipeline. Bounded by video frame dimensions (max 1920x1080 from getUserMedia constraints) and 6000x6000 output cap. Client-side self-DoS only.",
     "LOW: object-editor.js: activate() scans all pages without processing timeout. Client-side self-DoS only for very large PDFs. Same pattern as contact-sheet.js, booklet.js, nup.js.",
     "LOW: object-editor.js: blob URLs from thumbnailUrl not revoked on deactivate/new PDF load. Memory leak, not security issue.",
+    "LOW: mail-merge.js: no processing timeout on generateMergedDocuments loop. Cancel button (cancelled flag) provides user escape. Client-side self-DoS only for large datasets.",
+    "LOW: mail-merge.js: no size limit on imported CSV/JSON files. Client-side self-DoS only for very large data files.",
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
     "No general *.md nginx block - only CLAUDE.md specifically blocked. Any new .md file added to webroot would be publicly accessible.",
     "UFW firewall is inactive - only SSH and HTTP/HTTPS ports are needed but no firewall enforces this.",
