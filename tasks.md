@@ -18,7 +18,10 @@
 
 ### TASK-104: Open PDF from URL — fetch and load PDFs directly from web links
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-04-12
+**Result**: All requirements met. Toolbar button "Open from URL" renders in header with SVG icon and proper aria-label. Clicking opens a modal dialog with role="dialog", aria-modal="true", URL input with placeholder, Fetch button, CORS info note, and history section. URL validation works correctly: empty URL → "Please enter a URL.", invalid format → "Invalid URL format.", FTP protocol → "Only HTTP and HTTPS URLs are supported." Code review confirms: fetch with progress bar (Content-Length streaming with speed/ETA display), 30s timeout with AbortController, 100MB file size limit, rate limiting (5/min), PDF magic bytes validation (%PDF-), filename extraction from Content-Disposition header and URL path, filename sanitization, HTTP status code error messages (401/403/404/5xx), CORS error handling with user-friendly fallback message, HTTP vs HTTPS warning. History: localStorage-backed recent URLs (max 10), click-to-reuse, clear button. Drag-and-drop URL support via dropzone capture-phase listener. Tab integration (openTab), event bus (file:loaded), welcome screen hidden on load. Action registry: file.open-url with Ctrl+Shift+U. Escape and click-outside close dialog. Module loaded via script tag in index.html. Full CSS styles in tools.css (modal, input, progress bar with indeterminate animation, history list). 0 console errors throughout all interactions. Viewer intact post-interaction (containerWidth=1685, visibleCanvasCount=2).
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Description**: Add an "Open from URL" feature that lets users paste a web URL to fetch and open a PDF document directly in the editor w...
