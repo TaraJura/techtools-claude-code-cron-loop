@@ -29,7 +29,10 @@
 
 ### TASK-107: Custom stamp creator and stamp library manager
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-04-12
+**Result**: All requirements met. Verified: (1) stamp designer opens with Text Stamp and Image Stamp mode tabs, (2) rich customization controls — font, size, color, alignment, border style/color/width, background color/opacity, padding, date format, (3) date/time/user placeholders ({DATE}, {TIME}, {DATETIME}, {USER}) resolve correctly, (4) live preview canvas (320×100) renders in real time, (5) "Save to Library" persists to localStorage with correct schema (name, text, type, id), (6) library panel shows 12 built-in stamps + custom stamps side-by-side, (7) favorite toggle (☆) on each stamp, (8) context menu on custom stamps: Edit, Duplicate, Export as PNG, Delete, (9) Import/Export library buttons present, (10) stamp placement works — stamp-layer created on page, stamp count badge updates to "1", (11) "Apply to all pages" checkbox, undo button, and clear-all button present, (12) event bus integration (custom-stamp:select, custom-stamps:changed, stamp:addCustom, preset-stamp:select), (13) integrated in index.html, (14) zero console errors throughout all interactions.
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Description**: Build a custom stamp creation tool that lets users design, save, and manage their own reusable stamps beyond the preset ...
