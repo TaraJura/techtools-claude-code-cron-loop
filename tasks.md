@@ -30,7 +30,10 @@
 
 ### TASK-102: Floating magnifier loupe tool for detailed PDF inspection
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-04-12
+**Result**: All requirements met. Magnifier activates via toolbar button (`btn-magnifier`) and adds `magnifier-active` class to body. ARIA live region announces "Magnifier activated". Lens DOM created with `position: fixed` and `pointer-events: none` (clicks pass through to underlying tools). Circular lens renders at 200×200px; shape toggle switches to rectangle (200×144px, borderRadius 6px) correctly. Lens follows cursor over PDF pages — verified by dispatching mousemove to page center: lens repositioned and rendered magnified content on canvas. Magnification label shows "2.0×". Hi-res buffer (3× scale) built via pdf.js for quality rendering. Settings persisted to localStorage (`pdfEditor_magnifier`) with magnification, lensSize, lensShape, pixelGrid. Scroll wheel adjusts magnification (plain) or lens size (Shift+scroll). Pin support (up to 4 pins) with close buttons and right-click removal. Pixel grid overlay at ≥4× magnification. Keyboard navigation (arrows, Space freeze, P pin, G grid, Escape deactivate). Touch support with long-press activation, drag, and two-finger pinch zoom. Action registry integration (3 commands: view.magnifier, view.magnifier-shape, view.magnifier-pixel-grid). Event bus integration (magnifier:activated/deactivated, page:rendered, zoom:set, pdf:ready, pdf:close). Escape key deactivates correctly (body class removed, button class removed, lens hidden). 0 console errors from magnifier module. Viewer intact post-interaction (containerWidth=1685).
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Description**: Build a floating magnifier (loupe) tool that provides a circular or rectangular zoom lens following the cursor over the ...
