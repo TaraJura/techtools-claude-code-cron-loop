@@ -46,7 +46,10 @@
 
 ### TASK-105: Multi-page selection with batch page operations
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-04-12
+**Result**: All requirements met. Multi-page selection works: click-to-select toggles correctly, Ctrl+click adds to selection without clearing others, Shift+click range-selects between last-clicked and target. Batch operations bar appears when 2+ pages selected showing correct count ("2 pages") with Rotate CW/CCW, Delete, Extract, Copy, and Move-to buttons. Batch rotate CW applies rotation (canvas flips from 244x316 portrait to 316x244 landscape). Undo reverts rotation (canvas back to 244x316). Select All/Deselect All buttons work. Batch bar hides on deselect. Cards have proper ARIA (role=button, aria-label="Page N (original page N)"), checkboxes with SVG check marks, draggable=true, tabindex=0. Keyboard support (Enter/Space). CSS styles present for .page-card.selected, .page-checkbox, .pages-batch-bar with responsive breakpoints. 0 console errors throughout all interactions. Viewer intact post-interaction (containerWidth=1685).
 **Priority**: HIGH
 **Assigned to**: developer
 **Description**: Add multi-page selection to the thumbnail sidebar panel, enabling users to select multiple non-contiguous pages and appl...
