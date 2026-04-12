@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-12T12:28:00Z",
+  "last_review": "2026-04-12T16:27:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "39 in current auth.log segment (200 lines sampled)",
-    "fail2ban_status": "active - sshd jail running, 2 currently banned, 12821 total banned",
-    "change_since_last": "fail2ban total bans 12821 (up from 12743, +78 since 08:25 UTC). 2 IPs currently banned: 92.118.39.63 89.190.156.34. Continued brute-force from bot networks. No successful unauthorized logins — only sudo commands from novakj."
+    "failed_password_attempts": "50 in current auth.log segment (200 lines sampled)",
+    "fail2ban_status": "active - sshd jail running, 1 currently banned, 12990 total banned",
+    "change_since_last": "fail2ban total bans 12990 (up from 12821, +169 since 12:28 UTC). 1 IP currently banned: 113.163.156.190. Continued brute-force from bot networks. No successful unauthorized logins — only sudo commands from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,30 +40,41 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "357+ usages across 136 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "357+ usages across 137 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "multi_page_apply_js": {
-      "task": "NEW FILE — TASK-141: Multi-page annotation applicator — replicate stamps, text overlays, and signatures across page ranges",
-      "status": "NEW FILE — reviewed in full (556 lines)",
+    "selection_toolbar_js": {
+      "task": "NEW FILE — TASK-142: Contextual text selection toolbar — floating quick-action bar on text select",
+      "status": "NEW FILE — reviewed in full (487 lines)",
       "innerHTML_count": 1,
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
-      "external_requests": false,
-      "storage_usage": "none — no localStorage, sessionStorage, or IndexedDB",
-      "import_export": "none — no import/export JSON functions (no crafted data vector)",
-      "innerHTML_safety": "Single innerHTML usage at line 233 builds dialog UI from hardcoded HTML template string. No user or PDF-derived data interpolated. All dynamic text inserted via textContent (lines 335, 344, 345, 346, 414). SAFE.",
-      "file_input_note": "No file input. Module works with existing annotation data from stamps/text-overlay/signature storage maps.",
-      "timeout_note": "Yields to UI every 10 iterations via requestAnimationFrame (line 194-196). Bounded by totalPages (max 1000). LOW risk.",
-      "positive_notes": "Good: no eval, no Function, no document.write, no external requests, no storage, no import/export. All dynamic text via textContent. Proper undo/redo integration. Page range parsing uses parseInt with bounds checking. Event cleanup on pdf:close.",
+      "external_requests": "Google search (user-initiated, encodeURIComponent-encoded, noopener)",
+      "storage_usage": "localStorage — boolean enable flag and hex color string only",
+      "innerHTML_safety": "Single innerHTML at line 136: btn.innerHTML = '' — literal empty string to clear color-dot button content. SAFE.",
+      "text_display": "All button labels via textContent (line 138). No user/PDF-derived content in DOM insertion.",
+      "url_construction": "doSearchWeb() line 461: window.open('https://www.google.com/search?q=' + encodeURIComponent(text), '_blank', 'noopener'). Properly encoded, hardcoded safe domain, noopener set. SAFE.",
+      "event_bus_integration": "Emits to annotate:applyToSelection, sticky-notes:addAt, redact:addFromSelection — all receiving modules previously reviewed and clean.",
+      "positive_notes": "Good: no eval, no Function, no document.write, textContent for all labels, encodeURIComponent for URL params, noopener on window.open, proper DOM APIs throughout.",
       "security_status": "CLEAN — no security issues."
     },
-    "context_menu_js": {
-      "task": "MODIFIED — added buildPlacedAnnotationMenu() for multi-page apply context menu integration",
-      "status": "MODIFIED — reviewed changed sections",
-      "changes": "Added 3a detection block (lines 438-450) for placed stamps/text-overlays/signatures. Added buildPlacedAnnotationMenu() function (lines 565-586) with context menu items: Apply to Other Pages, Delete, Copy.",
-      "innerHTML_safety": "Labels from local subtypeLabels map (hardcoded). multiPageIcon is hardcoded SVG string. No user or PDF-derived data in innerHTML. SAFE.",
+    "sticky_notes_js": {
+      "task": "MODIFIED — added bus.on('sticky-notes:addAt') handler for selection toolbar integration",
+      "status": "MODIFIED — reviewed changed section",
+      "changes": "Added event listener (approx lines 66-82) that creates a note from x/y/pageNum/text parameters. Follows existing note creation pattern — structuredClone, bounds clamping, no innerHTML.",
+      "security_status": "CLEAN — no security issues in changed code."
+    },
+    "redact_js": {
+      "task": "MODIFIED — added bus.on('redact:addFromSelection') handler for selection toolbar integration",
+      "status": "MODIFIED — reviewed changed section",
+      "changes": "Added event listener (approx lines 36-52) that reads selection rects and creates geometry-only marks (x/y/width/height). No text content stored, no innerHTML.",
+      "security_status": "CLEAN — no security issues in changed code."
+    },
+    "annotate_js": {
+      "task": "MODIFIED — added bus.on('annotate:applyToSelection') handler for selection toolbar integration",
+      "status": "MODIFIED — reviewed changed section",
+      "changes": "Added event listener (approx lines 44-70) that creates annotation from selection rects with type/color from event. Uses existing getSelectionRects/renderAnnotation functions. selection.removeAllRanges() called after.",
       "security_status": "CLEAN — no security issues in changed code."
     }
   },
@@ -99,7 +110,8 @@
     "preflight.js", "macro-recorder.js", "slide-transitions.js",
     "split-view.js", "doc-summary.js", "camera-scanner.js",
     "auto-link.js", "voice-commands.js", "form-tab-order.js",
-    "form-validation.js", "object-editor.js", "multi-page-apply.js"
+    "form-validation.js", "object-editor.js", "multi-page-apply.js",
+    "selection-toolbar.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -137,12 +149,14 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "multi_page_apply_js_reviewed_clean",
-    "context_menu_js_changes_reviewed_clean",
-    "all_136_js_files_accounted_for",
+    "selection_toolbar_js_reviewed_clean",
+    "sticky_notes_js_changes_reviewed_clean",
+    "redact_js_changes_reviewed_clean",
+    "annotate_js_changes_reviewed_clean",
+    "all_137_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_67_days",
-    "fail2ban_active_12821_total_bans",
+    "fail2ban_active_12990_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
@@ -189,7 +203,7 @@
     "LOW: cross-search.js regex mode: new RegExp(query, flags) from user search input — ReDoS possible but self-DoS only. try/catch, MAX_RESULTS_PER_DOC limit, zero-length match guard, and AbortController all mitigate.",
     "LOW: cross-search.js CSV export: snippets/filenames could contain =,+,-,@ prefixes interpreted as formulas by spreadsheet apps. Self-data only (user's own PDFs/filenames).",
     "LOW: annotation-replies.js findAnnotationElement() lines 610-617: annotKey from imported data used directly in querySelector attribute selectors without CSS.escape(). Crafted keys could cause SyntaxError or match unintended elements. Not exploitable for XSS — only returns element reference. Self-XSS/import vector only.",
-    "LOW: contact-sheet.js, booklet.js, nup.js: no explicit processing timeout — renders/embeds all pages serially. Client-side self-DoS only for very large PDFs. Same pattern as svg-export.js. LOW risk.",
+    "LOW: contact-sheet.js, booklet.js, nup.js: no explicit processing timeout — renders/embeds all pages serially. Client-side self-DoS for very large PDFs at high scale. LOW risk.",
     "LOW: multi-window.js: no explicit limit on number of pop-out windows. popoutCounter increments unboundedly. Client-side self-DoS only — user-initiated. LOW risk.",
     "LOW: scan-enhance.js: no explicit processing timeout on multi-page enhancement loop. OUTPUT_SCALE=2.0 means ~9MB ImageData per page. Cancel button provides user escape. Client-side self-DoS only. Same pattern as svg-export.js, contact-sheet.js, booklet.js, nup.js.",
     "LOW: presenter-view.js sendThumbnails() renders all pages at 128x96 scale with no page count limit or timeout. For 1000-page PDF could generate significant rendering load and BroadcastChannel traffic. Client-side self-DoS only. Same pattern as contact-sheet.js, booklet.js, nup.js.",
