@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-12T20:25:00Z",
+  "last_review": "2026-04-13T00:21:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
     "failed_password_attempts": "multiple in current auth.log segment (200 lines sampled)",
-    "fail2ban_status": "active - sshd jail running, 6 currently banned, 13081 total banned",
-    "change_since_last": "fail2ban total bans 13081 (up from 12990, +91 since 16:27 UTC). 6 IPs currently banned: 2.57.122.195, 2.57.121.69, 195.178.110.30, 195.178.110.15, 45.148.10.152, 92.118.39.63. Continued brute-force from bot networks (root, solana, lighthouse usernames). No successful unauthorized logins — only sudo commands from novakj."
+    "fail2ban_status": "active - sshd jail running, 4 currently banned, 13186 total banned",
+    "change_since_last": "fail2ban total bans 13186 (up from 13081, +105 since last review). 4 IPs currently banned: 1.214.197.163, 198.98.62.211, 43.154.195.142, 36.64.68.99. Continued brute-force from bot networks (root, solana, lighthouse usernames). No successful unauthorized logins — only sudo commands from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,29 +40,24 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "357+ usages across 138 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "357+ usages across 139 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "mail_merge_js": {
-      "task": "NEW FILE — mail merge: template PDF + CSV/JSON data → batch personalized PDFs",
-      "status": "NEW FILE — reviewed in full (963 lines)",
+    "pdf_overlay_js": {
+      "task": "TASK-144: PDF page overlay tool — overlay pages from source PDF as background/foreground on target PDF",
+      "status": "NEW FILE — reviewed in full (823 lines)",
       "innerHTML_count": 3,
+      "innerHTML_detail": "Line 231: strip.innerHTML='' (clearing). Line 701: static HTML string. Line 705: clearing. All SAFE — no user-controlled data in innerHTML.",
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "external_requests": "none",
-      "storage_usage": "localStorage — merge history (mapping config, row/var counts, output mode). Bounded to 10 entries.",
-      "esc_function": "Lines 604-608: uses textContent→innerHTML pattern. Escapes <, >, & but NOT double quotes. Same pattern as ~15 other modules.",
-      "innerHTML_safety_render": "render() at line 421: large innerHTML template. All user-controlled values (CSV headers, data values, template variable names, settings) passed through esc(). esc() doesn't escape double quotes — used in data-var, value, data-col, title attributes. CSV/JSON-derived data could break out of double-quoted attributes. CSP script-src 'self' blocks inline handlers. Self-XSS/import vector only.",
-      "innerHTML_safety_history": "renderHistory() at line 596: history data from localStorage. All values are internally generated numbers/dates. SAFE.",
-      "innerHTML_safety_validation": "startGeneration() line 779-781: i.column (CSV header name) inserted into validation warning innerHTML WITHOUT esc(). A crafted CSV with HTML in column header name injects HTML. CSP script-src 'self' blocks inline handlers. MEDIUM-LOW risk.",
-      "csv_parser": "Custom RFC 4180 parser (lines 38-91). No eval, no code execution. Safe.",
-      "json_parser": "Uses JSON.parse (line 97). Validates array of objects. Safe.",
-      "file_import": "Accepts .csv and .json via file input. No file size limit check — client-side self-DoS only for very large files.",
-      "zip_filename_sanitization": "Line 357: replaces <, >, :, \", /, \\, |, ?, * with underscore. Good.",
-      "processing_timeout": "No explicit timeout on generateMergedDocuments loop. Cancel button (cancelled flag) provides user escape. Yields to UI every 5 iterations. Client-side self-DoS only.",
-      "positive_notes": "Good: no eval, no Function, no document.write, no external requests, esc() applied to all major user data insertions, cancel mechanism for long operations, history bounded to 10 entries, zip filenames sanitized.",
-      "security_status": "CLEAN with noted MEDIUM-LOW issues (same pattern as existing modules)."
+      "storage_usage": "localStorage — overlay library (base64-encoded PDFs, names, page index). No entry limit but bounded by localStorage quota (~5-10MB).",
+      "file_validation": "Lines 177-194: MIME type + extension OR check (same pattern as img2pdf.js), then magic bytes validation (%PDF-), 50MB size limit. Solid.",
+      "dom_api_usage": "renderLibraryUI() uses createElement/textContent for user-controlled names. renderThumbnails() uses createElement. Good defensive practice.",
+      "processing_safety": "No explicit timeout on applyOverlay loop. Cancel not available. Client-side self-DoS only for very large target PDFs. Same pattern as ~10 other modules.",
+      "positive_notes": "Good: no eval, no Function, no document.write, no external requests, DOM APIs used for all user data display (textContent, createElement), magic bytes validation, 50MB size limit, error handling with try/catch, aria labels for accessibility.",
+      "security_status": "CLEAN — no issues found."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -98,7 +93,7 @@
     "split-view.js", "doc-summary.js", "camera-scanner.js",
     "auto-link.js", "voice-commands.js", "form-tab-order.js",
     "form-validation.js", "object-editor.js", "multi-page-apply.js",
-    "selection-toolbar.js", "mail-merge.js"
+    "selection-toolbar.js", "mail-merge.js", "pdf-overlay.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -116,7 +111,7 @@
   "ssl_certificate": {
     "valid_from": "2026-03-20",
     "valid_until": "2026-06-18",
-    "days_remaining": 67,
+    "days_remaining": 66,
     "status": "valid"
   },
   "checks_passed": [
@@ -136,11 +131,11 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "mail_merge_js_reviewed_clean",
-    "all_138_js_files_accounted_for",
+    "pdf_overlay_js_reviewed_clean",
+    "all_139_js_files_accounted_for",
     "security_headers_present_verified",
-    "ssl_certificate_valid_67_days",
-    "fail2ban_active_13081_total_bans",
+    "ssl_certificate_valid_66_days",
+    "fail2ban_active_13186_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
@@ -203,6 +198,8 @@
     "LOW: object-editor.js: blob URLs from thumbnailUrl not revoked on deactivate/new PDF load. Memory leak, not security issue.",
     "LOW: mail-merge.js: no processing timeout on generateMergedDocuments loop. Cancel button (cancelled flag) provides user escape. Client-side self-DoS only for large datasets.",
     "LOW: mail-merge.js: no size limit on imported CSV/JSON files. Client-side self-DoS only for very large data files.",
+    "LOW: pdf-overlay.js: no processing timeout on applyOverlay loop. Client-side self-DoS only for large target PDFs. Same pattern as ~10 other modules.",
+    "LOW: pdf-overlay.js: no page count limit on source thumbnail rendering. Bounded by 50MB file size limit. Same pattern as other thumbnail renderers.",
     "server_tokens set to 'build' - leaks nginx version (nginx/1.26.3 Ubuntu) in Server header. Should be 'off'.",
     "No general *.md nginx block - only CLAUDE.md specifically blocked. Any new .md file added to webroot would be publicly accessible.",
     "UFW firewall is inactive - only SSH and HTTP/HTTPS ports are needed but no firewall enforces this.",
