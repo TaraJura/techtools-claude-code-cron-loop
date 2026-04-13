@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-13T12:22:00Z",
+  "last_review": "2026-04-13T16:45:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
-    "failed_password_attempts": "53 in current auth.log segment (200 lines sampled)",
-    "fail2ban_status": "active - sshd jail running, 9 currently banned, 13532 total banned",
-    "change_since_last": "fail2ban total bans 13532 (up from 13409, +123 since last review). 9 IPs currently banned: 80.94.92.177, 2.57.122.192, 187.16.96.250, 2.57.121.118, 2.57.122.191, 92.118.39.63, 2.57.122.189, 182.93.50.90, 45.148.10.152. Continued brute-force from bot networks. No successful unauthorized logins — only sudo commands from novakj."
+    "failed_password_attempts": "4194 in current auth.log",
+    "fail2ban_status": "active - sshd jail running, 2 currently banned, 13705 total banned",
+    "change_since_last": "fail2ban total bans 13705 (up from 13532, +173 since last review ~4h ago). 2 IPs currently banned (down from 9). Continued brute-force from bot networks (78.128.112.74, 80.94.92.186 seen in recent entries). No successful unauthorized logins — only sudo commands from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,28 +40,40 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "360+ usages across 142 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "360+ usages across 144 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "search_highlight_js": {
-      "task": "TASK-147: Multi-Term Search Highlighter",
-      "status": "NEW FILE — reviewed in full (1028 lines)",
-      "innerHTML_count": 11,
-      "innerHTML_detail": "Line 713: clearing. Line 720-727: term row — escHtml on term.text; term.color unescaped in value attr (color input type, safe for UI but not for imported profiles). Line 762: static empty state. Lines 773-798: results list — escHtml on all PDF-derived text (context prefix/match/suffix), term.text, term.color in style attrs. Line 830,871,882: clearing. Lines 858-863: stats — escHtml on topTerm.color/text. Line 892: heatmap — numeric values only. Line 905: static option + DOM API for profile names.",
+    "bg_remove_js": {
+      "task": "TASK-148: Scanned Page Background Removal",
+      "status": "NEW FILE — reviewed in full (569 lines)",
+      "innerHTML_count": 0,
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "external_requests": "none",
-      "escHtml_quality": "Uses textContent→innerHTML trick. Escapes <, >, & but NOT double quotes. Same pattern as ~15 other modules.",
-      "attribute_escaping": "MEDIUM-LOW: term.color (line 722) used unescaped in value attribute — from imported profiles (no validation) could contain double quotes. escHtml used in style attributes (lines 777, 789, 861) and value attribute (line 721) does not escape double quotes. Same pattern as ~15 other modules.",
-      "import_validation": "MEDIUM-LOW: importProfiles() (lines 597-611) does Object.assign(profiles, imported) with no schema validation. Color values not validated as #RRGGBB, text not length-limited. Same lax import pattern as ~10 other modules.",
-      "regex_safety": "LOW: new RegExp(term.text, flags) at line 155 — ReDoS possible with pathological patterns. try/catch catches syntax errors but not catastrophic backtracking. Self-DoS only. Same pattern as find-replace.js, link-manager.js, cross-search.js.",
-      "processing_safety": "No explicit timeout on buildIndex or runSearch — iterates all pages. Same pattern as ~10 other modules. Client-side self-DoS only.",
-      "positive_notes": "Good: no eval, no Function, no document.write, no external requests, escHtml used consistently for display, DOM API used for profile select options (renderProfileSelect), proper error handling with try/catch, processing flag prevents concurrent apply, zero-length regex match guard, undo/redo integration, downloadBlob from utils for export.",
-      "security_status": "MEDIUM-LOW issues found (attribute escaping, import validation). Otherwise clean."
+      "processing_safety": "No explicit timeout on multi-page processing loop. isProcessing guard prevents concurrent execution. Yields every 3 pages (setTimeout(r, 0)). Client-side self-DoS only. Same pattern as ~10 other modules.",
+      "worker_usage": "Web Worker used for pixel processing (bg-remove-worker.js). Good — can be terminated if needed.",
+      "filename_safety": "Uses sanitizeFilename() from utils.js for output filename. Good.",
+      "pdf_lib_import": "Lazy import from '../lib/pdf-lib.min.js' with caching. Correct path.",
+      "ui_updates": "All UI updates use textContent, style, classList, disabled, value — no innerHTML. Clean.",
+      "positive_notes": "Good: no eval, no Function, no document.write, no innerHTML, no external requests, sanitizeFilename used, downloadBlob from utils, web worker for heavy processing, isProcessing concurrency guard, proper error handling with try/catch, undo/redo integration.",
+      "security_status": "CLEAN — no issues found."
     },
-    "app_js": {
-      "status": "Minor change — added 'search-highlight' to viewer visibility toggle on line 96. Benign UI wiring. No security impact."
+    "bg_remove_worker_js": {
+      "task": "TASK-148: Scanned Page Background Removal (Worker)",
+      "status": "NEW FILE — reviewed in full (218 lines)",
+      "innerHTML_count": 0,
+      "eval_count": 0,
+      "function_constructor_count": 0,
+      "document_write_count": 0,
+      "external_requests": "none",
+      "processing_safety": "Pure computational worker. Sobel edge detection + LAB color distance + pixel replacement. O(n) per page. Creates 2x Float32Array(w*h) for edge detection (~15MB for 2x scale page). Acceptable.",
+      "worker_pattern": "Standard self.onmessage handler with transferable buffer ([data.buffer]). Clean.",
+      "positive_notes": "Good: no DOM access, no external requests, no eval, no Function, pure math/pixel processing, transferable buffer for performance.",
+      "security_status": "CLEAN — no issues found."
+    },
+    "index_html": {
+      "status": "Added bg-remove tab button (line 138), tool panel (lines 5700-5790), and script tag (line 9178). All static HTML markup with no dynamic content injection. Clean."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -98,7 +110,8 @@
     "auto-link.js", "voice-commands.js", "form-tab-order.js",
     "form-validation.js", "object-editor.js", "multi-page-apply.js",
     "selection-toolbar.js", "mail-merge.js", "pdf-overlay.js",
-    "link-checker.js", "highlight-collector.js", "search-highlight.js"
+    "link-checker.js", "highlight-collector.js", "search-highlight.js",
+    "bg-remove.js", "bg-remove-worker.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -136,11 +149,12 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "search_highlight_js_reviewed",
-    "all_142_js_files_accounted_for",
+    "bg_remove_js_reviewed_clean",
+    "bg_remove_worker_js_reviewed_clean",
+    "all_144_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_66_days",
-    "fail2ban_active_13532_total_bans",
+    "fail2ban_active_13705_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
@@ -187,6 +201,7 @@
     "MEDIUM-LOW: link-checker.js CSV export: annotation URLs from PDF placed in CSV fields. URLs quoted and double-quote-escaped but not formula-protected. A crafted PDF with annotation URL starting with = could be interpreted as formula by spreadsheet apps. Self-data vector only. Same pre-existing pattern as cross-search.js, auto-link.js.",
     "LOW: search-highlight.js line 155: new RegExp(term.text, flags) — ReDoS possible with pathological regex patterns from user input. try/catch catches invalid regex but not catastrophic backtracking. Client-side self-DoS only. Same pattern as find-replace.js, link-manager.js, cross-search.js.",
     "LOW: search-highlight.js: no processing timeout on buildIndex or runSearch — iterates all pages. Client-side self-DoS only. Same pattern as ~10 other modules.",
+    "LOW: bg-remove.js: no explicit processing timeout on multi-page background removal loop. Yields every 3 pages. Client-side self-DoS only. Same pattern as ~10 other modules.",
     "LOW: auto-link.js CSV export (lines 562-563) d.text quoted but not protected against CSV formula injection. Self-data only. Same pattern as cross-search.js.",
     "LOW: auto-link.js no processing timeout on full-document scan. Iterates all pages. Client-side self-DoS only. Same pattern as other analysis modules.",
     "LOW: form-validation.js line 648: new RegExp(rule.params.pattern) from user/imported regex pattern — ReDoS possible with pathological patterns. try/catch handles syntax errors but not catastrophic backtracking. Self-DoS only.",
