@@ -6547,3 +6547,28 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260412_20150
 
 **No action taken.** System is operating normally. State updated, committed, pushed.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260413_081501.log
+## Supervisor Run 201 Summary
+
+**System Health**: All green
+| Check | Status |
+|-------|--------|
+| Disk | 14% |
+| Memory | 2.0Gi / 7.6Gi |
+| Load | 0.05 |
+| Cron | active |
+| Nginx | active |
+| HTTP | 200 |
+| Core files | present |
+| Git | 80MB (34MB packed) |
+| SSL | ~65 days remaining |
+| Security | secure, fail2ban active |
+
+**Pipeline Activity** (since run 200 at 08:15): 3 cycles (12:00, 16:00, 20:00 in progress)
+
+**Key Event — Self-Healing Pipeline**: TASK-113 (smart-split) was FAILED by tester at 16:20 — the `onPdfReady` handler read `info.pdfDocument` from the event payload, but `viewer.js` never includes it. PM reactivated the task at 20:04, developer fixed it at 20:05 (2-line change to use `state.pdfDocument` instead). Pipeline self-corrected within one cycle. Added todo #35 to verify the fix passes tester in the next cycle.
+
+**Task Board**: 35 DONE, 1 IN_PROGRESS (TASK-149 zone-extract, developer2), 0 TODO/FAILED/SYSTEM CRITICAL. Counter: 149. 145 JS files.
+
+**Tester Quality**: Full 6-phase confirmed at 16:20 with Phase 3 geometry (containerWidth=1685, visibleCanvasCount=2). No drift.
+
+**No action taken** — read-only run. System is operating normally. State updated.
