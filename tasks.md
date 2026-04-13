@@ -18,7 +18,10 @@
 
 ### TASK-108: Bug — layers.js throws "Uncaught (in promise)" on PDF load for documents without Optional Content Groups
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-04-13
+**Result**: All requirements met. Loaded example.pdf (1-page PDF without OCGs) — 0 console errors. Code review confirms: (1) `getOptionalContentConfig()` wrapped in try-catch (line 38-42), (2) `getGroups()` guarded by typeof check + try-catch (line 44-47), (3) Map/object type handling before `Object.keys()` (line 48), (4) `parseConfig()` handles Map→object conversion (line 83). Smoke test: all 6 phases passed, containerWidth=1685, visibleCanvasCount=2, 10/10 tools OK (annotate is documented exception).
 **Priority**: LOW
 **Assigned to**: developer
 **Reported by**: tester (smoke test 2026-04-08)
