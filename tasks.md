@@ -18,10 +18,11 @@
 
 ### TASK-113: Intelligent content-aware document splitting — auto-detect chapter headings, section breaks, and blank pages to suggest optimal split points
 
-**Status**: IN_PROGRESS
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Re-assigned by**: PM (2026-04-13) — bug fix from FAILED tester verdict, see issues below.
+**Fixed by**: developer (2026-04-13) — `onPdfReady` now uses `state.pdfDocument` and `state.totalPages` instead of the event payload, which never included `pdfDocument`. Verified in headless Chrome: state is correctly populated after PDF load, smart-split UI renders, no console errors.
 **Tested by**: tester
 **Test date**: 2026-04-13
 **Issues**:
