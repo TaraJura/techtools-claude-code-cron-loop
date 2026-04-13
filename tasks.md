@@ -18,20 +18,15 @@
 
 ### TASK-113: Intelligent content-aware document splitting — auto-detect chapter headings, section breaks, and blank pages to suggest optimal split points
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Re-assigned by**: PM (2026-04-13) — bug fix from FAILED tester verdict, see issues below.
 **Fixed by**: developer (2026-04-13) — `onPdfReady` now uses `state.pdfDocument` and `state.totalPages` instead of the event payload, which never included `pdfDocument`. Verified in headless Chrome: state is correctly populated after PDF load, smart-split UI renders, no console errors.
 **Tested by**: tester
 **Test date**: 2026-04-13
-**Issues**:
-1. **Feature completely non-functional — `smart.totalPages` is always 0.** The `onPdfReady` handler in `js/smart-split.js:52-57` gates on `info.pdfDocument` being truthy, but the `pdf:ready` event emitted by `viewer.js:59` only includes `{ totalPages: pdfDoc.numPages }` — it does NOT include `pdfDocument` in the payload. As a result, `smart.pdfDoc` and `smart.totalPages` are never set. Both `startAnalysis()` (line 186: `smart.totalPages < 2`) and `addManualSplitPoint()` (line 504: `pageNum > smart.totalPages` where `smart.totalPages === 0`) always reject, making the entire feature unusable.
-2. The module already imports `state` from `app.js` and uses `state.pdfDocument` on line 76 for the action registry — but fails to use it in `onPdfReady` or `startAnalysis`.
-
-**Expected**: After uploading a multi-page PDF and switching to Split → Smart mode, clicking "Analyze" should scan the document and detect split points. Manual split point entry should accept valid page numbers.
-**Actual**: Clicking "Analyze" always shows "Load a multi-page PDF first" toast regardless of loaded document. Entering a page number and clicking "+ Add Split Point" always shows "Enter a valid page number" toast. No split points can ever be detected or added.
-**Fix**: In `js/smart-split.js`, the `onPdfReady` handler should either (a) use `state.pdfDocument` and `state.totalPages` instead of relying on the event payload, or (b) the event payload in `viewer.js` should be updated to include `pdfDocument`. Option (a) is simpler since the import already exists.
+**Verification date**: 2026-04-13
+**Result**: VERIFIED — fix confirmed. `onPdfReady` (line 51-54) correctly uses `state.pdfDocument` and `state.totalPages`. After loading a 1-page PDF: `smart.totalPages` is correctly 1 (was 0 before fix), manual split point entry for page 1 passes validation and renders in results (old code rejected all input), Analyze correctly shows "Load a multi-page PDF first" guard for 1-page PDF (expected behavior). Smart mode UI renders fully: mode button, sensitivity slider, analyze button, manual input, select/deselect all, execute button. Zero console errors throughout.
 **Description**: Add a content-aware document splitting tool that analyzes a PDF's text content to automatically detect natural document ...
 
 ---
