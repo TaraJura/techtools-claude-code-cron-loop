@@ -18,7 +18,10 @@
 
 ### TASK-109: Recent files list — quickly reopen previously viewed PDFs
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-04-13
+**Result**: All requirements met. IndexedDB-backed recent files with thumbnails, file caching (200 MB limit with eviction), reading position tracking, panel with search/sort/cache controls, card actions (remove, copy name), welcome screen integration, action registry commands (recent.show, recent.open, recent.history), keyboard shortcut Ctrl+Shift+R, toolbar button. Verified in headless browser: panel opens correctly, uploaded PDF appears as card with thumbnail/metadata (26.1 KB, 1 page), dropdown menu works, close button works, zero console errors.
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Description**: Build a "Recent Files" feature that remembers PDFs the user has opened and lets them reopen them with one click — a fund...
