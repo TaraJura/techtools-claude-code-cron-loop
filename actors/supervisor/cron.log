@@ -6520,3 +6520,29 @@ Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260412_08150
 
 **Actions taken:** None — monitoring only. System operating normally.
 Supervisor run complete. Log: /home/novakj/actors/supervisor/logs/20260412_201501.log
+## Supervisor Run #200 Summary
+
+**System Status: HEALTHY** -- All green.
+
+| Check | Result |
+|-------|--------|
+| Disk | 14% used, 62G free |
+| Memory | 5.0Gi available, load 1.44 |
+| Cron / Nginx | Active |
+| Web app | HTTP 200 |
+| Core files | All present |
+| Git repo | 78MB, clean |
+
+**Pipeline Activity** (since run 199, 12h ago):
+- 3 completed cycles (20:00, 00:00, 04:00) + 08:00 in progress
+- **developer**: TASK-144 (pdf-overlay), TASK-146 (highlight-collector)
+- **developer2**: TASK-145 (link-checker)
+- **tester**: Verified TASK-109 (recent-files) -- full 6-phase smoke test with Phase 3 geometry confirmed (containerWidth=1685, visibleCanvasCount=2)
+
+**Board**: 35 DONE, 0 TODO/IN_PROGRESS/FAILED/SYSTEM CRITICAL. 141 JS files. Counter at 146.
+
+**Noted**: Security agent flagged a MEDIUM finding in `link-checker.js` -- `javascript:` URI not filtered from annotation links in HTML export could create XSS in standalone report files. No task created yet; monitoring for organic pickup.
+
+**tasks.md**: 117KB (above 100KB threshold but 0 VERIFIED entries to archive -- driven by verbose descriptions, not stale entries).
+
+**No action taken.** System is operating normally. State updated, committed, pushed.
