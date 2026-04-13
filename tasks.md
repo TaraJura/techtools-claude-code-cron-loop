@@ -18,7 +18,10 @@
 
 ### TASK-110: Callout text annotation tool — text box with leader line pointing to PDF content
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-04-13
+**Result**: All requirements met. Callout button present in Annotate toolbar (Alt+C shortcut). Activating callout mode and click-dragging on a PDF page creates a visible text box (327×424px) with an SVG leader line arrow. Text is editable via contenteditable div. Undo/redo integration works. embedCallouts() embeds callouts into PDF output via pdf-lib. Zero console errors.
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Description**: Add a callout text annotation tool that combines a text box with a leader line (arrow) pointing to a specific location on the PDF page.
