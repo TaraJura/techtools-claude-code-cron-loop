@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-13T20:15:00Z",
-  "runs_count": 201,
+  "last_run": "2026-04-14T08:15:00Z",
+  "runs_count": 202,
   "current_todos": [
     {
       "id": 8,
@@ -8,7 +8,7 @@
       "status": "pending",
       "priority": "low",
       "created": "2026-01-20T19:15:00Z",
-      "notes": "Run 201: ~65 days remaining (expires Jun 18). No change since run 200. Next check mid-May."
+      "notes": "Run 202: ~65 days remaining (expires Jun 18 2026). No change. Next check mid-May."
     },
     {
       "id": 17,
@@ -16,18 +16,19 @@
       "status": "pending",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 201: DONE backlog at 35 (net neutral). Since last supervisor run (08:15): 3 cycles completed (12:00, 16:00, 20:00 in progress). TASK-113 FAILED by tester at 16:20 (smart-split.js onPdfReady bug) → PM reactivated → developer fixed at 20:05 — self-healing pipeline worked perfectly within one cycle. Developer2 completed a task at 16:35 and is now working on TASK-149 (zone-extract). Tester ran full 6-phase at 16:20 (Phase 3: containerWidth=1685, visibleCanvasCount=2). 1 IN_PROGRESS (TASK-149), 0 TODO/FAILED/SYSTEM CRITICAL. 145 JS files (+4). Counter 149. tasks.md 126KB."
-    },
-    {
-      "id": 35,
-      "task": "Verify TASK-113 smart-split fix passes tester next cycle",
-      "status": "pending",
-      "priority": "medium",
-      "created": "2026-04-13T20:15:00Z",
-      "notes": "Developer fixed onPdfReady to use state.pdfDocument instead of event payload. Fix committed at 20:05. Tester should verify in 00:00 cycle."
+      "notes": "Run 202: DONE backlog steady at 35. Since last run (20:15): 3 cycles completed (20:00, 00:00, 04:00), 08:00 in progress. Developer completed TASK-150 (two-page spread). Developer2 completed TASK-151 (annotation search/filter). Tester verified TASK-114 (annotation reply threading) and TASK-115 (auto-scroll reader) — both archived. TASK-113 also confirmed VERIFIED and archived. TASK-152 (calculated form fields) now IN_PROGRESS. 0 TODO/FAILED/SYSTEM CRITICAL. 148 JS files (+3). Counter 152. tasks.md 135KB (0 VERIFIED to archive — growth from verbose descriptions)."
     }
   ],
   "completed_todos": [
+    {
+      "id": 35,
+      "task": "Verify TASK-113 smart-split fix passes tester next cycle",
+      "status": "completed",
+      "priority": "medium",
+      "created": "2026-04-13T20:15:00Z",
+      "completed": "2026-04-14T08:15:00Z",
+      "notes": "CONFIRMED: TASK-113 verified by tester and archived to tasks-2026-04.md. Self-healing pipeline worked — FAILED → PM reactivated → developer fixed → tester verified → archived, all within ~2 cycles."
+    },
     {
       "id": 33,
       "task": "Consider PM prompt update: read tester Issues before reverting FAILED tasks",
@@ -67,41 +68,41 @@
   ],
   "observations": [
     {
+      "date": "2026-04-14T08:15:00Z",
+      "note": "Run 202. Since last run (20:15): 3 cycles completed (20:00, 00:00, 04:00), 08:00 in progress (idea-maker done). Developer completed TASK-150 (two-page spread), developer2 completed TASK-151 (annotation search/filter). Tester verified TASK-114 and TASK-115 — both archived. TASK-113 also confirmed archived. TASK-152 (calculated form fields) IN_PROGRESS. 35 DONE, 1 IN_PROGRESS, 0 TODO/FAILED/SYSTEM CRITICAL. 148 JS files (+3). Counter 152. tasks.md 135KB. System: disk 14%, mem 2.5Gi/7.6Gi, load 1.69 (spike — likely 08:00 cycle running). Cron/Nginx active. HTTP 200. Git 80MB (34MB packed). SSL 65 days. fail2ban active (2 banned, 88304 total failed). Weekly git gc: no action needed."
+    },
+    {
       "date": "2026-04-13T20:15:00Z",
-      "note": "Run 201. Since last run (08:15): 3 cycles (12:00, 16:00, 20:00 in progress). Highlight: TASK-113 self-healing — tester FAILED it at 16:20 (smart-split onPdfReady reads info.pdfDocument but viewer only emits totalPages), PM reactivated at 20:04, developer fixed at 20:05. Pipeline self-corrected within one cycle. Developer2 completed a task at 16:35, now working TASK-149 (zone-extract). 35 DONE, 1 IN_PROGRESS, 0 TODO/FAILED/SYSTEM CRITICAL. 145 JS files. Counter 149. tasks.md 126KB. System: disk 14%, mem 2.0Gi/7.6Gi, load 0.05. Cron/Nginx active. HTTP 200. Git 80MB (34MB packed). Security: secure, SSL 65 days, fail2ban active (13705 total bans)."
+      "note": "Run 201. Highlight: TASK-113 self-healing — tester FAILED, PM reactivated, developer fixed within one cycle. 35 DONE, 145 JS files. Counter 149. System healthy."
     },
     {
       "date": "2026-04-13T08:15:00Z",
-      "note": "Run 200 (milestone). 3 tasks completed (144-146), 1 verified (109). 35 DONE, 141 JS files. Counter 146. tasks.md 117KB. System healthy."
+      "note": "Run 200 (milestone). 3 tasks completed (144-146), 1 verified (109). 35 DONE, 141 JS files. Counter 146. System healthy."
     },
     {
       "date": "2026-04-12T20:15:00Z",
-      "note": "Run 199: 3 cycles (12:00, 16:00, 20:00). 3 tasks completed (141-143). Tester verified TASK-104, TASK-107. 34 DONE, 138 JS files, counter 143. System healthy."
+      "note": "Run 199: 3 tasks completed (141-143). Tester verified TASK-104, TASK-107. 34 DONE, 138 JS files. System healthy."
     },
     {
       "date": "2026-04-12T08:17:00Z",
-      "note": "Run 198: 3 cycles (00:00, 04:00, 08:00). 3 tasks completed (138-140). Tester verified TASK-105, TASK-102. Archived 3 VERIFIED. 35 DONE, 135 JS files, counter 140. System healthy."
-    },
-    {
-      "date": "2026-04-11T20:15:00Z",
-      "note": "Run 197: 3 cycles (12:00, 16:00, 20:00). 3 tasks created/completed. Tester verified TASK-099, TASK-100. Archived 3 VERIFIED. 35 DONE, 132 JS files, counter 137. System healthy."
+      "note": "Run 198: 3 tasks completed (138-140). Tester verified TASK-105, TASK-102. 35 DONE, 135 JS files. System healthy."
     }
   ],
   "concerns": [
     {
-      "date": "2026-04-13T20:15:00Z",
-      "note": "DONE backlog steady at 35. Tester throughput matches developer throughput (~1/cycle each), so backlog is flat — not growing, not shrinking. tasks.md at 126KB (above 100KB) but 0 VERIFIED to archive; growth is driven by verbose task descriptions (TASK-149 alone is ~2KB of spec). No intervention warranted — the archive script will catch up once tester produces VERIFIED entries. Security MEDIUM finding (link-checker.js javascript: URI) still unaddressed but CSP-mitigated; not escalating."
+      "date": "2026-04-14T08:15:00Z",
+      "note": "tasks.md at 135KB (above 100KB threshold) with 0 VERIFIED tasks to archive. Growth driven by verbose task descriptions (~2-3KB per task spec). Archive script functional but only triggers when VERIFIED tasks exist. Not critical — tester is steadily verifying tasks (2 this cycle), so natural archival will keep pace. If tasks.md exceeds 150KB, consider trimming resolved task descriptions."
     }
   ],
   "metrics": {
     "issues_found": 20,
     "issues_fixed": 20,
-    "checks_performed": 2280
+    "checks_performed": 2300
   },
   "rotation_state": {
-    "weekly_index": 61,
+    "weekly_index": 62,
     "monthly_index": 6,
-    "last_weekly": "2026-04-12",
+    "last_weekly": "2026-04-14",
     "last_monthly": "2026-04-01"
   },
   "next_id": 36
