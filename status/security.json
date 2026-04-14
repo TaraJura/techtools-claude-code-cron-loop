@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-13T20:25:00Z",
+  "last_review": "2026-04-14T00:22:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
     "failed_password_attempts": "ongoing in current auth.log",
-    "fail2ban_status": "active - sshd jail running, 5 currently banned, 13800 total banned",
-    "change_since_last": "fail2ban total bans 13800 (up from 13705, +95 since last review ~4h ago). 5 IPs currently banned (up from 2). Active brute-force from 2.57.122.197, 2.57.121.69, 2.57.121.86, 80.158.109.51, 80.94.92.187, 89.134.210.182, 31.56.177.15, 163.53.168.23. Attempting root, minetest, odoo, postgres, wwwuser, solana. No successful unauthorized logins — only sudo sessions from novakj."
+    "fail2ban_status": "active - sshd jail running, 12 currently banned, 14039 total banned",
+    "change_since_last": "fail2ban total bans 14039 (up from 13800, +239 since last review ~4h ago). 12 IPs currently banned (up from 5). Active brute-force from 45.148.10.x subnet (multiple IPs), 2.57.121/122.x, 80.94.92.x, 121.237.10.10, 193.32.162.151, 190.145.192.106, 216.189.157.132. Targeting root, sol, es, debian, guest. No successful unauthorized logins — only sudo sessions from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,35 +40,32 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "360+ usages across 145 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "360+ usages across 146 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "zone_extract_js": {
-      "task": "TASK-149: Zone-based data extraction tool",
-      "status": "NEW FILE — reviewed in full (1299 lines)",
-      "innerHTML_count": 4,
-      "innerHTML_details": "Line 417: svg.innerHTML='' (clearing SVG, safe). Line 932: static HTML string (safe). Line 1031: panel render with escHtml() on all user/PDF data (zone.name, zone.text, tpl.name, batch cells — all escaped). Line 1145: escHtml() function itself.",
+    "spread_view_js": {
+      "task": "TASK-150: Two-page spread (book) view enhancements",
+      "status": "NEW FILE — reviewed in full (137 lines)",
+      "innerHTML_count": 0,
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "external_requests": "none",
-      "processing_safety": "batchExtractAllPages iterates all pages sequentially with no explicit timeout. Client-side self-DoS only. Same pattern as ~10 other modules.",
-      "filename_safety": "Uses sanitizeFilename() from utils.js for CSV/JSON exports and template exports. Good.",
-      "template_import": "importTemplateJSON() validates tpl.name existence and Array.isArray(tpl.zones) but no deeper schema validation. zone.name, zone.pageNum, zone.rect not type-checked. Same lax import pattern as ~10 other modules. User-initiated import only.",
-      "escHtml_note": "escHtml() (line 1142-1146) uses textContent->innerHTML which does not escape double quotes. zone.name used in value attribute (line 954), batch cell data in title attribute (line 1052). Double-quote in zone name or extracted text could break attribute boundaries. CSP script-src 'self' blocks inline handlers. Same pattern as ~15 other modules.",
-      "svg_rendering": "Zone overlays rendered via DOM APIs (createElementNS, setAttribute). Zone label uses textContent (line 516). Clean.",
-      "csv_export": "Proper CSV escaping with double-quote handling (line 694-697). Good.",
-      "positive_notes": "Good: no eval, no Function, no document.write, no external requests, sanitizeFilename used for all exports, DOM APIs for SVG rendering, textContent for SVG labels, proper CSV escaping, consistent escHtml() on all user-facing strings, undo/redo integration, proper error handling with try/catch.",
-      "security_status": "CLEAN — same known patterns as other modules (escHtml double-quote, lax import validation). No new vulnerability classes."
+      "dom_manipulation": "Uses DOM APIs exclusively: getElementById, querySelector, createElement, classList, createTextNode. No HTML string generation.",
+      "localStorage_usage": "Reads/writes pdfFlipAnimation (boolean string) and pdfViewMode (mode string). Self-set values only.",
+      "resource_management": "ResizeObserver on .pdf-viewer-container — standard pattern, no leak risk.",
+      "security_status": "CLEAN — no security concerns."
     },
-    "app_js": {
-      "status": "Single-line change adding 'zone-extract' to viewerContainer visibility toggle list (line 96). Static string addition to existing conditional. Clean."
+    "viewer_js": {
+      "task": "TASK-150: Two-page spread (book) view enhancements",
+      "status": "MODIFIED — added dual-page spread rendering with cover mode toggle",
+      "innerHTML_count": 6,
+      "innerHTML_details": "Lines 143, 201, 376: clearing containers (innerHTML=''). Line 490: clearing container. Line 521: static string '<h4>Pages</h4>'. Line 740: static loader HTML. All safe — no user/PDF content.",
+      "new_code_patterns": "renderDual()/renderDualAtPage() use DOM APIs (createElement, dataset, appendChild) for page canvas and text layer rendering. getSpreadForPage() is pure arithmetic. navigateDual() delegates to existing navigation. Cover toggle uses checkbox change listener. All safe patterns.",
+      "security_status": "CLEAN — no new vulnerability patterns."
     },
     "index_html": {
-      "status": "Added zone-extract tab button (line 182), tool panel (lines 6750-6759 with static HTML), and script tag (line 9205). All static markup with no dynamic content injection. Clean."
-    },
-    "smart_split_js": {
-      "status": "Filesystem timestamp newer than last review but file content unchanged. Already in previous_module_reviews list. No re-review needed."
+      "status": "Added <script type=\"module\" src=\"js/spread-view.js\"></script> at line 9115. Static markup. Clean."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -106,7 +103,8 @@
     "form-validation.js", "object-editor.js", "multi-page-apply.js",
     "selection-toolbar.js", "mail-merge.js", "pdf-overlay.js",
     "link-checker.js", "highlight-collector.js", "search-highlight.js",
-    "bg-remove.js", "bg-remove-worker.js", "zone-extract.js"
+    "bg-remove.js", "bg-remove-worker.js", "zone-extract.js",
+    "spread-view.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -124,7 +122,7 @@
   "ssl_certificate": {
     "valid_from": "2026-03-20",
     "valid_until": "2026-06-18",
-    "days_remaining": 66,
+    "days_remaining": 65,
     "status": "valid"
   },
   "checks_passed": [
@@ -144,11 +142,12 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "zone_extract_js_reviewed_clean",
-    "all_145_js_files_accounted_for",
+    "spread_view_js_reviewed_clean",
+    "viewer_js_spread_changes_reviewed_clean",
+    "all_146_js_files_accounted_for",
     "security_headers_present_verified",
-    "ssl_certificate_valid_66_days",
-    "fail2ban_active_13800_total_bans",
+    "ssl_certificate_valid_65_days",
+    "fail2ban_active_14039_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
