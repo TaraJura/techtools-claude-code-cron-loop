@@ -18,10 +18,13 @@
 
 ### TASK-114: Annotation reply threading — threaded comment discussions on PDF annotations
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-04-14
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Description**: Add reply threading support to annotations and sticky notes, enabling multi-turn comment discussions attached to specific document locations.
+**Result**: All requirements met. Reply popover renders with Discussion title, author input, textarea, status select (none/accepted/rejected/completed/cancelled), and submit button. Adding replies works — text, author, and timestamp display correctly. Nested replies render indented with depth enforcement (MAX_THREAD_DEPTH=3). Edit inline works with (edited) marker and editedAt persistence. Delete cascades to child replies. Status changes add system messages and show status badge. Session persistence via sessionStorage confirmed. Author persistence via localStorage confirmed. Public API exports (getRepliesForAnnotation, getAnnotationStatus, getAllThreadedAnnotations, exportReplies, importReplies) all functional. Close popover works. Zero console errors throughout.
 
 ---
 
