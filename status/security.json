@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-14T16:18:00Z",
+  "last_review": "2026-04-14T20:19:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
     "failed_password_attempts": "ongoing in current auth.log",
-    "fail2ban_status": "active - sshd jail running, 2 currently banned, 14550 total banned",
-    "change_since_last": "fail2ban total bans 14550 (up from 14390, +160 since last review ~4h ago). 2 IPs currently banned: 80.94.92.177, 92.118.39.63. Active brute-force from 80.94.92.x subnet (.177, .183, .186, .187) targeting solana/sol/ubuntu, 92.118.39.63 targeting ubuntu/solr, 2.57.122.208 targeting ubuntu, 162.55.94.103 targeting root, 117.50.73.90 targeting root, 190.156.238.162 targeting erpnext. No successful unauthorized logins — only sudo sessions from novakj."
+    "fail2ban_status": "active - sshd jail running, 13 currently banned, 14670 total banned",
+    "change_since_last": "fail2ban total bans 14670 (up from 14550, +120 since last review ~4h ago). 13 IPs currently banned. Active brute-force from 2.57.122.x and 2.57.121.x subnets targeting root, 80.94.92.x targeting sol, 34.124.213.151 targeting teamspeak, 20.185.9.149 targeting root/mapadmin. No successful unauthorized logins — only sudo sessions from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,21 +40,49 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "578+ usages across 149 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "578+ usages across 151 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "auto_rotate_js": {
-      "task": "TASK-154: Auto-detect and fix page orientation enhancements",
-      "status": "MODIFIED — reviewed in full (829 lines)",
-      "innerHTML_count": 4,
-      "innerHTML_details": "Lines 400 (grid clearing), 458 (card template), 508 (container clearing), plus line 400 repeated pattern. Card template (line 458) uses only internally-computed values: idx+1 (integer), confidenceLabel (hardcoded ternary: 'High'/'Med'/'Low'), result.correctionNeeded (integer from analysis). No PDF-extracted text, user content, or filenames in any innerHTML call.",
+    "text_diff_js": {
+      "task": "TASK-155: PDF text-level diff comparison with word-level and character-level highlighting",
+      "status": "NEW — reviewed in full (1174 lines)",
+      "innerHTML_count": 10,
+      "innerHTML_details": "Line 215 (clearing), lines 225-237/244-248/257/265/277-289/297-299 (static HTML templates for UI skeleton), lines 658-659 (static empty-state message), lines 692-693 (clearing), line 902 (clearing), line 909 (static filter-empty message), lines 961-966 (summary stats with integer-only interpolation: ins, del, mod counters).",
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "external_requests": "none",
-      "processing_safety": "CONCURRENCY limit of 4 parallel workers. Cancel mechanism via cancelRequested flag. Image heuristic creates temporary canvas — no persistent DOM leak. Uses sanitizeFilename() for all download filenames.",
-      "dom_manipulation": "Card UI built via innerHTML with static template and integer interpolation. Event listeners attached via addEventListener after innerHTML assignment. Thumbnails rendered to canvas via pdf.js. Summary text set via textContent (line 569).",
-      "localStorage_usage": "Reads/writes pdf-editor-auto-orient-on-upload key. Boolean value only.",
+      "processing_safety": "Web worker (text-diff-worker.js) used for heavy LCS/Myers diff computation — terminable. Fallback inline diff available. Worker terminated on completion and on error.",
+      "dom_manipulation": "PDF-extracted text rendered exclusively via DOM APIs: createElement, textContent, appendChild, createDocumentFragment. Change snippets in summary panel set via textContent (line 932-936). No innerHTML with PDF content.",
+      "html_export": "buildExportHtml() (line 990) generates standalone HTML report. esc() function (lines 1045-1049) uses textContent->innerHTML pattern to escape <, >, &. Applied to td.leftName, td.rightName, and all PDF-extracted text snippets. Export file has no CSP but all user content is properly escaped. No attribute injection vector — escaped values only in element content.",
+      "object_url_handling": "Created in exportSummary() (line 979), revoked on line 986. Proper cleanup.",
+      "security_findings": [],
+      "security_status": "CLEAN — no findings."
+    },
+    "text_diff_worker_js": {
+      "task": "TASK-155: PDF text-level diff comparison",
+      "status": "NEW — reviewed in full (222 lines)",
+      "innerHTML_count": 0,
+      "eval_count": 0,
+      "dom_access": "none — pure web worker, no DOM",
+      "external_requests": "none",
+      "processing_safety": "Myers diff algorithm with O((N+M)^2) worst case. For very large documents this could be slow but worker is terminable from main thread. No infinite loop risk — bounded by MAX = N + M iterations.",
+      "security_findings": [],
+      "security_status": "CLEAN — no findings."
+    },
+    "compare_js": {
+      "task": "TASK-155: Modified to support text diff integration",
+      "status": "MODIFIED — reviewed in full (994 lines)",
+      "innerHTML_count": 3,
+      "innerHTML_details": "Lines 597-598 (clearing text diff panes), line 768 (clearing thumbnail strip container). All clearing operations — safe.",
+      "eval_count": 0,
+      "function_constructor_count": 0,
+      "document_write_count": 0,
+      "external_requests": "none",
+      "file_upload_validation": "validatePdf() from utils.js called on line 84 before processing. Proper validation gate.",
+      "dom_manipulation": "makeDiffLine() (line 638) uses textContent for PDF-extracted text — safe. Thumbnail labels set via textContent (lines 783-789). escapeHtml() (lines 965-969) used for HTML export document names.",
+      "html_export": "buildHtmlReport() (line 909) generates standalone HTML. Document names escaped via escapeHtml(). All other interpolated values are internally-computed (integers, booleans, hardcoded strings from ternary). No user/PDF content unescaped.",
+      "object_url_handling": "downloadFile() (line 971) creates and revokes object URLs properly.",
       "security_findings": [],
       "security_status": "CLEAN — no findings."
     }
@@ -95,7 +123,8 @@
     "selection-toolbar.js", "mail-merge.js", "pdf-overlay.js",
     "link-checker.js", "highlight-collector.js", "search-highlight.js",
     "bg-remove.js", "bg-remove-worker.js", "zone-extract.js",
-    "spread-view.js", "annotation-filter.js", "form-calc.js", "form-logic.js"
+    "spread-view.js", "annotation-filter.js", "form-calc.js", "form-logic.js",
+    "text-diff.js", "text-diff-worker.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -133,11 +162,13 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "auto_rotate_js_reviewed_clean",
-    "all_149_js_files_accounted_for",
+    "text_diff_js_reviewed_clean",
+    "text_diff_worker_js_reviewed_clean",
+    "compare_js_reviewed_clean",
+    "all_151_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_65_days",
-    "fail2ban_active_14550_total_bans",
+    "fail2ban_active_14670_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
