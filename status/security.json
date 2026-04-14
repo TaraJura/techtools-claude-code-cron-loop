@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-14T12:22:00Z",
+  "last_review": "2026-04-14T16:18:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
     "failed_password_attempts": "ongoing in current auth.log",
-    "fail2ban_status": "active - sshd jail running, 1 currently banned, 14390 total banned",
-    "change_since_last": "fail2ban total bans 14390 (up from 14330, +60 since last review ~4h ago). 1 IP currently banned: 80.94.92.182. Active brute-force from 80.94.92.x subnet (.165, .182) targeting solana/sol/ubuntu/raydium, 45.148.10.121 targeting root. No successful unauthorized logins — only sudo sessions from novakj."
+    "fail2ban_status": "active - sshd jail running, 2 currently banned, 14550 total banned",
+    "change_since_last": "fail2ban total bans 14550 (up from 14390, +160 since last review ~4h ago). 2 IPs currently banned: 80.94.92.177, 92.118.39.63. Active brute-force from 80.94.92.x subnet (.177, .183, .186, .187) targeting solana/sol/ubuntu, 92.118.39.63 targeting ubuntu/solr, 2.57.122.208 targeting ubuntu, 162.55.94.103 targeting root, 117.50.73.90 targeting root, 190.156.238.162 targeting erpnext. No successful unauthorized logins — only sudo sessions from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -43,20 +43,18 @@
     "innerHTML_note": "578+ usages across 149 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "form_logic_js": {
-      "task": "TASK-153: Conditional form field logic rules — dynamic show/hide/enable/disable fields based on other field values",
-      "status": "NEW FILE — reviewed in full (937 lines)",
-      "innerHTML_count": 10,
-      "innerHTML_details": "Lines 307, 473, 538, 602, 703, 732, 735, 755, 787, 789: All static HTML only (section headers with HTML entities &#9889;/&#10005;, table thead with static column names, status badges 'Circular'/'OK', innerHTML='' clearing). Zero user/PDF data interpolated into any innerHTML call.",
+    "auto_rotate_js": {
+      "task": "TASK-154: Auto-detect and fix page orientation enhancements",
+      "status": "MODIFIED — reviewed in full (829 lines)",
+      "innerHTML_count": 4,
+      "innerHTML_details": "Lines 400 (grid clearing), 458 (card template), 508 (container clearing), plus line 400 repeated pattern. Card template (line 458) uses only internally-computed values: idx+1 (integer), confidenceLabel (hardcoded ternary: 'High'/'Med'/'Low'), result.correctionNeeded (integer from analysis). No PDF-extracted text, user content, or filenames in any innerHTML call.",
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "external_requests": "none",
-      "rule_engine": "Custom rule evaluator with whitelisted operators (equals, not_equals, contains, not_contains, starts_with, ends_with, greater_than, less_than, is_empty, is_not_empty) via switch statement. No eval(), no dynamic code execution. Cascade depth limited to MAX_CASCADE_DEPTH=10. Circular dependency detection via visited Set.",
-      "dom_manipulation": "Builds UI entirely with createElement/appendChild/addEventListener. All user-facing field names and values displayed via textContent. Option elements populated via createElement + textContent. Rule summaries built as strings via textContent assignment.",
-      "localStorage_usage": "Reads/writes pdf-editor-form-logic-rules key. Stores rule objects with conditions (sourceField, operator, value), combinator, and action (type, value). All stored values consumed only via switch statements or textContent display — never innerHTML.",
-      "import_validation": "importRules() validates top-level is object and each entry is Array. No deep schema validation on rule structure (conditions array, operator values, action types). Same lax import pattern as ~10 other modules. Low exploitability — imported data cannot reach dangerous sinks.",
-      "querySelector_note": "getFieldOverlay() and getSidebarEntry() interpolate field.id/field.name into CSS attribute selectors. A PDF field ID containing double-quote+bracket could cause querySelector SyntaxError but not XSS. CSS selector injection does not execute JS. Robustness issue only.",
+      "processing_safety": "CONCURRENCY limit of 4 parallel workers. Cancel mechanism via cancelRequested flag. Image heuristic creates temporary canvas — no persistent DOM leak. Uses sanitizeFilename() for all download filenames.",
+      "dom_manipulation": "Card UI built via innerHTML with static template and integer interpolation. Event listeners attached via addEventListener after innerHTML assignment. Thumbnails rendered to canvas via pdf.js. Summary text set via textContent (line 569).",
+      "localStorage_usage": "Reads/writes pdf-editor-auto-orient-on-upload key. Boolean value only.",
       "security_findings": [],
       "security_status": "CLEAN — no findings."
     }
@@ -135,11 +133,11 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "form_logic_js_reviewed_clean",
+    "auto_rotate_js_reviewed_clean",
     "all_149_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_65_days",
-    "fail2ban_active_14390_total_bans",
+    "fail2ban_active_14550_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
