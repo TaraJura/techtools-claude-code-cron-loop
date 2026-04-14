@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-14T00:22:00Z",
+  "last_review": "2026-04-14T04:23:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
     "failed_password_attempts": "ongoing in current auth.log",
-    "fail2ban_status": "active - sshd jail running, 12 currently banned, 14039 total banned",
-    "change_since_last": "fail2ban total bans 14039 (up from 13800, +239 since last review ~4h ago). 12 IPs currently banned (up from 5). Active brute-force from 45.148.10.x subnet (multiple IPs), 2.57.121/122.x, 80.94.92.x, 121.237.10.10, 193.32.162.151, 190.145.192.106, 216.189.157.132. Targeting root, sol, es, debian, guest. No successful unauthorized logins — only sudo sessions from novakj."
+    "fail2ban_status": "active - sshd jail running, 5 currently banned, 14175 total banned",
+    "change_since_last": "fail2ban total bans 14175 (up from 14039, +136 since last review ~4h ago). 5 IPs currently banned (down from 12). Active brute-force from 2.57.121/122.x subnet (multiple IPs: .118, .69, .50, .189, .96), 92.118.39.87. Targeting root, ubuntu. No successful unauthorized logins — only sudo sessions from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,32 +40,35 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "360+ usages across 146 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "360+ usages across 147 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "spread_view_js": {
-      "task": "TASK-150: Two-page spread (book) view enhancements",
-      "status": "NEW FILE — reviewed in full (137 lines)",
-      "innerHTML_count": 0,
+    "annotation_filter_js": {
+      "task": "TASK-151: Annotation search and filter panel",
+      "status": "NEW FILE — reviewed in full (996 lines)",
+      "innerHTML_count": 6,
+      "innerHTML_details": "Line 76: SVG literal in toggle button. Line 89: static panel HTML from buildPanelHTML(). Lines 104-110: static batch bar HTML. Line 480: static empty message. Line 529: listEl.innerHTML with escapeHtml()-processed text (escapes &, <, >, double quotes). Lines 578-580: SVG literal for sort direction icon. All safe.",
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "external_requests": "none",
-      "dom_manipulation": "Uses DOM APIs exclusively: getElementById, querySelector, createElement, classList, createTextNode. No HTML string generation.",
-      "localStorage_usage": "Reads/writes pdfFlipAnimation (boolean string) and pdfViewMode (mode string). Self-set values only.",
-      "resource_management": "ResizeObserver on .pdf-viewer-container — standard pattern, no leak risk.",
-      "security_status": "CLEAN — no security concerns."
-    },
-    "viewer_js": {
-      "task": "TASK-150: Two-page spread (book) view enhancements",
-      "status": "MODIFIED — added dual-page spread rendering with cover mode toggle",
-      "innerHTML_count": 6,
-      "innerHTML_details": "Lines 143, 201, 376: clearing containers (innerHTML=''). Line 490: clearing container. Line 521: static string '<h4>Pages</h4>'. Line 740: static loader HTML. All safe — no user/PDF content.",
-      "new_code_patterns": "renderDual()/renderDualAtPage() use DOM APIs (createElement, dataset, appendChild) for page canvas and text layer rendering. getSpreadForPage() is pure arithmetic. navigateDual() delegates to existing navigation. Cover toggle uses checkbox change listener. All safe patterns.",
-      "security_status": "CLEAN — no new vulnerability patterns."
+      "dom_manipulation": "Uses createElement, classList, addEventListener, querySelector, textContent alongside innerHTML. escapeHtml() includes double-quote escaping — better than ~15 other modules.",
+      "localStorage_usage": "Reads/writes pdf-editor-annotation-filter key. Only stores useRegex (boolean), sort (string), sortAsc (boolean). Validates types on load.",
+      "regex_usage": "User-provided search patterns via new RegExp() with try/catch. Client-side only, runs against short annotation text. ReDoS risk is self-DoS only.",
+      "css_selector_injection": "rawId from internal annotation IDs used in querySelector attribute selectors (lines 607-618) without CSS escaping. Worst case: selector failure. No XSS vector.",
+      "security_findings": [
+        "MEDIUM-LOW: Line 516: entry.color used unescaped in style=\"background:${entry.color};\" and title=\"${entry.color}\". Colors typically #RRGGBB from color picker. If annotation data contains crafted color with double quotes, could break out of attribute. CSP script-src 'self' blocks inline handlers. Same pattern as ~15 other modules."
+      ],
+      "security_status": "CLEAN — one MEDIUM-LOW finding consistent with existing pattern across codebase."
     },
     "index_html": {
-      "status": "Added <script type=\"module\" src=\"js/spread-view.js\"></script> at line 9115. Static markup. Clean."
+      "status": "Added <script type=\"module\" src=\"js/annotation-filter.js\"></script> at line 9131. Static markup. CSS classes for annotation filter panel added. Clean."
+    },
+    "css_files": {
+      "status": "main.css, tools.css, viewer.css modified — styling for annotation filter panel and spread view. CSS-only changes. No security impact."
+    },
+    "sw_js": {
+      "status": "Modified Apr 14 00:11 — before previous review. Already reviewed clean."
     }
   },
   "previous_module_reviews_still_valid": [
@@ -104,7 +107,7 @@
     "selection-toolbar.js", "mail-merge.js", "pdf-overlay.js",
     "link-checker.js", "highlight-collector.js", "search-highlight.js",
     "bg-remove.js", "bg-remove-worker.js", "zone-extract.js",
-    "spread-view.js"
+    "spread-view.js", "annotation-filter.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -142,12 +145,13 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
+    "annotation_filter_js_reviewed_clean",
     "spread_view_js_reviewed_clean",
     "viewer_js_spread_changes_reviewed_clean",
-    "all_146_js_files_accounted_for",
+    "all_147_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_65_days",
-    "fail2ban_active_14039_total_bans",
+    "fail2ban_active_14175_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
@@ -189,6 +193,7 @@
     "MEDIUM-LOW: voice-annotations.js importMemos() (lines 973-1001): imported JSON audioData not validated as data: URL. A crafted import could include external URLs, but base64ToBlob() catches parse errors producing empty blob — not exploitable. Same pattern as custom-stamps.js imageData. Fix: validate audioData starts with 'data:'.",
     "MEDIUM-LOW: version-manager.js line 395: v.name in title attribute not double-quote escaped — escHtml() uses DOM textContent->innerHTML which does not escape double quotes. v.name from imported ZIP manifest could break out of title attribute. v.id in data-id attributes (lines 393, 405-408) safe when self-generated but unvalidated on import. CSP mitigates script execution. Fix: add escAttr() for attribute contexts or validate imported entry fields.",
     "MEDIUM-LOW: zone-extract.js escHtml() (line 1142-1146) doesn't escape double quotes. zone.name in value attribute (line 954) and batch cell text in title attribute (line 1052) could break attribute boundaries with double-quote characters. CSP script-src 'self' blocks inline handlers. Same pattern as ~15 other modules.",
-    "MEDIUM-LOW: zone-extract.js importTemplateJSON() (lines 860-884): validates tpl.name and Array.isArray(tpl.zones) but no deeper schema validation on zone.name type/length, zone.pageNum type, zone.rect field types. Same lax import pattern as ~10 other modules. User-initiated import only."
+    "MEDIUM-LOW: zone-extract.js importTemplateJSON() (lines 860-884): validates tpl.name and Array.isArray(tpl.zones) but no deeper schema validation on zone.name type/length, zone.pageNum type, zone.rect field types. Same lax import pattern as ~10 other modules. User-initiated import only.",
+    "MEDIUM-LOW: annotation-filter.js line 516: entry.color used unescaped in style=\"background:${entry.color};\" and title=\"${entry.color}\". Colors typically #RRGGBB from color picker. If annotation data contains crafted color with double quotes, could break out of attribute. CSP script-src 'self' blocks inline handlers. Same pattern as ~15 other modules."
   ]
 }
