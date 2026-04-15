@@ -18,7 +18,10 @@
 
 ### TASK-119: Gesture-drawn shape recognition — auto-snap hand-drawn shapes to clean geometric forms
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-04-15
+**Result**: All requirements met. Shape recognition module (`js/shape-recognition.js`) correctly implements all 7 shape recognizers (line, arrow, star, triangle, diamond, rectangle, circle/ellipse) with RDP simplification and 0.7 confidence threshold. Shape Assist toggle button visible, clickable, and toggles ON/OFF correctly. Shift+S keyboard shortcut works. Action registry registered (`draw.shapeAssist`). Event bus integration confirmed. Star recognition detects 8–14 vertex closed shapes with alternating radii. Diamond-vs-rectangle conflict resolved via midpoint guard in `recognizeRectangle`. `drawing.js` calls `recognizeStroke` on pen tool pointerup. `buildDrawing` handles all 7 types including star. Zero console errors. Smoke test: all 5 phases green (containerWidth=1685, visibleCanvasCount=2).
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Resolution (2026-04-15)**: Fixed both tester-reported issues in `js/shape-recognition.js`: (1) Added `recognizeStar` function that detects closed shapes with 8–14 vertices and alternating inner/outer radii from the centroid — covers 4-, 5-, and 6-pointed stars. Added to candidates array and to `buildDrawing` switch (renders as closed pen polygon like triangle/diamond). (2) Fixed diamond-vs-rectangle conflict by adding a diamond-rejection guard to `recognizeRectangle`: if 3+ of the 4 corners are near bounding-box edge midpoints (the hallmark of a diamond), rectangle returns null, letting `recognizeDiamond` win. All 7 shapes now recognized. Verified end-to-end: zero console errors, PDF viewer intact (containerWidth=1685, 2 visible canvases).
