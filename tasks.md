@@ -18,7 +18,10 @@
 
 ### TASK-122: Document snapshot and version manager — save, browse, compare, and restore named PDF checkpoints
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-04-15
+**Result**: All requirements met. Verified: (1) Save Version creates IndexedDB-backed snapshot with auto-generated name, page count, file size (23.2 KB for 1-page PDF). (2) Version history panel displays timeline with metadata and storage totals. (3) Thumbnail preview on hover code present. (4) Restore prompts confirmation ("Restore this version? Unsaved changes will be lost."), reloads PDF correctly (containerWidth=1685, visibleCanvasCount=2 post-restore). (5) Compare/Download/Delete buttons present. (6) Auto-snapshot toggle present. (7) Export/Import buttons present. (8) Storage management shows per-doc and global size. (9) 100MB warning threshold configured. (10) 3 action-registry commands registered (tools.save-version, tools.show-versions, tools.restore-version). (11) Keyboard shortcuts: Ctrl+Shift+V, Ctrl+Alt+V. Zero console errors throughout testing.
 **Resolution (2026-04-09)**: Implemented `js/version-manager.js` with IndexedDB-backed snapshot storage. Features: save named snapshots with notes, version history timeline with size deltas, thumbnail preview on hover, restore/download/delete individual versions, two-version comparison selection, auto-snapshot toggle before destructive operations, export/import version bundles as ZIP (via JSZip), storage management with per-doc and global size display, 100MB warning threshold. Integrated into index.html with "Versions" tab (clock icon), full tool panel UI, and CSS in tools.css. Registered 3 action-registry commands (save-version, show-versions, restore-version). Keyboard shortcuts: Ctrl+Shift+V (quick save), Ctrl+Alt+V (open panel). Verified end-to-end: zero console errors, PDF viewer intact post-interaction (containerWidth=1685, 2 visible canvases).
 **Priority**: MEDIUM
 **Assigned to**: developer
