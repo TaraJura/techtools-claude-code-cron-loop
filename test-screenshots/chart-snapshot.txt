@@ -1,0 +1,172 @@
+uid=1_0 RootWebArea "PDF Editor - Free Online PDF Tools" url="https://cronloop.techtools.cz/"
+  uid=1_1 banner
+    uid=1_2 StaticText "PDF Editor"
+    uid=1_3 tab "Contact Sheet" selectable
+    uid=1_4 tab "Redline" selectable
+    uid=1_5 tab "BG Remove" selectable
+    uid=1_6 tab "Booklet" selectable
+    uid=1_7 tab "N-up" selectable
+    uid=1_8 tab "Zone Extract" selectable
+    uid=1_9 tab "Scan Enhance" selectable
+    uid=1_10 tab "Fix Rotation" selectable
+    uid=1_11 tab "Preflight" selectable
+    uid=1_12 tab "Voice Memo" selectable
+    uid=1_13 tab "Versions" selectable
+    uid=1_14 tab "Multi-Win" selectable
+    uid=1_15 tab "Macros" selectable
+    uid=1_16 tab "Summary" selectable
+    uid=1_17 tab "Highlights" selectable
+    uid=1_18 tab "Scan" selectable
+    uid=1_19 tab "Auto-Link" selectable
+    uid=1_20 tab "Link Check" selectable
+    uid=1_21 tab "Mail Merge" selectable
+    uid=1_22 tab "Page Overlay" selectable
+    uid=1_23 tab "Search HL" selectable
+    uid=1_24 tab "Clips" selectable
+    uid=1_25 tab "Cert Sign" selectable
+    uid=1_26 tab "Charts" selectable
+    uid=1_27 tab "View" selectable selected
+    uid=1_28 tab "Annotate" selectable
+    uid=1_29 tab "Merge" selectable
+    uid=1_30 tab "Split" selectable
+    uid=1_31 tab "Interleave" selectable
+    uid=1_32 tab "Pages" selectable
+    uid=1_33 tab "Forms" selectable
+    uid=1_34 tab "Sign" selectable
+    uid=1_35 tab "OCR" selectable
+    uid=1_36 tab "Convert" selectable
+    uid=1_37 tab "Compress" selectable
+    uid=1_38 tab "Watermark" selectable
+    uid=1_39 tab "Redact" selectable
+    uid=1_40 tab "Smart Redact" selectable
+    uid=1_41 tab "Compare" selectable
+    uid=1_42 tab "Protect" selectable
+    uid=1_43 tab "Properties" selectable
+    uid=1_44 tab "Batch" selectable
+    uid=1_45 tab "Flatten" selectable
+    uid=1_46 tab "Measure" selectable
+    uid=1_47 tab "Color" selectable
+    uid=1_48 tab "QR Code" selectable
+    uid=1_49 tab "Print Prep" selectable
+    uid=1_50 tab "Header/Footer" selectable
+    uid=1_51 tab "Templates" selectable
+    uid=1_52 tab "TOC" selectable
+    uid=1_53 tab "A11y" selectable
+    uid=1_54 tab "Links" selectable
+    uid=1_55 tab "Snip" selectable
+    uid=1_56 tab "Sanitize" selectable
+    uid=1_57 tab "Images" selectable
+    uid=1_58 tab "Fonts" selectable
+    uid=1_59 tab "Deskew" selectable
+    uid=1_60 tab "PDF/A" selectable
+    uid=1_61 tab "Repair" selectable
+    uid=1_62 tab "Background" selectable
+    uid=1_63 tab "Statistics" selectable
+    uid=1_64 tab "Reader" selectable
+    uid=1_65 combobox "Workspace preset" description="Switch workspace" expandable haspopup="menu" value="Edit"
+      uid=1_66 option "Edit" selectable selected value="Edit"
+      uid=1_67 option "Review" selectable value="Review"
+      uid=1_68 option "Read" selectable value="Read"
+    uid=1_69 button "Customize toolbar (Ctrl+Shift+T)" description="Customize toolbar (Ctrl+Shift+T)"
+    uid=1_70 button "More tools" description="More tools"
+    uid=1_71 button "Command palette (Ctrl+K)" description="Command palette (Ctrl+K)"
+    uid=1_72 button "Eyedropper color picker" description="Eyedropper — pick color from PDF (I)"
+    uid=1_73 button "Light mode (click to switch to Sepia)" description="Light mode (click to switch to Sepia)"
+    uid=1_74 button "Recent Files (Ctrl+Shift+R)" description="Recent Files (Ctrl+Shift+R)"
+    uid=1_75 button "Open PDF file"
+    uid=1_76 button "Open from Cloud Storage" description="Open from Cloud Storage"
+    uid=1_77 button "Open PDF from URL" description="Open from URL"
+    uid=1_78 button "Choose PDF file" value="No file chosen"
+  uid=1_79 complementary "Sidebar navigation"
+    uid=1_80 tab "Page thumbnails" selectable selected
+    uid=1_81 tab "Bookmarks" selectable
+    uid=1_82 tab "Attachments" selectable
+    uid=1_83 tab "Verify Signatures" selectable
+    uid=1_84 tab "Editing History" selectable
+    uid=1_85 tab "Reading Progress" selectable
+    uid=1_86 tab "Page Tabs" selectable
+    uid=1_87 heading "PAGES" level="4"
+    uid=1_88 StaticText "Open a PDF to see page thumbnails."
+  uid=1_89 main
+    uid=1_90 button "Previous page" description="Previous page"
+    uid=1_91 spinbutton "Page number" value="1" valuemax="0" valuemin="1" valuetext="1"
+    uid=1_92 StaticText "/ 0"
+    uid=1_93 button "Next page" description="Next page"
+    uid=1_94 button "Undo" description="Undo (Ctrl+Z)" disableable disabled
+    uid=1_95 button "Undo history" description="Recent undo operations"
+    uid=1_96 button "Redo" description="Redo (Ctrl+Shift+Z)" disableable disabled
+    uid=1_97 button "Zoom out" description="Zoom out"
+    uid=1_98 StaticText "100%"
+    uid=1_99 button "Zoom in" description="Zoom in"
+    uid=1_100 button "Width" description="Fit width"
+    uid=1_101 button "Page" description="Fit page"
+    uid=1_102 button "Single page view" description="Single page"
+    uid=1_103 button "Continuous scroll view" description="Continuous scroll"
+    uid=1_104 button "Dual page spread view" description="Dual page spread"
+    uid=1_105 button "Split view" description="Split view (Ctrl+Alt+S)"
+    uid=1_106 button "Voice Commands (V)" description="Voice Commands (V)"
+    uid=1_107 button "Voice Command Reference" description="Voice Command Reference"
+    uid=1_108 button "Read Aloud" description="Read Aloud (Text-to-Speech)"
+    uid=1_109 button "Find in document" description="Find in document (Ctrl+F)"
+    uid=1_110 button "Toggle magnifier loupe" description="Magnifier (Alt+M)"
+    uid=1_111 button "Toggle magnifier lens shape" description="Toggle lens shape (circle/rectangle)"
+    uid=1_112 button "Presentation mode" description="Present (fullscreen slideshow)"
+    uid=1_113 button "Presenter view" description="Presenter View (dual-display with notes)"
+    uid=1_114 button "Auto-scroll reader" description="Auto-scroll (Shift+A)"
+    uid=1_115 button "Download PDF" description="Download PDF"
+    uid=1_116 button "Toggle grid" description="Toggle grid (Ctrl+Shift+G)"
+    uid=1_117 button "Grid & guide settings" description="Grid & guide settings"
+    uid=1_118 button "Toggle minimap" description="Toggle document minimap"
+    uid=1_119 button "Save session" description="Save editing session to browser (Ctrl+Shift+S)"
+    uid=1_120 button "Clear saved session" description="Clear saved session data"
+    uid=1_121 button "Drop a PDF file here or click to browse"
+    uid=1_122 StaticText "Your files are processed entirely in your browser. Nothing is uploaded to a server."
+    uid=1_123 StaticText "Or create from template"
+    uid=1_124 button "Create Blank Page"
+    uid=1_125 button "Create Lined Paper"
+    uid=1_126 button "Create Graph Paper"
+    uid=1_127 button "Create Dot Grid"
+    uid=1_128 heading "Chart Creator" level="3"
+    uid=1_129 button "Bar"
+    uid=1_130 button "H-Bar"
+    uid=1_131 button "Line"
+    uid=1_132 button "Pie"
+    uid=1_133 button "Donut"
+    uid=1_134 button "Scatter"
+    uid=1_135 DisclosureTriangle "Data" expandable expanded
+    uid=1_136 StaticText "Label"
+    uid=1_137 textbox value="Series 1"
+    uid=1_138 textbox value="A"
+    uid=1_139 spinbutton value="40" valuemax="0" valuemin="0" valuetext="40"
+    uid=1_140 textbox value="B"
+    uid=1_141 spinbutton value="25" valuemax="0" valuemin="0" valuetext="25"
+    uid=1_142 textbox value="C"
+    uid=1_143 spinbutton value="60" valuemax="0" valuemin="0" valuetext="60"
+    uid=1_144 textbox value="D"
+    uid=1_145 spinbutton value="35" valuemax="0" valuemin="0" valuetext="35"
+    uid=1_146 button "+ Row"
+    uid=1_147 button "- Row"
+    uid=1_148 button "+ Series"
+    uid=1_149 button "- Series"
+    uid=1_150 button "CSV"
+    uid=1_151 button "From Table"
+    uid=1_152 DisclosureTriangle "Style" expandable
+    uid=1_153 DisclosureTriangle "Size" expandable
+    uid=1_154 DisclosureTriangle "Templates" expandable
+    uid=1_155 StaticText "Preview"
+    uid=1_156 StaticText "500×350px"
+    uid=1_157 button "Place on PDF"
+  uid=1_158 contentinfo
+    uid=1_159 StaticText "Ready"
+    uid=1_160 generic description="Online" live="polite" relevant="additions text"
+    uid=1_161 StaticText "PDF Editor — All processing happens in your browser"
+  uid=1_162 generic atomic live="polite" relevant="additions text"
+  uid=1_163 StaticText "Drop PDF file here"
+  uid=1_164 StaticText "Loading..."
+  uid=1_165 status atomic live="polite" relevant="additions text"
+  uid=1_166 generic description="Online" live="polite" relevant="additions text"
+  uid=1_167 generic atomic live="polite" relevant="additions text"
+  uid=1_168 StaticText "Install PDF Editor"
+  uid=1_169 StaticText "Offline access & faster loading"
+  uid=1_170 button "Install"
+  uid=1_171 button "Not now"
