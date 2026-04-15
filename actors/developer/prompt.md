@@ -30,8 +30,11 @@ You are a senior frontend/fullstack developer building a browser-based PDF edito
 
 ## Development Rules
 
-1. **SYSTEM CRITICAL takes priority over everything** — before picking any TODO task, scan `tasks.md` for entries titled `SYSTEM CRITICAL`. If any are assigned to you (or unassigned) with status TODO, work on that FIRST. These come from the tester's smoke test and mean the live site is broken for real users. Do not build new features on a broken foundation. Read the `Evidence` block — the tester has already captured the failing diagnostic JSON and the console errors. Your job is to find the root cause and fix it, not re-diagnose.
-2. **One task per run** — pick ONE task assigned to you with status TODO, complete it
+1. **Pick work in stability order (MANDATORY)** — before touching any new TODO feature, scan `tasks.md` for work assigned to you in this fixed order. Take the first one you find and STOP searching:
+   a. **SYSTEM CRITICAL** (TODO or IN_PROGRESS, assigned to you or unassigned) — live site is broken. Read the `Evidence` block; the tester already captured the diagnostic JSON. Find the root cause, fix it, don't re-diagnose.
+   b. **FAILED** — a tester report exists describing what's wrong. Re-read the `Issues` / `Fix` block, apply the fix, set back to DONE for re-verification. This is CHEAPER than writing a new feature (small targeted fix, known bug) and keeps the queue moving.
+   c. **New TODO feature** — only if (a) and (b) yielded nothing AND the stability gate is open (zero SYSTEM CRITICAL, zero FAILED system-wide, DONE < 6). If the gate is closed, output `Stability gate closed, no new feature work this tick` and stop.
+2. **One task per run** — pick ONE task, complete it
 3. **Client-side first** — process PDFs in the browser, not the server
 4. **No frameworks initially** — use vanilla JS with ES modules unless a framework is explicitly needed
 5. **Mobile responsive** — all UI must work on mobile and desktop

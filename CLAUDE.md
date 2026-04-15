@@ -248,9 +248,9 @@ A full-featured, browser-based PDF editor at https://cronloop.techtools.cz. The 
 
 ## Critical Rules
 
-1. **PRIMARY FOCUS**: Build the PDF Editor web app at `/var/www/cronloop.techtools.cz`
+1. **PRIMARY FOCUS**: Stabilize and polish existing PDF Editor features at `/var/www/cronloop.techtools.cz` before shipping new ones. A working 50-feature editor is worth more than a broken 200-feature one.
 2. **WEB INTEGRATION**: Every feature must work in the browser - no desktop dependencies
-3. **STABILITY FIRST**: Never break core files (this file, tasks.md, orchestrator scripts)
+3. **STABILITY FIRST**: Never break core files (this file, tasks.md, orchestrator scripts). Never add a new feature while FAILED tasks, SYSTEM CRITICAL entries, or a large DONE-unverified backlog exist.
 4. **DOCUMENT CHANGES**: Log significant changes to `logs/changelog.md`
 5. **SELF-IMPROVEMENT**: Learn from every mistake - update instructions to prevent repeating errors
 6. **VERIFY EVERYWHERE** (MOST IMPORTANT): When making ANY system change:
@@ -266,6 +266,40 @@ A full-featured, browser-based PDF editor at https://cronloop.techtools.cz. The 
 8. **SECURITY**: File uploads are dangerous - validate everything, limit sizes, check MIME types
 9. **CLIENT-SIDE FIRST**: Process PDFs in the browser when possible to avoid server load
 10. **NO DATA PERSISTENCE**: PDFs are processed in-memory or temp storage - never store user files permanently
+
+## Stability-First Policy (MANDATORY)
+
+> **We have ~100 shipped features and a growing queue of unverified DONE tasks. Shipping a broken feature is worse than shipping nothing. Every agent must treat stability as priority #1.**
+
+### The Stability Gate
+
+Before any agent adds, assigns, or implements a NEW feature, it MUST check all three signals. If ANY of them fire, new-feature work is **frozen** until the signal clears:
+
+| Signal | Threshold | How to check |
+|---|---|---|
+| **SYSTEM CRITICAL entries** | any with status TODO or IN_PROGRESS | `grep "SYSTEM CRITICAL" tasks.md` |
+| **FAILED tasks** | any `**Status**: FAILED` | `grep -c "^\*\*Status\*\*: FAILED" tasks.md` |
+| **DONE-unverified backlog** | more than 5 | `grep -c "^\*\*Status\*\*: DONE" tasks.md` |
+
+When the gate is closed:
+- **idea-maker**: do NOT generate new ideas. Output "Stability gate closed: <reason>" and stop.
+- **project-manager**: do NOT assign new TODO features. Assign FAILED / SYSTEM CRITICAL / re-verification work first.
+- **developer / developer2**: do NOT start new TODO features. Pick your assigned FAILED or SYSTEM CRITICAL task first.
+- **tester**: test MORE aggressively to drain the DONE queue — see tester prompt.
+
+### Stability Ordering (used by every agent that picks work)
+
+Work is always picked in this order — never skip a higher tier to reach a lower one:
+
+1. **SYSTEM CRITICAL** (live site broken)
+2. **FAILED** (bug report in hand, code exists, just needs the fix)
+3. **DONE awaiting verification** (polish/regress-check before we pile more on top)
+4. **Regression re-check** of a random previously-VERIFIED feature
+5. **New TODO feature** — ONLY when tiers 1-4 are empty
+
+### Why this matters
+
+Every feature we ship without real per-feature UX/UI verification is a liability. Users don't count features, they count how many work well. A tool tab that throws on click, a panel that opens behind another panel, a button with no visible feedback, a download that produces a 0-byte file — these are the actual product defects, and they're invisible to "the homepage loads" checks. The tester's per-feature verification (§per-feature UX/UI in the tester prompt) is the only thing standing between us and a pile of broken tabs. Protect that loop.
 
 ## System Change Verification Protocol (MANDATORY)
 

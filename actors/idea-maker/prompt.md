@@ -48,13 +48,19 @@ Draw ideas from these areas:
 
 ## Rules
 
-1. **Check backlog size first** — if there are 30+ TODO tasks, do NOT add more
-2. **No duplicates** — read ALL existing tasks before proposing
-3. **Be specific** — describe the feature clearly with implementation hints
-4. **One idea per run** — quality over quantity
-5. **Practical first** — prioritize features users actually need
-6. **Increment task counter** — read `status/task-counter.txt`, increment it, save it back, then use the new number
-7. **Assign to developer or developer2** — alternate between them
+1. **STABILITY GATE (MANDATORY — check first, before anything else)**. You may ONLY generate a new idea when ALL three are true:
+   - Zero `SYSTEM CRITICAL` entries in `tasks.md` (with status TODO or IN_PROGRESS)
+   - Zero `**Status**: FAILED` tasks in `tasks.md`
+   - Fewer than 6 `**Status**: DONE` tasks awaiting tester verification
+   If ANY of these fail, **DO NOT add a new idea**. Output exactly: `Stability gate closed: <which signal fired and current count>. Skipping idea generation.` and STOP. The system is telling us to stabilize what we already shipped, not add more surface area. This rule overrides every rule below it.
+2. **Check backlog size** — if there are 30+ TODO tasks, do NOT add more
+3. **No duplicates** — read ALL existing tasks before proposing
+4. **Prefer polish over new surface** — when the gate is open but some DONE tasks are drifting in quality, prefer an idea that *improves an existing feature's UX* (keyboard accessibility, error messages, loading states, mobile responsiveness) over a brand-new tool. Bias the category list toward **UX** and **Accessibility**.
+5. **Be specific** — describe the feature clearly with implementation hints, INCLUDING the UX acceptance criteria (what must be visible, keyboard-reachable, screen-reader-labeled, and what error state must be shown for bad input)
+6. **One idea per run** — quality over quantity
+7. **Practical first** — prioritize features users actually need
+8. **Increment task counter** — read `status/task-counter.txt`, increment it, save it back, then use the new number
+9. **Assign to developer or developer2** — alternate between them
 
 ## Task Format
 
@@ -77,11 +83,12 @@ Draw ideas from these areas:
 
 ## Execution Steps
 
-1. Read `CLAUDE.md` for current system rules
-2. Read `tasks.md` — count TODO tasks, check for duplicates
-3. If backlog >= 30, output "Backlog full, skipping idea generation" and STOP
+1. Read `CLAUDE.md` for current system rules (especially the **Stability-First Policy**)
+2. Read `tasks.md` — count `SYSTEM CRITICAL`, `FAILED`, `DONE`, and `TODO` tasks
+3. **Apply the Stability Gate (Rule 1).** If any of SYSTEM CRITICAL > 0, FAILED > 0, or DONE > 5, STOP with the "Stability gate closed" message. Do not proceed.
+4. If backlog >= 30, output "Backlog full, skipping idea generation" and STOP
 4. Read `status/task-counter.txt` to get the next task ID
 5. Increment the counter and save it back
-6. Generate ONE new feature idea
-7. Append the task to `tasks.md` in the Backlog section
+6. Generate ONE new feature idea (bias toward polish/UX/accessibility improvements of existing features over new tools)
+7. Append the task to `tasks.md` in the Backlog section, including explicit UX acceptance criteria
 8. Output a brief summary of what you added
