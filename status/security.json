@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-15T08:30:00Z",
+  "last_review": "2026-04-15T12:20:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
     "failed_password_attempts": "ongoing in current auth.log",
-    "fail2ban_status": "active - sshd jail running, 2 currently banned, 15085 total banned",
-    "change_since_last": "fail2ban total bans 15085 (up from 14943, +142 since last review ~4h ago). 2 IPs currently banned (2.57.122.96, 176.143.4.56). Active brute-force from 2.57.122.x targeting ubuntu, 176.143.4.56 targeting root/docker/bigdata/user, 80.94.92.x targeting sol/ubuntu/solana, 161.132.4.167 targeting root, 92.118.39.76 targeting sol, 78.128.112.74 targeting support. No successful unauthorized logins — only sudo sessions from novakj."
+    "fail2ban_status": "active - sshd jail running, 4 currently banned, 15189 total banned",
+    "change_since_last": "fail2ban total bans 15189 (up from 15085, +104 since last review ~4h ago). 4 IPs currently banned (45.162.8.14, 177.10.201.7, 178.185.136.57, 62.173.38.229). Active brute-force from 80.94.92.x targeting solana, 222.110.147.x targeting ubuntu/root/user, 182.253.79.x targeting root/dev, 92.118.39.56 targeting solana/ubuntu. No successful unauthorized logins — only sudo sessions from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,27 +40,31 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "580+ usages across 154 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "580+ usages across 155 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "cert_sign_js": {
-      "task": "TASK-158: Digital certificate PDF signing with X.509/CMS/PKCS#7",
-      "status": "NEW — reviewed in full (1841 lines)",
-      "innerHTML_count": 2,
-      "innerHTML_details": "Line 1567 (sigEl.innerHTML — signature rectangle UI, cn and dateStr escaped via escapeHTML()), line 1749 (certDetails.innerHTML — cert info panel, cn/org/issuerCN escaped via escapeHTML(), publicKeyAlgorithm/ecCurve/fingerprint are internally generated fixed values). Both safe.",
+    "chart_creator_js": {
+      "task": "TASK-159: Chart creator and PDF embedder",
+      "status": "NEW — reviewed in full (1052 lines)",
+      "innerHTML_count": 4,
+      "innerHTML_details": "Line 64 (panel.innerHTML — static template HTML, initial state values from constants, not user-derived at render time). Line 285 (container.innerHTML — data editor table, labels and series names escaped with esc()). Line 313 (container.innerHTML — series color pickers, s.name escaped with esc()). Line 795 (list.innerHTML — template list, template names escaped with esc()). All safe.",
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "external_requests": "none",
-      "import_safety": "File input accepts PFX/P12 files. No file type validation (extension/MIME) at JS level — parser will reject non-PFX data with error. All processing client-side via PKCS#12 parser + Web Crypto API.",
-      "crypto_safety": "Private key imported via crypto.subtle.importKey() with extractable=false (line 1078). Signing done via crypto.subtle.sign(). Key material never exposed as raw bytes after import.",
-      "escapeHTML_note": "Module defines own escapeHTML() (lines 1780-1784) using textContent→innerHTML pattern. Does NOT escape double quotes. All usages place values in element content, not attributes. Safe in current context.",
-      "asn1_parser": "Custom DER parser handles untrusted cert file input. No eval or dynamic code. Buffer reads bounded by Uint8Array (out-of-bounds returns undefined, not crash). No risk of code execution from malformed ASN.1.",
-      "pkcs12_kdf": "SHA-1 KDF iteration count from parsed file (parseIntegerValue). Theoretically could be set very high in crafted PFX to cause browser hang. Self-inflicted only (user uploads own cert). No mitigation needed.",
-      "pdf_output": "signPDF() creates modified PDF via pdf-lib. Download filename derived from state.currentFile.name with _signed suffix. Object URL properly revoked after download (line 1720).",
-      "pdf_appearance": "buildSignatureAppearance() escapes backslashes and parentheses for PDF string literals (line 1390). Safe for PDF content stream.",
+      "csv_import": "FileReader reads local CSV/TSV files. No file size validation at JS level — large CSV could cause memory pressure. Self-inflicted only (user uploads own file). Low risk.",
+      "esc_function": "Line 1033: esc() escapes &, <, >, and double-quote. Covers both element content and attribute contexts. Better than ~15 other modules that lack double-quote escaping.",
+      "localStorage_usage": "chart-templates stored/loaded from localStorage. Template names rendered with esc(). No schema validation on loaded templates — crafted localStorage entry could set unexpected style properties (type, palette, fontSize, etc.) but all are consumed safely by Canvas drawing API and DOM property setters, not innerHTML.",
+      "object_url_management": "URL.createObjectURL(blob) on line 938 creates blob URL for placed chart. URL stored in chartData.url but never explicitly revoked via URL.revokeObjectURL(). Minor memory leak on heavy usage. Not a security issue.",
+      "canvas_rendering": "All chart drawing uses Canvas 2D API — inherently safe, no HTML injection vector.",
+      "global_exports": "window.__chartCreator and window.__chartExtractedTables used for inter-module communication. Standard pattern in this codebase.",
       "security_findings": [],
       "security_status": "CLEAN — no findings."
+    },
+    "index_html": {
+      "status": "Updated to add chart-creator panel and script tag",
+      "changes": "Added nav-tab for charts, panel-charts div with empty tool-panel-body and Place on PDF button, script tag for js/chart-creator.js",
+      "security_impact": "None — static HTML additions only"
     }
   },
   "previous_module_reviews_still_valid": [
@@ -101,7 +105,7 @@
     "bg-remove.js", "bg-remove-worker.js", "zone-extract.js",
     "spread-view.js", "annotation-filter.js", "form-calc.js", "form-logic.js",
     "text-diff.js", "text-diff-worker.js", "spell-checker.js",
-    "clip-library.js", "cert-sign.js"
+    "clip-library.js", "cert-sign.js", "chart-creator.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -140,11 +144,11 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "cert_sign_js_reviewed_clean",
-    "all_154_js_files_accounted_for",
+    "chart_creator_js_reviewed_clean",
+    "all_155_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_64_days",
-    "fail2ban_active_15085_total_bans",
+    "fail2ban_active_15189_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
