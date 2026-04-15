@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-14T20:19:00Z",
+  "last_review": "2026-04-15T00:30:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
     "failed_password_attempts": "ongoing in current auth.log",
-    "fail2ban_status": "active - sshd jail running, 13 currently banned, 14670 total banned",
-    "change_since_last": "fail2ban total bans 14670 (up from 14550, +120 since last review ~4h ago). 13 IPs currently banned. Active brute-force from 2.57.122.x and 2.57.121.x subnets targeting root, 80.94.92.x targeting sol, 34.124.213.151 targeting teamspeak, 20.185.9.149 targeting root/mapadmin. No successful unauthorized logins — only sudo sessions from novakj."
+    "fail2ban_status": "active - sshd jail running, 11 currently banned, 14849 total banned",
+    "change_since_last": "fail2ban total bans 14849 (up from 14670, +179 since last review ~4h ago). 11 IPs currently banned. Active brute-force from 2.57.122.x and 2.57.121.x subnets targeting root, 80.94.92.x targeting sol/postgres/ubuntu/solana, 59.36.233.x targeting root/steam/postgres, 45.148.10.152 targeting root, 213.209.159.159 targeting kristal. No successful unauthorized logins — only sudo sessions from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,49 +40,34 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "578+ usages across 151 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "580+ usages across 152 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "text_diff_js": {
-      "task": "TASK-155: PDF text-level diff comparison with word-level and character-level highlighting",
-      "status": "NEW — reviewed in full (1174 lines)",
-      "innerHTML_count": 10,
-      "innerHTML_details": "Line 215 (clearing), lines 225-237/244-248/257/265/277-289/297-299 (static HTML templates for UI skeleton), lines 658-659 (static empty-state message), lines 692-693 (clearing), line 902 (clearing), line 909 (static filter-empty message), lines 961-966 (summary stats with integer-only interpolation: ins, del, mod counters).",
+    "spell_checker_js": {
+      "task": "TASK-156: Inline spell checker for text overlays and form fields",
+      "status": "NEW — reviewed in full (903 lines)",
+      "innerHTML_count": 8,
+      "innerHTML_details": "Line 192 (clearing overlay), line 215 (underline overlay — text escaped via escapeHtml()), lines 506-508 (static header HTML), line 518 (static SVG no-errors message), lines 637-643 (settings panel — custom dict words escaped via escapeHtml() in content and data-word attribute), line 732 (static SVG status icon), line 781 (clearing overlays).",
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
-      "external_requests": "none",
-      "processing_safety": "Web worker (text-diff-worker.js) used for heavy LCS/Myers diff computation — terminable. Fallback inline diff available. Worker terminated on completion and on error.",
-      "dom_manipulation": "PDF-extracted text rendered exclusively via DOM APIs: createElement, textContent, appendChild, createDocumentFragment. Change snippets in summary panel set via textContent (line 932-936). No innerHTML with PDF content.",
-      "html_export": "buildExportHtml() (line 990) generates standalone HTML report. esc() function (lines 1045-1049) uses textContent->innerHTML pattern to escape <, >, &. Applied to td.leftName, td.rightName, and all PDF-extracted text snippets. Export file has no CSP but all user content is properly escaped. No attribute injection vector — escaped values only in element content.",
-      "object_url_handling": "Created in exportSummary() (line 979), revoked on line 986. Proper cleanup.",
+      "external_requests": "fetch('./assets/dictionaries/en.json') — same-origin dictionary load",
+      "processing_safety": "Edit distance (edits1) runs synchronously on main thread. O(26*n) for distance-1, O((26n)^2) for distance-2. Could cause brief UI jank on very long words but bounded, no infinite loop risk.",
+      "dom_manipulation": "Context menu, dialog, and status indicator built entirely with DOM APIs (createElement, textContent, appendChild). Word suggestions and corrections use textContent. Underline overlay uses escapeHtml() before innerHTML.",
+      "escapeHtml_note": "Module's escapeHtml() (line 222-224) escapes &, <, >, newlines, spaces but NOT double quotes. Used in data-word attribute (line 642). Custom dict words come from user input via addToCustomDict() — no import mechanism. Self-XSS only. CSP mitigates.",
       "security_findings": [],
-      "security_status": "CLEAN — no findings."
+      "security_status": "CLEAN — no findings (escapeHtml missing double-quote escaping in data-word attribute is self-XSS only with no import vector, covered under global known_issues pattern)."
     },
-    "text_diff_worker_js": {
-      "task": "TASK-155: PDF text-level diff comparison",
-      "status": "NEW — reviewed in full (222 lines)",
+    "shape_recognition_js": {
+      "task": "TASK-119: Fix star recognition and diamond-vs-rectangle conflict in shape assist",
+      "status": "NEW — reviewed in full (622 lines)",
       "innerHTML_count": 0,
       "eval_count": 0,
-      "dom_access": "none — pure web worker, no DOM",
-      "external_requests": "none",
-      "processing_safety": "Myers diff algorithm with O((N+M)^2) worst case. For very large documents this could be slow but worker is terminable from main thread. No infinite loop risk — bounded by MAX = N + M iterations.",
-      "security_findings": [],
-      "security_status": "CLEAN — no findings."
-    },
-    "compare_js": {
-      "task": "TASK-155: Modified to support text diff integration",
-      "status": "MODIFIED — reviewed in full (994 lines)",
-      "innerHTML_count": 3,
-      "innerHTML_details": "Lines 597-598 (clearing text diff panes), line 768 (clearing thumbnail strip container). All clearing operations — safe.",
-      "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "external_requests": "none",
-      "file_upload_validation": "validatePdf() from utils.js called on line 84 before processing. Proper validation gate.",
-      "dom_manipulation": "makeDiffLine() (line 638) uses textContent for PDF-extracted text — safe. Thumbnail labels set via textContent (lines 783-789). escapeHtml() (lines 965-969) used for HTML export document names.",
-      "html_export": "buildHtmlReport() (line 909) generates standalone HTML. Document names escaped via escapeHtml(). All other interpolated values are internally-computed (integers, booleans, hardcoded strings from ternary). No user/PDF content unescaped.",
-      "object_url_handling": "downloadFile() (line 971) creates and revokes object URLs properly.",
+      "processing_safety": "Pure computational geometry — Ramer-Douglas-Peucker simplification, corner detection, shape matching. All algorithms bounded by input stroke length. No heavy processing, no web worker needed.",
+      "dom_manipulation": "Minimal — only updateToggleButton() sets classList, title, aria-pressed on a button element. No user content inserted into DOM.",
       "security_findings": [],
       "security_status": "CLEAN — no findings."
     }
@@ -124,7 +109,7 @@
     "link-checker.js", "highlight-collector.js", "search-highlight.js",
     "bg-remove.js", "bg-remove-worker.js", "zone-extract.js",
     "spread-view.js", "annotation-filter.js", "form-calc.js", "form-logic.js",
-    "text-diff.js", "text-diff-worker.js"
+    "text-diff.js", "text-diff-worker.js", "spell-checker.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -134,6 +119,7 @@
     "jsbarcode_min_js": { "file": "lib/jsbarcode.min.js", "size": "61KB", "self_hosted": true, "added": "2026-04-03" },
     "jsqr_min_js": { "file": "lib/jsqr.min.js", "size": "257KB", "self_hosted": true, "added": "2026-04-03" },
     "pptxgenjs_bundle_js": { "file": "lib/pptxgenjs.bundle.js", "size": "477KB", "self_hosted": true, "added": "2026-04-04" },
+    "en_json_dictionary": { "file": "assets/dictionaries/en.json", "size": "817KB", "self_hosted": true, "added": "2026-04-15" },
     "note_external_sdks": "cloud-storage.js loads 4 external SDK scripts (Google, Dropbox, MSAL). Not self-hosted. Currently blocked by CSP."
   },
   "cgi_security": { "no_cgi_scripts_found": true, "cgi_location_block_exists": true, "no_cgi_bin_directory": true },
@@ -142,7 +128,7 @@
   "ssl_certificate": {
     "valid_from": "2026-03-20",
     "valid_until": "2026-06-18",
-    "days_remaining": 65,
+    "days_remaining": 64,
     "status": "valid"
   },
   "checks_passed": [
@@ -162,13 +148,12 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "text_diff_js_reviewed_clean",
-    "text_diff_worker_js_reviewed_clean",
-    "compare_js_reviewed_clean",
-    "all_151_js_files_accounted_for",
+    "spell_checker_js_reviewed_clean",
+    "shape_recognition_js_reviewed_clean",
+    "all_152_js_files_accounted_for",
     "security_headers_present_verified",
-    "ssl_certificate_valid_65_days",
-    "fail2ban_active_14670_total_bans",
+    "ssl_certificate_valid_64_days",
+    "fail2ban_active_14849_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
@@ -178,7 +163,8 @@
     "auto_link_uri_construction_safe",
     "voice_commands_no_external_requests",
     "custom_expression_parser_no_eval",
-    "form_logic_rule_engine_no_eval"
+    "form_logic_rule_engine_no_eval",
+    "dictionary_same_origin_fetch"
   ],
   "known_issues": [
     "MEDIUM: link-checker.js line 156-162: PDF annotation URLs (a.url) extracted without protocol validation. Text-detected URLs are filtered by /https?:/ regex, but annotation links accept any protocol including javascript:, data:, vbscript:. Affects: (1) HTML report export line 687 — URL placed in href attribute, escHtml prevents HTML injection but javascript: URIs pass through as valid href. Exported HTML is a standalone file with no CSP. A malicious PDF with javascript: link annotation creates clickable XSS in the report. (2) checkUrl() would harmlessly fail on non-http URLs. (3) Main UI display uses textContent — safe. Fix: add protocol allowlist in makeEntry() or scanDocument(): skip annotation URLs that don't start with http://, https://, or mailto:.",
