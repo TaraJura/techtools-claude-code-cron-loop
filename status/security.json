@@ -1,12 +1,12 @@
 {
   "_comment": "This file is OVERWRITTEN each security review. Do NOT append to it.",
-  "last_review": "2026-04-15T04:20:00Z",
+  "last_review": "2026-04-15T08:30:00Z",
   "status": "secure",
   "fixes_applied": [],
   "ssh_attacks": {
     "failed_password_attempts": "ongoing in current auth.log",
-    "fail2ban_status": "active - sshd jail running, 8 currently banned, 14943 total banned",
-    "change_since_last": "fail2ban total bans 14943 (up from 14849, +94 since last review ~4h ago). 8 IPs currently banned. Active brute-force from 2.57.122.x subnet targeting root, 80.94.92.x targeting ubuntu/solana, 45.148.10.x targeting root. No successful unauthorized logins — only sudo sessions from novakj."
+    "fail2ban_status": "active - sshd jail running, 2 currently banned, 15085 total banned",
+    "change_since_last": "fail2ban total bans 15085 (up from 14943, +142 since last review ~4h ago). 2 IPs currently banned (2.57.122.96, 176.143.4.56). Active brute-force from 2.57.122.x targeting ubuntu, 176.143.4.56 targeting root/docker/bigdata/user, 80.94.92.x targeting sol/ubuntu/solana, 161.132.4.167 targeting root, 92.118.39.76 targeting sol, 78.128.112.74 targeting support. No successful unauthorized logins — only sudo sessions from novakj."
   },
   "web_protections": {
     "security_headers": {
@@ -40,37 +40,26 @@
     "no_function_constructor": true,
     "document_write_safe": "2 usages: keyboard-shortcuts.js line 416 (print cheat sheet) and presenter-view.js line 1216 (presenter popup). Both write to newly opened blank windows with static or internally-generated HTML only. Acceptable pattern.",
     "innerHTML_safe": true,
-    "innerHTML_note": "580+ usages across 153 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
+    "innerHTML_note": "580+ usages across 154 JS files. All reviewed — no unescaped user/PDF-derived content in dangerous contexts, with tracked exceptions in known_issues."
   },
   "changed_files_review": {
-    "clip_library_js": {
-      "task": "TASK-157: Persistent content clip library for snipped page regions",
-      "status": "NEW — reviewed in full (759 lines)",
-      "innerHTML_count": 4,
-      "innerHTML_details": "Line 201 (static &times; entity — safe), line 337 (clearing grid — safe), line 360 (grid.innerHTML = html from renderClipCard templates — user data escaped via escapeHtml()), line 388 (escapeHtml helper — textContent→innerHTML pattern).",
+    "cert_sign_js": {
+      "task": "TASK-158: Digital certificate PDF signing with X.509/CMS/PKCS#7",
+      "status": "NEW — reviewed in full (1841 lines)",
+      "innerHTML_count": 2,
+      "innerHTML_details": "Line 1567 (sigEl.innerHTML — signature rectangle UI, cn and dateStr escaped via escapeHTML()), line 1749 (certDetails.innerHTML — cert info panel, cn/org/issuerCN escaped via escapeHTML(), publicKeyAlgorithm/ecCurve/fingerprint are internally generated fixed values). Both safe.",
       "eval_count": 0,
       "function_constructor_count": 0,
       "document_write_count": 0,
       "external_requests": "none",
-      "import_safety": "importClips() only accepts image/png,image/jpeg via file input (line 487). No JSON import mechanism. Files read as data URLs via FileReader. Clip IDs always internally generated via generateId().",
-      "export_safety": "exportAllClips() uses sanitizeFilename() to strip non-alphanumeric chars and limit to 50 chars. Object URLs properly revoked after download (line 524).",
-      "storage": "IndexedDB (pdf-editor-clips). MAX_STORAGE_MB=50 warning. No server communication.",
-      "imageDataUrl_safety": "All sources produce legitimate data: URLs — canvas.toDataURL() (snip integration, element capture) or FileReader.readAsDataURL() (image import). Never from untrusted JSON import.",
-      "dom_manipulation": "Clip insertion uses DOM APIs (createElement, appendChild). Drag-and-drop uses standard dataTransfer API. Context menu built entirely with DOM APIs (createElement, textContent, addEventListener).",
-      "escapeHtml_note": "Module's escapeHtml() (lines 385-389) uses textContent→innerHTML pattern which does NOT escape double quotes. Used in title, alt, and data-clip-id attributes. clip.name comes from user prompt (renameClip) or imported image filenames. Self-XSS pattern. CSP script-src 'self' mitigates. Same pattern as ~15 other modules.",
+      "import_safety": "File input accepts PFX/P12 files. No file type validation (extension/MIME) at JS level — parser will reject non-PFX data with error. All processing client-side via PKCS#12 parser + Web Crypto API.",
+      "crypto_safety": "Private key imported via crypto.subtle.importKey() with extractable=false (line 1078). Signing done via crypto.subtle.sign(). Key material never exposed as raw bytes after import.",
+      "escapeHTML_note": "Module defines own escapeHTML() (lines 1780-1784) using textContent→innerHTML pattern. Does NOT escape double quotes. All usages place values in element content, not attributes. Safe in current context.",
+      "asn1_parser": "Custom DER parser handles untrusted cert file input. No eval or dynamic code. Buffer reads bounded by Uint8Array (out-of-bounds returns undefined, not crash). No risk of code execution from malformed ASN.1.",
+      "pkcs12_kdf": "SHA-1 KDF iteration count from parsed file (parseIntegerValue). Theoretically could be set very high in crafted PFX to cause browser hang. Self-inflicted only (user uploads own cert). No mitigation needed.",
+      "pdf_output": "signPDF() creates modified PDF via pdf-lib. Download filename derived from state.currentFile.name with _signed suffix. Object URL properly revoked after download (line 1720).",
+      "pdf_appearance": "buildSignatureAppearance() escapes backslashes and parentheses for PDF string literals (line 1390). Safe for PDF content stream.",
       "security_findings": [],
-      "security_status": "CLEAN — no new findings beyond existing escapeHtml double-quote pattern (tracked in known_issues)."
-    },
-    "context_menu_js": {
-      "task": "TASK-157 integration: Added 'Save to Clip Library' menu item",
-      "status": "MODIFIED — reviewed changes only",
-      "changes": "Lines 569, 586-588: Added static SVG clipIcon and menu item that emits 'clip:save-from-element' bus event with DOM target reference. No user-controlled strings in innerHTML. No new security-relevant patterns.",
-      "security_status": "CLEAN — no findings."
-    },
-    "snip_js": {
-      "task": "TASK-157 integration: Added saveSelectionToClipLibrary() function",
-      "status": "MODIFIED — reviewed changes only",
-      "changes": "Lines 667-689: New saveSelectionToClipLibrary() renders selection to canvas, creates data URL via canvas.toDataURL('image/png'), emits 'clip:save-from-snip' bus event. imageDataUrl is always a valid data: URL from canvas. History rendering (line 891-895) uses internally-generated pageNum (int), format (fixed string set), timestamp (Date.toLocaleTimeString()). No user content in innerHTML.",
       "security_status": "CLEAN — no findings."
     }
   },
@@ -112,7 +101,7 @@
     "bg-remove.js", "bg-remove-worker.js", "zone-extract.js",
     "spread-view.js", "annotation-filter.js", "form-calc.js", "form-logic.js",
     "text-diff.js", "text-diff-worker.js", "spell-checker.js",
-    "clip-library.js"
+    "clip-library.js", "cert-sign.js"
   ],
   "new_dependencies": {
     "jszip_min_js": { "file": "lib/jszip.min.js", "size": "97KB", "self_hosted": true, "added": "2026-03-31" },
@@ -151,24 +140,17 @@
     "no_function_constructor_in_js",
     "innerHTML_reviewed_all_files",
     "pdf_validation_complete_4_checks",
-    "clip_library_js_reviewed_clean",
-    "context_menu_js_changes_reviewed_clean",
-    "snip_js_changes_reviewed_clean",
-    "all_153_js_files_accounted_for",
+    "cert_sign_js_reviewed_clean",
+    "all_154_js_files_accounted_for",
     "security_headers_present_verified",
     "ssl_certificate_valid_64_days",
-    "fail2ban_active_14943_total_bans",
+    "fail2ban_active_15085_total_bans",
     "web_app_serving_200",
     "disk_space_ok_14pct",
     "ssh_only_authorized_activity",
     "document_write_safe_popup_windows_only",
-    "idb_version_storage_safe",
-    "camera_getUserMedia_permission_handled",
-    "auto_link_uri_construction_safe",
-    "voice_commands_no_external_requests",
-    "custom_expression_parser_no_eval",
-    "form_logic_rule_engine_no_eval",
-    "dictionary_same_origin_fetch"
+    "crypto_subtle_used_for_signing",
+    "private_key_non_extractable"
   ],
   "known_issues": [
     "MEDIUM: link-checker.js line 156-162: PDF annotation URLs (a.url) extracted without protocol validation. Text-detected URLs are filtered by /https?:/ regex, but annotation links accept any protocol including javascript:, data:, vbscript:. Affects: (1) HTML report export line 687 — URL placed in href attribute, escHtml prevents HTML injection but javascript: URIs pass through as valid href. Exported HTML is a standalone file with no CSP. A malicious PDF with javascript: link annotation creates clickable XSS in the report. (2) checkUrl() would harmlessly fail on non-http URLs. (3) Main UI display uses textContent — safe. Fix: add protocol allowlist in makeEntry() or scanDocument(): skip annotation URLs that don't start with http://, https://, or mailto:.",
