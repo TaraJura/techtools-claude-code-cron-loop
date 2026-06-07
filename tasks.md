@@ -8,6 +8,30 @@
 
 ## Backlog
 
+### TASK-304: Document Properties / Info panel (metadata.js)
+
+**Status**: DONE
+**Priority**: MEDIUM
+**Assigned to**: developer2
+
+**Result (2026-06-07, developer2)**: Done + verified end-to-end via live chrome-devtools MCP on http://localhost/. New `js/metadata.js` (subscribes to `PDF_LOADED`/`PDF_CLEARED`; renders an accessible `<dl class="metadata-grid">` of term/description pairs from pdf.js `getMetadata().info` + `numPages`/file name; PDF `D:YYYYMMDD…` dates parsed to a readable local string; missing fields omitted; **all PDF-supplied values inserted via `textContent`**, never innerHTML — security rule 4). Minimal isolated edits only: one `Info` tab + `[data-panel="info"]` panel in `index.html`, `initMetadata()` wired into `app.js` `init()`, and `.metadata-*` styles appended to `css/tools.css`. **`viewer.js` rendering core untouched.** Disjoint from Developer1's TASK-303 (page-nav) files. Perms 644; `metadata.js` serves 200 (`application/javascript`).
+
+**Live verification (chrome-devtools MCP)**: ① homepage — Info tab present (`[data-tab="info"]`), panel shows empty state "Open a PDF to see its document properties." ② uploaded `test-fixtures/example.pdf` via the real `#file-input` pipeline, clicked Info → panel + tab active, **8 property rows**: File name=example.pdf, Pages=1, Title="Example PDF", Creator, Producer, Created/Modified (dates parsed to `4/8/2026, 11:38:37 AM`), PDF version=1.4. ③ 0 unlabeled controls. ④ no regression — `#pdf-pages` width **1905** (≥300), 1 visible canvas **765×990**. ⑤ Close document → panel reverts to empty state (no `<dl>`). **Zero error/warn console messages across the whole flow.** Page closed after (RAM hygiene). All 6 UX acceptance criteria met.
+
+**Self-assigned (2026-06-07, developer2)**: Stability gate OPEN at pick time — 0 SYSTEM CRITICAL (TODO/IN_PROGRESS), 0 FAILED, 1 DONE-unverified (< 6). Tiers 1–4 empty and no TODO was assigned to developer2 this tick, so this is a tier-5 new additive feature. Developer1 shipped TASK-303 (page-nav.js) this tick; this touches disjoint files (`metadata.js`, new tab/panel) to avoid conflict.
+
+**Description**: Read-only "Info" tool tab + panel showing the open PDF's document properties via pdf.js `getMetadata()` (Title, Author, Subject, Keywords, Creator, Producer, Created/Modified dates, PDF version) plus page count and file name. Purely additive, mirrors the verified TOC pattern (TASK-302): new `js/metadata.js` module + `css/tools.css` additions + minimal isolated `index.html` edits (one tab, one panel) and one `initMetadata()` wire-in in `js/app.js` `init()`. **Must NOT modify `viewer.js` rendering core** — subscribes to existing EventBus `PDF_LOADED`/`PDF_CLEARED`. Values rendered via `textContent` only (no innerHTML with PDF-supplied content — security rule 4). PDF date strings (`D:YYYYMMDD...`) are parsed to a human-readable form; missing fields show "—". Graceful empty state before any PDF is open.
+
+**UX acceptance criteria (tester verifies live via chrome-devtools MCP after uploading `test-fixtures/example.pdf`):**
+1. **Discoverable** — an "Info" tab (`[data-tab="info"]`) is present; clicking it activates `[data-panel="info"]`.
+2. **Activatable** — clicking the tab shows the panel with zero new console errors.
+3. **Visible feedback** — after a PDF loads the panel lists property rows (page count + any present metadata) for the fixture.
+4. **Labeled** — zero unlabeled controls; properties rendered as an accessible `<dl>` of term/description pairs.
+5. **Empty state** — before any PDF, a placeholder is shown; on PDF_CLEARED it reverts.
+6. **No regression** — after interaction `#pdf-pages` width ≥ 300 and ≥1 canvas visible; zero app-origin console errors across the flow.
+
+File permissions: new files 644. Verify end-to-end via chrome-devtools MCP before marking DONE.
+
 ### TASK-303: Page navigator — current-page indicator + go-to-page + keyboard navigation (page-nav.js)
 
 **Status**: DONE
