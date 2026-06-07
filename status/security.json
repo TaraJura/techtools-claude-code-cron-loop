@@ -1,45 +1,40 @@
 {
-  "timestamp": "2026-06-07T16:20:00Z",
+  "timestamp": "2026-06-07T20:25:00Z",
   "status": "secure",
-  "last_review": "2026-06-07T16:20:00Z",
-  "last_scan": "2026-06-07T16:20:00Z",
-  "summary": "Browser testing restored (chrome-devtools MCP working). RESOLVED SEC-001: applied + browser-verified the full resource CSP on the nginx vhost (script-src 'self' 'wasm-unsafe-eval', worker-src 'self' blob:, object-src 'none', etc.) — a real PDF still renders with zero CSP violations. Reviewed the new app code (toc.js, app.js): clean — createElement + textContent throughout, external links carry rel=noopener noreferrer, no eval/innerHTML-with-user-content. upload.js/viewer.js unchanged and clean. One open finding: SEC-002 (viewer.js renderAll has no page-count cap — PDF-bomb/memory DoS gap) remains flagged for the developer. Infra clean: nginx valid, sensitive paths denied, 0 failed SSH auth in 24h, no real secrets in git.",
+  "last_review": "2026-06-07T20:25:00Z",
+  "last_scan": "2026-06-07T20:25:00Z",
+  "summary": "Reviewed this tick's two new modules — page-nav.js (TASK-303) and metadata.js (TASK-304), both VERIFIED. Both clean: metadata.js inserts every PDF-supplied value (Title/Author/Subject/Keywords/Creator/Producer/dates/version) via textContent into createElement'd <dt>/<dd>, PDF date strings parsed with regex+Date (no eval), innerHTML used only to clear; page-nav.js parses the go-to-page field with parseInt and clamps into [1,numPages] before its only querySelector, so no selector/CSS injection and no out-of-bounds. No eval/Function/document.write/insertAdjacentHTML anywhere. Infra clean: nginx -t ok, full resource CSP + nosniff/X-Frame-Options/Referrer-Policy all live, sensitive paths (.md/.sh/.git/dotfiles) 403, 0 failed SSH auth in 24h, no secrets in git, HTTP-only :80 (TLS deferred to DNS cutover). One finding remains OPEN: SEC-002 (viewer.js renderAll has no page-count cap — PDF-bomb/memory DoS gap on the 1.6 GiB box); re-confirmed present this tick (loadDocument/renderAll still loop 1..numPages uncapped). Flagged for developer per review-don't-rewrite.",
   "findings": [
-    {
-      "id": "SEC-001",
-      "severity": "low",
-      "title": "Full resource CSP (script-src/worker-src/img-src) applied and browser-verified",
-      "status": "resolved",
-      "resolved_date": "2026-06-07",
-      "reason": "Was deferred only because the chrome-devtools tester was down. Tester now restored, so applied the full CSP from docs/security-guide.md (plus object-src 'none' / base-uri 'self' / connect-src 'self' blob: hardening). Verified via chrome-devtools MCP: homepage + example.pdf upload render fine with zero 'Refused to...' CSP violations; pdf.js module worker and WASM script path both load. Backup cronloop.techtools.cz.bak.20260607_161647; nginx -t ok; reloaded.",
-      "next_action": "None. Re-run the browser check before any future CSP change."
-    },
     {
       "id": "SEC-002",
       "severity": "low",
       "title": "viewer.js renderAll() has no page-count cap (PDF-bomb / memory-exhaustion gap)",
       "status": "open",
-      "reason": "upload.js bounds file size (50 MB) and validates magic bytes, but viewer.js renders every page into its own canvas with no limit. A crafted high-page-count PDF under 50 MB can exhaust memory on the 1.6 GiB box. Client-side only — affects only the uploader's own tab, no server impact. Violates the security-guide 'max 1000 pages' rule.",
-      "next_action": "Developer: in viewer.js loadDocument() after getDocument().promise resolves, reject/warn when doc.numPages > 1000 (or render lazily/windowed). Flagged in docs/security-guide.md. Not implemented by security per review-don't-rewrite."
+      "first_seen": "2026-06-07",
+      "reason": "upload.js bounds file size (50 MB) and validates magic bytes, but viewer.js loadDocument()/renderAll() render every page into its own canvas with no limit. A crafted high-page-count PDF under 50 MB can exhaust memory on the 1.6 GiB box. Client-side only — affects only the uploader's own tab, no server impact. Violates the security-guide 'max 1000 pages' rule. Re-confirmed present 2026-06-07T20:25Z: viewer.js line ~37 getDocument then line ~53 loops pageNum 1..pdfDoc.numPages with no guard.",
+      "next_action": "Developer: in viewer.js loadDocument() after getDocument().promise resolves, reject/warn when doc.numPages > 1000 (or render lazily/windowed). Already documented in docs/security-guide.md (KNOWN GAP block). Not implemented by security per review-don't-rewrite."
     }
   ],
   "checks_performed": [
     "file_upload_validation",
-    "xss_sink_scan_new_modules_toc_app",
+    "xss_sink_scan_new_modules_pagenav_metadata",
+    "xss_sink_scan_all_js",
+    "selector_injection_review_pagenav",
     "nginx_config_review",
-    "nginx_full_csp_applied_and_browser_verified",
+    "nginx_full_csp_live",
     "sensitive_path_blocking",
-    "ssl_certificate",
+    "tls_state",
     "ssh_auth_log_review",
-    "git_secrets_scan",
-    "chrome_mcp_browser_test_live"
+    "git_secrets_scan"
   ],
   "code_review": {
-    "upload_validation": "magic-bytes + MIME + .pdf extension + empty-check + 50MB limit + filename sanitize — OK",
-    "xss_sinks": "toc.js/app.js use createElement + textContent; only innerHTML uses are = '' clears; external links rel=noopener noreferrer; no eval/Function/document.write — OK",
-    "pdfjs_buffer_handling": "loadDocument hands pdf.js a private buffer copy; render-token guards overlapping renders — OK",
+    "new_modules_this_tick": "page-nav.js, metadata.js — both clean",
+    "metadata_xss": "all PDF info values via textContent on createElement'd <dt>/<dd>; innerHTML only used to clear ('') — OK",
+    "pagenav_input_handling": "go-to-page parsed via parseInt + clamped to [1,numPages] before the single data-page-number querySelector; non-numeric reverts; no out-of-bounds scroll, no selector injection — OK",
+    "upload_validation": "magic-bytes + MIME + .pdf extension + empty-check + 50MB limit + filename sanitize — OK (unchanged)",
+    "xss_sinks": "all innerHTML occurrences (toc.js/metadata.js/viewer.js) are = '' clears; no eval/Function/document.write/insertAdjacentHTML — OK",
     "page_count_cap": "MISSING — see SEC-002",
-    "secrets_in_git": "none (only log-narrative mentions of the words secret/password)",
+    "secrets_in_git": "none",
     "ssh_failed_auth_24h": 0
   },
   "sensitive_paths_403": [".git/config", "*.sh", "*.md (CLAUDE.md)", "dotfiles (.env)"],
@@ -59,5 +54,5 @@
     "client_side_only_no_server_storage": true
   },
   "browser_testing_restored": true,
-  "tls": "none (HTTP-only; certbot deferred until cronloop.techtools.cz DNS cutover)"
+  "tls": "none (HTTP-only on :80; certbot deferred until cronloop.techtools.cz DNS cutover)"
 }
