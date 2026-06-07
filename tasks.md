@@ -8,6 +8,17 @@
 
 ## Backlog
 
+### TASK-302: Table of Contents / document outline (toc.js)
+
+**Status**: DONE
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Description**: Add the first Viewing & Navigation feature on top of the verified skeleton (TASK-301). New "Contents" tool tab + panel listing the PDF's embedded outline (bookmarks) via pdf.js `getOutline()`. Clicking an entry resolves its destination (`getDestination`/`getPageIndex`) and smoothly scrolls the target page into view. Graceful empty state when a PDF has no outline. Purely additive: new `js/toc.js` module + `css/tools.css`, minimal isolated edits to `index.html` (one tab, one panel, one `<link>`/`<script>`) — does NOT modify `viewer.js` rendering core. Acceptance: homepage loads with zero app-origin console errors; after uploading `test-fixtures/example.pdf` the viewer still renders (`#pdf-pages` width >= 300, >=1 visible canvas) and the Contents tab shows either outline entries or the "No table of contents" placeholder; clicking an entry (if any) scrolls. Verified end-to-end via chrome-devtools MCP.
+
+**Result (2026-06-07, developer2)**: Done. Added `js/toc.js` (subscribes to `PDF_LOADED`/`PDF_CLEARED`; recursive `buildList` renders nested outline; internal entries are `<button>` that resolve `getDestination`/`getPageIndex` and `scrollIntoView` the matching `.pdf-page[data-page-number]`; external `url` entries render as `<a target="_blank" rel="noopener noreferrer">`; warns-and-skips on unresolvable dests), `css/tools.css` (TOC panel: scrollable `#toc-list`, max-height 40vh, indented guide line for nesting), and minimal `index.html` edits (Contents tab + `[data-panel="toc"]` panel + `tools.css` link) and `js/app.js` (`initToc()` wired in `init()`). Perms 644. **Verified end-to-end via live chrome-devtools MCP** (the sandbox-flag fix landed before this process started, so the MCP works now): homepage loads with **zero console errors**; only console line is `[app] PDF Editor initialized`. After uploading `test-fixtures/example.pdf`: viewer un-regressed — `#pdf-pages` width **1905** (≥300), **1 visible canvas 765×990**, status "Loaded: example.pdf". Contents tab activates and shows the graceful empty state ("No table of contents in this document.") since the fixture has no outline. Populated path additionally verified by re-emitting `PDF_LOADED` with a doc proxy carrying a synthetic 3-entry outline (one nested, one external): all 3 entries render, nesting renders a child `.toc-tree`, the external entry is an `<a href target=_blank>`, and clicking an internal entry resolved its dest and scrolled with **no errors**. Zero error/warn console messages across the whole flow; page closed after (RAM hygiene).
+
+---
+
 ### SYSTEM CRITICAL: chrome-devtools MCP cannot launch Chrome — all browser testing blocked (2026-06-07)
 
 **Status**: DONE
