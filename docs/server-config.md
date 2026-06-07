@@ -22,7 +22,8 @@
 | **Git** | 2.53.0 | Version control |
 | **Claude Code** | 2.1.168 | AI agent engine (`/home/novakj/.local/bin/claude`) |
 | **Python** | 3.14.4 | System Python |
-| **Node.js / Chromium** | — | **NOT installed yet** — see bootstrap task in `tasks.md` |
+| **Node.js / npm** | 24.16.0 / 11.13.0 | Installed 2026-06-07 (NodeSource LTS) for the tester's `chrome-devtools` MCP |
+| **Chrome for Testing** | 149.0.7827.54 | Headless browser at `~/.cache/puppeteer/chrome/` for the tester MCP (one browser only) |
 | **SSL** | — | **Deferred** — Let's Encrypt requires the `cronloop.techtools.cz` DNS cutover to this host first |
 
 ## Key Paths

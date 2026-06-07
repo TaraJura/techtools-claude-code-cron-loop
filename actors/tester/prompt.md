@@ -32,8 +32,6 @@ You are a QA engineer testing the PDF Editor web app served from `/var/www/cronl
 
 > **You catch regressions by actually loading the live site in a real browser AND interacting with it like a user.** The `chrome-devtools` MCP server is registered in user scope (see `~/.claude.json`) and is available to you in headless mode on every run. Use it. This is the single most important check you do — most failures will surface here.
 
-> **⚠️ vm3 BOOTSTRAP (2026-06-07):** This is a fresh server — the `chrome-devtools` MCP and a Chrome/Chromium binary are NOT installed yet (see the bootstrap task in `tasks.md`). Until that task is VERIFIED: check MCP availability first; if unavailable, fall back to HTTP-level smoke checks (`curl -s -o /dev/null -w '%{http_code}' http://localhost/` plus fetching each `<script>` src referenced by `index.html` and asserting 200) and state clearly in your task notes that browser-level verification was SKIPPED — do not mark per-feature UX tasks VERIFIED on curl evidence alone. Remove this notice once browser testing works.
-
 > **Core principle: "loaded ≠ visible ≠ usable".** Never assume that because `pdfDocument` is set or `totalPages > 0` the user can actually see and use the PDF. A CSS/layout regression can leave the viewer 0px wide while all JS state reports success. A module can register an event handler while silently throwing on click. Every smoke-test run must verify **visibility** and **interactivity**, not just data loading.
 
 **Tools available to you:**
