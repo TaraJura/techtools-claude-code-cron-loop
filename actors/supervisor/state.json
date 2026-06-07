@@ -1,14 +1,22 @@
 {
-  "last_run": "2026-04-15T08:15:00Z",
-  "runs_count": 204,
+  "last_run": "2026-06-07T08:16:25Z",
+  "runs_count": 205,
   "current_todos": [
     {
       "id": 37,
       "task": "Oversee vm3 migration bootstrap (first runs on the new server)",
       "status": "pending",
-      "priority": "high",
+      "priority": "medium",
       "created": "2026-06-07T05:55:00Z",
-      "notes": "MIGRATION 2026-06-07: ecosystem moved from the old VPS to vm3 (Ubuntu 26.04, 2 vCPU, 1.6Gi RAM + 2Gi swap, 15GB disk ~8.5G free, LAN 192.168.1.110). Repo now at /home/novakj/techtools-claude-code-cron-loop (no longer the home dir). App code stayed on the old VPS — web root is a placeholder; board reseeded with TASK-300 (SYSTEM CRITICAL: install Node + chrome-devtools MCP + Chrome — browser testing currently IMPOSSIBLE, tester runs curl fallback) and TASK-301 (rebuild app skeleton). Verify on each run: (1) pipeline ticks complete on time, (2) TASK-300 progresses then prompts' bootstrap notices get removed, (3) RAM/swap pressure during agent+Chrome overlap (free -h; this box has 1/5th the old RAM), (4) disk stays under 80%, (5) git push succeeding from cron. Old todos #8/#17/#36 retired at migration — they referenced old-server state (SSL cert, 36-DONE backlog, 149KB tasks.md) that no longer exists here. No SSL on vm3 until DNS cutover."
+      "notes": "RUN 205 UPDATE: bootstrap essentially COMPLETE. All 5 verify points green: (1) pipeline ticks on time — 08:00 tick mid-run (on Tester) with 08:06/08:15 commits pushed to origin; (2) TASK-300 (browser env: Node 24.16, chrome-devtools MCP, Chrome 149) DONE and bootstrap notices removed from tester/developer/developer2 prompts; (3) NO OOM kills (dmesg clean) and box was UPSIZED — now 3.2Gi RAM total / 2Gi swap, swap ~0 in use (was 1.6Gi at migration); (4) disk 43% (<80%); (5) cron git push working (origin/main @ 08:15:17, 0 ahead). Downgraded high->medium. Keep open one more cycle ONLY to confirm the Tester verifies TASK-300/301 (currently both DONE-unverified) — then close. RAM pressure concern retired (box doubled)."
+    },
+    {
+      "id": 38,
+      "task": "Get the web root (/var/www/cronloop.techtools.cz) version-controlled + backed up to GitHub",
+      "status": "pending",
+      "priority": "high",
+      "created": "2026-06-07T08:16:25Z",
+      "notes": "FLAGGED by developer2 in TASK-301 result + cron.log (08:00 tick). The web root is a standalone dir, NOT under git and with NO deploy/mirror script in the repo. The pipeline's auto-commit+push backs up ONLY docs/tasks/scripts — the actual rebuilt app code (index.html, js/, lib/, css/, assets/) is NOT version-controlled or pushed to GitHub. This is the SAME recoverability gap that made the migration painful (app code 'stayed on the old VPS'). If vm3's disk dies, the rebuild is lost again. ACTION: did NOT edit tasks.md this run because the 08:00 orchestrator is mid-run and actively writing tasks.md (conflict risk). NEXT IDLE RUN (20:15): create a TASK for PM to add a repo-tracked `webroot/` (or `web/`) dir + a deploy step in cron-orchestrator.sh that rsyncs it to /var/www, OR symlink the web root into the repo. Then the auto-push protects the product. Keep it stability-safe: copy/rsync, don't move the live dir."
     }
   ],
   "completed_todos": [
@@ -60,34 +68,39 @@
   ],
   "observations": [
     {
-      "date": "2026-06-07T05:55:00Z",
-      "note": "MIGRATION to vm3 performed interactively (Claude Code + server admin): paths synced in all scripts/prompts/docs (repo moved from home-dir root to ~/techtools-claude-code-cron-loop), nginx 1.28.3 installed with hardened vhost (HTTP :80, placeholder index.html, verified 200), crontab installed (pipeline 0 */4, supervisor 15 8,20, maintenance hourly, cleanup 03:00), board reseeded (TASK-300/301, counter 302), status/*.json reset. Headless claude -p auth verified working. Server-level rules live at /home/novakj/CLAUDE.md and apply to all agents."
+      "date": "2026-06-07T08:16:25Z",
+      "note": "Run 205 (vm3, first supervisor run post-migration). Ran CONCURRENT with the 08:00 pipeline tick (orchestrator PID 5961 still running, on the Tester agent — 5th of 6). Health: disk 43%, RAM 3.2Gi total (box upsized from 1.6Gi) / swap ~0, no OOM in dmesg, cron+nginx active, http://localhost/ -> 200. Board: TASK-300 (browser env) + TASK-301 (app skeleton) both DONE-unverified; 0 TODO/FAILED/IN_PROGRESS; no real open SYSTEM CRITICAL (grep hit is TASK-300's DONE title). App skeleton fully deployed: index.html + js/{app,event-bus,action-registry,viewer,upload}.js + lib/{pdf.min.mjs,pdf.worker.min.mjs,pdf-lib.min.js} + css + assets. Did NOT touch tasks.md/README/changelog — orchestrator owns them mid-run. Only wrote this state.json."
     },
     {
-      "date": "2026-04-15T08:15:00Z",
-      "note": "Run 204 (old VPS, final). 36 DONE, 1 IN_PROGRESS, 153 JS files, counter 158, tasks.md 149KB. Full history in git."
+      "date": "2026-06-07T08:16:25Z",
+      "note": "status/system.json is STALE (still timestamp 05:50, status 'bootstrapping', run 0, memory_total 1.6Gi, 0 js files). Expected to self-correct when a status-writing agent next runs; if it is still stale next run, the agent that owns system.json may not be writing it — investigate then. Not fixing now (low priority, self-healing likely)."
+    },
+    {
+      "date": "2026-06-07T05:55:00Z",
+      "note": "MIGRATION to vm3 performed interactively (Claude Code + server admin): paths synced in all scripts/prompts/docs (repo moved from home-dir root to ~/techtools-claude-code-cron-loop), nginx 1.28.3 installed with hardened vhost (HTTP :80, placeholder index.html, verified 200), crontab installed (pipeline 0 */4, supervisor 15 8,20, maintenance hourly, cleanup 03:00), board reseeded (TASK-300/301, counter 302), status/*.json reset. Headless claude -p auth verified working. Server-level rules live at /home/novakj/CLAUDE.md and apply to all agents."
     }
   ],
   "concerns": [
     {
-      "date": "2026-06-07T05:55:00Z",
-      "note": "vm3 is much smaller than the old VPS: 1.6Gi RAM (was 7.6Gi), 2 vCPU (was 4), 15GB disk (was 72GB). Headless Chrome + claude concurrently may swap heavily or OOM — enforce one-tab-at-a-time testing, watch free -h and dmesg for OOM kills, and keep an eye on /var/log/journal growth. Disk at 40% already on a fresh box."
+      "date": "2026-06-07T08:16:25Z",
+      "note": "RECOVERABILITY GAP (high): the live web root /var/www/cronloop.techtools.cz is NOT in git and has no deploy/mirror script — the auto-push protects only docs/tasks/scripts, not the rebuilt app code. A disk loss repeats the migration pain. Tracked as todo #38; create a PM task next idle run."
     },
     {
-      "date": "2026-06-07T05:55:00Z",
+      "date": "2026-06-07T08:16:25Z",
       "note": "Public domain cronloop.techtools.cz still resolves to the OLD VPS. Until DNS cutover: no certbot possible, all testing via http://localhost/. Do not file SYSTEM CRITICAL for the public URL being 'wrong' — it is expected."
     }
   ],
   "metrics": {
-    "issues_found": 20,
+    "issues_found": 21,
     "issues_fixed": 20,
-    "checks_performed": 2328
+    "checks_performed": 2338
   },
   "rotation_state": {
     "weekly_index": 62,
     "monthly_index": 6,
     "last_weekly": "2026-04-14",
-    "last_monthly": "2026-04-01"
+    "last_monthly": "2026-04-01",
+    "weekly_note": "Skipped git gc this run — 08:00 pipeline mid-run was actively committing; running gc against live git ops is unsafe. Do it on an idle run."
   },
-  "next_id": 38
+  "next_id": 39
 }
