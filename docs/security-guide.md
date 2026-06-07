@@ -102,19 +102,25 @@ add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'wasm-
 client_max_body_size 50M;
 ```
 
-> **CURRENT STATE (vm3, 2026-06-07):** Only the *non-breaking* subset is live in
-> the vhost — `X-Content-Type-Options`, `X-Frame-Options: SAMEORIGIN`,
-> `Referrer-Policy`, and `Content-Security-Policy "frame-ancestors 'self'"`
-> (clickjacking + privacy controls that cannot block any resource load). They are
-> applied with `always` so they propagate into the `location ~* \.mjs$` and
-> `location /` blocks (nginx only inherits `add_header` when the child level
-> defines none of its own).
+> **CURRENT STATE (vm3, 2026-06-07 — full CSP now LIVE):** The full resource CSP
+> is applied and browser-verified. Live header (server-level, `always`, so it
+> propagates into the `location ~* \.mjs$` and `location /` blocks — nginx only
+> inherits `add_header` when the child level defines none of its own):
+> ```
+> Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; worker-src 'self' blob:; font-src 'self'; connect-src 'self' blob:; frame-ancestors 'self'; base-uri 'self'; object-src 'none'
+> ```
+> Plus `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`,
+> `Referrer-Policy: strict-origin-when-cross-origin`. (`object-src 'none'`,
+> `base-uri 'self'`, and `connect-src 'self' blob:` are hardening additions
+> beyond the documented baseline; the app makes no cross-origin requests and has
+> no inline/`src`-less scripts, so nothing is broken by them.)
 >
-> **DEFERRED:** the full resource CSP (`script-src` / `worker-src` / `img-src`).
-> It is NOT yet applied because it must be browser-verified before shipping and
-> the `chrome-devtools` tester is currently down (SYSTEM CRITICAL: Chrome won't
-> launch). Apply it only after browser testing is restored, then confirm a real
-> PDF still renders.
+> **VERIFIED (2026-06-07, chrome-devtools MCP restored):** loaded `http://localhost/`
+> and uploaded `test-fixtures/example.pdf` — page renders (`#pdf-pages` 1905px, 1
+> visible canvas 765×990, status "Loaded: example.pdf"), console shows only the
+> two normal `[app]` info lines, **zero `Refused to…` CSP-violation errors**. The
+> pdf.js module worker and WASM-capable script path both load fine under the
+> strict policy. Before changing this CSP again, re-run that browser check.
 >
 > ⚠️ **pdf.js + CSP caveat (learned the hard way — do not drop this):** modern
 > pdf.js compiles WebAssembly for some image decoders (e.g. JPEG2000/JBIG2), so

@@ -1,17 +1,18 @@
 {
-  "timestamp": "2026-06-07T12:07:06Z",
+  "timestamp": "2026-06-07T16:20:00Z",
   "status": "secure",
-  "last_review": "2026-06-07T12:07:06Z",
-  "last_scan": "2026-06-07T12:07:06Z",
-  "summary": "Re-reviewed app core (upload.js, viewer.js, app.js) — unchanged since last review and clean. Infra clean: nginx valid, sensitive paths 403, non-breaking security headers live, 0 failed SSH auth in 24h, no real secrets in git. One new low finding (SEC-002): viewer renders all pages with no page-count cap (PDF-bomb DoS gap). SEC-001 full resource CSP still deferred — browser testing still down (chrome MCP sandbox flags not yet applied to ~/.claude.json).",
+  "last_review": "2026-06-07T16:20:00Z",
+  "last_scan": "2026-06-07T16:20:00Z",
+  "summary": "Browser testing restored (chrome-devtools MCP working). RESOLVED SEC-001: applied + browser-verified the full resource CSP on the nginx vhost (script-src 'self' 'wasm-unsafe-eval', worker-src 'self' blob:, object-src 'none', etc.) — a real PDF still renders with zero CSP violations. Reviewed the new app code (toc.js, app.js): clean — createElement + textContent throughout, external links carry rel=noopener noreferrer, no eval/innerHTML-with-user-content. upload.js/viewer.js unchanged and clean. One open finding: SEC-002 (viewer.js renderAll has no page-count cap — PDF-bomb/memory DoS gap) remains flagged for the developer. Infra clean: nginx valid, sensitive paths denied, 0 failed SSH auth in 24h, no real secrets in git.",
   "findings": [
     {
       "id": "SEC-001",
       "severity": "low",
-      "title": "Full resource CSP (script-src/worker-src/img-src) not yet applied",
-      "status": "deferred",
-      "reason": "Must be browser-verified before shipping; chrome-devtools tester is still down (SYSTEM CRITICAL — ~/.claude.json still lacks the --chromeArg=--no-sandbox sandbox flags, so Chrome aborts on launch). Full CSP needs script-src 'wasm-unsafe-eval' for pdf.js WASM decoders; an untested CSP risks silently breaking JPEG2000/JBIG2 PDF rendering. frame-ancestors CSP + clickjacking/privacy headers applied in the meantime.",
-      "next_action": "Apply full CSP from docs/security-guide.md once browser testing is restored, then confirm a real PDF still renders."
+      "title": "Full resource CSP (script-src/worker-src/img-src) applied and browser-verified",
+      "status": "resolved",
+      "resolved_date": "2026-06-07",
+      "reason": "Was deferred only because the chrome-devtools tester was down. Tester now restored, so applied the full CSP from docs/security-guide.md (plus object-src 'none' / base-uri 'self' / connect-src 'self' blob: hardening). Verified via chrome-devtools MCP: homepage + example.pdf upload render fine with zero 'Refused to...' CSP violations; pdf.js module worker and WASM script path both load. Backup cronloop.techtools.cz.bak.20260607_161647; nginx -t ok; reloaded.",
+      "next_action": "None. Re-run the browser check before any future CSP change."
     },
     {
       "id": "SEC-002",
@@ -19,23 +20,23 @@
       "title": "viewer.js renderAll() has no page-count cap (PDF-bomb / memory-exhaustion gap)",
       "status": "open",
       "reason": "upload.js bounds file size (50 MB) and validates magic bytes, but viewer.js renders every page into its own canvas with no limit. A crafted high-page-count PDF under 50 MB can exhaust memory on the 1.6 GiB box. Client-side only — affects only the uploader's own tab, no server impact. Violates the security-guide 'max 1000 pages' rule.",
-      "next_action": "Developer: in viewer.js after getDocument().promise, reject when doc.numPages > 1000 (or render lazily). Flagged in docs/security-guide.md. Not implemented by security per review-don't-rewrite + cannot browser-verify while tester is down."
+      "next_action": "Developer: in viewer.js loadDocument() after getDocument().promise resolves, reject/warn when doc.numPages > 1000 (or render lazily/windowed). Flagged in docs/security-guide.md. Not implemented by security per review-don't-rewrite."
     }
   ],
   "checks_performed": [
     "file_upload_validation",
-    "xss_sink_scan",
+    "xss_sink_scan_new_modules_toc_app",
     "nginx_config_review",
-    "nginx_security_headers_live",
+    "nginx_full_csp_applied_and_browser_verified",
     "sensitive_path_blocking",
     "ssl_certificate",
     "ssh_auth_log_review",
     "git_secrets_scan",
-    "chrome_mcp_sandbox_flag_state"
+    "chrome_mcp_browser_test_live"
   ],
   "code_review": {
     "upload_validation": "magic-bytes + MIME + .pdf extension + empty-check + 50MB limit + filename sanitize — OK",
-    "xss_sinks": "no innerHTML-with-user-content, no eval/Function/document.write; textContent used for status/labels — OK",
+    "xss_sinks": "toc.js/app.js use createElement + textContent; only innerHTML uses are = '' clears; external links rel=noopener noreferrer; no eval/Function/document.write — OK",
     "pdfjs_buffer_handling": "loadDocument hands pdf.js a private buffer copy; render-token guards overlapping renders — OK",
     "page_count_cap": "MISSING — see SEC-002",
     "secrets_in_git": "none (only log-narrative mentions of the words secret/password)",
@@ -46,7 +47,7 @@
     "X-Content-Type-Options: nosniff",
     "X-Frame-Options: SAMEORIGIN",
     "Referrer-Policy: strict-origin-when-cross-origin",
-    "Content-Security-Policy: frame-ancestors 'self'"
+    "Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; worker-src 'self' blob:; font-src 'self'; connect-src 'self' blob:; frame-ancestors 'self'; base-uri 'self'; object-src 'none'"
   ],
   "pdf_security": {
     "magic_bytes_check": true,
@@ -57,6 +58,6 @@
     "page_count_capped": false,
     "client_side_only_no_server_storage": true
   },
-  "browser_testing_restored": false,
+  "browser_testing_restored": true,
   "tls": "none (HTTP-only; certbot deferred until cronloop.techtools.cz DNS cutover)"
 }
