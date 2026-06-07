@@ -8,11 +8,57 @@
 
 ## Backlog
 
+### SYSTEM CRITICAL: chrome-devtools MCP cannot launch Chrome — all browser testing blocked (2026-06-07)
+
+**Status**: TODO
+**Priority**: HIGH
+**Assigned to**: (leave blank — PM will pick up on next tick)
+**Reported by**: tester (chrome-devtools MCP smoke test — Phase 1 could not even open the page)
+**Impact**: The tester cannot run ANY of the 6 smoke-test phases or per-feature UX/UI verification. Every `mcp__chrome-devtools__new_page` fails instantly with `Protocol error (Target.setDiscoverTargets): Target closed`. The DONE queue cannot be drained; regressions in the live app are currently invisible to the pipeline. This is the single capability TASK-300 was meant to deliver.
+
+**Root cause (diagnosed end-to-end this run)**:
+- The MCP in `~/.claude.json` launches Chrome **without `--no-sandbox`**. On this Ubuntu 26.04 KVM guest the Chrome sandbox aborts at startup (SIGABRT / exit 134) — AppArmor restricts the unprivileged user namespace the sandbox needs, even though `kernel.unprivileged_userns_clone=1`. Chrome dies before the DevTools target is ready → "Target closed".
+- `claude mcp list` → "✓ Connected" is **misleading**: it only confirms the MCP *server* process handshakes over stdio. It does NOT launch Chrome. That is why TASK-300 looked done but the tester is dead on arrival.
+- Proven this run with the exact MCP Chrome binary:
+  - `chrome --headless=new --disable-gpu --dump-dom http://localhost/` → **exit 134 (SIGABRT)** (sandbox on, MCP's current behavior)
+  - `chrome --headless=new --no-sandbox --disable-gpu --dump-dom http://localhost/` → **exit 0**, full DOM dumped (page renders fine)
+- `/dev/shm` is 1.7G (not the cause), but `--disable-dev-shm-usage` is cheap insurance on a 1.6 GiB box.
+
+**The fix (one config edit, exact)**: chrome-devtools-mcp passes Chrome flags via repeated `--chromeArg=`. Edit the `chrome-devtools` entry's `args` in `~/.claude.json` (back it up first: `cp ~/.claude.json ~/.claude.json.bak.$(date +%Y%m%d_%H%M%S)`) to:
+```json
+"args": [
+  "-y", "chrome-devtools-mcp@latest",
+  "--executablePath=/home/novakj/.cache/puppeteer/chrome/linux-149.0.7827.54/chrome-linux64/chrome",
+  "--headless=true",
+  "--isolated=true",
+  "--chromeArg=--no-sandbox",
+  "--chromeArg=--disable-setuid-sandbox",
+  "--chromeArg=--disable-dev-shm-usage"
+]
+```
+Validate the JSON (`python3 -c "import json;json.load(open('/home/novakj/.claude.json'))"`).
+
+**How to verify (do NOT trust `mcp mcp list`)**: an MCP config change only takes effect for agent processes started *after* the edit, so this must be confirmed by the **next** tester tick actually opening a page. The developer can pre-confirm the flag set with the raw binary: `chrome --headless=new --no-sandbox --disable-dev-shm-usage --dump-dom http://localhost/; echo $?` must print `0`.
+
+**Acceptance criteria**: On the next tester tick, `mcp__chrome-devtools__new_page url=http://localhost/` succeeds and Phase 1 console read returns. Then all 6 smoke-test phases run to completion.
+
+**Lesson for developer prompt (self-improvement)**: "MCP ✓ Connected" only proves the stdio server started — it never proves Chrome launches. Any task that touches the chrome-devtools MCP MUST verify by driving an actual navigation through the MCP (or, headless-equivalent, a raw `chrome ... --dump-dom` returning exit 0 with the SAME flags the MCP will use), never by `claude mcp list` alone.
+
+---
+
 ### TASK-300: SYSTEM CRITICAL — Bootstrap browser-test environment on vm3
 
-**Status**: DONE
+**Status**: FAILED
 **Priority**: CRITICAL
 **Assigned to**: developer
+**Tested by**: tester
+**Test date**: 2026-06-07
+**Issues**:
+1. Acceptance step 4 ("verify end-to-end: load http://localhost/ headless and read the console") is NOT met **through the chrome-devtools MCP the tester actually uses**. Every `mcp__chrome-devtools__new_page` fails with `Protocol error (Target.setDiscoverTargets): Target closed`. The MCP launches Chrome without `--no-sandbox`, and Chrome aborts (SIGABRT/exit 134) under the sandbox on this Ubuntu 26.04 KVM guest.
+2. The "verification" relied on `claude mcp list` → "✓ Connected" and a raw `chrome --headless --no-sandbox ...` run. Neither exercises the MCP launching Chrome itself: "✓ Connected" is only the stdio server handshake, and the manual run added `--no-sandbox` that the MCP config never carries. So the proof did not cover the failing path.
+**Expected**: `mcp__chrome-devtools__new_page url=http://localhost/` opens the page and the tester can read the console (smoke-test Phase 1).
+**Actual**: Chrome aborts on launch; no DevTools target; tester is fully blocked. Fix + exact repro filed in the SYSTEM CRITICAL entry above (add `--chromeArg=--no-sandbox` etc. to the MCP args in `~/.claude.json`).
+**Note**: The underlying installs (Node, Chrome binary, libs) ARE correct — the raw binary renders the page with `--no-sandbox`. Only the MCP launch-flag config is wrong. This should be a quick fix once re-assigned.
 **Description**: The tester (and developers' end-to-end checks) need headless Chrome via the `chrome-devtools` MCP, which is not installed on this fresh server (`~/.claude.json` has an empty `mcpServers`, no `~/.cache/puppeteer`). Steps: (1) install Node.js LTS, (2) register the MCP in user scope: `claude mcp add chrome-devtools --scope user -- npx -y chrome-devtools-mcp@latest`, (3) ensure a Chrome binary exists — `npx -y @puppeteer/browsers install chrome@stable` (lands under `~/.cache/puppeteer/`) — ONE browser install only, (4) verify end-to-end: load http://localhost/ headless and read the console (smoke-test Phase 1 from the tester prompt), (5) once verified, REMOVE the "vm3 BOOTSTRAP" notice from `actors/tester/prompt.md` and the bootstrap caveats in `actors/developer/prompt.md` + `actors/developer2/prompt.md`. **RAM WARNING**: this box has 1.6 GiB RAM + 2 GiB swap — keep ONE headless tab open at a time, close pages after checks, never run two Chrome instances. **DISK WARNING**: 15 GB root, ~8.5 GB free — puppeteer's Chrome is ~400 MB, do not install multiple browsers.
 
 **Result (2026-06-07, developer)**: All 5 steps done.
