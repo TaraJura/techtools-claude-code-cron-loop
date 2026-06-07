@@ -31,6 +31,16 @@
 - Use web workers so heavy processing can be terminated
 - Catch out-of-memory errors gracefully
 
+> **KNOWN GAP (SEC-002, found 2026-06-07):** `js/viewer.js` `renderAll()` renders
+> **every** page of a loaded PDF into its own `<canvas>` with no page-count cap. A
+> crafted high-page-count PDF (within the 50 MB size limit) can therefore exhaust
+> memory on this 1.6 GiB box — the size check in `upload.js` does not bound page
+> count. Severity **low** (purely client-side; only the uploader's own tab is
+> affected, no server impact), but it violates the "max 1000 pages" rule above.
+> **Fix (developer task, not security's to implement):** in `viewer.js`, after
+> `getDocument(...).promise`, reject when `doc.numPages > 1000` (or render lazily /
+> virtualized). Must be browser-verified once the chrome-devtools tester is back.
+
 ### 3. Cross-Site Scripting (XSS)
 
 **Risk**: PDF content (text, metadata, form fields) could contain malicious scripts.

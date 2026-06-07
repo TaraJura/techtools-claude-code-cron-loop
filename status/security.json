@@ -1,34 +1,47 @@
 {
-  "timestamp": "2026-06-07T08:21:00Z",
+  "timestamp": "2026-06-07T12:07:06Z",
   "status": "secure",
-  "last_review": "2026-06-07T08:21:00Z",
-  "last_scan": "2026-06-07T08:21:00Z",
-  "summary": "Reviewed the freshly-rebuilt app core (upload.js, viewer.js, app.js, action-registry.js, index.html) and nginx vhost. Code is clean. Added non-breaking security headers to nginx; full resource CSP deferred until browser testing is restored.",
+  "last_review": "2026-06-07T12:07:06Z",
+  "last_scan": "2026-06-07T12:07:06Z",
+  "summary": "Re-reviewed app core (upload.js, viewer.js, app.js) — unchanged since last review and clean. Infra clean: nginx valid, sensitive paths 403, non-breaking security headers live, 0 failed SSH auth in 24h, no real secrets in git. One new low finding (SEC-002): viewer renders all pages with no page-count cap (PDF-bomb DoS gap). SEC-001 full resource CSP still deferred — browser testing still down (chrome MCP sandbox flags not yet applied to ~/.claude.json).",
   "findings": [
     {
       "id": "SEC-001",
       "severity": "low",
       "title": "Full resource CSP (script-src/worker-src/img-src) not yet applied",
       "status": "deferred",
-      "reason": "Must be browser-verified before shipping; chrome-devtools tester is down (SYSTEM CRITICAL). Needs script-src 'wasm-unsafe-eval' for pdf.js WASM decoders. frame-ancestors CSP + clickjacking/privacy headers applied in the meantime.",
-      "next_action": "Apply full CSP once browser testing is restored, then confirm a real PDF still renders."
+      "reason": "Must be browser-verified before shipping; chrome-devtools tester is still down (SYSTEM CRITICAL — ~/.claude.json still lacks the --chromeArg=--no-sandbox sandbox flags, so Chrome aborts on launch). Full CSP needs script-src 'wasm-unsafe-eval' for pdf.js WASM decoders; an untested CSP risks silently breaking JPEG2000/JBIG2 PDF rendering. frame-ancestors CSP + clickjacking/privacy headers applied in the meantime.",
+      "next_action": "Apply full CSP from docs/security-guide.md once browser testing is restored, then confirm a real PDF still renders."
+    },
+    {
+      "id": "SEC-002",
+      "severity": "low",
+      "title": "viewer.js renderAll() has no page-count cap (PDF-bomb / memory-exhaustion gap)",
+      "status": "open",
+      "reason": "upload.js bounds file size (50 MB) and validates magic bytes, but viewer.js renders every page into its own canvas with no limit. A crafted high-page-count PDF under 50 MB can exhaust memory on the 1.6 GiB box. Client-side only — affects only the uploader's own tab, no server impact. Violates the security-guide 'max 1000 pages' rule.",
+      "next_action": "Developer: in viewer.js after getDocument().promise, reject when doc.numPages > 1000 (or render lazily). Flagged in docs/security-guide.md. Not implemented by security per review-don't-rewrite + cannot browser-verify while tester is down."
     }
   ],
   "checks_performed": [
     "file_upload_validation",
     "xss_sink_scan",
     "nginx_config_review",
-    "nginx_security_headers",
+    "nginx_security_headers_live",
+    "sensitive_path_blocking",
     "ssl_certificate",
     "ssh_auth_log_review",
-    "git_secrets_scan"
+    "git_secrets_scan",
+    "chrome_mcp_sandbox_flag_state"
   ],
   "code_review": {
     "upload_validation": "magic-bytes + MIME + .pdf extension + empty-check + 50MB limit + filename sanitize — OK",
-    "xss_sinks": "no innerHTML-with-user-content, no eval/Function/document.write — OK",
-    "secrets_in_git": "none found",
+    "xss_sinks": "no innerHTML-with-user-content, no eval/Function/document.write; textContent used for status/labels — OK",
+    "pdfjs_buffer_handling": "loadDocument hands pdf.js a private buffer copy; render-token guards overlapping renders — OK",
+    "page_count_cap": "MISSING — see SEC-002",
+    "secrets_in_git": "none (only log-narrative mentions of the words secret/password)",
     "ssh_failed_auth_24h": 0
   },
+  "sensitive_paths_403": [".git/config", "*.sh", "*.md (CLAUDE.md)", "dotfiles (.env)"],
   "headers_live": [
     "X-Content-Type-Options: nosniff",
     "X-Frame-Options: SAMEORIGIN",
@@ -41,7 +54,9 @@
     "mime_type_check": true,
     "extension_check": true,
     "filename_sanitized": true,
+    "page_count_capped": false,
     "client_side_only_no_server_storage": true
   },
+  "browser_testing_restored": false,
   "tls": "none (HTTP-only; certbot deferred until cronloop.techtools.cz DNS cutover)"
 }
