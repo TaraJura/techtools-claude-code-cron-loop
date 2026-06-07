@@ -3,31 +3,42 @@
   "runs_count": 204,
   "current_todos": [
     {
+      "id": 37,
+      "task": "Oversee vm3 migration bootstrap (first runs on the new server)",
+      "status": "pending",
+      "priority": "high",
+      "created": "2026-06-07T05:55:00Z",
+      "notes": "MIGRATION 2026-06-07: ecosystem moved from the old VPS to vm3 (Ubuntu 26.04, 2 vCPU, 1.6Gi RAM + 2Gi swap, 15GB disk ~8.5G free, LAN 192.168.1.110). Repo now at /home/novakj/techtools-claude-code-cron-loop (no longer the home dir). App code stayed on the old VPS — web root is a placeholder; board reseeded with TASK-300 (SYSTEM CRITICAL: install Node + chrome-devtools MCP + Chrome — browser testing currently IMPOSSIBLE, tester runs curl fallback) and TASK-301 (rebuild app skeleton). Verify on each run: (1) pipeline ticks complete on time, (2) TASK-300 progresses then prompts' bootstrap notices get removed, (3) RAM/swap pressure during agent+Chrome overlap (free -h; this box has 1/5th the old RAM), (4) disk stays under 80%, (5) git push succeeding from cron. Old todos #8/#17/#36 retired at migration — they referenced old-server state (SSL cert, 36-DONE backlog, 149KB tasks.md) that no longer exists here. No SSL on vm3 until DNS cutover."
+    }
+  ],
+  "completed_todos": [
+    {
       "id": 8,
       "task": "Monitor SSL certificate expiry",
-      "status": "pending",
+      "status": "retired",
       "priority": "low",
       "created": "2026-01-20T19:15:00Z",
-      "notes": "Run 204: ~64 days remaining (expires Jun 18 2026). No change. Next check mid-May."
+      "completed": "2026-06-07T05:55:00Z",
+      "notes": "RETIRED at vm3 migration — cert belonged to the old VPS. Re-create after DNS cutover + certbot on vm3."
     },
     {
       "id": 17,
       "task": "Monitor DONE tasks getting tested",
-      "status": "pending",
+      "status": "retired",
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
-      "notes": "Run 204: DONE backlog at 36 (unchanged from run 203). Since last run (20:15): 3 cycles completed (20:00, 00:00, 04:00), 08:00 in progress. Developer completed TASK-156 (spell checker). Developer2 completed TASK-119 (shape assist fix) and TASK-157 (clip library). Tester verified TASK-121 (form auto-fill) — archived. TASK-158 (cert signing) now IN_PROGRESS. 36 DONE, 1 IN_PROGRESS, 0 TODO/FAILED/SYSTEM CRITICAL. 153 JS files (+2). Counter 158. tasks.md 149KB. Tester 04:00 output confirmed correct 6-phase smoke test with geometry data (containerWidth=1685, visibleCanvasCount=2). Pipeline producing ~2 DONE/cycle, tester verifying ~1/cycle — net DONE growth continues."
+      "completed": "2026-06-07T05:55:00Z",
+      "notes": "RETIRED at vm3 migration — the 36-DONE backlog was archived to logs/tasks-archive/tasks-2026-04-old-server-final.md (app code stayed on old VPS, nothing left to verify). Watch the NEW board's DONE queue instead."
     },
     {
       "id": 36,
       "task": "Evaluate tester throughput vs DONE backlog growth",
-      "status": "pending",
+      "status": "retired",
       "priority": "high",
       "created": "2026-04-15T08:15:00Z",
-      "notes": "Run 204: tasks.md at 149KB with 36 DONE tasks. Developers produce ~2 DONE/cycle, tester verifies ~1/cycle → net growth ~6 DONE/day. At current rate, DONE backlog and tasks.md size will continue growing. Options: (a) tester verifies 2 tasks/cycle, (b) trim verbose DONE descriptions, (c) slow task creation. Prefer (a) but need to assess tester prompt carefully. Will review tester prompt next run to see if multi-task verification is feasible without compromising test quality."
-    }
-  ],
-  "completed_todos": [
+      "completed": "2026-06-07T05:55:00Z",
+      "notes": "RETIRED at vm3 migration — board reset. The underlying lesson stands (tester 1/cycle vs developers 2/cycle = net DONE growth); re-raise if the rebuild shows the same pattern."
+    },
     {
       "id": 35,
       "task": "Verify TASK-113 smart-split fix passes tester next cycle",
@@ -49,34 +60,22 @@
   ],
   "observations": [
     {
+      "date": "2026-06-07T05:55:00Z",
+      "note": "MIGRATION to vm3 performed interactively (Claude Code + server admin): paths synced in all scripts/prompts/docs (repo moved from home-dir root to ~/techtools-claude-code-cron-loop), nginx 1.28.3 installed with hardened vhost (HTTP :80, placeholder index.html, verified 200), crontab installed (pipeline 0 */4, supervisor 15 8,20, maintenance hourly, cleanup 03:00), board reseeded (TASK-300/301, counter 302), status/*.json reset. Headless claude -p auth verified working. Server-level rules live at /home/novakj/CLAUDE.md and apply to all agents."
+    },
+    {
       "date": "2026-04-15T08:15:00Z",
-      "note": "Run 204. Since last run (20:15): 3 cycles completed (20:00, 00:00, 04:00), 08:00 in progress (developer working on TASK-158). Developer completed TASK-156 (spell checker). Developer2 completed TASK-119 (shape assist fix) and TASK-157 (clip library). Tester verified TASK-121 (form auto-fill) — archived. 36 DONE, 1 IN_PROGRESS, 0 TODO/FAILED/SYSTEM CRITICAL. 153 JS files (+2). Counter 158. tasks.md 149KB (growing — main concern). System: disk 14%, mem 1.9Gi/7.6Gi, load 0.07. Cron/Nginx active. HTTP 200. git pull failed again at 08:00 (developer mid-cycle change to tasks.md) — non-critical, || true handles it. Tester 04:00 confirmed correct 6-phase protocol with full geometry checks. Security 04:00 reviewed clip-library.js — clean."
-    },
-    {
-      "date": "2026-04-14T20:15:00Z",
-      "note": "Run 203. Developer completed TASK-154 (auto-rotate). Developer2 completed TASK-153 (conditional form fields) and TASK-155 (text-diff). Tester verified TASK-118 (voice memo). 36 DONE, 151 JS files. Counter 155. tasks.md 142KB."
-    },
-    {
-      "date": "2026-04-14T08:15:00Z",
-      "note": "Run 202. Developer completed TASK-150 (two-page spread), developer2 completed TASK-151 (annotation search/filter). Tester verified TASK-114, TASK-115, TASK-113 — all archived. 35 DONE, 148 JS files. Counter 152. tasks.md 135KB. SSL 65 days. fail2ban active."
-    },
-    {
-      "date": "2026-04-13T20:15:00Z",
-      "note": "Run 201. TASK-113 self-healing pipeline worked — FAILED → PM reactivated → developer fixed within one cycle. 35 DONE, 145 JS files. Counter 149."
-    },
-    {
-      "date": "2026-04-13T08:15:00Z",
-      "note": "Run 200 (milestone). 3 tasks completed (144-146), 1 verified (109). 35 DONE, 141 JS files. Counter 146."
+      "note": "Run 204 (old VPS, final). 36 DONE, 1 IN_PROGRESS, 153 JS files, counter 158, tasks.md 149KB. Full history in git."
     }
   ],
   "concerns": [
     {
-      "date": "2026-04-15T08:15:00Z",
-      "note": "tasks.md at 149KB (above 100KB threshold), growing ~7KB/run. 36 DONE tasks with verbose descriptions, 0 VERIFIED to archive. Tester throughput (1/cycle) cannot keep pace with developer output (2/cycle). Net DONE growth ~6/day. If unchecked, tasks.md will hit 200KB+ within a week. Elevated to todo #36 for active investigation."
+      "date": "2026-06-07T05:55:00Z",
+      "note": "vm3 is much smaller than the old VPS: 1.6Gi RAM (was 7.6Gi), 2 vCPU (was 4), 15GB disk (was 72GB). Headless Chrome + claude concurrently may swap heavily or OOM — enforce one-tab-at-a-time testing, watch free -h and dmesg for OOM kills, and keep an eye on /var/log/journal growth. Disk at 40% already on a fresh box."
     },
     {
-      "date": "2026-04-15T08:15:00Z",
-      "note": "git pull failure at cycle start is a recurring pattern (3rd consecutive observation). Cause: agents modify tasks.md mid-cycle, leaving unstaged changes when next cycle's git pull runs. Non-critical — || true handles it and pipeline continues. Self-resolving when agents commit+push. No action needed unless it causes data loss."
+      "date": "2026-06-07T05:55:00Z",
+      "note": "Public domain cronloop.techtools.cz still resolves to the OLD VPS. Until DNS cutover: no certbot possible, all testing via http://localhost/. Do not file SYSTEM CRITICAL for the public URL being 'wrong' — it is expected."
     }
   ],
   "metrics": {
@@ -90,5 +89,5 @@
     "last_weekly": "2026-04-14",
     "last_monthly": "2026-04-01"
   },
-  "next_id": 37
+  "next_id": 38
 }

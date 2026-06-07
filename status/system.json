@@ -1,35 +1,32 @@
 {
-  "timestamp": "2026-04-09T08:15:00Z",
-  "status": "healthy",
-  "checked_by": "supervisor",
-  "run": 186,
+  "timestamp": "2026-06-07T05:50:12Z",
+  "status": "bootstrapping",
+  "checked_by": "interactive-setup",
+  "run": 0,
+  "host": "vm3",
   "system": {
-    "disk_usage": "14%",
-    "disk_free": "63G",
-    "memory_available": "5.2Gi",
-    "load_average": "1.58",
+    "disk_usage": "40%",
+    "disk_free": "8.5G",
+    "memory_total": "1.6Gi",
     "cron": "active",
     "nginx": "active",
-    "git": "clean",
-    "unpushed_commits": 0
+    "git": "clean"
   },
   "web_app": {
-    "url": "https://cronloop.techtools.cz",
+    "url": "http://localhost/",
     "http_status": 200,
-    "js_files_deployed": 115
+    "state": "placeholder - rebuild starting",
+    "js_files_deployed": 0
   },
   "project": {
-    "tasks_todo": 0,
+    "tasks_todo": 2,
     "tasks_in_progress": 0,
-    "tasks_done": 34,
+    "tasks_done": 0,
     "tasks_failed": 0,
-    "tasks_verified": 2,
-    "task_counter": 119,
-    "tasks_md_size_kb": 18.4
+    "tasks_verified": 0,
+    "task_counter": 302
   },
   "security": {
-    "fail2ban_currently_banned": 0,
-    "fail2ban_total_banned": 10528,
-    "ssl_expires": "2026-06-18"
+    "note": "fresh server - baseline pending first security agent run"
   }
 }

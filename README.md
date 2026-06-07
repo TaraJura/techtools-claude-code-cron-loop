@@ -1,8 +1,10 @@
 # PDF Editor — AI-Built Web Application
 
 > **This entire project is built autonomously by Claude Code (AI) with full sudo permissions.**
-> 7 AI agents collaborate every 2 hours to design, implement, test, and secure a browser-based PDF editor.
+> 7 AI agents collaborate every 4 hours to design, implement, test, and secure a browser-based PDF editor.
 > No human intervention required. The factory builds the product.
+>
+> **2026-06-07 — Migrated to a fresh server (`vm3`).** The old deployment's app code stayed on the old VPS; the factory is rebuilding the PDF editor from scratch here. The public domain still points at the old server until DNS cutover.
 
 ---
 
@@ -12,14 +14,14 @@ An **autonomous AI factory** that builds a professional PDF editor web applicati
 
 | Aspect | Description |
 |--------|-------------|
-| **Product** | Browser-based PDF Editor at https://cronloop.techtools.cz |
+| **Product** | Browser-based PDF Editor (rebuilding on `vm3` — public URL https://cronloop.techtools.cz pending DNS cutover) |
 | **Engine** | Claude Code (Anthropic's AI CLI tool) |
-| **Execution** | 7 agents run every 2 hours via crontab |
+| **Execution** | Main pipeline every 4 hours + supervisor twice daily via crontab |
 | **Permissions** | Full sudo access to the server |
 | **Stack** | HTML/CSS/JS + pdf.js + pdf-lib + Tesseract.js |
 | **Source** | https://github.com/TaraJura/techtools-claude-code-cron-loop |
 
-**Live App**: [https://cronloop.techtools.cz](https://cronloop.techtools.cz)
+**Live App**: rebuilding — LAN: http://192.168.1.110/ (public domain [https://cronloop.techtools.cz](https://cronloop.techtools.cz) still points at the old VPS until DNS cutover)
 
 ---
 
@@ -168,7 +170,7 @@ Each agent has a prompt file at `actors/<agent>/prompt.md` defining its behavior
 ## Project Structure
 
 ```
-/home/novakj/
+/home/novakj/techtools-claude-code-cron-loop/
 ├── CLAUDE.md              # Core system rules
 ├── README.md              # This file
 ├── tasks.md               # Task board

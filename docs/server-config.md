@@ -1,63 +1,69 @@
 # Server Configuration
 
 > Static server information for the PDF Editor factory. Update only when hardware/software changes.
+> **Migrated 2026-06-07** from the old VPS (`vps-2d421d2a`) to `vm3`. Server-level ops doc lives at `/home/novakj/CLAUDE.md` (outside this repo) — read it too; its rules apply to all agents.
 
 ## Server Specs
 
 | Resource | Value |
 |----------|-------|
-| **Hostname** | vps-2d421d2a |
-| **OS** | Ubuntu 25.04 (Plucky Puffin) |
-| **Kernel** | Linux 6.14.0-34-generic |
-| **CPU** | 4 cores |
-| **RAM** | 7.6 GB |
-| **Disk** | 72 GB (68 GB available) |
+| **Hostname** | vm3 (KVM guest, LAN: 192.168.1.110/24) |
+| **OS** | Ubuntu 26.04 LTS (resolute) |
+| **Kernel** | Linux 7.0.0-22-generic |
+| **CPU** | 2 vCPU |
+| **RAM** | 1.6 GB + 2 GB swap — **LOW: run heavy tools (Chrome, OCR) one at a time** |
+| **Disk** | 15 GB LVM root (~40% used fresh) — **SMALL: watch `df -h` before big downloads** |
 
 ## Software
 
 | Software | Version | Purpose |
 |----------|---------|---------|
-| **Nginx** | 1.26.3 | Web server for PDF editor app |
-| **Node.js** | (install if needed) | Backend processing |
-| **Git** | 2.48.1 | Version control |
-| **Claude Code** | v2.1.12+ | AI agent engine |
-| **SSL** | Let's Encrypt | HTTPS for cronloop.techtools.cz |
+| **Nginx** | 1.28.3 | Web server for PDF editor app (HTTP :80, LAN only) |
+| **Git** | 2.53.0 | Version control |
+| **Claude Code** | 2.1.168 | AI agent engine (`/home/novakj/.local/bin/claude`) |
+| **Python** | 3.14.4 | System Python |
+| **Node.js / Chromium** | — | **NOT installed yet** — see bootstrap task in `tasks.md` |
+| **SSL** | — | **Deferred** — Let's Encrypt requires the `cronloop.techtools.cz` DNS cutover to this host first |
 
 ## Key Paths
 
 | Path | Purpose |
 |------|---------|
-| `/home/novakj/` | Project root, agent configs, scripts |
+| `/home/novakj/techtools-claude-code-cron-loop/` | Project root (this repo), agent configs, scripts |
 | `/var/www/cronloop.techtools.cz/` | Web application root (PDF editor) |
-| `/home/novakj/scripts/` | Orchestration and maintenance scripts |
-| `/home/novakj/actors/` | Agent prompt files and logs |
-| `/home/novakj/docs/` | Documentation |
-| `/home/novakj/status/` | System status JSON files |
-| `/home/novakj/logs/` | Execution and maintenance logs |
+| `/home/novakj/techtools-claude-code-cron-loop/scripts/` | Orchestration and maintenance scripts |
+| `/home/novakj/techtools-claude-code-cron-loop/actors/` | Agent prompt files and logs |
+| `/home/novakj/techtools-claude-code-cron-loop/docs/` | Documentation |
+| `/home/novakj/techtools-claude-code-cron-loop/status/` | System status JSON files |
+| `/home/novakj/techtools-claude-code-cron-loop/logs/` | Execution and maintenance logs |
+| `/home/novakj/CLAUDE.md` | Server-level ops doc (NOT in this repo — server changes go in its Changelog) |
 
 ## Nginx Configuration
 
+- Vhost: `/etc/nginx/sites-available/cronloop.techtools.cz` (symlinked in `sites-enabled`, default vhost removed)
 - Serves static files from `/var/www/cronloop.techtools.cz/`
-- SSL via Let's Encrypt (auto-renewal)
-- Blocks access to sensitive files: `.git`, `.env`, `*.sh`, `*.py`, `*.log`, `*.md`
-- MIME types configured for JavaScript modules (`.mjs`)
-- CORS headers if needed for PDF.js worker
+- HTTP only on :80 for now (LAN); SSL via Let's Encrypt **after** DNS cutover
+- Blocks access to sensitive files: dotfiles/`.git`, `*.sh`, `*.py`, `*.log`, `*.md`
+- MIME type for ES modules: `.mjs` served as `text/javascript`
+- Test + reload: `sudo nginx -t && sudo systemctl reload nginx`
 
 ## Cron Schedule
 
+Installed in the `novakj` user crontab (`crontab -l`):
+
 | Schedule | Script | Purpose |
 |----------|--------|---------|
-| `0 */2 * * *` | `cron-orchestrator.sh` | Run main agent pipeline (6 agents) |
-| `15 */2 * * *` | `run-supervisor.sh` | Run supervisor agent |
-| `0 * * * *` | `maintenance.sh` | Hourly maintenance |
+| `0 */4 * * *` | `cron-orchestrator.sh` | Run main agent pipeline (6 agents) |
+| `15 8,20 * * *` | `run-supervisor.sh` | Run supervisor agent (twice daily) |
+| `0 * * * *` | `maintenance.sh` | Hourly maintenance (log trim, archive check) |
 | `0 3 * * *` | `cleanup.sh` | Daily cleanup at 3 AM |
 
 ## PDF Editor Dependencies
 
-Libraries to include in `/var/www/cronloop.techtools.cz/lib/`:
+Libraries to vendor into `/var/www/cronloop.techtools.cz/lib/` (no CDN at runtime):
 
-| Library | Version | Purpose | CDN/Source |
-|---------|---------|---------|------------|
+| Library | Version | Purpose | Source |
+|---------|---------|---------|--------|
 | **pdf.js** | Latest stable | PDF rendering | mozilla.github.io/pdf.js |
 | **pdf-lib** | Latest stable | PDF manipulation | pdf-lib.js.org |
 | **Tesseract.js** | Latest stable | OCR | tesseract.projectnaptha.com |
@@ -66,4 +72,4 @@ Libraries to include in `/var/www/cronloop.techtools.cz/lib/`:
 
 - **Repo**: https://github.com/TaraJura/techtools-claude-code-cron-loop
 - **Branch**: main
-- **Auto-push**: After each agent run via `run-actor.sh`
+- **Auto-push**: After each agent run via `run-actor.sh` (SSH key auth as `TaraJura` — verified working)

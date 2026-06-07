@@ -80,8 +80,8 @@ rm /tmp/agent-orchestrator.lock
 ### Disk Full
 ```bash
 # Emergency cleanup
-find /home/novakj/actors/*/logs/ -name "*.log" -mtime +1 -delete
-find /home/novakj/logs/ -name "*.log" -mtime +7 -delete
+find /home/novakj/techtools-claude-code-cron-loop/actors/*/logs/ -name "*.log" -mtime +1 -delete
+find /home/novakj/techtools-claude-code-cron-loop/logs/ -name "*.log" -mtime +7 -delete
 git gc --aggressive
 ```
 
@@ -99,7 +99,7 @@ crontab -l  # Verify jobs are listed
 
 ### Git Conflicts
 ```bash
-cd /home/novakj
+cd /home/novakj/techtools-claude-code-cron-loop
 git stash
 git pull --rebase
 git stash pop
@@ -115,7 +115,7 @@ git commit -m "Resolve merge conflict"
 ls -la /var/www/cronloop.techtools.cz/index.html
 
 # Check Nginx is serving
-curl -s -o /dev/null -w "%{http_code}" https://cronloop.techtools.cz/
+curl -s -o /dev/null -w "%{http_code}" http://localhost/
 
 # Check Nginx error log
 sudo tail -20 /var/log/nginx/error.log

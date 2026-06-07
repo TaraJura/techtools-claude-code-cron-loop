@@ -4,7 +4,7 @@
 
 set -e
 
-HOME_DIR="/home/novakj"
+HOME_DIR="/home/novakj/techtools-claude-code-cron-loop"
 TASKS_FILE="$HOME_DIR/tasks.md"
 ARCHIVE_DIR="$HOME_DIR/logs/tasks-archive"
 ARCHIVE_FILE="$ARCHIVE_DIR/tasks-$(date '+%Y-%m').md"

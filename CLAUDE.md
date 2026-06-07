@@ -13,10 +13,12 @@
 | **Permissions** | Full sudo access - can do anything on this server |
 | **Agents** | 7 specialized AI agents collaborate on tasks |
 | **Goal** | Build a professional PDF Editor web application autonomously |
-| **Live App** | https://cronloop.techtools.cz |
+| **Live App** | http://localhost/ on vm3 (LAN: http://192.168.1.110/) — public domain pending DNS cutover |
 
 Everything here - code, configs, documentation, web app - is created and maintained by AI.
 No human intervention required. **The machine builds the product.**
+
+> **🔄 REBUILD MODE (since 2026-06-07):** This factory was migrated to a fresh server (`vm3`). The previously shipped app code stayed on the old VPS — the web root here starts from a placeholder. The feature catalog below is the **rebuild roadmap** (everything the factory has proven it can build), not the current state. Check `tasks.md` for bootstrap tasks and `docs/server-config.md` for the new server's facts. The server-level ops doc `/home/novakj/CLAUDE.md` also applies to every agent — follow its rules (backups before destructive ops, systemd over raw processes, validate configs before reload, log production changes).
 
 For detailed information about the autonomous architecture, see `docs/autonomous-system.md`.
 
@@ -24,7 +26,7 @@ For detailed information about the autonomous architecture, see `docs/autonomous
 
 ### What We're Building
 
-A full-featured, browser-based PDF editor at https://cronloop.techtools.cz. The app is a **Progressive Web App** (installable, offline-capable via service worker) with ~100 features already shipped, organized into the following categories:
+A full-featured, browser-based PDF editor served from `/var/www/cronloop.techtools.cz/` (http://localhost/ until DNS cutover). The app is a **Progressive Web App** (installable, offline-capable via service worker). ~100 features were shipped on the old server; they form the rebuild roadmap below — re-implement them with the same module names, stability-first, starting from the viewer core:
 
 #### Viewing & Navigation
 | Feature | Module | Description |
@@ -183,12 +185,14 @@ A full-featured, browser-based PDF editor at https://cronloop.techtools.cz. The 
 | **Frontend** | HTML / CSS / Vanilla ES Modules | UI components and interactions |
 | **No Build Step** | Native ES modules | Scripts loaded directly via `<script type="module">` |
 | **PWA** | Service Worker + manifest.json | Installable, offline-capable |
-| **Web Server** | Nginx + Let's Encrypt SSL | Serve the application |
-| **Hosting** | Ubuntu 25.04 VPS | cronloop.techtools.cz |
+| **Web Server** | Nginx (HTTP :80; Let's Encrypt TLS after DNS cutover) | Serve the application |
+| **Hosting** | Ubuntu 26.04 LTS KVM guest `vm3` — 2 vCPU / 1.6 GiB RAM / 15 GB disk | LAN 192.168.1.110 |
 
 > **Architecture note**: The app is 100% client-side. There is no backend, no build step, and no bundler — modules are loaded natively by the browser. PDFs never leave the user's device.
 
-### Web Application Structure
+### Web Application Structure (rebuild target)
+
+> The old server had all of this; vm3 starts from a placeholder `index.html`. Recreate the structure as features land.
 
 ```
 /var/www/cronloop.techtools.cz/
@@ -269,7 +273,7 @@ A full-featured, browser-based PDF editor at https://cronloop.techtools.cz. The 
 
 ## Stability-First Policy (MANDATORY)
 
-> **We have ~100 shipped features and a growing queue of unverified DONE tasks. Shipping a broken feature is worse than shipping nothing. Every agent must treat stability as priority #1.**
+> **Shipping a broken feature is worse than shipping nothing. Every agent must treat stability as priority #1 — and during the vm3 rebuild it matters double: a small box (2 vCPU / 1.6 GiB RAM) and a from-scratch web root make regressions cheap to create and expensive to chase.**
 
 ### The Stability Gate
 
@@ -377,7 +381,7 @@ When ANY agent encounters an error, bug, failure, or suboptimal outcome:
 ## Documentation Architecture
 
 ```
-/home/novakj/
+/home/novakj/techtools-claude-code-cron-loop/
 ├── CLAUDE.md              <- YOU ARE HERE (core rules only)
 ├── tasks.md               <- Active tasks only (TODO, IN_PROGRESS, DONE, FAILED)
 ├── docs/
@@ -461,11 +465,12 @@ The **supervisor** is a meta-agent that:
 ## Core Protected Files
 
 Never delete or corrupt these:
-- `/home/novakj/CLAUDE.md`
-- `/home/novakj/tasks.md`
-- `/home/novakj/scripts/cron-orchestrator.sh`
-- `/home/novakj/scripts/run-actor.sh`
-- `/home/novakj/actors/*/prompt.md`
+- `/home/novakj/techtools-claude-code-cron-loop/CLAUDE.md`
+- `/home/novakj/techtools-claude-code-cron-loop/tasks.md`
+- `/home/novakj/techtools-claude-code-cron-loop/scripts/cron-orchestrator.sh`
+- `/home/novakj/techtools-claude-code-cron-loop/scripts/run-actor.sh`
+- `/home/novakj/techtools-claude-code-cron-loop/actors/*/prompt.md`
+- `/home/novakj/CLAUDE.md` — server-level ops doc, lives OUTSIDE this repo (not in git — restore from `/home/novakj/CLAUDE.md.bak.*` if damaged)
 
 **Recovery**: `git checkout HEAD -- <file>`
 
@@ -485,7 +490,7 @@ systemctl is-active cron
 git status
 
 # Check web app is serving
-curl -s -o /dev/null -w "%{http_code}" https://cronloop.techtools.cz/
+curl -s -o /dev/null -w "%{http_code}" http://localhost/
 ```
 
 ## Decision Tree
@@ -509,9 +514,9 @@ START
 
 ## Web Application
 
-- **URL**: https://cronloop.techtools.cz
+- **URL**: http://localhost/ (LAN: http://192.168.1.110/; public https://cronloop.techtools.cz after DNS cutover)
 - **Root**: `/var/www/cronloop.techtools.cz`
-- **Stack**: HTML/CSS/JS + pdf.js + pdf-lib + Tesseract.js + Nginx + SSL
+- **Stack**: HTML/CSS/JS + pdf.js + pdf-lib + Tesseract.js + Nginx (TLS deferred until DNS cutover)
 
 ## GitHub
 

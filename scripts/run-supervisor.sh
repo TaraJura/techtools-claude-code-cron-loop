@@ -5,7 +5,7 @@
 
 set -e
 
-HOME_DIR="/home/novakj"
+HOME_DIR="/home/novakj/techtools-claude-code-cron-loop"
 ACTOR_NAME="supervisor"
 ACTOR_DIR="$HOME_DIR/actors/$ACTOR_NAME"
 LOG_DIR="$ACTOR_DIR/logs"
@@ -71,7 +71,7 @@ $STATE_CONTENT
 2. Perform quick health checks (cron, disk, core files)
 3. Work on 1-2 pending todos from your current_todos
 4. Rotate through weekly/monthly checks as appropriate
-5. Update your state file at /home/novakj/actors/supervisor/state.json with:
+5. Update your state file at /home/novakj/techtools-claude-code-cron-loop/actors/supervisor/state.json with:
    - Updated last_run timestamp
    - Incremented runs_count
    - Updated todo statuses

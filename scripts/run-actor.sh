@@ -6,7 +6,7 @@
 set -e
 
 ACTOR_NAME="$1"
-HOME_DIR="/home/novakj"
+HOME_DIR="/home/novakj/techtools-claude-code-cron-loop"
 ACTOR_DIR="$HOME_DIR/actors/$ACTOR_NAME"
 LOG_DIR="$ACTOR_DIR/logs"
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")

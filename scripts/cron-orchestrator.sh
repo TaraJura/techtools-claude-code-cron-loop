@@ -4,7 +4,7 @@
 
 set -e
 
-HOME_DIR="/home/novakj"
+HOME_DIR="/home/novakj/techtools-claude-code-cron-loop"
 SCRIPTS_DIR="$HOME_DIR/scripts"
 LOCK_FILE="/tmp/agent-orchestrator.lock"
 

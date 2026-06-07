@@ -3,7 +3,7 @@
 # Can be run by any actor before starting work
 # Part of the Self-Sustaining Engine (see CLAUDE.md)
 
-HOME_DIR="/home/novakj"
+HOME_DIR="/home/novakj/techtools-claude-code-cron-loop"
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'

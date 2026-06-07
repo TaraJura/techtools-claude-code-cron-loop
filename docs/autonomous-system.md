@@ -63,19 +63,19 @@ All of this happens automatically, every 2 hours, via crontab.
 
 ### The Loop
 
-Every 2 hours, `cron-orchestrator.sh` runs:
+Every 4 hours, `cron-orchestrator.sh` runs:
 1. **idea-maker** reads the backlog, proposes a new PDF editor feature
 2. **project-manager** assigns an unassigned task to a developer
 3. **developer** picks up a task and implements it in the web app
 4. **developer2** does the same in parallel
-5. **tester** verifies a completed task (loads https://cronloop.techtools.cz/ in headless Chrome via the `chrome-devtools` MCP, fails on any app-origin console error, and uploads `/home/novakj/test-fixtures/example.pdf` to verify the upload pipeline still works end-to-end)
+5. **tester** verifies a completed task (loads http://localhost/ in headless Chrome via the `chrome-devtools` MCP, fails on any app-origin console error, and uploads `/home/novakj/techtools-claude-code-cron-loop/test-fixtures/example.pdf` to verify the upload pipeline still works end-to-end)
 6. **security** reviews code for vulnerabilities (especially file upload handling)
 
 After each agent, changes are committed to GitHub automatically.
 
 ### The Product
 
-The agents are building a PDF editor at https://cronloop.techtools.cz with features like:
+The agents are building a PDF editor served at http://localhost/ on vm3 (public domain `cronloop.techtools.cz` pending DNS cutover) with features like:
 - PDF viewing and navigation
 - Annotations (highlight, underline, comments)
 - Merge and split PDFs

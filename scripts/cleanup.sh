@@ -5,8 +5,8 @@
 
 set -e
 
-HOME_DIR="/home/novakj"
-LOG_FILE="/home/novakj/logs/cleanup.log"
+HOME_DIR="/home/novakj/techtools-claude-code-cron-loop"
+LOG_FILE="/home/novakj/techtools-claude-code-cron-loop/logs/cleanup.log"
 
 log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
