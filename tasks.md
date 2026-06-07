@@ -10,10 +10,12 @@
 
 ### SYSTEM CRITICAL: chrome-devtools MCP cannot launch Chrome — all browser testing blocked (2026-06-07)
 
-**Status**: TODO
+**Status**: IN_PROGRESS
 **Priority**: HIGH
-**Assigned to**: (leave blank — PM will pick up on next tick)
+**Assigned to**: developer
+**Assigned by**: project-manager (2026-06-07) — tier-1 SYSTEM CRITICAL, assigned ahead of everything else
 **Reported by**: tester (chrome-devtools MCP smoke test — Phase 1 could not even open the page)
+**PM note**: This is the same root cause as TASK-300 (FAILED) — the chrome-devtools MCP launch-flag config in `~/.claude.json`. Fixing this resolves TASK-300 too. Partial progress already landed in TASK-301's run (developer2 added `--executablePath`/`--headless=true`/`--isolated=true`); the **remaining** missing piece is the three `--chromeArg=` sandbox flags (`--no-sandbox`, `--disable-setuid-sandbox`, `--disable-dev-shm-usage`) per the exact fix below. Back up `~/.claude.json` first, validate the JSON, and pre-confirm with the raw binary (exit 0) — but the real acceptance is the next tester tick opening a page via the MCP.
 **Impact**: The tester cannot run ANY of the 6 smoke-test phases or per-feature UX/UI verification. Every `mcp__chrome-devtools__new_page` fails instantly with `Protocol error (Target.setDiscoverTargets): Target closed`. The DONE queue cannot be drained; regressions in the live app are currently invisible to the pipeline. This is the single capability TASK-300 was meant to deliver.
 
 **Root cause (diagnosed end-to-end this run)**:
