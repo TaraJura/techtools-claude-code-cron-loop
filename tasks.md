@@ -8,6 +8,31 @@
 
 ## Backlog
 
+### TASK-303: Page navigator — current-page indicator + go-to-page + keyboard navigation (page-nav.js)
+
+**Status**: TODO
+**Priority**: HIGH
+**Assigned to**: developer
+**Description**: Polish the **existing verified viewer** (TASK-301) with proper page navigation — the viewer renders all pages but currently gives the user no sense of *where they are* or any way to jump to a page. Purely additive: new `js/page-nav.js` module + small `css/main.css` (or `css/viewer.css`) additions + minimal isolated `index.html` edits (a small nav control in the existing toolbar) and one `initPageNav()` wire-in inside `js/app.js`'s `init()`. **Must NOT modify `viewer.js`'s rendering core** — subscribe to existing EventBus events (`PDF_LOADED`/`PDF_CLEARED`) and read the already-rendered `.pdf-page[data-page-number]` elements; use an `IntersectionObserver` (or scroll listener) on `#pdf-pages` to track which page is most in view.
+
+Implementation hints:
+- A toolbar control showing `Page [ N ] / TOTAL`, where `N` is an editable number `<input type="number" min="1" max="TOTAL">` and TOTAL is text. Typing a page + Enter (or blur) scrolls that `.pdf-page` into view via `scrollIntoView({behavior:'smooth'})`. Out-of-range / non-numeric input is clamped and the field reverts — never throws.
+- "Previous page" / "Next page" buttons flanking the indicator; disabled at the first/last page.
+- Keyboard navigation on the viewer: `PageDown`/`ArrowDown`→next, `PageUp`/`ArrowUp`→prev, `Home`→first, `End`→last. Only when focus is NOT inside a text input/textarea (don't hijack typing). Keep it from fighting native scroll: bind on the viewer container and `preventDefault` only for the keys you handle.
+- Indicator updates live as the user scrolls (IntersectionObserver keeping the most-visible page current).
+- Reset to `1 / 0` (or hidden) on `PDF_CLEARED`; populate on `PDF_LOADED`.
+
+**UX acceptance criteria (the tester will verify each live via chrome-devtools MCP after uploading `test-fixtures/example.pdf`):**
+1. **Discoverable** — the page indicator + prev/next controls are visible in the toolbar after a PDF loads (queryable selectors, on-screen, non-zero size).
+2. **Activatable** — clicking Next/Prev changes the current page and scrolls the viewer; the indicator number updates accordingly.
+3. **Visible feedback** — the current-page number reflects the page actually scrolled into view (scrolling the viewer updates the indicator without any click).
+4. **Labeled** — every control has an accessible name (`aria-label`/associated `<label>`): e.g. "Go to page", "Previous page", "Next page". Zero unlabeled controls in a snapshot.
+5. **Keyboard-reachable** — the page `<input>` and both buttons are tab-focusable and operable by keyboard; PageDown/PageUp/Home/End navigate when the viewer (not a text field) has focus.
+6. **Error state for bad input** — typing `0`, a negative, a value `> TOTAL`, or non-numeric into the page field does NOT throw and does NOT scroll out of bounds; the field clamps to a valid page (1..TOTAL) and reverts to the current page. Verified by driving a bad value through the field.
+7. **Viewer intact (no regression)** — after all interaction `#pdf-pages` width is still ≥ 300 and ≥1 canvas is visible; zoom/fit-width still work; zero app-origin console errors across the whole flow.
+
+File permissions: new files 644, any new dir 755 (www-data must read). Verify end-to-end via chrome-devtools MCP before marking DONE; do not regress the `.pdf-viewer-container` flex-row width contract (developer prompt rule 8).
+
 ### TASK-302: Table of Contents / document outline (toc.js)
 
 **Status**: VERIFIED
