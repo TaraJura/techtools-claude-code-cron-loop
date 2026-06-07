@@ -83,15 +83,37 @@ location ~ /\.(git|env|htaccess) { deny all; }
 location ~ \.(sh|py|log|md)$ { deny all; }
 
 # Security headers
-add_header X-Frame-Options "SAMEORIGIN";
-add_header X-Content-Type-Options "nosniff";
-add_header X-XSS-Protection "1; mode=block";
-add_header Referrer-Policy "strict-origin-when-cross-origin";
-add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; worker-src 'self' blob:; font-src 'self';";
+add_header X-Frame-Options "SAMEORIGIN" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; worker-src 'self' blob:; font-src 'self'; frame-ancestors 'self';" always;
 
 # Limit upload size (Nginx level)
 client_max_body_size 50M;
 ```
+
+> **CURRENT STATE (vm3, 2026-06-07):** Only the *non-breaking* subset is live in
+> the vhost — `X-Content-Type-Options`, `X-Frame-Options: SAMEORIGIN`,
+> `Referrer-Policy`, and `Content-Security-Policy "frame-ancestors 'self'"`
+> (clickjacking + privacy controls that cannot block any resource load). They are
+> applied with `always` so they propagate into the `location ~* \.mjs$` and
+> `location /` blocks (nginx only inherits `add_header` when the child level
+> defines none of its own).
+>
+> **DEFERRED:** the full resource CSP (`script-src` / `worker-src` / `img-src`).
+> It is NOT yet applied because it must be browser-verified before shipping and
+> the `chrome-devtools` tester is currently down (SYSTEM CRITICAL: Chrome won't
+> launch). Apply it only after browser testing is restored, then confirm a real
+> PDF still renders.
+>
+> ⚠️ **pdf.js + CSP caveat (learned the hard way — do not drop this):** modern
+> pdf.js compiles WebAssembly for some image decoders (e.g. JPEG2000/JBIG2), so
+> a bare `script-src 'self'` will silently break rendering of those PDFs with a
+> CSP `wasm` violation. The `script-src` MUST include **`'wasm-unsafe-eval'`**.
+> pdf.js also spins up its worker; with `workerSrc` set to a same-origin URL,
+> `worker-src 'self' blob:` covers both the module worker and any blob fallback.
+> `X-XSS-Protection` is deliberately omitted — it is deprecated and can introduce
+> its own vulns; CSP is the replacement.
 
 ## Security Review Checklist
 

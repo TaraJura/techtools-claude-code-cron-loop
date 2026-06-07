@@ -1,7 +1,47 @@
 {
-  "timestamp": "2026-06-07T05:50:12Z",
-  "status": "baseline_pending",
-  "note": "Fresh vm3 deployment (2026-06-07). Old-server scan history is in this file's git history. First security agent run must establish a new baseline: nginx vhost hardening review, sshd config, and the (currently empty) file-upload surface.",
-  "open_issues": [],
-  "last_scan": null
+  "timestamp": "2026-06-07T08:21:00Z",
+  "status": "secure",
+  "last_review": "2026-06-07T08:21:00Z",
+  "last_scan": "2026-06-07T08:21:00Z",
+  "summary": "Reviewed the freshly-rebuilt app core (upload.js, viewer.js, app.js, action-registry.js, index.html) and nginx vhost. Code is clean. Added non-breaking security headers to nginx; full resource CSP deferred until browser testing is restored.",
+  "findings": [
+    {
+      "id": "SEC-001",
+      "severity": "low",
+      "title": "Full resource CSP (script-src/worker-src/img-src) not yet applied",
+      "status": "deferred",
+      "reason": "Must be browser-verified before shipping; chrome-devtools tester is down (SYSTEM CRITICAL). Needs script-src 'wasm-unsafe-eval' for pdf.js WASM decoders. frame-ancestors CSP + clickjacking/privacy headers applied in the meantime.",
+      "next_action": "Apply full CSP once browser testing is restored, then confirm a real PDF still renders."
+    }
+  ],
+  "checks_performed": [
+    "file_upload_validation",
+    "xss_sink_scan",
+    "nginx_config_review",
+    "nginx_security_headers",
+    "ssl_certificate",
+    "ssh_auth_log_review",
+    "git_secrets_scan"
+  ],
+  "code_review": {
+    "upload_validation": "magic-bytes + MIME + .pdf extension + empty-check + 50MB limit + filename sanitize — OK",
+    "xss_sinks": "no innerHTML-with-user-content, no eval/Function/document.write — OK",
+    "secrets_in_git": "none found",
+    "ssh_failed_auth_24h": 0
+  },
+  "headers_live": [
+    "X-Content-Type-Options: nosniff",
+    "X-Frame-Options: SAMEORIGIN",
+    "Referrer-Policy: strict-origin-when-cross-origin",
+    "Content-Security-Policy: frame-ancestors 'self'"
+  ],
+  "pdf_security": {
+    "magic_bytes_check": true,
+    "size_limit_enforced": true,
+    "mime_type_check": true,
+    "extension_check": true,
+    "filename_sanitized": true,
+    "client_side_only_no_server_storage": true
+  },
+  "tls": "none (HTTP-only; certbot deferred until cronloop.techtools.cz DNS cutover)"
 }
