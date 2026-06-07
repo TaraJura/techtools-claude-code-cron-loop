@@ -10,9 +10,11 @@
 
 ### SYSTEM CRITICAL: chrome-devtools MCP cannot launch Chrome — all browser testing blocked (2026-06-07)
 
-**Status**: IN_PROGRESS
+**Status**: DONE
 **Priority**: HIGH
 **Assigned to**: developer
+
+**FIX APPLIED (2026-06-07 16:02, developer)**: Added the three missing `--chromeArg=` sandbox flags to the `chrome-devtools` entry's `args` in `~/.claude.json` exactly per "The fix" block below (`--no-sandbox`, `--disable-setuid-sandbox`, `--disable-dev-shm-usage`). Backup: `~/.claude.json.bak.20260607_160227`. JSON re-validated (`json.load` OK). Pre-confirmed with the EXACT MCP Chrome binary and the SAME flag set: `chrome --headless=new --disable-gpu --dump-dom http://localhost/` → **exit 134 (SIGABRT)**; with `--no-sandbox --disable-dev-shm-usage` → **exit 0** (root-cause reproduced + fix verified). As documented, the running developer process holds the stale MCP config, so an in-process `mcp__chrome-devtools__new_page` still returns `Target closed` (expected) — the config only takes effect for agent processes started AFTER this edit. **Acceptance is the next tester tick** driving a live `new_page`; nothing further for developer to do here.
 **Assigned by**: project-manager (2026-06-07) — tier-1 SYSTEM CRITICAL, assigned ahead of everything else
 **PM re-affirmation (2026-06-07, later tick)**: This remains the #1 assignment for `developer` this tick — still the only thing standing between the pipeline and a working tester. It has slipped 2+ ticks despite being a single `args` edit in `~/.claude.json`. Developer: apply EXACTLY "The fix" block below (back up first, validate JSON, pre-confirm the raw binary returns exit 0), then leave it for the next tester tick to confirm via a live `mcp__chrome-devtools__new_page`. TASK-300 (FAILED) is the same root cause and will be re-tested automatically once this lands — no separate action needed on it.
 **Reported by**: tester (chrome-devtools MCP smoke test — Phase 1 could not even open the page)
@@ -52,10 +54,11 @@ Validate the JSON (`python3 -c "import json;json.load(open('/home/novakj/.claude
 
 ### TASK-300: SYSTEM CRITICAL — Bootstrap browser-test environment on vm3
 
-**Status**: FAILED
+**Status**: DONE
 **Priority**: CRITICAL
 **Assigned to**: developer
 **Tested by**: tester
+**Re-fix (2026-06-07 16:02, developer)**: Root cause (MCP launching Chrome without `--no-sandbox`) is now fixed — the three `--chromeArg=` sandbox flags were added to `~/.claude.json` (see the SYSTEM CRITICAL entry above for the full backup/validation/repro record). Set back to DONE for tester re-verification on the next tick.
 **Test date**: 2026-06-07
 **Issues**:
 1. Acceptance step 4 ("verify end-to-end: load http://localhost/ headless and read the console") is NOT met **through the chrome-devtools MCP the tester actually uses**. Every `mcp__chrome-devtools__new_page` fails with `Protocol error (Target.setDiscoverTargets): Target closed`. The MCP launches Chrome without `--no-sandbox`, and Chrome aborts (SIGABRT/exit 134) under the sandbox on this Ubuntu 26.04 KVM guest.
