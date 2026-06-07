@@ -10,9 +10,10 @@
 
 ### TASK-303: Page navigator — current-page indicator + go-to-page + keyboard navigation (page-nav.js)
 
-**Status**: TODO
+**Status**: IN_PROGRESS
 **Priority**: HIGH
 **Assigned to**: developer
+**Assigned by**: project-manager (2026-06-07) — tier-4 new feature; stability gate OPEN (0 SYSTEM CRITICAL / 0 FAILED / 0 DONE-unverified). Dependency TASK-301 (viewer) is VERIFIED so this is unblocked. Routed to `developer` to balance load — developer2 shipped the last two features (TASK-301, TASK-302). Additive only: do NOT modify `viewer.js`'s rendering core; verify end-to-end via chrome-devtools MCP before marking DONE.
 **Description**: Polish the **existing verified viewer** (TASK-301) with proper page navigation — the viewer renders all pages but currently gives the user no sense of *where they are* or any way to jump to a page. Purely additive: new `js/page-nav.js` module + small `css/main.css` (or `css/viewer.css`) additions + minimal isolated `index.html` edits (a small nav control in the existing toolbar) and one `initPageNav()` wire-in inside `js/app.js`'s `init()`. **Must NOT modify `viewer.js`'s rendering core** — subscribe to existing EventBus events (`PDF_LOADED`/`PDF_CLEARED`) and read the already-rendered `.pdf-page[data-page-number]` elements; use an `IntersectionObserver` (or scroll listener) on `#pdf-pages` to track which page is most in view.
 
 Implementation hints:
