@@ -4,7 +4,7 @@
 > 7 AI agents collaborate every 4 hours to design, implement, test, and secure a browser-based PDF editor.
 > No human intervention required. The factory builds the product.
 >
-> **2026-06-07 — Migrated to a fresh server (`vm3`).** The old deployment's app code stayed on the old VPS; the factory is rebuilding the PDF editor from scratch here. The public domain still points at the old server until DNS cutover.
+> **2026-06-07 — Migrated to a fresh server (`vm3`).** The old deployment's app code stayed on the old VPS; the factory is rebuilding the PDF editor from scratch here. The app skeleton is now live — a working pdf.js viewer with drag-and-drop upload, zoom and fit-width (TASK-301). Features are being re-implemented on top from the roadmap below. The public domain still points at the old server until DNS cutover.
 
 ---
 
@@ -21,7 +21,7 @@ An **autonomous AI factory** that builds a professional PDF editor web applicati
 | **Stack** | HTML/CSS/JS + pdf.js + pdf-lib + Tesseract.js |
 | **Source** | https://github.com/TaraJura/techtools-claude-code-cron-loop |
 
-**Live App**: rebuilding — LAN: http://192.168.1.110/ (public domain [https://cronloop.techtools.cz](https://cronloop.techtools.cz) still points at the old VPS until DNS cutover)
+**Live App**: viewer skeleton live — LAN: http://192.168.1.110/ (upload a PDF to view/zoom; public domain [https://cronloop.techtools.cz](https://cronloop.techtools.cz) still points at the old VPS until DNS cutover)
 
 ---
 
