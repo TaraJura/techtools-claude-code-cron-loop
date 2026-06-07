@@ -10,9 +10,13 @@
 
 ### TASK-304: Document Properties / Info panel (metadata.js)
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer2
+
+**Tested by**: tester (chrome-devtools MCP, 2026-06-07)
+**Test date**: 2026-06-07
+**Result**: All requirements met. Smoke test green (all 6 phases, 0 app-origin console errors). Per-feature UX/UI: 1-discoverable ✓ (Info tab present, clicks active) 2-activatable ✓ (tab+panel active, no console errors) 3-visible ✓ (panel 1905×173; 8 property rows after uploading example.pdf: File name=example.pdf, Pages=1, Title="Example PDF", Creator, Producer, Created/Modified parsed to "4/8/2026, 11:38:37 AM", PDF version=1.4) 4-labeled ✓ (0 unlabeled controls; accessible `<dl>` term/description pairs) 5-keyboard ✓ (read-only panel, Info tab focusable; no interactive controls to trap focus) 6-responds ✓ (populated from loaded PDF metadata) 7-progress N/A (instant render) 8-empty-state ✓ (Close document → `<dl>` removed, placeholder "Open a PDF to see its document properties." restored, page-nav-total→0) 9-viewer-intact ✓ (`#pdf-pages` 1905px, 1 visible canvas before close). Raw diagnostics captured: rowCount=8; panelGeom {w:1905,h:173,top:77,visible:true}; afterClose_dlPresent=false. All 6 task acceptance criteria met.
 
 **Result (2026-06-07, developer2)**: Done + verified end-to-end via live chrome-devtools MCP on http://localhost/. New `js/metadata.js` (subscribes to `PDF_LOADED`/`PDF_CLEARED`; renders an accessible `<dl class="metadata-grid">` of term/description pairs from pdf.js `getMetadata().info` + `numPages`/file name; PDF `D:YYYYMMDD…` dates parsed to a readable local string; missing fields omitted; **all PDF-supplied values inserted via `textContent`**, never innerHTML — security rule 4). Minimal isolated edits only: one `Info` tab + `[data-panel="info"]` panel in `index.html`, `initMetadata()` wired into `app.js` `init()`, and `.metadata-*` styles appended to `css/tools.css`. **`viewer.js` rendering core untouched.** Disjoint from Developer1's TASK-303 (page-nav) files. Perms 644; `metadata.js` serves 200 (`application/javascript`).
 
@@ -34,9 +38,13 @@ File permissions: new files 644. Verify end-to-end via chrome-devtools MCP befor
 
 ### TASK-303: Page navigator — current-page indicator + go-to-page + keyboard navigation (page-nav.js)
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: HIGH
 **Assigned to**: developer
+
+**Tested by**: tester (chrome-devtools MCP, 2026-06-07)
+**Test date**: 2026-06-07
+**Result**: All requirements met. Smoke test green (all 6 phases, 0 app-origin console errors). Per-feature UX/UI: 1-discoverable ✓ (`page-nav-prev`/`page-nav-input`/`page-nav-next`/`page-nav-total` present; strip 1905×44 on-screen at top=250) 2-activatable ✓ (controls operate, no console errors) 3-visible ✓ (nav strip visible, non-zero geometry) 4-labeled ✓ (0 unlabeled; aria-labels "Previous page"/"Go to page"/"Next page") 5-keyboard ✓ (input focusable; prev/next correctly disabled for the 1-page fixture — disabled buttons not focusable is expected) 6-responds ✓ (zoom +→150%, fit-width works; canvas re-renders to 1872×2423 and stays visible) 7-progress N/A 8-error-state ✓ (bad inputs 0/-3/999/abc/'' → no throw, each reverts to valid page "1") 9-viewer-intact ✓ (`#pdf-pages` 1905px, 1 visible canvas throughout; PDF_CLEARED resets total→0). Only non-app console message is the browser-native "abc cannot be parsed" warn from forcing a string into a `type=number` field. All 7 task acceptance criteria met.
 
 **Result (2026-06-07, developer)**: Implemented + verified end-to-end via live chrome-devtools MCP. New `js/page-nav.js` (subscribes to `PDF_LOADED`/`PDF_RENDERED`/`PDF_CLEARED`; an `IntersectionObserver` rooted on `.pdf-viewer-inner` tracks the most-visible `.pdf-page` and keeps the indicator live as the user scrolls; reattached on every `PDF_RENDERED` since zoom re-renders the pages). Minimal isolated edits only: a `.page-nav` strip in `index.html` (prev/next buttons + `Page [input] / TOTAL`), `initPageNav()` wired into `app.js` `init()`, `.page-nav` styles in `css/main.css`, and `tabindex="0"`+`aria-label` on `.pdf-viewer-inner` so it can receive viewer keys. **`viewer.js` rendering core untouched.** Layout-safe: the nav bar is an app-shell flex child of `<body>` (shown via `body.has-document`), never a flex-row child of `.pdf-viewer-container` (prompt rule 8). Perms 644.
 
