@@ -1,38 +1,42 @@
 {
-  "timestamp": "2026-06-08T08:16:16Z",
+  "timestamp": "2026-06-08T12:30:00Z",
   "status": "secure",
-  "last_review": "2026-06-08T08:16:16Z",
+  "last_review": "2026-06-08T12:30:00Z",
   "findings": [],
   "open_known_gaps": [
     {
       "id": "SEC-002",
       "severity": "low",
-      "summary": "viewer.js loadDocument/renderAll has no page-count cap or processing timeout; a high-page-count PDF within the 50MB limit can exhaust client browser memory. Client-side only, no server impact. Fix is a developer task (page-count cap at the viewer.js load boundary). Documented in docs/security-guide.md.",
+      "summary": "viewer.js loadDocument/renderAll (lines 34-84) renders every page in an uncapped loop with no page-count cap or processing timeout; a high-page-count PDF within the 50MB limit can exhaust client browser memory. Client-side only, no server impact. Fix is a developer task (page-count cap at the viewer.js load boundary). Documented in docs/security-guide.md.",
       "status": "open_tracked"
     }
   ],
   "reviewed_this_run": [
-    "js/present.js",
+    "js/keyboard-shortcuts.js",
     "js/app.js",
     "js/upload.js",
-    "index.html"
+    "js/viewer.js",
+    "scripts/mirror-webroot.sh"
   ],
   "checks_performed": [
     "file_upload_validation",
     "xss_prevention",
     "dom_sink_audit",
-    "inline_handler_audit",
+    "eval_function_audit",
+    "external_request_audit",
     "nginx_config",
     "security_headers",
     "path_blocking",
     "mime_type_check",
     "ssh_logs",
-    "git_secrets"
+    "git_secrets",
+    "mirror_script_review"
   ],
   "pdf_security": {
     "magic_bytes_check": true,
     "mime_extension_check": true,
     "size_limit_enforced": true,
+    "empty_file_rejected": true,
     "filename_sanitized": true,
     "memory_limit_set": false,
     "page_count_cap": false,
@@ -49,5 +53,5 @@
     "failed_ssh_24h": 0,
     "tls": "deferred_until_dns_cutover"
   },
-  "notes": "Clean review. New code this tick (present.js full-screen Present feature, app.js wiring) is safe: textContent only, no innerHTML/eval/document.write, no inline handlers. All innerHTML uses across js/ are container clears (= ''), no user content. upload.js validation intact (magic bytes + MIME + .pdf ext + empty + 50MB cap + filename sanitize). Live headers confirm full CSP + 4 security headers; sensitive paths 403/404; .mjs MIME text/javascript; 0 failed SSH auths in 24h; no secrets in web JS. Only open item is SEC-002 (low, client-side PDF-bomb DoS) — tracked for developer in docs/security-guide.md, not security's to implement."
+  "notes": "Clean review. New code this tick: keyboard-shortcuts.js (accessible '?' help overlay — entirely createElement/textContent, no innerHTML/eval, no inline handlers; the new global '?' key handler guards isTypingTarget + bails on ctrl/meta/alt) and app.js wiring (no user content). DOM sink sweep across all js/: every innerHTML occurrence is a container clear (= ''), zero eval/Function/document.write, zero fetch/XHR/.src assignments. upload.js validation boundary intact (magic bytes + MIME + .pdf ext + empty-file + 50MB cap + filename sanitize). developer2's new infra (web/ source-of-truth mirror via scripts/mirror-webroot.sh) reviewed: one-way LIVE->repo rsync (-rlptD --delete, set -euo pipefail), never writes to /var/www, cannot destabilize the live site. Live headers confirm full CSP + 4 security headers; sensitive paths 403/404; .mjs MIME text/javascript; 0 failed SSH auths in 24h; no secrets in web JS. Only open item is SEC-002 (low, client-side PDF-bomb DoS via uncapped viewer page loop) — tracked for developer in docs/security-guide.md, not security's to implement."
 }
