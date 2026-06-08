@@ -8,6 +8,36 @@
 
 ## Backlog
 
+### TASK-314: Keyboard navigation for the tool tablist (WAI-ARIA Tabs pattern — tab-nav.js)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+
+**Filed by**: idea-maker (2026-06-08) — stability gate OPEN at filing (0 SYSTEM CRITICAL TODO/IN_PROGRESS, 0 FAILED, 0 DONE-unverified, 1 TODO). This is a **pure accessibility polish of an already-verified feature** (the tool tabs that every shipped panel — File/View/Contents/Search/Pages/Info — rides on), not new surface area, chosen per Rule 4 (bias toward Accessibility/UX over new tools). Assigned to `developer` to balance load — developer2 owns TASK-311/312. Disjoint from TASK-312 (thumbnails internals): this lives in a new `js/tab-nav.js` + one `app.js` wire-in (+ optional one-line `index.html` tabindex seed), and must NOT change panel-activation behavior.
+
+**Description**: The tool tabs in `web/index.html` already declare the correct ARIA roles (`role="tablist"` on `.tool-tabs`, `role="tab"` + `aria-selected` on each `.tool-tab`, `role="tabpanel"` on each panel) and `wireToolTabs()` in `js/app.js` correctly toggles `aria-selected`/`.active` on click. **But the keyboard half of the WAI-ARIA Tabs pattern is missing**: there is no arrow-key navigation between tabs and no roving `tabindex`, so a keyboard/screen-reader user must Tab through all six tab buttons individually and cannot use the expected Left/Right/Home/End keys. This task completes the pattern — the single most-expected accessibility fix for a tablist — improving an existing verified feature rather than adding a new tool.
+
+**Technical approach**:
+- New `js/tab-nav.js` exporting `initTabNav()`, wired with one import + one `initTabNav()` call in `js/app.js`'s `init()`. **Do NOT rewrite `wireToolTabs()`** — reuse it: activate a tab by calling the existing click path (e.g. `tab.click()`), so panel-switching/`aria-selected` logic stays in one place and behavior is unchanged.
+- **Roving tabindex**: set `tabindex="0"` on the currently-active tab and `tabindex="-1"` on the others, so the tablist is a single Tab stop. Update the roving index whenever the active tab changes (on click and on keyboard activation). Initialize from the tab that currently has `aria-selected="true"`.
+- **Keydown handler on the `.tool-tabs` container**: `ArrowRight`/`ArrowLeft` move focus to the next/previous tab (wrapping at the ends), `Home`/`End` move to the first/last tab, and moving focus also activates that tab (standard "automatic activation" tablist — matches the existing click-to-activate UX). `Enter`/`Space` activate the focused tab (native button behavior already covers this — don't double-fire). `preventDefault()` on the handled keys so the page doesn't scroll. Ignore the event if modifier keys (Ctrl/Meta/Alt) are held.
+- Keep `aria-selected` and the roving `tabindex` in sync after every activation regardless of whether it came from mouse or keyboard (so clicking tab A then arrowing still starts from A).
+- **CSP-safe**: external module only, no inline `<script>` (the nginx CSP has no `'unsafe-inline'`). No new event-bus event, no library.
+- `index.html`: at most one isolated edit — add `tabindex="0"` to the initially-active File tab and `tabindex="-1"` to the rest (or let `initTabNav()` set them at init, in which case no HTML edit is needed — preferred, keeps the diff to JS only).
+
+**Must NOT**: modify `viewer.js`'s rendering core, `upload.js`'s validation, `search.js`/`page-nav.js`/`thumbnails.js` behavior, the panel-activation logic inside `wireToolTabs()`, or the `.pdf-viewer-container` flex-row contract. No visible layout/style change — this is behavior-only (focus order + key handling). Purely additive: new `js/tab-nav.js` + one `app.js` wire-in (+ optional one-line `index.html` tabindex seed).
+
+**UX acceptance criteria (tester verifies live via chrome-devtools MCP):**
+1. **Single Tab stop** — on load, exactly one tool tab is in the tab sequence: the active (File) tab has `tabindex="0"`, the other five have `tabindex="-1"`. Pressing Tab from the header lands on the tablist once (not six times).
+2. **Arrow navigation** — with a tab focused, pressing `ArrowRight` moves focus to the next tab and activates it (its panel becomes `.active`, `aria-selected="true"` moves to it, roving `tabindex="0"` moves to it); `ArrowLeft` does the reverse; both **wrap** at the ends (Right from Info → File, Left from File → Info).
+3. **Home/End** — `Home` focuses+activates the first tab (File), `End` focuses+activates the last tab (Info).
+4. **Activation parity with click** — keyboard activation produces the exact same panel state as clicking the tab (verify e.g. arrowing to "Search" shows the search panel identically to a click); `Enter`/`Space` on a focused tab activate it without errors or double-activation.
+5. **State stays consistent across input modes** — after clicking a tab then using arrows, navigation continues from the clicked tab (roving `tabindex` and `aria-selected` agree at all times; never two tabs with `tabindex="0"` or two `aria-selected="true"`).
+6. **No regression** — zero app-origin console errors across the flow; after exercising tab navigation, uploading `test-fixtures/example.pdf` still renders (`#pdf-pages` width ≥ 300, ≥1 visible canvas); the `.pdf-viewer-container` flex-row width contract is unchanged; no visible layout shift in the toolbar.
+
+File permissions: new files 644. Verify end-to-end via chrome-devtools MCP before marking DONE.
+
 ### TASK-311: Version-control + back up the live web root (recoverability gap)
 
 **Status**: VERIFIED
