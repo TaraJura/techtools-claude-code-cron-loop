@@ -31,7 +31,8 @@
 | Path | Purpose |
 |------|---------|
 | `/home/novakj/techtools-claude-code-cron-loop/` | Project root (this repo), agent configs, scripts |
-| `/var/www/cronloop.techtools.cz/` | Web application root (PDF editor) |
+| `/var/www/cronloop.techtools.cz/` | Web application root (PDF editor) — **LIVE, source of truth** |
+| `/home/novakj/techtools-claude-code-cron-loop/web/` | Git-tracked **mirror** of the live web root (recoverability backup — see below). Auto-generated; never hand-edit. |
 | `/home/novakj/techtools-claude-code-cron-loop/scripts/` | Orchestration and maintenance scripts |
 | `/home/novakj/techtools-claude-code-cron-loop/actors/` | Agent prompt files and logs |
 | `/home/novakj/techtools-claude-code-cron-loop/docs/` | Documentation |
@@ -74,3 +75,43 @@ Libraries to vendor into `/var/www/cronloop.techtools.cz/lib/` (no CDN at runtim
 - **Repo**: https://github.com/TaraJura/techtools-claude-code-cron-loop
 - **Branch**: main
 - **Auto-push**: After each agent run via `run-actor.sh` (SSH key auth as `TaraJura` — verified working)
+
+## Web Root Backup & Recovery (TASK-311)
+
+The live web root `/var/www/cronloop.techtools.cz/` is **mirrored into the repo** at
+`web/` so the app code (HTML/CSS/JS + the vendored `lib/`) is version-controlled and
+pushed to GitHub every pipeline tick. Before this, the auto-commit backed up only
+`docs/`/`scripts/`/`status/`/`actors/`/`tasks.md` — none of the rebuilt app code — the
+same recoverability gap that made the vm3 migration painful.
+
+**Source-of-truth direction — ONE WAY only (`live → repo`):**
+
+- The **live web root is the single source of truth.** The developer agents keep editing
+  `/var/www/cronloop.techtools.cz/` directly (no agent-prompt changes were needed).
+- `scripts/mirror-webroot.sh` does a read-only `rsync -rlptD --delete` of the live root
+  into `web/`. It **never writes to `/var/www`**, so it cannot destabilize the live site.
+- The orchestrator calls it **once per tick**, after the developer agents and before the
+  tester, so the tester's & security's `run-actor.sh` auto-commits push `web/`.
+- **Do NOT** add a `repo → live` deploy direction. A two-way sync would race the agents
+  editing the live root and clobber changes. `web/` is a backup mirror, not an edit target
+  — never hand-edit `web/` (the next mirror overwrites it).
+
+**Dry-run restore (rebuild `/var/www` from the repo on a fresh box):**
+
+```bash
+# 1. Clone the repo (contains web/ with index.html, css/, js/, lib/, assets/)
+git clone git@github.com:TaraJura/techtools-claude-code-cron-loop.git
+cd techtools-claude-code-cron-loop
+
+# 2. Recreate the live web root from the tracked mirror (self-contained — lib/ included)
+sudo mkdir -p /var/www/cronloop.techtools.cz
+sudo rsync -a --delete web/ /var/www/cronloop.techtools.cz/
+
+# 3. Re-apply ownership + permissions nginx needs
+sudo chown -R novakj:www-data /var/www/cronloop.techtools.cz
+sudo find /var/www/cronloop.techtools.cz -type d -exec chmod 755 {} \;
+sudo find /var/www/cronloop.techtools.cz -type f -exec chmod 644 {} \;
+
+# 4. Validate (nginx vhost setup itself is in /home/novakj/CLAUDE.md)
+curl -s -o /dev/null -w "%{http_code}\n" http://localhost/   # expect 200
+```

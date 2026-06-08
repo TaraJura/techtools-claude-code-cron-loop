@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Browser-based PDF editor — view, annotate and edit PDFs entirely on your device.">
+  <title>PDF Editor</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/viewer.css">
+  <link rel="stylesheet" href="css/tools.css">
+  <!-- pdf-lib (UMD) exposes window.PDFLib for manipulation modules (merge/split/...). -->
+  <script src="lib/pdf-lib.min.js" defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <h1>PDF Editor</h1>
+    <span class="tagline">Runs entirely in your browser — your files never leave your device.</span>
+    <button id="theme-toggle" class="theme-toggle" type="button"
+            aria-label="Switch to light theme" aria-pressed="false">
+      <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+      <span class="theme-toggle-label">Dark</span>
+    </button>
+    <button id="shortcuts-help" class="header-btn" type="button"
+            aria-label="Keyboard shortcuts" aria-haspopup="dialog">
+      <span class="header-btn-icon" aria-hidden="true">⌨</span>
+      <span class="header-btn-label">Shortcuts</span>
+    </button>
+  </header>
+
+  <!-- Tool tabs (central container; features register panels here) -->
+  <nav class="tool-tabs" role="tablist" aria-label="Tools">
+    <button class="tool-tab active" role="tab" aria-selected="true" data-tab="file">File</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="view">View</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="toc">Contents</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="search">Search</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="thumbnails">Pages</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="info">Info</button>
+  </nav>
+
+  <div class="tool-panels">
+    <!-- File panel: open / close documents -->
+    <section class="tool-panel active" role="tabpanel" data-panel="file" aria-label="File tools">
+      <div id="drop-zone">
+        <label class="file-label" for="file-input">Choose PDF file</label>
+        <input id="file-input" class="visually-hidden" type="file" accept="application/pdf,.pdf"
+               aria-label="Choose PDF file">
+        <span>or drag &amp; drop a PDF here</span>
+      </div>
+      <button class="btn" data-action="viewer.clear" type="button">Close document</button>
+      <span id="upload-status" role="status" aria-live="polite"></span>
+    </section>
+
+    <!-- View panel: zoom controls -->
+    <section class="tool-panel" role="tabpanel" data-panel="view" aria-label="View tools">
+      <button class="btn" data-action="viewer.zoomOut" type="button" aria-label="Zoom out">&minus;</button>
+      <span id="zoom-level" aria-live="polite">125%</span>
+      <button class="btn" data-action="viewer.zoomIn" type="button" aria-label="Zoom in">+</button>
+      <button class="btn" data-action="viewer.fitWidth" type="button">Fit width</button>
+      <button class="btn" data-action="present.toggle" id="present-toggle" type="button"
+              aria-pressed="false" aria-label="Present">Present</button>
+    </section>
+
+    <!-- Contents panel: document outline / table of contents -->
+    <section class="tool-panel" role="tabpanel" data-panel="toc" aria-label="Table of contents">
+      <div id="toc-list" aria-label="Document outline"></div>
+    </section>
+
+    <!-- Search panel: in-document full-text search -->
+    <section class="tool-panel" role="tabpanel" data-panel="search" aria-label="Search in document">
+      <div class="search-bar">
+        <label class="visually-hidden" for="search-input">Search in document</label>
+        <input id="search-input" class="search-input" type="search" placeholder="Search in document…"
+               aria-label="Search in document" autocomplete="off" disabled>
+        <button class="btn search-btn" id="search-prev" type="button" aria-label="Previous match" disabled>&lsaquo;</button>
+        <button class="btn search-btn" id="search-next" type="button" aria-label="Next match" disabled>&rsaquo;</button>
+      </div>
+      <span id="search-status" class="search-status" role="status" aria-live="polite">Load a PDF first.</span>
+      <p id="search-snippet" class="search-snippet"></p>
+    </section>
+
+    <!-- Pages panel: page thumbnails navigator -->
+    <section class="tool-panel" role="tabpanel" data-panel="thumbnails" aria-label="Page thumbnails">
+      <div id="thumbnails-list" aria-label="Page thumbnails"></div>
+    </section>
+
+    <!-- Info panel: document properties / metadata -->
+    <section class="tool-panel" role="tabpanel" data-panel="info" aria-label="Document properties">
+      <div id="metadata-list" aria-label="Document properties"></div>
+    </section>
+  </div>
+
+  <!-- Page navigator (app-shell strip; shown once a document is open). -->
+  <nav class="page-nav" aria-label="Page navigation">
+    <button class="btn page-nav-btn" id="page-nav-prev" type="button" aria-label="Previous page">&lsaquo;</button>
+    <span class="page-nav-field">
+      <label class="visually-hidden" for="page-nav-input">Go to page</label>
+      <input id="page-nav-input" type="number" min="1" value="1" inputmode="numeric"
+             aria-label="Go to page" autocomplete="off">
+      <span class="page-nav-sep">/</span>
+      <span id="page-nav-total" aria-label="Total pages">0</span>
+    </span>
+    <button class="btn page-nav-btn" id="page-nav-next" type="button" aria-label="Next page">&rsaquo;</button>
+  </nav>
+
+  <!-- Viewer: ROW container (pages + future minimap), inner COLUMN holds the page list -->
+  <main class="pdf-viewer-container">
+    <div class="pdf-viewer-inner" tabindex="0" aria-label="PDF viewer">
+      <div class="viewer-empty">
+        <p>No document open. Use <strong>Choose PDF file</strong> above to get started.</p>
+      </div>
+      <div id="pdf-pages" aria-label="PDF pages"></div>
+    </div>
+  </main>
+
+  <!-- Toast notifications: ARIA live regions for upload/render feedback -->
+  <div id="toast-container" class="toast-container">
+    <div class="toast-region toast-region--polite" role="status" aria-live="polite"></div>
+    <div class="toast-region toast-region--assertive" role="alert" aria-live="assertive"></div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -198,11 +198,18 @@ Each agent has a prompt file at `actors/<agent>/prompt.md` defining its behavior
 │   ├── cron-orchestrator.sh
 │   ├── run-actor.sh
 │   ├── run-supervisor.sh
+│   ├── mirror-webroot.sh  # Mirrors live web root -> web/ each tick (backup)
 │   ├── maintenance.sh
 │   ├── cleanup.sh
 │   └── health-check.sh
+├── web/                   # Git-tracked MIRROR of the live web root (recoverability
+│   │                      #   backup, TASK-311). One-way copy of /var/www below;
+│   │                      #   the live dir stays the source of truth — DO NOT edit
+│   │                      #   web/ by hand (the mirror would overwrite it next tick).
+│   ├── index.html
+│   ├── css/  js/  lib/  assets/
 │
-/var/www/cronloop.techtools.cz/  # PDF Editor web app (PWA)
+/var/www/cronloop.techtools.cz/  # PDF Editor web app (PWA) — LIVE, served by nginx
 ├── index.html             # Single-page app entry point
 ├── manifest.json          # PWA manifest
 ├── sw.js                  # Service worker (offline cache)

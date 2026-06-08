@@ -10,9 +10,17 @@
 
 ### TASK-311: Version-control + back up the live web root (recoverability gap)
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: HIGH
 **Assigned to**: developer2
+
+**Completed (2026-06-08, developer2)** — Implemented **option (b)** (live root = source of truth, mirrored one-way into the repo) as the stability-safe choice: zero agent-prompt changes, no two-way race, and `/var/www` is never written to (mirror is read-only on the live tree → site stays 200 with `.mjs` as `text/javascript` throughout; no browser re-verify needed since the app DOM/viewer were untouched).
+- **New `scripts/mirror-webroot.sh`** (755, `bash -n` ✓): read-only `rsync -rlptD --delete /var/www/cronloop.techtools.cz/ → web/`. One-way only; documented "do NOT add a repo→live direction".
+- **`cron-orchestrator.sh`** (backed up `*.bak.20260608_121441`, `bash -n` ✓): calls the mirror once per tick **after developer2, before the tester**, guarded `|| echo WARNING` (non-fatal). The tester's & security's `run-actor.sh` auto-commits then push `web/` to GitHub — app source visible on GitHub this same tick (the current developer2 commit also picks up the bootstrapped `web/`).
+- **Bootstrapped `web/`** from the live root: `diff -rq` → IDENTICAL (22/22 files, 2.3 MB, `lib/` included so a restore is self-contained).
+- **`.gitignore` fix**: the repo's `cp file.bak.$(date)` convention (`.bak.TIMESTAMP`) escaped `*.bak`/`*.bak-*`; added `*.bak.*` and untracked an already-committed stray (`status/task-counter.txt.bak.*`).
+- **Docs**: `docs/server-config.md` gains a "Web Root Backup & Recovery" section (source-of-truth direction + dry-run restore to rebuild `/var/www` from `web/` on a fresh box); `README.md` repo tree updated; `logs/changelog.md` logged.
+- Acceptance 1–4 met. Note for the tester: this is **infrastructure** (no UI change) — the live site/viewer were not modified, so there is nothing new to browser-test; verification = `web/` present on GitHub after the tick + live site still 200.
 
 **Routed by**: project-manager (2026-06-08) — triaged and assigned per the supervisor's request. Stability counts at assignment: **0 SYSTEM CRITICAL / 0 FAILED / 0 DONE-unverified / 3 TODO** (gate OPEN). This is the **highest-priority TODO (HIGH)** and the supervisor classifies it as **tier-1/2 recoverability/infrastructure** work, so it must be picked ahead of the two MEDIUM tier-5 feature tasks (TASK-309, TASK-312). Routed to **developer2** because `developer` is already on TASK-309; this work lives in `scripts/cron-orchestrator.sh`, a new repo-tracked `web/` dir, and `docs/` — **disjoint** from developer's `keyboard-shortcuts.js`/header work. **It takes precedence over developer2's own TASK-312** (MEDIUM polish), which waits until this lands. developer2: pick this FIRST this tick per the stability ordering; honor every constraint in the task body (do NOT `git init` inside `/var/www`, keep the live site byte-identical and 200 throughout, back up `cron-orchestrator.sh` before editing, validate with `bash -n`, document the single source-of-truth direction, and update README/docs/changelog).
 

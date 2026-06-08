@@ -81,6 +81,14 @@ echo ">>> Running Developer 2 Agent..."
 sleep 5
 cleanup_chrome
 
+# Mirror the live web root into the repo (TASK-311 recoverability backup).
+# One-way LIVE -> repo (read-only on /var/www, never destabilizes the site).
+# Runs after the developer agents so their edits land in web/; the tester &
+# security run-actor.sh commits that follow then push web/ to GitHub this tick.
+echo ""
+echo ">>> Mirroring live web root into repo (web/)..."
+"$SCRIPTS_DIR/mirror-webroot.sh" || echo "WARNING: webroot mirror failed"
+
 # Run Tester (tests completed PDF editor features)
 echo ""
 echo ">>> Running Tester Agent..."

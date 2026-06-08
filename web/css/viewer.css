@@ -1,0 +1,81 @@
+/* viewer.css — PDF viewing area.
+ *
+ * IMPORTANT LAYOUT CONTRACT (developer prompt rule 8):
+ *   .pdf-viewer-container  -> flex-direction: ROW  (pages column + future minimap sidebar)
+ *   .pdf-viewer-inner      -> flex-direction: COLUMN (stack things above the pages here)
+ *   #pdf-pages             -> the scrolling page list
+ * Do NOT append full-width siblings directly to .pdf-viewer-container, or a
+ * flex-row child will collapse the page column to 0 width.
+ */
+
+.pdf-viewer-container {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.pdf-viewer-inner {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: auto;
+}
+
+/* Page list */
+#pdf-pages {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    min-width: 0;
+}
+
+.pdf-page {
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+    line-height: 0;
+}
+
+.pdf-page canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Empty-state placeholder shown before any document is loaded.
+   Hidden once <body> gets the .has-document class. */
+.viewer-empty {
+    margin: auto;
+    text-align: center;
+    color: var(--text-dim);
+    padding: 2rem;
+}
+
+body.has-document .viewer-empty { display: none; }
+body.has-document #drop-zone { display: none; }
+
+/* --- Presentation / full-screen mode (present.js) ---
+   The .pdf-viewer-container is put into the browser's native fullscreen. Give it
+   the app background (fullscreen elements default to opaque black/white) and let
+   the page list scroll within it. The flex-row contract is preserved — we only
+   add background/scroll, never change flex-direction. */
+.pdf-viewer-container:fullscreen,
+.pdf-viewer-container:-webkit-full-screen {
+    background: var(--bg);
+}
+
+.pdf-viewer-container:fullscreen .pdf-viewer-inner,
+.pdf-viewer-container:-webkit-full-screen .pdf-viewer-inner {
+    overflow: auto;
+}
+
+/* Hide the pre-load placeholder while presenting an empty viewer. */
+.pdf-viewer-container:fullscreen .viewer-empty,
+.pdf-viewer-container:-webkit-full-screen .viewer-empty {
+    color: var(--text-dim);
+}
