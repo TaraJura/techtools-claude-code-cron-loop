@@ -43,6 +43,16 @@
 > right fix remains a page-count cap at the **load** boundary in `viewer.js` so
 > every downstream consumer (viewer + thumbnails + any future per-page feature) is
 > protected at once; per-feature caps would be whack-a-mole.
+> **Amplified by TASK-316 (SYSTEM CRITICAL, 2026-06-08):** `viewer.js` `renderAll()`
+> has a supersede-guard race — rapid zoom/fit-width spawns overlapping renders that
+> each *append* a full set of page wrappers+canvases before re-checking the token,
+> so the DOM accumulates duplicate canvases without bound (4 rapid zooms → 4× the
+> pages for a 1-page PDF). Combined with the uncapped page count, a high-page-count
+> PDF plus a few fast zoom clicks multiplies the canvas backing-store memory by the
+> number of overlapping renders — a real client-side DoS path on the 1.6 GiB box.
+> Fix is tracked as TASK-316 (re-check `token !== renderToken` after every `await`
+> in `renderAll`, before any DOM append). Fixing the race *and* the load-boundary
+> page cap together closes this memory-exhaustion class.
 > **Fix (developer task, not security's to implement):** in `viewer.js`, after
 > `getDocument(...).promise`, reject when `doc.numPages > 1000` (or render lazily /
 > virtualized) and emit an `ERROR` so the new notifications toast tells the user.
