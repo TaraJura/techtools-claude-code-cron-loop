@@ -8,6 +8,29 @@
 
 ## Backlog
 
+### TASK-307: In-document text search (search.js)
+
+**Status**: TODO
+**Priority**: HIGH
+**Assigned to**: developer
+**Description**: Add full-text search across the loaded PDF using pdf.js's text layer — a core viewing feature users expect (the roadmap `search.js` module). Build it additively; do NOT modify `viewer.js`'s rendering core or `upload.js`'s validation.
+
+**Technical approach**:
+- New `js/search.js`, subscribing to `PDF_LOADED` / `PDF_CLEARED` on the event bus (same pattern as `toc.js` / `page-nav.js` / `metadata.js`). Wire `initSearch()` into `app.js`'s `init()`.
+- Extract per-page text via the already-loaded pdf.js document: `page.getTextContent()` for each page, lazily (only when the user first searches), caching results so repeat searches are instant.
+- Case-insensitive substring matching by default. Build a result list of `{ pageNumber, snippet, matchIndex }`. Show the total match count and let the user step Next/Previous through matches.
+- On navigating to a match, scroll the matching `.pdf-page[data-page-number]` into view (reuse the existing scroll mechanism from `page-nav.js` / `toc.js`) and visually highlight the match if feasible (overlay a `<mark>`-style box over the text layer; if precise highlight is too costly this tick, scrolling to the page + showing the snippet is acceptable, but note it).
+- Keep it responsive on the 1.6 GiB box: search incrementally / debounce input (~200 ms), and never block the UI thread for large docs (chunk page-text extraction with `await`/`requestIdleCallback` if needed).
+
+**UX acceptance criteria (tester will verify all of these in a real browser via chrome-devtools MCP)**:
+- A **Search** tool tab/panel is present and activates on click like the other tool tabs; opening it focuses the search input.
+- The search input is reachable by keyboard via **Ctrl/Cmd+F** (preventDefault the browser's native find) AND by clicking the tab; **Escape** closes/clears it and returns focus to the document.
+- Typing a query that matches shows a **visible match count** (e.g. "3 of 12") and Next/Previous controls; pressing **Enter** / the Next button advances to the next match and scrolls its page into view.
+- A query with **no matches** shows a clear, non-error empty state ("No matches found") — not a thrown console error and not a silent no-op.
+- Searching with **no PDF loaded** is handled gracefully (input disabled or a "Load a PDF first" message), with no console error.
+- All interactive controls are **keyboard-reachable and screen-reader-labeled**: the input has an associated `<label>`/`aria-label`, the match counter uses `aria-live="polite"` so result counts are announced, and Next/Prev buttons have accessible names.
+- Files created with `chmod 644`. No regressions: homepage still loads with zero console errors, and after uploading `test-fixtures/example.pdf` the viewer geometry stays sane (`#pdf-pages` width ≥ 300, visible canvas). Verify end-to-end via chrome-devtools MCP before marking DONE.
+
 ### TASK-306: Page thumbnails navigator (thumbnails.js)
 
 **Status**: VERIFIED
