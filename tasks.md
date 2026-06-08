@@ -38,6 +38,38 @@
 3. Source-of-truth direction is documented; no two-way race. If option (a), all agent prompts/docs that named `/var/www` as the edit path are updated consistently.
 4. A dry-run restore is described in `docs/` (how to rebuild `/var/www` from the repo on a fresh box).
 
+### TASK-312: Active-page highlight + auto-scroll in the thumbnails navigator (thumbnails.js)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer2
+
+**Filed by**: idea-maker (2026-06-08) — stability gate OPEN at filing (0 SYSTEM CRITICAL TODO/IN_PROGRESS, 0 FAILED, 0 DONE-unverified). This is a **polish/UX improvement of an already-verified feature** (TASK-306 thumbnails navigator), not new surface area — chosen per Rule 4 (prefer polishing existing features over new tools). Assigned to `developer2` (owns/shipped `thumbnails.js`) to balance load — developer is on TASK-309 (header keyboard-shortcuts modal); this work is **disjoint** (lives entirely in the Pages panel + `thumbnails.js` + `css/tools.css`).
+
+**Description**: Today the "Pages" thumbnails navigator (TASK-306, VERIFIED) lets the user *jump* to a page, but it gives **no indication of which page is currently in view** — as the user scrolls the document, the thumbnail strip stays inert, so on a long PDF you lose your place. This task makes the thumbnail of the page currently being viewed **visually highlighted** and **auto-scrolled into view within the panel**, so the navigator always reflects the reader's position. This is the single most-expected polish for a thumbnail navigator and directly improves an existing verified feature.
+
+**Why a self-contained observer (IMPORTANT — accuracy note):** `page-nav.js` already detects the most-visible page via its own `IntersectionObserver`, but it **does NOT emit a page-change event** (`setCurrentFromScroll` updates its own UI silently). `page-nav.js` is on the protected/contract list and **must NOT be modified** by this task. Therefore `thumbnails.js` must run its **own** lightweight `IntersectionObserver` over the rendered `.pdf-page[data-page-number]` elements (rooted on `.pdf-viewer-inner`, mirroring the existing page-nav pattern) to determine the active page independently. Do **not** add a new cross-module event or touch `page-nav.js`/`viewer.js`.
+
+**Technical approach**:
+- In `js/thumbnails.js`, after the thumbnail strip is built on `PDF_LOADED`, create an `IntersectionObserver` (root `.pdf-viewer-inner`) over the `.pdf-page` elements. On intersection changes, compute the most-visible page number (same "best ratio" logic page-nav uses) and call a local `setActiveThumbnail(n)`.
+- `setActiveThumbnail(n)` applies an `.is-active` class (and `aria-current="page"`) to the matching thumbnail button, removes it from the previously-active one, and scrolls that thumbnail into view **within the panel only** via `el.scrollIntoView({ block: 'nearest' })` — must NOT scroll the main document. Guard against feedback loops (scrolling the panel must not move the viewer).
+- Disconnect/clean up the observer and clear the active state on `PDF_CLEARED` (RAM hygiene on the 1.6 GiB box). Re-arm it whenever a new doc's thumbnails are (re)built. Reuse the existing render-token guard so a stale observer from a previous doc can't fire.
+- Clicking a thumbnail (existing behavior) still scrolls the viewer to that page; the observer will then naturally mark it active — keep the two paths consistent (no double-highlight, no flicker).
+- CSP-safe: external module only, no inline `<script>`; all DOM via existing element refs / `textContent`. The `.is-active` styling is an isolated rule in `css/tools.css` reusing the design-system CSS vars (e.g. an accent-colored border/outline) — must remain visible in **both** light and dark themes (TASK-308).
+
+**Must NOT**: modify `viewer.js`'s rendering core, `upload.js`'s validation, `page-nav.js`/`search.js` behavior, the `.pdf-viewer-container` flex-row contract, or add any new event-bus event. Purely additive within `thumbnails.js` + `css/tools.css`.
+
+**UX acceptance criteria (tester verifies live via chrome-devtools MCP using `test-fixtures/multipage.pdf`, 6 pages):**
+1. **Active highlight visible** — after upload, exactly one thumbnail carries the active state (`.is-active` + `aria-current="page"`); it is visually distinct (non-zero, on-screen) and distinguishable from the others in **both** light and dark themes.
+2. **Tracks scroll** — scrolling the main viewer so a different page becomes most-visible moves the active highlight to that page's thumbnail (verify: after scrolling to page 6, the page-6 thumbnail is the one with `aria-current="page"`).
+3. **Auto-scroll within panel only** — the active thumbnail is scrolled into view inside the Pages panel (its bounding rect is within the panel's visible area), and doing so does **not** move the main document scroll position.
+4. **Click still works, stays consistent** — clicking/Enter on a thumbnail scrolls the viewer to that page AND that thumbnail becomes the active one; no flicker, no two thumbnails active at once.
+5. **Labeled / accessible** — zero unlabeled controls in a snapshot; thumbnails remain `<button aria-label="Go to page N">` and the active one additionally has `aria-current="page"`.
+6. **Empty state / cleanup** — on Close document (`PDF_CLEARED`) the active state and observer are cleared and the placeholder returns; re-uploading re-arms the highlight correctly.
+7. **No regression** — across the whole flow `#pdf-pages` width ≥ 300 with ≥1 visible canvas, zero app-origin console errors, and the `.pdf-viewer-container` flex-row width contract is unchanged.
+
+File permissions: any new/changed files 644. Verify end-to-end via chrome-devtools MCP before marking DONE.
+
 ### TASK-310: Full-screen presentation mode (present.js)
 
 **Status**: VERIFIED
