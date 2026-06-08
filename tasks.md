@@ -10,9 +10,12 @@
 
 ### TASK-306: Page thumbnails navigator (thumbnails.js)
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer2
+
+**Verified (2026-06-08, tester — independent chrome-devtools MCP run)**: Smoke test green (all 6 phases, 0 app-origin console errors). 9-step UX/UI on the live Pages panel with `example.pdf` loaded:
+UX/UI: 1-discoverable ✓ (Pages tab present, activates the thumbnails panel) 2-activatable ✓ (0 new console errors) 3-visible ✓ (panel 1905×209) 4-labeled ✓ (thumbnail `<button aria-label="Go to page 1">`, 0 unlabeled controls) 5-keyboard ✓ (thumbnail focusable, `activeElement` match) 6-responds ✓ (1 thumbnail for 1-page PDF, canvas 120×155 with **non-blank rendered pixels**; activation leaves viewer intact) 7-progress n/a (instant) 8-errors n/a 9-viewer-intact ✓ (after activation `#pdf-pages` 1905px, 1 visible canvas). Empty-state revert confirmed: Close document → 0 thumbnails, placeholder "Open a PDF to see page thumbnails." restored. All 6 task acceptance criteria met.
 
 **Result (2026-06-08, developer2)**: Done + verified end-to-end via live chrome-devtools MCP on http://localhost/. New `js/thumbnails.js` (subscribes to `PDF_LOADED`/`PDF_CLEARED`; reuses the `doc` proxy from the payload; renders each page to its own `<canvas>` at ~120px target width, sequentially, with a render token that cancels a stale loop when a new doc loads or on clear; per-page render is wrapped in try/catch so one bad page can't abort the strip). Each thumbnail is a `<button aria-label="Go to page N">` wrapping the canvas + page number; clicking/Enter calls `scrollIntoView` on the matching `.pdf-page[data-page-number]`. Minimal isolated edits only: one `Pages` tab + `[data-panel="thumbnails"]` panel in `index.html`, `initThumbnails()` wired into `app.js` `init()`, `.thumbnail*` styles appended to `css/tools.css` (reusing the design-system CSS vars). **`viewer.js` rendering core untouched.** Disjoint from Developer1's TASK-305 (notifications) files. Perms 644; `thumbnails.js` serves 200 (`application/javascript`).
 
@@ -34,9 +37,12 @@ File permissions: new files 644. Verify end-to-end via chrome-devtools MCP befor
 
 ### TASK-305: User-facing notifications — loading & error feedback for the upload/render pipeline (notifications.js)
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: HIGH
 **Assigned to**: developer
+
+**Verified (2026-06-08, tester — independent chrome-devtools MCP run)**: Smoke test green (all 6 phases). Live regions present (2× `role=status aria-live=polite`, 1× `role=alert aria-live=assertive`, `.toast-container`). 9-step UX/UI:
+UX/UI: 1-discoverable ✓ (valid `example.pdf` upload → success toast "✓ Loaded example.pdf" visible) 2-activatable ✓ 3-visible ✓ (error toast 352×57 on bad input) 4-labeled ✓ (dismiss `aria-label="Dismiss"`, 0 unlabeled controls; live regions correctly roled) 5-keyboard ✓ (dismiss focusable, `activeElement` match, activation removes toast) 6-responds ✓ (real reject path: `/tmp/fake.pdf` "GIF89a" through `#file-input` → visible assertive error toast "File does not look like a valid PDF (bad header)."; did **not** throw uncaught, viewer unchanged 1905px/1 canvas) 7-progress ✓ (loading→success lifecycle) 8-errors ✓ (human-readable reason shown to user) 9-viewer-intact ✓. Persistence confirmed: error toast survived 4.5 s (no auto-dismiss) while success/info auto-clear. The only `console.error` is the **pre-existing, caught** `[upload] failed:` diagnostic for the deliberately-invalid test file (not an uncaught throw, not from this feature). All 6 task acceptance criteria met.
 
 **Result (2026-06-08, developer)**: Implemented + verified end-to-end via live chrome-devtools MCP on http://localhost/. New `js/notifications.js` renders an accessible toast feedback layer wired to the upload/render lifecycle. Two persistent ARIA live regions in `index.html` — a `role="status" aria-live="polite"` region (info/success) and a `role="alert" aria-live="assertive"` region (errors). Each toast has a type icon, the message via **`textContent` only** (never innerHTML — security rule 4), and an `aria-label="Dismiss"` button. Info/success auto-dismiss after ~4 s; error toasts persist until dismissed. Concurrent toasts capped at 4 (oldest evicted) and DOM nodes removed on dismiss/auto-clear (RAM hygiene on the 1.6 GiB box). Subscribes to `PDF_LOADING`/`PDF_LOADED`/`ERROR`. Added one new canonical event `PDF_LOADING` to `event-bus.js` and one minimal isolated `EventBus.emit(Events.PDF_LOADING, { name })` at the load-start point in `upload.js` — **validation logic and `viewer.js` rendering core untouched**. Files: new `js/notifications.js` (644); edits to `index.html` (toast container only), `js/app.js` (`initNotifications()` first in `init()`), `js/event-bus.js` (event name), `js/upload.js` (one emit), `css/tools.css` (toast styles, reusing the design-system CSS vars + `prefers-reduced-motion`).
 
