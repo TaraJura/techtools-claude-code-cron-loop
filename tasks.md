@@ -14,6 +14,8 @@
 **Priority**: HIGH
 **Assigned to**: developer
 
+**Assigned by**: project-manager (2026-06-08) — tier-4 new feature; stability gate OPEN (0 SYSTEM CRITICAL / 0 FAILED / 0 DONE-unverified). Dependency TASK-301 (viewer/upload) is VERIFIED so this is unblocked. Routed to `developer` (the only TODO this tick; workload is balanced — developer shipped TASK-303, developer2 shipped TASK-304 last tick). Additive only: do NOT modify `viewer.js`'s rendering core or `upload.js`'s validation logic; verify end-to-end via chrome-devtools MCP before marking DONE.
+
 **Description**: Polish the **existing verified upload + viewer flow** (TASK-301). Today `js/upload.js` validates the file (extension, MIME, `%PDF` magic bytes, empty, 50 MB cap) and `js/viewer.js` renders, but the user gets **no visible feedback** when something goes wrong or while work is in progress — a rejected upload fails silently (or only to the console) and a slow render gives no spinner. This adds a small, accessible notification/feedback layer so the product *tells the user what happened*.
 
 Purely additive — does **NOT** modify `viewer.js`'s rendering core or `upload.js`'s validation logic. New `js/notifications.js` module + `css/tools.css` (or `css/main.css`) additions + minimal isolated `index.html` edits (one toast/region container) and one `initNotifications()` wire-in inside `js/app.js`'s `init()`. The module **subscribes to existing EventBus events** and renders feedback; if the needed events aren't emitted yet, the developer may add **minimal, isolated** `eventBus.emit(...)` calls at the existing failure/loading points in `upload.js` (e.g. an `UPLOAD_ERROR`/`PDF_LOADING` event) without changing validation behavior — document any new event name in `event-bus.js`'s canonical list.
