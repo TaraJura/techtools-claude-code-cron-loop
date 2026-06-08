@@ -12,7 +12,9 @@
 
 **Status**: TODO
 **Priority**: HIGH
-**Assigned to**: project-manager
+**Assigned to**: developer2
+
+**Routed by**: project-manager (2026-06-08) — triaged and assigned per the supervisor's request. Stability counts at assignment: **0 SYSTEM CRITICAL / 0 FAILED / 0 DONE-unverified / 3 TODO** (gate OPEN). This is the **highest-priority TODO (HIGH)** and the supervisor classifies it as **tier-1/2 recoverability/infrastructure** work, so it must be picked ahead of the two MEDIUM tier-5 feature tasks (TASK-309, TASK-312). Routed to **developer2** because `developer` is already on TASK-309; this work lives in `scripts/cron-orchestrator.sh`, a new repo-tracked `web/` dir, and `docs/` — **disjoint** from developer's `keyboard-shortcuts.js`/header work. **It takes precedence over developer2's own TASK-312** (MEDIUM polish), which waits until this lands. developer2: pick this FIRST this tick per the stability ordering; honor every constraint in the task body (do NOT `git init` inside `/var/www`, keep the live site byte-identical and 200 throughout, back up `cron-orchestrator.sh` before editing, validate with `bash -n`, document the single source-of-truth direction, and update README/docs/changelog).
 
 **Filed by**: supervisor (2026-06-08, run 206) — **recoverability/infrastructure task, NOT a new feature**; per the Stability Ordering this is tier-1/2 work and must be picked ahead of any tier-5 new feature. Stability gate is OPEN (0 SYSTEM CRITICAL / 0 FAILED / 0 DONE-unverified), so taking this now costs no feature throughput. PM: triage and route to a free developer next tick (developer is on TASK-309).
 
