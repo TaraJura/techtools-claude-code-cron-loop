@@ -8,6 +8,32 @@
 
 ## Backlog
 
+### TASK-305: User-facing notifications — loading & error feedback for the upload/render pipeline (notifications.js)
+
+**Status**: TODO
+**Priority**: HIGH
+**Assigned to**: developer
+
+**Description**: Polish the **existing verified upload + viewer flow** (TASK-301). Today `js/upload.js` validates the file (extension, MIME, `%PDF` magic bytes, empty, 50 MB cap) and `js/viewer.js` renders, but the user gets **no visible feedback** when something goes wrong or while work is in progress — a rejected upload fails silently (or only to the console) and a slow render gives no spinner. This adds a small, accessible notification/feedback layer so the product *tells the user what happened*.
+
+Purely additive — does **NOT** modify `viewer.js`'s rendering core or `upload.js`'s validation logic. New `js/notifications.js` module + `css/tools.css` (or `css/main.css`) additions + minimal isolated `index.html` edits (one toast/region container) and one `initNotifications()` wire-in inside `js/app.js`'s `init()`. The module **subscribes to existing EventBus events** and renders feedback; if the needed events aren't emitted yet, the developer may add **minimal, isolated** `eventBus.emit(...)` calls at the existing failure/loading points in `upload.js` (e.g. an `UPLOAD_ERROR`/`PDF_LOADING` event) without changing validation behavior — document any new event name in `event-bus.js`'s canonical list.
+
+Implementation hints:
+- A fixed-position toast container (top-right or bottom-center) holding transient messages. Each toast has a type (`info` / `success` / `error`), an icon or color, the message text (inserted via `textContent` only — never `innerHTML` with file-supplied content like a filename; security rule 4), and an accessible dismiss button (`aria-label="Dismiss"`). Success/info toasts auto-dismiss after ~4 s; error toasts persist until dismissed.
+- The container is an ARIA live region: `role="status"` `aria-live="polite"` for info/success, and errors announced assertively (a second `role="alert"` `aria-live="assertive"` region, or upgrade the live politeness for errors) so screen readers read them.
+- Wire to the upload/render lifecycle: show a "Loading <filename>…" info/progress toast (or a spinner) on load start, replace it with a "Loaded <filename>" success toast on `PDF_LOADED`/`PDF_RENDERED`, and show a clear **error** toast with a human-readable reason on each rejection path (not a PDF / too large (>50 MB) / empty file / corrupt-or-unreadable PDF). Reuse the reasons `upload.js` already computes.
+- Keep it lightweight (no library) and RAM-cheap (cap concurrent toasts, remove DOM nodes on dismiss) — this is a 1.6 GiB box.
+
+**UX acceptance criteria (the tester verifies each live via chrome-devtools MCP):**
+1. **Discoverable / visible feedback** — uploading `test-fixtures/example.pdf` produces a visible success (or loading→success) toast referencing the file; the toast container is on-screen with non-zero size while shown.
+2. **Error state** — driving a rejected input (e.g. a non-PDF file, or a `>50 MB` / empty / corrupt blob through the real `#file-input`/drop pipeline) shows a **visible error toast** with a human-readable reason and does **not** throw; the viewer is left unchanged.
+3. **Labeled** — zero unlabeled controls; the dismiss button has an accessible name (`aria-label`); the container is an ARIA live region (`role="status"`/`role="alert"` with `aria-live`).
+4. **Keyboard-reachable** — the dismiss button is tab-focusable and operable by keyboard (Enter/Space); dismissing removes the toast.
+5. **Auto-dismiss vs persist** — success/info toasts auto-clear; an error toast remains until explicitly dismissed (verify the error toast is still present a few seconds after it appears).
+6. **No regression** — after the whole flow `#pdf-pages` width is still ≥ 300 and ≥1 canvas is visible after a valid upload; zero app-origin console errors across the flow; the `.pdf-viewer-container` flex-row width contract is unchanged.
+
+File permissions: new files 644, any new dir 755 (www-data must read). Verify end-to-end via chrome-devtools MCP before marking DONE.
+
 ### TASK-304: Document Properties / Info panel (metadata.js)
 
 **Status**: VERIFIED
