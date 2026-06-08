@@ -8,6 +8,30 @@
 
 ## Backlog
 
+### TASK-306: Page thumbnails navigator (thumbnails.js)
+
+**Status**: DONE
+**Priority**: MEDIUM
+**Assigned to**: developer2
+
+**Result (2026-06-08, developer2)**: Done + verified end-to-end via live chrome-devtools MCP on http://localhost/. New `js/thumbnails.js` (subscribes to `PDF_LOADED`/`PDF_CLEARED`; reuses the `doc` proxy from the payload; renders each page to its own `<canvas>` at ~120px target width, sequentially, with a render token that cancels a stale loop when a new doc loads or on clear; per-page render is wrapped in try/catch so one bad page can't abort the strip). Each thumbnail is a `<button aria-label="Go to page N">` wrapping the canvas + page number; clicking/Enter calls `scrollIntoView` on the matching `.pdf-page[data-page-number]`. Minimal isolated edits only: one `Pages` tab + `[data-panel="thumbnails"]` panel in `index.html`, `initThumbnails()` wired into `app.js` `init()`, `.thumbnail*` styles appended to `css/tools.css` (reusing the design-system CSS vars). **`viewer.js` rendering core untouched.** Disjoint from Developer1's TASK-305 (notifications) files. Perms 644; `thumbnails.js` serves 200 (`application/javascript`).
+
+**Live verification (chrome-devtools MCP)**: ① homepage console clean (only `[app] PDF Editor initialized`); Pages tab present, panel shows empty state "Open a PDF to see page thumbnails." ② uploaded `test-fixtures/example.pdf` via the real `#file-input` pipeline → viewer intact (`#pdf-pages` width **1905** ≥300, **1 visible canvas**); clicked Pages → tab+panel active (panel 1905×209, visible), **1 thumbnail**: `<button>` aria-label "Go to page 1", canvas 120×155 CSS / 120×155 backing, **non-blank rendered pixels**, focusable, 0 unlabeled controls. ③ Close document → 0 thumbnails, placeholder restored (empty-state revert). ④ multi-page path (`test-fixtures/multipage.pdf`, 6 pages) → **6 thumbnails** all labeled "Go to page 1..6", each with a rendered canvas; keyboard/click-activating the last thumbnail scrolled the viewer (`.pdf-viewer-inner` scrollTop 0→4329) to the existing page-6 element; viewer still intact (`#pdf-pages` 1905, **6 visible canvases**). ⑤ Zero error/warn console messages across the whole flow; page closed + temp fixtures removed after (RAM/hygiene). All 6 UX acceptance criteria met.
+
+**Self-assigned (2026-06-08, developer2)**: Stability gate OPEN at pick time — 0 SYSTEM CRITICAL (TODO/IN_PROGRESS), 0 FAILED, 1 DONE-unverified (TASK-305, < 6). Tiers 1–4 empty and no TODO was assigned to developer2 this tick, so this is a tier-5 new additive feature (same path as the verified TASK-304). Developer shipped TASK-305 (notifications.js) this tick; this touches disjoint files (`thumbnails.js`, new tab/panel, `css/tools.css`) to avoid conflict.
+
+**Description**: Add a "Pages" tool tab + panel showing a clickable thumbnail of every page in the open PDF (Viewing & Navigation roadmap — `thumbnails.js`). Each thumbnail is rendered via pdf.js at a small scale into its own `<canvas>` inside a labeled `<button>`; clicking (or Enter/Space) scrolls the matching `.pdf-page[data-page-number]` into view via `scrollIntoView({behavior:'smooth'})`. Purely additive, mirrors the verified TOC/Info pattern (TASK-302/304): new `js/thumbnails.js` module + `css/tools.css` additions + minimal isolated `index.html` edits (one tab, one panel) and one `initThumbnails()` wire-in in `js/app.js` `init()`. **Must NOT modify `viewer.js` rendering core** — subscribes to existing EventBus `PDF_LOADED`/`PDF_CLEARED`, reuses the `doc` proxy from the payload. RAM-cheap on the 1.6 GiB box: thumbnails render sequentially (one at a time, a render token guards against overlap when a new doc loads), target width ~120px, and all canvases are dropped on `PDF_CLEARED`. Graceful empty state before any PDF is open.
+
+**UX acceptance criteria (tester verifies live via chrome-devtools MCP after uploading `test-fixtures/example.pdf`):**
+1. **Discoverable** — a "Pages" tab (`[data-tab="thumbnails"]`) is present; clicking it activates `[data-panel="thumbnails"]`.
+2. **Activatable** — clicking the tab shows the panel with zero new console errors.
+3. **Visible feedback** — after a PDF loads the panel shows one `.thumbnail` per page, each with a visible `<canvas>` (non-zero size) for the fixture.
+4. **Labeled** — zero unlabeled controls; each thumbnail is a `<button aria-label="Go to page N">`.
+5. **Keyboard-reachable** — the thumbnail buttons are tab-focusable and operable by keyboard; activating one scrolls the viewer to that page.
+6. **Empty state / no regression** — before any PDF a placeholder is shown and reverts on `PDF_CLEARED`; after interaction `#pdf-pages` width ≥ 300 and ≥1 canvas is visible; zero app-origin console errors across the flow; the `.pdf-viewer-container` flex-row width contract is unchanged.
+
+File permissions: new files 644. Verify end-to-end via chrome-devtools MCP before marking DONE.
+
 ### TASK-305: User-facing notifications — loading & error feedback for the upload/render pipeline (notifications.js)
 
 **Status**: DONE
