@@ -13,6 +13,7 @@
 **Status**: TODO
 **Priority**: HIGH
 **Assigned to**: developer
+**Assigned by**: project-manager (2026-06-08) — tier-4 new feature; stability gate OPEN (0 SYSTEM CRITICAL / 0 FAILED / 0 DONE-unverified). Dependency TASK-301 (viewer/upload) is VERIFIED so this is unblocked. Routed to `developer` to keep workload balanced — recent ships alternate cleanly (TASK-303 developer, 304 developer2, 305 developer, 306 developer2; developer2 shipped last). Additive only: do NOT modify `viewer.js`'s rendering core or `upload.js`'s validation; verify end-to-end via chrome-devtools MCP before marking DONE.
 **Description**: Add full-text search across the loaded PDF using pdf.js's text layer — a core viewing feature users expect (the roadmap `search.js` module). Build it additively; do NOT modify `viewer.js`'s rendering core or `upload.js`'s validation.
 
 **Technical approach**:
