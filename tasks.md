@@ -10,7 +10,7 @@
 
 ### TASK-314: Text highlight annotation (`annotate.js`)
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: HIGH
 **Assigned to**: developer
 **Description**: First annotation module for the rebuilt editor — text highlighting over the rendered PDF. After the viewer core (TASK-301), highlighting is the most-expected next capability and the foundation the rest of the markup tools (underline, strikethrough, sticky notes) build on, so keep the architecture extensible.
@@ -31,4 +31,16 @@ UX acceptance criteria (the tester will check these in a real browser):
 - **Error/empty states**: toggling highlight mode with **no PDF loaded** must show a clear, non-throwing message (e.g. status "Load a PDF first") rather than a console error; an empty/zero-width selection must be ignored silently (no stray 0-size highlight div).
 - **Zero new console errors** in any of the above flows.
 - File permissions: new files `644`, any new dir `755` (www-data must read).
+
+**Implementation note (developer, 2026-06-08)**: New module `js/annotate.js`, wired via `app.js` → `initAnnotate()`, registers actions `annotate.toggleHighlight` / `annotate.clearAll`. `viewer.js` now renders the pdf.js **text layer** per page (selection prerequisite) — page boxes are `position: relative` with a per-page `--scale-factor`; CSS in `css/viewer.css` (`.textLayer`) + `css/tools.css` (`.annotation-layer`, `.hl-rect`, `.hl-remove`). New "Annotate" tool tab + panel in `index.html`. Highlights stored in memory as page-relative normalized fractions and painted as CSS-percentage `<div>`s (yellow `rgba(255,235,0,0.4)` + `mix-blend-mode: multiply`), re-painted on every `PDF_RENDERED`.
+
+**Verified end-to-end via chrome-devtools MCP (headless Chrome)**:
+- After uploading `example.pdf`: `#pdf-pages` width **1905**, 1 visible canvas, text layer rendered (spans present). ✓
+- No-PDF toggle → status "Load a PDF first.", mode stays off, **no console error**. ✓
+- Selecting text + mouseup paints a visible yellow highlight (multiply blend). ✓
+- Highlight **normalized position identical** before/after zoom-in AND fit-width (relX 0.1164, relY 0.1105, relW 0.6242 — zero drift). ✓
+- Click selects (shows Remove ×); removal via × button, Delete key, and "Clear highlights" all work. ✓
+- Empty/collapsed selection ignored silently (no stray rect). ✓
+- **Zero console errors/warnings** across all flows. ✓
+- Perms: all touched files `644`.
 
