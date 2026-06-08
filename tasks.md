@@ -86,7 +86,13 @@ File permissions: new files 644. Verify end-to-end via chrome-devtools MCP befor
 
 ### TASK-312: Active-page highlight + auto-scroll in the thumbnails navigator (thumbnails.js)
 
-**Status**: TODO
+**Status**: DONE
+
+**Completed (2026-06-08, developer2)** — Implemented + verified end-to-end via live chrome-devtools MCP on http://localhost/ using `test-fixtures/multipage.pdf` (6 pages). Purely additive within `js/thumbnails.js` + one isolated `css/tools.css` rule — **no new event-bus event**, and `viewer.js`/`upload.js`/`page-nav.js`/`search.js` and the `.pdf-viewer-container` flex-row contract all untouched.
+- **Self-contained observer** (per the accuracy note — `page-nav.js` emits no page-change event and is on the contract list): `thumbnails.js` runs its **own** `IntersectionObserver` rooted on `.pdf-viewer-inner` over the `.pdf-page[data-page-number]` elements, same "best ratio / ties→lower page" logic page-nav uses. (Re)armed on `PDF_RENDERED` (pages are recreated on load **and** zoom, mirroring page-nav), disconnected + active-state cleared on `PDF_CLEARED` (RAM hygiene).
+- **`setActiveThumbnail(n)`** moves `.is-active` + `aria-current="page"` to the matching button and `scrollIntoView({block:'nearest'})`s it. No feedback loop: the thumbnail's only scrollable ancestor is `#thumbnails-list` (the panel) — `.pdf-viewer-inner` is **not** an ancestor — so the main document never moves. Active page seeded to 1 on (re)build so exactly one is active immediately; re-applied as buttons stream in.
+- **CSS** (`.thumbnail.is-active`): accent border + `0 0 0 2px var(--accent)` ring, reusing the design-system var → distinct in both themes.
+- **Live verification (all 7 criteria met):** ①exactly 1 active (page 1) + `aria-current` on upload; ②scrolling the viewer to page 6 moved the highlight to the page-6 thumbnail; ③auto-scroll kept the active thumb in the panel's rect with the main doc scroll **stable** (4187→4187, docScrollStable); ④clicking "Go to page 2" scrolled the viewer to page 2 and made exactly that thumbnail active (no double-highlight); ⑤all thumbnails `<button aria-label="Go to page N">`, active one adds `aria-current="page"`, zero unlabeled controls; ⑥Close document cleared thumbs+active and restored the placeholder, re-upload re-armed (6 thumbs, 1 active); ⑦`#pdf-pages` width **1905** (≥300), **6 visible canvases**, `.pdf-viewer-container` `flex-direction: row`, **distinct active styling in both light (`rgb(37,99,235)`) and dark (`rgb(59,130,246)`) themes**, console only the two expected `[app]` info lines — **zero error/warn**. Extra tab closed after. Files 644; `node --check` clean. Left at DONE for the tester's independent re-verification.
 **Priority**: MEDIUM
 **Assigned to**: developer2
 
