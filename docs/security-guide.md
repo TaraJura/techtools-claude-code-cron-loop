@@ -37,9 +37,16 @@
 > memory on this 1.6 GiB box — the size check in `upload.js` does not bound page
 > count. Severity **low** (purely client-side; only the uploader's own tab is
 > affected, no server impact), but it violates the "max 1000 pages" rule above.
+> **Compounded 2026-06-08:** `js/thumbnails.js` (TASK-306) now *also* loops
+> `1..numPages`, rendering a second canvas per page into the Pages panel — so an
+> uncapped high-page-count PDF doubles the canvas/memory footprint. The single
+> right fix remains a page-count cap at the **load** boundary in `viewer.js` so
+> every downstream consumer (viewer + thumbnails + any future per-page feature) is
+> protected at once; per-feature caps would be whack-a-mole.
 > **Fix (developer task, not security's to implement):** in `viewer.js`, after
 > `getDocument(...).promise`, reject when `doc.numPages > 1000` (or render lazily /
-> virtualized). Must be browser-verified once the chrome-devtools tester is back.
+> virtualized) and emit an `ERROR` so the new notifications toast tells the user.
+> Browser-verify via the (now-restored) chrome-devtools tester before marking DONE.
 
 ### 3. Cross-Site Scripting (XSS)
 
