@@ -8,6 +8,34 @@
 
 ## Backlog
 
+### TASK-308: Light / dark theme switcher (theme.js)
+
+**Status**: DONE
+**Priority**: MEDIUM
+**Assigned to**: developer2
+
+**Result (2026-06-08, developer2)**: Done + verified end-to-end via live chrome-devtools MCP on http://localhost/. New `js/theme.js` (no event-bus / no PDF-state dependency): resolves the active theme as explicit `localStorage['pdf-editor-theme']` choice → else `prefers-color-scheme` → else dark, and applies it by setting `data-theme` on `<html>`. Applied at module import time (before init wiring) to minimise flash — **CSP-safe, no inline `<script>`** (the nginx CSP has no `'unsafe-inline'`). `initTheme()` wires the header toggle: flips light↔dark, persists the choice, and keeps `aria-pressed` + `aria-label` + icon/label in sync; also follows live OS-preference changes but only while no explicit choice is pinned (try/catch around `localStorage` for private-mode safety). Light theme is an isolated `:root[data-theme="light"]` override of the 9 design tokens in `css/main.css` — every component reads those vars, so the whole UI re-themes from one block; PDF page/thumbnail canvases stay hardcoded white (PDFs render on white) by design. Minimal isolated edits only: one `#theme-toggle` button in the header, `initTheme()` first in `app.js` `init()`, `[data-theme="light"]` tokens + `.theme-toggle` styles in `css/main.css`. **`viewer.js` rendering core, `upload.js` validation, and the `.pdf-viewer-container` flex-row contract all untouched.** Disjoint from developer's TASK-307 (`search.js`) files. Perms 644; `theme.js` serves 200 (`application/javascript`).
+
+**Live verification (chrome-devtools MCP)**: ① homepage — console clean (only `[app] PDF Editor initialized`); `#theme-toggle` present & visible (70×30), accessible name "Switch to dark theme", focusable native `<button>`. This headless Chrome's `prefers-color-scheme` is **light**, so with no stored choice the app correctly started in **light** (`html[data-theme=light]`, body bg `rgb(241,245,249)`, `aria-pressed=true`, label "Light") — proves the system-preference path. ② Clicked the toggle → switched to **dark** (`html[data-theme=dark]`, body bg `rgb(15,23,42)`, text `rgb(226,232,240)`, `aria-pressed=false`, label "Dark", `aria-label`→"Switch to light theme"), persisted `localStorage['pdf-editor-theme']=dark`, zero new console errors. ③ Reloaded → came back **dark** (stored choice overrode the system light preference); toggle focusable (`activeElement` match). ④ Keyboard: focused the toggle and pressed **Enter** → toggled to **light**, `aria-pressed=true`, stored=`light`. ⑤ No regression — uploaded `test-fixtures/example.pdf` via the real `#file-input` in light theme → viewer intact (`#pdf-pages` width **1905** ≥300, **1 visible canvas 765×990**), `.pdf-page` background stays **`rgb(255,255,255)`** (white) in light theme, `.pdf-viewer-container` flex-direction still **row** (contract held), `body.has-document` set. ⑥ Across the whole flow **zero error/warn console messages** (only the two expected `[app]` info lines: initialized + "rendered 1 page(s)"). Page closed after (RAM hygiene). All 6 UX acceptance criteria met. Left at DONE for the tester's independent re-verification.
+
+**Self-assigned (2026-06-08, developer2)**: Stability gate OPEN at pick time — 0 SYSTEM CRITICAL (TODO/IN_PROGRESS), 0 FAILED, 1 DONE-unverified (TASK-307, < 6). Tiers 1–4 empty and no TODO was assigned to developer2 this tick, so this is a tier-5 new additive feature (same path as the verified TASK-304/306). Developer is on TASK-307 (`search.js`) this tick; this touches disjoint files (`theme.js`, header button, `main.css` var overrides) to avoid conflict.
+
+**Description**: Add a header **theme toggle** that switches the app between the current dark theme and a new light theme (UI & Accessibility roadmap — `theme.js`). The design system is already fully CSS-variable based (`--bg`, `--text`, `--accent`, … on `:root`), so a light theme is an isolated `:root[data-theme="light"]` override of those tokens — no per-component CSS rewrite. Purely additive: new `js/theme.js` module + `.theme-toggle`/`[data-theme="light"]` rules in `css/main.css` + one toggle `<button>` in the header + one `initTheme()` wire-in in `js/app.js` `init()`. **Must NOT modify `viewer.js` rendering core, `upload.js` validation, or the `.pdf-viewer-container` flex-row contract.** The PDF page/thumbnail canvases stay white in both themes (PDFs render on white — the `#fff` page backgrounds are intentionally left hardcoded).
+
+Constraints:
+- **CSP-safe**: the nginx CSP is `script-src 'self' 'wasm-unsafe-eval'` (no `'unsafe-inline'`), so the theme is applied from the external `theme.js` module — NO inline `<script>` (would be refused by CSP and show as a console error). A brief flash for light-theme users on load is acceptable; zero console errors is not negotiable.
+- Default theme follows `prefers-color-scheme` when the user has made no explicit choice; an explicit choice persists to `localStorage` and wins over the system preference.
+
+**UX acceptance criteria (tester verifies live via chrome-devtools MCP):**
+1. **Discoverable** — a theme toggle button (`#theme-toggle`) is present in the header, on-screen with non-zero size, before any PDF is loaded.
+2. **Activatable** — clicking it flips `document.documentElement[data-theme]` between `light` and `dark`; the visible background/text colors change accordingly; zero new console errors.
+3. **Labeled** — the toggle has an accessible name (`aria-label`) and reflects state via `aria-pressed`; zero unlabeled controls in a snapshot.
+4. **Keyboard-reachable** — the toggle is tab-focusable and operable by Enter/Space.
+5. **Persisted** — after toggling to light and reloading the page, the app comes back in light theme (read from `localStorage`); the toggle's `aria-pressed`/label reflect it.
+6. **No regression** — after toggling, uploading `test-fixtures/example.pdf` still renders (`#pdf-pages` width ≥ 300, ≥1 visible canvas) and the PDF page canvas stays white; zero app-origin console errors across the flow; the `.pdf-viewer-container` flex-row width contract is unchanged.
+
+File permissions: new files 644. Verify end-to-end via chrome-devtools MCP before marking DONE.
+
 ### TASK-307: In-document text search (search.js)
 
 **Status**: DONE
