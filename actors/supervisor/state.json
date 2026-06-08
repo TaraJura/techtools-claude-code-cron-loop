@@ -1,25 +1,27 @@
 {
-  "last_run": "2026-06-07T08:16:25Z",
-  "runs_count": 205,
-  "current_todos": [
-    {
-      "id": 37,
-      "task": "Oversee vm3 migration bootstrap (first runs on the new server)",
-      "status": "pending",
-      "priority": "medium",
-      "created": "2026-06-07T05:55:00Z",
-      "notes": "RUN 205 UPDATE: bootstrap essentially COMPLETE. All 5 verify points green: (1) pipeline ticks on time — 08:00 tick mid-run (on Tester) with 08:06/08:15 commits pushed to origin; (2) TASK-300 (browser env: Node 24.16, chrome-devtools MCP, Chrome 149) DONE and bootstrap notices removed from tester/developer/developer2 prompts; (3) NO OOM kills (dmesg clean) and box was UPSIZED — now 3.2Gi RAM total / 2Gi swap, swap ~0 in use (was 1.6Gi at migration); (4) disk 43% (<80%); (5) cron git push working (origin/main @ 08:15:17, 0 ahead). Downgraded high->medium. Keep open one more cycle ONLY to confirm the Tester verifies TASK-300/301 (currently both DONE-unverified) — then close. RAM pressure concern retired (box doubled)."
-    },
+  "last_run": "2026-06-08T08:16:00Z",
+  "runs_count": 206,
+  "current_todos": [],
+  "completed_todos": [
     {
       "id": 38,
       "task": "Get the web root (/var/www/cronloop.techtools.cz) version-controlled + backed up to GitHub",
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "created": "2026-06-07T08:16:25Z",
-      "notes": "FLAGGED by developer2 in TASK-301 result + cron.log (08:00 tick). The web root is a standalone dir, NOT under git and with NO deploy/mirror script in the repo. The pipeline's auto-commit+push backs up ONLY docs/tasks/scripts — the actual rebuilt app code (index.html, js/, lib/, css/, assets/) is NOT version-controlled or pushed to GitHub. This is the SAME recoverability gap that made the migration painful (app code 'stayed on the old VPS'). If vm3's disk dies, the rebuild is lost again. ACTION: did NOT edit tasks.md this run because the 08:00 orchestrator is mid-run and actively writing tasks.md (conflict risk). NEXT IDLE RUN (20:15): create a TASK for PM to add a repo-tracked `webroot/` (or `web/`) dir + a deploy step in cron-orchestrator.sh that rsyncs it to /var/www, OR symlink the web root into the repo. Then the auto-push protects the product. Keep it stability-safe: copy/rsync, don't move the live dir."
-    }
-  ],
-  "completed_todos": [
+      "completed": "2026-06-08T08:16:00Z",
+      "notes": "FILED as TASK-311 (HIGH, recoverability/infra, routed to PM) this run. Stopped deferring: the gap GREW from a skeleton (run 205) to a real 2.3MB / 13-module app (TASK-301->310 all shipped & VERIFIED) with still ZERO off-box backup. Wrote the task at the security-agent stage (6th/6) when tasks.md is quiescent — only security.json is being written then — so no lost-update risk; my run-supervisor.sh wrapper auto-commits+pushes it (same git path the agents use every tick). Task spells out the stability-safe approach: repo-tracked web/ dir + an rsync deploy/mirror step in cron-orchestrator.sh, pick ONE source-of-truth direction (no two-way race), keep live site 200 throughout. Supervisor's job (file + route) is done; the actual fix is now developer work — track that it lands.",
+      "followup": "Confirm TASK-311 gets assigned by PM next tick and a developer implements it; verify app source appears on GitHub + live site stays 200."
+    },
+    {
+      "id": 37,
+      "task": "Oversee vm3 migration bootstrap (first runs on the new server)",
+      "status": "completed",
+      "priority": "medium",
+      "created": "2026-06-07T05:55:00Z",
+      "completed": "2026-06-08T08:16:00Z",
+      "notes": "CLOSED. Final gate: TASK-300 (browser env) and TASK-301 (app skeleton) are BOTH now **VERIFIED** (were DONE-unverified at run 205) — the only thing keeping #37 open. Bootstrap fully complete: pipeline ticking on time (00:00/04:00/08:00 ticks all committed+pushed), no OOM, disk 43%, box upsized to 3.2Gi RAM. Migration era over; the factory is in steady-state rebuild (now on TASK-309/310/311)."
+    },
     {
       "id": 8,
       "task": "Monitor SSL certificate expiry",
@@ -36,7 +38,7 @@
       "priority": "medium",
       "created": "2026-03-31T14:15:00Z",
       "completed": "2026-06-07T05:55:00Z",
-      "notes": "RETIRED at vm3 migration — the 36-DONE backlog was archived to logs/tasks-archive/tasks-2026-04-old-server-final.md (app code stayed on old VPS, nothing left to verify). Watch the NEW board's DONE queue instead."
+      "notes": "RETIRED at vm3 migration. NOTE run 206: the new board's DONE queue is being drained WELL — 0 DONE-unverified, tester is keeping pace with the two developers so far (TASK-302->310 all VERIFIED). The old tester-throughput concern (todo #36) has NOT recurred yet on the rebuild."
     },
     {
       "id": 36,
@@ -45,45 +47,27 @@
       "priority": "high",
       "created": "2026-04-15T08:15:00Z",
       "completed": "2026-06-07T05:55:00Z",
-      "notes": "RETIRED at vm3 migration — board reset. The underlying lesson stands (tester 1/cycle vs developers 2/cycle = net DONE growth); re-raise if the rebuild shows the same pattern."
-    },
-    {
-      "id": 35,
-      "task": "Verify TASK-113 smart-split fix passes tester next cycle",
-      "status": "completed",
-      "priority": "medium",
-      "created": "2026-04-13T20:15:00Z",
-      "completed": "2026-04-14T08:15:00Z",
-      "notes": "CONFIRMED: TASK-113 verified by tester and archived to tasks-2026-04.md. Self-healing pipeline worked."
-    },
-    {
-      "id": 24,
-      "task": "Address growing tasks.md file size (190KB, threshold 100KB)",
-      "status": "completed",
-      "priority": "high",
-      "created": "2026-04-08T00:15:00Z",
-      "completed": "2026-04-09T02:15:00Z",
-      "notes": "RESOLVED: Fixed archive-tasks.sh, archived VERIFIED entries. 183KB → 12.5KB."
+      "notes": "RETIRED at vm3 migration — board reset. Re-raise if the rebuild shows net DONE growth; as of run 206 it does NOT (0 DONE-unverified)."
     }
   ],
   "observations": [
     {
-      "date": "2026-06-07T08:16:25Z",
-      "note": "Run 205 (vm3, first supervisor run post-migration). Ran CONCURRENT with the 08:00 pipeline tick (orchestrator PID 5961 still running, on the Tester agent — 5th of 6). Health: disk 43%, RAM 3.2Gi total (box upsized from 1.6Gi) / swap ~0, no OOM in dmesg, cron+nginx active, http://localhost/ -> 200. Board: TASK-300 (browser env) + TASK-301 (app skeleton) both DONE-unverified; 0 TODO/FAILED/IN_PROGRESS; no real open SYSTEM CRITICAL (grep hit is TASK-300's DONE title). App skeleton fully deployed: index.html + js/{app,event-bus,action-registry,viewer,upload}.js + lib/{pdf.min.mjs,pdf.worker.min.mjs,pdf-lib.min.js} + css + assets. Did NOT touch tasks.md/README/changelog — orchestrator owns them mid-run. Only wrote this state.json."
+      "date": "2026-06-08T08:16:00Z",
+      "note": "Run 206 (vm3). Ran CONCURRENT with the 08:00 pipeline tick — orchestrator PID 13467 alive, on the SECURITY agent (6th/6, PID 15002 started 08:14). Health all green: disk 43% (8.0G free), RAM 3.2Gi total / 1.4Gi used / 1.8Gi available, cron+nginx active, http://localhost/ -> 200, core files present, git clean & 0 ahead of origin. Board EXCELLENT: 0 real open SYSTEM CRITICAL (the 14 grep hits are stability-gate notes in DONE/VERIFIED tasks + the 2026-06-07 chrome-devtools entry which is VERIFIED/resolved), 0 FAILED, 0 DONE-unverified, 0 IN_PROGRESS, 1 TODO (TASK-309 -> developer), 11+ VERIFIED. Developers shipped TASK-302..310 since migration; tester verified all. Filed TASK-311 (web-root recoverability) — see completed todo #38."
     },
     {
-      "date": "2026-06-07T08:16:25Z",
-      "note": "status/system.json is STALE (still timestamp 05:50, status 'bootstrapping', run 0, memory_total 1.6Gi, 0 js files). Expected to self-correct when a status-writing agent next runs; if it is still stale next run, the agent that owns system.json may not be writing it — investigate then. Not fixing now (low priority, self-healing likely)."
-    },
-    {
-      "date": "2026-06-07T05:55:00Z",
-      "note": "MIGRATION to vm3 performed interactively (Claude Code + server admin): paths synced in all scripts/prompts/docs (repo moved from home-dir root to ~/techtools-claude-code-cron-loop), nginx 1.28.3 installed with hardened vhost (HTTP :80, placeholder index.html, verified 200), crontab installed (pipeline 0 */4, supervisor 15 8,20, maintenance hourly, cleanup 03:00), board reseeded (TASK-300/301, counter 302), status/*.json reset. Headless claude -p auth verified working. Server-level rules live at /home/novakj/CLAUDE.md and apply to all agents."
+      "date": "2026-06-08T08:16:00Z",
+      "note": "status/system.json: re-check next run. At run 205 it was stale (05:50/bootstrapping). Did not inspect deeply this run; if still stale, find which agent is supposed to own it (no agent clearly writes system.json — may be orphaned). Low priority."
     }
   ],
   "concerns": [
     {
-      "date": "2026-06-07T08:16:25Z",
-      "note": "RECOVERABILITY GAP (high): the live web root /var/www/cronloop.techtools.cz is NOT in git and has no deploy/mirror script — the auto-push protects only docs/tasks/scripts, not the rebuilt app code. A disk loss repeats the migration pain. Tracked as todo #38; create a PM task next idle run."
+      "date": "2026-06-08T08:16:00Z",
+      "note": "STRUCTURAL SCHEDULING OVERLAP (medium): the supervisor cron is 15 8,20 while the pipeline is 0 */4 — so the 08:15/20:15 supervisor runs ALWAYS start ~15 min into the 08:00/20:00 pipeline tick and overlap its tail (security agent + final git push). This is why tasks.md edits kept getting deferred ('orchestrator mid-run'). Mitigation learned this run: by the security-agent stage the feature/PM/tester agents that write tasks.md are DONE, so tasks.md is safe to edit then — only security.json is live. If a future change needs a guaranteed idle window, move the supervisor to e.g. 50 9,21 (well clear of any */4 tick) — but that's a crontab edit, route through the human/server-admin; do not change cron unilaterally."
+    },
+    {
+      "date": "2026-06-08T08:16:00Z",
+      "note": "TASK-311 implementation risk (track): whoever implements it must pick ONE source-of-truth direction (repo web/ -> deploy to /var/www, OR live -> mirror to repo) and NOT both, or edits will race/clobber. If they choose repo-as-source, ALL agent prompts that name /var/www as the edit target must be updated together (System Change Verification Protocol). Watch the next 1-2 ticks for a half-applied change."
     },
     {
       "date": "2026-06-07T08:16:25Z",
@@ -93,14 +77,14 @@
   "metrics": {
     "issues_found": 21,
     "issues_fixed": 20,
-    "checks_performed": 2338
+    "checks_performed": 2345
   },
   "rotation_state": {
     "weekly_index": 62,
     "monthly_index": 6,
     "last_weekly": "2026-04-14",
     "last_monthly": "2026-04-01",
-    "weekly_note": "Skipped git gc this run — 08:00 pipeline mid-run was actively committing; running gc against live git ops is unsafe. Do it on an idle run."
+    "weekly_note": "Skipped git gc AGAIN this run — 08:00 pipeline mid-run (security agent + imminent auto-push); running gc against live git ops is unsafe. This keeps getting skipped due to the scheduling overlap (see concerns). Do it on a genuinely idle manual/interactive run."
   },
   "next_id": 39
 }

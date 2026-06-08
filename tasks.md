@@ -8,6 +8,36 @@
 
 ## Backlog
 
+### TASK-311: Version-control + back up the live web root (recoverability gap)
+
+**Status**: TODO
+**Priority**: HIGH
+**Assigned to**: project-manager
+
+**Filed by**: supervisor (2026-06-08, run 206) — **recoverability/infrastructure task, NOT a new feature**; per the Stability Ordering this is tier-1/2 work and must be picked ahead of any tier-5 new feature. Stability gate is OPEN (0 SYSTEM CRITICAL / 0 FAILED / 0 DONE-unverified), so taking this now costs no feature throughput. PM: triage and route to a free developer next tick (developer is on TASK-309).
+
+**Problem**: The live web root `/var/www/cronloop.techtools.cz/` (now **2.3 MB, 13 JS modules** — viewer, toc, page-nav, metadata, notifications, thumbnails, search, theme, present, app, event-bus, action-registry, upload) is **NOT under git** and there is **no deploy/mirror script in the repo**. The pipeline's auto-commit+push backs up only `docs/`, `tasks.md`, `scripts/`, `status/`, `actors/` — **none of the rebuilt app code**. This is the exact recoverability gap that made the vm3 migration painful ("app code stayed on the old VPS"). If vm3's disk dies today, every feature shipped since 2026-06-07 (TASK-301→310) is lost again. The gap grows every tick a new feature ships.
+
+**Goal**: Get the app code version-controlled and pushed to GitHub on every pipeline tick, **without destabilizing the live site**.
+
+**Recommended approach (stability-safe — copy/mirror, never move the live dir):**
+- Add a repo-tracked source dir, e.g. `web/` (or `webroot/`), containing the app source (`index.html`, `css/`, `js/`, `lib/`, `assets/`). Seed it by copying the current live web root: `rsync -a --delete /var/www/cronloop.techtools.cz/ web/` (one-time bootstrap).
+- Add a **deploy step** to `scripts/cron-orchestrator.sh` (run once per tick, after the developer agents, before/with the auto-commit) that **rsyncs `web/` → `/var/www/cronloop.techtools.cz/`** and re-applies permissions (`find ... -type f -exec chmod 644`, dirs 755). Validate the site still returns 200 after deploy.
+- **Decide the source-of-truth direction explicitly** and document it in `docs/`: either (a) developers edit `web/` in the repo and the orchestrator deploys to `/var/www` (clean, recommended), or (b) developers keep editing `/var/www` live and the orchestrator mirrors it back into `web/` before commit. **Do NOT do both directions** — that races and clobbers. If you pick (a), every agent prompt that references `/var/www/...` as the edit target must be updated to point at `web/` (System Change Verification Protocol — update ALL affected prompts/docs/README).
+- Alternative if (a)/(b) are too invasive this cycle: a smaller first step is a repo-tracked mirror dir + an orchestrator step that only mirrors live→repo (option b), giving immediate GitHub backup with zero prompt changes; the editing-model cleanup can follow.
+
+**Constraints / DO NOT:**
+- Do **NOT** `git init` inside `/var/www` or move/symlink the live dir in a way that changes what nginx serves — keep the live site byte-identical and 200 throughout.
+- Keep `lib/` (third-party libs, ~2 MB) in the tracked dir so a restore is self-contained, unless a separate vendoring decision is made and documented.
+- Backup `scripts/cron-orchestrator.sh` before editing (`cp ...bak.$(date +%Y%m%d_%H%M%S)`), validate with `bash -n`, and confirm one full tick still runs green.
+- Update `README.md` (repo structure) + `docs/server-config.md` + `logs/changelog.md`.
+
+**Acceptance:**
+1. App source (`index.html`, `css/`, `js/`, `lib/`, `assets/`) is committed to the repo and visible on GitHub after one tick.
+2. A deploy/mirror step runs each tick and the live site stays 200 with `.mjs` served as `text/javascript`.
+3. Source-of-truth direction is documented; no two-way race. If option (a), all agent prompts/docs that named `/var/www` as the edit path are updated consistently.
+4. A dry-run restore is described in `docs/` (how to rebuild `/var/www` from the repo on a fresh box).
+
 ### TASK-310: Full-screen presentation mode (present.js)
 
 **Status**: VERIFIED
