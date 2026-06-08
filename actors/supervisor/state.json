@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-06-08T08:16:00Z",
-  "runs_count": 206,
+  "last_run": "2026-06-08T20:17:02Z",
+  "runs_count": 207,
   "current_todos": [],
   "completed_todos": [
     {
@@ -52,6 +52,22 @@
   ],
   "observations": [
     {
+      "date": "2026-06-08T20:17:02Z",
+      "note": "Run 207 (vm3). Ran CONCURRENT with the 20:00 pipeline tick (known overlap) — orchestrator PID 21722 alive, on DEVELOPER2 (4th/6) at check time. Health all green: disk 43% (8.0G free), RAM 3.2Gi/1.5Gi used/1.8Gi avail, cron+nginx active, http://localhost/ -> 200, core files present, git clean. Board excellent: 0 SYSTEM CRITICAL, 0 FAILED, 0 IN_PROGRESS, 0 TODO, 1 DONE (TASK-314 highlight annotation, awaiting tester this tick), VERIFIED tasks auto-archived to logs/tasks-archive/tasks-2026-06.md (maintenance.sh — explains the drop from 11+ to 0 VERIFIED on the active board, expected). Stability gate OPEN. task-counter at 315."
+    },
+    {
+      "date": "2026-06-08T20:17:02Z",
+      "note": "FOLLOWUP #38 RESOLVED: TASK-311 (web-root backup/recoverability) is DONE + VERIFIED + archived. Confirmed on disk: web/ tracked in git (23 files), on origin/main; scripts/mirror-webroot.sh (755) wired at cron-orchestrator.sh:90 as one-way live->repo mirror (|| WARNING guard); docs/server-config.md documents live root = single source of truth, no two-way race. My implementation-risk concern was honoured (they picked ONE direction). web/ vs live currently DIFFER only because the 20:00 tick added annotate.js (20:06, developer/TASK-314) + split.js (20:14, developer2 in-flight) — both pre-mirror; mirror runs end-of-tick at line 90. NOT a gap. Concern closed."
+    },
+    {
+      "date": "2026-06-08T20:17:02Z",
+      "note": "FIXED the stale status/system.json (open item from run 206). It still read run 0 / 'bootstrapping' / 'placeholder' / js_files_deployed 0 from the 2026-06-07 interactive setup. RESOLVED the ownership question too: grep shows ONLY actors/supervisor/prompt.md references system.json — the SUPERVISOR owns it (not orphaned). Overwrote it with current real state (status ok, run 207, 17 JS files deployed, 200, security secure w/ 1 low gap SEC-002, webroot-backup note). Safe: my file, OVERWRITE semantics, no other writer = no race. Going forward I should refresh it each run."
+    },
+    {
+      "date": "2026-06-08T20:17:02Z",
+      "note": "security.json fresh (16:30 today), status secure, 0 findings. One tracked low gap: SEC-002 — client-side PDF-bomb DoS via uncapped per-page render loops (viewer.js loadDocument/renderAll + thumbnails.js renderThumbnails); client-only, no server impact; fix = a developer task (shared page-count cap at viewer.js load boundary), documented in docs/security-guide.md. NOT supervisor's to implement; watch that a future dev task picks it up. Not an emergency."
+    },
+    {
       "date": "2026-06-08T08:16:00Z",
       "note": "Run 206 (vm3). Ran CONCURRENT with the 08:00 pipeline tick — orchestrator PID 13467 alive, on the SECURITY agent (6th/6, PID 15002 started 08:14). Health all green: disk 43% (8.0G free), RAM 3.2Gi total / 1.4Gi used / 1.8Gi available, cron+nginx active, http://localhost/ -> 200, core files present, git clean & 0 ahead of origin. Board EXCELLENT: 0 real open SYSTEM CRITICAL (the 14 grep hits are stability-gate notes in DONE/VERIFIED tasks + the 2026-06-07 chrome-devtools entry which is VERIFIED/resolved), 0 FAILED, 0 DONE-unverified, 0 IN_PROGRESS, 1 TODO (TASK-309 -> developer), 11+ VERIFIED. Developers shipped TASK-302..310 since migration; tester verified all. Filed TASK-311 (web-root recoverability) — see completed todo #38."
     },
@@ -75,16 +91,16 @@
     }
   ],
   "metrics": {
-    "issues_found": 21,
-    "issues_fixed": 20,
-    "checks_performed": 2345
+    "issues_found": 22,
+    "issues_fixed": 21,
+    "checks_performed": 2360
   },
   "rotation_state": {
     "weekly_index": 62,
     "monthly_index": 6,
     "last_weekly": "2026-04-14",
     "last_monthly": "2026-04-01",
-    "weekly_note": "Skipped git gc AGAIN this run — 08:00 pipeline mid-run (security agent + imminent auto-push); running gc against live git ops is unsafe. This keeps getting skipped due to the scheduling overlap (see concerns). Do it on a genuinely idle manual/interactive run."
+    "weekly_note": "Skipped git gc AGAIN (run 207) — 20:00 pipeline mid-run (developer2 active, more agent commits imminent); gc against live git ops is unsafe. Chronically skipped due to the 15-min scheduling overlap (see concerns). Do it on a genuinely idle manual/interactive run, or move supervisor cron to a clear slot (route through human)."
   },
   "next_id": 39
 }

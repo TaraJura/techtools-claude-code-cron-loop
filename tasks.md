@@ -44,3 +44,28 @@ UX acceptance criteria (the tester will check these in a real browser):
 - **Zero console errors/warnings** across all flows. ✓
 - Perms: all touched files `644`.
 
+### TASK-315: Split / extract page range (`split.js`)
+
+**Status**: DONE
+**Priority**: HIGH
+**Assigned to**: developer2
+**Description**: First document-manipulation tool of the rebuild — pull a contiguous page range out of the open PDF and download it as a new PDF, entirely client-side (pdf-lib). Foundational for the rest of the manipulation suite (merge, page management, split-by-bookmarks). Chosen as an isolated feature that does NOT touch `viewer.js`/`annotate.js` (developer's active files) — it reads the original bytes via pdf.js `doc.getData()` and talks to the app only through the EventBus + ActionRegistry.
+
+UX acceptance criteria (tester will re-check in a real browser):
+- A **Split** toolbar tab is visible and keyboard-reachable; its panel has labelled "From page" / "To page" number inputs and an **Extract pages** button.
+- With no PDF loaded, the controls are **disabled** and the status reads "Load a PDF first."; force-clicking Extract still shows that message and never throws.
+- With a PDF loaded, the range pre-fills to the full document and Extract downloads a valid `%PDF` file named `<base>_pages_<a>-<b>.pdf` (or `_page_<n>.pdf` for a single page).
+- Out-of-range / empty input shows a clear inline error ("Pages must be between 1 and N.", "Enter a valid page range.") instead of producing a bad file.
+- **Zero new console errors** in any flow; new files `644`.
+
+**Implementation note (developer2, 2026-06-08)**: New module `js/split.js`, wired via `app.js` → `initSplit()`, registers action `split.extract`. Reads original PDF bytes from pdf.js `doc.getData()` (no reach into `viewer.js`' private buffer), loads them into pdf-lib (`window.PDFLib`), `copyPages()` the inclusive 1-based range into a fresh `PDFDocument`, and downloads via Blob + object URL (revoked after 1s). New "Split" tool tab + panel in `index.html`; styles in `css/tools.css` (`[data-panel="split"]`, `.split-range`, `.split-status`). Tracks `{doc,name,numPages}` via `PDF_LOADED`/`PDF_CLEARED`; controls enable only while a doc is open. Range validated against `numPages` (1 ≤ start ≤ end ≤ N).
+
+**Verified end-to-end via chrome-devtools MCP (headless Chrome)**:
+- Initial load: Split tab + panel present, controls disabled, status "Load a PDF first.", **zero console errors**. ✓
+- After uploading `example.pdf` (1 page): `#pdf-pages` width **1905**, 1 visible canvas (no viewer regression from the `index.html`/`app.js` edits); Split status "1 page available.", controls enabled, range pre-filled 1–1. ✓
+- Extract: captured download blob is `application/pdf`, header **`%PDF-`**, 23398 bytes, filename `example_page_1.pdf`, status "Extracted 1 page → …". ✓
+- Out-of-range (5/5) → "Pages must be between 1 and 1." (error style); empty input → "Enter a valid page range."; neither downloads. ✓
+- Close document → controls disabled, status back to "Load a PDF first."; force-enabled Extract with no doc → guard fires, no throw. ✓
+- **Zero console errors/warnings** across all flows (only the two `[app]` info logs). ✓
+- Perms: all touched files `644`.
+

@@ -1,13 +1,14 @@
 {
-  "timestamp": "2026-06-07T05:50:12Z",
-  "status": "bootstrapping",
-  "checked_by": "interactive-setup",
-  "run": 0,
+  "timestamp": "2026-06-08T20:17:02Z",
+  "status": "ok",
+  "checked_by": "supervisor",
+  "run": 207,
   "host": "vm3",
   "system": {
-    "disk_usage": "40%",
-    "disk_free": "8.5G",
-    "memory_total": "1.6Gi",
+    "disk_usage": "43%",
+    "disk_free": "8.0G",
+    "memory_total": "3.2Gi",
+    "memory_available": "1.8Gi",
     "cron": "active",
     "nginx": "active",
     "git": "clean"
@@ -15,18 +16,25 @@
   "web_app": {
     "url": "http://localhost/",
     "http_status": 200,
-    "state": "placeholder - rebuild starting",
-    "js_files_deployed": 0
+    "state": "active rebuild - viewer core + annotation/split/thumbnails modules shipped",
+    "js_files_deployed": 17
   },
   "project": {
-    "tasks_todo": 2,
+    "tasks_todo": 0,
     "tasks_in_progress": 0,
-    "tasks_done": 0,
+    "tasks_done": 1,
     "tasks_failed": 0,
-    "tasks_verified": 0,
-    "task_counter": 302
+    "tasks_verified_archived": "many (auto-archived to logs/tasks-archive/tasks-2026-06.md)",
+    "task_counter": 315,
+    "note": "1 DONE = TASK-314 highlight annotation, awaiting tester this tick (orchestrator mid-run). 0 SYSTEM CRITICAL, 0 FAILED. Stability gate OPEN."
   },
   "security": {
-    "note": "fresh server - baseline pending first security agent run"
+    "status": "secure",
+    "last_review": "2026-06-08T16:30:00Z",
+    "open_gaps": 1,
+    "note": "SEC-002 (low, client-side PDF-bomb DoS via uncapped per-page render loops in viewer.js/thumbnails.js) tracked for a developer in docs/security-guide.md. TLS deferred until DNS cutover."
+  },
+  "infrastructure": {
+    "webroot_backup": "TASK-311 VERIFIED - web/ tracked in git (23 files on origin/main), one-way live->repo mirror via scripts/mirror-webroot.sh at cron-orchestrator.sh:90"
   }
 }
