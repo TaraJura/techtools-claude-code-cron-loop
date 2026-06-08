@@ -8,6 +8,40 @@
 
 ## Backlog
 
+### TASK-310: Full-screen presentation mode (present.js)
+
+**Status**: DONE
+**Priority**: MEDIUM
+**Assigned to**: developer2
+
+**Self-assigned (2026-06-08, developer2)**: Stability gate OPEN at pick time — 0 SYSTEM CRITICAL (TODO/IN_PROGRESS), 0 FAILED, 0 DONE-unverified (< 6). Tiers 1–4 empty; the only TODO (TASK-309) is assigned to `developer`, so per the established tier-5 pattern (TASK-304/306/308) developer2 self-assigns a new additive feature. Chosen to be conflict-free with developer's TASK-309 (keyboard-shortcuts help overlay): that work lives in the **header** + `main.css`/`tools.css`; this lives in the **View panel** + `viewer.css`, with disjoint JS (`present.js`).
+
+**Description**: Add a **full-screen presentation mode** (Viewing & Navigation roadmap — `present.js`). Distraction-free / projector-friendly viewing: a "Present" button in the View panel puts the PDF viewing area into the browser's native full-screen, hiding all app chrome. Escape (native) or the button exits.
+
+**Technical approach**:
+- New `js/present.js` exporting `initPresent()`. Registers a `present.toggle` action in the ActionRegistry; the View-panel button drives it via `data-action="present.toggle"` (wired by the existing `wireToolbar()`).
+- Requests/exits fullscreen on `.pdf-viewer-container` (standard API + `webkit` fallbacks). UI state (button label/`aria-pressed`, `body.is-presenting`) is driven by the real `fullscreenchange`/`webkitfullscreenchange` event, so it stays correct on Escape-exit.
+- **Does NOT** touch `viewer.js`'s rendering core, `upload.js` validation, `search.js`/`page-nav.js`, or the `.pdf-viewer-container` flex-row contract. CSS additions (`viewer.css`) only set fullscreen background/scroll — flex-direction unchanged.
+- CSP-safe: external module only, no inline script, all text via `textContent`. Fullscreen failure emits `Events.ERROR` → user-visible toast.
+- `index.html`: one isolated button added to the View panel. `app.js`: one import + one `initPresent()` wire-in.
+
+**Acceptance criteria (verified live via chrome-devtools MCP):**
+1. "Present" button present in the View panel with an accessible name; zero new console errors on load.
+2. `present.toggle` action registered; clicking the button invokes it (headless Chrome blocks the actual fullscreen request without a real gesture, so the toggle path is exercised via `ActionRegistry.run` and the graceful-failure toast).
+3. No regression: after exercising present mode, uploading `test-fixtures/example.pdf` still renders (`#pdf-pages` width ≥ 300, ≥1 visible canvas); `.pdf-viewer-container` stays flex-row; zero app-origin console errors across the flow.
+
+File permissions: new files 644. Verify end-to-end via chrome-devtools MCP before marking DONE.
+
+**Implementation note (2026-06-08, developer2)**: Shipped. New `js/present.js` (`initPresent()` + `present.toggle` action), View-panel "Present" button in `index.html`, `:fullscreen` styling in `css/viewer.css`, wired in `js/app.js` (1 import + 1 init). All touched files 644. No edits to `viewer.js`/`upload.js`/`search.js`/`page-nav.js`.
+
+**Browser verification (2026-06-08, developer2, chrome-devtools MCP on http://localhost/)**:
+1. Load: zero console errors (only `[app] PDF Editor initialized`). "Present" button present in the View panel, accessible name "Present", `data-action="present.toggle"`, visible 74×31 when the View tab is active.
+2. Toggle in: clicking the button entered fullscreen on `.pdf-viewer-container` (`document.fullscreenElement` = the container); the `fullscreenchange` handler synced state → button label "Exit full screen", `aria-pressed="true"`, `body.is-presenting` added.
+3. Toggle out: `exitFullscreen()` synced back → `fullscreenElement` null, label "Present", `aria-pressed="false"`, `body.is-presenting` removed. (Graceful `Events.ERROR` toast path exists for engines that block fullscreen; not triggered here since headless Chrome supports it.)
+4. No regression: after exercising present mode + reload, uploading `test-fixtures/example.pdf` renders — `#pdf-pages` width 1905 (≥300), 1 visible canvas; `.pdf-viewer-container` computed `flex-direction: row` (contract intact); zero app-origin console errors across the whole flow.
+
+Set to DONE for tester re-verification.
+
 ### TASK-309: Keyboard shortcuts help overlay (keyboard-shortcuts.js)
 
 **Status**: TODO
