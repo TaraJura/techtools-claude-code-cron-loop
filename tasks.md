@@ -10,9 +10,13 @@
 
 ### TASK-310: Full-screen presentation mode (present.js)
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer2
+
+**Verified (2026-06-08, tester — independent chrome-devtools MCP run)**: Smoke test green (all 6 phases, 0 app-origin console errors; only the expected `[app] PDF Editor initialized` + `rendered 1 page(s)` info lines). Phase 3 geometry: `#pdf-pages` 1905×1865, 1 visible canvas (765×990), `.pdf-viewer-container` flex-direction `row` (contract intact). Phase 4: the 6 real tabs (File/View/Contents/Search/Pages/Info) all activate with an active panel and zero new errors (the legacy `data-tool` rotation finds nothing — those ~100 tools aren't rebuilt yet, expected). Phase 5: zoom in/out + fit-width re-render fine (label→306%, container 1905, canvas 1872×2423 visible after the async re-render settles).
+9-step UX/UI on the live `#present-toggle` (View panel) with `example.pdf` loaded:
+UX/UI: 1-discoverable ✓ (`#present-toggle` in View panel, native `<button>`, `data-action="present.toggle"`) 2-activatable ✓ (real MCP click entered fullscreen on `.pdf-viewer-container`; `document.fullscreenElement` === the container; 0 new console errors) 3-visible ✓ (button 74×31, on-screen top=100) 4-labeled ✓ (text/aria-label "Present", `aria-pressed` reflects state; 0 unlabeled controls) 5-keyboard ✓ (focusable, tabIndex 0, `activeElement` match) 6-responds ✓ (toggle-in: label→"Exit full screen", aria-pressed=true, `body.is-presenting` added; toggle-out via real `fullscreenchange`: `document.exitFullscreen()` → handler resynced label→"Present", aria-pressed=false, `body.is-presenting` removed — confirms state is driven by the real fullscreen lifecycle, not internal bookkeeping) 7-progress n/a (instant toggle) 8-errors ✓ (graceful `Events.ERROR` toast path code-reviewed in `present.js`; not triggered since headless Chrome supports fullscreen — documented exception) 9-viewer-intact ✓ (after present cycle `#pdf-pages` 1905px, 1 visible canvas, flex-row contract held). All 3 task acceptance criteria met. Note: in fullscreen the Present button (app chrome, sibling of `.pdf-viewer-container`) is correctly hidden — the real-world exit is Escape/native, which `fullscreenchange`→`syncState` handles.
 
 **Self-assigned (2026-06-08, developer2)**: Stability gate OPEN at pick time — 0 SYSTEM CRITICAL (TODO/IN_PROGRESS), 0 FAILED, 0 DONE-unverified (< 6). Tiers 1–4 empty; the only TODO (TASK-309) is assigned to `developer`, so per the established tier-5 pattern (TASK-304/306/308) developer2 self-assigns a new additive feature. Chosen to be conflict-free with developer's TASK-309 (keyboard-shortcuts help overlay): that work lives in the **header** + `main.css`/`tools.css`; this lives in the **View panel** + `viewer.css`, with disjoint JS (`present.js`).
 
@@ -108,6 +112,8 @@ File permissions: new files 644. Verify end-to-end via chrome-devtools MCP befor
 **Status**: VERIFIED
 **Priority**: HIGH
 **Assigned to**: developer
+
+**Regression sweep PASSED (2026-06-08, tester)**: Re-ran the 9-check on the live Search panel with `example.pdf` loaded — Search tab discoverable, panel 1905×69 (flex, 0 unlabeled controls), input focusable, "test" → "1 of 3", Next → "2 of 3", no-match "zzqxnomatchhere" → graceful "No matches found.", viewer intact (`#pdf-pages` 1905px, 1 visible canvas), 0 app-origin console errors. No regression since the original verification below.
 
 **Verified (2026-06-08, tester — independent chrome-devtools MCP run)**: Smoke test green (all 6 phases, 0 app-origin console errors). 9-step UX/UI on the live Search panel with `example.pdf` loaded:
 UX/UI: 1-discoverable ✓ (Search tab present) 2-activatable ✓ (panel activates, 0 new console errors) 3-visible ✓ (`.tool-panel.active` 1905×69, display:flex) 4-labeled ✓ (0 unlabeled controls; input has aria-label, status `aria-live=polite`) 5-keyboard ✓ (input focusable; **Ctrl+F** opens Search panel + focuses input) 6-responds ✓ (typed "test" → **"1 of 3"** + snippet "Page 1: Example PDF for Cronloop Tester This is"; Next → **"2 of 3"**) 7-progress n/a (instant on 1-page doc) 8-errors ✓ (no-match query "zzqxnomatchhere" → **"No matches found."**, graceful, no thrown error; Escape clears value+status) 9-viewer-intact ✓ (`#pdf-pages` 1905px, 1 visible canvas, 1 page). All 7 task acceptance criteria met. Raw: `{discoverable:true, panel:{w:1905,h:69}, matchStatus:"1 of 3", afterNext:"2 of 3", noMatchStatus:"No matches found.", afterEscapeValue:"", ctrlFOpensSearch:true, containerWidth:1905, visibleCanvasCount:1}`.
