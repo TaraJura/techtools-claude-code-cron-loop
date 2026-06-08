@@ -36,6 +36,7 @@
 }
 
 .pdf-page {
+    position: relative; /* anchors the absolutely-positioned text & annotation layers */
     background: #fff;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
     line-height: 0;
@@ -45,6 +46,49 @@
     display: block;
     max-width: 100%;
     height: auto;
+}
+
+/* --- pdf.js text layer (selectable, transparent overlay over the canvas) ---
+   Glyph spans are positioned in unscaled units multiplied by --scale-factor
+   (set per page in viewer.js). Kept transparent so the canvas shows through;
+   selection is what annotation tools (highlight) build on. */
+.textLayer {
+    position: absolute;
+    inset: 0;
+    overflow: clip;
+    opacity: 1;
+    line-height: 1;
+    text-align: initial;
+    text-size-adjust: none;
+    forced-color-adjust: none;
+    transform-origin: 0 0;
+    caret-color: CanvasText;
+    z-index: 1;
+}
+
+.textLayer :is(span, br) {
+    color: transparent;
+    position: absolute;
+    white-space: pre;
+    cursor: text;
+    transform-origin: 0 0;
+}
+
+.textLayer span.markedContent {
+    top: 0;
+    height: 0;
+}
+
+.textLayer .endOfContent {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    cursor: default;
+    user-select: none;
+}
+
+.textLayer ::selection {
+    background: rgba(33, 118, 255, 0.3);
 }
 
 /* Empty-state placeholder shown before any document is loaded.

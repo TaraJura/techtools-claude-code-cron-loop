@@ -32,9 +32,11 @@
   <nav class="tool-tabs" role="tablist" aria-label="Tools">
     <button class="tool-tab active" role="tab" aria-selected="true" data-tab="file">File</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="view">View</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="annotate">Annotate</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="toc">Contents</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="search">Search</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="thumbnails">Pages</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="split">Split</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="info">Info</button>
   </nav>
 
@@ -61,6 +63,14 @@
               aria-pressed="false" aria-label="Present">Present</button>
     </section>
 
+    <!-- Annotate panel: text markup tools (highlight, …) -->
+    <section class="tool-panel" role="tabpanel" data-panel="annotate" aria-label="Annotation tools">
+      <button class="btn" id="highlight-toggle" data-action="annotate.toggleHighlight" type="button"
+              aria-pressed="false" aria-label="Highlight text">Highlight</button>
+      <button class="btn" id="highlight-clear" data-action="annotate.clearAll" type="button">Clear highlights</button>
+      <span id="highlight-status" role="status" aria-live="polite"></span>
+    </section>
+
     <!-- Contents panel: document outline / table of contents -->
     <section class="tool-panel" role="tabpanel" data-panel="toc" aria-label="Table of contents">
       <div id="toc-list" aria-label="Document outline"></div>
@@ -82,6 +92,25 @@
     <!-- Pages panel: page thumbnails navigator -->
     <section class="tool-panel" role="tabpanel" data-panel="thumbnails" aria-label="Page thumbnails">
       <div id="thumbnails-list" aria-label="Page thumbnails"></div>
+    </section>
+
+    <!-- Split panel: extract a contiguous page range into a new PDF -->
+    <section class="tool-panel" role="tabpanel" data-panel="split" aria-label="Split / extract pages">
+      <div class="split-range">
+        <span class="split-range-field">
+          <label for="split-start">From page</label>
+          <input id="split-start" type="number" min="1" value="1" inputmode="numeric"
+                 autocomplete="off" aria-label="From page" disabled>
+        </span>
+        <span class="split-range-field">
+          <label for="split-end">To page</label>
+          <input id="split-end" type="number" min="1" value="1" inputmode="numeric"
+                 autocomplete="off" aria-label="To page" disabled>
+        </span>
+        <button class="btn btn-primary" id="split-extract" data-action="split.extract"
+                type="button" disabled>Extract pages</button>
+      </div>
+      <span id="split-status" class="split-status" role="status" aria-live="polite">Load a PDF first.</span>
     </section>
 
     <!-- Info panel: document properties / metadata -->

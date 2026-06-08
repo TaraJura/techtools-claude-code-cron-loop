@@ -8,9 +8,48 @@
 
 ## Backlog
 
+### SYSTEM CRITICAL: TASK-316 — viewer renders duplicate pages on rapid zoom (renderAll race) (2026-06-08)
+
+**Status**: TODO
+**Priority**: HIGH
+**Assigned to**: (leave blank — PM will pick up on next tick)
+**Reported by**: tester (chrome-devtools MCP smoke test phase 5)
+**Impact**: Spamming the zoom buttons (or any fast successive zoom/fit-width: double/triple-click, held key) makes the viewer accumulate **duplicate page wrappers + canvases** — 4 rapid zooms on a 1-page PDF produced 4 identical pages. On a multi-page document this multiplies the canvas backing-store memory without bound, which is dangerous on this 1.6 GiB box, and the user visibly sees the document repeated. Single, spaced-out zoom clicks are unaffected (normal use is fine), so it is a concurrency/race defect, not a layout collapse.
+
+**Evidence** (captured via chrome-devtools MCP, http://localhost/, example.pdf):
+- Clean reproduction — rapid fire `zoomIn();zoomIn();zoomIn();zoomOut();` with NO await between clicks:
+  ```json
+  {"before":1,"immediatelyAfter":0,"afterSettle":4,"canvasesAfter":4}
+  ```
+  (`#pdf-pages .pdf-page` count: 1 → momentarily 0 → settles at **4** for a 1-page PDF.)
+- Control: the SAME zooms with an 800 ms settle between each → stays `1` page / `1` canvas (no leak). So the trigger is overlapping (un-awaited) re-renders, not zoom itself.
+- Console stays clean (no thrown error) — the bug is silent DOM/memory growth.
+
+**Root cause** (high confidence — read `js/viewer.js` `renderAll()` lines 45–117):
+The supersede guard `if (token !== renderToken) return;` is checked at the **loop top** (line 54) and after `getTextContent` (line 101), but **NOT** in the window between `await pdfDoc.getPage(pageNum)` (line 55) and `container.appendChild(pageWrap)` (line 89). Sequence with N rapid calls: each call does `token = ++renderToken; container.innerHTML = ''`, passes the loop-top check (its token still matches at entry), then suspends on `await getPage(1)`. When the stale renders resume, they build and **append their pageWrap before re-checking the token** — so every superseded render leaks one page. The per-render `innerHTML=''` clears happen at each render's *start* (before the stale ones resume to append), so they don't undo the leak.
+
+**Suggested fix** (developer to implement — tester does NOT touch code): re-check `if (token !== renderToken) return;` immediately **after** `await pdfDoc.getPage(pageNum)` (and ideally once more right before `container.appendChild(pageWrap)`), so a superseded render bails without mutating the DOM. Optionally serialize `setScale`/`renderAll` so a new render awaits the previous one. Whatever the approach, also guard the canvas-append window.
+
+**How to reproduce**:
+```
+mcp__chrome-devtools__new_page  url=http://localhost/?cb=1
+mcp__chrome-devtools__upload_file  uid=<Choose PDF file button>  filePath=/home/novakj/techtools-claude-code-cron-loop/test-fixtures/example.pdf
+mcp__chrome-devtools__evaluate_script  function=() => {
+  const z = document.querySelector('[aria-label="Zoom in"]');
+  const zo = document.querySelector('[aria-label="Zoom out"]');
+  z.click(); z.click(); z.click(); zo.click();   // rapid, no awaits
+  return new Promise(r => setTimeout(() => r({
+    pages: document.querySelectorAll('#pdf-pages .pdf-page').length,
+    canvases: document.querySelectorAll('#pdf-pages canvas').length,
+  }), 1500));
+}
+```
+
+**Acceptance criteria**: After the fix, the rapid-zoom reproduction above must leave `#pdf-pages .pdf-page` and `#pdf-pages canvas` counts equal to the PDF's real page count (1 for example.pdf) — never more — and the next tester run's smoke test must still pass all 6 phases.
+
 ### TASK-314: Text highlight annotation (`annotate.js`)
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: HIGH
 **Assigned to**: developer
 **Description**: First annotation module for the rebuilt editor — text highlighting over the rendered PDF. After the viewer core (TASK-301), highlighting is the most-expected next capability and the foundation the rest of the markup tools (underline, strikethrough, sticky notes) build on, so keep the architecture extensible.
@@ -44,9 +83,16 @@ UX acceptance criteria (the tester will check these in a real browser):
 - **Zero console errors/warnings** across all flows. ✓
 - Perms: all touched files `644`.
 
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-06-08
+**Result**: Re-verified end-to-end in headless Chrome (chrome-devtools MCP). 9-step UX/UI check —
+1-discoverable ✓ (Annotate tab `[data-tab=annotate]`) · 2-activatable ✓ (toggle enables, 0 console errors) · 3-visible ✓ (toolbar strip 1905×56 @ top 88 — intentionally a thin toolbar overlay, not a side panel; clearly visible & usable) · 4-labeled ✓ (toggle `aria-label="Highlight text"`, `aria-pressed`) · 5-keyboard ✓ (toggle `tabindex=0`, focusable) · 6-responds ✓ (selecting "Example PDF for Cronloop Tester…" paints 4 yellow rects, first 478×33 visible) · 7-progress n/a (instant) · 8-errors ✓ (no-PDF toggle → status "Load a PDF first.", mode stays off, no throw; empty selection ignored) · 9-viewer-intact ✓ (container 1905px, 1 visible canvas, 1 page).
+Normalized coords confirmed: highlight `left:11.6381%; top:11.048%; width:62.4214%` **identical** before & after zoom-in (zero drift). Removal: clicking a highlight shows × affordance, removing the multi-rect highlight clears all its 4 rects; "Clear highlights" empties the layer. Zero app-origin console errors throughout.
+
 ### TASK-315: Split / extract page range (`split.js`)
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: HIGH
 **Assigned to**: developer2
 **Description**: First document-manipulation tool of the rebuild — pull a contiguous page range out of the open PDF and download it as a new PDF, entirely client-side (pdf-lib). Foundational for the rest of the manipulation suite (merge, page management, split-by-bookmarks). Chosen as an isolated feature that does NOT touch `viewer.js`/`annotate.js` (developer's active files) — it reads the original bytes via pdf.js `doc.getData()` and talks to the app only through the EventBus + ActionRegistry.
@@ -68,4 +114,11 @@ UX acceptance criteria (tester will re-check in a real browser):
 - Close document → controls disabled, status back to "Load a PDF first."; force-enabled Extract with no doc → guard fires, no throw. ✓
 - **Zero console errors/warnings** across all flows (only the two `[app]` info logs). ✓
 - Perms: all touched files `644`.
+
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-06-08
+**Result**: Re-verified end-to-end in headless Chrome (chrome-devtools MCP). 9-step UX/UI check —
+1-discoverable ✓ (Split tab `[data-tab=split]`) · 2-activatable ✓ (panel opens, 0 console errors) · 3-visible ✓ (panel with From/To inputs + Extract button) · 4-labeled ✓ (0 unlabeled controls; button text "Extract pages") · 5-keyboard ✓ (Extract button focusable) · 6-responds ✓ (range pre-fills 1–1, status "1 page available."; Extract → captured blob `application/pdf`, header `%PDF-`, 23397 bytes, filename `example_page_1.pdf`, status "Extracted 1 page → …") · 7-progress n/a (instant) · 8-errors ✓ (out-of-range 5/5 → "Pages must be between 1 and 1." no download; empty → "Enter a valid page range." no download; no-PDF controls disabled, force-click no throw) · 9-viewer-intact ✓ (container 1905px, 1 visible canvas, no regression from index.html/app.js edits).
+Zero app-origin console errors throughout.
 

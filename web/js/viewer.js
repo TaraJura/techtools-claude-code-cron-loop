@@ -58,6 +58,15 @@ export async function renderAll() {
         const pageWrap = document.createElement('div');
         pageWrap.className = 'pdf-page';
         pageWrap.dataset.pageNumber = String(pageNum);
+        // Give the page an explicit CSS-pixel box so the (absolutely-positioned)
+        // text layer and any annotation overlays line up with the canvas, and
+        // expose the render scale for pdf.js's text layer (it sizes glyph spans
+        // with calc(var(--scale-factor) * …)).
+        const cssW = Math.floor(viewport.width);
+        const cssH = Math.floor(viewport.height);
+        pageWrap.style.width = `${cssW}px`;
+        pageWrap.style.height = `${cssH}px`;
+        pageWrap.style.setProperty('--scale-factor', String(currentScale));
 
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
@@ -66,10 +75,17 @@ export async function renderAll() {
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
         canvas.width = Math.floor(viewport.width * dpr);
         canvas.height = Math.floor(viewport.height * dpr);
-        canvas.style.width = `${Math.floor(viewport.width)}px`;
-        canvas.style.height = `${Math.floor(viewport.height)}px`;
+        canvas.style.width = `${cssW}px`;
+        canvas.style.height = `${cssH}px`;
+
+        // Selectable text layer (transparent) on top of the canvas. Annotation
+        // tools (highlight, etc.) rely on window.getSelection() returning real
+        // range rects, which only works when this layer is rendered.
+        const textLayerDiv = document.createElement('div');
+        textLayerDiv.className = 'textLayer';
 
         pageWrap.appendChild(canvas);
+        pageWrap.appendChild(textLayerDiv);
         container.appendChild(pageWrap);
 
         await page.render({
@@ -77,6 +93,21 @@ export async function renderAll() {
             viewport,
             transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : null,
         }).promise;
+
+        // Render the text layer after the canvas. Failure here must never abort
+        // the page render — selection just won't be available for that page.
+        try {
+            const textContent = await page.getTextContent();
+            if (token !== renderToken) return; // superseded mid-extraction
+            const textLayer = new pdfjsLib.TextLayer({
+                textContentSource: textContent,
+                container: textLayerDiv,
+                viewport,
+            });
+            await textLayer.render();
+        } catch (err) {
+            console.warn(`[viewer] text layer failed for page ${pageNum}:`, err);
+        }
     }
 
     container.removeAttribute('aria-busy');

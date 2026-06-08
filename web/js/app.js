@@ -13,6 +13,8 @@ import { initTheme } from './theme.js';
 import { initPresent } from './present.js';
 import { initKeyboardShortcuts } from './keyboard-shortcuts.js';
 import { initTabNav } from './tab-nav.js';
+import { initAnnotate } from './annotate.js';
+import { initSplit } from './split.js';
 import * as Viewer from './viewer.js';
 
 // --- Register core viewer actions in the central registry ---
@@ -66,6 +68,8 @@ function init() {
     initThumbnails();
     initPageNav();
     initPresent();
+    initAnnotate();
+    initSplit();
     initKeyboardShortcuts();
     wireToolbar();
     wireZoomLabel();

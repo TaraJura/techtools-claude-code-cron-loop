@@ -285,3 +285,120 @@
     line-height: 1.4;
     word-break: break-word;
 }
+
+/* --- Annotate panel / highlight tool (annotate.js, TASK-314) --- */
+
+/* Active toggle state for the Highlight button (mirrors .tool-tab.active). */
+#highlight-toggle.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+#highlight-status {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+}
+
+/* Distinct cursor while highlight mode is armed. */
+body.highlight-mode .textLayer,
+body.highlight-mode .textLayer :is(span, br) {
+    cursor: crosshair;
+}
+
+/* Per-page overlay that holds highlight boxes. Transparent to pointer events
+   so text selection passes through; individual highlights opt back in. */
+.annotation-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.hl-rect {
+    position: absolute;
+    /* background + mix-blend set inline / here so it reads like a real marker */
+    mix-blend-mode: multiply;
+    border-radius: 1px;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.hl-rect.selected {
+    outline: 2px solid var(--accent);
+    outline-offset: 0;
+}
+
+.hl-remove {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    line-height: 16px;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    background: #c62828;
+    color: #fff;
+    cursor: pointer;
+    pointer-events: auto;
+    z-index: 3;
+}
+
+/* --- Split / Extract panel (split.js) --- */
+[data-panel="split"] {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+}
+
+.split-range {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+.split-range-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+}
+
+.split-range-field input {
+    width: 5rem;
+    padding: 0.35rem 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-variant-numeric: tabular-nums;
+}
+
+.split-range-field input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.split-range-field input:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.split-status {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.split-status.error {
+    color: var(--danger);
+}
+
+.hl-remove:hover {
+    background: #e53935;
+}
