@@ -8,6 +8,34 @@
 
 ## Backlog
 
+### TASK-309: Keyboard shortcuts help overlay (keyboard-shortcuts.js)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+
+**Description**: Add a discoverable, accessible **keyboard shortcuts help overlay** (UI & Accessibility roadmap — `keyboard-shortcuts.js`). The app has quietly accumulated several keyboard interactions across shipped features — `Ctrl/Cmd+F` (open Search), `Enter`/`Shift+Enter` (next/prev match), `Escape` (clear search / close), `PageDown`/`ArrowDown` (next page), `PageUp`/`ArrowUp` (prev page), `Home`/`End` (first/last page) — but **none of them are discoverable**: a user has no way to learn they exist. This task surfaces them in one accessible modal, the single most-requested "polish" feature for keyboard-driven apps. It improves the UX of features we already shipped rather than adding new surface area (Rule 4).
+
+This is **purely additive** and must **NOT** modify `viewer.js`'s rendering core, `upload.js`'s validation, `search.js`/`page-nav.js` behavior, or the `.pdf-viewer-container` flex-row contract. New `js/keyboard-shortcuts.js` module + `css/main.css` (or `css/tools.css`) additions for the modal + minimal isolated `index.html` edits (a `?`/"Keyboard shortcuts" button in the header and the modal markup, or build the modal in JS) + one `initKeyboardShortcuts()` wire-in in `js/app.js`'s `init()`.
+
+**Technical approach**:
+- New `js/keyboard-shortcuts.js`. It owns a small **static data structure** of shortcut groups (`Navigation`, `Search`, `View`, `General`) → `{ keys: ['Ctrl', 'F'], description: 'Open search' }`. Render it into a modal `<dialog>` (or a `role="dialog" aria-modal="true"` container) as an accessible table/`<dl>`, with each key shown in a `<kbd>` element. **Do not re-implement** the shortcuts themselves — this is a *reference card*; the real handlers stay in their own modules. (If you add the help-open shortcut itself — `?` / `Shift+/` — that single new global handler lives here.)
+- Open via a header button (`#shortcuts-help` with an accessible name like "Keyboard shortcuts") **and** via the `?` key (`Shift+/`), but only when focus is NOT inside a text input/textarea/`contenteditable` (so typing `?` into the Search box doesn't pop the dialog). Close via `Escape`, a labeled close button (`aria-label="Close"`), and clicking the backdrop.
+- **Focus management (critical for accessibility)**: on open, move focus into the dialog (the close button or the dialog itself) and **trap Tab/Shift+Tab** within it; on close, **restore focus** to the element that opened it. Set `aria-hidden`/`inert` appropriately on the background, or rely on `<dialog>`'s native modal semantics.
+- CSP-safe: external module only, no inline `<script>` (the nginx CSP has no `'unsafe-inline'`). All text via `textContent`. Lightweight, no library; the modal DOM is built once and toggled (RAM-cheap on the 1.6 GiB box).
+- Keep the shortcut list **accurate** — only list shortcuts that actually work today (cross-check `search.js` and `page-nav.js`). A help card that lies is worse than none.
+
+**UX acceptance criteria (tester verifies live via chrome-devtools MCP):**
+1. **Discoverable** — a header control (`#shortcuts-help`) is present, on-screen with non-zero size, before any PDF is loaded; it has an accessible name.
+2. **Activatable (button + key)** — clicking the header control opens the modal; separately, pressing `?` (Shift+/) when focus is on the page body (not in a text field) also opens it. Zero new console errors either way.
+3. **Visible & correct content** — the open modal is on-screen (non-zero size) and lists the real shortcuts, each key in a `<kbd>`; at minimum it includes `Ctrl/Cmd+F` (search) and the page-nav keys (PageUp/PageDown/Home/End).
+4. **Labeled** — zero unlabeled controls in a snapshot; the dialog has `role="dialog"`/`aria-modal` (or is a native `<dialog>`), an accessible name (e.g. `aria-labelledby` the title), and the close button has `aria-label="Close"`.
+5. **Keyboard-reachable & focus-trapped** — opening moves focus into the dialog; Tab/Shift+Tab cycle stays within it; `Escape` closes it; on close, focus returns to the control that opened it (verify `document.activeElement`).
+6. **Does not hijack typing** — with the Search input focused, typing `?` inserts the character into the field and does **not** open the dialog.
+7. **No regression** — after opening and closing the dialog, uploading `test-fixtures/example.pdf` still renders (`#pdf-pages` width ≥ 300, ≥1 visible canvas); zero app-origin console errors across the flow; the `.pdf-viewer-container` flex-row width contract is unchanged.
+
+File permissions: new files 644. Verify end-to-end via chrome-devtools MCP before marking DONE.
+
 ### TASK-308: Light / dark theme switcher (theme.js)
 
 **Status**: VERIFIED
