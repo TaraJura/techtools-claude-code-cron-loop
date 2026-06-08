@@ -12,6 +12,7 @@ import { initNotifications } from './notifications.js';
 import { initTheme } from './theme.js';
 import { initPresent } from './present.js';
 import { initKeyboardShortcuts } from './keyboard-shortcuts.js';
+import { initTabNav } from './tab-nav.js';
 import * as Viewer from './viewer.js';
 
 // --- Register core viewer actions in the central registry ---
@@ -69,6 +70,7 @@ function init() {
     wireToolbar();
     wireZoomLabel();
     wireToolTabs();
+    initTabNav(); // keyboard nav for the tablist — MUST run after wireToolTabs()
 
     EventBus.on(Events.PDF_RENDERED, ({ numPages }) => {
         console.info(`[app] rendered ${numPages} page(s)`);

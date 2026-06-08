@@ -136,6 +136,14 @@
     outline-offset: 1px;
 }
 
+/* Active page (TASK-312): the thumbnail of the page currently in view. Accent
+   border + ring reuse design-system vars so it stays distinct in light & dark. */
+.thumbnail.is-active {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent);
+}
+
 .thumbnail-canvas {
     display: block;
     background: #fff;
