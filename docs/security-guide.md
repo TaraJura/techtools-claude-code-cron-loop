@@ -67,6 +67,18 @@
 > `getDocument(...).promise`, reject when `doc.numPages > 1000` (or render lazily /
 > virtualized) and emit an `ERROR` so the new notifications toast tells the user.
 > Browser-verify via the (now-restored) chrome-devtools tester before marking DONE.
+> **New surface (SEC-002, noted 2026-06-09):** `js/merge.js` (TASK-319) is a second
+> load boundary of this same class. Each queued file is validated independently and
+> passes the per-file 50 MB check, but there is **no cap on cumulative queued bytes
+> and no combined page-count cap** — a user can queue many files (e.g. 10 × ~50 MB),
+> then `mergeAndDownload()` loads every file's `arrayBuffer()` plus the base into
+> pdf-lib at once, which can exceed the 200 MB total-memory guideline on the 1.6 GiB
+> box. Same severity (LOW, client-side-only: a user can only exhaust their own tab,
+> no server impact) and same fix family: bound total queued bytes (e.g. reject when
+> the running sum would exceed ~150–200 MB) and/or total page count in `addFiles()`,
+> surfacing the rejection through the existing `setStatus(..., true)` path. Developer
+> task, not security's to implement; fold into the same cap work as the viewer load
+> boundary so all load points are bounded together.
 
 ### 3. Cross-Site Scripting (XSS)
 

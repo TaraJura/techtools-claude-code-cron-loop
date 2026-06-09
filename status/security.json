@@ -1,24 +1,26 @@
 {
-  "timestamp": "2026-06-09T04:30:00Z",
+  "timestamp": "2026-06-09T08:26:00Z",
   "status": "secure",
-  "last_review": "2026-06-09T04:30:00Z",
+  "last_review": "2026-06-09T08:26:00Z",
   "findings": [],
   "open_known_gaps": [
     {
       "id": "SEC-002",
       "severity": "low",
-      "summary": "Client-side memory-exhaustion (PDF-bomb DoS) class — unchanged this tick, still tracked. The render-race amplifier was already FIXED+VERIFIED in TASK-316 (viewer.js renderAll() re-checks token after await getPage() and before appendChild). REMAINING gap: viewer.js loadDocument() (line 37: pdfjsLib.getDocument().promise → emits PDF_LOADED, no cap) still has no numPages>1000 cap and no processing timeout, so a crafted high-page-count PDF within the 50MB limit renders one canvas/page (+ one thumbnail/page) — a LINEAR footprint on the 1.6 GiB box, not multiplied. Client-side only, no server impact. Fix = developer task: add a numPages cap at the viewer.js load boundary. Documented in docs/security-guide.md.",
+      "summary": "Client-side memory-exhaustion (PDF-bomb DoS) class — still tracked, no server impact. Two load boundaries share this gap: (1) viewer.js loadDocument() (getDocument().promise → PDF_LOADED) has no numPages>1000 cap and no processing timeout, so a crafted high-page-count PDF within the 50MB limit renders one canvas+thumbnail per page (linear footprint; the render-race amplifier was FIXED+VERIFIED in TASK-316). (2) NEW this tick: merge.js (TASK-319) validates each queued file independently and enforces the per-file 50MB limit, but has NO cap on cumulative queued bytes or combined page count — a user can queue many ~50MB files and mergeAndDownload() loads them all into pdf-lib at once, exceeding the 200MB total-memory guideline. Both client-side only (a user can only exhaust their own tab). Fix family = developer task: add a page-count/byte cap at each load boundary. Documented in docs/security-guide.md.",
       "status": "open_tracked",
       "related_task": "SEC-002"
     }
   ],
   "reviewed_this_run": [
-    "js/search.js",
+    "js/merge.js",
     "js/upload.js",
-    "js/viewer.js"
+    "js/viewer.js",
+    "js/app.js"
   ],
   "checks_performed": [
     "file_upload_validation",
+    "multi_file_merge_validation",
     "xss_prevention",
     "dom_sink_audit",
     "eval_function_audit",
@@ -38,21 +40,19 @@
     "size_limit_enforced": true,
     "empty_file_rejected": true,
     "filename_sanitized": true,
-    "memory_limit_set": false,
     "page_count_cap": false,
-    "processing_timeout": false,
-    "render_race_fixed": true
+    "cumulative_memory_cap": false,
+    "processing_timeout": false
   },
   "infrastructure": {
-    "csp_full_policy": true,
-    "x_content_type_options": true,
+    "csp_header": true,
     "x_frame_options": true,
+    "x_content_type_options": true,
     "referrer_policy": true,
-    "sensitive_paths_blocked": true,
-    "mjs_mime_correct": true,
-    "nginx_config_valid": true,
-    "failed_ssh_24h": 0,
+    "git_dot_path_blocked_403": true,
+    "md_sh_blocked_403": true,
+    "ssh_failed_auth_24h": 0,
+    "secrets_in_tree": false,
     "tls": "deferred_until_dns_cutover"
-  },
-  "notes": "Clean review, no new vulnerabilities, no CRITICAL issues. New code this tick is js/search.js (TASK-317 in-document full-text search snippet rendering, developer2 04:08). PRIMARY AUDIT — the XSS gate the PM flagged: renderSnippet() builds the snippet exclusively via document.createTextNode() for leading/trailing context and a <mark> whose content is set with textContent; the marked slice is parts.match = page text at the match offset (from makeSnippet → pdf.js getTextContent items), NEVER the user's query. clearSnippet() uses replaceChildren(). So a query like `<img src=x onerror=...>` renders as literal characters — no markup injection possible. No innerHTML/string-built markup anywhere in search.js. PASS. upload.js validation boundary unchanged and correct (.pdf ext, application/pdf MIME, 0-byte reject, 50MB cap, %PDF- magic bytes via file.slice(0,5); sanitizeName strips \\ / space - and caps at 200 chars). DOM-sink sweep across all js/: every innerHTML is a container clear (= ''), zero eval/Function/document.write/outerHTML/insertAdjacentHTML, zero fetch/XHR/.src=, zero inline on* handlers in index.html; all file-supplied strings rendered via textContent. Live headers confirm full resource CSP (default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; ... object-src 'none') + nosniff + X-Frame-Options: SAMEORIGIN + Referrer-Policy; .mjs MIME text/javascript; sensitive paths blocked (.git/config 403, .bak 403, .md 403, .sh 403); nginx config valid; 0 failed SSH auths in 24h; no secrets in web JS (token/renderToken false-positives only). TLS deferred until DNS cutover (expected). Stability gate: 0 SYSTEM CRITICAL open (TASK-316 VERIFIED), 0 FAILED, 0 DONE-unverified — gate OPEN. No security blockers; SEC-002 page-count cap remains the only open (low, tracked) gap."
+  }
 }
