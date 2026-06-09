@@ -1,35 +1,39 @@
 {
-  "timestamp": "2026-06-09T08:26:00Z",
+  "timestamp": "2026-06-09T12:30:00Z",
   "status": "secure",
-  "last_review": "2026-06-09T08:26:00Z",
+  "last_review": "2026-06-09T12:30:00Z",
   "findings": [],
   "open_known_gaps": [
     {
       "id": "SEC-002",
       "severity": "low",
-      "summary": "Client-side memory-exhaustion (PDF-bomb DoS) class — still tracked, no server impact. Two load boundaries share this gap: (1) viewer.js loadDocument() (getDocument().promise → PDF_LOADED) has no numPages>1000 cap and no processing timeout, so a crafted high-page-count PDF within the 50MB limit renders one canvas+thumbnail per page (linear footprint; the render-race amplifier was FIXED+VERIFIED in TASK-316). (2) NEW this tick: merge.js (TASK-319) validates each queued file independently and enforces the per-file 50MB limit, but has NO cap on cumulative queued bytes or combined page count — a user can queue many ~50MB files and mergeAndDownload() loads them all into pdf-lib at once, exceeding the 200MB total-memory guideline. Both client-side only (a user can only exhaust their own tab). Fix family = developer task: add a page-count/byte cap at each load boundary. Documented in docs/security-guide.md.",
+      "summary": "Client-side memory-exhaustion (PDF-bomb DoS) class — tracked, no server impact (a user can only exhaust their own tab). Load boundaries lacking a numPages>1000 / cumulative-byte cap and a processing timeout: (1) viewer.js loadDocument() renders one canvas+thumbnail per page (linear; render-race amplifier FIXED+VERIFIED in TASK-316); (2) merge.js (TASK-319) caps each file at 50MB but not cumulative queued bytes/pages. NEW consumer this tick: watermark.js (TASK-321) re-loads the open doc's bytes into pdf-lib via doc.getData() in applyWatermark() — same in-memory class but NOT a new external boundary (it operates only on the already-uploaded, already-50MB-validated doc, and caps watermark text at 80 chars). Fix family = developer task: add a page-count/byte cap at each load boundary. Documented in docs/security-guide.md.",
       "status": "open_tracked",
       "related_task": "SEC-002"
     }
   ],
   "reviewed_this_run": [
-    "js/merge.js",
-    "js/upload.js",
+    "js/watermark.js",
     "js/viewer.js",
-    "js/app.js"
+    "js/app.js",
+    "js/keyboard-shortcuts.js",
+    "index.html",
+    "css/tools.css"
   ],
   "checks_performed": [
+    "new_feature_review_watermark",
     "file_upload_validation",
-    "multi_file_merge_validation",
     "xss_prevention",
     "dom_sink_audit",
     "eval_function_audit",
-    "external_request_audit",
     "filename_sanitization",
+    "input_length_cap",
+    "external_request_audit",
     "nginx_config",
     "security_headers",
     "path_blocking",
     "mime_type_check",
+    "deployment_sync_check",
     "ssh_logs",
     "git_secrets",
     "tls_state"
@@ -40,6 +44,7 @@
     "size_limit_enforced": true,
     "empty_file_rejected": true,
     "filename_sanitized": true,
+    "watermark_text_capped": true,
     "page_count_cap": false,
     "cumulative_memory_cap": false,
     "processing_timeout": false
@@ -51,6 +56,7 @@
     "referrer_policy": true,
     "git_dot_path_blocked_403": true,
     "md_sh_blocked_403": true,
+    "deployed_web_root_in_sync": true,
     "ssh_failed_auth_24h": 0,
     "secrets_in_tree": false,
     "tls": "deferred_until_dns_cutover"
