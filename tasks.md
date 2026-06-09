@@ -348,3 +348,31 @@ Per-feature UX/UI (TASK-320), verified with **multi-page.pdf (5 pages)** for the
 Per-feature UX/UI (TASK-321), verified against **multi-page.pdf (5 pages)**:
 1-discoverable ✓ (Watermark tab `[data-tab=watermark]` present) · 2-activatable ✓ (panel `.tool-panel[data-panel=watermark]` active, 0 console errors) · 3-visible ✓ (panel 1905×94 @ top 88) · 4-labeled ✓ (**0 unlabeled controls**; `#watermark-text` aria-label "Watermark text", `#watermark-opacity` number "Watermark opacity percent", `#watermark-apply` button "Apply watermark & download") · 5-keyboard ✓ (`#watermark-apply` focusable — `document.activeElement===apply`) · 6-responds ✓ (text "CONFIDENTIAL" + Apply → captured blob `application/pdf`, header **`%PDF-`**, `getPageCount()`=**5** = source page count, filename `multi-page_watermarked.pdf`, status "Watermarked 5 pages → multi-page_watermarked.pdf", status span `childElementCount`=0 i.e. **textContent only / XSS-safe**) · 7-progress N/A (instant on this fixture) · 8-error ✓ (whitespace-only text → "Enter watermark text." and **no file produced**; XSS text `<img src=x onerror=alert(1)>` → treated as literal: valid `%PDF-` produced, **0 `<img>` injected** into the status/DOM; no-doc → controls disabled + status "Load a PDF first.", force-enabled Apply click → guard fires, **no throw**) · 9-viewer-intact ✓ (after the full Watermark flow `#pdf-pages` containerWidth=1905, canvasCount=5, visibleCanvasCount=5 — no regression).
 Zero app-origin console errors across the entire flow.
+
+---
+
+### TASK-323: Thumbnail sidebar — active-page sync + keyboard navigation (`thumbnails.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Description**: Polish the existing page-thumbnail sidebar (`js/thumbnails.js`) so it is a first-class, accessible navigation surface instead of a static strip. This is an additive UX/accessibility improvement of an already-shipped feature — do NOT touch the `viewer.js` `renderAll()` supersede-guard race fix (TASK-316), the TASK-318 loading overlay, or the TASK-320 viewer keydown handler; reuse the existing scroll/render and page-jump paths via the event bus rather than duplicating them.
+
+Scope:
+- **Active-page sync**: as the user scrolls the main `#pdf-pages` view (or jumps via keyboard/TOC), the thumbnail matching the currently-visible page gets an `aria-current="page"` + a visible active style, and is auto-scrolled into view within the sidebar (`scrollIntoView({block:'nearest'})`). Drive this from the existing viewer scroll/page-change signal on the event bus — do not add a second IntersectionObserver competing with the viewer's render loop.
+- **Keyboard navigation**: thumbnails form a single composite widget — `role="listbox"`/`option` (or a labeled list of buttons) with roving `tabindex` (only the active thumbnail is `tabindex=0`, the rest `-1`). ArrowUp/ArrowDown (and Home/End) move the active thumbnail; Enter/Space jumps the main viewer to that page (reusing the existing page-jump action). Focus must be visible.
+- **Click parity**: clicking a thumbnail still jumps to the page (existing behavior) and updates the active state through the same code path as the keyboard.
+
+UX acceptance criteria (the tester will verify each in headless Chrome):
+1. **Discoverable**: thumbnail sidebar is present in the DOM and visible when a multi-page PDF is loaded.
+2. **Labeled**: the thumbnail container has an accessible name (e.g. `aria-label="Page thumbnails"`); each thumbnail is screen-reader-labeled with its page number (e.g. `aria-label="Page 3"`); 0 unlabeled interactive elements.
+3. **Active sync (visible)**: scrolling the main view to page N marks thumbnail N with `aria-current="page"` and a visible active style, and only one thumbnail is active at a time.
+4. **Active sync (scroll-into-view)**: when the active thumbnail would be off-screen in the sidebar, it is scrolled into view automatically.
+5. **Keyboard-reachable**: Tab moves focus to the active thumbnail (roving tabindex — exactly one thumbnail is `tabindex=0`); focus ring is visible.
+6. **Keyboard nav**: ArrowDown/ArrowUp (and Home/End) change which thumbnail is active+focused; Enter/Space jumps the main viewer to that page (verify `#pdf-pages` scrolls and the active state follows).
+7. **Click parity**: a mouse click jumps to the page and produces the same active state as the keyboard path.
+8. **Viewer intact**: after exercising thumbnail navigation, `#pdf-pages` geometry is unchanged (container width unchanged, visible canvas count correct) — no regression of the TASK-316 render race or TASK-318 overlay.
+9. **No-doc / single-page safety**: with no document loaded the sidebar is empty/disabled and no handler throws; a 1-page document shows exactly one thumbnail and Arrow keys are a safe no-op.
+10. **Zero new console errors/warnings** across the entire flow.
+
+Technical hints: keep state in `thumbnails.js`; subscribe to the existing page-change / scroll event on `event-bus.js`; emit the existing "go to page" action rather than calling viewer internals directly; use roving `tabindex` + `aria-current` for the active item; guard all handlers against the no-document state.
