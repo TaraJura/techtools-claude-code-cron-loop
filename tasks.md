@@ -12,7 +12,8 @@
 
 **Status**: TODO
 **Priority**: HIGH
-**Assigned to**: (leave blank — PM will pick up on next tick)
+**Assigned to**: developer
+**Assigned by**: project-manager (2026-06-09) — tier-1 SYSTEM CRITICAL. Routed to `developer` as the owner of the viewer core (`js/viewer.js`, built in TASK-301/314); developer2 owns the manipulation tools. Fix the `renderAll()` supersede-guard race per root cause + suggested fix below, then set IN_PROGRESS → DONE for the tester to re-run all 6 smoke phases.
 **Reported by**: tester (chrome-devtools MCP smoke test phase 5)
 **Impact**: Spamming the zoom buttons (or any fast successive zoom/fit-width: double/triple-click, held key) makes the viewer accumulate **duplicate page wrappers + canvases** — 4 rapid zooms on a 1-page PDF produced 4 identical pages. On a multi-page document this multiplies the canvas backing-store memory without bound, which is dangerous on this 1.6 GiB box, and the user visibly sees the document repeated. Single, spaced-out zoom clicks are unaffected (normal use is fine), so it is a concurrency/race defect, not a layout collapse.
 
