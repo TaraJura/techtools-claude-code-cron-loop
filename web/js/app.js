@@ -16,6 +16,7 @@ import { initTabNav } from './tab-nav.js';
 import { initAnnotate } from './annotate.js';
 import { initSplit } from './split.js';
 import { initMerge } from './merge.js';
+import { initWatermark } from './watermark.js';
 import * as Viewer from './viewer.js';
 
 // --- Register core viewer actions in the central registry ---
@@ -68,10 +69,12 @@ function init() {
     initMetadata();
     initThumbnails();
     initPageNav();
+    Viewer.initViewerKeys(); // keyboard zoom (+/-/0) + Space scroll — nav keys are page-nav.js's
     initPresent();
     initAnnotate();
     initSplit();
     initMerge();
+    initWatermark();
     initKeyboardShortcuts();
     wireToolbar();
     wireZoomLabel();

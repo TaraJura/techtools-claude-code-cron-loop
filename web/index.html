@@ -38,6 +38,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="thumbnails">Pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="split">Split</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="watermark">Watermark</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="info">Info</button>
   </nav>
 
@@ -127,6 +128,25 @@
       <span id="merge-status" class="merge-status" role="status" aria-live="polite">Load a PDF first.</span>
     </section>
 
+    <!-- Watermark panel: stamp a diagonal text watermark across every page -->
+    <section class="tool-panel" role="tabpanel" data-panel="watermark" aria-label="Watermark">
+      <div class="watermark-controls">
+        <span class="watermark-field watermark-field--grow">
+          <label for="watermark-text">Watermark text</label>
+          <input id="watermark-text" type="text" value="CONFIDENTIAL" maxlength="80"
+                 autocomplete="off" aria-label="Watermark text" disabled>
+        </span>
+        <span class="watermark-field">
+          <label for="watermark-opacity">Opacity %</label>
+          <input id="watermark-opacity" type="number" min="5" max="100" step="5" value="30"
+                 inputmode="numeric" autocomplete="off" aria-label="Watermark opacity percent" disabled>
+        </span>
+        <button class="btn btn-primary" id="watermark-apply" data-action="watermark.apply"
+                type="button" disabled>Apply watermark &amp; download</button>
+      </div>
+      <span id="watermark-status" class="watermark-status" role="status" aria-live="polite">Load a PDF first.</span>
+    </section>
+
     <!-- Info panel: document properties / metadata -->
     <section class="tool-panel" role="tabpanel" data-panel="info" aria-label="Document properties">
       <div id="metadata-list" aria-label="Document properties"></div>
@@ -148,7 +168,8 @@
 
   <!-- Viewer: ROW container (pages + future minimap), inner COLUMN holds the page list -->
   <main class="pdf-viewer-container">
-    <div class="pdf-viewer-inner" tabindex="0" aria-label="PDF viewer">
+    <div class="pdf-viewer-inner" tabindex="0" role="document"
+         aria-label="PDF viewer. Use Page Up and Page Down or the arrow keys to change page, Home and End for the first and last page, plus and minus to zoom, and 0 to fit width.">
       <div class="viewer-empty">
         <p>No document open. Use <strong>Choose PDF file</strong> above to get started.</p>
       </div>

@@ -33,7 +33,13 @@ const SHORTCUT_GROUPS = [
     },
     {
         title: 'View',
+        hint: 'Zoom/scroll keys are active while the PDF viewer is focused.',
         items: [
+            { combos: [['+'], ['=']], description: 'Zoom in' },
+            { combos: [['−']], description: 'Zoom out' },
+            { combos: [['0']], description: 'Fit width' },
+            { combos: [['Space']], description: 'Scroll down one screen' },
+            { combos: [['Shift', 'Space']], description: 'Scroll up one screen' },
             { combos: [['Esc']], description: 'Exit presentation mode' },
         ],
     },

@@ -227,3 +227,60 @@ export function clear() {
 export function getDocument() {
     return pdfDoc;
 }
+
+// --- Keyboard zoom + viewport scroll (TASK-320) ---------------------------
+// Navigation keys (Arrow / Page Up / Page Down / Home / End) are owned by
+// page-nav.js (TASK-303), which binds its OWN keydown to this same
+// .pdf-viewer-inner scroll container. We deliberately do NOT re-handle them
+// here — that would double-fire. This handler adds only what page-nav lacks:
+// keyboard zoom (+ / = / - / 0, reusing the TASK-316-hardened zoom path, never
+// duplicating it) and Space / Shift+Space viewport scrolling. It is bound on
+// the scroll container (not window) so it can never fire from a tool-panel
+// input, and it is a no-op (never throws) when no document is open.
+
+let keysScrollEl = null;
+
+function isTypingTarget(t) {
+    return !!(t && t.closest && t.closest('input,textarea,[contenteditable],.tool-panel'));
+}
+
+function onViewerKeyDown(e) {
+    if (!pdfDoc) return;                       // no-doc safety: do nothing, never throw
+    if (e.ctrlKey || e.metaKey || e.altKey) return; // leave native/app combos (e.g. Ctrl+0 browser zoom)
+    if (isTypingTarget(e.target)) return;      // scoped: never hijack typing
+
+    switch (e.key) {
+        case '+':
+        case '=':                              // unshifted key that yields "+"
+            e.preventDefault();
+            zoomIn();
+            break;
+        case '-':
+        case '_':
+            e.preventDefault();
+            zoomOut();
+            break;
+        case '0':
+            e.preventDefault();
+            fitWidth();
+            break;
+        case ' ':                              // Space / Shift+Space: scroll one viewport
+        case 'Spacebar':                       // legacy key name (older Firefox/IE)
+            if (!keysScrollEl) return;
+            e.preventDefault();
+            keysScrollEl.scrollBy({
+                top: e.shiftKey ? -keysScrollEl.clientHeight : keysScrollEl.clientHeight,
+                behavior: 'smooth',
+            });
+            break;
+        default:
+            break;                             // Arrow/Page/Home/End → page-nav.js
+    }
+}
+
+/** Wire keyboard zoom + viewport scroll on the viewer scroll container. */
+export function initViewerKeys() {
+    if (keysScrollEl) return;                  // idempotent
+    keysScrollEl = document.querySelector('.pdf-viewer-inner');
+    if (keysScrollEl) keysScrollEl.addEventListener('keydown', onViewerKeyDown);
+}
