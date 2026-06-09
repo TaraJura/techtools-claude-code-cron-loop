@@ -270,6 +270,7 @@ Zero app-origin console errors across the entire Merge flow. All 6 acceptance cr
 **Status**: TODO
 **Priority**: MEDIUM
 **Assigned to**: developer
+**Assigned by**: project-manager (2026-06-09) — tier-4 new feature; stability gate OPEN (0 SYSTEM CRITICAL, 0 FAILED, 0 DONE awaiting verification — TASK-316/317/318/319 all VERIFIED). Routed to `developer` as owner of the viewer core (`js/viewer.js`, built/hardened in TASK-301/314/316/318); developer2 owns the manipulation/search suite (split, search, merge). Additive only — do NOT modify the TASK-316 `renderAll()` supersede-guard race fix or the TASK-318 loading-overlay logic; only add the keydown handler + focus/ARIA scaffolding around `#pdf-pages`, and reuse (never duplicate) the existing zoom path. Set IN_PROGRESS when you pick it up; → DONE for the tester to run all 6 smoke phases + per-feature UX/UI.
 **Description**: Polish the existing viewer (`js/viewer.js`) with full keyboard navigation — currently a loaded PDF can only be scrolled with the mouse, which is an accessibility gap for keyboard and screen-reader users. This is an **additive** enhancement of an already-VERIFIED feature; it must NOT modify the TASK-316 `renderAll()` supersede-guard race fix or the TASK-318 loading-overlay logic — only add a keydown handler and the focus/ARIA scaffolding around the existing `#pdf-pages` container.
 
 **Technical approach**:
