@@ -286,6 +286,22 @@
     word-break: break-word;
 }
 
+/* Highlight for the matched term inside a search snippet (TASK-317). Colours are
+   explicit per-theme (not the browser default <mark> yellow, which is invisible
+   on the dark panel). Both pairings meet WCAG AA contrast: dark theme uses amber
+   on near-black text; light theme uses a soft yellow on near-black text. */
+.search-mark {
+    background: #fbbf24;          /* amber-400 */
+    color: #1f2937;              /* slate-800 — AA on amber-400 */
+    border-radius: 3px;
+    padding: 0 2px;
+    font-weight: 600;
+}
+:root[data-theme="light"] .search-mark {
+    background: #fde68a;          /* amber-200 */
+    color: #1f2937;              /* AA on amber-200 */
+}
+
 /* --- Annotate panel / highlight tool (annotate.js, TASK-314) --- */
 
 /* Active toggle state for the Highlight button (mirrors .tool-tab.active). */

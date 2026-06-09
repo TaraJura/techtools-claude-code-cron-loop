@@ -53,8 +53,28 @@ function setStatus(text) {
     if (statusEl) statusEl.textContent = text;
 }
 
-function setSnippet(text) {
-    if (snippetEl) snippetEl.textContent = text;
+/** Remove any rendered snippet (and any stale <mark>) from the element. */
+function clearSnippet() {
+    if (snippetEl) snippetEl.replaceChildren();
+}
+
+/**
+ * Render the active match's snippet with the matched term wrapped in a <mark>.
+ * Every fragment — leading context, the marked slice, and trailing context —
+ * comes from the extracted page text (`parts`, built in `makeSnippet`) and is
+ * inserted via text nodes / `textContent`, NEVER `innerHTML` or string-built
+ * markup. The matched slice is the page's own text at the match offset, never
+ * the user's query, so a query like `<img src=x onerror=…>` is shown as literal
+ * characters and cannot inject markup (XSS gate — TASK-317).
+ */
+function renderSnippet(pageNumber, parts) {
+    if (!snippetEl) return;
+    const lead = document.createTextNode(`Page ${pageNumber}: ${parts.before}`);
+    const mark = document.createElement('mark');
+    mark.className = 'search-mark';
+    mark.textContent = parts.match;
+    const trail = document.createTextNode(parts.after);
+    snippetEl.replaceChildren(lead, mark, trail);
 }
 
 /** Enable/disable the controls based on whether a document is open. */
@@ -70,14 +90,23 @@ function updateNavButtons() {
     if (nextBtn) nextBtn.disabled = !has;
 }
 
-/** Build a trimmed, single-line snippet of context around a match. */
+/**
+ * Build a trimmed, single-line snippet of context around a match, split into the
+ * leading context, the matched slice, and the trailing context. The `match`
+ * field is the page text at the match offset (original casing) — the source the
+ * <mark> is rendered from — NOT the query string. Whitespace inside each segment
+ * is collapsed; only the outer edges are trimmed so the single spaces adjacent to
+ * the match survive. Ellipses mark truncation on either side.
+ */
 function makeSnippet(text, idx, len) {
     const start = Math.max(0, idx - SNIPPET_RADIUS);
     const end = Math.min(text.length, idx + len + SNIPPET_RADIUS);
-    let s = text.slice(start, end).replace(/\s+/g, ' ').trim();
-    if (start > 0) s = '…' + s;
-    if (end < text.length) s = s + '…';
-    return s;
+    let before = text.slice(start, idx).replace(/\s+/g, ' ').replace(/^\s+/, '');
+    const match = text.slice(idx, idx + len).replace(/\s+/g, ' ');
+    let after = text.slice(idx + len, end).replace(/\s+/g, ' ').replace(/\s+$/, '');
+    if (start > 0) before = '…' + before;
+    if (end < text.length) after = after + '…';
+    return { before, match, after };
 }
 
 /** Scroll the rendered page with the given 1-based number into view. */
@@ -111,7 +140,7 @@ async function extractAllText(myToken) {
 async function runSearch(query) {
     matches = [];
     currentIdx = -1;
-    setSnippet('');
+    clearSnippet();
 
     if (!doc) {
         setStatus('Load a PDF first.');
@@ -163,7 +192,7 @@ function showCurrent() {
     if (currentIdx < 0 || currentIdx >= matches.length) return;
     const m = matches[currentIdx];
     setStatus(`${currentIdx + 1} of ${matches.length}`);
-    setSnippet(`Page ${m.pageNumber}: ${m.snippet}`);
+    renderSnippet(m.pageNumber, m.snippet);
     scrollToPage(m.pageNumber);
     updateNavButtons();
 }
@@ -182,7 +211,7 @@ function escapeSearch() {
     currentIdx = -1;
     lastQuery = '';
     setStatus('');
-    setSnippet('');
+    clearSnippet();
     updateNavButtons();
     if (viewerEl) viewerEl.focus();
 }
@@ -197,7 +226,7 @@ function resetForDoc(newDoc, pages) {
     currentIdx = -1;
     lastQuery = null;
     if (inputEl) inputEl.value = '';
-    setSnippet('');
+    clearSnippet();
     if (doc) {
         setEnabled(true);
         setStatus('');
