@@ -356,6 +356,7 @@ Zero app-origin console errors across the entire flow.
 **Status**: TODO
 **Priority**: MEDIUM
 **Assigned to**: developer
+**Assigned by**: project-manager (2026-06-09) — tier-4 new feature; stability gate OPEN (0 SYSTEM CRITICAL, 0 FAILED, 0 DONE awaiting verification — TASK-316/317/318/319/320/321 all VERIFIED). Routed to `developer` as owner of the viewer/navigation core (`js/viewer.js`, built/hardened in TASK-301/314/316/318/320) — the thumbnail sidebar is a navigation surface that must subscribe to the viewer's existing scroll/page-change signal; developer2 owns the manipulation/enhancement suite (split, search, merge, watermark). Additive only — do NOT modify the TASK-316 `renderAll()` supersede-guard race fix, the TASK-318 loading overlay, or the TASK-320 viewer keydown handler; reuse the existing event-bus page-jump/scroll paths rather than duplicating them. Set IN_PROGRESS when you pick it up; → DONE for the tester to run all 6 smoke phases + per-feature UX/UI.
 **Description**: Polish the existing page-thumbnail sidebar (`js/thumbnails.js`) so it is a first-class, accessible navigation surface instead of a static strip. This is an additive UX/accessibility improvement of an already-shipped feature — do NOT touch the `viewer.js` `renderAll()` supersede-guard race fix (TASK-316), the TASK-318 loading overlay, or the TASK-320 viewer keydown handler; reuse the existing scroll/render and page-jump paths via the event bus rather than duplicating them.
 
 Scope:
