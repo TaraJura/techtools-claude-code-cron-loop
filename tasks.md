@@ -262,3 +262,32 @@ Theme-aware (dark `--bg #0f172a` / light `#f1f5f9`) + `@media (prefers-reduced-m
 Per-feature UX/UI (TASK-319):
 1-discoverable ✓ (Merge tab `[data-tab=merge]`) · 2-activatable ✓ (panel `.tool-panel[data-panel=merge]` active, 0 console errors) · 3-visible ✓ (panel 1905×88 @ top 88) · 4-labeled ✓ (0 unlabeled controls; `#merge-add` "Add PDFs to append" `multiple` accept `application/pdf,.pdf`, `#merge-run` text "Merge & download", per-row remove `aria-label="Remove <name>"`) · 5-keyboard ✓ (`#merge-run` focusable once enabled — `document.activeElement===run`) · 6-responds ✓ (queue `multipage.pdf` → row "multipage.pdf (5 KB)" with **0 child elements** = text-only/XSS-safe, run enabled, status "1 file queued. Ready to merge."; Merge — captured blob `application/pdf`, header `%PDF-`, 25126 bytes, **`getPageCount()`=7** = 1 base + 6 queued, status "Merged 2 documents → 7 pages → example_merged.pdf") · 7-progress N/A (instant on this small fixture; button disabled during op) · 8-error ✓ (invalid `.png` → "Skipped: \"link-checker-panel.png\" must have a .pdf extension." NOT queued; no-doc → `#merge-add` disabled + status "Load a PDF first.", force-enabled run click → guard fires "Load a PDF first.", **no throw**) · 9-viewer-intact ✓ (after merge usage `#pdf-pages` 1905px, 1 visible canvas; removing the queued file re-disables Merge and resets status to "Base: 1 page. Add PDFs to append.").
 Zero app-origin console errors across the entire Merge flow. All 6 acceptance criteria met. Files `644`.
+
+---
+
+### TASK-320: Keyboard navigation for the PDF viewer (`viewer.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Description**: Polish the existing viewer (`js/viewer.js`) with full keyboard navigation — currently a loaded PDF can only be scrolled with the mouse, which is an accessibility gap for keyboard and screen-reader users. This is an **additive** enhancement of an already-VERIFIED feature; it must NOT modify the TASK-316 `renderAll()` supersede-guard race fix or the TASK-318 loading-overlay logic — only add a keydown handler and the focus/ARIA scaffolding around the existing `#pdf-pages` container.
+
+**Technical approach**:
+- Add a keydown listener (scoped so it does NOT fire while focus is in an input/textarea/contenteditable or an open tool panel — guard with `e.target.closest('input,textarea,[contenteditable],.tool-panel')` and bail). Bind on the viewer scroll container, not `window`, where practical.
+- Make the viewer scroll container focusable: `tabindex="0"` on `#pdf-pages` (or its scroll parent), with `role="document"` and `aria-label="PDF viewer — use arrow keys, Page Up/Down, Home and End to navigate"`.
+- Shortcuts (call existing scroll/render paths — do NOT re-implement rendering):
+  - `ArrowDown` / `ArrowUp` — scroll by ~40px (line scroll).
+  - `PageDown` / `Space`, `PageUp` / `Shift+Space` — scroll by one viewport height (one "page" of scroll).
+  - `Home` / `End` — jump to first / last page (scroll to top / bottom).
+  - `+` / `-` (and `=`) — zoom in / out via the **existing** zoom function (the same path TASK-316 hardened); `0` — reset to fit-width. Reuse, never duplicate, the zoom logic.
+- `preventDefault()` only for keys you actually handle, so unrelated browser shortcuts still work.
+- Do nothing (no throw, no error) when no document is loaded — guard on the doc-open state.
+
+**UX acceptance criteria** (tester will verify all in headless Chrome):
+1. **Discoverable/labeled**: `#pdf-pages` (or scroll parent) has `tabindex="0"`, `role="document"`, and an `aria-label` naming the available keys; it appears in the tab order after upload.
+2. **Focusable**: clicking or tabbing into the viewer sets `document.activeElement` to the viewer container (visible focus outline, not `outline:none` with no replacement).
+3. **Arrow/Page keys**: with a multi-page PDF loaded, `PageDown` increases `scrollTop`, `PageUp` decreases it, `Home` returns `scrollTop` to ~0, `End` reaches max scroll — assert the `scrollTop` delta after each.
+4. **Zoom keys**: `+` increases and `-` decreases the rendered page width (assert `#pdf-pages` width changes), `0` returns to fit-width; no duplicate-page render regression (TASK-316 must still hold — exactly one canvas per page after rapid `+`/`-`).
+5. **Scoped**: pressing the same keys while a tool panel input (e.g. search box) is focused does NOT scroll/zoom the viewer (typing `+` in a text field inserts `+`, doesn't zoom).
+6. **No-doc safety**: pressing any nav key before a PDF is loaded produces **no console error and no throw**.
+7. **No regression**: loading overlay (TASK-318) still hides cleanly and the supersede-guard race fix (TASK-316) is untouched — zero app-origin console errors across the whole flow.
