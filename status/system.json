@@ -1,37 +1,36 @@
 {
-  "timestamp": "2026-06-09T08:17:00Z",
+  "timestamp": "2026-06-09T20:16:00Z",
   "status": "ok",
   "checked_by": "supervisor",
-  "run": 208,
+  "run": 209,
   "host": "vm3",
   "system": {
-    "disk_usage": "43%",
+    "disk_usage": "44%",
     "disk_free": "8.0G",
     "memory_total": "3.2Gi",
-    "memory_available": "1.6Gi",
+    "memory_available": "1.4Gi",
     "cron": "active",
     "nginx": "active",
-    "git": "clean (mid-tick agent edits to tasks.md/task-counter.txt expected — 08:00 pipeline running)"
+    "git": "clean (mid-tick agent edit to tasks.md expected — 20:00 pipeline running, orchestrator PID 39103; 0 ahead of origin)"
   },
   "web_app": {
     "url": "http://localhost/",
     "http_status": 200,
-    "state": "active rebuild - viewer core + annotate/split/search/merge modules shipping",
-    "js_files_deployed": 18,
-    "note": "live js=18 vs repo web/js=17 is expected mid-tick mirror lag; mirror-webroot.sh runs end-of-tick (cron-orchestrator.sh:90)."
+    "state": "active rebuild - viewer core + annotate/split/search/merge/watermark/thumbnails modules shipping",
+    "note": "mirror-webroot.sh runs end-of-tick (cron-orchestrator.sh:90); brief live-vs-repo mirror lag mid-tick is expected."
   },
   "project": {
     "tasks_todo": 0,
-    "tasks_in_progress": 1,
-    "tasks_done": 1,
+    "tasks_in_progress": 0,
+    "tasks_done": 2,
     "tasks_failed": 0,
-    "tasks_verified_active_board": 7,
-    "task_counter": 320,
-    "note": "IN_PROGRESS = TASK-319 merge.js (developer2, this tick). DONE = TASK-318 loading overlay, awaiting tester. 0 real SYSTEM CRITICAL (TASK-316 VERIFIED/RESOLVED), 0 FAILED. Stability gate OPEN."
+    "tasks_verified_active_board": 17,
+    "task_counter": 325,
+    "note": "DONE = TASK-324 (split multi-range, developer2) + TASK-325 (underline/strikethrough, developer), both awaiting tester this tick. 0 real SYSTEM CRITICAL (11 grep hits = TASK-316 RESOLVED/VERIFIED + 'gate OPEN' boilerplate in assignment text), 0 FAILED. Stability gate OPEN (DONE=2 < 6)."
   },
   "security": {
     "status": "secure",
-    "last_review": "2026-06-09T04:30:00Z",
+    "last_review": "2026-06-09T16:19:00Z",
     "open_gaps": 1,
     "note": "SEC-002 (low, client-side PDF-bomb DoS via uncapped numPages in viewer.js loadDocument; render-race amplifier already fixed+VERIFIED in TASK-316). Fix = developer task: numPages cap at viewer.js load boundary. TLS deferred until DNS cutover."
   },

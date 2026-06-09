@@ -420,7 +420,7 @@ Per-feature UX/UI (TASK-323), 10 task criteria mapped:
 
 ### TASK-324: Split tool — multi-range / page-list extraction (`split.js`)
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Assigned by**: project-manager (2026-06-09) — tier-4 new feature; stability gate OPEN (0 SYSTEM CRITICAL, 0 FAILED, 0 DONE awaiting verification — TASK-316/317/318/319/320/321/323 all VERIFIED). Routed to `developer2` as owner of the manipulation/enhancement suite (TASK-315 split, TASK-319 merge, TASK-321 watermark) — this is a pure enhancement of developer2's own `js/split.js`; developer owns the viewer/annotate/navigation core. Additive only — do NOT touch `viewer.js`, `annotate.js`, `upload.js` validation, `search.js`, `merge.js`, or `watermark.js`; keep the existing contiguous From/To path working (no regression) and add the page-list/multi-range input alongside it. Set IN_PROGRESS when you pick it up; → DONE for the tester to run all 6 smoke phases + per-feature UX/UI.
@@ -440,6 +440,17 @@ Per-feature UX/UI (TASK-323), 10 task criteria mapped:
 - **No-doc safety**: with no PDF loaded the controls are disabled and status reads `"Load a PDF first."`; force-clicking Extract still shows that message and never throws.
 - **No regression**: viewer geometry unchanged after using Split (`#pdf-pages` width ~1905 on example.pdf, correct visible canvas count); the existing contiguous From/To extraction (TASK-315) still produces its file; **zero new console errors/warnings** in any flow; new/edited files `644`.
 
+**Implementation note** (developer2, 2026-06-09): Additive enhancement of `js/split.js` + the Split panel in `index.html` + `css/tools.css` — did NOT touch `viewer.js`, `annotate.js`, `upload.js`, `search.js`, `merge.js`, or `watermark.js`. New **primary** control `#split-ranges` (text input, `aria-label="Pages or ranges to extract"`, placeholder `e.g. 1-3, 5, 8-10`, with a hint that blank falls back to From/To) added **above** the existing From/To row, which is kept fully working. New `parsePageList(expr, max)` parser: splits on commas, trims tokens, tolerates empty tokens (`1,,3`), accepts a single page `N` or a range `A-B` (`A<=B`), preserves requested order, **keeps duplicates** (a page listed twice is copied twice). Specific inline errors naming the problem: out-of-range → `"Page N is out of range (document has M pages)."`; malformed/zero/negative/reversed (`3-`, `-4`, `0`, `2-1`, `abc`) → `"\"<token>\" is not a valid page or range."`; empty → `"Enter pages to extract, e.g. 1-3, 5."`. `extractRange()` now uses the page-list path when `#split-ranges` is non-empty (filename `<base>_pages.pdf`, or `<base>_page_<n>.pdf` for a single page) and otherwise falls back to the original contiguous From/To path (unchanged naming `<base>_pages_<a>-<b>.pdf` / `_page_<n>.pdf`); `copyPages()` uses `pages.map(p=>p-1)` so order is preserved. Pressing **Enter** in `#split-ranges` triggers extraction. `setEnabled`/`onLoaded`/`onCleared` now also manage `#split-ranges` (cleared + disabled with no doc). Styles: `.split-ranges-field`, `.split-ranges-input` (focus/disabled states), `.split-hint` reusing existing design tokens. All touched files `644`.
+
+**Verified end-to-end via chrome-devtools MCP (headless Chrome, http://localhost/, multi-page.pdf [5 pages])**:
+- Panel after load: new input present, `aria-label="Pages or ranges to extract"`, placeholder correct, enabled, Tab-focusable; **0 unlabeled controls**; status "5 pages available."; viewer geometry intact (`#pdf-pages` **1905px**, 5 canvases / 5 visible, totalPages 5). ✓
+- Extraction (download blob intercepted, header + `getPageCount()` checked): `1-2,4` → `%PDF-`, **3 pages**, `multi-page_pages.pdf`; `3` → **1 page**, `multi-page_page_3.pdf`; `1-5` → **5 pages**; `5,1,1` → **3 pages** (dups kept, order preserved); **Enter** in input `2-4` → **3 pages**. ✓
+- From/To fallback (ranges blank, From=2/To=3) → `%PDF-`, **2 pages**, `multi-page_pages_2-3.pdf` (TASK-315 path unchanged); empty ranges defaults to full 1–5 fallback. ✓
+- Error states (clear message, **no file produced**, no throw): `9` → "Page 9 is out of range (document has 5 pages)."; `3-`/`2-1`/`abc`/`0`/`-4` → "\"<token>\" is not a valid page or range.". ✓
+- No-doc safety: Close document (`viewer.clear`) → controls disabled, ranges cleared, status "Load a PDF first."; force-enabled Extract click → guard fires "Load a PDF first.", no file, **no throw**; canvases 0. ✓
+- **Zero console errors/warnings** across the entire session. Perms: `js/split.js`, `index.html`, `css/tools.css` all `644`; site HTTP 200.
+
+Set DONE for the tester to run all 6 smoke phases + per-feature UX/UI.
 
 ---
 
