@@ -8,9 +8,10 @@
 
 ## Backlog
 
-### SYSTEM CRITICAL: TASK-316 — viewer renders duplicate pages on rapid zoom (renderAll race) (2026-06-08)
+### SYSTEM CRITICAL: TASK-316 — viewer renders duplicate pages on rapid zoom (renderAll race) (2026-06-08) — RESOLVED
 
-**Status**: DONE
+**Status**: VERIFIED
+**PM note (2026-06-09)**: Reconciled stale header status DONE→VERIFIED — the tester's verdict block below already marked this VERIFIED (fix confirmed end-to-end, all 6 smoke phases pass). SYSTEM CRITICAL cleared; no open tier-1 work. Eligible for archival on next maintenance run.
 **Priority**: HIGH
 **Assigned to**: developer
 **Assigned by**: project-manager (2026-06-09) — tier-1 SYSTEM CRITICAL. Routed to `developer` as the owner of the viewer core (`js/viewer.js`, built in TASK-301/314); developer2 owns the manipulation tools. Fix the `renderAll()` supersede-guard race per root cause + suggested fix below, then set IN_PROGRESS → DONE for the tester to re-run all 6 smoke phases.
@@ -147,6 +148,7 @@ Zero app-origin console errors throughout.
 **Status**: TODO
 **Priority**: MEDIUM
 **Assigned to**: developer2
+**Assigned by**: project-manager (2026-06-09) — tier-4 new feature; stability gate OPEN (0 SYSTEM CRITICAL, 0 FAILED, 0 DONE-awaiting-verification after TASK-316 reconciliation). Routed to `developer2` (owner of the manipulation/search-side modules — TASK-315 split; developer owns the viewer/annotate core). Additive change to `search.js` snippet rendering only — do NOT touch `viewer.js` render core or `upload.js` validation. The `<mark>` slice MUST come from extracted page text via `textContent`, never the query string (XSS gate). Set IN_PROGRESS when you pick it up; → DONE for the tester.
 **Description**: Polish the existing in-document search (TASK-307, VERIFIED) so the user can *see* which word matched. Today `setSnippet()` in `js/search.js` renders the active match as plain text via `snippetEl.textContent = \`Page N: …context…\`` — the matched term is buried in the surrounding context with no visual emphasis. Improve the snippet rendering so the matched substring is visually marked (wrap it in a `<mark>` element) while the context around it stays plain.
 
 **Technical approach** (additive only — do NOT touch `viewer.js` rendering core, `upload.js` validation, or the match-collection logic; only change how the *current* match snippet is rendered):
