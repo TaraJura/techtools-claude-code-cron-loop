@@ -11,6 +11,16 @@
 // our own observer rather than depend on page-nav.js — page-nav.js is on the
 // contract list and emits no page-change event (see TASK-312 note).
 //
+// Keyboard navigation (TASK-323): the strip is a composite widget
+// (role="toolbar") with roving tabindex — exactly one thumbnail is tabindex=0
+// (the active page), the rest tabindex=-1, so Tab lands on the active page and
+// arrow keys move within the strip. ArrowUp/Left and ArrowDown/Right (plus
+// Home/End) move the active+focused thumbnail; Enter/Space is left to the
+// button's NATIVE activation, which fires the same click handler as the mouse
+// (so keyboard and click share one code path → identical active state). The
+// scroll-driven observer updates the active highlight + roving tabindex but
+// never steals focus; only explicit key presses move focus.
+//
 // Purely additive: subscribes to EventBus document events only. It never
 // touches the viewer rendering core or the .pdf-viewer-container flex-row
 // layout (developer prompt rule 8). Thumbnails render sequentially and a
@@ -35,13 +45,16 @@ function ensureListEl() {
 }
 
 /**
- * Reflect `activePage` into the DOM: move the .is-active / aria-current flag to
- * the matching thumbnail and (optionally) scroll it into view inside the panel.
- * The scroll is `block: 'nearest'` and the target's only scrollable ancestor is
+ * Reflect `activePage` into the DOM: move the .is-active / aria-current flag and
+ * the roving tabindex (=0) to the matching thumbnail, optionally scroll it into
+ * view inside the panel, and optionally move focus to it. The scroll is
+ * `block: 'nearest'` and the target's only scrollable ancestor is
  * #thumbnails-list — .pdf-viewer-inner is NOT an ancestor — so the main
- * document never moves (no feedback loop with the viewer).
+ * document never moves (no feedback loop with the viewer). `focus` is passed
+ * only for explicit keyboard navigation, never for scroll-driven updates, so
+ * scrolling the main view can never yank focus into the sidebar.
  */
-function applyActiveThumbnail(scroll) {
+function applyActiveThumbnail(scroll, focus) {
     const el = ensureListEl();
     if (!el) return;
 
@@ -49,6 +62,7 @@ function applyActiveThumbnail(scroll) {
     if (prev && Number(prev.dataset.pageNumber) !== activePage) {
         prev.classList.remove('is-active');
         prev.removeAttribute('aria-current');
+        prev.tabIndex = -1; // roving tabindex: the old active leaves the tab order
     }
 
     if (!activePage) return;
@@ -58,14 +72,73 @@ function applyActiveThumbnail(scroll) {
         next.classList.add('is-active');
         next.setAttribute('aria-current', 'page');
     }
+    next.tabIndex = 0; // roving tabindex: exactly one thumbnail is tabbable
     if (scroll) next.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    if (focus) next.focus();
 }
 
-/** Update the active page (from scroll observation) and sync the highlight. */
+/** Update the active page (from scroll observation) and sync the highlight.
+ *  Never moves focus — the user is scrolling the main view, not the sidebar. */
 function setActiveThumbnail(n) {
     if (n === activePage) return;
     activePage = n;
-    applyActiveThumbnail(true);
+    applyActiveThumbnail(true, false);
+}
+
+/**
+ * Move the active+focused thumbnail to page `n` (clamped into range), driven by
+ * keyboard. Updates the highlight + roving tabindex and moves focus to it.
+ */
+function moveActiveThumbnail(n) {
+    const el = ensureListEl();
+    if (!el) return;
+    const total = el.querySelectorAll('.thumbnail').length;
+    if (!total) return; // no document / no thumbnails — safe no-op
+    const target = Math.max(1, Math.min(total, n));
+    if (target !== activePage) {
+        activePage = target;
+        applyActiveThumbnail(true, true);
+    } else {
+        // Already on the target (e.g. ArrowUp at page 1) — keep it focused/visible.
+        const cur = el.querySelector(`.thumbnail[data-page-number="${target}"]`);
+        if (cur) {
+            cur.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+            cur.focus();
+        }
+    }
+}
+
+/**
+ * Composite-widget keyboard navigation (TASK-323). Arrow/Home/End move the
+ * active thumbnail; Enter/Space are intentionally NOT handled here so the
+ * focused button's native activation fires the existing click handler (same
+ * path as a mouse click → jumps the viewer to that page).
+ */
+function onListKeyDown(e) {
+    switch (e.key) {
+        case 'ArrowDown':
+        case 'ArrowRight':
+            e.preventDefault();
+            moveActiveThumbnail((activePage || 1) + 1);
+            break;
+        case 'ArrowUp':
+        case 'ArrowLeft':
+            e.preventDefault();
+            moveActiveThumbnail((activePage || 1) - 1);
+            break;
+        case 'Home':
+            e.preventDefault();
+            moveActiveThumbnail(1);
+            break;
+        case 'End': {
+            e.preventDefault();
+            const el = ensureListEl();
+            moveActiveThumbnail(el ? el.querySelectorAll('.thumbnail').length : 1);
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 /** (Re)build the IntersectionObserver over the freshly rendered pages. */
@@ -129,6 +202,8 @@ function createThumbButton(pageNum) {
     btn.className = 'thumbnail';
     btn.dataset.pageNumber = String(pageNum);
     btn.setAttribute('aria-label', `Go to page ${pageNum}`);
+    // Roving tabindex: only the active page is tabbable; arrow keys move within.
+    btn.tabIndex = pageNum === activePage ? 0 : -1;
 
     const canvas = document.createElement('canvas');
     canvas.className = 'thumbnail-canvas';
@@ -139,7 +214,17 @@ function createThumbButton(pageNum) {
     label.textContent = String(pageNum);
     btn.appendChild(label);
 
-    btn.addEventListener('click', () => goToPage(pageNum));
+    // Click (and the native Enter/Space activation of the focused button) both
+    // route through here, so mouse and keyboard share one path: jump the viewer
+    // AND set the active highlight + roving tabindex immediately (the scroll
+    // observer then confirms it once the page scrolls into view).
+    btn.addEventListener('click', () => {
+        goToPage(pageNum);
+        if (pageNum !== activePage) {
+            activePage = pageNum;
+            applyActiveThumbnail(false, false);
+        }
+    });
     return { btn, canvas };
 }
 
@@ -153,10 +238,11 @@ async function renderThumbnails({ doc, numPages }) {
     el.innerHTML = '';
     el.setAttribute('aria-busy', 'true');
 
-    // A freshly loaded doc shows page 1 at the top; seed the highlight there so
-    // exactly one thumbnail is active immediately (the observer refines it as
-    // the user scrolls). Re-applied below as buttons appear.
-    if (!activePage) activePage = 1;
+    // A freshly loaded doc shows page 1 at the top; seed the highlight + roving
+    // tabindex there so exactly one thumbnail is active/tabbable immediately
+    // (the observer refines it as the user scrolls). Reset unconditionally so a
+    // stale active page from a prior, longer document can't point past the end.
+    activePage = 1;
 
     for (let pageNum = 1; pageNum <= total; pageNum++) {
         if (token !== renderToken) return; // a newer document superseded us
@@ -196,6 +282,16 @@ async function renderThumbnails({ doc, numPages }) {
 }
 
 export function initThumbnails() {
+    const el = ensureListEl();
+    if (el) {
+        // Composite widget: a labeled toolbar of page buttons navigated with the
+        // arrow keys via roving tabindex (the container already carries
+        // aria-label="Page thumbnails" in index.html).
+        el.setAttribute('role', 'toolbar');
+        el.setAttribute('aria-orientation', 'vertical');
+        el.addEventListener('keydown', onListKeyDown);
+    }
+
     setPlaceholder('Open a PDF to see page thumbnails.');
 
     EventBus.on(Events.PDF_LOADED, (payload) => {

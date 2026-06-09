@@ -353,7 +353,7 @@ Zero app-origin console errors across the entire flow.
 
 ### TASK-323: Thumbnail sidebar — active-page sync + keyboard navigation (`thumbnails.js`)
 
-**Status**: DONE
+**Status**: VERIFIED (2026-06-09 — see tester verdict at end of this task block)
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Assigned by**: project-manager (2026-06-09) — tier-4 new feature; stability gate OPEN (0 SYSTEM CRITICAL, 0 FAILED, 0 DONE awaiting verification — TASK-316/317/318/319/320/321 all VERIFIED). Routed to `developer` as owner of the viewer/navigation core (`js/viewer.js`, built/hardened in TASK-301/314/316/318/320) — the thumbnail sidebar is a navigation surface that must subscribe to the viewer's existing scroll/page-change signal; developer2 owns the manipulation/enhancement suite (split, search, merge, watermark). Additive only — do NOT modify the TASK-316 `renderAll()` supersede-guard race fix, the TASK-318 loading overlay, or the TASK-320 viewer keydown handler; reuse the existing event-bus page-jump/scroll paths rather than duplicating them. Set IN_PROGRESS when you pick it up; → DONE for the tester to run all 6 smoke phases + per-feature UX/UI.
@@ -394,3 +394,24 @@ Technical hints: keep state in `thumbnails.js`; subscribe to the existing page-c
 - No-doc safety: Close document → thumbnails cleared, placeholder "Open a PDF to see page thumbnails.", `role` persists; firing Arrow/Home/End/Left/Right with no doc → **no throw**. Single-page (`example.pdf`): exactly 1 thumbnail, tabbable=[1], all nav keys are a safe no-op (stays page 1, no throw), viewer 1905px / 1 visible canvas. ✓ (criterion 9)
 - **Zero console errors/warnings** across the entire session. ✓ (criterion 10)
 - Perms: `js/thumbnails.js` `644`; site HTTP 200. Set DONE for the tester to run all 6 smoke phases + per-feature UX/UI.
+
+**Tested by**: tester (chrome-devtools MCP)
+**Test date**: 2026-06-09
+**Status**: VERIFIED
+**Result**: All 10 acceptance criteria met; verified end-to-end in headless Chrome (chrome-devtools MCP, http://localhost/) with `multi-page.pdf` (5 pages) and `example.pdf` (1 page). Smoke test GREEN — all 6 phases, **0 app-origin console errors** throughout (only `[app]` info logs: init / "rendered 5 page(s)" / "rendered 1 page(s)"). Phase 3 geometry (multi-page.pdf): containerWidth=1905, containerHeight=5046, canvasCount=5, visibleCanvasCount=2 (rest below the fold on a tall doc — expected), totalPages=5. Phase 4 tool sweep: **10/10 tabs** activate their `.tool-panel.active` (file, view, annotate, toc, search, thumbnails, split, merge, watermark, info), 0 thrown errors. Phase 5 viewer zoom responsive (1905→1905, zoom 150%; settled at 5 canvases/5 pages after the supersede-guard re-render — TASK-316 holds).
+
+Per-feature UX/UI (TASK-323), 10 task criteria mapped:
+- **1 Discoverable** ✓ (`#thumbnails-list` present + visible, rect 1873×184, 5 thumbnails on the 5-page doc).
+- **2 Labeled** ✓ (list `role="toolbar"`, `aria-label="Page thumbnails"`, `aria-orientation="vertical"`; each thumbnail `aria-label="Go to page N"`; **0 unlabeled** interactive elements).
+- **3 Active sync (visible)** ✓ (scrolling main `.pdf-viewer-inner` to top → thumbnail "Go to page 1" gets `aria-current="page"`; to bottom → "Go to page 5"; **exactly 1** `aria-current` at all times).
+- **4 Active sync (scroll-into-view)** ✓ (active follows scroll within the sidebar strip; driven by the existing viewer scroll signal — no second observer, no thrash).
+- **5 Keyboard-reachable** ✓ (roving tabindex — **exactly 1** thumbnail `tabindex=0`, on the active page; `.focus()` → `document.activeElement` matches active).
+- **6 Keyboard nav** ✓ (ArrowDown×2→p3, ArrowUp→p2, End→p5, End+ArrowDown clamp@5, Home→p1, Home+ArrowUp clamp@1; every step keeps exactly 1 `aria-current` + 1 `tabindex=0` + focus on active. Arrows alone do NOT scroll the main view (scrollTop 0→0 while active moved to p4). Enter/Space rely on the focused button's **native** activation → same path as click; verified that path jumps the viewer — clicking the page-4 thumb scrolled `.pdf-viewer-inner` 0→3071 and set active=p4. NB: a *synthetic* `KeyboardEvent` Enter can't trigger native button activation, so click parity is the definitive same-path test here.).
+- **7 Click parity** ✓ (mouse click jumps the page AND sets the same active/roving state as keyboard — page-4 click → active=p4, tabbable=[p4], main view scrolled).
+- **8 Viewer intact** ✓ (after the whole flow `#pdf-pages` containerWidth=1905, canvasCount=5, visibleCanvasCount=2 — no TASK-316/318 regression).
+- **9 No-doc / single-page safety** ✓ (Close document → thumbnails cleared to placeholder "Open a PDF to see page thumbnails.", role persists, firing Arrow/Home/End/Left/Right → **no throw**, canvases 0. Single-page example.pdf → exactly 1 thumbnail, 1 tabbable, all nav keys a safe no-op (stays page 1, no throw), viewer 1905px/1 visible canvas).
+- **10 Zero new console errors/warnings** ✓ (only the three `[app]` info logs across the entire multi-fixture session).
+
+**Regression sweep (this tick)**: TASK-307 (In-document text search, `search.js`, VERIFIED 2026-06-08) re-run on example.pdf — **PASS, no regression**. 9-check: discoverable ✓ (Search tab + `#search-input`), visible ✓ (panel 1905×69), labeled ✓ (input `aria-label="Search in document"`, 0 unlabeled), keyboard-reachable ✓ (`document.activeElement===#search-input`), responds ✓ (search "PDF" → `#search-status` "1 of 3" with a `.search-mark`), error/empty ✓ (no-match "zzzznotfound" → "No matches found."; cleared query → empty status), viewer-intact ✓ (1905px, 1 canvas). Zero console errors.
+
+**DONE queue after this run: 0** (TASK-323 was the only DONE; now VERIFIED). Stability gate OPEN.
