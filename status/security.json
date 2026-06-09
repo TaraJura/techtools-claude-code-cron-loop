@@ -1,43 +1,54 @@
 {
-  "timestamp": "2026-06-09T12:30:00Z",
+  "timestamp": "2026-06-09T16:20:00Z",
   "status": "secure",
-  "last_review": "2026-06-09T12:30:00Z",
+  "last_review": "2026-06-09T16:20:00Z",
   "findings": [],
   "open_known_gaps": [
     {
       "id": "SEC-002",
       "severity": "low",
-      "summary": "Client-side memory-exhaustion (PDF-bomb DoS) class — tracked, no server impact (a user can only exhaust their own tab). Load boundaries lacking a numPages>1000 / cumulative-byte cap and a processing timeout: (1) viewer.js loadDocument() renders one canvas+thumbnail per page (linear; render-race amplifier FIXED+VERIFIED in TASK-316); (2) merge.js (TASK-319) caps each file at 50MB but not cumulative queued bytes/pages. NEW consumer this tick: watermark.js (TASK-321) re-loads the open doc's bytes into pdf-lib via doc.getData() in applyWatermark() — same in-memory class but NOT a new external boundary (it operates only on the already-uploaded, already-50MB-validated doc, and caps watermark text at 80 chars). Fix family = developer task: add a page-count/byte cap at each load boundary. Documented in docs/security-guide.md.",
+      "summary": "Client-side memory-exhaustion (PDF-bomb DoS) class — tracked, no server impact (a user can only exhaust their own tab). Load boundaries still lack a numPages>1000 / cumulative-byte cap and a processing timeout. Consumers of this class: (1) viewer.js loadDocument() renders one canvas per page (linear; render-race amplifier FIXED+VERIFIED in TASK-316); (2) thumbnails.js (TASK-322/323, reviewed this tick) renders a SECOND canvas per page into the Pages panel — confirmed browser-side at 6 canvases for a 6-page doc, doubling the per-page footprint of an uncapped high-page-count PDF; (3) merge.js (TASK-319) caps each file at 50MB but not cumulative queued bytes/pages; (4) watermark.js (TASK-321) re-loads the open doc into pdf-lib (operates only on the already-50MB-validated doc, not a new external boundary). thumbnails.js mitigates its own footprint (CSS thumb width 120px, dpr capped at 2, sequential render, renderToken guard) but the page COUNT is still unbounded. Single right fix = developer task: a page-count/byte cap at the viewer.js LOAD boundary protects viewer + thumbnails + every future per-page consumer at once. Documented in docs/security-guide.md.",
       "status": "open_tracked",
       "related_task": "SEC-002"
     }
   ],
   "reviewed_this_run": [
-    "js/watermark.js",
+    "js/thumbnails.js",
     "js/viewer.js",
-    "js/app.js",
-    "js/keyboard-shortcuts.js",
-    "index.html",
-    "css/tools.css"
+    "js/merge.js",
+    "js/watermark.js",
+    "js/search.js",
+    "index.html"
   ],
   "checks_performed": [
-    "new_feature_review_watermark",
-    "file_upload_validation",
+    "new_feature_review_thumbnails",
+    "dom_sink_audit_full_js_tree",
     "xss_prevention",
-    "dom_sink_audit",
     "eval_function_audit",
-    "filename_sanitization",
-    "input_length_cap",
     "external_request_audit",
-    "nginx_config",
+    "file_upload_validation",
+    "nginx_config_test",
     "security_headers",
-    "path_blocking",
+    "path_blocking_403",
     "mime_type_check",
-    "deployment_sync_check",
     "ssh_logs",
     "git_secrets",
-    "tls_state"
+    "tls_state",
+    "browser_verified_csp_no_violations"
   ],
+  "browser_verification": {
+    "fixture": "multipage.pdf (6 pages)",
+    "pdf_pages_width_px": 1905,
+    "main_page_canvases": 6,
+    "thumbnail_count": 6,
+    "thumbnail_canvases": 6,
+    "active_thumbnails": 1,
+    "roving_tabindex_tabbable": 1,
+    "script_injection_in_strip": false,
+    "console_errors": 0,
+    "console_warnings": 0,
+    "csp_violations": 0
+  },
   "pdf_security": {
     "magic_bytes_check": true,
     "mime_extension_check": true,
@@ -56,6 +67,7 @@
     "referrer_policy": true,
     "git_dot_path_blocked_403": true,
     "md_sh_blocked_403": true,
+    "bak_blocked_403": true,
     "deployed_web_root_in_sync": true,
     "ssh_failed_auth_24h": 0,
     "secrets_in_tree": false,
