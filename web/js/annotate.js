@@ -1,37 +1,54 @@
-// annotate.js — text highlight annotation (TASK-314).
+// annotate.js — text markup: highlight, underline, strikethrough (TASK-314, TASK-325).
 //
-// First markup module for the rebuilt editor. Puts the viewer into a "highlight"
-// mode; while active, selecting text over the pdf.js text layer and releasing
-// the mouse paints a semi-transparent yellow box over exactly the selected
-// glyphs. Highlights are stored in memory as page-relative *normalized*
-// fractions ({x,y,w,h} in 0..1 of the page box) so they survive zoom /
-// fit-width re-renders and any responsive resizing — we render them with CSS
-// percentages, so a page box of any size keeps them aligned to the text.
+// Markup module for the rebuilt editor. Puts the viewer into one of three
+// markup "tools" (highlight / underline / strikethrough); while a tool is
+// armed, selecting text over the pdf.js text layer and releasing the mouse
+// records a markup annotation over exactly the selected glyphs:
+//   - highlight    → a semi-transparent yellow box (mix-blend multiply)
+//   - underline    → an opaque line along the bottom of the glyphs
+//   - strikethrough→ an opaque line through the middle of the glyphs
+// Only one tool is armed at a time (arming one disarms the others).
+//
+// Annotations are stored in memory as page-relative *normalized* fractions
+// ({x,y,w,h} in 0..1 of the page box) so they survive zoom / fit-width
+// re-renders and any responsive resizing — we render them with CSS percentages,
+// so a page box of any size keeps them aligned to the text.
 //
 // Decoupled by design: it never touches viewer.js's render core. viewer.js
 // renders the selectable text layer (a generic capability); this module only
 // listens on the EventBus and reads/writes DOM under each `.pdf-page`. The
-// foundation (mode toggle, normalized-coord overlays, per-item removal) is
-// meant to be reused by underline / strikethrough / sticky-notes later.
+// foundation (tool toggle, normalized-coord overlays, per-item select/remove)
+// is shared across all three markup styles — and reusable by sticky-notes later.
 
 import { EventBus, Events } from './event-bus.js';
 import { ActionRegistry } from './action-registry.js';
 import * as Viewer from './viewer.js';
 
-const DEFAULT_COLOR = 'rgba(255, 235, 0, 0.4)'; // highlighter yellow (blended via mix-blend-mode: multiply)
-const MIN_FRACTION = 0.001;                      // ignore zero/▪-size rects
+const MIN_FRACTION = 0.001; // ignore zero/▪-size rects
 
-let highlights = [];     // [{ id, page, color, rects: [{x,y,w,h}] }]
-let highlightMode = false;
+// Per-tool defaults. Highlight stays translucent (blended via multiply); the
+// line tools use opaque "pen" colours so the stroke reads clearly.
+const TOOLS = {
+    highlight: { color: 'rgba(255, 235, 0, 0.4)', label: 'Highlight', noun: 'highlight' },
+    underline: { color: '#2563eb', label: 'Underline', noun: 'underline' },
+    strike: { color: '#dc2626', label: 'Strikethrough', noun: 'strikethrough' },
+};
+
+let annotations = []; // [{ id, page, type, color, rects: [{x,y,w,h}] }]
+let activeTool = null; // 'highlight' | 'underline' | 'strike' | null
 let selectedId = null;
 let nextId = 1;
 
-let toggleBtn = null;    // #highlight-toggle
-let statusEl = null;     // #highlight-status (aria-live)
-let viewerInner = null;  // .pdf-viewer-inner (mouseup / click target)
+let toggleBtns = {};    // { highlight: el, underline: el, strike: el }
+let statusEl = null;    // #highlight-status (aria-live)
+let viewerInner = null; // .pdf-viewer-inner (mouseup / click target)
 
 function cacheEls() {
-    toggleBtn = document.getElementById('highlight-toggle');
+    toggleBtns = {
+        highlight: document.getElementById('highlight-toggle'),
+        underline: document.getElementById('underline-toggle'),
+        strike: document.getElementById('strike-toggle'),
+    };
     statusEl = document.getElementById('highlight-status');
     viewerInner = document.querySelector('.pdf-viewer-inner');
 }
@@ -40,10 +57,13 @@ function setStatus(text) {
     if (statusEl) statusEl.textContent = text;
 }
 
-function updateButton() {
-    if (!toggleBtn) return;
-    toggleBtn.setAttribute('aria-pressed', String(highlightMode));
-    toggleBtn.classList.toggle('active', highlightMode);
+function updateButtons() {
+    for (const [tool, btn] of Object.entries(toggleBtns)) {
+        if (!btn) continue;
+        const on = activeTool === tool;
+        btn.setAttribute('aria-pressed', String(on));
+        btn.classList.toggle('active', on);
+    }
 }
 
 // --- Coordinate helpers -----------------------------------------------------
@@ -76,7 +96,7 @@ function normalizeRect(r, pageEl) {
 
 // --- Rendering --------------------------------------------------------------
 
-/** Get (creating if needed) the highlight overlay layer for a page element. */
+/** Get (creating if needed) the markup overlay layer for a page element. */
 function ensurePageLayer(pageEl) {
     let layer = pageEl.querySelector(':scope > .annotation-layer');
     if (!layer) {
@@ -87,43 +107,58 @@ function ensurePageLayer(pageEl) {
     return layer;
 }
 
-/** Re-paint every page's highlights from the in-memory store. Idempotent. */
-function renderHighlights() {
+/** Build one mark element for a normalized rect of an annotation. */
+function buildMark(ann, rc) {
+    const div = document.createElement('div');
+    div.className = `hl-rect hl-rect--${ann.type}` + (ann.id === selectedId ? ' selected' : '');
+    div.style.left = `${rc.x * 100}%`;
+    div.style.top = `${rc.y * 100}%`;
+    div.style.width = `${rc.w * 100}%`;
+    div.style.height = `${rc.h * 100}%`;
+    div.style.setProperty('--mark-color', ann.color);
+    div.dataset.hid = String(ann.id);
+    // Highlight fills the box directly; line tools draw a child line so the
+    // box itself stays a transparent hit target.
+    if (ann.type === 'highlight') {
+        div.style.background = ann.color;
+    } else {
+        const line = document.createElement('div');
+        line.className = 'mark-line';
+        div.appendChild(line);
+    }
+    div.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        selectAnnotation(ann.id);
+    });
+    return div;
+}
+
+/** Re-paint every page's annotations from the in-memory store. Idempotent. */
+function renderAnnotations() {
     document.querySelectorAll('.pdf-page').forEach((pageEl) => {
         const layer = ensurePageLayer(pageEl);
         layer.innerHTML = '';
         const pageNum = Number(pageEl.dataset.pageNumber);
-        highlights
-            .filter((h) => h.page === pageNum)
-            .forEach((h) => {
-                h.rects.forEach((rc, i) => {
-                    const div = document.createElement('div');
-                    div.className = 'hl-rect' + (h.id === selectedId ? ' selected' : '');
-                    div.style.left = `${rc.x * 100}%`;
-                    div.style.top = `${rc.y * 100}%`;
-                    div.style.width = `${rc.w * 100}%`;
-                    div.style.height = `${rc.h * 100}%`;
-                    div.style.background = h.color;
-                    div.dataset.hid = String(h.id);
-                    div.addEventListener('click', (ev) => {
-                        ev.stopPropagation();
-                        selectHighlight(h.id);
-                    });
-                    layer.appendChild(div);
+        annotations
+            .filter((a) => a.page === pageNum)
+            .forEach((ann) => {
+                ann.rects.forEach((rc, i) => {
+                    layer.appendChild(buildMark(ann, rc));
 
                     // Remove affordance: a small × anchored to the first rect of
-                    // the currently-selected highlight.
-                    if (h.id === selectedId && i === 0) {
+                    // the currently-selected annotation.
+                    if (ann.id === selectedId && i === 0) {
+                        const noun = (TOOLS[ann.type] || {}).noun || 'annotation';
                         const btn = document.createElement('button');
                         btn.type = 'button';
                         btn.className = 'hl-remove';
-                        btn.setAttribute('aria-label', 'Remove highlight');
+                        btn.setAttribute('aria-label', `Remove ${noun}`);
                         btn.textContent = '×';
                         btn.style.left = `${rc.x * 100}%`;
                         btn.style.top = `${rc.y * 100}%`;
                         btn.addEventListener('click', (ev) => {
                             ev.stopPropagation();
-                            removeHighlight(h.id);
+                            removeAnnotation(ann.id);
                         });
                         layer.appendChild(btn);
                     }
@@ -134,32 +169,33 @@ function renderHighlights() {
 
 // --- Mutations --------------------------------------------------------------
 
-function selectHighlight(id) {
+function selectAnnotation(id) {
     selectedId = id;
-    renderHighlights();
+    renderAnnotations();
 }
 
 function deselect() {
     if (selectedId === null) return;
     selectedId = null;
-    renderHighlights();
+    renderAnnotations();
 }
 
-function removeHighlight(id) {
-    highlights = highlights.filter((h) => h.id !== id);
+function removeAnnotation(id) {
+    annotations = annotations.filter((a) => a.id !== id);
     if (selectedId === id) selectedId = null;
-    renderHighlights();
+    renderAnnotations();
 }
 
 function clearAll() {
-    highlights = [];
+    annotations = [];
     selectedId = null;
-    renderHighlights();
-    if (Viewer.getDocument()) setStatus('All highlights cleared.');
+    renderAnnotations();
+    if (Viewer.getDocument()) setStatus('All annotations cleared.');
 }
 
-/** Turn the loaded selection into one highlight per page it touches. */
+/** Turn the loaded selection into one annotation per page it touches. */
 function captureSelection() {
+    if (!activeTool) return;
     const sel = window.getSelection();
     if (!sel || sel.isCollapsed || sel.rangeCount === 0) return;
 
@@ -181,56 +217,66 @@ function captureSelection() {
 
     if (byPage.size === 0) return; // empty / zero-size selection — ignore silently
 
+    const color = TOOLS[activeTool].color;
     for (const [pageNum, pageRects] of byPage) {
-        highlights.push({ id: nextId++, page: pageNum, color: DEFAULT_COLOR, rects: pageRects });
+        annotations.push({ id: nextId++, page: pageNum, type: activeTool, color, rects: pageRects });
     }
     sel.removeAllRanges();
-    renderHighlights();
+    renderAnnotations();
 }
 
-// --- Mode -------------------------------------------------------------------
+// --- Tool arming ------------------------------------------------------------
 
-function toggleHighlight() {
-    // Turning ON with no document: explain, don't throw, stay off.
-    if (!highlightMode && !Viewer.getDocument()) {
+function setTool(tool) {
+    // Arming a tool with no document: explain, don't throw, stay disarmed.
+    if (activeTool !== tool && !Viewer.getDocument()) {
         setStatus('Load a PDF first.');
-        updateButton();
+        updateButtons();
         return;
     }
-    highlightMode = !highlightMode;
-    document.body.classList.toggle('highlight-mode', highlightMode);
-    updateButton();
-    setStatus(highlightMode ? 'Highlight mode on — select text to highlight.' : '');
-    if (!highlightMode) deselect();
+    // Toggle off if re-clicking the armed tool; otherwise switch to it.
+    activeTool = activeTool === tool ? null : tool;
+    document.body.classList.toggle('highlight-mode', activeTool !== null);
+    updateButtons();
+    setStatus(activeTool ? `${TOOLS[activeTool].label} mode on — select text to mark.` : '');
+    if (!activeTool) deselect();
 }
 
-function exitMode() {
-    highlightMode = false;
+function disarm() {
+    activeTool = null;
     document.body.classList.remove('highlight-mode');
-    updateButton();
+    updateButtons();
 }
 
 // --- Init -------------------------------------------------------------------
 
 export function initAnnotate() {
     cacheEls();
-    updateButton();
+    updateButtons();
 
     ActionRegistry.register('annotate.toggleHighlight', {
         title: 'Highlight text',
-        run: () => toggleHighlight(),
+        run: () => setTool('highlight'),
+    });
+    ActionRegistry.register('annotate.toggleUnderline', {
+        title: 'Underline text',
+        run: () => setTool('underline'),
+    });
+    ActionRegistry.register('annotate.toggleStrikethrough', {
+        title: 'Strikethrough text',
+        run: () => setTool('strike'),
     });
     ActionRegistry.register('annotate.clearAll', {
-        title: 'Clear highlights',
+        title: 'Clear annotations',
         run: () => clearAll(),
     });
 
-    // Capture a finished selection only while in highlight mode.
+    // Capture a finished selection only while a tool is armed.
     if (viewerInner) {
         viewerInner.addEventListener('mouseup', () => {
-            if (highlightMode) captureSelection();
+            if (activeTool) captureSelection();
         });
-        // Clicking empty viewer space deselects the active highlight.
+        // Clicking empty viewer space deselects the active annotation.
         viewerInner.addEventListener('click', (e) => {
             if (!e.target.closest('.hl-rect') && !e.target.closest('.hl-remove')) {
                 deselect();
@@ -238,30 +284,30 @@ export function initAnnotate() {
         });
     }
 
-    // Delete / Backspace removes the selected highlight (unless typing in a field).
+    // Delete / Backspace removes the selected annotation (unless typing in a field).
     document.addEventListener('keydown', (e) => {
         if (selectedId === null) return;
         if (e.key !== 'Delete' && e.key !== 'Backspace') return;
         const a = document.activeElement;
         if (a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA' || a.isContentEditable)) return;
         e.preventDefault();
-        removeHighlight(selectedId);
+        removeAnnotation(selectedId);
     });
 
-    // Re-paint highlights every time the viewer re-renders (zoom / fit-width).
-    EventBus.on(Events.PDF_RENDERED, () => renderHighlights());
+    // Re-paint annotations every time the viewer re-renders (zoom / fit-width).
+    EventBus.on(Events.PDF_RENDERED, () => renderAnnotations());
 
     // New document → start fresh.
     EventBus.on(Events.PDF_LOADED, () => {
-        highlights = [];
+        annotations = [];
         selectedId = null;
-        setStatus(highlightMode ? 'Highlight mode on — select text to highlight.' : '');
+        setStatus(activeTool ? `${TOOLS[activeTool].label} mode on — select text to mark.` : '');
     });
 
     EventBus.on(Events.PDF_CLEARED, () => {
-        highlights = [];
+        annotations = [];
         selectedId = null;
-        exitMode();
+        disarm();
         setStatus('');
     });
 }

@@ -65,11 +65,15 @@
               aria-pressed="false" aria-label="Present">Present</button>
     </section>
 
-    <!-- Annotate panel: text markup tools (highlight, …) -->
+    <!-- Annotate panel: text markup tools (highlight, underline, strikethrough) -->
     <section class="tool-panel" role="tabpanel" data-panel="annotate" aria-label="Annotation tools">
       <button class="btn" id="highlight-toggle" data-action="annotate.toggleHighlight" type="button"
               aria-pressed="false" aria-label="Highlight text">Highlight</button>
-      <button class="btn" id="highlight-clear" data-action="annotate.clearAll" type="button">Clear highlights</button>
+      <button class="btn" id="underline-toggle" data-action="annotate.toggleUnderline" type="button"
+              aria-pressed="false" aria-label="Underline text">Underline</button>
+      <button class="btn" id="strike-toggle" data-action="annotate.toggleStrikethrough" type="button"
+              aria-pressed="false" aria-label="Strikethrough text">Strikethrough</button>
+      <button class="btn" id="highlight-clear" data-action="annotate.clearAll" type="button">Clear all</button>
       <span id="highlight-status" role="status" aria-live="polite"></span>
     </section>
 
@@ -98,6 +102,13 @@
 
     <!-- Split panel: extract a contiguous page range into a new PDF -->
     <section class="tool-panel" role="tabpanel" data-panel="split" aria-label="Split / extract pages">
+      <div class="split-ranges-field">
+        <label for="split-ranges">Pages to extract</label>
+        <input id="split-ranges" type="text" class="split-ranges-input"
+               placeholder="e.g. 1-3, 5, 8-10" autocomplete="off"
+               aria-label="Pages or ranges to extract" disabled>
+        <span class="split-hint">Comma-separated pages and ranges, in output order. Leave blank to use the From/To range below.</span>
+      </div>
       <div class="split-range">
         <span class="split-range-field">
           <label for="split-start">From page</label>

@@ -333,11 +333,41 @@ body.highlight-mode .textLayer :is(span, br) {
 
 .hl-rect {
     position: absolute;
-    /* background + mix-blend set inline / here so it reads like a real marker */
-    mix-blend-mode: multiply;
     border-radius: 1px;
     pointer-events: auto;
     cursor: pointer;
+}
+
+/* Highlight: a translucent fill blended into the page like a real marker
+   (background colour is set inline per-annotation). */
+.hl-rect--highlight {
+    mix-blend-mode: multiply;
+}
+
+/* Line tools draw an opaque child line and keep the box transparent, so the
+   pen colour reads true (no multiply blend). */
+.hl-rect--underline,
+.hl-rect--strike {
+    mix-blend-mode: normal;
+    background: transparent;
+}
+
+.hl-rect .mark-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--mark-color);
+    pointer-events: none;
+}
+
+.hl-rect--underline .mark-line {
+    bottom: 0;
+}
+
+.hl-rect--strike .mark-line {
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .hl-rect.selected {
@@ -368,6 +398,42 @@ body.highlight-mode .textLayer :is(span, br) {
     flex-direction: column;
     align-items: stretch;
     gap: 0.5rem;
+}
+
+.split-ranges-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+}
+
+.split-ranges-input {
+    width: 100%;
+    max-width: 22rem;
+    padding: 0.35rem 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-variant-numeric: tabular-nums;
+}
+
+.split-ranges-input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.split-ranges-input:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.split-hint {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    opacity: 0.85;
 }
 
 .split-range {

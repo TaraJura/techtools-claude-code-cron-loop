@@ -17,6 +17,7 @@ let currentDoc = null;   // pdf.js PDFDocumentProxy of the open document
 let currentName = 'document.pdf';
 let numPages = 0;
 
+let rangesInput = null;
 let startInput = null;
 let endInput = null;
 let extractBtn = null;
@@ -30,20 +31,68 @@ function setStatus(msg, isError = false) {
 
 /** Enable/disable the controls depending on whether a document is open. */
 function setEnabled(enabled) {
-    [startInput, endInput, extractBtn].forEach((el) => {
+    [rangesInput, startInput, endInput, extractBtn].forEach((el) => {
         if (el) el.disabled = !enabled;
     });
 }
 
-/** Build a safe download filename for the extracted range. */
-function buildFileName(start, end) {
-    // Strip any extension off the source name, drop unsafe chars, then suffix.
-    const base = String(currentName)
+/** Sanitised base name (no extension, no unsafe chars) for download filenames. */
+function baseName() {
+    return String(currentName)
         .replace(/\.pdf$/i, '')
         .replace(/[^a-zA-Z0-9._-]/g, '_')
         .slice(0, 180) || 'document';
+}
+
+/** Build a safe download filename for a contiguous From/To range. */
+function buildFileName(start, end) {
     const range = start === end ? `page_${start}` : `pages_${start}-${end}`;
-    return `${base}_${range}.pdf`;
+    return `${baseName()}_${range}.pdf`;
+}
+
+/** Build a safe download filename for a page-list / multi-range extraction. */
+function buildListFileName(pages) {
+    if (pages.length === 1) return `${baseName()}_page_${pages[0]}.pdf`;
+    return `${baseName()}_pages.pdf`;
+}
+
+/**
+ * Parse a page-list / multi-range expression like "1-3, 5, 8-10" into an
+ * ordered list of 1-based page numbers. Returns { pages } on success or
+ * { error } with a specific message naming the problem. Duplicates are kept
+ * (a page listed twice is copied twice); empty tokens (e.g. "1,,3") are
+ * tolerated and skipped.
+ */
+function parsePageList(expr, max) {
+    const trimmed = String(expr == null ? '' : expr).trim();
+    if (!trimmed) return { error: 'Enter pages to extract, e.g. 1-3, 5.' };
+
+    const pages = [];
+    for (const raw of trimmed.split(',')) {
+        const token = raw.trim();
+        if (!token) continue; // tolerate stray/empty commas
+
+        if (/^\d+$/.test(token)) {
+            const n = parseInt(token, 10);
+            if (n < 1) return { error: `"${token}" is not a valid page or range.` };
+            if (n > max) return { error: `Page ${n} is out of range (document has ${max} page${max === 1 ? '' : 's'}).` };
+            pages.push(n);
+            continue;
+        }
+
+        const m = token.match(/^(\d+)\s*-\s*(\d+)$/);
+        if (!m) return { error: `"${token}" is not a valid page or range.` };
+        const a = parseInt(m[1], 10);
+        const b = parseInt(m[2], 10);
+        if (a < 1 || b < 1 || a > b) return { error: `"${token}" is not a valid page or range.` };
+        if (a > max || b > max) {
+            return { error: `Page ${Math.max(a, b)} is out of range (document has ${max} page${max === 1 ? '' : 's'}).` };
+        }
+        for (let i = a; i <= b; i++) pages.push(i);
+    }
+
+    if (pages.length === 0) return { error: 'Enter pages to extract, e.g. 1-3, 5.' };
+    return { pages };
 }
 
 /** Trigger a browser download for the given bytes. */
@@ -95,9 +144,27 @@ async function extractRange() {
         console.error('[split] window.PDFLib unavailable');
         return;
     }
-    const range = readRange();
-    if (!range) return;
-    const { start, end } = range;
+    // The page-list / multi-range input is the primary control. When it has
+    // content, parse it; otherwise fall back to the contiguous From/To range
+    // (preserves the original TASK-315 behaviour).
+    const listExpr = rangesInput ? rangesInput.value.trim() : '';
+    let pages;       // ordered 1-based page numbers to extract
+    let fileName;
+    if (listExpr) {
+        const parsed = parsePageList(listExpr, numPages);
+        if (parsed.error) {
+            setStatus(parsed.error, true);
+            return;
+        }
+        pages = parsed.pages;
+        fileName = buildListFileName(pages);
+    } else {
+        const range = readRange();
+        if (!range) return;
+        pages = [];
+        for (let i = range.start; i <= range.end; i++) pages.push(i);
+        fileName = buildFileName(range.start, range.end);
+    }
 
     setStatus('Extracting…');
     if (extractBtn) extractBtn.disabled = true;
@@ -107,17 +174,15 @@ async function extractRange() {
         const srcPdf = await PDFLib.PDFDocument.load(srcBytes);
         const outPdf = await PDFLib.PDFDocument.create();
 
-        // copyPages expects 0-based indices; build the inclusive range.
-        const indices = [];
-        for (let i = start - 1; i <= end - 1; i++) indices.push(i);
+        // copyPages expects 0-based indices; preserve the requested order.
+        const indices = pages.map((p) => p - 1);
         const copied = await outPdf.copyPages(srcPdf, indices);
         copied.forEach((p) => outPdf.addPage(p));
 
         const outBytes = await outPdf.save();
-        const fileName = buildFileName(start, end);
         downloadBytes(outBytes, fileName);
 
-        const count = end - start + 1;
+        const count = pages.length;
         setStatus(`Extracted ${count} page${count === 1 ? '' : 's'} → ${fileName}`);
     } catch (err) {
         console.error('[split] extract failed:', err);
@@ -140,6 +205,7 @@ function onLoaded({ doc, name, numPages: n }) {
         endInput.max = String(numPages);
         endInput.value = String(numPages);
     }
+    if (rangesInput) rangesInput.value = '';
     setEnabled(numPages > 0);
     setStatus(numPages > 0 ? `${numPages} page${numPages === 1 ? '' : 's'} available.` : '');
 }
@@ -148,6 +214,7 @@ function onCleared() {
     currentDoc = null;
     currentName = 'document.pdf';
     numPages = 0;
+    if (rangesInput) rangesInput.value = '';
     if (startInput) startInput.value = '1';
     if (endInput) endInput.value = '1';
     setEnabled(false);
@@ -155,10 +222,21 @@ function onCleared() {
 }
 
 export function initSplit() {
+    rangesInput = document.getElementById('split-ranges');
     startInput = document.getElementById('split-start');
     endInput = document.getElementById('split-end');
     extractBtn = document.getElementById('split-extract');
     statusEl = document.getElementById('split-status');
+
+    // Pressing Enter in the page-list input triggers extraction.
+    if (rangesInput) {
+        rangesInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                extractRange();
+            }
+        });
+    }
 
     setEnabled(false);
     setStatus('Load a PDF first.');
