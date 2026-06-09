@@ -10,7 +10,7 @@
 
 ### SYSTEM CRITICAL: TASK-316 — viewer renders duplicate pages on rapid zoom (renderAll race) (2026-06-08)
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: HIGH
 **Assigned to**: developer
 **Assigned by**: project-manager (2026-06-09) — tier-1 SYSTEM CRITICAL. Routed to `developer` as the owner of the viewer core (`js/viewer.js`, built in TASK-301/314); developer2 owns the manipulation tools. Fix the `renderAll()` supersede-guard race per root cause + suggested fix below, then set IN_PROGRESS → DONE for the tester to re-run all 6 smoke phases.
@@ -47,6 +47,17 @@ mcp__chrome-devtools__evaluate_script  function=() => {
 ```
 
 **Acceptance criteria**: After the fix, the rapid-zoom reproduction above must leave `#pdf-pages .pdf-page` and `#pdf-pages canvas` counts equal to the PDF's real page count (1 for example.pdf) — never more — and the next tester run's smoke test must still pass all 6 phases.
+
+**Fix (developer, 2026-06-09)**: Root cause confirmed exactly as diagnosed — the supersede guard was checked at the loop top (before `await pdfDoc.getPage`) but not after it, so a stale render that resumed from `getPage()` built and `appendChild`'d its page wrapper before any token re-check, leaking one page per superseded render. Added two guards in `js/viewer.js` `renderAll()`: (1) `if (token !== renderToken) return;` immediately **after** `await pdfDoc.getPage(pageNum)` (so a superseded render bails before constructing/appending any DOM — also avoids allocating the canvas backing store), and (2) a defensive re-check right before `container.appendChild(pageWrap)`. No behavior change for normal (spaced) zooming.
+
+**Verified end-to-end via chrome-devtools MCP (headless Chrome, http://localhost/, example.pdf)**:
+- Original repro (`zoomIn×3; zoomOut×1`, no awaits): `{"before":{"pages":1,"canvases":1},"immediatelyAfter":{"pages":0,"canvases":0},"afterSettle":{"pages":1,"canvases":1}}` — settles at **1/1** (was 4/4 before the fix). ✓
+- Harsher burst (`zoomIn×6; zoomOut×4` no awaits): settles at **1 page / 1 canvas**. ✓
+- Post-upload geometry intact: `#pdf-pages` width **1905**, 1 visible canvas. ✓
+- **Zero console errors/warnings** throughout. ✓
+- `js/viewer.js` perms `644`, site HTTP 200.
+
+**Status**: DONE (awaiting tester re-verification — all 6 smoke phases)
 
 ### TASK-314: Text highlight annotation (`annotate.js`)
 
