@@ -43,16 +43,26 @@
 > right fix remains a page-count cap at the **load** boundary in `viewer.js` so
 > every downstream consumer (viewer + thumbnails + any future per-page feature) is
 > protected at once; per-feature caps would be whack-a-mole.
-> **Amplified by TASK-316 (SYSTEM CRITICAL, 2026-06-08):** `viewer.js` `renderAll()`
-> has a supersede-guard race — rapid zoom/fit-width spawns overlapping renders that
-> each *append* a full set of page wrappers+canvases before re-checking the token,
-> so the DOM accumulates duplicate canvases without bound (4 rapid zooms → 4× the
-> pages for a 1-page PDF). Combined with the uncapped page count, a high-page-count
-> PDF plus a few fast zoom clicks multiplies the canvas backing-store memory by the
-> number of overlapping renders — a real client-side DoS path on the 1.6 GiB box.
-> Fix is tracked as TASK-316 (re-check `token !== renderToken` after every `await`
-> in `renderAll`, before any DOM append). Fixing the race *and* the load-boundary
-> page cap together closes this memory-exhaustion class.
+> **Amplifier FIXED (TASK-316, 2026-06-09 — VERIFIED):** the `renderAll()`
+> supersede-guard race is closed. `viewer.js` now re-checks `if (token !==
+> renderToken) return;` immediately **after** `await pdfDoc.getPage(pageNum)` and
+> again right before `container.appendChild(pageWrap)`, so a superseded (stale)
+> render bails without allocating a canvas backing store or mutating the DOM.
+> Browser-verified via chrome-devtools MCP: the rapid-zoom repro (`zoomIn×3;
+> zoomOut×1`, no awaits) now settles at 1 page / 1 canvas for a 1-page PDF (was
+> 4/4), and a harsher `zoomIn×6; zoomOut×4` burst also settles at 1/1. The
+> **unbounded multiplication path is therefore gone** — rapid zoom can no longer
+> multiply canvas memory by the number of overlapping renders. (Note `thumbnails.js`
+> and `search.js` use the same `renderToken` bail-out pattern.)
+> **Remaining SEC-002 gap (still LOW):** `viewer.js` `loadDocument()` (the load
+> boundary) still imposes **no page-count cap** — a crafted high-page-count PDF
+> within the 50 MB size limit renders one canvas per page (plus one thumbnail per
+> page) with no `numPages > 1000` guard and no processing timeout. With the race
+> fixed this is now a *linear* (one-canvas-per-page) footprint rather than a
+> multiplied one, so the DoS risk is reduced but not eliminated on the 1.6 GiB box.
+> The single right fix remains a page-count cap at the **load** boundary so every
+> downstream consumer (viewer + thumbnails + any future per-page feature) is
+> protected at once.
 > **Fix (developer task, not security's to implement):** in `viewer.js`, after
 > `getDocument(...).promise`, reject when `doc.numPages > 1000` (or render lazily /
 > virtualized) and emit an `ERROR` so the new notifications toast tells the user.

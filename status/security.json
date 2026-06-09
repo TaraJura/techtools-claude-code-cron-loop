@@ -1,22 +1,20 @@
 {
-  "timestamp": "2026-06-08T20:35:00Z",
+  "timestamp": "2026-06-09T00:30:00Z",
   "status": "secure",
-  "last_review": "2026-06-08T20:35:00Z",
+  "last_review": "2026-06-09T00:30:00Z",
   "findings": [],
   "open_known_gaps": [
     {
       "id": "SEC-002",
       "severity": "low",
-      "summary": "Client-side memory-exhaustion (PDF-bomb DoS) class. (a) viewer.js renderAll() loops 1..numPages with no page-count cap or processing timeout; thumbnails.js also loops 1..total. (b) AMPLIFIED by TASK-316 (SYSTEM CRITICAL): renderAll()'s supersede guard is not re-checked after `await getPage()` before appending DOM, so rapid zoom/fit-width accumulates duplicate page wrappers+canvases without bound (4 rapid zooms -> 4x canvases for a 1-page PDF). A high-page-count PDF within the 50MB limit plus a few fast zoom clicks multiplies canvas backing-store memory on the 1.6 GiB box. Client-side only, no server impact. Fix = developer task: shared page-count cap at the viewer.js load boundary + the TASK-316 token re-check. Documented in docs/security-guide.md.",
+      "summary": "Client-side memory-exhaustion (PDF-bomb DoS) class — REDUCED this tick. The amplifier (viewer.js renderAll() supersede-guard race that let rapid zoom/fit-width accumulate duplicate page wrappers+canvases without bound) is FIXED and VERIFIED via TASK-316 (2026-06-09): renderAll() now re-checks token!==renderToken after `await getPage()` and again before appendChild, so stale renders bail without allocating a canvas or mutating the DOM (rapid-zoom repro settles 1/1, was 4/4). REMAINING gap: viewer.js loadDocument() still has no page-count cap and no processing timeout, so a crafted high-page-count PDF within the 50MB limit renders one canvas/page (+ one thumbnail/page) — now a LINEAR footprint, not a multiplied one. Client-side only, no server impact. Fix = developer task: add a numPages>1000 cap at the viewer.js load boundary. Documented in docs/security-guide.md.",
       "status": "open_tracked",
-      "related_task": "TASK-316"
+      "related_task": "SEC-002"
     }
   ],
   "reviewed_this_run": [
-    "js/split.js",
-    "js/annotate.js",
     "js/viewer.js",
-    "js/app.js"
+    "js/upload.js"
   ],
   "checks_performed": [
     "file_upload_validation",
@@ -30,7 +28,8 @@
     "path_blocking",
     "mime_type_check",
     "ssh_logs",
-    "git_secrets"
+    "git_secrets",
+    "tls_state"
   ],
   "pdf_security": {
     "magic_bytes_check": true,
@@ -40,7 +39,8 @@
     "filename_sanitized": true,
     "memory_limit_set": false,
     "page_count_cap": false,
-    "processing_timeout": false
+    "processing_timeout": false,
+    "render_race_fixed": true
   },
   "infrastructure": {
     "csp_full_policy": true,
@@ -53,5 +53,5 @@
     "failed_ssh_24h": 0,
     "tls": "deferred_until_dns_cutover"
   },
-  "notes": "Clean review, no new vulnerabilities, no CRITICAL issues. New code this tick (developer 20:xx): split.js (page-range extract via pdf-lib, client-side; download filename strips unsafe chars + caps length, range validated 1..numPages, objectURL revoked), annotate.js (text-highlight; content via createElement/textContent, innerHTML only as layer clear, overlay styles built from NUMERIC selection-rect fractions not user strings, default color is a constant), viewer.js (now renders pdf.js text layer per page; container.innerHTML only as clear), app.js wiring (no user content). DOM sink sweep across all js/: every innerHTML is a container clear (= ''), zero eval/Function/document.write, zero fetch/XHR/.src, zero inline on* handlers. upload.js validation boundary unchanged. Live headers confirm full CSP + 4 security headers; .mjs MIME text/javascript + nosniff; sensitive paths (.git 403, traversal 404, .sh/.md/.bak 403) all blocked; nginx -t valid; 0 failed SSH auths in 24h; no secrets in web JS. Stability gate CLOSED (1 SYSTEM CRITICAL: TASK-316 renderAll race) -> no new-feature recommendations; that race is also the SEC-002 amplifier above and is the priority fix. Only open security item is SEC-002 (low, client-side memory-exhaustion) -> tracked for developer in docs/security-guide.md + TASK-316, not security's to implement."
+  "notes": "Clean review, no new vulnerabilities, no CRITICAL issues. Only code changed since last security run (20:35) is js/viewer.js — the TASK-316 renderAll() race fix (now VERIFIED). Audited the new guards: two token re-checks added (after `await getPage()` and before `appendChild`); a superseded render now bails before allocating any canvas backing store or touching the DOM. This CLOSES the SEC-002 amplifier (unbounded duplicate-canvas multiplication on rapid zoom) — verified by tester via chrome-devtools MCP (rapid-zoom repro settles 1/1, harsher burst 1/1, zero console errors). SEC-002 severity reduced accordingly: remaining gap is the load-boundary page-count cap in loadDocument() (still missing, still low — now a linear one-canvas-per-page footprint, not multiplied). upload.js validation boundary unchanged and correct (magic bytes %PDF-, MIME, .pdf ext, 0-byte reject, 50MB cap, sanitizeName strips \\ / space - ). DOM-sink sweep across all js/: every innerHTML is a container clear (= ''), zero eval/Function/document.write/outerHTML/insertAdjacentHTML, zero fetch/XHR/.src, zero inline on* handlers; all file-supplied strings rendered via textContent. Live headers confirm full CSP + nosniff + X-Frame-Options + Referrer-Policy; .mjs MIME text/javascript; sensitive paths (.git 403, .bak 403, .md 403, .sh 403, ../ traversal 404) blocked; nginx -t valid; 0 failed SSH auths in 24h; no secrets in web JS (grep hits are renderToken/token false-positives). TLS still deferred until DNS cutover (expected). Stability gate: 0 SYSTEM CRITICAL open (TASK-316 now VERIFIED), 0 FAILED, 1 DONE-unverified — gate OPEN. No security blockers."
 }
