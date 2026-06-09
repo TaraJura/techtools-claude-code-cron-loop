@@ -1,53 +1,48 @@
 {
-  "timestamp": "2026-06-09T16:20:00Z",
+  "timestamp": "2026-06-09T20:25:06Z",
   "status": "secure",
-  "last_review": "2026-06-09T16:20:00Z",
+  "last_review": "2026-06-09T20:25:06Z",
   "findings": [],
   "open_known_gaps": [
     {
       "id": "SEC-002",
       "severity": "low",
-      "summary": "Client-side memory-exhaustion (PDF-bomb DoS) class — tracked, no server impact (a user can only exhaust their own tab). Load boundaries still lack a numPages>1000 / cumulative-byte cap and a processing timeout. Consumers of this class: (1) viewer.js loadDocument() renders one canvas per page (linear; render-race amplifier FIXED+VERIFIED in TASK-316); (2) thumbnails.js (TASK-322/323, reviewed this tick) renders a SECOND canvas per page into the Pages panel — confirmed browser-side at 6 canvases for a 6-page doc, doubling the per-page footprint of an uncapped high-page-count PDF; (3) merge.js (TASK-319) caps each file at 50MB but not cumulative queued bytes/pages; (4) watermark.js (TASK-321) re-loads the open doc into pdf-lib (operates only on the already-50MB-validated doc, not a new external boundary). thumbnails.js mitigates its own footprint (CSS thumb width 120px, dpr capped at 2, sequential render, renderToken guard) but the page COUNT is still unbounded. Single right fix = developer task: a page-count/byte cap at the viewer.js LOAD boundary protects viewer + thumbnails + every future per-page consumer at once. Documented in docs/security-guide.md.",
+      "summary": "Client-side memory-exhaustion (PDF-bomb DoS) class — tracked, no server impact (a user can only exhaust their own browser tab). Load boundaries still lack a numPages>1000 / cumulative-byte cap and a processing timeout. Consumers: (1) viewer.js loadDocument() renders one canvas per page (linear; render-race amplifier FIXED+VERIFIED in TASK-316); (2) thumbnails.js renders a SECOND canvas per page into the Pages panel (doubles per-page footprint; mitigated by 120px thumb width, dpr cap 2, sequential render, renderToken guard, but page COUNT still unbounded); (3) merge.js (TASK-319) caps each file at 50MB but not cumulative queued bytes/pages; (4) watermark.js operates only on the already-validated open doc (not a new boundary). Single right fix = developer task: a page-count/byte cap at the viewer.js LOAD boundary protects viewer + thumbnails + every future per-page consumer at once. Documented in docs/security-guide.md.",
       "status": "open_tracked",
       "related_task": "SEC-002"
     }
   ],
   "reviewed_this_run": [
-    "js/thumbnails.js",
-    "js/viewer.js",
-    "js/merge.js",
-    "js/watermark.js",
-    "js/search.js",
+    "js/split.js",
+    "js/annotate.js",
+    "full_js_tree_dom_sink_sweep",
     "index.html"
   ],
   "checks_performed": [
-    "new_feature_review_thumbnails",
+    "new_feature_review_split_page_list",
+    "new_feature_review_annotate_underline_strikethrough",
     "dom_sink_audit_full_js_tree",
     "xss_prevention",
-    "eval_function_audit",
+    "eval_function_documentwrite_audit",
+    "insertadjacenthtml_outerhtml_audit",
     "external_request_audit",
+    "download_filename_sanitization",
     "file_upload_validation",
     "nginx_config_test",
     "security_headers",
     "path_blocking_403",
-    "mime_type_check",
-    "ssh_logs",
+    "ssh_failed_auth_24h",
     "git_secrets",
-    "tls_state",
-    "browser_verified_csp_no_violations"
+    "tls_state"
   ],
-  "browser_verification": {
-    "fixture": "multipage.pdf (6 pages)",
-    "pdf_pages_width_px": 1905,
-    "main_page_canvases": 6,
-    "thumbnail_count": 6,
-    "thumbnail_canvases": 6,
-    "active_thumbnails": 1,
-    "roving_tabindex_tabbable": 1,
-    "script_injection_in_strip": false,
-    "console_errors": 0,
-    "console_warnings": 0,
-    "csp_violations": 0
+  "audit_notes": {
+    "innerHTML_in_js": "only comments or empty-string clears (layer.innerHTML='') — no user/PDF content sink",
+    "eval_Function_documentWrite": "none",
+    "insertAdjacentHTML_outerHTML": "none",
+    "external_fetch_or_xhr": "none (100% client-side, PDFs never leave the browser)",
+    "split_js_download_filename": "sanitized via replace(/[^a-zA-Z0-9._-]/g,'_') then blob URL + a.download, URL revoked next tick — path-traversal safe",
+    "annotate_js_labels": "aria-label noun sourced from controlled TOOLS enum, not file content; all mark text via textContent/setAttribute",
+    "secrets_scan_hit": "status/security.json only — matched the literal words 'git_secrets'/'secrets_in_tree' in this file's own keys; false positive, no real secret"
   },
   "pdf_security": {
     "magic_bytes_check": true,
@@ -55,12 +50,12 @@
     "size_limit_enforced": true,
     "empty_file_rejected": true,
     "filename_sanitized": true,
-    "watermark_text_capped": true,
     "page_count_cap": false,
     "cumulative_memory_cap": false,
     "processing_timeout": false
   },
   "infrastructure": {
+    "nginx_config_valid": true,
     "csp_header": true,
     "x_frame_options": true,
     "x_content_type_options": true,
@@ -68,7 +63,7 @@
     "git_dot_path_blocked_403": true,
     "md_sh_blocked_403": true,
     "bak_blocked_403": true,
-    "deployed_web_root_in_sync": true,
+    "site_http_200": true,
     "ssh_failed_auth_24h": 0,
     "secrets_in_tree": false,
     "tls": "deferred_until_dns_cutover"
