@@ -415,3 +415,27 @@ Per-feature UX/UI (TASK-323), 10 task criteria mapped:
 **Regression sweep (this tick)**: TASK-307 (In-document text search, `search.js`, VERIFIED 2026-06-08) re-run on example.pdf — **PASS, no regression**. 9-check: discoverable ✓ (Search tab + `#search-input`), visible ✓ (panel 1905×69), labeled ✓ (input `aria-label="Search in document"`, 0 unlabeled), keyboard-reachable ✓ (`document.activeElement===#search-input`), responds ✓ (search "PDF" → `#search-status` "1 of 3" with a `.search-mark`), error/empty ✓ (no-match "zzzznotfound" → "No matches found."; cleared query → empty status), viewer-intact ✓ (1905px, 1 canvas). Zero console errors.
 
 **DONE queue after this run: 0** (TASK-323 was the only DONE; now VERIFIED). Stability gate OPEN.
+
+---
+
+### TASK-324: Split tool — multi-range / page-list extraction (`split.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Description**: Enhance the existing **VERIFIED** Split tool (TASK-315, `js/split.js`) from a single contiguous "From page / To page" range into a flexible **page-list / multi-range** extractor — the most-requested upgrade to a split feature and a pure enhancement of an already-shipped, verified module (not new surface). The user types an expression like `1-3, 5, 8-10` and the tool extracts exactly those pages, in that order, into one downloaded PDF. Entirely client-side (pdf-lib), same isolation pattern as today: read the open document's bytes via pdf.js `doc.getData()` and talk to the app only through the EventBus + ActionRegistry. The viewer document is never modified; nothing is uploaded.
+
+**Technical approach** (additive enhancement of `js/split.js` + its panel in `index.html` + styles in `css/tools.css` — do NOT touch `viewer.js`, `annotate.js`, `upload.js` validation, `search.js`, `merge.js`, or `watermark.js`):
+- Add a **"Page list / ranges"** text input (`#split-ranges`, e.g. placeholder `e.g. 1-3, 5, 8-10`) to the existing Split panel, alongside (not replacing) the current From/To range inputs — keep the existing contiguous-range path working so nothing regresses. The page-list input is the new primary control.
+- Write a small, well-tested parser: split on commas, trim each token, accept either a single page `N` or a range `A-B` (with `A <= B`); build the ordered list of 1-based page numbers. Reject on: empty input, non-numeric tokens, `0`/negative, any page `> numPages`, malformed token (e.g. `3-`, `-4`, `2-1`), with a **specific** inline error message naming the problem (e.g. `"Page 9 is out of range (document has 5 pages)."`, `"\"3-\" is not a valid page or range."`, `"Enter pages to extract, e.g. 1-3, 5."`). Duplicates are allowed (a page listed twice is copied twice) — but if you choose to de-dupe, say so in the status; pick one behavior and make the status text state it.
+- On Extract: load the original bytes into pdf-lib (`window.PDFLib`), `copyPages()` the resolved page indices (0-based) in the requested order into a fresh `PDFDocument`, save, and download via Blob + object URL (revoked after ~1s). Output filename `<base>_pages.pdf` (or keep `<base>_pages_<a>-<b>.pdf` / `_page_<n>.pdf` for the simple single-range cases to match TASK-315's existing naming). Status reports how many pages were extracted, e.g. `"Extracted 6 pages → example_pages.pdf"`.
+- Controls disabled with status `"Load a PDF first."` until a document is open; force-clicking Extract with no doc shows that message and never throws (preserve TASK-315 behavior).
+
+**UX acceptance criteria** (the tester will verify each per-feature in a real headless-Chrome browser):
+- **Visible & discoverable**: the Split panel shows the new page-list input with a clear label/placeholder; the existing From/To controls still work.
+- **Labeled & keyboard-reachable**: the new input has an accessible name (`aria-label` or associated `<label>`); it is Tab-focusable and the Extract button is reachable and activatable by keyboard (Enter in the input or focusing the button); 0 unlabeled interactive controls in the panel.
+- **Correct extraction**: with a multi-page PDF loaded (use the 5-page `multi-page.pdf` fixture), entering `1-2,4` downloads a valid `%PDF-` file whose `getPageCount()` equals the number of pages requested (here 3), in the requested order; a single value (`3`) yields a 1-page PDF; a full range still works.
+- **Error/empty states** (each shows a clear inline error, **no file produced**, no throw): empty input; out-of-range page (e.g. `9` on a 5-page doc); malformed token (`3-`, `2-1`, `abc`). The message must name the actual problem, not a generic failure.
+- **No-doc safety**: with no PDF loaded the controls are disabled and status reads `"Load a PDF first."`; force-clicking Extract still shows that message and never throws.
+- **No regression**: viewer geometry unchanged after using Split (`#pdf-pages` width ~1905 on example.pdf, correct visible canvas count); the existing contiguous From/To extraction (TASK-315) still produces its file; **zero new console errors/warnings** in any flow; new/edited files `644`.
+
