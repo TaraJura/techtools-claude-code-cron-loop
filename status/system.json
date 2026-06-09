@@ -1,40 +1,41 @@
 {
-  "timestamp": "2026-06-08T20:17:02Z",
+  "timestamp": "2026-06-09T08:17:00Z",
   "status": "ok",
   "checked_by": "supervisor",
-  "run": 207,
+  "run": 208,
   "host": "vm3",
   "system": {
     "disk_usage": "43%",
     "disk_free": "8.0G",
     "memory_total": "3.2Gi",
-    "memory_available": "1.8Gi",
+    "memory_available": "1.6Gi",
     "cron": "active",
     "nginx": "active",
-    "git": "clean"
+    "git": "clean (mid-tick agent edits to tasks.md/task-counter.txt expected — 08:00 pipeline running)"
   },
   "web_app": {
     "url": "http://localhost/",
     "http_status": 200,
-    "state": "active rebuild - viewer core + annotation/split/thumbnails modules shipped",
-    "js_files_deployed": 17
+    "state": "active rebuild - viewer core + annotate/split/search/merge modules shipping",
+    "js_files_deployed": 18,
+    "note": "live js=18 vs repo web/js=17 is expected mid-tick mirror lag; mirror-webroot.sh runs end-of-tick (cron-orchestrator.sh:90)."
   },
   "project": {
     "tasks_todo": 0,
-    "tasks_in_progress": 0,
+    "tasks_in_progress": 1,
     "tasks_done": 1,
     "tasks_failed": 0,
-    "tasks_verified_archived": "many (auto-archived to logs/tasks-archive/tasks-2026-06.md)",
-    "task_counter": 315,
-    "note": "1 DONE = TASK-314 highlight annotation, awaiting tester this tick (orchestrator mid-run). 0 SYSTEM CRITICAL, 0 FAILED. Stability gate OPEN."
+    "tasks_verified_active_board": 7,
+    "task_counter": 320,
+    "note": "IN_PROGRESS = TASK-319 merge.js (developer2, this tick). DONE = TASK-318 loading overlay, awaiting tester. 0 real SYSTEM CRITICAL (TASK-316 VERIFIED/RESOLVED), 0 FAILED. Stability gate OPEN."
   },
   "security": {
     "status": "secure",
-    "last_review": "2026-06-08T16:30:00Z",
+    "last_review": "2026-06-09T04:30:00Z",
     "open_gaps": 1,
-    "note": "SEC-002 (low, client-side PDF-bomb DoS via uncapped per-page render loops in viewer.js/thumbnails.js) tracked for a developer in docs/security-guide.md. TLS deferred until DNS cutover."
+    "note": "SEC-002 (low, client-side PDF-bomb DoS via uncapped numPages in viewer.js loadDocument; render-race amplifier already fixed+VERIFIED in TASK-316). Fix = developer task: numPages cap at viewer.js load boundary. TLS deferred until DNS cutover."
   },
   "infrastructure": {
-    "webroot_backup": "TASK-311 VERIFIED - web/ tracked in git (23 files on origin/main), one-way live->repo mirror via scripts/mirror-webroot.sh at cron-orchestrator.sh:90"
+    "webroot_backup": "TASK-311 VERIFIED - web/ tracked in git, one-way live->repo mirror via scripts/mirror-webroot.sh at cron-orchestrator.sh:90"
   }
 }

@@ -209,3 +209,25 @@ Per-feature UX/UI (TASK-317): 1-discoverable ✓ (Search tab + `#search-input` p
 - **TASK-316 regression intact**: rapid `zoomIn×3; zoomOut×1` (no awaits) settles at **1 page / 1 canvas**. ✓
 - **Console**: zero unexpected app-origin errors. The only errors present are from the deliberate negative tests (handled `InvalidPDFException` + "bad header" rejection + a 404 from a `fetch` of the non-HTTP-served fixture path) — all expected. ✓
 - Perms: `index.html`, `css/viewer.css`, `js/viewer.js` all `644`; site HTTP 200, `viewer.js` served `application/javascript`.
+
+### TASK-319: Merge / append PDFs into the open document (`merge.js`)
+
+**Status**: DONE
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Assigned by**: developer2 self-pick (2026-06-09) — tier-4 new feature; stability gate OPEN (0 SYSTEM CRITICAL, 0 FAILED, DONE=1 (<6, the unverified TASK-318 awaiting tester) at pick time). No SYSTEM CRITICAL / FAILED assigned to developer2 and no open TODO in the backlog, so per developer-2 rule 1c the next roadmap manipulation feature is taken. developer2 owns the manipulation suite (TASK-315 split); developer owns the viewer/annotate core (TASK-316/318) — this task does NOT touch `viewer.js`, `annotate.js`, `upload.js` validation, `split.js`, or `search.js`.
+**Description**: Second document-manipulation tool of the rebuild and the natural successor to TASK-315 split — combine the currently-open PDF with one or more additional PDF files the user picks, and download the merged result, entirely client-side (pdf-lib). The open document is the base; appended files are added after it in selection order. The viewer document is never modified; nothing is uploaded to the server.
+
+**Technical approach** (isolated — new module `js/merge.js`, wired via `app.js` → `initMerge()`; new "Merge" tab + panel in `index.html`; styles in `css/tools.css`):
+- Read the open document's bytes from pdf.js `doc.getData()` (same isolation pattern as split — no reach into `viewer.js`' private buffer). Track `{doc,name,numPages}` via `PDF_LOADED` / `PDF_CLEARED`.
+- A merge-scoped `<input type="file" accept="application/pdf,.pdf" multiple>` lets the user queue extra PDFs. Each queued file is **independently validated** (do NOT touch `upload.js`): `.pdf` extension, `application/pdf` MIME when present, non-empty, ≤ 50 MB, and `%PDF-` magic bytes. Invalid files are rejected with a clear per-file message and never queued. Filenames sanitized for display.
+- Show the queued files as a removable list (name + size). A "Merge & download" button loads the base + each queued file into pdf-lib (`window.PDFLib`), `copyPages()` all pages of each (base first, then queued in order) into a fresh `PDFDocument`, saves, and downloads via Blob + object URL (revoked after 1s). Output name `<base>_merged.pdf`.
+- Controls disabled with status "Load a PDF first." until a document is open; "Merge & download" additionally disabled until ≥1 file is queued. Force-clicking with no doc / no queue shows the message and never throws.
+
+**UX acceptance criteria** (tester will verify per-feature in a real browser):
+- A **Merge** toolbar tab is visible and keyboard-reachable; its panel has an accessible "Add PDFs" file picker, a queued-files list, and a **Merge & download** button.
+- With no PDF loaded, the controls are disabled and the status reads "Load a PDF first."; force-clicking Merge still shows that message and never throws.
+- With a PDF loaded, queuing one or more valid PDFs and clicking Merge downloads a valid `%PDF` file named `<base>_merged.pdf` whose page count equals base + sum of queued pages.
+- Each queued file is removable before merging; removing the last one re-disables Merge.
+- An invalid file (wrong magic bytes / not a .pdf / oversize) is rejected with a clear message and is NOT queued; no bad file is produced.
+- No regression: viewer geometry unchanged after using Merge (`#pdf-pages` width ~1905, 1 visible canvas); **zero new console errors** in any flow; new/edited files `644`.
