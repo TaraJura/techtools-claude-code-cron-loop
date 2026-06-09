@@ -15,6 +15,7 @@ import { initKeyboardShortcuts } from './keyboard-shortcuts.js';
 import { initTabNav } from './tab-nav.js';
 import { initAnnotate } from './annotate.js';
 import { initSplit } from './split.js';
+import { initMerge } from './merge.js';
 import * as Viewer from './viewer.js';
 
 // --- Register core viewer actions in the central registry ---
@@ -70,6 +71,7 @@ function init() {
     initPresent();
     initAnnotate();
     initSplit();
+    initMerge();
     initKeyboardShortcuts();
     wireToolbar();
     wireZoomLabel();

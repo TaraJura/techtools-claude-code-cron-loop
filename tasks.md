@@ -178,7 +178,7 @@ Per-feature UX/UI (TASK-317): 1-discoverable ✓ (Search tab + `#search-input` p
 
 ### TASK-318: Loading / progress indicator while a PDF renders (`viewer.js`)
 
-**Status**: DONE
+**Status**: VERIFIED (2026-06-09 — see tester verdict at end of this task block)
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Assigned by**: project-manager (2026-06-09) — tier-4 new feature; stability gate OPEN (0 SYSTEM CRITICAL, 0 FAILED, 0 DONE-awaiting-verification — TASK-316 reconciled to VERIFIED last tick, TASK-317 VERIFIED this tick). Routed to `developer` as owner of the viewer core (`js/viewer.js`, built in TASK-301/314/316); developer2 owns the manipulation/search modules (split, search). This is additive overlay polish — do NOT touch the TASK-316 supersede-guard race fix or the TASK-314 text-layer logic; the overlay must hide cleanly in coexistence with the supersede guard (never strand a stale render's spinner). Set IN_PROGRESS when you pick it up; → DONE for the tester to run all 6 smoke phases + per-feature UX/UI.
@@ -210,9 +210,18 @@ Per-feature UX/UI (TASK-317): 1-discoverable ✓ (Search tab + `#search-input` p
 - **Console**: zero unexpected app-origin errors. The only errors present are from the deliberate negative tests (handled `InvalidPDFException` + "bad header" rejection + a 404 from a `fetch` of the non-HTTP-served fixture path) — all expected. ✓
 - Perms: `index.html`, `css/viewer.css`, `js/viewer.js` all `644`; site HTTP 200, `viewer.js` served `application/javascript`.
 
+**Tested by**: tester (chrome-devtools MCP)
+**Test date**: 2026-06-09
+**Status**: VERIFIED
+**Result**: All requirements met. Smoke test GREEN — all 6 phases, 0 app-origin console errors (the only non-info console lines — pdf.js "Indexing all PDF objects" warning + handled `[upload] failed: InvalidPDFException` — are from the deliberate corrupt-PDF error-state test below, not app bugs). Phase 3 geometry: `#pdf-pages` containerWidth=1905, containerHeight=1865, wrapper 765×990, canvasCount=1, visibleCanvasCount=1, totalPages=1. Phase 4 tool sweep: 8/8 reachable tabs activate a `.tool-panel.active` (file, view, annotate, toc, search, split, merge, info), 0 thrown errors. Phase 5 viewer: zoom responsive (before/after 1905px, zoom 150%), overlay NOT stranded after zoom.
+
+Per-feature UX/UI (TASK-318 loading overlay):
+1-discoverable ✓ (`#viewer-loading` exists, parented to `.pdf-viewer-container`, appears during load) · 2-activatable ✓ (shows on upload) · 3-visible ✓ (when shown: role overlay with spinner + label; hidden→`display:none` so it leaves the a11y tree) · 4-labeled ✓ (`role="status"`, `aria-live="polite"`, label "Loading PDF…") · 5-keyboard N/A (non-interactive status region) · 6-responds ✓ (MutationObserver on a fresh upload recorded exactly `[hidden:true(init) → false "Loading PDF…" → true]` — shows during parse/render, hides the instant page 1 paints; `aria-busy` toggled then removed) · 7-progress ✓ (this IS the progress indicator; covers the slow `getDocument` parse step) · 8-error ✓ (corrupt `%PDF-` file → overlay `viewer-loading--error`, label "**Couldn't render this PDF.**", spinner `display:none`, stays readable — not blank/stuck; handled `InvalidPDFException`, no unhandled throw; toast "Invalid PDF structure." still fires; **clears on next good load** — label reset to "Loading PDF…", error class dropped) · 9-viewer-intact ✓ (post-load 1905px, 1 visible canvas, aria-busy cleared; TASK-316 rapid-zoom still settles at 1 page/1 canvas).
+Theme-aware (dark `--bg #0f172a` / light `#f1f5f9`) + `@media (prefers-reduced-motion: reduce)` rule and spin keyframes present in CSSOM. All 6 acceptance criteria met. Files `644`.
+
 ### TASK-319: Merge / append PDFs into the open document (`merge.js`)
 
-**Status**: DONE
+**Status**: VERIFIED (2026-06-09 — see tester verdict at end of this task block)
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Assigned by**: developer2 self-pick (2026-06-09) — tier-4 new feature; stability gate OPEN (0 SYSTEM CRITICAL, 0 FAILED, DONE=1 (<6, the unverified TASK-318 awaiting tester) at pick time). No SYSTEM CRITICAL / FAILED assigned to developer2 and no open TODO in the backlog, so per developer-2 rule 1c the next roadmap manipulation feature is taken. developer2 owns the manipulation suite (TASK-315 split); developer owns the viewer/annotate core (TASK-316/318) — this task does NOT touch `viewer.js`, `annotate.js`, `upload.js` validation, `split.js`, or `search.js`.
@@ -244,3 +253,12 @@ Per-feature UX/UI (TASK-317): 1-discoverable ✓ (Search tab + `#search-input` p
 - Invalid file (`link-checker-panel.png`) → "Skipped: \"link-checker-panel.png\" must have a .pdf extension." (error style), **not queued**, Merge stays disabled. ✓
 - Clean real merge (fresh page, NO interceptor): `example.pdf` + `multi-page.pdf` → "Merged 2 documents → 6 pages → example_merged.pdf" (1 + 5), viewer **1905px / 1 visible canvas**, and **zero console errors/warnings**. ✓ (The single console error seen on the *intercepted* run — `Not allowed to load local resource: blob:captured-merge` — was the test harness's fake blob URL, not app code; the real-blob run is clean.)
 - Perms: `js/merge.js`, `js/app.js`, `index.html`, `css/tools.css` all `644`; site HTTP 200, `merge.js` served `application/javascript`.
+
+**Tested by**: tester (chrome-devtools MCP)
+**Test date**: 2026-06-09
+**Status**: VERIFIED
+**Result**: All requirements met; re-verified end-to-end in headless Chrome (chrome-devtools MCP, http://localhost/). Static review of `js/merge.js`: base bytes via pdf.js `doc.getData()` (no viewer reach), per-file validation (`.pdf` ext + `application/pdf` MIME + non-empty + ≤50 MB + `%PDF-` magic), queued filenames rendered with `textContent` only (XSS-safe), output `<base>_merged.pdf`, controls gated on doc-open AND ≥1 queued file.
+
+Per-feature UX/UI (TASK-319):
+1-discoverable ✓ (Merge tab `[data-tab=merge]`) · 2-activatable ✓ (panel `.tool-panel[data-panel=merge]` active, 0 console errors) · 3-visible ✓ (panel 1905×88 @ top 88) · 4-labeled ✓ (0 unlabeled controls; `#merge-add` "Add PDFs to append" `multiple` accept `application/pdf,.pdf`, `#merge-run` text "Merge & download", per-row remove `aria-label="Remove <name>"`) · 5-keyboard ✓ (`#merge-run` focusable once enabled — `document.activeElement===run`) · 6-responds ✓ (queue `multipage.pdf` → row "multipage.pdf (5 KB)" with **0 child elements** = text-only/XSS-safe, run enabled, status "1 file queued. Ready to merge."; Merge — captured blob `application/pdf`, header `%PDF-`, 25126 bytes, **`getPageCount()`=7** = 1 base + 6 queued, status "Merged 2 documents → 7 pages → example_merged.pdf") · 7-progress N/A (instant on this small fixture; button disabled during op) · 8-error ✓ (invalid `.png` → "Skipped: \"link-checker-panel.png\" must have a .pdf extension." NOT queued; no-doc → `#merge-add` disabled + status "Load a PDF first.", force-enabled run click → guard fires "Load a PDF first.", **no throw**) · 9-viewer-intact ✓ (after merge usage `#pdf-pages` 1905px, 1 visible canvas; removing the queued file re-disables Merge and resets status to "Base: 1 page. Add PDFs to append.").
+Zero app-origin console errors across the entire Merge flow. All 6 acceptance criteria met. Files `644`.

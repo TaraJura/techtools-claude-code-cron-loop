@@ -37,6 +37,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="search">Search</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="thumbnails">Pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="split">Split</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="info">Info</button>
   </nav>
 
@@ -113,6 +114,19 @@
       <span id="split-status" class="split-status" role="status" aria-live="polite">Load a PDF first.</span>
     </section>
 
+    <!-- Merge panel: append additional PDFs to the open document -->
+    <section class="tool-panel" role="tabpanel" data-panel="merge" aria-label="Merge / append PDFs">
+      <div class="merge-controls">
+        <label class="file-label" for="merge-add">Add PDFs</label>
+        <input id="merge-add" class="visually-hidden" type="file" accept="application/pdf,.pdf"
+               multiple aria-label="Add PDFs to append" disabled>
+        <button class="btn btn-primary" id="merge-run" data-action="merge.run"
+                type="button" disabled>Merge &amp; download</button>
+      </div>
+      <ul id="merge-list" class="merge-list" aria-label="PDFs to append"></ul>
+      <span id="merge-status" class="merge-status" role="status" aria-live="polite">Load a PDF first.</span>
+    </section>
+
     <!-- Info panel: document properties / metadata -->
     <section class="tool-panel" role="tabpanel" data-panel="info" aria-label="Document properties">
       <div id="metadata-list" aria-label="Document properties"></div>
@@ -139,6 +153,13 @@
         <p>No document open. Use <strong>Choose PDF file</strong> above to get started.</p>
       </div>
       <div id="pdf-pages" aria-label="PDF pages"></div>
+    </div>
+    <!-- Loading/render overlay (TASK-318). Absolutely positioned, so NOT a
+         flex-row child of .pdf-viewer-container — it cannot collapse the page
+         column (rule 8). Toggled via the [hidden] attribute in viewer.js. -->
+    <div id="viewer-loading" class="viewer-loading" role="status" aria-live="polite" hidden>
+      <div class="viewer-loading__spinner" aria-hidden="true"></div>
+      <span class="viewer-loading__label">Loading PDF…</span>
     </div>
   </main>
 

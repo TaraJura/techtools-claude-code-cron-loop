@@ -19,11 +19,52 @@ const MAX_SCALE = 4.0;
 let pdfDoc = null;          // current pdfjs document
 let currentScale = 1.25;    // render scale
 let pagesEl = null;         // #pdf-pages container
+let loadingEl = null;       // #viewer-loading overlay
 let renderToken = 0;        // guards against overlapping re-renders
 
 function ensurePagesEl() {
     if (!pagesEl) pagesEl = document.getElementById('pdf-pages');
     return pagesEl;
+}
+
+// --- Loading overlay (TASK-318) -------------------------------------------
+// A single reusable overlay (#viewer-loading) shown while a document is being
+// parsed/rendered. Toggled via the [hidden] attribute so it leaves the a11y
+// tree when hidden. Coexists with the TASK-316 supersede guard: only the
+// winning render hides it (a superseded render bails before appending), and a
+// newer render re-shows it, so a stale render can never strand the spinner.
+
+function ensureLoadingEl() {
+    if (!loadingEl) loadingEl = document.getElementById('viewer-loading');
+    return loadingEl;
+}
+
+function setLoadingLabel(text) {
+    const el = ensureLoadingEl();
+    if (!el) return;
+    const labelEl = el.querySelector('.viewer-loading__label');
+    if (labelEl) labelEl.textContent = text;
+}
+
+function showLoading(label = 'Loading PDF…') {
+    const el = ensureLoadingEl();
+    if (!el) return;
+    el.classList.remove('viewer-loading--error');
+    setLoadingLabel(label);
+    el.hidden = false;
+}
+
+function showLoadError(message = "Couldn't render this PDF.") {
+    const el = ensureLoadingEl();
+    if (!el) return;
+    el.classList.add('viewer-loading--error');
+    setLoadingLabel(message);
+    el.hidden = false;
+}
+
+function hideLoading() {
+    const el = ensureLoadingEl();
+    if (el) el.hidden = true;
 }
 
 /**
@@ -32,13 +73,22 @@ function ensurePagesEl() {
  * @param {string} [name]
  */
 export async function loadDocument(data, name = 'document.pdf') {
-    // pdf.js may detach the buffer; hand it a private copy.
-    const bytes = data instanceof Uint8Array ? data.slice() : new Uint8Array(data.slice(0));
-    const doc = await pdfjsLib.getDocument({ data: bytes }).promise;
-    pdfDoc = doc;
-    EventBus.emit(Events.PDF_LOADED, { doc, name, numPages: doc.numPages });
-    await renderAll();
-    return doc;
+    // Show the loading overlay up front so the parse step (which can be slow on
+    // this small box) is covered, not just the page render.
+    showLoading('Loading PDF…');
+    try {
+        // pdf.js may detach the buffer; hand it a private copy.
+        const bytes = data instanceof Uint8Array ? data.slice() : new Uint8Array(data.slice(0));
+        const doc = await pdfjsLib.getDocument({ data: bytes }).promise;
+        pdfDoc = doc;
+        EventBus.emit(Events.PDF_LOADED, { doc, name, numPages: doc.numPages });
+        await renderAll();
+        return doc;
+    } catch (err) {
+        // Leave a readable message instead of a stuck spinner / blank viewport.
+        showLoadError("Couldn't render this PDF.");
+        throw err;
+    }
 }
 
 /** Re-render every page at the current scale. */
@@ -97,6 +147,11 @@ export async function renderAll() {
         // keeps the append safe if an await is ever introduced).
         if (token !== renderToken) return;
         container.appendChild(pageWrap);
+
+        // First page is on screen — drop the loading overlay. Only the winning
+        // render reaches this point (superseded renders bail at the guards
+        // above), so a stale render can never strand or prematurely hide it.
+        if (pageNum === 1) hideLoading();
 
         await page.render({
             canvasContext: ctx,
@@ -165,6 +220,7 @@ export function clear() {
     pdfDoc = null;
     const container = ensurePagesEl();
     if (container) container.innerHTML = '';
+    hideLoading(); // never leave a stale spinner/error after closing a document
     EventBus.emit(Events.PDF_CLEARED);
 }
 
