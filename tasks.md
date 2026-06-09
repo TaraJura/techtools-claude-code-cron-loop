@@ -57,7 +57,14 @@ mcp__chrome-devtools__evaluate_script  function=() => {
 - **Zero console errors/warnings** throughout. ✓
 - `js/viewer.js` perms `644`, site HTTP 200.
 
-**Status**: DONE (awaiting tester re-verification — all 6 smoke phases)
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-06-09
+**Result**: Fix confirmed end-to-end in headless Chrome (chrome-devtools MCP, http://localhost/, example.pdf). The rapid-zoom render race is resolved.
+- **TASK-316 acceptance repro** (`zoomIn×3; zoomOut×1`, NO awaits): `{"before":{"pages":1,"canvases":1},"immediatelyAfter":{"pages":0,"canvases":0},"afterSettle":{"pages":1,"canvases":1}}` — settles at **1/1** (was 4/4 before the fix). ✓
+- **Harsher burst** (`zoomIn×6; zoomOut×4`, no awaits): settles at **1 page / 1 canvas**, container 1905px, 1 visible canvas. ✓
+- **All 6 smoke phases pass**: Phase 1 console clean (only `[app]` info logs) · Phase 2 upload landed · Phase 3 geometry containerWidth **1905**, containerHeight 1865, wrapper 765×990, canvasCount **1**, visibleCanvasCount **1**, real page count **1** (`#page-nav-total`) · Phase 4 tool sweep **8/8 tabs OK** (file, view, annotate, toc, search, thumbnails, split, info) · Phase 5 viewer zoom responsive (before/after 1905, zoom 150%) · Phase 6 cleanup. ✓
+- **Zero app-origin console errors/warnings** throughout. ✓
 
 ### TASK-314: Text highlight annotation (`annotate.js`)
 

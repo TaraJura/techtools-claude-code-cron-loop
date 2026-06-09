@@ -53,6 +53,11 @@ export async function renderAll() {
     for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
         if (token !== renderToken) return; // a newer render superseded us
         const page = await pdfDoc.getPage(pageNum);
+        // getPage() suspends — a newer render may have started (and cleared the
+        // container) while we awaited. Re-check BEFORE building/appending any DOM,
+        // otherwise this stale render leaks a duplicate page wrapper + canvas
+        // (the root cause of TASK-316: rapid zoom accumulating duplicate pages).
+        if (token !== renderToken) return;
         const viewport = page.getViewport({ scale: currentScale });
 
         const pageWrap = document.createElement('div');
@@ -86,6 +91,11 @@ export async function renderAll() {
 
         pageWrap.appendChild(canvas);
         pageWrap.appendChild(textLayerDiv);
+        // Final guard right before mutating the live container: if a newer render
+        // superseded us at any point above, bail without appending (defensive —
+        // there is no await between the getPage check and here today, but this
+        // keeps the append safe if an await is ever introduced).
+        if (token !== renderToken) return;
         container.appendChild(pageWrap);
 
         await page.render({
