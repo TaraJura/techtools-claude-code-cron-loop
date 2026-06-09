@@ -141,3 +141,25 @@ UX acceptance criteria (tester will re-check in a real browser):
 1-discoverable ✓ (Split tab `[data-tab=split]`) · 2-activatable ✓ (panel opens, 0 console errors) · 3-visible ✓ (panel with From/To inputs + Extract button) · 4-labeled ✓ (0 unlabeled controls; button text "Extract pages") · 5-keyboard ✓ (Extract button focusable) · 6-responds ✓ (range pre-fills 1–1, status "1 page available."; Extract → captured blob `application/pdf`, header `%PDF-`, 23397 bytes, filename `example_page_1.pdf`, status "Extracted 1 page → …") · 7-progress n/a (instant) · 8-errors ✓ (out-of-range 5/5 → "Pages must be between 1 and 1." no download; empty → "Enter a valid page range." no download; no-PDF controls disabled, force-click no throw) · 9-viewer-intact ✓ (container 1905px, 1 visible canvas, no regression from index.html/app.js edits).
 Zero app-origin console errors throughout.
 
+
+### TASK-317: Highlight the matched term inside the search result snippet (`search.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Description**: Polish the existing in-document search (TASK-307, VERIFIED) so the user can *see* which word matched. Today `setSnippet()` in `js/search.js` renders the active match as plain text via `snippetEl.textContent = \`Page N: …context…\`` — the matched term is buried in the surrounding context with no visual emphasis. Improve the snippet rendering so the matched substring is visually marked (wrap it in a `<mark>` element) while the context around it stays plain.
+
+**Technical approach** (additive only — do NOT touch `viewer.js` rendering core, `upload.js` validation, or the match-collection logic; only change how the *current* match snippet is rendered):
+- Change `setSnippet`/`showMatch` to build DOM nodes instead of assigning a single `textContent` string: create a text node for the leading context, a `<mark class="search-mark">` whose `textContent` is the matched slice, and a text node for the trailing context; replace the snippet element's children (e.g. `snippetEl.replaceChildren(...)`).
+- The marked slice MUST be taken from the original extracted page text (the same source the snippet is built from), **never** from the user's query string, and MUST be inserted with `textContent` on the `<mark>` node — **never** via `innerHTML`/string concatenation of the query — so a query like `<img src=x onerror=…>` cannot inject markup (XSS). This is the security-critical acceptance criterion.
+- Keep the existing `Page N:` prefix as plain text and keep the leading/trailing ellipsis behaviour from `makeSnippet`.
+- Add a `.search-mark` style to `css/tools.css` (or wherever search styles live) with a highlight background + foreground that meets WCAG AA contrast in **both** light and dark themes (don't hardcode a colour that vanishes in dark mode — use the theme's existing highlight token if one exists).
+- When the snippet is cleared (no query / no matches / document closed), clear the element's children so no stale `<mark>` lingers.
+
+**UX acceptance criteria** (tester will verify per-feature):
+- Visible: after a search with ≥1 hit, the matched term in the snippet is visually distinct (highlighted) from the surrounding context, in both light and dark themes.
+- Correct: the highlighted span is exactly the matched term, in the right position within the context (not the whole snippet, not the wrong word).
+- Accessible: the live match count (`#search-status`, `aria-live="polite"`) still announces "N of M" unchanged; the `<mark>` does not break or duplicate the announcement.
+- Error/empty states preserved: "Load a PDF first.", "No matches", empty-query, and document-close states still show the correct message with the snippet cleared (no leftover highlight).
+- Security: searching for a string containing HTML/script characters (e.g. `<b>`, `<img src=x onerror=alert(1)>`) highlights it as literal text — no tag is rendered, no script runs, zero new console errors.
+- No regression: viewer geometry unchanged after searching (`#pdf-pages` width sane, canvases intact); Next/Previous navigation and scroll-into-view still work; all touched files `644`.
