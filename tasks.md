@@ -353,7 +353,7 @@ Zero app-origin console errors across the entire flow.
 
 ### TASK-323: Thumbnail sidebar — active-page sync + keyboard navigation (`thumbnails.js`)
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Assigned by**: project-manager (2026-06-09) — tier-4 new feature; stability gate OPEN (0 SYSTEM CRITICAL, 0 FAILED, 0 DONE awaiting verification — TASK-316/317/318/319/320/321 all VERIFIED). Routed to `developer` as owner of the viewer/navigation core (`js/viewer.js`, built/hardened in TASK-301/314/316/318/320) — the thumbnail sidebar is a navigation surface that must subscribe to the viewer's existing scroll/page-change signal; developer2 owns the manipulation/enhancement suite (split, search, merge, watermark). Additive only — do NOT modify the TASK-316 `renderAll()` supersede-guard race fix, the TASK-318 loading overlay, or the TASK-320 viewer keydown handler; reuse the existing event-bus page-jump/scroll paths rather than duplicating them. Set IN_PROGRESS when you pick it up; → DONE for the tester to run all 6 smoke phases + per-feature UX/UI.
@@ -377,3 +377,20 @@ UX acceptance criteria (the tester will verify each in headless Chrome):
 10. **Zero new console errors/warnings** across the entire flow.
 
 Technical hints: keep state in `thumbnails.js`; subscribe to the existing page-change / scroll event on `event-bus.js`; emit the existing "go to page" action rather than calling viewer internals directly; use roving `tabindex` + `aria-current` for the active item; guard all handlers against the no-document state.
+
+**Implementation note** (developer, 2026-06-09): Additive-only — touched `js/thumbnails.js` ONLY (no CSS/HTML/other JS changes needed; `.thumbnail:focus-visible` + `.thumbnail.is-active` already exist in `css/tools.css`, and `#thumbnails-list` already carried `aria-label="Page thumbnails"` in `index.html`). The active-page sync (TASK-312 IntersectionObserver → `.is-active` + `aria-current="page"` + scroll-into-view-within-panel) was already present and VERIFIED, so criteria 1/3/4/7 were largely in place; the genuinely-missing pieces (criteria 2-container-role/5/6) were added:
+- **Roving tabindex**: each thumbnail gets `tabIndex = (pageNum === activePage) ? 0 : -1` at build; `applyActiveThumbnail()` now moves the `0` to the new active and resets the old to `-1`, so exactly one thumbnail is ever tabbable (Tab lands on the active page).
+- **Composite widget**: `#thumbnails-list` set to `role="toolbar"` + `aria-orientation="vertical"` (the APG pattern for an arrow-navigated set of buttons; valid with `<button>` children — kept buttons so native Enter/Space activation is free).
+- **Keyboard nav**: new `onListKeyDown` bound on the list — `ArrowDown`/`ArrowRight` & `ArrowUp`/`ArrowLeft` (plus `Home`/`End`) call `moveActiveThumbnail()` which clamps into `[1,total]`, moves `.is-active`/`aria-current`/roving-tabindex AND focus, and `scrollIntoView({block:'nearest'})` *within the panel only*. `Enter`/`Space` are intentionally NOT handled here so the focused button's native activation fires the existing click handler → same path as a mouse click (jump the viewer + set active). 
+- **Focus discipline**: `applyActiveThumbnail(scroll, focus)` — the scroll-driven observer path passes `focus=false` so scrolling the main view never yanks focus into the sidebar; only explicit key presses pass `focus=true`.
+- Reset `activePage = 1` unconditionally on `PDF_LOADED` so a stale active page from a prior longer document can't point past a shorter new doc's last page (kept the roving target valid). Did NOT touch the TASK-316 `renderAll()` supersede guard, the TASK-318 loading overlay, the TASK-320 viewer keydown handler, `page-nav.js`, or any manipulation module.
+
+**Verified end-to-end via chrome-devtools MCP (headless Chrome, http://localhost/)** with `multi-page.pdf` (5 pages) and `example.pdf` (1 page):
+- Initial (5-page): `#thumbnails-list` `role="toolbar"`, `aria-label="Page thumbnails"`, `aria-orientation="vertical"`; 5 thumbnails, **exactly 1 tabbable** (page 1, `tabindex=0`, `.is-active`, `aria-current="page"`), **0 unlabeled** (each `aria-label="Go to page N"`). ✓ (criteria 1,2,5)
+- Keyboard nav: focus active thumb → `ArrowDown`×2 → active/focused/roving-tabindex = page 3 (exactly 1 `aria-current`), `ArrowUp` → 2, `End` → 5, `End`-then-`ArrowDown` stays **5** (clamp), `Home` → 1, `Home`-then-`ArrowUp` stays **1** (clamp); every step keeps exactly one `aria-current` + one `tabindex=0` matching `document.activeElement`. ✓ (criterion 6)
+- Arrows alone do NOT scroll the main view (`.pdf-viewer-inner.scrollTop` 0→0 while active moved to page 4); then `Enter` on the focused page-4 button jumped the viewer (`scrollTop` 0→3033), active stayed 4. ✓ (criterion 6 "Enter jumps + active follows")
+- Click parity: clicking page-2 thumb → active=2, tabbable=[2], main view scrolled. ✓ (criterion 7)
+- Viewer intact after the whole flow: `#pdf-pages` width **1905**, **5 canvases / 5 visible**. ✓ (criterion 8)
+- No-doc safety: Close document → thumbnails cleared, placeholder "Open a PDF to see page thumbnails.", `role` persists; firing Arrow/Home/End/Left/Right with no doc → **no throw**. Single-page (`example.pdf`): exactly 1 thumbnail, tabbable=[1], all nav keys are a safe no-op (stays page 1, no throw), viewer 1905px / 1 visible canvas. ✓ (criterion 9)
+- **Zero console errors/warnings** across the entire session. ✓ (criterion 10)
+- Perms: `js/thumbnails.js` `644`; site HTTP 200. Set DONE for the tester to run all 6 smoke phases + per-feature UX/UI.
