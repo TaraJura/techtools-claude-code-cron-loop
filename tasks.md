@@ -56,3 +56,25 @@ UX/UI: 1-discoverable ✓  2-activatable ✓  3-visible ✓  4-labeled ✓ (0 un
 - After loading example.pdf and clicking Apply, a non-zero-byte `*_numbered.pdf` downloads whose pages carry the page number at the chosen corner; page count is unchanged; no new console errors.
 - Switching format/position changes the stamped output accordingly; "Start at" offsets the first page's number.
 - No regression: `#pdf-pages` still renders width ≥ 300 with a visible canvas after upload (this module does not touch the viewer).
+
+---
+
+### TASK-330: Editable document metadata — edit Title/Author/Subject/Keywords and download (`metadata.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Description**: Upgrade the existing **read-only** Document Properties / Info panel (`js/metadata.js`, TASK-304) into an editable metadata editor. Today the panel only *displays* the open PDF's title, author, subject, keywords, creator, producer, dates, and PDF version via pdf.js `getMetadata()`. Users routinely need to *fix* a wrong/empty title or author before sharing a PDF — a common, low-risk prep operation that currently requires a separate desktop tool.
+
+**Technical approach** (follow the isolated `watermark.js` / `page-numbers.js` pattern exactly — do NOT touch the viewer render core or `.pdf-viewer-container` layout):
+- In the Info panel, render the four user-editable fields (Title, Author, Subject, Keywords) as real `<input>` controls pre-filled with the current values; keep the non-editable fields (creator, producer, dates, version, page count, file name) as read-only `<dt>/<dd>` rows as they are now. Each input gets a proper `<label for>` association.
+- Add an **"Apply & download"** button. On click: read the open document bytes via pdf.js `doc.getData()`, load them with **pdf-lib**, call `setTitle` / `setAuthor` / `setSubject` / `setKeywords` (split the keywords input on commas into an array) on a fresh copy, save, and trigger a client-side Blob download named `<base>_metadata.pdf`. **Never mutate the viewer document and never upload anything** — purely client-side.
+- Stay XSS-safe: continue inserting any PDF-supplied display values via `textContent`; pre-fill `<input>` values via the `.value` property (never `innerHTML`). User-typed text only ever reaches pdf-lib setters and `.value`.
+- Subscribe to `EventBus` `PDF_LOADED` / `PDF_CLEARED` only (as the module does today) to enable/clear the fields.
+
+**UX acceptance criteria** (tester must verify all in the real browser):
+- The Info panel shows Title/Author/Subject/Keywords as editable inputs (pre-filled from the loaded PDF) plus an "Apply & download" button; every input has a visible, associated `<label>`, is keyboard-reachable (Tab order) with a visible focus ring, and is `disabled` until a PDF is loaded.
+- With no document loaded, the inputs/button are `disabled` (`disabled` + `aria-disabled="true"`) and clicking shows a clear "Load a PDF first." status (`role="status"` / `aria-live="polite"`), never a thrown exception.
+- After loading example.pdf, editing the Title (and/or other fields) and clicking Apply produces a non-zero-byte `*_metadata.pdf` download with a valid `%PDF` header; re-opening that file in a fresh viewer load shows the **updated** Title/Author in the (still read-only) Info panel, and the page count is unchanged.
+- A short progress/affordance is shown during the bake ("Updating metadata…" + button disabled), and a success status afterward; no new console errors appear at any point.
+- No regression: `#pdf-pages` still renders width ≥ 300 with a visible canvas after upload (this module must not touch the viewer or layout).
