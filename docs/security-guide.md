@@ -74,7 +74,18 @@
 > touch the already-validated open doc, never a fresh upload), so they need no separate
 > cap — but they are extra reasons the single page-count cap belongs at the `viewer.js`
 > **load** boundary: capping there bounds the viewer, thumbnails, merge, rotate-download
-> and number-stamp paths all at once. Both new modules are otherwise clean: filenames
+> and number-stamp paths all at once.
+> **Two more downstream consumers (SEC-002, noted 2026-06-10 08:24):** `js/metadata.js`
+> (TASK-330, `applyMetadata()`) does `currentDoc.getData()` → `PDFLib.PDFDocument.load()`
+> → `.save()` over the whole already-open doc, and `js/convert.js` (TASK-331,
+> `renderPageToImage()`) renders a page of the open doc to a raster image. Same class as
+> pages.js / page-numbers.js: they touch only the already-validated open document, so they
+> are **NOT new load boundaries** and need no separate cap — the single viewer-load cap
+> still covers them. Both clean: metadata display via `textContent`/`addRow` (never
+> innerHTML), editable values via `.value`, PDF metadata written through pdf-lib setters
+> (never the DOM); convert.js renders ONE page at a time into a throwaway canvas with its
+> own `MAX = 8000`px/side dimension cap (a good built-in memory guard).
+> Both new modules are otherwise clean: filenames
 > sanitized to `[a-zA-Z0-9._-]`, safe Blob download + URL revoke, status via
 > `textContent`, and page-number label content is numeric-only into pdf-lib `drawText`
 > (never the DOM).

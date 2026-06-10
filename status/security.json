@@ -1,29 +1,29 @@
 {
-  "timestamp": "2026-06-10T04:25:00Z",
+  "timestamp": "2026-06-10T08:25:00Z",
   "status": "secure",
-  "last_review": "2026-06-10T04:25:00Z",
+  "last_review": "2026-06-10T08:25:00Z",
   "findings": [],
   "open_known_gaps": [
     {
       "id": "SEC-002",
       "severity": "low",
-      "summary": "Client-side memory-exhaustion (PDF-bomb DoS) class — tracked, no server impact (a user can only exhaust their own browser tab). The viewer.js loadDocument() LOAD boundary still has no numPages>1000 / cumulative-byte cap and no processing timeout: after getDocument(...).promise it calls renderAll() (TASK-316 supersede-race guard confirmed present at viewer.js:118-129, so footprint is now linear, one canvas per page, not multiplied). Per-page / whole-doc consumers all sit downstream of this one uncapped boundary: (1) viewer.js renderAll() one canvas/page; (2) thumbnails.js a 2nd canvas/page (mitigated by 120px width, dpr cap 2, sequential render, renderToken guard); (3) merge.js mergeAndDownload() loads base.getData()+each queued file at once with no cumulative byte/page cap; (4) NEW this tick: pages.js (TASK-328) downloadRotated() and page-numbers.js (TASK-329) applyPageNumbers() both currentDoc.getData()→pdf-lib.load()→save() over ALL pages of the already-open doc — additional per-page consumers, NOT new load boundaries (they operate on the already-validated open document). Single right fix = developer task: a page-count/byte cap at the viewer.js LOAD boundary protects viewer + thumbnails + merge + pages + page-numbers + every future per-page consumer at once. Documented in docs/security-guide.md.",
+      "summary": "Client-side memory-exhaustion (PDF-bomb DoS) class — tracked, no server impact (a user can only exhaust their own browser tab). The viewer.js loadDocument() LOAD boundary still has no numPages>1000 / cumulative-byte cap and no processing timeout: after getDocument(...).promise it calls renderAll() (TASK-316 supersede-race guard present, so footprint is linear, one canvas per page, not multiplied). All per-page / whole-doc consumers sit downstream of this one uncapped boundary: (1) viewer.js renderAll() one canvas/page; (2) thumbnails.js a 2nd canvas/page (mitigated by 120px width, dpr cap 2, sequential render, renderToken guard); (3) merge.js mergeAndDownload() loads base.getData()+each queued file with no cumulative byte/page cap; (4) pages.js downloadRotated() and page-numbers.js applyPageNumbers() getData()->pdf-lib.load()->save() over the open doc; (5) NEW this tick: metadata.js (TASK-330) applyMetadata() same getData()->load()->save() pattern, and convert.js (TASK-331) renderPageToImage() renders ONE page to a throwaway canvas with its OWN MAX=8000px dimension cap. Items 2-5 are NOT new load boundaries (they operate on the already-validated open document). Single right fix = developer task: a page-count/byte cap at the viewer.js LOAD boundary protects every downstream consumer at once. Documented in docs/security-guide.md.",
       "status": "open_tracked",
       "related_task": "SEC-002"
     }
   ],
   "reviewed_this_run": [
-    "js/pages.js",
-    "js/page-numbers.js",
-    "js/viewer.js",
-    "js/thumbnails.js",
+    "js/convert.js",
+    "js/metadata.js",
     "index.html",
-    "full_js_tree_dom_sink_sweep"
+    "full_js_tree_dom_sink_sweep",
+    "full_js_tree_external_request_sweep"
   ],
   "checks_performed": [
-    "new_feature_review_pages_rotate_download",
-    "new_feature_review_page_numbers_stamp_download",
+    "new_feature_review_convert_page_to_image",
+    "new_feature_review_metadata_view_edit_download",
     "download_filename_sanitization",
+    "canvas_dimension_cap_convert",
     "dom_sink_audit_full_js_tree",
     "xss_prevention",
     "eval_function_documentwrite_audit",
@@ -41,15 +41,14 @@
     "tls_state"
   ],
   "audit_notes": {
-    "innerHTML_in_js": "only empty-string clears (container/list/layer .innerHTML='') or comments — no user/PDF content sink anywhere in the 22-file tree",
+    "innerHTML_in_js": "only empty-string clears (container/list/layer .innerHTML='') or comments — no user/PDF content sink anywhere in the JS tree",
     "eval_Function_documentWrite": "none",
     "insertAdjacentHTML_outerHTML": "none",
     "inline_scripts_index_html": "none — no <script>inline</script>, no on*= handlers, no javascript: URIs; only 2 same-origin script tags (lib/pdf-lib.min.js defer, js/app.js module) — CSP-safe",
-    "external_fetch_or_xhr": "none (100% client-side, PDFs never leave the browser)",
-    "pages_js": "TASK-328 rotate+download. baseName() strips .pdf, replaces [^a-zA-Z0-9._-] with _, slice(0,180), defaults 'document'; filename rotated-<base>.pdf — path-traversal + XSS safe. downloadBytes: Blob(application/pdf)+createObjectURL+a.download+rel=noopener, anchor removed, URL revoked after 1s. All status via textContent. Operates on already-open doc via getData(); no new load boundary.",
-    "page_numbers_js": "TASK-329 stamp page numbers+download. buildFileName() same sanitizer -> <base>_numbered.pdf. Label content is numeric only (start clamped 0..1000000 + index) and goes to pdf-lib drawText, never the DOM. Same safe download pattern. status via textContent. Operates on already-open doc via getData(); no new load boundary.",
-    "merge_js_filename": "buildFileName() strips to [a-zA-Z0-9._-] + '_merged.pdf'; displayed filename via textContent only — safe (unchanged this run)",
-    "secrets_scan_hit": "only .gitignore '*.secret' pattern, changelog feature mentions, and tasks-archive 'secrets-audit' feature references — all false positives, no real secret"
+    "external_fetch_or_xhr": "none — no fetch/XMLHttpRequest/sendBeacon/WebSocket and no non-local http(s) URLs anywhere in js/ (100% client-side, PDFs never leave the browser)",
+    "convert_js": "TASK-331 export page to PNG/JPEG. Renders ONE page of the open doc to a throwaway canvas (never the viewer canvas) with MAX=8000px/side dimension cap (built-in memory guard). buildFileName() strips to [a-zA-Z0-9._-], slice(0,180), default 'document' -> <base>_page-<n>.<ext>. Safe Blob(image/*)+createObjectURL+a.download+rel=noopener download, anchor removed, URL revoked after 1s. Page number clamped 1..numPages. status via textContent. Operates on already-open doc via getPage(); no new load boundary.",
+    "metadata_js": "TASK-330 view+edit Title/Author/Subject/Keywords. Read-only props rendered via addRow()->textContent into a <dl>; el.innerHTML only used to clear. Editable values via .value, written through pdf-lib setTitle/setAuthor/setSubject/setKeywords (never the DOM). buildFileName() same sanitizer -> <base>_metadata.pdf. Same safe download pattern. parsePdfDate uses a numeric regex, no injection. Operates on already-open doc via getData(); no new load boundary.",
+    "secrets_scan_hit": "all false positives — ssh-login-detector.sh grep patterns, 'token'/'keywords' variable + feature names, and status.json mentioning the 'git_secrets' check itself; no real secret"
   },
   "pdf_security": {
     "magic_bytes_check": true,
@@ -57,6 +56,7 @@
     "size_limit_enforced": true,
     "empty_file_rejected": true,
     "filename_sanitized": true,
+    "canvas_dimension_cap_convert": true,
     "page_count_cap": false,
     "cumulative_memory_cap": false,
     "processing_timeout": false
