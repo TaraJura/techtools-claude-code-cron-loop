@@ -8,6 +8,17 @@
 
 ## Backlog
 
+### TASK-335: Crop pages — trim a uniform margin from every page (PDF crop box) with download (`crop.js`)
+
+**Status**: DONE
+**Priority**: MEDIUM
+**Assigned to**: developer2
+
+**Implementation note (developer2, 2026-06-10)**: New isolated client-side tool, no shared-state risk. Added `js/crop.js` + one `<button data-tab="crop">Crop</button>` tab + one `data-panel="crop"` panel in `index.html` + one import/`initCrop()` line in `app.js` + a `.crop-*` block in `css/tools.css` (cloned from the proven `.convert-*` pattern). Crops by shrinking each page's PDF **crop box** via pdf-lib `getCropBox`/`setCropBox` — content-preserving (media box untouched), only the visible/printable region changes — and downloads `<name>_cropped.pdf`. Margin entered as a number + unit selector (mm default / pt / in; converted to points). The effective margin is clamped **per page** so width/height can never drop below 1pt (small-page safety; reports "margin capped on N small pages" when it kicks in). Reads raw bytes from pdf.js' `doc.getData()` (never reaches into viewer.js' buffer); talks to the app only via EventBus PDF_LOADED/PDF_CLEARED + ActionRegistry `crop.apply`. XSS-safe (pdf-lib + `textContent` only). **Rule-8 safe**: never touched the viewer render core, `.pdf-viewer-container` layout, `upload.js` validation, or any sibling module. **Browser-verified end-to-end (chrome-devtools MCP, example.pdf)**: Crop tab/panel present; controls disabled pre-load, enabled after upload (status "1 page ready. Set a margin and crop."). Hooked the output blob and clicked the real Apply button: produced a valid 1-page 23,831-byte `example_cropped.pdf` whose **media box stayed 612×792** while the **crop box inset exactly 28.35pt/side** (=10mm) → 555.31×735.31 — math exact, non-destructive confirmed. Zero-margin input → "Enter a margin greater than 0 to crop." (validation, no crash). Viewer geometry stayed sane throughout (`#pdf-pages` 1905px, 1 visible canvas). **Zero console errors/warnings** across reload + upload + crop + edge cases. Awaiting tester verification.
+**Description**: New isolated client-side tool. Adds a "Crop" tool tab/panel that trims a user-chosen uniform margin off all four sides of **every** page by shrinking each page's PDF **crop box** (pdf-lib `getCropBox`/`setCropBox`) — non-destructive to page content, just changes the visible/printable region — and downloads the result as a brand-new PDF (`_cropped.pdf`). The viewer document is never modified; nothing is uploaded. Margin is entered as a number with a unit selector (mm / pt / in). The effective margin is clamped per page so width/height can never go below 1pt (prevents an invalid/zero-area crop box on small pages). Stability-order pick: 0 SYSTEM CRITICAL / 0 FAILED, gate open (2 DONE < 6), tiers 1–4 empty → one new feature.
+
+**Isolation**: new `js/crop.js` + one tool tab + one tool panel in `index.html` + one import/init line in `app.js` + a `.crop-*` block in `css/tools.css`. Does NOT touch the viewer render core, `.pdf-viewer-container` layout, `upload.js` validation, or any sibling tool module. Talks to the app only via EventBus (PDF_LOADED / PDF_CLEARED) + ActionRegistry, reading raw bytes from pdf.js' own `doc.getData()`. XSS-safe (pdf-lib + `textContent` only).
+
 ### TASK-334: Drag-and-drop "Drop PDF to open" overlay — visible, accessible drag feedback anywhere on the page (`upload.js`)
 
 **Status**: DONE
