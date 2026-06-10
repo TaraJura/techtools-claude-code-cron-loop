@@ -42,6 +42,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="watermark">Watermark</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="pagenum">Numbering</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="bates">Bates</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="convert">Export image</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="info">Info</button>
   </nav>
@@ -62,7 +63,14 @@
     <!-- View panel: zoom controls -->
     <section class="tool-panel" role="tabpanel" data-panel="view" aria-label="View tools">
       <button class="btn" data-action="viewer.zoomOut" type="button" aria-label="Zoom out">&minus;</button>
-      <span id="zoom-level" aria-live="polite">125%</span>
+      <span class="zoom-menu">
+        <button class="btn zoom-menu__trigger" id="zoom-level" type="button"
+                aria-haspopup="true" aria-expanded="false" aria-controls="zoom-menu-list"
+                aria-label="Zoom level, currently 125%" aria-live="polite"
+                disabled aria-disabled="true">125%</button>
+        <ul class="zoom-menu__list" id="zoom-menu-list" role="menu"
+            aria-label="Zoom presets" hidden></ul>
+      </span>
       <button class="btn" data-action="viewer.zoomIn" type="button" aria-label="Zoom in">+</button>
       <button class="btn" data-action="viewer.fitWidth" type="button">Fit width</button>
       <button class="btn" data-action="present.toggle" id="present-toggle" type="button"
@@ -220,6 +228,49 @@
                 type="button" disabled>Apply &amp; download</button>
       </div>
       <span id="pagenum-status" class="pagenum-status" role="status" aria-live="polite">Load a PDF first.</span>
+    </section>
+
+    <!-- Bates panel: stamp legal-style sequential identifiers onto every page -->
+    <section class="tool-panel" role="tabpanel" data-panel="bates" aria-label="Bates numbering">
+      <div class="bates-controls">
+        <span class="bates-field">
+          <label for="bates-prefix">Prefix</label>
+          <input id="bates-prefix" type="text" maxlength="32" value="ABC-"
+                 autocomplete="off" aria-label="Bates prefix" disabled>
+        </span>
+        <span class="bates-field">
+          <label for="bates-suffix">Suffix</label>
+          <input id="bates-suffix" type="text" maxlength="32" value=""
+                 autocomplete="off" aria-label="Bates suffix" disabled>
+        </span>
+        <span class="bates-field">
+          <label for="bates-digits">Digits</label>
+          <select id="bates-digits" aria-label="Number of digits (zero padding)" disabled>
+            <option value="4">4</option>
+            <option value="6" selected>6</option>
+            <option value="8">8</option>
+          </select>
+        </span>
+        <span class="bates-field">
+          <label for="bates-start">Start at</label>
+          <input id="bates-start" type="number" min="0" step="1" value="1"
+                 inputmode="numeric" autocomplete="off" aria-label="Start numbering at" disabled>
+        </span>
+        <span class="bates-field">
+          <label for="bates-position">Position</label>
+          <select id="bates-position" aria-label="Bates number position" disabled>
+            <option value="bottom-right" selected>Bottom right</option>
+            <option value="bottom-center">Bottom center</option>
+            <option value="bottom-left">Bottom left</option>
+            <option value="top-right">Top right</option>
+            <option value="top-center">Top center</option>
+            <option value="top-left">Top left</option>
+          </select>
+        </span>
+        <button class="btn btn-primary" id="bates-apply" data-action="bates.apply"
+                type="button" disabled>Apply &amp; download</button>
+      </div>
+      <span id="bates-status" class="bates-status" role="status" aria-live="polite">Load a PDF first.</span>
     </section>
 
     <!-- Export image panel: render a page to PNG/JPEG and download it -->

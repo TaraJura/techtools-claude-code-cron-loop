@@ -226,17 +226,49 @@ export async function zoomOut() {
     return setScale(currentScale - 0.25);
 }
 
+// Unscaled (scale:1) viewport of page 1, rotation-aware so fit math uses the
+// page's CURRENT on-screen orientation (matches what renderAll() draws). Shared
+// by fitWidth()/fitPage() so the measurement math lives in exactly one place.
+async function page1Viewport() {
+    const page = await pdfDoc.getPage(1);
+    const rotation = normalizeDeg((page.rotate || 0) + getPageRotation(1));
+    return page.getViewport({ scale: 1, rotation });
+}
+
 /** Fit the first page to the available container width. */
 export async function fitWidth() {
     const container = ensurePagesEl();
     if (!container || !pdfDoc) return;
-    const page = await pdfDoc.getPage(1);
-    const unscaled = page.getViewport({ scale: 1 });
+    const unscaled = await page1Viewport();
     // Leave room for padding/scrollbar.
     const avail = container.clientWidth - 32;
     if (avail > 0) {
         await setScale(clampScale(avail / unscaled.width));
     }
+}
+
+/**
+ * Fit a full page within the visible viewport (no vertical clipping). Scales by
+ * whichever of width/height is the tighter constraint, reusing the same page-1
+ * measurement as fitWidth(). The height bound comes from .pdf-viewer-inner
+ * (the scroll container's visible height).
+ */
+export async function fitPage() {
+    const container = ensurePagesEl();
+    const inner = document.querySelector('.pdf-viewer-inner');
+    if (!container || !inner || !pdfDoc) return;
+    const unscaled = await page1Viewport();
+    const availW = container.clientWidth - 32;
+    const availH = inner.clientHeight - 32;
+    if (availW > 0 && availH > 0) {
+        await setScale(clampScale(Math.min(availW / unscaled.width, availH / unscaled.height)));
+    }
+}
+
+/** Set zoom to exactly 100% (actual size). No-op when no document is open. */
+export async function actualSize() {
+    if (!pdfDoc) return;
+    await setScale(1.0);
 }
 
 export function clear() {

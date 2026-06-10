@@ -20,13 +20,17 @@ import { initPages } from './pages.js';
 import { initMerge } from './merge.js';
 import { initWatermark } from './watermark.js';
 import { initPageNumbers } from './page-numbers.js';
+import { initBates } from './bates.js';
 import { initConvert } from './convert.js';
+import { initZoomMenu } from './zoom-menu.js';
 import * as Viewer from './viewer.js';
 
 // --- Register core viewer actions in the central registry ---
 ActionRegistry.register('viewer.zoomIn', { title: 'Zoom in', run: () => Viewer.zoomIn() });
 ActionRegistry.register('viewer.zoomOut', { title: 'Zoom out', run: () => Viewer.zoomOut() });
 ActionRegistry.register('viewer.fitWidth', { title: 'Fit width', run: () => Viewer.fitWidth() });
+ActionRegistry.register('viewer.fitPage', { title: 'Fit page', run: () => Viewer.fitPage() });
+ActionRegistry.register('viewer.actualSize', { title: 'Actual size (100%)', run: () => Viewer.actualSize() });
 ActionRegistry.register('viewer.clear', {
     title: 'Close document',
     run: () => {
@@ -82,7 +86,9 @@ function init() {
     initMerge();
     initWatermark();
     initPageNumbers();
+    initBates();
     initConvert();
+    initZoomMenu(); // zoom preset dropdown on #zoom-level (TASK-332)
     initKeyboardShortcuts();
     wireToolbar();
     wireZoomLabel();

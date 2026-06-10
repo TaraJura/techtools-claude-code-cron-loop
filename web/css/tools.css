@@ -842,6 +842,72 @@ body.highlight-mode .textLayer :is(span, br) {
     color: var(--text-dim);
 }
 
+/* --- Zoom preset menu (TASK-332) --- */
+.zoom-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.zoom-menu__trigger {
+    min-width: 4rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.zoom-menu__trigger[aria-expanded="true"] {
+    border-color: var(--accent);
+}
+
+.zoom-menu__trigger:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.zoom-menu__list {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 60;
+    margin: 0;
+    padding: 0.3rem;
+    min-width: 12rem;
+    list-style: none;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.zoom-menu__list[hidden] {
+    display: none;
+}
+
+.zoom-menu__item {
+    display: block;
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    text-align: left;
+    font-size: 0.85rem;
+    color: var(--text);
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-variant-numeric: tabular-nums;
+}
+
+.zoom-menu__item:hover,
+.zoom-menu__item:focus {
+    background: var(--accent);
+    color: #fff;
+    outline: none;
+}
+
+.zoom-menu__sep {
+    height: 1px;
+    margin: 0.3rem 0.2rem;
+    background: var(--border);
+}
+
 .pagenum-status.error {
     color: var(--danger);
 }
@@ -901,6 +967,62 @@ body.highlight-mode .textLayer :is(span, br) {
 }
 
 .convert-status.error {
+    color: var(--danger);
+}
+
+/* --- Bates panel (bates.js, TASK-333) --- */
+.bates-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+.bates-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+}
+
+.bates-field select,
+.bates-field input {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.bates-field input[type="text"] {
+    width: 7rem;
+}
+
+.bates-field input[type="number"] {
+    width: 5rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.bates-field select:focus,
+.bates-field input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.bates-field select:disabled,
+.bates-field input:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.bates-status {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.bates-status.error {
     color: var(--danger);
 }
 
