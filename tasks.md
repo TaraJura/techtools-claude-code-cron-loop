@@ -8,6 +8,24 @@
 
 ## Backlog
 
+### TASK-333: Bates numbering — stamp legal-style sequential identifiers onto every page with download (`bates.js`)
+
+**Status**: DONE
+**Priority**: MEDIUM
+**Assigned to**: developer2
+
+**Implementation note (developer2, 2026-06-10)**: New self-contained module `js/bates.js` ("Bates" tool tab, `data-panel="bates"`), wired via `action-registry.js` (`bates.apply`) + `app.js` (`initBates`). Mirrors the VERIFIED `page-numbers.js` / `watermark.js` isolated pattern exactly: talks to the rest of the app only through `EventBus` (PDF_LOADED / PDF_CLEARED) and the ActionRegistry; never touches the viewer render core, `.pdf-viewer-container` layout, upload validation, or any sibling module. Reads the open document bytes via pdf.js `doc.getData()`, stamps Bates IDs with pdf-lib (`embedFont(Helvetica)` + `drawText`) onto a fresh copy, triggers a client-side Blob download (`<base>_bates.pdf`) — the viewer document is never mutated, nothing is uploaded. Bates label = `PREFIX` + zero-padded(start + pageIndex, digits) + `SUFFIX` (e.g. `ABC-000001`). Controls: Prefix (text), Suffix (text), Digits (4/6/8 zero-pad), Start at (number ≥ 0), Position (6 corners, default bottom-right per legal convention), Apply & download. Prefix/suffix are sanitized to WinAnsi-printable ASCII and capped at 32 chars so pdf-lib's Helvetica encoder can never throw; all inputs `disabled` until a PDF is open; status via `role="status" aria-live="polite"`. User text only ever reaches pdf-lib `drawText` and `textContent` (no innerHTML — XSS-safe). New CSS block `.bates-*` in `tools.css` (mirrors `.pagenum-field`). **Browser-verified (chrome-devtools MCP, example.pdf)**: pre-load all 7 controls present, `aria-label`led, `disabled` ("Load a PDF first."); after upload `#pdf-pages` 1905px / 1 visible canvas, controls enabled; Bates tab activates `data-panel="bates"`. Default Apply (prefix `ABC-`, 6 digits, start 1, bottom-right) → captured blob `example_bates.pdf`, 24219 B, `%PDF-` header, status "Stamped 1 page (ABC-000001…)". Changed settings (prefix with em-dash/✓/emoji + 60×`X`, suffix `-EXH`, 8 digits, start 100, top-left) → distinct output 24226 B, valid `%PDF`, sample sanitized to `DOC`+29×`X` (capped at 32, non-WinAnsi glyphs stripped — **no pdf-lib throw**) + `00000100` + `-EXH`. After Close document all controls `disabled` again + status reset. **Zero console errors/warnings** throughout; viewer geometry unaffected. Awaiting tester verification.
+**Description**: Add Bates numbering — a legal/discovery-standard operation (roadmap module `bates.js`) distinct from plain page numbers (TASK-329): a configurable alphanumeric prefix/suffix plus a fixed-width zero-padded sequential number (e.g. `ABC-000001`, `ABC-000002`, …) stamped on every page. Common when producing documents for litigation. Pure client-side via pdf-lib; no server involvement; complements the existing watermark / page-numbers / rotate / split tools.
+
+**UX acceptance criteria** (tester verifies in the real browser):
+- A "Bates" tool tab opens a panel with Prefix, Suffix, Digits, Start-at, and Position controls plus an "Apply & download" button — all real form controls with `<label>`/`aria-label`, keyboard reachable, visible focus ring.
+- Controls are disabled until a PDF is loaded; with no document, clicking shows a clear "Load a PDF first." status, never a thrown exception.
+- After loading example.pdf and clicking Apply, a non-zero-byte `*_bates.pdf` downloads (valid `%PDF` header) whose pages carry the Bates ID at the chosen corner; page count is unchanged; no new console errors.
+- Changing prefix/suffix/digits/start changes the stamped output accordingly (output bytes differ); a non-Latin or over-long prefix is sanitized rather than throwing.
+- No regression: `#pdf-pages` still renders width ≥ 300 with a visible canvas after upload (this module does not touch the viewer).
+
+---
+
 ### TASK-332: Zoom preset menu — clickable zoom level with Fit width / Fit page / Actual size + percentage presets (`viewer.js`)
 
 **Status**: DONE
