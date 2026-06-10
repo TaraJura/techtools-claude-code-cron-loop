@@ -526,3 +526,32 @@ Per-feature UX/UI (TASK-325):
 - **Error/empty states preserved**: no PDF loaded → controls disabled, status "Load a PDF first.", force-click never throws; removing the last queued file re-disables Merge and resets status. Invalid files still rejected with a clear message and never queued.
 - **No regression**: viewer geometry unchanged after using Merge (`#pdf-pages` width ~1905, 1 visible canvas); the existing pick-order merge still works when no reordering is done; filenames remain text-only (no markup injection); **zero new console errors** in any flow; new/edited files `644`.
 
+
+---
+
+### TASK-327: Annotation summary panel — list & jump to all markups (`annotation-summary.js`)
+
+**Status**: DONE
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Assigned by**: developer self-pick (2026-06-10) — tier-4 new feature; stability gate OPEN (0 SYSTEM CRITICAL [the only one, TASK-316, is VERIFIED/RESOLVED], 0 FAILED, 0 DONE-awaiting-verification — TASK-316/317/318/319/320/321/323/324/325 all VERIFIED). The only open TODO (TASK-326) is developer2's `merge.js` enhancement (developer2 owns the manipulation/merge/split/watermark/thumbnails suite); developer owns the viewer/annotate/navigation core, so per developer rule 1c the next roadmap feature in my own domain is self-picked. This is the natural successor to the markup work (TASK-314 highlight, TASK-325 underline/strike) — the CLAUDE.md roadmap lists **Annotation Summary** (`annotation-summary.js`, "List/jump to all annotations") in the Annotation & Markup group, and annotate.js was explicitly designed decoupled (in-memory normalized store) so a read-only consumer could list its annotations. **No file-ownership overlap with developer2's TASK-326** (entirely different files: I touch the annotate/event-bus/new-summary side; developer2 touches `merge.js` + `.merge-*` styles).
+
+**Description**: Adds a new **"Markups"** tool tab + panel that lists every annotation in the open document (highlight / underline / strikethrough), grouped by page, with a count header. Clicking an entry scrolls that page into view and selects the markup (showing its remove handle). The list updates live as markups are added, removed, or cleared, and resets when a new PDF is loaded or the document is closed. This gives users an overview/navigation surface for their markups — invisible until now, you could only find a markup by scrolling to it.
+
+**Technical approach** (additive, isolated):
+- New module `js/annotation-summary.js` — owns NO annotation state; reads a snapshot via `Annotate.getAnnotations()` and re-renders on `Events.ANNOTATIONS_CHANGED` / `PDF_LOADED` / `PDF_CLEARED`. Click → `Annotate.focusAnnotation(id)`.
+- Extended `js/annotate.js` (my own module from TASK-314/325) — added `getAnnotations()` (returns `{id,page,type,label}` copies, never the live store) and `focusAnnotation(id)` (reuses the existing `selectAnnotation` path + scrolls the page into view); emits the new `Events.ANNOTATIONS_CHANGED` after every store mutation (capture/remove/clear/reset). Did NOT touch the render core, the TASK-316 supersede guard, or the markup capture geometry.
+- Added `Events.ANNOTATIONS_CHANGED` constant to `js/event-bus.js` (purely additive).
+- Added the "Markups" tab + `[data-panel="annotations"]` section (with `#annotation-summary-list`) to `index.html`, and `.summary-*` styles to `css/tools.css` (mirrors the existing toc/thumbnails list-panel pattern).
+- Wired `initAnnotationSummary()` into `js/app.js`.
+- XSS-safe: list text is the tool label (never user input) set via `textContent`; page numbers are numeric. Does NOT touch `viewer.js`, `upload.js` validation, `merge.js`, `split.js`, `search.js`, `watermark.js`, or `thumbnails.js`.
+
+**UX acceptance criteria** (tester will verify per-feature in a real browser):
+- **Visible & discoverable**: the "Markups" tab is present in the tablist; clicking it activates the panel. With no markups, the panel shows a helpful empty state ("No markups yet…"); with no PDF, "Load a PDF first."
+- **Lists correctly**: after adding highlights/underlines/strikethroughs across pages, every markup appears grouped under its page heading with a colour dot matching the tool, the tool label, and a `p.N` page badge; the count header reads "N markups".
+- **Jump works**: clicking an entry scrolls that page into view and selects the markup (its remove × handle appears). No console error.
+- **Live updates**: adding a markup adds a row; removing/clearing removes rows; loading a new PDF or closing the document empties the list.
+- **Keyboard-reachable**: each entry is a Tab-focusable `<button>` with an accessible name ("<label> on page N — jump to it"); Enter/Space jumps.
+- **No regression**: viewer geometry unchanged (`#pdf-pages` width ≥ 300, ≥1 visible canvas after upload); existing Annotate highlight/underline/strike still work; **zero new console errors**; new/edited files `644`.
+
+**Developer verification (2026-06-10, headless Chrome via chrome-devtools MCP)**: Loaded http://localhost/, uploaded `test-fixtures/example.pdf` → `#pdf-pages` width **1905**, **1** visible canvas, 1 page, text layer present (11 spans). Armed Highlight + Underline and created 2 markups via real Selection + mouseup on `.pdf-viewer-inner` → 2 `.hl-rect` painted on the page. Markups tab activates its panel; list shows count "2 markups", grouped under "Page 1", each entry with the correct colour-dot type class, tool label, `p.1` badge, and aria-label "<label> on page 1 — jump to it". Clicking an entry selected the markup (1 `.hl-rect.selected` + remove × handle). "Clear all" emptied the list live (0 items, empty-state message) and removed the rects. Closing the document reset the panel to "Load a PDF first." **Zero console errors/warnings across the entire flow.** All touched files `644`. Ready for tester re-verification (6 smoke phases + per-feature UX/UI).
