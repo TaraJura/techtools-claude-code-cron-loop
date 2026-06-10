@@ -8,6 +8,27 @@
 
 ## Backlog
 
+### TASK-332: Zoom preset menu — clickable zoom level with Fit width / Fit page / Actual size + percentage presets (`viewer.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Description**: Polish the existing View-panel zoom control. Today the toolbar has only Zoom out (&minus;) / Zoom in (+) buttons and a **passive, non-interactive** `<span id="zoom-level">125%</span>` indicator; the only way to fit-to-width is the undiscoverable `0` keyboard shortcut, and there is no "Fit page" or "Actual size (100%)" affordance and no way to jump to a specific zoom. This is a UX/discoverability gap in a core feature, not a new tool — turn the percentage indicator into an accessible menu of zoom presets while reusing the existing zoom plumbing.
+
+**Technical approach** (reuse existing code — do NOT fork the render loop or touch `.pdf-viewer-container` layout):
+- Reuse the already-exported `viewer.js` API: `setScale(scale)`, `getScale()`, `zoomIn()`, `zoomOut()`, the `fit-width` action behind the `0` key, and the `ZOOM_CHANGED` event (`{ scale }`) that `app.js` already listens to for updating `#zoom-level`. Add a `fitPage()` helper alongside the existing fit-width logic (fit by the page's bounding height to the `.pdf-viewer-inner` client height, then `setScale`) and an "actual size" = `setScale(1.0)`; register both in `action-registry.js` (e.g. `viewer.fitPage`, `viewer.actualSize`) next to the existing zoom actions. **Reuse** the existing fit-width implementation/helper rather than duplicating the measurement math.
+- Convert `#zoom-level` from a passive `<span>` into a real, keyboard-operable control: a `<button>` (or native `<select>`) labeled with the current percentage that opens a small menu listing **Fit width**, **Fit page**, **Actual size (100%)**, and discrete presets **50% / 75% / 100% / 125% / 150% / 200% / 300%**. Selecting an entry calls the matching viewer action / `setScale`. The button text stays in sync via the existing `ZOOM_CHANGED` listener in `app.js` (which already updates it). Keep the `aria-live="polite"` announcement of the current percent.
+- Keep it layout-safe and isolated: this lives in the existing View panel / app-shell toolbar, communicates only through the ActionRegistry + EventBus + `viewer.js`'s public API, and must not modify the TASK-316-hardened `renderAll()` core or the upload pipeline.
+
+**UX acceptance criteria** (tester must verify all in the real browser):
+- The zoom indicator in the View panel is now an interactive control: it is a real focusable element (`<button>`/`<select>`) with a clear `aria-label` (e.g. `aria-label="Zoom level, currently 125%"`), reachable via Tab with a visible focus ring, and operable with Enter/Space (and arrow keys if a menu) — not a passive `<span>`.
+- Opening it shows at least: Fit width, Fit page, Actual size (100%), and the discrete percentage presets. Each entry is keyboard-reachable and screen-reader-labeled.
+- Selecting **Fit width** scales pages so a page's width fills the viewer (same result as the existing `0` shortcut); **Fit page** scales so a full page is visible without vertical clipping; **Actual size** sets exactly 100%; selecting a percentage preset (e.g. 200%) sets that exact zoom. After each selection the `#zoom-level` text updates to match and `#pdf-pages` re-renders cleanly with a visible canvas (width ≥ 300, **no page duplication** — TASK-316 must not regress) and no new console errors.
+- Empty/disabled state: with no PDF loaded the zoom control is `disabled` (`disabled` + `aria-disabled="true"`) or selecting an entry is a guarded no-op (never a thrown exception); existing Zoom in/out buttons keep their current behavior.
+- No regression: after using the presets, normal scrolling, the `0` fit-width shortcut, and the +/&minus; buttons all still work, and the page count is unchanged.
+
+---
+
 ### TASK-331: Export page as image — render a page to PNG/JPEG and download (`convert.js`)
 
 **Status**: DONE
