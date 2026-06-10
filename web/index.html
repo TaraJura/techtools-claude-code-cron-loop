@@ -42,6 +42,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="watermark">Watermark</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="pagenum">Numbering</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="convert">Export image</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="info">Info</button>
   </nav>
 
@@ -221,8 +222,66 @@
       <span id="pagenum-status" class="pagenum-status" role="status" aria-live="polite">Load a PDF first.</span>
     </section>
 
-    <!-- Info panel: document properties / metadata -->
+    <!-- Export image panel: render a page to PNG/JPEG and download it -->
+    <section class="tool-panel" role="tabpanel" data-panel="convert" aria-label="Export page as image">
+      <div class="convert-controls">
+        <span class="convert-field">
+          <label for="convert-page">Page</label>
+          <input id="convert-page" type="number" min="1" value="1" step="1"
+                 inputmode="numeric" autocomplete="off" aria-label="Page to export" disabled>
+        </span>
+        <span class="convert-field">
+          <label for="convert-format">Format</label>
+          <select id="convert-format" aria-label="Image format" disabled>
+            <option value="png" selected>PNG</option>
+            <option value="jpeg">JPEG</option>
+          </select>
+        </span>
+        <span class="convert-field">
+          <label for="convert-scale">Resolution</label>
+          <select id="convert-scale" aria-label="Image resolution" disabled>
+            <option value="1">1× (screen)</option>
+            <option value="2" selected>2× (high)</option>
+            <option value="3">3× (print)</option>
+          </select>
+        </span>
+        <button class="btn btn-primary" id="convert-export" data-action="convert.export"
+                type="button" disabled>Export image</button>
+      </div>
+      <span id="convert-status" class="convert-status" role="status" aria-live="polite">Load a PDF first.</span>
+    </section>
+
+    <!-- Info panel: document properties / metadata (view + edit) -->
     <section class="tool-panel" role="tabpanel" data-panel="info" aria-label="Document properties">
+      <form id="metadata-edit" class="metadata-edit" aria-label="Edit document metadata">
+        <div class="metadata-edit-fields">
+          <span class="metadata-field metadata-field--grow">
+            <label for="metadata-title">Title</label>
+            <input id="metadata-title" type="text" maxlength="500" autocomplete="off"
+                   aria-label="Document title" disabled>
+          </span>
+          <span class="metadata-field metadata-field--grow">
+            <label for="metadata-author">Author</label>
+            <input id="metadata-author" type="text" maxlength="300" autocomplete="off"
+                   aria-label="Document author" disabled>
+          </span>
+          <span class="metadata-field metadata-field--grow">
+            <label for="metadata-subject">Subject</label>
+            <input id="metadata-subject" type="text" maxlength="500" autocomplete="off"
+                   aria-label="Document subject" disabled>
+          </span>
+          <span class="metadata-field metadata-field--grow">
+            <label for="metadata-keywords">Keywords (comma-separated)</label>
+            <input id="metadata-keywords" type="text" maxlength="500" autocomplete="off"
+                   aria-label="Document keywords, comma separated" disabled>
+          </span>
+        </div>
+        <div class="metadata-edit-actions">
+          <button class="btn btn-primary" id="metadata-apply" data-action="metadata.apply"
+                  type="button" disabled aria-disabled="true">Apply &amp; download</button>
+          <span id="metadata-status" class="metadata-status" role="status" aria-live="polite">Load a PDF first.</span>
+        </div>
+      </form>
       <div id="metadata-list" aria-label="Document properties"></div>
     </section>
   </div>
