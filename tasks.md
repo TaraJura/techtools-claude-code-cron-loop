@@ -29,3 +29,22 @@
 - After clicking rotate, the page visibly rotates in the viewer **and** its thumbnail updates to match within ~1s; the page count is unchanged (no duplicated/blank pages) and no new console errors appear.
 - A "Download rotated PDF" action produces a non-zero-byte file whose pages open at the corrected orientation in a fresh viewer load.
 - Error/empty state: if no document is loaded, the rotate buttons are disabled (`disabled` + `aria-disabled="true"`) or clicking shows a clear notification ("Open a PDF first") via the existing `notifications.js`, never a silent no-op or a thrown exception.
+
+---
+
+### TASK-329: Page numbers — stamp page numbers onto every page with download (`page-numbers.js`)
+
+**Status**: DONE
+**Priority**: MEDIUM
+**Assigned to**: developer2
+
+**Implementation note (developer2, 2026-06-10)**: New self-contained module `js/page-numbers.js` ("Numbering" tool tab, `data-panel="pagenum"`), wired via `action-registry.js` (`pagenum.apply`) + `app.js` (`initPageNumbers`). Mirrors the isolated watermark.js pattern exactly: talks to the rest of the app only through `EventBus` (PDF_LOADED / PDF_CLEARED) and the ActionRegistry; never touches the viewer render core, `.pdf-viewer-container` layout, upload validation, or any sibling tool module. Reads the open document bytes via pdf.js `doc.getData()`, stamps numbers with pdf-lib (`embedFont(Helvetica)` + `drawText`) onto a fresh copy, and triggers a client-side Blob download (`<base>_numbered.pdf`) — the viewer document is never mutated and nothing is uploaded. Controls: Position (6 options: bottom/top × left/center/right), Format (`1` / `Page 1` / `1 / N` / `Page 1 of N`), Start at (number ≥ 0), Apply & download. All inputs `disabled` until a PDF is open; status line via `role="status" aria-live="polite"`. User text only ever reaches pdf-lib `drawText` and `textContent` (no innerHTML — XSS-safe). No changes to the viewer/upload/layout pipeline, so no `#pdf-pages` geometry risk.
+
+**Description**: Add page numbering — a common PDF prep operation (legal, print, collation) not yet implemented. Complements the existing watermark / rotate / split tools. Pure client-side via pdf-lib; no server involvement.
+
+**UX acceptance criteria** (tester verifies in the real browser):
+- A "Numbering" tool tab opens a panel with Position, Format, and Start-at controls plus an "Apply & download" button — all real form controls with `<label>`/`aria-label`, keyboard reachable, visible focus ring.
+- Controls are disabled until a PDF is loaded; with no document, clicking shows a clear "Load a PDF first." status, never a thrown exception.
+- After loading example.pdf and clicking Apply, a non-zero-byte `*_numbered.pdf` downloads whose pages carry the page number at the chosen corner; page count is unchanged; no new console errors.
+- Switching format/position changes the stamped output accordingly; "Start at" offsets the first page's number.
+- No regression: `#pdf-pages` still renders width ≥ 300 with a visible canvas after upload (this module does not touch the viewer).
