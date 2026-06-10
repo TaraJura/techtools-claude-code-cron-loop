@@ -410,3 +410,46 @@ body.has-document .page-nav { display: flex; }
     font-size: 0.78rem;
     margin: 0 0.15rem;
 }
+
+/* Full-window drag overlay (TASK-334) — "Drop PDF to open" affordance shown
+   while a file is dragged anywhere over the page. position:fixed + 100vw/vh so
+   it never participates in the app-shell flex layout (rule 8). pointer-events:none
+   means it never blocks clicks or steals focus. z-index 900 sits above the shell
+   but below the toast container (1000) so error toasts stay visible. */
+.drop-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(2px);
+}
+
+.drop-overlay[hidden] { display: none; }
+
+.drop-overlay__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2rem 3rem;
+    border: 3px dashed var(--accent);
+    border-radius: var(--radius);
+    background: var(--bg-elev);
+    color: var(--text);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.drop-overlay__icon {
+    font-size: 2.5rem;
+    line-height: 1;
+    color: var(--accent);
+}
+
+.drop-overlay__text {
+    font-size: 1.25rem;
+    font-weight: 600;
+}

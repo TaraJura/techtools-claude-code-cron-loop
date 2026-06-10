@@ -22,6 +22,7 @@ import { initWatermark } from './watermark.js';
 import { initPageNumbers } from './page-numbers.js';
 import { initBates } from './bates.js';
 import { initConvert } from './convert.js';
+import { initCrop } from './crop.js';
 import { initZoomMenu } from './zoom-menu.js';
 import * as Viewer from './viewer.js';
 
@@ -88,6 +89,7 @@ function init() {
     initPageNumbers();
     initBates();
     initConvert();
+    initCrop(); // trim a uniform margin off every page (TASK-335)
     initZoomMenu(); // zoom preset dropdown on #zoom-level (TASK-332)
     initKeyboardShortcuts();
     wireToolbar();

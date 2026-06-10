@@ -44,6 +44,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="pagenum">Numbering</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="bates">Bates</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="convert">Export image</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="crop">Crop</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="info">Info</button>
   </nav>
 
@@ -302,6 +303,28 @@
       <span id="convert-status" class="convert-status" role="status" aria-live="polite">Load a PDF first.</span>
     </section>
 
+    <!-- Crop panel: trim a uniform margin off every page's crop box (crop.js, TASK-335) -->
+    <section class="tool-panel" role="tabpanel" data-panel="crop" aria-label="Crop pages">
+      <div class="crop-controls">
+        <span class="crop-field">
+          <label for="crop-margin">Margin</label>
+          <input id="crop-margin" type="number" min="0" step="1" value="10"
+                 inputmode="decimal" autocomplete="off" aria-label="Crop margin per side" disabled>
+        </span>
+        <span class="crop-field">
+          <label for="crop-unit">Unit</label>
+          <select id="crop-unit" aria-label="Crop margin unit" disabled>
+            <option value="mm" selected>mm</option>
+            <option value="pt">pt</option>
+            <option value="in">in</option>
+          </select>
+        </span>
+        <button class="btn btn-primary" id="crop-apply" data-action="crop.apply"
+                type="button" disabled>Crop pages</button>
+      </div>
+      <span id="crop-status" class="crop-status" role="status" aria-live="polite">Load a PDF first.</span>
+    </section>
+
     <!-- Info panel: document properties / metadata (view + edit) -->
     <section class="tool-panel" role="tabpanel" data-panel="info" aria-label="Document properties">
       <form id="metadata-edit" class="metadata-edit" aria-label="Edit document metadata">
@@ -367,6 +390,16 @@
       <span class="viewer-loading__label">Loading PDF…</span>
     </div>
   </main>
+
+  <!-- Full-window drag affordance (TASK-334). position:fixed + pointer-events:none,
+       so it never blocks clicks/focus and is NOT a flex child of any layout
+       container (rule 8). Toggled via the [hidden] attribute in upload.js. -->
+  <div id="drop-overlay" class="drop-overlay" role="status" aria-live="polite" aria-hidden="true" hidden>
+    <div class="drop-overlay__card">
+      <span class="drop-overlay__icon" aria-hidden="true">⬇</span>
+      <span class="drop-overlay__text">Drop PDF to open</span>
+    </div>
+  </div>
 
   <!-- Toast notifications: ARIA live regions for upload/render feedback -->
   <div id="toast-container" class="toast-container">

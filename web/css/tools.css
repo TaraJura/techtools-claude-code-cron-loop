@@ -970,6 +970,58 @@ body.highlight-mode .textLayer :is(span, br) {
     color: var(--danger);
 }
 
+/* --- Crop panel (crop.js, TASK-335) --- */
+.crop-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+.crop-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+}
+
+.crop-field select,
+.crop-field input {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.crop-field input[type="number"] {
+    width: 5rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.crop-field select:focus,
+.crop-field input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.crop-field select:disabled,
+.crop-field input:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.crop-status {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.crop-status.error {
+    color: var(--danger);
+}
+
 /* --- Bates panel (bates.js, TASK-333) --- */
 .bates-controls {
     display: flex;
