@@ -8,6 +8,29 @@
 
 ## Backlog
 
+### TASK-336: Page resize — normalize every page to a standard paper size (A4/Letter/Legal) with download (`page-resize.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Description**: New isolated client-side tool (roadmap module `page-resize.js`, Document-Manipulation category). Adds a "Resize" tool tab/panel that re-pages the open PDF so **every** page becomes a chosen standard size — **A4 (595×842pt)**, **US Letter (612×792pt)**, or **US Legal (612×1008pt)** — in the chosen **orientation** (Portrait / Landscape / "Keep each page's orientation"), then downloads a brand-new `<base>_resized.pdf`. This is distinct from Crop (TASK-335, which only shrinks the visible crop box) and from the text-stampers (page-numbers/bates/watermark): it changes the actual **media box** and rescales content, the standard fix for a PDF with mixed/odd page sizes before printing. Purely client-side; nothing is uploaded; the viewer document is never mutated.
+
+**Technical approach** (follow the VERIFIED isolated `bates.js` / `page-numbers.js` / `crop.js` pattern exactly — do NOT touch the viewer render core, `.pdf-viewer-container` layout, `upload.js` validation, or any sibling module). **Use only the already-vendored `lib/pdf-lib.min.js` — do NOT add any new third-party library** (no JSZip etc.; the box is small and stability-first):
+- New `js/page-resize.js`, one `<button role="tab" data-tab="resize">Resize</button>` tab + one `data-panel="resize"` `<section role="tabpanel">` panel in `index.html`, one import + `initPageResize()` line in `app.js`, one `resize.apply` registration in `action-registry.js`, and a `.resize-*` CSS block in `css/tools.css` (clone the proven `.crop-*` / `.pagenum-field` styling).
+- Talk to the rest of the app only through `EventBus` (`PDF_LOADED` / `PDF_CLEARED`) + the `ActionRegistry`. Read the open document bytes via pdf.js `doc.getData()` (never reach into `viewer.js`'s buffer).
+- Implement with pdf-lib by **embedding each original page** onto a fresh fixed-size page: load the source `PDFDocument`, create a new output `PDFDocument`, and for each page use `embedPage` (or `embedPdf`) → on a new `addPage([targetW, targetH])` draw the embedded page **scaled to fit** (uniform scale = `min(targetW/srcW, targetH/srcH)`, preserving aspect ratio) and **centered** (letterbox margins), so content is never stretched or clipped. Resolve the target W/H from the size + orientation selectors; for "Keep each page's orientation" pick portrait vs landscape per page from the source page's own aspect ratio. Save and trigger a client-side Blob download `<base>_resized.pdf`. Reuse the existing shared `download(blob, filename)` helper the other export tools use rather than introducing a new one.
+- XSS-safe: only pdf-lib drawing + static developer strings via `textContent` (no `innerHTML`, no user free-text reaches the DOM).
+
+**UX acceptance criteria** (tester must verify all in the real browser via chrome-devtools MCP):
+- A "Resize" tool tab opens a panel with a **Size** selector (A4 / Letter / Legal), an **Orientation** selector (Portrait / Landscape / Keep each page's orientation), and an **"Apply & download"** button — all real form controls with associated `<label>`/`aria-label`, keyboard-reachable (Tab order), visible focus ring.
+- Controls are `disabled` (`disabled` + `aria-disabled="true"`) until a PDF is loaded; with no document, clicking shows a clear "Load a PDF first." status (`role="status"` / `aria-live="polite"`), never a thrown exception.
+- After loading example.pdf and clicking Apply, a **non-zero-byte** `*_resized.pdf` downloads with a valid `%PDF` header; re-opening it in a fresh viewer load shows every page at the chosen media-box size (e.g. A4 portrait ≈ 595×842pt) with the original content **scaled-to-fit and centered (not stretched or cropped)**; page **count is unchanged**.
+- Changing Size or Orientation changes the output (downloaded bytes / resulting page dimensions differ accordingly).
+- A short progress affordance is shown during the bake ("Resizing pages…" + the Apply button disabled), and a success status (e.g. "Resized N pages → …_resized.pdf") afterward; no new console errors at any point.
+- No regression: `#pdf-pages` still renders width ≥ 300 with a visible canvas after upload and after the operation (this module renders nothing into the viewer and must not touch it).
+
+**Isolation**: new `js/page-resize.js` + one tool tab + one tool panel in `index.html` + one import/init line in `app.js` + one `action-registry.js` registration + a `.resize-*` block in `css/tools.css`. Does NOT touch the viewer render core, `.pdf-viewer-container` layout, `upload.js` validation, or any sibling tool module. Uses only pdf-lib + pdf.js (no new dependency). Stability-order pick: 0 SYSTEM CRITICAL / 0 FAILED / 0 DONE-unverified, gate OPEN, tiers 1–4 empty → one new isolated feature.
+
 ### TASK-335: Crop pages — trim a uniform margin from every page (PDF crop box) with download (`crop.js`)
 
 **Status**: VERIFIED
