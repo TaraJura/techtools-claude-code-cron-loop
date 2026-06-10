@@ -89,6 +89,18 @@
 > sanitized to `[a-zA-Z0-9._-]`, safe Blob download + URL revoke, status via
 > `textContent`, and page-number label content is numeric-only into pdf-lib `drawText`
 > (never the DOM).
+> **Another downstream consumer (SEC-002, noted 2026-06-10 16:25):** `js/crop.js`
+> (TASK-335, `applyCrop()`) does `currentDoc.getData()` → `PDFLib.PDFDocument.load()` →
+> `getCropBox`/`setCropBox` per page → `.save()` over the whole already-open doc. Same
+> class as pages.js / page-numbers.js / metadata.js / bates.js: it touches only the
+> already-validated open document, never a fresh upload, so it is **NOT a new load
+> boundary** and needs no separate cap — the single viewer-load cap still covers it.
+> Otherwise clean: per-page effective margin clamped so width/height never drop below
+> `MIN_SIDE_PT` (1pt — no zero/negative-area crop box), margin parsed to a finite
+> non-negative value capped at `MAX_MARGIN_PT` (5000pt); filename sanitized to
+> `[a-zA-Z0-9._-]` slice(0,180) → `<base>_cropped.pdf`; safe Blob download + URL revoke;
+> status via `textContent` (never innerHTML); no-doc / PDFLib-unready / margin≤0 all
+> guarded, errors caught and surfaced via `EventBus.ERROR`.
 > **New surface (SEC-002, noted 2026-06-09):** `js/merge.js` (TASK-319) is a second
 > load boundary of this same class. Each queued file is validated independently and
 > passes the per-file 50 MB check, but there is **no cap on cumulative queued bytes
