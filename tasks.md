@@ -501,3 +501,27 @@ Per-feature UX/UI (TASK-325):
 **Regression sweep (this tick)**: TASK-321 (Text watermark, `watermark.js`, VERIFIED 2026-06-09) re-run on example.pdf — **PASS, no regression**. 9-check: discoverable/visible ✓ (panel 1905×94), labeled ✓ (0 unlabeled; `#watermark-text` aria "Watermark text", `#watermark-opacity` aria "Watermark opacity percent", apply "Apply watermark & download"), keyboard ✓ (apply focusable), responds ✓ ("CONFIDENTIAL" → captured blob `%PDF-`, **1 page** = source, `example_watermarked.pdf`, 24291 B), error ✓ (whitespace-only text → "Enter watermark text.", **no file**), XSS ✓ (`<img src=x onerror=alert(1)>` → valid `%PDF-`, **0 `<img>` injected**), viewer-intact ✓ (1905px, 1 canvas). Zero console errors.
 
 **DONE queue after this run: 0** (TASK-324 + TASK-325 both verified). Stability gate OPEN (0 SYSTEM CRITICAL, 0 FAILED, 0 DONE-awaiting-verification).
+
+---
+
+### TASK-326: Reorder the merge queue before merging (`merge.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Description**: UX polish for the existing Merge tool (TASK-319, VERIFIED). Today the Merge panel queues appended PDFs as a removable list and merges them **strictly in the order they were picked** — `merge.js` keeps `queued = [{file,name,size}]` and `copyPages()`'s them base-first in array order, with the only available edit being per-row remove. There is no way to change the append order short of removing everything and re-adding the files in a different sequence. Final document order is the single most important decision when merging PDFs, so this is a real gap in a shipped feature. Add the ability to **reorder the queued files** before merging, with first-class keyboard accessibility (not drag-only).
+
+**Technical approach** (additive, isolated — touch ONLY `js/merge.js`, the `[data-panel="merge"]` markup in `index.html`, and the `.merge-*` styles in `css/tools.css`; do NOT touch `viewer.js`, `annotate.js`, `upload.js` validation, `split.js`, `search.js`, `watermark.js`, `thumbnails.js`, or the merge validation/`copyPages` order logic beyond consuming the reordered `queued` array):
+- Add **"Move up" / "Move down"** buttons to each queued-file row (alongside the existing × remove button). Each swaps the item with its neighbour in the `queued` array and re-renders the list. The first row's "Move up" and the last row's "Move down" are `disabled` (and `aria-disabled`). Reuse the existing list-render function — do NOT fork a second render path.
+- Also support **drag-to-reorder** as a progressive enhancement (HTML5 `draggable="true"` rows + `dragstart`/`dragover`/`drop` reordering the array), but the move buttons are the source of truth for accessibility — drag must never be the *only* way to reorder.
+- The merge must consume the **current** `queued` order at click time (it already iterates the array, so just ensure reordering mutates that same array). The status line should keep showing the queued count; optionally reflect order (e.g. "3 files queued — will append in listed order").
+- Keep every existing guarantee intact: per-file validation unchanged, filenames still rendered with `textContent` only (XSS-safe), Merge still disabled until a doc is open AND ≥1 file queued, removing the last file still re-disables Merge, output still `<base>_merged.pdf`.
+
+**UX acceptance criteria** (tester will verify per-feature in a real browser):
+- **Visible & discoverable**: each queued-file row shows Move-up, Move-down, and Remove affordances; with ≥2 files queued, the controls are obviously present and usable.
+- **Reorders correctly**: queuing files A then B then C and moving one (e.g. C up, or B down) changes the visible list order, and the **downloaded merged PDF's page order matches the new list order** (base first, then queued in the reordered sequence). Verify via page count/order, e.g. base + reordered queue.
+- **Keyboard-reachable**: Move-up / Move-down / Remove are all Tab-focusable with accessible names (`aria-label` like "Move <name> up" / "Move <name> down" / "Remove <name>"); activating with Enter/Space performs the move and keeps focus sensible (don't drop focus to `<body>` after a move). Boundary buttons (first-up, last-down) are `disabled` and skipped by Tab or clearly marked `aria-disabled`.
+- **Boundary safety**: moving the top item up or the bottom item down is a no-op (no array corruption, no console error); single-item queue shows both move buttons disabled.
+- **Error/empty states preserved**: no PDF loaded → controls disabled, status "Load a PDF first.", force-click never throws; removing the last queued file re-disables Merge and resets status. Invalid files still rejected with a clear message and never queued.
+- **No regression**: viewer geometry unchanged after using Merge (`#pdf-pages` width ~1905, 1 visible canvas); the existing pick-order merge still works when no reordering is done; filenames remain text-only (no markup injection); **zero new console errors** in any flow; new/edited files `644`.
+
