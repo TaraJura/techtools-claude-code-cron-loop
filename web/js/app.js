@@ -14,6 +14,7 @@ import { initPresent } from './present.js';
 import { initKeyboardShortcuts } from './keyboard-shortcuts.js';
 import { initTabNav } from './tab-nav.js';
 import { initAnnotate } from './annotate.js';
+import { initAnnotationSummary } from './annotation-summary.js';
 import { initSplit } from './split.js';
 import { initMerge } from './merge.js';
 import { initWatermark } from './watermark.js';
@@ -72,6 +73,7 @@ function init() {
     Viewer.initViewerKeys(); // keyboard zoom (+/-/0) + Space scroll — nav keys are page-nav.js's
     initPresent();
     initAnnotate();
+    initAnnotationSummary();
     initSplit();
     initMerge();
     initWatermark();

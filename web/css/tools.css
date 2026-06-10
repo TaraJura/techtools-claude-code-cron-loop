@@ -55,6 +55,90 @@
     color: var(--accent);
 }
 
+/* Markups summary panel — list & jump to all annotations */
+[data-panel="annotations"] {
+    /* Let the markup list be a tall, scrollable block inside the panel row. */
+    align-items: stretch;
+}
+
+#annotation-summary-list {
+    width: 100%;
+    max-height: 40vh;
+    overflow: auto;
+    font-size: 0.85rem;
+}
+
+.summary-empty {
+    margin: 0;
+    color: var(--text-dim);
+}
+
+.summary-count {
+    margin: 0 0 0.4rem;
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.summary-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.summary-page-heading {
+    color: var(--text-dim);
+    font-weight: 600;
+    font-size: 0.78rem;
+    margin: 0.5rem 0 0.15rem;
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    padding: 0.35rem 0.4rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.summary-item:hover {
+    background: var(--bg-elev);
+    color: var(--accent);
+}
+
+.summary-dot {
+    flex-shrink: 0;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 2px;
+    background: var(--text-dim);
+}
+
+.summary-item--highlight .summary-dot { background: rgba(255, 235, 0, 0.8); }
+.summary-item--underline .summary-dot { background: #2563eb; }
+.summary-item--strike .summary-dot { background: #dc2626; }
+
+.summary-text {
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.summary-page {
+    flex-shrink: 0;
+    color: var(--text-dim);
+    font-size: 0.75rem;
+}
+
 /* Document Properties / Info panel */
 [data-panel="info"] {
     /* Let the properties list be a tall, scrollable block inside the panel row. */
@@ -521,10 +605,43 @@ body.highlight-mode .textLayer :is(span, br) {
     border-radius: var(--radius);
 }
 
+.merge-file[draggable="true"] {
+    cursor: grab;
+}
+
+.merge-file.dragging {
+    opacity: 0.5;
+}
+
+.merge-file.drag-over {
+    border-color: var(--accent, #1976d2);
+    box-shadow: inset 0 0 0 1px var(--accent, #1976d2);
+}
+
 .merge-file-name {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.merge-file-actions {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.merge-file-move {
+    padding: 0.1rem 0.45rem;
+    line-height: 1;
+    font-size: 0.95rem;
+}
+
+.merge-file-move:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 .merge-file-remove {

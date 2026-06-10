@@ -184,12 +184,14 @@ function removeAnnotation(id) {
     annotations = annotations.filter((a) => a.id !== id);
     if (selectedId === id) selectedId = null;
     renderAnnotations();
+    EventBus.emit(Events.ANNOTATIONS_CHANGED, {});
 }
 
 function clearAll() {
     annotations = [];
     selectedId = null;
     renderAnnotations();
+    EventBus.emit(Events.ANNOTATIONS_CHANGED, {});
     if (Viewer.getDocument()) setStatus('All annotations cleared.');
 }
 
@@ -223,6 +225,7 @@ function captureSelection() {
     }
     sel.removeAllRanges();
     renderAnnotations();
+    EventBus.emit(Events.ANNOTATIONS_CHANGED, {});
 }
 
 // --- Tool arming ------------------------------------------------------------
@@ -302,6 +305,7 @@ export function initAnnotate() {
         annotations = [];
         selectedId = null;
         setStatus(activeTool ? `${TOOLS[activeTool].label} mode on — select text to mark.` : '');
+        EventBus.emit(Events.ANNOTATIONS_CHANGED, {});
     });
 
     EventBus.on(Events.PDF_CLEARED, () => {
@@ -309,7 +313,36 @@ export function initAnnotate() {
         selectedId = null;
         disarm();
         setStatus('');
+        EventBus.emit(Events.ANNOTATIONS_CHANGED, {});
     });
+}
+
+/**
+ * Read-only snapshot of the current markups for summary/overview consumers
+ * (e.g. annotation-summary.js). Returns plain objects — never the live store —
+ * so callers can sort/iterate without mutating annotation state. Each item:
+ * `{ id, page, type, label }` where `label` is the human-readable tool name.
+ */
+export function getAnnotations() {
+    return annotations.map((a) => ({
+        id: a.id,
+        page: a.page,
+        type: a.type,
+        label: (TOOLS[a.type] || {}).label || a.type,
+    }));
+}
+
+/**
+ * Select a markup by id and scroll its page into view. Used by the annotation
+ * summary panel to jump to a markup. Reuses the existing select path (which
+ * paints the `.selected` style + remove handle); no-op for unknown ids.
+ */
+export function focusAnnotation(id) {
+    const ann = annotations.find((a) => a.id === id);
+    if (!ann) return;
+    selectAnnotation(ann.id);
+    const pageEl = document.querySelector(`.pdf-page[data-page-number="${ann.page}"]`);
+    if (pageEl) pageEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 export default initAnnotate;

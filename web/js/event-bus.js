@@ -46,6 +46,7 @@ export const Events = {
     PDF_RENDERED: 'pdf:rendered',   // { numPages }
     PDF_CLEARED: 'pdf:cleared',
     ZOOM_CHANGED: 'viewer:zoom',    // { scale }
+    ANNOTATIONS_CHANGED: 'annotations:changed', // {} — markup added/removed/cleared (annotate.js)
     ERROR: 'app:error',             // { message, error }
 };
 

@@ -33,6 +33,7 @@
     <button class="tool-tab active" role="tab" aria-selected="true" data-tab="file">File</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="view">View</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="annotate">Annotate</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="annotations">Markups</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="toc">Contents</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="search">Search</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="thumbnails">Pages</button>
@@ -75,6 +76,11 @@
               aria-pressed="false" aria-label="Strikethrough text">Strikethrough</button>
       <button class="btn" id="highlight-clear" data-action="annotate.clearAll" type="button">Clear all</button>
       <span id="highlight-status" role="status" aria-live="polite"></span>
+    </section>
+
+    <!-- Markups panel: list & jump to all annotations -->
+    <section class="tool-panel" role="tabpanel" data-panel="annotations" aria-label="Markup summary">
+      <div id="annotation-summary-list" aria-label="All markups"></div>
     </section>
 
     <!-- Contents panel: document outline / table of contents -->
