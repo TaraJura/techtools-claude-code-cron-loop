@@ -16,8 +16,10 @@ import { initTabNav } from './tab-nav.js';
 import { initAnnotate } from './annotate.js';
 import { initAnnotationSummary } from './annotation-summary.js';
 import { initSplit } from './split.js';
+import { initPages } from './pages.js';
 import { initMerge } from './merge.js';
 import { initWatermark } from './watermark.js';
+import { initPageNumbers } from './page-numbers.js';
 import * as Viewer from './viewer.js';
 
 // --- Register core viewer actions in the central registry ---
@@ -75,8 +77,10 @@ function init() {
     initAnnotate();
     initAnnotationSummary();
     initSplit();
+    initPages();
     initMerge();
     initWatermark();
+    initPageNumbers();
     initKeyboardShortcuts();
     wireToolbar();
     wireZoomLabel();

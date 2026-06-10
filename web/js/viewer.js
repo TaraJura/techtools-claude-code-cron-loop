@@ -22,6 +22,24 @@ let pagesEl = null;         // #pdf-pages container
 let loadingEl = null;       // #viewer-loading overlay
 let renderToken = 0;        // guards against overlapping re-renders
 
+// Per-page USER rotation delta in degrees (multiples of 90, normalized to
+// [0,360)), keyed by 1-based page number. This is the rotation the user applied
+// ON TOP OF the page's intrinsic /Rotate (pdf.js `page.rotate`); the render loop
+// adds the two. Reset whenever a document is loaded or cleared. Owned here (not
+// in pages.js) because only the render loop can apply it — pages.js drives it
+// through the rotatePage/rotateAll API below. (TASK-328)
+const pageRotations = new Map();
+
+/** Normalize any degree value into [0,360). */
+function normalizeDeg(d) {
+    return (((d % 360) + 360) % 360);
+}
+
+/** User-applied rotation delta (deg) for a 1-based page; 0 if none. */
+export function getPageRotation(pageNum) {
+    return pageRotations.get(pageNum) || 0;
+}
+
 function ensurePagesEl() {
     if (!pagesEl) pagesEl = document.getElementById('pdf-pages');
     return pagesEl;
@@ -81,6 +99,7 @@ export async function loadDocument(data, name = 'document.pdf') {
         const bytes = data instanceof Uint8Array ? data.slice() : new Uint8Array(data.slice(0));
         const doc = await pdfjsLib.getDocument({ data: bytes }).promise;
         pdfDoc = doc;
+        pageRotations.clear(); // a new document starts at its intrinsic orientation
         EventBus.emit(Events.PDF_LOADED, { doc, name, numPages: doc.numPages });
         await renderAll();
         return doc;
@@ -108,7 +127,11 @@ export async function renderAll() {
         // otherwise this stale render leaks a duplicate page wrapper + canvas
         // (the root cause of TASK-316: rapid zoom accumulating duplicate pages).
         if (token !== renderToken) return;
-        const viewport = page.getViewport({ scale: currentScale });
+        // Total rotation = page's intrinsic /Rotate + the user's applied delta.
+        // pdf.js's `rotation` viewport option is ABSOLUTE (it defaults to
+        // page.rotate when omitted), so we must add them ourselves. (TASK-328)
+        const rotation = normalizeDeg((page.rotate || 0) + getPageRotation(pageNum));
+        const viewport = page.getViewport({ scale: currentScale, rotation });
 
         const pageWrap = document.createElement('div');
         pageWrap.className = 'pdf-page';
@@ -218,10 +241,41 @@ export async function fitWidth() {
 
 export function clear() {
     pdfDoc = null;
+    pageRotations.clear();
     const container = ensurePagesEl();
     if (container) container.innerHTML = '';
     hideLoading(); // never leave a stale spinner/error after closing a document
     EventBus.emit(Events.PDF_CLEARED);
+}
+
+// --- Page rotation (TASK-328) ---------------------------------------------
+// Rotate by multiples of 90°. State lives in `pageRotations`; the render loop
+// above applies it. Both helpers re-render through the single TASK-316-hardened
+// renderAll() path (never a forked loop) and emit PAGES_ROTATED so thumbnails.js
+// re-renders the affected previews. No-ops (never throw) when no doc is open.
+
+/**
+ * Rotate one 1-based page by `deltaDeg` (a multiple of 90; +90 = clockwise).
+ * @returns {Promise<void>}
+ */
+export async function rotatePage(pageNum, deltaDeg) {
+    if (!pdfDoc) return;
+    if (!Number.isInteger(pageNum) || pageNum < 1 || pageNum > pdfDoc.numPages) return;
+    pageRotations.set(pageNum, normalizeDeg(getPageRotation(pageNum) + deltaDeg));
+    await renderAll();
+    EventBus.emit(Events.PAGES_ROTATED, { pages: [pageNum] });
+}
+
+/** Rotate every page by `deltaDeg` (a multiple of 90; +90 = clockwise). */
+export async function rotateAll(deltaDeg) {
+    if (!pdfDoc) return;
+    const pages = [];
+    for (let p = 1; p <= pdfDoc.numPages; p++) {
+        pageRotations.set(p, normalizeDeg(getPageRotation(p) + deltaDeg));
+        pages.push(p);
+    }
+    await renderAll();
+    EventBus.emit(Events.PAGES_ROTATED, { pages, all: true });
 }
 
 export function getDocument() {

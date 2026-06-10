@@ -44,6 +44,14 @@ const SHORTCUT_GROUPS = [
         ],
     },
     {
+        title: 'Pages',
+        hint: 'Active while the PDF viewer is focused.',
+        items: [
+            { combos: [['[']], description: 'Rotate current page left' },
+            { combos: [[']']], description: 'Rotate current page right' },
+        ],
+    },
+    {
         title: 'General',
         items: [
             { combos: [['?']], description: 'Show this keyboard shortcuts help' },

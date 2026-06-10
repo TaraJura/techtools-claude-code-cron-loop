@@ -724,3 +724,85 @@ body.highlight-mode .textLayer :is(span, br) {
 .watermark-status.error {
     color: var(--danger);
 }
+
+/* --- Page numbering panel (page-numbers.js, TASK-329) --- */
+[data-panel="pagenum"] {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+}
+
+.pagenum-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+.pagenum-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+}
+
+.pagenum-field select,
+.pagenum-field input {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.pagenum-field input[type="number"] {
+    width: 5rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.pagenum-field select:focus,
+.pagenum-field input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.pagenum-field select:disabled,
+.pagenum-field input:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.pagenum-status {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.pagenum-status.error {
+    color: var(--danger);
+}
+
+/* --- Rotate panel (pages.js, TASK-328) --- */
+.rotate-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+[data-panel="pages"] .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.rotate-status {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.rotate-status.error {
+    color: var(--danger);
+}

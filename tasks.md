@@ -10,9 +10,13 @@
 
 ### TASK-328: Rotate pages — 90° rotation with download (`pages.js`)
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: HIGH
 **Assigned to**: developer
+**Tested by**: tester
+**Test date**: 2026-06-10
+**Result**: All UX acceptance criteria met. Smoke test GREEN (all 6 phases, 0 app-origin console errors). Rotate tab → `pages` panel activates (1905px wide). All 5 controls (rotate-left/right, rotate-all-left/right, rotate-download) present with descriptive `aria-label`s, keyboard-focusable, `disabled`+`aria-disabled` when no doc. Clicking rotate-right swapped the live viewer canvas 1872×2423 → 2423×1872 (aspect 0.77→1.29), **no page duplication** (canvasCount stayed 1), status "Rotated page 1 right." Download (blob captured) = `rotated-example.pdf`, 23795 bytes, `%PDF-1.7` header — valid non-empty PDF. Viewer intact after use (containerWidth 1905, 1 visible canvas).
+UX/UI: 1-discoverable ✓  2-activatable ✓  3-visible ✓ (56px horizontal toolbar — app-standard panel height)  4-labeled ✓ (0 unlabeled)  5-keyboard ✓  6-responds ✓ (canvas rotated + valid PDF download)  7-progress ✓ ("Preparing download…" + button disabled during bake)  8-errors ✓ (no-doc guarded: disabled + "Open a PDF first.")  9-viewer-intact ✓
 
 **Implementation note (developer, 2026-06-10)**: New module `js/pages.js` ("Rotate" tool tab, `data-panel="pages"`) wired via `action-registry.js` + `app.js`. Rotation STATE + visual apply live in `viewer.js` (`pageRotations` Map, `rotatePage`/`rotateAll`/`getPageRotation`); the existing TASK-316-hardened `renderAll()` adds the user delta to each page's intrinsic `page.rotate` and passes the total into `getViewport({ scale, rotation })` — no forked render loop. New `PAGES_ROTATED` event on `event-bus.js`; `thumbnails.js` re-renders just the affected thumbnail(s) at the new orientation. Controls: Rotate left ⟲ / right ⟳ (current page), Rotate all left/right, Download rotated PDF — all real `<button>`s with descriptive `aria-label`, disabled+`aria-disabled` when no doc. Keyboard `[` / `]` rotate the current page (registered in the shortcuts help overlay, "Pages" group). Download bakes rotation with pdf-lib (`page.setRotation(degrees(orig+delta))`) → `rotated-<name>.pdf`. **Browser-verified (chrome-devtools MCP, example.pdf)**: upload renders (#pdf-pages 1905px, 1 canvas); rotate-right swaps canvas 765×990→990×765 with no page duplication and thumbnail follows; download = 23795-byte valid %PDF with page rotation baked = 90°; rotate-all + `]` cumulative rotations correct; close re-disables controls; **zero console errors/warnings** throughout. Awaiting tester re-verification.
 **Description**: Add page rotation, a core PDF operation that is not yet implemented (no `pages.js` / rotate module exists, though zoom/fit-width already live in `viewer.js`). Users frequently receive scanned or photographed PDFs with sideways/upside-down pages and need to correct orientation.
@@ -34,9 +38,13 @@
 
 ### TASK-329: Page numbers — stamp page numbers onto every page with download (`page-numbers.js`)
 
-**Status**: DONE
+**Status**: VERIFIED
 **Priority**: MEDIUM
 **Assigned to**: developer2
+**Tested by**: tester
+**Test date**: 2026-06-10
+**Result**: All UX acceptance criteria met. Smoke test GREEN (all 6 phases, 0 app-origin console errors). Numbering tab → `pagenum` panel activates (1905×96). 4 controls (Position select, Format select, Start-at input, Apply button) all present, `<label>`/`aria-label`d, keyboard-focusable, disabled until a PDF is loaded. Two Apply runs with different settings (default; then format=`of` + position=top-right + start=5) each produced valid `example_numbered.pdf` (24205B and 24208B, both `%PDF` — output changes with format/start), page count unchanged ("Numbered 1 page"). XSS-safe (user text only reaches pdf-lib `drawText`/`textContent`, no innerHTML — code-reviewed). Module never touches viewer; geometry intact afterward (containerWidth 1905, 1 visible canvas).
+UX/UI: 1-discoverable ✓  2-activatable ✓  3-visible ✓  4-labeled ✓ (0 unlabeled)  5-keyboard ✓  6-responds ✓ (2 valid PDF downloads, output varies by setting)  7-progress ✓ ("Adding page numbers…" + button disabled)  8-errors ✓ (no-doc guarded: "Load a PDF first."; start clamped via readStart)  9-viewer-intact ✓
 
 **Implementation note (developer2, 2026-06-10)**: New self-contained module `js/page-numbers.js` ("Numbering" tool tab, `data-panel="pagenum"`), wired via `action-registry.js` (`pagenum.apply`) + `app.js` (`initPageNumbers`). Mirrors the isolated watermark.js pattern exactly: talks to the rest of the app only through `EventBus` (PDF_LOADED / PDF_CLEARED) and the ActionRegistry; never touches the viewer render core, `.pdf-viewer-container` layout, upload validation, or any sibling tool module. Reads the open document bytes via pdf.js `doc.getData()`, stamps numbers with pdf-lib (`embedFont(Helvetica)` + `drawText`) onto a fresh copy, and triggers a client-side Blob download (`<base>_numbered.pdf`) — the viewer document is never mutated and nothing is uploaded. Controls: Position (6 options: bottom/top × left/center/right), Format (`1` / `Page 1` / `1 / N` / `Page 1 of N`), Start at (number ≥ 0), Apply & download. All inputs `disabled` until a PDF is open; status line via `role="status" aria-live="polite"`. User text only ever reaches pdf-lib `drawText` and `textContent` (no innerHTML — XSS-safe). No changes to the viewer/upload/layout pipeline, so no `#pdf-pages` geometry risk.
 

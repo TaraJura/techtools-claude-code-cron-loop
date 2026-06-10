@@ -28,11 +28,18 @@
 // memory footprint small on the 1.6 GiB-RAM box.
 
 import { EventBus, Events } from './event-bus.js';
+import { getPageRotation } from './viewer.js';
 
 const THUMB_WIDTH = 120; // CSS px target width for each thumbnail canvas
 
 let listEl = null;
 let renderToken = 0; // bumped on each (re)render so a stale loop can bail out
+let currentDoc = null; // kept so PAGES_ROTATED can re-render a single thumbnail
+
+/** Total rotation (deg) for a page = intrinsic /Rotate + user delta. (TASK-328) */
+function totalRotation(page, pageNum) {
+    return (((page.rotate || 0) + getPageRotation(pageNum)) % 360 + 360) % 360;
+}
 
 // --- active-page tracking (TASK-312) ---
 let pageObserver = null;            // IntersectionObserver over .pdf-page elements
@@ -255,9 +262,13 @@ async function renderThumbnails({ doc, numPages }) {
             const page = await doc.getPage(pageNum);
             if (token !== renderToken) return;
 
-            const base = page.getViewport({ scale: 1 });
+            // Apply rotation so an already-rotated page (or one rotated before a
+            // re-render) previews at the correct orientation; basing `scale` on
+            // the rotated viewport keeps the thumbnail ~THUMB_WIDTH either way.
+            const rotation = totalRotation(page, pageNum);
+            const base = page.getViewport({ scale: 1, rotation });
             const scale = THUMB_WIDTH / base.width;
-            const viewport = page.getViewport({ scale });
+            const viewport = page.getViewport({ scale, rotation });
 
             // Render at device-pixel resolution (capped) for crisp previews,
             // but keep the CSS size small to bound memory.
@@ -281,6 +292,41 @@ async function renderThumbnails({ doc, numPages }) {
     if (token === renderToken) el.removeAttribute('aria-busy');
 }
 
+/**
+ * Re-render a single page's thumbnail in place at the current rotation, without
+ * rebuilding the whole strip (TASK-328). Safe no-op if the doc/thumbnail/canvas
+ * is gone. A single failed page is logged, never thrown.
+ */
+async function rerenderThumb(pageNum) {
+    const doc = currentDoc;
+    const el = ensureListEl();
+    if (!doc || !el) return;
+    const btn = el.querySelector(`.thumbnail[data-page-number="${pageNum}"]`);
+    const canvas = btn && btn.querySelector('.thumbnail-canvas');
+    if (!canvas) return;
+    try {
+        const page = await doc.getPage(pageNum);
+        const rotation = totalRotation(page, pageNum);
+        const base = page.getViewport({ scale: 1, rotation });
+        const scale = THUMB_WIDTH / base.width;
+        const viewport = page.getViewport({ scale, rotation });
+
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(viewport.width * dpr);
+        canvas.height = Math.floor(viewport.height * dpr);
+        canvas.style.width = `${Math.floor(viewport.width)}px`;
+        canvas.style.height = `${Math.floor(viewport.height)}px`;
+
+        await page.render({
+            canvasContext: canvas.getContext('2d'),
+            viewport,
+            transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : null,
+        }).promise;
+    } catch (err) {
+        console.warn(`[thumbnails] rotate re-render of page ${pageNum} failed:`, err);
+    }
+}
+
 export function initThumbnails() {
     const el = ensureListEl();
     if (el) {
@@ -295,7 +341,15 @@ export function initThumbnails() {
     setPlaceholder('Open a PDF to see page thumbnails.');
 
     EventBus.on(Events.PDF_LOADED, (payload) => {
+        currentDoc = payload && payload.doc ? payload.doc : null;
         renderThumbnails(payload);
+    });
+
+    // A page was rotated — refresh just the affected thumbnail(s) so the preview
+    // matches the viewer within ~1s, without rebuilding the whole strip.
+    EventBus.on(Events.PAGES_ROTATED, ({ pages } = {}) => {
+        if (!Array.isArray(pages)) return;
+        pages.forEach((p) => rerenderThumb(p));
     });
 
     // Pages are (re)created on every render (initial load + zoom) — (re)arm the
@@ -306,6 +360,7 @@ export function initThumbnails() {
 
     EventBus.on(Events.PDF_CLEARED, () => {
         renderToken++; // cancel any in-flight render loop
+        currentDoc = null;
         detachPageObserver();
         setPlaceholder('Open a PDF to see page thumbnails.');
     });

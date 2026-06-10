@@ -37,9 +37,11 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="toc">Contents</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="search">Search</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="thumbnails">Pages</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="pages">Rotate</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="split">Split</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="watermark">Watermark</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="pagenum">Numbering</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="info">Info</button>
   </nav>
 
@@ -106,6 +108,27 @@
       <div id="thumbnails-list" aria-label="Page thumbnails"></div>
     </section>
 
+    <!-- Rotate panel: rotate pages 90° and download the corrected PDF -->
+    <section class="tool-panel" role="tabpanel" data-panel="pages" aria-label="Rotate pages">
+      <div class="rotate-controls">
+        <button class="btn" id="rotate-left" data-action="pages.rotateLeft" type="button"
+                aria-label="Rotate current page 90° counter-clockwise" disabled aria-disabled="true">
+          <span aria-hidden="true">⟲</span> Rotate left
+        </button>
+        <button class="btn" id="rotate-right" data-action="pages.rotateRight" type="button"
+                aria-label="Rotate current page 90° clockwise" disabled aria-disabled="true">
+          <span aria-hidden="true">⟳</span> Rotate right
+        </button>
+        <button class="btn" id="rotate-all-left" data-action="pages.rotateAllLeft" type="button"
+                aria-label="Rotate all pages 90° counter-clockwise" disabled aria-disabled="true">Rotate all left</button>
+        <button class="btn" id="rotate-all-right" data-action="pages.rotateAllRight" type="button"
+                aria-label="Rotate all pages 90° clockwise" disabled aria-disabled="true">Rotate all right</button>
+        <button class="btn btn-primary" id="rotate-download" data-action="pages.download" type="button"
+                aria-label="Download rotated PDF" disabled aria-disabled="true">Download rotated PDF</button>
+      </div>
+      <span id="pages-status" class="rotate-status" role="status" aria-live="polite">Open a PDF first.</span>
+    </section>
+
     <!-- Split panel: extract a contiguous page range into a new PDF -->
     <section class="tool-panel" role="tabpanel" data-panel="split" aria-label="Split / extract pages">
       <div class="split-ranges-field">
@@ -162,6 +185,40 @@
                 type="button" disabled>Apply watermark &amp; download</button>
       </div>
       <span id="watermark-status" class="watermark-status" role="status" aria-live="polite">Load a PDF first.</span>
+    </section>
+
+    <!-- Page numbering panel: stamp page numbers onto every page -->
+    <section class="tool-panel" role="tabpanel" data-panel="pagenum" aria-label="Page numbering">
+      <div class="pagenum-controls">
+        <span class="pagenum-field">
+          <label for="pagenum-position">Position</label>
+          <select id="pagenum-position" aria-label="Page number position" disabled>
+            <option value="bottom-center" selected>Bottom center</option>
+            <option value="bottom-right">Bottom right</option>
+            <option value="bottom-left">Bottom left</option>
+            <option value="top-center">Top center</option>
+            <option value="top-right">Top right</option>
+            <option value="top-left">Top left</option>
+          </select>
+        </span>
+        <span class="pagenum-field">
+          <label for="pagenum-format">Format</label>
+          <select id="pagenum-format" aria-label="Page number format" disabled>
+            <option value="plain" selected>1</option>
+            <option value="page-n">Page 1</option>
+            <option value="n-of-total">1 / N</option>
+            <option value="page-n-of-t">Page 1 of N</option>
+          </select>
+        </span>
+        <span class="pagenum-field">
+          <label for="pagenum-start">Start at</label>
+          <input id="pagenum-start" type="number" min="0" step="1" value="1"
+                 inputmode="numeric" autocomplete="off" aria-label="Start numbering at" disabled>
+        </span>
+        <button class="btn btn-primary" id="pagenum-apply" data-action="pagenum.apply"
+                type="button" disabled>Apply &amp; download</button>
+      </div>
+      <span id="pagenum-status" class="pagenum-status" role="status" aria-live="polite">Load a PDF first.</span>
     </section>
 
     <!-- Info panel: document properties / metadata -->
