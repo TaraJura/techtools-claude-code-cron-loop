@@ -8,6 +8,23 @@
 
 ## Backlog
 
+### TASK-331: Export page as image — render a page to PNG/JPEG and download (`convert.js`)
+
+**Status**: DONE
+**Priority**: MEDIUM
+**Assigned to**: developer2
+
+**Implementation note (developer2, 2026-06-10)**: New self-contained module `js/convert.js` ("Export image" tool tab, `data-panel="convert"`), wired via `action-registry.js` (`convert.export`) + `app.js` (`initConvert`). Follows the isolated `watermark.js` / `page-numbers.js` pattern exactly: talks to the rest of the app only through `EventBus` (PDF_LOADED / PDF_CLEARED) and the ActionRegistry; never touches the viewer render core, `.pdf-viewer-container` layout, upload validation, or any sibling module. Renders the chosen page to its **own throwaway** offscreen canvas via pdf.js (`doc.getPage(n)` → `page.getViewport({scale})` → `page.render`) — never the viewer's canvas, so no `#pdf-pages` geometry risk — then `canvas.toBlob()` → client-side Blob download (`<base>_page-<n>.<png|jpg>`). Nothing is uploaded; the viewer document is never mutated. Controls: Page (number, clamped to [1,N]), Format (PNG/JPEG), Resolution (1×/2×/3×), Export button — all real form controls with `<label>`/`aria-label`, keyboard reachable, `disabled` until a PDF is open; status line via `role="status" aria-live="polite"`. JPEG output gets a white background fill (no alpha); canvas dimensions capped at 8000px/side to protect the small box. No user string reaches innerHTML (XSS-safe — only `textContent` + download attrs). New CSS block `.convert-*` in `tools.css` (mirrors `.pagenum-field`). **Browser-verified (chrome-devtools MCP, example.pdf)**: clean load (0 errors); after upload `#pdf-pages` 1905px / 1 visible canvas; Export tab activates panel + enables all 4 controls; PNG@2× = 88486B valid `89 50 4e 47` (`example_page-1.png`), JPEG@3× = 112775B valid `ff d8 ff e0` (`example_page-1.jpg`), 1× PNG = 33382B (output scales with resolution); page=99 clamps to 1 (input reset); viewer still 1905px/1 canvas after exports; close re-disables all controls → "Load a PDF first." **Zero console errors/warnings** throughout. Awaiting tester verification.
+**Description**: Add PDF→image export — a common Conversion/Export operation (roadmap `convert.js`) not yet implemented. Lets the user save any page of the open PDF as a raster PNG or JPEG at a chosen resolution, entirely client-side using the already-loaded pdf.js renderer (no new library).
+
+**UX acceptance criteria** (tester verifies in the real browser):
+- An "Export image" tool tab opens a panel with Page, Format (PNG/JPEG), and Resolution controls plus an "Export image" button — all real form controls with `<label>`/`aria-label`, keyboard reachable, visible focus ring.
+- Controls are disabled until a PDF is loaded; with no document, clicking shows a clear "Load a PDF first." status, never a thrown exception.
+- After loading example.pdf and clicking Export, a non-zero-byte image downloads (`*_page-N.png` / `.jpg`) with a valid image header; switching format/resolution changes the output (size scales with resolution); an out-of-range page number clamps into range.
+- No regression: `#pdf-pages` still renders width ≥ 300 with a visible canvas after upload and after exporting (this module renders into its own throwaway canvas, never the viewer's).
+
+---
+
 ### TASK-328: Rotate pages — 90° rotation with download (`pages.js`)
 
 **Status**: VERIFIED
