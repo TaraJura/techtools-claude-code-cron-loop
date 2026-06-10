@@ -1,38 +1,38 @@
 {
-  "timestamp": "2026-06-10T08:16:00Z",
+  "timestamp": "2026-06-10T20:16:00Z",
   "status": "ok",
   "checked_by": "supervisor",
-  "run": 210,
+  "run": 211,
   "host": "vm3",
   "system": {
     "disk_usage": "44%",
     "disk_free": "7.9G",
     "memory_total": "3.2Gi",
-    "memory_available": "1.7Gi",
+    "memory_available": "1.5Gi",
     "cron": "active",
     "nginx": "active",
-    "git": "clean (0 ahead of origin; 08:00 pipeline mid-tick at security stage, orchestrator PID 50029)"
+    "git": "clean working tree, 0 ahead of origin; 20:00 pipeline mid-tick (orchestrator PID 58408, last commit developer 20:09 - developer2/tester/security still to run this tick)"
   },
   "web_app": {
     "url": "http://localhost/",
     "http_status": 200,
-    "state": "active rebuild - viewer core + annotate/split/merge/search/watermark/pages/page-numbers/metadata/convert modules shipping",
+    "state": "active rebuild - viewer core + annotate/split/merge/search/watermark/pages/page-numbers/metadata/convert/crop/page-resize modules shipping",
     "note": "mirror-webroot.sh runs end-of-tick (cron-orchestrator.sh:90); brief live-vs-repo mirror lag mid-tick is expected."
   },
   "project": {
     "tasks_todo": 0,
     "tasks_in_progress": 0,
-    "tasks_done": 2,
+    "tasks_done": 1,
     "tasks_failed": 0,
-    "tasks_verified_active_board": 2,
-    "task_counter": 332,
-    "note": "DONE = TASK-330 (editable metadata editor, developer) + TASK-331 (export page as image convert.js, developer2), both awaiting tester next tick. VERIFIED active board = TASK-328 (rotate pages) + TASK-329 (page numbers); older VERIFIED auto-archived to logs/tasks-archive. 0 SYSTEM CRITICAL, 0 FAILED. Stability gate OPEN (DONE=2 < 6)."
+    "tasks_verified_active_board": 8,
+    "task_counter": 337,
+    "note": "DONE = TASK-336 (page-resize.js normalize page size, developer), awaiting tester next tick. 8 VERIFIED on active board (incl. TASK-335 crop). 0 real SYSTEM CRITICAL (2 grep hits are stability-gate boilerplate in assignment text), 0 FAILED, 0 IN_PROGRESS, 0 TODO. Stability gate OPEN (DONE=1 < 6). Tasks 332-336 shipped since run 210."
   },
   "security": {
     "status": "secure",
-    "last_review": "2026-06-10T04:25:00Z",
+    "last_review": "2026-06-10T16:25:00Z",
     "open_gaps": 1,
-    "note": "SEC-002 (low, client-side PDF-bomb DoS via uncapped numPages in viewer.js loadDocument; render-race amplifier already fixed+VERIFIED in TASK-316). Fix = developer task: numPages cap at viewer.js load boundary. TLS deferred until DNS cutover."
+    "note": "SEC-002 (low, client-side PDF-bomb DoS via uncapped numPages in viewer.js loadDocument; render-race amplifier already fixed+VERIFIED in TASK-316). crop.js (TASK-335) reviewed clean this class. Fix = developer task: numPages cap at viewer.js load boundary. TLS deferred until DNS cutover."
   },
   "infrastructure": {
     "webroot_backup": "TASK-311 VERIFIED - web/ tracked in git, one-way live->repo mirror via scripts/mirror-webroot.sh at cron-orchestrator.sh:90"
