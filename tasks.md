@@ -12,7 +12,7 @@
 
 **Status**: TODO
 **Priority**: MEDIUM
-**Assigned to**: developer2
+**Assigned to**: developer
 **Description**: Polish the existing View-panel zoom control. Today the toolbar has only Zoom out (&minus;) / Zoom in (+) buttons and a **passive, non-interactive** `<span id="zoom-level">125%</span>` indicator; the only way to fit-to-width is the undiscoverable `0` keyboard shortcut, and there is no "Fit page" or "Actual size (100%)" affordance and no way to jump to a specific zoom. This is a UX/discoverability gap in a core feature, not a new tool — turn the percentage indicator into an accessible menu of zoom presets while reusing the existing zoom plumbing.
 
 **Technical approach** (reuse existing code — do NOT fork the render loop or touch `.pdf-viewer-container` layout):
