@@ -67,6 +67,17 @@
 > `getDocument(...).promise`, reject when `doc.numPages > 1000` (or render lazily /
 > virtualized) and emit an `ERROR` so the new notifications toast tells the user.
 > Browser-verify via the (now-restored) chrome-devtools tester before marking DONE.
+> **More per-page consumers (SEC-002, noted 2026-06-10):** `js/pages.js` (TASK-328,
+> `downloadRotated()`) and `js/page-numbers.js` (TASK-329, `applyPageNumbers()`) both
+> do `currentDoc.getData()` → `PDFLib.PDFDocument.load()` → `.save()` over **all**
+> pages of the already-open document. They are **NOT new load boundaries** (they only
+> touch the already-validated open doc, never a fresh upload), so they need no separate
+> cap — but they are extra reasons the single page-count cap belongs at the `viewer.js`
+> **load** boundary: capping there bounds the viewer, thumbnails, merge, rotate-download
+> and number-stamp paths all at once. Both new modules are otherwise clean: filenames
+> sanitized to `[a-zA-Z0-9._-]`, safe Blob download + URL revoke, status via
+> `textContent`, and page-number label content is numeric-only into pdf-lib `drawText`
+> (never the DOM).
 > **New surface (SEC-002, noted 2026-06-09):** `js/merge.js` (TASK-319) is a second
 > load boundary of this same class. Each queued file is validated independently and
 > passes the per-file 50 MB check, but there is **no cap on cumulative queued bytes
