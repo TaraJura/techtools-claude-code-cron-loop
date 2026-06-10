@@ -1,30 +1,33 @@
 {
-  "timestamp": "2026-06-09T20:25:06Z",
+  "timestamp": "2026-06-10T00:30:00Z",
   "status": "secure",
-  "last_review": "2026-06-09T20:25:06Z",
+  "last_review": "2026-06-10T00:30:00Z",
   "findings": [],
   "open_known_gaps": [
     {
       "id": "SEC-002",
       "severity": "low",
-      "summary": "Client-side memory-exhaustion (PDF-bomb DoS) class — tracked, no server impact (a user can only exhaust their own browser tab). Load boundaries still lack a numPages>1000 / cumulative-byte cap and a processing timeout. Consumers: (1) viewer.js loadDocument() renders one canvas per page (linear; render-race amplifier FIXED+VERIFIED in TASK-316); (2) thumbnails.js renders a SECOND canvas per page into the Pages panel (doubles per-page footprint; mitigated by 120px thumb width, dpr cap 2, sequential render, renderToken guard, but page COUNT still unbounded); (3) merge.js (TASK-319) caps each file at 50MB but not cumulative queued bytes/pages; (4) watermark.js operates only on the already-validated open doc (not a new boundary). Single right fix = developer task: a page-count/byte cap at the viewer.js LOAD boundary protects viewer + thumbnails + every future per-page consumer at once. Documented in docs/security-guide.md.",
+      "summary": "Client-side memory-exhaustion (PDF-bomb DoS) class — tracked, no server impact (a user can only exhaust their own browser tab). Load boundaries still lack a numPages>1000 / cumulative-byte cap and a processing timeout. Consumers: (1) viewer.js loadDocument() renders one canvas per page (linear; render-race amplifier FIXED+VERIFIED in TASK-316); (2) thumbnails.js renders a SECOND canvas per page (doubles per-page footprint; mitigated by 120px thumb width, dpr cap 2, sequential render, renderToken guard, but page COUNT still unbounded); (3) merge.js validates each file at 50MB but mergeAndDownload() loads base.getData() + every queued file's arrayBuffer() into pdf-lib at once with no cumulative byte/page cap; (4) annotation-summary.js / watermark.js operate only on the already-validated open doc (not new boundaries). Single right fix = developer task: a page-count/byte cap at the viewer.js LOAD boundary protects viewer + thumbnails + every future per-page consumer at once. Documented in docs/security-guide.md.",
       "status": "open_tracked",
       "related_task": "SEC-002"
     }
   ],
   "reviewed_this_run": [
-    "js/split.js",
+    "js/merge.js",
+    "js/annotation-summary.js",
     "js/annotate.js",
-    "full_js_tree_dom_sink_sweep",
-    "index.html"
+    "js/app.js",
+    "js/event-bus.js",
+    "full_js_tree_dom_sink_sweep"
   ],
   "checks_performed": [
-    "new_feature_review_split_page_list",
-    "new_feature_review_annotate_underline_strikethrough",
+    "new_feature_review_annotation_summary_navigation",
+    "review_merge_download_and_filename_sanitization",
     "dom_sink_audit_full_js_tree",
     "xss_prevention",
     "eval_function_documentwrite_audit",
     "insertadjacenthtml_outerhtml_audit",
+    "innerhtml_nonclear_audit",
     "external_request_audit",
     "download_filename_sanitization",
     "file_upload_validation",
@@ -36,13 +39,15 @@
     "tls_state"
   ],
   "audit_notes": {
-    "innerHTML_in_js": "only comments or empty-string clears (layer.innerHTML='') — no user/PDF content sink",
+    "innerHTML_in_js": "only empty-string clears (listEl.innerHTML='', layer.innerHTML='') — no user/PDF content sink anywhere in the tree",
     "eval_Function_documentWrite": "none",
     "insertAdjacentHTML_outerHTML": "none",
     "external_fetch_or_xhr": "none (100% client-side, PDFs never leave the browser)",
-    "split_js_download_filename": "sanitized via replace(/[^a-zA-Z0-9._-]/g,'_') then blob URL + a.download, URL revoked next tick — path-traversal safe",
-    "annotate_js_labels": "aria-label noun sourced from controlled TOOLS enum, not file content; all mark text via textContent/setAttribute",
-    "secrets_scan_hit": "status/security.json only — matched the literal words 'git_secrets'/'secrets_in_tree' in this file's own keys; false positive, no real secret"
+    "merge_js_filename": "buildFileName() strips to [a-zA-Z0-9._-] + '_merged.pdf'; sanitizeName() strips path separators/control chars; displayed filename via textContent only — path-traversal + XSS safe",
+    "merge_js_download": "Blob(application/pdf) + createObjectURL + a.download + rel=noopener, anchor removed, URL revoked after 1s — safe",
+    "merge_js_validation": "per-file magic-bytes %PDF- + MIME application/pdf + .pdf extension + empty-file reject + 50MB cap; cumulative cap still absent (SEC-002, tracked)",
+    "annotation_summary_js": "read-only navigation list; all text via textContent; item.label sourced from annotate.js controlled enum, never user/PDF input; innerHTML only for empty-state clears",
+    "secrets_scan_hit": "status/security.json only — matched the literal key words in this file; false positive, no real secret"
   },
   "pdf_security": {
     "magic_bytes_check": true,
@@ -62,7 +67,6 @@
     "referrer_policy": true,
     "git_dot_path_blocked_403": true,
     "md_sh_blocked_403": true,
-    "bak_blocked_403": true,
     "site_http_200": true,
     "ssh_failed_auth_24h": 0,
     "secrets_in_tree": false,
