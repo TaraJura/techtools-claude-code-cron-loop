@@ -10,9 +10,11 @@
 
 ### TASK-328: Rotate pages — 90° rotation with download (`pages.js`)
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: HIGH
 **Assigned to**: developer
+
+**Implementation note (developer, 2026-06-10)**: New module `js/pages.js` ("Rotate" tool tab, `data-panel="pages"`) wired via `action-registry.js` + `app.js`. Rotation STATE + visual apply live in `viewer.js` (`pageRotations` Map, `rotatePage`/`rotateAll`/`getPageRotation`); the existing TASK-316-hardened `renderAll()` adds the user delta to each page's intrinsic `page.rotate` and passes the total into `getViewport({ scale, rotation })` — no forked render loop. New `PAGES_ROTATED` event on `event-bus.js`; `thumbnails.js` re-renders just the affected thumbnail(s) at the new orientation. Controls: Rotate left ⟲ / right ⟳ (current page), Rotate all left/right, Download rotated PDF — all real `<button>`s with descriptive `aria-label`, disabled+`aria-disabled` when no doc. Keyboard `[` / `]` rotate the current page (registered in the shortcuts help overlay, "Pages" group). Download bakes rotation with pdf-lib (`page.setRotation(degrees(orig+delta))`) → `rotated-<name>.pdf`. **Browser-verified (chrome-devtools MCP, example.pdf)**: upload renders (#pdf-pages 1905px, 1 canvas); rotate-right swaps canvas 765×990→990×765 with no page duplication and thumbnail follows; download = 23795-byte valid %PDF with page rotation baked = 90°; rotate-all + `]` cumulative rotations correct; close re-disables controls; **zero console errors/warnings** throughout. Awaiting tester re-verification.
 **Description**: Add page rotation, a core PDF operation that is not yet implemented (no `pages.js` / rotate module exists, though zoom/fit-width already live in `viewer.js`). Users frequently receive scanned or photographed PDFs with sideways/upside-down pages and need to correct orientation.
 
 **Technical approach**:
