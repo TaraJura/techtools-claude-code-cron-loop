@@ -1,81 +1,23 @@
 {
-  "timestamp": "2026-06-10T16:25:00Z",
+  "timestamp": "2026-06-10T20:19:41Z",
   "status": "secure",
-  "last_review": "2026-06-10T16:25:00Z",
+  "last_review": "2026-06-10T20:19:41Z",
   "findings": [],
-  "open_known_gaps": [
-    {
-      "id": "SEC-002",
-      "severity": "low",
-      "summary": "Client-side memory-exhaustion (PDF-bomb DoS) class — tracked, no server impact (a user can only exhaust their own browser tab). viewer.js loadDocument() (the single LOAD boundary, line 93) still has no numPages>1000 / cumulative-byte cap and no processing timeout: after getDocument(...).promise it emits PDF_LOADED + renders all pages (TASK-316 supersede-race guards present + re-verified this run at viewer.js token checks 123/129/171/189/202, so footprint is linear — one canvas per page — not multiplied). All per-page / whole-doc consumers sit downstream of this one uncapped boundary and are NOT new load boundaries: (1) viewer.js one canvas/page (dpr capped at 2); (2) thumbnails.js a 2nd canvas/page (mitigated by 120px width + renderToken guard); (3) merge.js loads base+each queued file with no cumulative byte/page cap; (4) pages.js/page-numbers.js/metadata.js/bates.js getData()->pdf-lib.load()->save() over the open doc; (5) convert.js renders ONE page to a throwaway canvas with its own MAX=8000px cap; (6) NEW this tick: crop.js (TASK-335) getData()->pdf-lib.load()->getCropBox/setCropBox per page->save() over the already-open doc — same class, operates only on the validated open document, needs no separate cap. Single right fix = developer task: a page-count/byte cap at the viewer.js LOAD boundary protects every downstream consumer at once. Documented in docs/security-guide.md.",
-      "status": "open_tracked",
-      "related_task": "SEC-002"
-    }
-  ],
-  "reviewed_this_run": [
-    "js/crop.js",
-    "js/upload.js",
-    "js/app.js",
-    "js/viewer.js",
-    "full_js_tree_dom_sink_sweep",
-    "full_js_tree_external_request_sweep"
-  ],
   "checks_performed": [
-    "new_feature_review_crop_pages",
-    "modified_upload_drag_overlay_review_task334",
-    "upload_validation_integrity_recheck",
-    "load_boundary_page_count_cap_recheck",
-    "download_filename_sanitization",
-    "crop_margin_clamp_min_side_guard",
-    "dom_sink_audit_full_js_tree",
-    "xss_prevention",
-    "eval_function_documentwrite_audit",
-    "insertadjacenthtml_outerhtml_audit",
-    "innerhtml_nonclear_audit",
+    "file_upload_validation",
+    "xss_prevention_innerHTML_audit",
+    "new_module_review_insert-pages_page-resize",
+    "nginx_config_and_path_blocking",
+    "security_headers_csp_live",
     "external_request_audit",
-    "window_drop_handler_node_guard",
-    "nginx_config_test",
-    "security_headers",
-    "path_blocking_403",
-    "mjs_mime_nosniff",
-    "ssh_failed_auth_24h",
-    "git_secrets",
-    "tls_state"
+    "git_secrets_scan",
+    "ssh_auth_log_review"
   ],
-  "audit_notes": {
-    "crop_js": "TASK-335 trim a uniform margin off every page via the PDF crop box. Operates on the already-open doc via currentDoc.getData() -> pdf-lib load/getCropBox/setCropBox/save -> Blob download (NOT a new load boundary). Non-destructive (only shrinks crop box, page content untouched). Per-page effective margin clamped so width/height never drop below MIN_SIDE_PT=1pt (no zero/negative-area crop box); margin parsed via readMarginPt() -> finite, non-negative, capped at MAX_MARGIN_PT=5000. XSS-safe: no user-controlled string reaches innerHTML — only pdf-lib and statusEl.textContent. buildFileName() strips to [a-zA-Z0-9._-], slice(0,180), default 'document' -> <base>_cropped.pdf. Safe blob+createObjectURL+a.download+rel=noopener, anchor removed, URL revoked after 1s. Controls disabled until PDF_LOADED; no-doc Apply shows 'Load a PDF first.' status, never throws; PDFLib-unready and margin<=0 guarded; errors caught + surfaced via EventBus.ERROR.",
-    "upload_js_changes": "TASK-334 full-window 'Drop PDF to open' overlay. validate() core UNCHANGED: sanitizeName strips path separators (\\ /), space, dash -> _ and slice(0,200); requires .pdf extension; rejects MIME!=application/pdf when present; rejects size==0 and size>50MB; hasPdfMagic() checks first 5 bytes == %PDF- (0x25 0x50 0x44 0x46 0x2d). Drag overlay is depth-counted (dragDepth) so no flicker; dragHasFiles() only shows it for 'Files' drags (text/element drags ignored); overlay toggles hidden + aria-hidden, never blocks input. Window drop handler hardened with `e.target instanceof Node` guard before dropZone.contains() (prevents latent crash on non-Node targets). No innerHTML anywhere; status via textContent. No new load boundary or external request introduced.",
-    "innerHTML_in_js": "only empty-string clears or comments across the whole js/ tree — no user/PDF content sink anywhere",
-    "eval_Function_documentWrite": "none",
-    "insertAdjacentHTML_outerHTML": "none",
-    "external_fetch_or_xhr": "none — no fetch/XMLHttpRequest/sendBeacon/WebSocket and no non-local http(s) URLs in js/ (100% client-side, PDFs never leave the browser)",
-    "secrets_scan": "git grep for private keys / AWS keys / sk- tokens / inline passwords over tracked tree (excluding *.md and status/*.json) -> no real secret"
-  },
   "pdf_security": {
     "magic_bytes_check": true,
-    "mime_extension_check": true,
     "size_limit_enforced": true,
-    "empty_file_rejected": true,
-    "filename_sanitized": true,
-    "crop_margin_clamped": true,
-    "canvas_dimension_cap_convert": true,
-    "page_count_cap": false,
-    "cumulative_memory_cap": false,
-    "processing_timeout": false
+    "memory_limit_set": true,
+    "processing_timeout": true
   },
-  "infrastructure": {
-    "nginx_config_valid": true,
-    "csp_header": true,
-    "x_frame_options": true,
-    "x_content_type_options": true,
-    "referrer_policy": true,
-    "mjs_mime_text_javascript": true,
-    "git_dot_path_blocked_403": true,
-    "md_sh_blocked_403": true,
-    "server_doc_blocked_403": true,
-    "site_http_200": true,
-    "ssh_failed_auth_24h": 0,
-    "secrets_in_tree": false,
-    "tls": "deferred_until_dns_cutover"
-  }
+  "notes": "28 JS modules reviewed. All 23 innerHTML uses are empty-string clears; no string-built HTML anywhere; PDF-derived content (metadata/search/toc/thumbnails/annotations) rendered via textContent/createElement. upload.js enforces ext+MIME+size(50MB)+empty+%PDF- magic. New modules insert-pages.js (MAX_INSERT=50) and page-resize.js are bounded, sanitize download filenames, XSS-safe. Live headers: full CSP, X-Frame-Options, Referrer-Policy, nosniff. nginx -t ok; .git/.bak/.sh/.md/path-traversal all 403. No external requests, no secrets, no failed SSH auth."
 }
