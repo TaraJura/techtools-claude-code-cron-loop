@@ -1022,6 +1022,102 @@ body.highlight-mode .textLayer :is(span, br) {
     color: var(--danger);
 }
 
+/* --- Insert pages panel (insert-pages.js, TASK-337) --- */
+.insert-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+.insert-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+}
+
+.insert-field select,
+.insert-field input {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.insert-field input[type="number"] {
+    width: 5rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.insert-field select:focus,
+.insert-field input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.insert-field select:disabled,
+.insert-field input:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.insert-status {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.insert-status.error {
+    color: var(--danger);
+}
+
+/* --- Resize panel (page-resize.js, TASK-336) --- */
+.resize-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+.resize-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+}
+
+.resize-field select {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.resize-field select:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.resize-field select:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.resize-status {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.resize-status.error {
+    color: var(--danger);
+}
+
 /* --- Bates panel (bates.js, TASK-333) --- */
 .bates-controls {
     display: flex;

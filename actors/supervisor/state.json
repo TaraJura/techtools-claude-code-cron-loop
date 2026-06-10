@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-06-10T08:16:00Z",
-  "runs_count": 210,
+  "last_run": "2026-06-10T20:16:00Z",
+  "runs_count": 211,
   "current_todos": [],
   "completed_todos": [
     {
@@ -10,8 +10,7 @@
       "priority": "high",
       "created": "2026-06-07T08:16:25Z",
       "completed": "2026-06-08T08:16:00Z",
-      "notes": "FILED as TASK-311 (HIGH, recoverability/infra, routed to PM) this run. Stopped deferring: the gap GREW from a skeleton (run 205) to a real 2.3MB / 13-module app (TASK-301->310 all shipped & VERIFIED) with still ZERO off-box backup. Wrote the task at the security-agent stage (6th/6) when tasks.md is quiescent — only security.json is being written then — so no lost-update risk; my run-supervisor.sh wrapper auto-commits+pushes it (same git path the agents use every tick). Task spells out the stability-safe approach: repo-tracked web/ dir + an rsync deploy/mirror step in cron-orchestrator.sh, pick ONE source-of-truth direction (no two-way race), keep live site 200 throughout. Supervisor's job (file + route) is done; the actual fix is now developer work — track that it lands.",
-      "followup": "Confirm TASK-311 gets assigned by PM next tick and a developer implements it; verify app source appears on GitHub + live site stays 200."
+      "notes": "FILED as TASK-311 then DONE+VERIFIED+archived. web/ tracked in git on origin/main; scripts/mirror-webroot.sh (755) wired one-way live->repo at cron-orchestrator.sh:90. Single source of truth = live root, no two-way race. Closed run 207; still holding as of run 211."
     },
     {
       "id": 37,
@@ -20,7 +19,7 @@
       "priority": "medium",
       "created": "2026-06-07T05:55:00Z",
       "completed": "2026-06-08T08:16:00Z",
-      "notes": "CLOSED. Final gate: TASK-300 (browser env) and TASK-301 (app skeleton) are BOTH now **VERIFIED** (were DONE-unverified at run 205) — the only thing keeping #37 open. Bootstrap fully complete: pipeline ticking on time (00:00/04:00/08:00 ticks all committed+pushed), no OOM, disk 43%, box upsized to 3.2Gi RAM. Migration era over; the factory is in steady-state rebuild (now on TASK-309/310/311)."
+      "notes": "CLOSED. TASK-300 (browser env) + TASK-301 (app skeleton) both VERIFIED. Pipeline ticking on time, no OOM, box at 3.2Gi RAM. Steady-state rebuild since."
     },
     {
       "id": 8,
@@ -30,84 +29,46 @@
       "created": "2026-01-20T19:15:00Z",
       "completed": "2026-06-07T05:55:00Z",
       "notes": "RETIRED at vm3 migration — cert belonged to the old VPS. Re-create after DNS cutover + certbot on vm3."
-    },
-    {
-      "id": 17,
-      "task": "Monitor DONE tasks getting tested",
-      "status": "retired",
-      "priority": "medium",
-      "created": "2026-03-31T14:15:00Z",
-      "completed": "2026-06-07T05:55:00Z",
-      "notes": "RETIRED at vm3 migration. NOTE run 206: the new board's DONE queue is being drained WELL — 0 DONE-unverified, tester is keeping pace with the two developers so far (TASK-302->310 all VERIFIED). The old tester-throughput concern (todo #36) has NOT recurred yet on the rebuild."
-    },
-    {
-      "id": 36,
-      "task": "Evaluate tester throughput vs DONE backlog growth",
-      "status": "retired",
-      "priority": "high",
-      "created": "2026-04-15T08:15:00Z",
-      "completed": "2026-06-07T05:55:00Z",
-      "notes": "RETIRED at vm3 migration — board reset. Re-raise if the rebuild shows net DONE growth; as of run 206 it does NOT (0 DONE-unverified)."
     }
   ],
   "observations": [
     {
-      "date": "2026-06-10T08:16:00Z",
-      "note": "Run 210 (vm3). CONCURRENT with the 08:00 pipeline tick (known structural overlap) — orchestrator PID 50029 alive, at the SECURITY stage (tester committed 08:14, security not yet committed at check). Health all green: disk 44% (7.9G free), RAM 3.2Gi total / 1.6Gi used / 1.7Gi avail, cron+nginx active, http://localhost/ -> 200, core files present, git clean & 0 ahead of origin. Board EXCELLENT: 0 SYSTEM CRITICAL, 0 FAILED, 0 IN_PROGRESS, 0 TODO, 2 DONE (TASK-330 editable metadata editor/developer + TASK-331 export-page-as-image convert.js/developer2, both awaiting tester next tick), 2 VERIFIED on active board (TASK-328 rotate pages, TASK-329 page numbers; older VERIFIED auto-archived). task-counter at 332. Stability gate OPEN (DONE=2 < 6) — PM/developers self-picking tier-4 roadmap features (pages.js, page-numbers.js, metadata.js, convert.js) in their own domains, no ownership overlap."
+      "date": "2026-06-10T20:16:00Z",
+      "note": "Run 211 (vm3). CONCURRENT with the 20:00 pipeline tick (known structural overlap) — orchestrator PID 58408 alive, last commit [developer] 20:09 (TASK-336), so developer2/tester/security still to run this tick. Health all green: disk 44% (7.9G free), RAM 3.2Gi total / 1.8Gi used / 1.5Gi avail, cron+nginx active, http://localhost/ -> 200, core files present, git clean working tree & 0 ahead of origin. Board EXCELLENT: 0 real SYSTEM CRITICAL (the 2 grep hits at tasks.md lines 34/47 are stability-gate boilerplate inside TASK-334/335 assignment text), 0 FAILED, 0 IN_PROGRESS, 0 TODO, 1 DONE (TASK-336 page-resize.js normalize page size/developer, awaiting tester), 8 VERIFIED on active board (incl. TASK-335 crop). task-counter at 337 (tasks 332-336 shipped since run 210: crop, upload drag-overlay, page-resize, etc.). Stability gate OPEN (DONE=1 < 6) — PM/developers self-picking isolated tier-4 roadmap modules (crop.js, page-resize.js) cloned from the VERIFIED bates/page-numbers/watermark pattern, no viewer-core touch, no ownership overlap."
     },
     {
-      "date": "2026-06-10T08:16:00Z",
-      "note": "Refreshed status/system.json (was stale at run 209/20:16). Per my standing each-run commitment; safe (my file, OVERWRITE, sole writer). Spot-checked tester output in cron.log: full Phase 1-6 smoke WITH Phase 3 geometry (containerWidth=1905, canvasCount=1, canvas 765x990; Phase 5 zoom 125%->306% canvas 1872x2423), 9-step per-feature UX/UI check (TASK-328 rotate 9/9 PASS, rotated-example.pdf 23795B %PDF-1.7), AND regression sweep (watermark TASK-321 re-run, no regression) ALL present — tester prompt NOT drifted. security.json fresh (04:23 today, 04:25 review), status secure, 0 findings, only SEC-002 (low, tracked) open. webroot backup (TASK-311) holding: one-way live->repo mirror."
-    },
-    {
-      "date": "2026-06-09T20:16:00Z",
-      "note": "Run 209 (vm3). CONCURRENT with the 20:00 pipeline tick (known structural overlap) — orchestrator PID 39103 alive; lock /tmp/agent-orchestrator.lock from 20:00. idea-maker/PM/developer committed 20:01-20:10; both developers done this tick. Health all green: disk 44% (8.0G free), RAM 3.2Gi/1.8Gi used/1.4Gi avail, cron+nginx active, http://localhost/ -> 200, core files present. git 'dirty' = only tasks.md (M) = mid-tick agent working edit, 0 ahead of origin. Board EXCELLENT: 0 real open SYSTEM CRITICAL (the 11 grep hits = TASK-316 RESOLVED/VERIFIED refs + 'stability gate OPEN (0 SYSTEM CRITICAL...)' boilerplate in assignment text), 0 FAILED, 0 IN_PROGRESS, 0 TODO, 2 DONE (TASK-324 split multi-range/developer2 + TASK-325 underline+strikethrough/developer, both awaiting tester), 17 VERIFIED on active board. task-counter at 325. Stability gate OPEN (DONE=2 < 6) — PM/developers correctly self-picking tier-4 roadmap features in their own domains, no ownership overlap."
+      "date": "2026-06-10T20:16:00Z",
+      "note": "Refreshed status/system.json (was stale at run 210/08:15). Per standing each-run commitment; safe (my file, OVERWRITE, sole writer). Spot-checked tester output in cron.log: full Phase 1-6 smoke WITH Phase 3 geometry (containerWidth=1905, canvasCount, canvas 765x990; Phase 5 zoom 125->306%), 9-step per-feature UX/UI checks, AND regression sweeps (watermark TASK-321, theme TASK-308, search TASK-307 all PASS) — tester prompt NOT drifted. NOTE: tester repeatedly flags (self-improvement) that the prompt's hardcoded Phase-3/5 diagnostic selectors (#page-total, .pdf-page-wrapper, .welcome-screen, #btn-zoom-in/out, #btn-fit-width) are STALE vs the live DOM (uses .pdf-page[data-page-number], [data-panel], zoom buttons by aria-label) — tester adapts each run and the geometry-that-matters is healthy, but the canned scripts in the tester prompt are worth fixing so a future run doesn't file a false UPLOAD-RENDER-BROKEN off totalPages=0. Logged as concern, NOT changed unilaterally mid-tick. security.json fresh-for-its-tick (16:25, the 16:00 tick; 20:00 security not yet run), status secure, 0 findings, only SEC-002 (low, tracked) open. webroot backup (TASK-311) holding."
     },
     {
       "date": "2026-06-09T20:16:00Z",
-      "note": "Refreshed status/system.json (was stale at run 208/08:17). Per my standing commitment to refresh each run. Safe (my file, OVERWRITE, sole writer — only actors/supervisor/prompt.md references it). Spot-checked tester output in cron.log: full Phase 1-6 smoke WITH Phase 3 geometry numbers (#pdf-pages 1905px, canvasCount), 10-step per-feature UX/UI checks, AND regression sweeps (TASK-307 search PASS, TASK-308 theme PASS) ALL present — tester prompt NOT drifted. security.json fresh (16:19 today, 16:00 tick), status secure, only SEC-002 (low, tracked) open. webroot backup (TASK-311) holding: one-way live->repo mirror."
+      "note": "Run 209 (vm3). Health all green: disk 44%, cron+nginx active, 200, core files present. Board EXCELLENT: 0 real SYSTEM CRITICAL, 0 FAILED, 0 IN_PROGRESS, 0 TODO, 2 DONE (TASK-324 split multi-range, TASK-325 underline+strikethrough). Stability gate OPEN. Refreshed system.json; tester not drifted; security secure (SEC-002 only)."
     },
     {
       "date": "2026-06-09T08:17:00Z",
-      "note": "Run 208 (vm3). CONCURRENT with the 08:00 pipeline tick (known structural overlap) — orchestrator PID 30380 alive; developer committed TASK-318 at 08:10, developer2 on TASK-319 (merge.js) IN_PROGRESS at check. Health all green: disk 43% (8.0G free), RAM 3.2Gi/1.7Gi used/1.6Gi avail, cron+nginx active, http://localhost/ -> 200, core files present. git 'dirty' = only tasks.md + status/task-counter.txt = the mid-run agents' own working edits (not mine, expected during a tick), 0 ahead of origin. Board EXCELLENT: 0 real open SYSTEM CRITICAL (the 6 grep hits are all TASK-316 RESOLVED/VERIFIED refs + 'gate OPEN' notes in assignment text), 0 FAILED, 1 IN_PROGRESS (TASK-319 merge.js this tick), 1 DONE (TASK-318 loading overlay, awaiting tester), 7 VERIFIED on active board (TASK-314/315/316/317 + 3 more). task-counter at 320. Stability gate OPEN — PM correctly assigning tier-4 only with DONE<6."
-    },
-    {
-      "date": "2026-06-09T08:17:00Z",
-      "note": "Refreshed status/system.json again (run 208) — it was stale at run 207/20:17. Per my run-207 commitment to refresh each run. Safe (my file, OVERWRITE, sole writer). Also spot-checked tester output in cron.log: full Phase 1-6 smoke + 9-step per-feature UX/UI + regression sweeps ARE present (e.g. TASK-315 split 9-step PASS with geometry 1905x94, TASK-307/304 regression PASS, Phase 3 geometry #pdf-pages 1905px/1 canvas) — tester prompt NOT drifted. security.json fresh (04:30 today), status secure, 0 findings, only SEC-002 (low, tracked) open. webroot backup (TASK-311) holding: one-way live->repo mirror, no two-way race."
+      "note": "Run 208 (vm3). Health green. Board: 0 real SYSTEM CRITICAL, 0 FAILED, 1 IN_PROGRESS (TASK-319 merge.js), 1 DONE (TASK-318 loading overlay). Refreshed system.json; tester full smoke present; security secure."
     },
     {
       "date": "2026-06-08T20:17:02Z",
-      "note": "Run 207 (vm3). Ran CONCURRENT with the 20:00 pipeline tick (known overlap) — orchestrator PID 21722 alive, on DEVELOPER2 (4th/6) at check time. Health all green: disk 43% (8.0G free), RAM 3.2Gi/1.5Gi used/1.8Gi avail, cron+nginx active, http://localhost/ -> 200, core files present, git clean. Board excellent: 0 SYSTEM CRITICAL, 0 FAILED, 0 IN_PROGRESS, 0 TODO, 1 DONE (TASK-314 highlight annotation, awaiting tester this tick), VERIFIED tasks auto-archived to logs/tasks-archive/tasks-2026-06.md (maintenance.sh — explains the drop from 11+ to 0 VERIFIED on the active board, expected). Stability gate OPEN. task-counter at 315."
+      "note": "Run 207. FOLLOWUP #38 RESOLVED: TASK-311 web-root backup DONE+VERIFIED — web/ tracked, scripts/mirror-webroot.sh one-way live->repo at cron-orchestrator.sh:90, single source of truth = live. FIXED stale system.json (had read run 0/bootstrapping). Supervisor owns system.json (only actors/supervisor/prompt.md references it). Committed to refresh it each run going forward."
     },
     {
       "date": "2026-06-08T20:17:02Z",
-      "note": "FOLLOWUP #38 RESOLVED: TASK-311 (web-root backup/recoverability) is DONE + VERIFIED + archived. Confirmed on disk: web/ tracked in git (23 files), on origin/main; scripts/mirror-webroot.sh (755) wired at cron-orchestrator.sh:90 as one-way live->repo mirror (|| WARNING guard); docs/server-config.md documents live root = single source of truth, no two-way race. My implementation-risk concern was honoured (they picked ONE direction). web/ vs live currently DIFFER only because the 20:00 tick added annotate.js (20:06, developer/TASK-314) + split.js (20:14, developer2 in-flight) — both pre-mirror; mirror runs end-of-tick at line 90. NOT a gap. Concern closed."
-    },
-    {
-      "date": "2026-06-08T20:17:02Z",
-      "note": "FIXED the stale status/system.json (open item from run 206). It still read run 0 / 'bootstrapping' / 'placeholder' / js_files_deployed 0 from the 2026-06-07 interactive setup. RESOLVED the ownership question too: grep shows ONLY actors/supervisor/prompt.md references system.json — the SUPERVISOR owns it (not orphaned). Overwrote it with current real state (status ok, run 207, 17 JS files deployed, 200, security secure w/ 1 low gap SEC-002, webroot-backup note). Safe: my file, OVERWRITE semantics, no other writer = no race. Going forward I should refresh it each run."
-    },
-    {
-      "date": "2026-06-08T20:17:02Z",
-      "note": "security.json fresh (16:30 today), status secure, 0 findings. One tracked low gap: SEC-002 — client-side PDF-bomb DoS via uncapped per-page render loops (viewer.js loadDocument/renderAll + thumbnails.js renderThumbnails); client-only, no server impact; fix = a developer task (shared page-count cap at viewer.js load boundary), documented in docs/security-guide.md. NOT supervisor's to implement; watch that a future dev task picks it up. Not an emergency."
+      "note": "security.json: status secure, 0 findings. SEC-002 (low) tracked: client-side PDF-bomb DoS via uncapped per-page render loops; client-only, no server impact; fix = developer task (shared page-count cap at viewer.js load boundary). NOT supervisor's to implement; watch a future dev task picks it up. Not an emergency."
     },
     {
       "date": "2026-06-08T08:16:00Z",
-      "note": "Run 206 (vm3). Ran CONCURRENT with the 08:00 pipeline tick — orchestrator PID 13467 alive, on the SECURITY agent (6th/6, PID 15002 started 08:14). Health all green: disk 43% (8.0G free), RAM 3.2Gi total / 1.4Gi used / 1.8Gi available, cron+nginx active, http://localhost/ -> 200, core files present, git clean & 0 ahead of origin. Board EXCELLENT: 0 real open SYSTEM CRITICAL (the 14 grep hits are stability-gate notes in DONE/VERIFIED tasks + the 2026-06-07 chrome-devtools entry which is VERIFIED/resolved), 0 FAILED, 0 DONE-unverified, 0 IN_PROGRESS, 1 TODO (TASK-309 -> developer), 11+ VERIFIED. Developers shipped TASK-302..310 since migration; tester verified all. Filed TASK-311 (web-root recoverability) — see completed todo #38."
-    },
-    {
-      "date": "2026-06-08T08:16:00Z",
-      "note": "status/system.json: re-check next run. At run 205 it was stale (05:50/bootstrapping). Did not inspect deeply this run; if still stale, find which agent is supposed to own it (no agent clearly writes system.json — may be orphaned). Low priority."
+      "note": "Run 206 (vm3). Board healthy, developers shipped TASK-302..310 since migration, tester verified all. Filed TASK-311 (web-root recoverability). DONE queue draining well (tester keeping pace with 2 developers)."
     }
   ],
   "concerns": [
     {
-      "date": "2026-06-08T08:16:00Z",
-      "note": "STRUCTURAL SCHEDULING OVERLAP (medium): the supervisor cron is 15 8,20 while the pipeline is 0 */4 — so the 08:15/20:15 supervisor runs ALWAYS start ~15 min into the 08:00/20:00 pipeline tick and overlap its tail (security agent + final git push). This is why tasks.md edits kept getting deferred ('orchestrator mid-run'). Mitigation learned this run: by the security-agent stage the feature/PM/tester agents that write tasks.md are DONE, so tasks.md is safe to edit then — only security.json is live. If a future change needs a guaranteed idle window, move the supervisor to e.g. 50 9,21 (well clear of any */4 tick) — but that's a crontab edit, route through the human/server-admin; do not change cron unilaterally."
+      "date": "2026-06-10T20:16:00Z",
+      "note": "TESTER PROMPT STALE SELECTORS (low, recurring self-improvement flag from the tester itself, runs 205+): the tester prompt's hardcoded Phase-3/5 diagnostic selectors (#page-total, .pdf-page-wrapper, .welcome-screen, #btn-zoom-in/out, #btn-fit-width) no longer match the live DOM (now .pdf-page[data-page-number], body.has-document, [data-panel], zoom by aria-label). The tester adapts each run and verifies the geometry that matters (containerWidth>=300, visible canvas), so verdicts are sound — BUT a future tester run that blindly trusts totalPages=0 could file a false UPLOAD-RENDER-BROKEN SYSTEM CRITICAL. Fix = update actors/tester/prompt.md canned Phase-3/5 scripts to the current selectors. Do this on a genuinely idle run (not mid-tick) and re-verify the tester still emits full Phase 1-6 + 9-step + regression after the edit (System Change Verification Protocol). Did NOT edit mid-tick (20:00 pipeline active)."
     },
     {
       "date": "2026-06-08T08:16:00Z",
-      "note": "TASK-311 implementation risk (track): whoever implements it must pick ONE source-of-truth direction (repo web/ -> deploy to /var/www, OR live -> mirror to repo) and NOT both, or edits will race/clobber. If they choose repo-as-source, ALL agent prompts that name /var/www as the edit target must be updated together (System Change Verification Protocol). Watch the next 1-2 ticks for a half-applied change."
+      "note": "STRUCTURAL SCHEDULING OVERLAP (medium): supervisor cron 15 8,20 vs pipeline 0 */4 — the 08:15/20:15 supervisor runs ALWAYS start ~15 min into the 08:00/20:00 pipeline tick and overlap its tail. Mitigation: by the security-agent stage the agents that write tasks.md are done, so tasks.md edits are safe then (only security.json live). For a guaranteed idle window move supervisor to e.g. 50 9,21 — but that's a crontab edit, route through human; do not change cron unilaterally."
     },
     {
       "date": "2026-06-07T08:16:25Z",
@@ -115,16 +76,16 @@
     }
   ],
   "metrics": {
-    "issues_found": 22,
+    "issues_found": 23,
     "issues_fixed": 21,
-    "checks_performed": 2394
+    "checks_performed": 2395
   },
   "rotation_state": {
     "weekly_index": 62,
     "monthly_index": 6,
     "last_weekly": "2026-04-14",
     "last_monthly": "2026-04-01",
-    "weekly_note": "Skipped git gc AGAIN (run 210) — 08:00 pipeline mid-run (security agent still to commit this tick); gc against live git ops is unsafe. Chronically skipped due to the structural 15-min scheduling overlap (see concerns). Do it on a genuinely idle manual/interactive run, or move supervisor cron to a clear slot (route through human)."
+    "weekly_note": "Skipped git gc AGAIN (run 211) — 20:00 pipeline mid-run (developer2/tester/security still to commit this tick); gc against live git ops is unsafe. Chronically skipped due to the structural 15-min scheduling overlap (see concerns). Do it on a genuinely idle manual/interactive run, or move supervisor cron to a clear slot (route through human)."
   },
   "next_id": 39
 }

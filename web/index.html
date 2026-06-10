@@ -45,6 +45,8 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="bates">Bates</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="convert">Export image</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="crop">Crop</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="insert">Insert pages</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="resize">Resize</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="info">Info</button>
   </nav>
 
@@ -323,6 +325,70 @@
                 type="button" disabled>Crop pages</button>
       </div>
       <span id="crop-status" class="crop-status" role="status" aria-live="polite">Load a PDF first.</span>
+    </section>
+
+    <!-- Insert pages panel: add blank pages at a chosen position (insert-pages.js, TASK-337) -->
+    <section class="tool-panel" role="tabpanel" data-panel="insert" aria-label="Insert blank pages">
+      <div class="insert-controls">
+        <span class="insert-field">
+          <label for="insert-position">Position</label>
+          <select id="insert-position" aria-label="Where to insert blank pages" disabled>
+            <option value="end" selected>At end</option>
+            <option value="start">At start</option>
+            <option value="before">Before page…</option>
+            <option value="after">After page…</option>
+          </select>
+        </span>
+        <span class="insert-field">
+          <label for="insert-refpage">Page #</label>
+          <input id="insert-refpage" type="number" min="1" step="1" value="1"
+                 inputmode="numeric" autocomplete="off"
+                 aria-label="Reference page number (for before/after)" disabled>
+        </span>
+        <span class="insert-field">
+          <label for="insert-count">How many</label>
+          <input id="insert-count" type="number" min="1" max="50" step="1" value="1"
+                 inputmode="numeric" autocomplete="off"
+                 aria-label="Number of blank pages to insert" disabled>
+        </span>
+        <span class="insert-field">
+          <label for="insert-size">Blank size</label>
+          <select id="insert-size" aria-label="Blank page size" disabled>
+            <option value="match" selected>Match first page</option>
+            <option value="a4">A4 (210 × 297 mm)</option>
+            <option value="letter">US Letter (8.5 × 11 in)</option>
+            <option value="legal">US Legal (8.5 × 14 in)</option>
+          </select>
+        </span>
+        <button class="btn btn-primary" id="insert-apply" data-action="insert.apply"
+                type="button" disabled>Insert &amp; download</button>
+      </div>
+      <span id="insert-status" class="insert-status" role="status" aria-live="polite">Load a PDF first.</span>
+    </section>
+
+    <!-- Resize panel: normalize every page to a standard paper size (page-resize.js, TASK-336) -->
+    <section class="tool-panel" role="tabpanel" data-panel="resize" aria-label="Resize pages to a standard size">
+      <div class="resize-controls">
+        <span class="resize-field">
+          <label for="resize-size">Page size</label>
+          <select id="resize-size" aria-label="Target page size" disabled>
+            <option value="a4" selected>A4 (210 × 297 mm)</option>
+            <option value="letter">US Letter (8.5 × 11 in)</option>
+            <option value="legal">US Legal (8.5 × 14 in)</option>
+          </select>
+        </span>
+        <span class="resize-field">
+          <label for="resize-orient">Orientation</label>
+          <select id="resize-orient" aria-label="Target page orientation" disabled>
+            <option value="portrait" selected>Portrait</option>
+            <option value="landscape">Landscape</option>
+            <option value="keep">Keep each page's orientation</option>
+          </select>
+        </span>
+        <button class="btn btn-primary" id="resize-apply" data-action="resize.apply"
+                type="button" disabled>Apply &amp; download</button>
+      </div>
+      <span id="resize-status" class="resize-status" role="status" aria-live="polite">Load a PDF first.</span>
     </section>
 
     <!-- Info panel: document properties / metadata (view + edit) -->

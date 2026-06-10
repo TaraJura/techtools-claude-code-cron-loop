@@ -23,6 +23,8 @@ import { initPageNumbers } from './page-numbers.js';
 import { initBates } from './bates.js';
 import { initConvert } from './convert.js';
 import { initCrop } from './crop.js';
+import { initInsertPages } from './insert-pages.js';
+import { initPageResize } from './page-resize.js';
 import { initZoomMenu } from './zoom-menu.js';
 import * as Viewer from './viewer.js';
 
@@ -90,6 +92,8 @@ function init() {
     initBates();
     initConvert();
     initCrop(); // trim a uniform margin off every page (TASK-335)
+    initInsertPages(); // insert blank pages at a chosen position (TASK-337)
+    initPageResize(); // normalize every page to a standard paper size (TASK-336)
     initZoomMenu(); // zoom preset dropdown on #zoom-level (TASK-332)
     initKeyboardShortcuts();
     wireToolbar();
