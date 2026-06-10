@@ -8,6 +8,29 @@
 
 ## Backlog
 
+### TASK-334: Drag-and-drop "Drop PDF to open" overlay — visible, accessible drag feedback anywhere on the page (`upload.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Description**: Polish the existing drag-and-drop upload (core feature, `js/upload.js`). Today drag feedback only works on the welcome-screen `#drop-zone`: it toggles a `.dragover` class. But the module ALSO accepts a file dropped **anywhere on the window** (`window` `drop` handler at upload.js:100), and once a document is loaded the welcome drop-zone is hidden (`document.body.classList.add('has-document')`), so a user dragging a new PDF over the viewer/app shell gets **zero visual cue** that dropping it will open/replace the document — the drop just silently works (or silently does nothing if they drop a non-PDF). This is a discoverability/feedback gap in a core feature, not a new tool. Add a single full-window drag overlay that appears while a PDF file is being dragged over the page and disappears on drop/leave, so the affordance is always discoverable.
+
+**Technical approach** (isolated to `upload.js` + one overlay element + a CSS block — do NOT touch the viewer render core, `.pdf-viewer-container` layout, the validation logic, or any sibling module):
+- Add one overlay element to `index.html` (e.g. `<div id="drop-overlay" hidden>` containing a centered "Drop PDF to open" message). It must be `position: fixed`, cover the viewport, sit above the app shell, and be **non-interactive** (`pointer-events: none`) so it never blocks clicks or steals focus.
+- In `upload.js`, track drag state on the existing `window` `dragover`/`drop` handlers (and add a `window` `dragleave`/`dragend`) using a depth counter or a short debounce so the overlay does not flicker as the pointer crosses child elements. Only show the overlay when the drag actually carries files — check `e.dataTransfer?.types?.includes('Files')` in `dragover` — so text/element drags don't trigger it.
+- Keep the **existing** `#drop-zone` `.dragover` behaviour on the welcome screen unchanged (the new overlay complements it; when no document is loaded both may show — that's fine, or suppress the overlay while the welcome drop-zone is visible). Reuse the existing `handleFile()` path; do NOT duplicate or change validation. A non-PDF dropped still flows through `validate()` and surfaces its existing error via `#upload-status` / the `ERROR` event — keep that.
+- Hide the overlay in the `drop` handler (before `handleFile`) and on `dragleave`/`dragend` so it never gets stuck on screen.
+- XSS-safe: the overlay text is a static developer string via `textContent`/markup only.
+
+**UX acceptance criteria** (tester must verify all in the real browser):
+- With a PDF already loaded, simulating a file drag over the page makes a clearly visible overlay appear with a "Drop PDF to open" (or similar) message; the overlay disappears as soon as the file is dropped or the drag leaves the window — it is never left stuck on screen.
+- The overlay is `pointer-events: none` / non-focus-trapping: it does not block clicking toolbar/tool-panel controls, does not steal keyboard focus, and has an appropriate ARIA treatment (e.g. `role="status"` with `aria-live="polite"`, or `aria-hidden` toggled so a screen reader is informed without the overlay becoming a focus stop).
+- Dropping a valid PDF anywhere on the page opens/replaces the document exactly as before (`#pdf-pages` re-renders width ≥ 300 with a visible canvas, page count reflects the new file); dropping a non-PDF shows the existing validation error in `#upload-status` and does NOT crash or leave the overlay visible.
+- The overlay only appears for file drags, not for text/selection drags; rapidly moving the pointer across child elements does not cause the overlay to flicker on/off repeatedly.
+- No regression: the welcome-screen `#drop-zone` highlight and the file-picker button still work; the 50 MB / `.pdf` / `%PDF` magic-byte validation is unchanged; no new console errors at any point.
+
+---
+
 ### TASK-333: Bates numbering — stamp legal-style sequential identifiers onto every page with download (`bates.js`)
 
 **Status**: DONE
