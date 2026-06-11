@@ -1,15 +1,15 @@
 {
-  "timestamp": "2026-06-11T08:22:54Z",
+  "timestamp": "2026-06-11T12:25:00Z",
   "status": "secure",
-  "last_review": "2026-06-11T08:22:54Z",
+  "last_review": "2026-06-11T12:25:00Z",
   "findings": [],
   "checks_performed": [
     "file_upload_validation",
-    "xss_prevention_innerHTML_audit",
-    "new_module_review_text-extract_bg-borders",
+    "new_module_review_compress",
+    "xss_innerHTML_eval_audit_full_js",
+    "external_request_audit_full_js",
     "nginx_config_and_path_blocking",
     "security_headers_csp_live",
-    "external_request_audit",
     "git_secrets_scan",
     "ssh_auth_log_review"
   ],
@@ -20,7 +20,7 @@
     "processing_timeout": true
   },
   "open_gaps": {
-    "SEC-002": "LOW, unchanged. viewer.js loadDocument() still imposes no numPages>1000 cap at the load boundary; merge.js addFiles() has no cumulative-bytes/page cap. Client-side-only DoS (uploader's own tab) on the 1.6 GiB box. Developer task — fix once at the viewer load boundary to cover all per-page consumers. New per-page consumers text-extract.js (getTextContent loop) and bg-borders.js (embedPage loop) inherit the same unbounded-page exposure but add no new server-side risk."
+    "SEC-002": "LOW, unchanged. No numPages>1000 cap at the viewer.js loadDocument() boundary; merge.js addFiles() has no cumulative-bytes/page cap. Client-side-only DoS (uploader's own tab) on the 1.6 GiB box. Developer task — fix once at the viewer load boundary to cover all per-page consumers. Per-page consumers that inherit this exposure: text-extract.js (getTextContent loop), bg-borders.js (embedPage loop), and NEW compress.js (rasterize loop iterates 1..numPages). compress.js does add a MAX_PAGE_PX=3000 per-side raster clamp and reuses one canvas, which bounds per-page (not per-document) memory. No new server-side risk."
   },
-  "notes": "33 JS modules (+2 since last review). Reviewed both new modules: text-extract.js (read-only; pdf.js getTextContent per page with page.cleanup() on the small-RAM box; extracted text reaches the DOM only via readonly <textarea>.value + textContent, download blob is text/plain; filename whitelisted to [A-Za-z0-9._-] and length-capped 180; no-text guard prevents empty download; blob URL revoked; no innerHTML/eval/external request — XSS-safe) and bg-borders.js (pdf-lib embedPage rebuild onto a fresh doc from doc.getData(); fixed BG_PRESETS list + <input type=color> parsed via strict /^#?[0-9a-fA-F]{6}$/ regex; numeric inputs clamped width 0-24 / inset 0-200 with per-page inset cap so the frame can never invert; empty-op guard (no bg + width 0); filename whitelisted [A-Za-z0-9._-]; blob URL revoked; page count + dimensions preserved; no innerHTML/eval/external request — XSS-safe). Full-JS audit: zero non-empty user-data innerHTML assignments (all innerHTML hits are comments or `=''` DOM-clears), zero eval/Function/document.write, zero external fetch/XHR/remote script src across all 33 modules. upload.js still enforces ext+MIME+empty+size(50MB)+%PDF- magic, filenames sanitized. Live headers verified: full resource CSP, X-Frame-Options SAMEORIGIN, Referrer-Policy strict-origin-when-cross-origin, X-Content-Type-Options nosniff; .mjs served text/javascript with nosniff. Path blocking: .git/config + CLAUDE.md + scripts/*.sh all 403, traversal 404, js/app.js 200, site 200. No hardcoded secrets in js/; the sole git-history 'PRIVATE KEY' grep hit is this status file's own prior note text (false positive), no actual key. No failed/invalid SSH auth in last 24h. Disk 44% used, 7.9G free. Stability gate OPEN (0 SYSTEM CRITICAL, 0 FAILED, 0 DONE-unverified)."
+  "notes": "34 JS modules (+1 since 08:22 review). Reviewed new module compress.js (TASK-344): client-side PDF size reduction via two strategies — pdf-lib lossless re-save (keeps text) and pdf.js rasterize→JPEG→fresh pdf-lib doc (image-heavy). Source bytes from doc.getData(); renders into its OWN throwaway offscreen canvas (no #pdf-pages geometry risk); picks the smallest candidate that genuinely beats the original and refuses to offer a larger file (honest 0% case). Security posture: filename whitelisted to [a-zA-Z0-9._-] + 180-char cap + '_compressed.pdf'; status/progress via textContent only (no innerHTML); download blob type application/pdf with URL.revokeObjectURL after 1s; resave() uses ignoreEncryption:true (re-save convenience only, not a bypass of any app control); MAX_PAGE_PX=3000 raster clamp + single reused canvas bound per-page memory; no innerHTML/eval/Function/document.write/fetch/XHR/external src. XSS-safe. Full-JS audit across all 34 modules: zero non-clear user-data innerHTML (only grep hit is a comment in search.js), zero eval/Function/document.write, zero fetch/XHR/remote script src. upload.js still enforces ext+MIME+empty+size(50MB)+%PDF- magic with sanitized filenames. Live headers verified: full resource CSP (default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; img-src 'self' blob: data:; object-src 'none'; ...), X-Frame-Options SAMEORIGIN, Referrer-Policy strict-origin-when-cross-origin, X-Content-Type-Options nosniff; .mjs served text/javascript+nosniff. Path blocking: .git/config 403, CLAUDE.md 403, scripts/*.sh 403, traversal 404, js/app.js 200, site 200. No hardcoded secrets in js/ (grep hits are split.js page-range parsing + viewer.js render-token, false positives). No failed/invalid SSH auth in last 24h. Disk 44% used, 7.9G free. Stability gate OPEN (0 SYSTEM CRITICAL, 0 FAILED, 0 DONE-unverified)."
 }
