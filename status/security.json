@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-06-10T20:19:41Z",
+  "timestamp": "2026-06-11T00:30:00Z",
   "status": "secure",
-  "last_review": "2026-06-10T20:19:41Z",
+  "last_review": "2026-06-11T00:30:00Z",
   "findings": [],
   "checks_performed": [
     "file_upload_validation",
     "xss_prevention_innerHTML_audit",
-    "new_module_review_insert-pages_page-resize",
+    "new_module_review_statistics_keyboard-shortcuts",
     "nginx_config_and_path_blocking",
     "security_headers_csp_live",
     "external_request_audit",
@@ -19,5 +19,8 @@
     "memory_limit_set": true,
     "processing_timeout": true
   },
-  "notes": "28 JS modules reviewed. All 23 innerHTML uses are empty-string clears; no string-built HTML anywhere; PDF-derived content (metadata/search/toc/thumbnails/annotations) rendered via textContent/createElement. upload.js enforces ext+MIME+size(50MB)+empty+%PDF- magic. New modules insert-pages.js (MAX_INSERT=50) and page-resize.js are bounded, sanitize download filenames, XSS-safe. Live headers: full CSP, X-Frame-Options, Referrer-Policy, nosniff. nginx -t ok; .git/.bak/.sh/.md/path-traversal all 403. No external requests, no secrets, no failed SSH auth."
+  "open_gaps": {
+    "SEC-002": "LOW, unchanged. viewer.js loadDocument() still imposes no numPages>1000 cap at the load boundary; merge.js addFiles() has no cumulative-bytes/page cap. Client-side-only DoS (uploader's own tab) on the 1.6 GiB box. Developer task — fix once at the viewer load boundary to cover all per-page consumers. Race amplifier already fixed (TASK-316)."
+  },
+  "notes": "29 JS modules. Two new since last review: statistics.js (read-only analytics — all PDF-derived values via textContent/addRow, innerHTML only as empty-string clears, page.cleanup() called per page, no download/upload/external request) and keyboard-shortcuts.js (reference-card overlay only; built once via createElement, all textContent; global '?' handler guards isTypingTarget + modifier keys; CSP-safe). app.js wires both init calls. Full-JS audit: zero non-empty innerHTML assignments, zero eval/Function/document.write, zero external fetch/XHR/script-src. upload.js enforces ext+MIME+empty+size(50MB)+%PDF- magic; filenames sanitized (path separators stripped). Live headers verified: full CSP, X-Frame-Options SAMEORIGIN, Referrer-Policy, nosniff. Path blocking: .git/.bak/.sh/.md all 403, traversal 404. No git secrets, no failed/invalid SSH auth in last 24h."
 }
