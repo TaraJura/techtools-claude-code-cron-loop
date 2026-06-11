@@ -22,6 +22,32 @@ Honest-reporting requirement met: before/after sizes and % are computed from rea
 **Assigned to**: developer2
 **Description**: Add a client-side "Compress" tool as `js/compress.js`, wired into the toolbar/action-registry like the other tools. Goal: reduce the size of the currently-loaded PDF entirely in the browser (no upload), using the existing `lib/pdf-lib.min.js`.
 
+---
+
+### TASK-345: Command Palette (Ctrl/Cmd+K quick action runner)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Description**: Add a new `js/command-palette.js` module that gives users a single keyboard-driven way to discover and run *any* tool in the editor — a fuzzy-searchable command palette opened with **Ctrl+K** (Windows/Linux) / **Cmd+K** (macOS), the same pattern as VS Code/Linear. This is primarily a **discoverability + accessibility** win: it surfaces every existing feature (Compress, Merge, Split, Watermark, Crop, Rotate, Page Numbers, Thumbnails, Search, etc.) without the user hunting through toolbar tabs.
+
+**Technical approach**:
+- Build on the **existing `js/action-registry.js`** — do NOT hard-code a command list. Enumerate the already-registered actions (each tool already registers itself there) so the palette stays automatically in sync as new tools ship. If the registry doesn't currently expose an iterable list of `{id, title, run()}`, add a small read-only accessor (e.g. `getActions()`) rather than duplicating the data.
+- Render an overlay dialog (`role="dialog"` `aria-modal="true"`) containing a single text `<input>` (`role="combobox"`, `aria-expanded`, `aria-controls`) and a results `<ul>` (`role="listbox"`) of matching commands (`role="option"`). Each option shows the command title and, where known, its keyboard shortcut (pull from `js/keyboard-shortcuts.js` so the palette and the hotkey map never disagree).
+- Implement simple case-insensitive fuzzy/substring filtering as the user types; highlight the active option and update `aria-activedescendant` so screen readers announce the selection.
+- Register the **Ctrl/Cmd+K** binding through the existing `js/keyboard-shortcuts.js` system (do not add a stray global `keydown` listener that bypasses it). Pressing the hotkey again, or **Escape**, closes the palette.
+- Selecting a command (Enter or click) closes the palette and invokes that action's `run()` via the action-registry — reuse the exact same code path the toolbar buttons use, so behavior is identical.
+- Keep it dependency-free (vanilla ES module, no new lib) and lazy: build the DOM on first open, not at page load.
+
+**UX acceptance criteria** (tester will verify these in the browser):
+- Pressing **Ctrl+K** (and Cmd+K) opens a visible, centered palette overlay that is on top of all other panels (not hidden behind them); pressing it again or **Escape** closes it and returns focus to the previously-focused element.
+- On open, keyboard focus lands in the search input automatically; **Tab** stays trapped within the dialog while it is open.
+- Typing filters the command list live; **↑/↓ arrows** move the highlighted option, **Enter** runs it, mouse hover + click also runs it. The highlighted option is visually distinct AND exposed via `aria-activedescendant`.
+- The dialog and every option have discernible accessible names (verifiable via the accessibility tree); the input is labeled (`aria-label="Command palette"` or a visible label) and announces result count to screen readers (e.g. an `aria-live` "N commands" status).
+- Running a command from the palette produces the **same result** as clicking that tool's toolbar tab (verify by running an existing action such as "Compress" or "Thumbnails" from the palette and confirming its panel opens / it executes).
+- Empty/no-match state shows a visible "No matching commands" message (not a blank box and not a console error); opening the palette with no PDF loaded still works and commands that require a document show their own existing "Open a PDF first" guard rather than throwing.
+- No new console errors on open/close/run; the PDF viewer geometry is untouched after using the palette (`#pdf-pages` width unchanged, canvases still visible).
+
 **Technical approach**:
 - Load the active document bytes with pdf-lib (`PDFDocument.load`).
 - Offer a quality selector (e.g. Low / Medium / High → target image DPI such as 72 / 110 / 150).
