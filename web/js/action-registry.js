@@ -9,13 +9,16 @@ export const ActionRegistry = {
      * Register an action. Re-registering the same id overwrites (last wins),
      * which keeps hot-reload / re-init idempotent.
      * @param {string} id
-     * @param {{title?:string, run:(arg?:any)=>any}} def
+     * @param {{title?:string, shortcut?:string, run:(arg?:any)=>any}} def
+     *   `shortcut` is an OPTIONAL human-readable hint (e.g. "+", "Ctrl/⌘ K")
+     *   shown by the command palette. Only set it for keys that are actually
+     *   bound, so the palette and the keyboard-shortcuts reference never disagree.
      */
     register(id, def) {
         if (!def || typeof def.run !== 'function') {
             throw new Error(`[action-registry] action "${id}" needs a run() function`);
         }
-        actions.set(id, { id, title: def.title || id, run: def.run });
+        actions.set(id, { id, title: def.title || id, shortcut: def.shortcut || null, run: def.run });
     },
 
     has(id) {
@@ -33,7 +36,7 @@ export const ActionRegistry = {
     },
 
     list() {
-        return [...actions.values()].map(({ id, title }) => ({ id, title }));
+        return [...actions.values()].map(({ id, title, shortcut }) => ({ id, title, shortcut }));
     },
 };
 

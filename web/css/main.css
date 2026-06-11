@@ -411,6 +411,99 @@ body.has-document .page-nav { display: flex; }
     margin: 0 0.15rem;
 }
 
+/* --- Command palette (native <dialog>, command-palette.js, TASK-345) --- */
+.command-palette {
+    width: min(560px, calc(100vw - 2rem));
+    max-height: calc(100vh - 8rem);
+    /* Anchor near the top third of the viewport, like VS Code / Linear. */
+    margin: 12vh auto auto;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-elev);
+    color: var(--text);
+    overflow: hidden;
+}
+
+.command-palette::backdrop {
+    background: rgba(0, 0, 0, 0.55);
+}
+
+.command-palette__box {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 8rem);
+}
+
+.command-palette__input {
+    flex-shrink: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.85rem 1.1rem;
+    font-size: 1rem;
+    color: var(--text);
+    background: var(--bg-panel);
+    border: 0;
+    border-bottom: 1px solid var(--border);
+    outline: none;
+}
+
+.command-palette__input::placeholder { color: var(--text-dim); }
+
+.command-palette__list {
+    margin: 0;
+    padding: 0.3rem;
+    list-style: none;
+    overflow-y: auto;
+}
+
+.command-palette__option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0.7rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.command-palette__option[aria-selected="true"] {
+    background: var(--accent);
+    color: #fff;
+}
+
+.command-palette__option-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.command-palette__option-shortcut {
+    flex-shrink: 0;
+    padding: 0.05rem 0.4rem;
+    font-family: var(--font-mono, ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+}
+
+.command-palette__option[aria-selected="true"] .command-palette__option-shortcut {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.5);
+    background: transparent;
+}
+
+.command-palette__empty {
+    margin: 0;
+    padding: 1.1rem;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+}
+
 /* Mobile: guarantee a comfortable tap target on the header action buttons
    (Keyboard shortcuts / theme toggle) so they stay easily tappable at phone
    widths — the shortcuts dialog itself already scales via width:min(540px,…). */

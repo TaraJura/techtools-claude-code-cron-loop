@@ -163,8 +163,8 @@ export function initPages() {
     setEnabled(false);
     setStatus('Open a PDF first.');
 
-    ActionRegistry.register('pages.rotateLeft', { title: 'Rotate current page left', run: () => rotateCurrent(-90) });
-    ActionRegistry.register('pages.rotateRight', { title: 'Rotate current page right', run: () => rotateCurrent(90) });
+    ActionRegistry.register('pages.rotateLeft', { title: 'Rotate current page left', shortcut: '[', run: () => rotateCurrent(-90) });
+    ActionRegistry.register('pages.rotateRight', { title: 'Rotate current page right', shortcut: ']', run: () => rotateCurrent(90) });
     ActionRegistry.register('pages.rotateAllLeft', { title: 'Rotate all pages left', run: () => rotateEvery(-90) });
     ActionRegistry.register('pages.rotateAllRight', { title: 'Rotate all pages right', run: () => rotateEvery(90) });
     ActionRegistry.register('pages.download', { title: 'Download rotated PDF', run: () => downloadRotated() });

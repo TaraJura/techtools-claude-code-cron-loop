@@ -8,6 +8,8 @@
 // CSP-safe: external module only, no inline <script>; all text set via
 // textContent. The modal DOM is built once and toggled (RAM-cheap).
 
+import { ActionRegistry } from './action-registry.js';
+
 // Static reference data. Keep this ACCURATE — only list shortcuts that work
 // today. A combo is an array of key tokens rendered as <kbd>+<kbd>; an item may
 // list alternative combos (rendered as "combo / combo").
@@ -54,6 +56,7 @@ const SHORTCUT_GROUPS = [
     {
         title: 'General',
         items: [
+            { combos: [['Ctrl/⌘', 'K']], description: 'Open command palette (run any tool)' },
             { combos: [['?']], description: 'Show this keyboard shortcuts help' },
         ],
     },
@@ -210,6 +213,14 @@ export function initKeyboardShortcuts() {
     if (dialogEl) return; // idempotent
     dialogEl = buildDialog();
     document.body.appendChild(dialogEl);
+
+    // Expose to the central registry so the command palette can open this help
+    // too. The `?` shortcut hint matches the real binding registered below.
+    ActionRegistry.register('help.shortcuts', {
+        title: 'Keyboard shortcuts',
+        shortcut: '?',
+        run: openShortcuts,
+    });
 
     // Header button.
     const btn = document.getElementById('shortcuts-help');

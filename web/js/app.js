@@ -32,12 +32,15 @@ import { initZoomMenu } from './zoom-menu.js';
 import { initStatistics } from './statistics.js';
 import { initNightMode } from './night-mode.js';
 import { initTextExtract } from './text-extract.js';
+import { initCommandPalette } from './command-palette.js';
 import * as Viewer from './viewer.js';
 
 // --- Register core viewer actions in the central registry ---
-ActionRegistry.register('viewer.zoomIn', { title: 'Zoom in', run: () => Viewer.zoomIn() });
-ActionRegistry.register('viewer.zoomOut', { title: 'Zoom out', run: () => Viewer.zoomOut() });
-ActionRegistry.register('viewer.fitWidth', { title: 'Fit width', run: () => Viewer.fitWidth() });
+// `shortcut` hints mirror the real bindings in viewer.js / keyboard-shortcuts.js
+// so the command palette and the shortcuts reference card never disagree.
+ActionRegistry.register('viewer.zoomIn', { title: 'Zoom in', shortcut: '+', run: () => Viewer.zoomIn() });
+ActionRegistry.register('viewer.zoomOut', { title: 'Zoom out', shortcut: '−', run: () => Viewer.zoomOut() });
+ActionRegistry.register('viewer.fitWidth', { title: 'Fit width', shortcut: '0', run: () => Viewer.fitWidth() });
 ActionRegistry.register('viewer.fitPage', { title: 'Fit page', run: () => Viewer.fitPage() });
 ActionRegistry.register('viewer.actualSize', { title: 'Actual size (100%)', run: () => Viewer.actualSize() });
 ActionRegistry.register('viewer.clear', {
@@ -65,14 +68,28 @@ function wireZoomLabel() {
 }
 
 function wireToolTabs() {
-    const tabs = document.querySelectorAll('.tool-tab');
-    const panels = document.querySelectorAll('.tool-panel');
+    const tabs = [...document.querySelectorAll('.tool-tab')];
+    const panels = [...document.querySelectorAll('.tool-panel')];
+
+    // Single source of truth for "show this tool's panel" — used by both the
+    // toolbar click handler and the registry action (so the command palette
+    // opens a tool exactly the way clicking its tab does).
+    function activateTab(target) {
+        const tab = tabs.find((t) => t.dataset.tab === target);
+        if (!tab) return;
+        tabs.forEach((t) => t.classList.toggle('active', t === tab));
+        tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+        panels.forEach((p) => p.classList.toggle('active', p.dataset.panel === target));
+    }
+
     tabs.forEach((tab) => {
-        tab.addEventListener('click', () => {
-            const target = tab.dataset.tab;
-            tabs.forEach((t) => t.classList.toggle('active', t === tab));
-            tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
-            panels.forEach((p) => p.classList.toggle('active', p.dataset.panel === target));
+        const target = tab.dataset.tab;
+        tab.addEventListener('click', () => activateTab(target));
+        // Expose each tool tab to the central registry so the command palette
+        // surfaces it automatically (title = the tab's visible label).
+        ActionRegistry.register(`tab.${target}`, {
+            title: tab.textContent.trim(),
+            run: () => activateTab(target),
         });
     });
 }
@@ -112,6 +129,7 @@ function init() {
     wireZoomLabel();
     wireToolTabs();
     initTabNav(); // keyboard nav for the tablist — MUST run after wireToolTabs()
+    initCommandPalette(); // Ctrl/⌘+K quick action runner (TASK-345)
 
     EventBus.on(Events.PDF_RENDERED, ({ numPages }) => {
         console.info(`[app] rendered ${numPages} page(s)`);
