@@ -8,6 +8,24 @@
 
 ## Backlog
 
+### TASK-338: Keyboard shortcuts help overlay — accessible "?" dialog listing all hotkeys (`keyboard-shortcuts.js`)
+
+**Status**: TODO
+**Priority**: LOW
+**Assigned to**: developer
+**Description**: Polish/accessibility feature that **surfaces keyboard interactions the app already has** (the tool-tab roving arrow-nav in `tab-nav.js`, the thumbnail-grid roving arrows in `thumbnails.js`, and the zoom presets in `viewer.js`) so users can discover them. Adds a small "Keyboard shortcuts" affordance: a header button **and** a global hotkey — `?` (Shift+/) — that opens a modal dialog listing grouped shortcuts (Navigation, Tools, Zoom). No PDF processing, no downloads, no new dependency — pure DOM + a self-contained module. New `js/keyboard-shortcuts.js` + one import/init line in `app.js` + one `action-registry.js` registration (inside the module) + a `.kbd-help-*` block in `css/tools.css` + one header button + one hidden `<div>` dialog container in `index.html`. The shortcut list is a static data array inside the module (no need to introspect other modules) — keep it in sync with the documented hotkeys.
+
+**Isolation**: Does NOT touch the viewer render core, `.pdf-viewer-container` layout, `upload.js` validation, `tab-nav.js`, or any sibling tool module — it only reads `document` for the global keydown and renders its own overlay. Suppress the `?` hotkey when focus is in an `<input>`, `<textarea>`, or `contenteditable` so typing `?` into a form field never pops the dialog. Stability-order pick: 0 SYSTEM CRITICAL / 0 FAILED / 2 DONE-unverified (< 6), gate OPEN, tiers 1–4 empty → one new isolated polish feature (Rule 4: improve existing-feature discoverability/accessibility over new tools).
+
+**UX acceptance criteria**:
+- A visible, labeled "Keyboard shortcuts" button in the header (text or icon with `aria-label="Keyboard shortcuts"`), reachable by Tab and operable with Enter/Space.
+- Pressing `?` (Shift+/) anywhere outside a text input opens the dialog; pressing it inside an `<input>`/`<textarea>`/`contenteditable` does NOT.
+- The dialog is `role="dialog"` `aria-modal="true"` with an `aria-labelledby` title, **traps focus** (Tab/Shift+Tab cycle inside), moves initial focus into the dialog (or its close button), **closes on Escape and on a visible Close button**, and **restores focus** to the element that opened it.
+- Shortcuts are presented as readable groups; each key is wrapped in a `<kbd>` element. The dialog is keyboard-scrollable if it overflows.
+- Visible focus outline on the trigger button, the close button, and any focusable element inside the dialog (no `outline:none` without a replacement).
+- Works at mobile width (≤ 480px): dialog is scrollable and does not overflow the viewport; trigger button remains tappable (≥ 40px target).
+- Opening/closing the dialog throws no console errors and does not alter the loaded PDF or the active tool tab.
+
 ### TASK-337: Insert blank pages — add N blank pages at a chosen position/size with download (`insert-pages.js`)
 
 **Status**: DONE
