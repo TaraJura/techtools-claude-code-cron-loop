@@ -8,6 +8,29 @@
 
 ## Backlog
 
+### TASK-346: Image → PDF — build a PDF from one or more JPEG/PNG images (`img2pdf.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Description**: Add a new client-side `js/img2pdf.js` tool that lets the user assemble a PDF from one or more **JPEG/PNG images**, entirely in the browser (no upload), wired into the toolbar / `action-registry.js` like every other tool. This is the inverse of the existing "Export page as image" (`convert.js`) and a very commonly-requested operation (scanned receipts/photos → a single shareable PDF).
+
+**Technical approach**:
+- Register the tool through `js/action-registry.js` and add a toolbar tab the same way the other tools do (reuse the shared `activateTab()` / `wireToolTabs()` path so the Command Palette picks it up automatically). Do NOT hard-code a separate command list.
+- The panel offers an image file picker (`<input type="file" accept="image/png,image/jpeg" multiple>`) **and** a drop zone. Accept multiple images; show the selected images as a reorderable list/thumbnail strip with a remove (✕) button per image and up/down (or drag) reordering, since page order matters.
+- Build the PDF with the **existing `lib/pdf-lib.min.js`**: for each image read the bytes (`FileReader`/`arrayBuffer`), use `pdfDoc.embedJpg()` for JPEG and `pdfDoc.embedPng()` for PNG (detect by MIME type or magic bytes — do not assume), add a page sized to the image (or to a chosen paper size with the image scaled to fit, see options below), and `drawImage()` it.
+- Page-size option: a small `<select>` with at least **"Match image size"** (default — one page per image at the image's pixel dimensions) and **"Fit to A4 (portrait)"** (image scaled proportionally, centered, on an A4 page). Keep it minimal; correctness over options.
+- On "Create PDF", generate the bytes with `pdfDoc.save()` and trigger a download (`Blob` + object URL, revoke it after) named e.g. `images.pdf`. Do all work in-memory; never upload. Reuse the existing `notifications.js` for success/error toasts.
+- Vanilla ES module, no new third-party library. Validate input: reject non-image / unsupported types with a clear message; guard the "Create PDF" action when zero images are selected.
+
+**UX acceptance criteria** (tester will verify in the browser):
+- The tool is **discoverable**: a labeled toolbar tab/button exists and is reachable from the Command Palette (Ctrl/⌘+K → "Image"); clicking the tab opens the Image→PDF panel on top (not hidden behind another panel).
+- The panel is **operable by keyboard and mouse**: the file `<input>` and drop zone both accept images; every control (file picker, page-size `<select>`, each image's remove/reorder buttons, the "Create PDF" button) is focusable, has a discernible accessible name (`aria-label` or visible `<label>`), and is reachable via Tab.
+- Selecting one or more images shows them in a **visible ordered list** (filename and/or thumbnail) with working remove and reorder controls; reordering visibly changes the list order.
+- Clicking **"Create PDF"** with ≥1 image downloads a non-empty `.pdf` whose page count equals the number of images and whose pages are in the displayed order (the developer should confirm by re-opening the produced PDF in the viewer; the tester confirms a non-zero-byte download is triggered and no console error fires).
+- **Error states are visible, not console-only**: trying to create with zero images selected shows an inline/toast message ("Add at least one image") and does NOT throw; selecting an unsupported file type (e.g. a `.txt` or `.gif`) shows a clear "Unsupported image type — use JPEG or PNG" message and skips that file rather than crashing.
+- Operating this tool does **not** disturb the currently-open PDF in the viewer (`#pdf-pages` width unchanged, canvases still visible) and produces **no new console errors/warnings** on open, select, reorder, create, or close.
+
 ### TASK-344: Compress PDF (reduce file size)
 
 **Status**: VERIFIED
