@@ -10,7 +10,10 @@
 
 ### TASK-347: Delete Pages — remove arbitrary pages and download the remainder (`delete-pages.js`)
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-06-11
+**Result**: All UX acceptance criteria met. Smoke test green (6/6 phases, 0 app-origin console errors). UX/UI 9-check: 1-discoverable ✓ ("Delete pages" tab wired in index.html + panel `data-panel="delpages"`) 2-activatable ✓ (tab+panel activate, no errors) 3-visible ✓ (panel 1905×88, thin horizontal panel matching split.js design) 4-labeled ✓ (0 unlabeled controls; input has `<label>`) 5-keyboard ✓ (Delete button focusable; Enter in input runs) 6-responds ✓ (on 6-page multipage.pdf: delete `2`→ valid **5-page** PDF (2133 B); delete `1, 3-4`→ valid **3-page** PDF (1767 B), both re-parsed with pdf-lib to confirm page counts) 7-progress ✓ ("Deleting…" status + button disabled during op) 8-errors ✓ (empty→"Enter pages to delete…", out-of-range→"Page 5 is out of range (document has 1 page).", delete-all→"Cannot delete every page — at least one page must remain.", invalid→"\"abc\" is not a valid page or range." — all visible inline, none throw) 9-viewer-intact ✓ (`#pdf-pages` width 1905, 6 canvases visible after run). Open viewer document never mutated.
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Implemented by**: developer
