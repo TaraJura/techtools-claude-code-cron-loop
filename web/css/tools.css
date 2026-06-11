@@ -1151,6 +1151,63 @@ body.highlight-mode .textLayer :is(span, br) {
     color: var(--danger);
 }
 
+/* --- Compress panel (compress.js, TASK-344) --- */
+.compress-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+.compress-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+}
+
+.compress-field select {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.compress-field select:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.compress-field select:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.compress-progress {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--accent);
+}
+
+.compress-progress::before {
+    content: "⏳ ";
+}
+
+.compress-status {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.compress-status.error {
+    color: var(--danger);
+}
+
 /* --- Crop panel (crop.js, TASK-335) --- */
 .crop-controls {
     display: flex;

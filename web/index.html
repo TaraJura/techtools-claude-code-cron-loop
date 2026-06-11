@@ -49,6 +49,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="pagenum">Numbering</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="hf">Header/Footer</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="bates">Bates</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="compress">Compress</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="convert">Export image</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="crop">Crop</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="insert">Insert pages</button>
@@ -335,6 +336,26 @@
     </section>
 
     <!-- Export image panel: render a page to PNG/JPEG and download it -->
+    <!-- Compress panel: shrink the open PDF client-side (compress.js, TASK-344) -->
+    <section class="tool-panel" role="tabpanel" data-panel="compress" aria-label="Compress PDF">
+      <div class="compress-controls">
+        <span class="compress-field">
+          <label for="compress-quality">Quality</label>
+          <select id="compress-quality" aria-label="Compression quality" disabled>
+            <option value="low">Low (smallest)</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High (best looking)</option>
+          </select>
+        </span>
+        <button class="btn btn-primary" id="compress-run" data-action="compress.run"
+                type="button" disabled aria-disabled="true">Compress</button>
+        <button class="btn" id="compress-download" data-action="compress.download"
+                type="button" disabled aria-disabled="true">Download</button>
+      </div>
+      <span id="compress-progress" class="compress-progress" role="status" aria-live="polite" hidden>Compressing…</span>
+      <span id="compress-status" class="compress-status" role="status" aria-live="polite">Open a PDF first.</span>
+    </section>
+
     <section class="tool-panel" role="tabpanel" data-panel="convert" aria-label="Export page as image">
       <div class="convert-controls">
         <span class="convert-field">

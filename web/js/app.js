@@ -23,6 +23,7 @@ import { initPageNumbers } from './page-numbers.js';
 import { initHeadersFooters } from './headers-footers.js';
 import { initBates } from './bates.js';
 import { initConvert } from './convert.js';
+import { initCompress } from './compress.js';
 import { initCrop } from './crop.js';
 import { initInsertPages } from './insert-pages.js';
 import { initPageResize } from './page-resize.js';
@@ -97,6 +98,7 @@ function init() {
     initHeadersFooters(); // custom running header/footer text in six zones (TASK-342)
     initBates();
     initConvert();
+    initCompress(); // shrink the open PDF client-side: re-save + rasterize (TASK-344)
     initCrop(); // trim a uniform margin off every page (TASK-335)
     initInsertPages(); // insert blank pages at a chosen position (TASK-337)
     initPageResize(); // normalize every page to a standard paper size (TASK-336)
