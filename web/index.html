@@ -48,6 +48,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="insert">Insert pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="resize">Resize</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="info">Info</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="stats">Statistics</button>
   </nav>
 
   <div class="tool-panels">
@@ -423,6 +424,12 @@
         </div>
       </form>
       <div id="metadata-list" aria-label="Document properties"></div>
+    </section>
+
+    <!-- Statistics panel: read-only document analytics (statistics.js, TASK) -->
+    <section class="tool-panel" role="tabpanel" data-panel="stats" aria-label="Document statistics">
+      <span id="statistics-status" class="statistics-status" role="status" aria-live="polite">Load a PDF first.</span>
+      <div id="statistics-list" aria-label="Document statistics"></div>
     </section>
   </div>
 

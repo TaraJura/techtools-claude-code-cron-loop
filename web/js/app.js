@@ -26,6 +26,7 @@ import { initCrop } from './crop.js';
 import { initInsertPages } from './insert-pages.js';
 import { initPageResize } from './page-resize.js';
 import { initZoomMenu } from './zoom-menu.js';
+import { initStatistics } from './statistics.js';
 import * as Viewer from './viewer.js';
 
 // --- Register core viewer actions in the central registry ---
@@ -95,6 +96,7 @@ function init() {
     initInsertPages(); // insert blank pages at a chosen position (TASK-337)
     initPageResize(); // normalize every page to a standard paper size (TASK-336)
     initZoomMenu(); // zoom preset dropdown on #zoom-level (TASK-332)
+    initStatistics(); // read-only document analytics panel (statistics.js)
     initKeyboardShortcuts();
     wireToolbar();
     wireZoomLabel();

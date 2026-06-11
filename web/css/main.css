@@ -411,6 +411,16 @@ body.has-document .page-nav { display: flex; }
     margin: 0 0.15rem;
 }
 
+/* Mobile: guarantee a comfortable tap target on the header action buttons
+   (Keyboard shortcuts / theme toggle) so they stay easily tappable at phone
+   widths — the shortcuts dialog itself already scales via width:min(540px,…). */
+@media (max-width: 480px) {
+    .header-btn,
+    .theme-toggle {
+        min-height: 40px;
+    }
+}
+
 /* Full-window drag overlay (TASK-334) — "Drop PDF to open" affordance shown
    while a file is dragged anywhere over the page. position:fixed + 100vw/vh so
    it never participates in the app-shell flex layout (rule 8). pointer-events:none

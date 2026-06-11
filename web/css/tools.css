@@ -176,6 +176,43 @@
     overflow-wrap: anywhere;
 }
 
+/* --- Document statistics panel (statistics.js) --- */
+#statistics-list {
+    width: 100%;
+    max-height: 46vh;
+    overflow: auto;
+    font-size: 0.85rem;
+}
+
+.statistics-empty {
+    margin: 0;
+    color: var(--text-dim);
+}
+
+.statistics-status {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.statistics-status.error {
+    color: var(--danger, #d23);
+}
+
+.statistics-heading {
+    margin: 0.75rem 0 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+}
+
+.statistics-heading:first-child {
+    margin-top: 0;
+}
+
 /* --- Editable metadata form (metadata.js, TASK-330) --- */
 .metadata-edit {
     width: 100%;

@@ -110,6 +110,9 @@ function buildDialog() {
     dialog.className = 'shortcuts-dialog';
     dialog.id = 'shortcuts-dialog';
     dialog.setAttribute('aria-labelledby', TITLE_ID);
+    // Native showModal() is implicitly modal, but set aria-modal explicitly so
+    // assistive tech that doesn't infer it from <dialog> still announces it.
+    dialog.setAttribute('aria-modal', 'true');
 
     const inner = document.createElement('div');
     inner.className = 'shortcuts-dialog-inner';
