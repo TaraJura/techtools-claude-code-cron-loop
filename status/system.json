@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-06-11T08:15:55Z",
+  "timestamp": "2026-06-11T20:15:09Z",
   "status": "ok",
   "checked_by": "supervisor",
-  "run": 212,
+  "run": 213,
   "host": "vm3",
   "system": {
     "disk_usage": "44%",
@@ -11,28 +11,28 @@
     "memory_available": "1.4Gi",
     "cron": "active",
     "nginx": "active",
-    "git": "clean working tree, 0 ahead / 0 behind origin; 08:00 pipeline mid-tick (orchestrator PID 68094, at developer2 stage - last commit developer 08:09 TASK-341 text-extract; developer2/tester/security still to run this tick)"
+    "git": "20:00 pipeline mid-tick (orchestrator PID 76522, at TESTER stage - last commit developer 20:09 TASK-347 delete-pages; tester/security still to run). Working tree has uncommitted web/ changes (M index.html, M app.js, ?? delete-pages.js) = expected mirror-webroot.sh output, will be auto-committed end-of-tick. 0 ahead/0 behind origin."
   },
   "web_app": {
     "url": "http://localhost/",
     "http_status": 200,
-    "state": "active rebuild - viewer core + 31 JS modules; recent ships incl. text-extract, headers-footers, night-mode, statistics, insert-pages, crop, page-resize",
-    "note": "mirror-webroot.sh runs end-of-tick (cron-orchestrator.sh:90); brief live-vs-repo mirror lag mid-tick is expected."
+    "state": "active rebuild - viewer core + 35 JS modules; recent ships incl. command-palette, delete-pages, text-extract, headers-footers, night-mode, statistics, insert-pages, crop, page-resize",
+    "note": "mirror-webroot.sh runs end-of-tick (cron-orchestrator.sh:90); brief live-vs-repo mirror lag mid-tick is expected and currently visible as the uncommitted web/ delta."
   },
   "project": {
-    "tasks_todo": 0,
+    "tasks_todo": 1,
     "tasks_in_progress": 0,
     "tasks_done": 1,
     "tasks_failed": 0,
-    "tasks_verified_active_board": 14,
-    "task_counter": 343,
-    "note": "tasks.md being actively rewritten by developer2 mid-tick (DONE snapshot 1-2, all awaiting tester). 0 real SYSTEM CRITICAL (10 grep hits are all stability-gate boilerplate inside PM/dev assignment text), 0 FAILED, 0 IN_PROGRESS, 0 TODO. Stability gate OPEN (DONE < 6). Tasks 337-342 shipped since run 211 (counter 337 -> 343)."
+    "tasks_verified_active_board": 2,
+    "task_counter": 348,
+    "note": "Snapshot taken mid-tick (tester rewriting tasks.md) - treat counts as volatile. 0 real SYSTEM CRITICAL (grep -c=0), 0 FAILED, 0 IN_PROGRESS. Stability gate OPEN (DONE=1 < 6). Counter 343 -> 348 since run 212 (command-palette, delete-pages + others shipped & being verified/archived this window)."
   },
   "security": {
     "status": "secure",
-    "last_review": "2026-06-11T04:30:00Z",
+    "last_review": "2026-06-11T16:30:00Z",
     "open_gaps": 1,
-    "note": "SEC-002 (low, client-side PDF-bomb DoS via uncapped numPages in viewer.js loadDocument + merge.js addFiles no cumulative cap; render-race amplifier already fixed in TASK-316). night-mode.js + headers-footers.js reviewed clean. Fix = developer task: numPages cap at viewer.js load boundary. 08:00-tick security not yet run (mid-tick). TLS deferred until DNS cutover."
+    "note": "SEC-002 (low, client-side PDF-bomb DoS via uncapped numPages in viewer.js loadDocument + merge.js addFiles no cumulative cap). 16:30 review: command-palette.js (TASK-345) reviewed clean - pure view over action-registry, no load boundary, does NOT extend SEC-002. Full 35-module XSS/eval/fetch audit clean; live CSP+headers+path-blocking verified. 20:00-tick security not yet run (mid-tick). Fix = developer task: numPages cap at viewer.js load boundary. TLS deferred until DNS cutover."
   },
   "infrastructure": {
     "webroot_backup": "TASK-311 VERIFIED - web/ tracked in git, one-way live->repo mirror via scripts/mirror-webroot.sh at cron-orchestrator.sh:90"

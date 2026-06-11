@@ -16,6 +16,7 @@ import { initTabNav } from './tab-nav.js';
 import { initAnnotate } from './annotate.js';
 import { initAnnotationSummary } from './annotation-summary.js';
 import { initSplit } from './split.js';
+import { initDeletePages } from './delete-pages.js';
 import { initPages } from './pages.js';
 import { initMerge } from './merge.js';
 import { initWatermark } from './watermark.js';
@@ -108,6 +109,7 @@ function init() {
     initAnnotate();
     initAnnotationSummary();
     initSplit();
+    initDeletePages(); // remove a set of pages, keep + download the rest (TASK-347)
     initPages();
     initMerge();
     initWatermark();

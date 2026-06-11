@@ -44,6 +44,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="thumbnails">Pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="pages">Rotate</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="split">Split</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="delpages">Delete pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="watermark">Watermark</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="pagenum">Numbering</button>
@@ -175,6 +176,20 @@
                 type="button" disabled>Extract pages</button>
       </div>
       <span id="split-status" class="split-status" role="status" aria-live="polite">Load a PDF first.</span>
+    </section>
+
+    <!-- Delete pages panel: remove a set of pages, keep + download the rest -->
+    <section class="tool-panel" role="tabpanel" data-panel="delpages" aria-label="Delete pages">
+      <div class="split-ranges-field">
+        <label for="delpages-input">Pages to delete</label>
+        <input id="delpages-input" type="text" class="split-ranges-input"
+               placeholder="e.g. 1, 3-5, 8" autocomplete="off"
+               aria-label="Pages or ranges to delete" disabled>
+        <span class="split-hint">Comma-separated pages and ranges. Every other page is kept in its original order. At least one page must remain.</span>
+      </div>
+      <button class="btn btn-primary" id="delpages-delete" data-action="delpages.run"
+              type="button" disabled>Delete pages</button>
+      <span id="delpages-status" class="split-status" role="status" aria-live="polite">Load a PDF first.</span>
     </section>
 
     <!-- Merge panel: append additional PDFs to the open document -->
