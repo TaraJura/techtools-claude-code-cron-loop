@@ -213,6 +213,57 @@
     margin-top: 0;
 }
 
+/* --- Extract text panel (text-extract.js, TASK-343) --- */
+.textextract-actions {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.textextract-status {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.textextract-status.error {
+    color: var(--danger, #d23);
+}
+
+.textextract-summary {
+    width: 100%;
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.textextract-summary:empty {
+    display: none;
+}
+
+.textextract-preview {
+    width: 100%;
+    min-height: 12rem;
+    max-height: 46vh;
+    resize: vertical;
+    padding: 0.5rem;
+    font-family: var(--font-mono, ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace);
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--text);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    white-space: pre;
+    overflow: auto;
+}
+
+.textextract-preview:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
 /* --- Editable metadata form (metadata.js, TASK-330) --- */
 .metadata-edit {
     width: 100%;
@@ -1245,6 +1296,67 @@ body.highlight-mode .textLayer :is(span, br) {
 }
 
 .resize-status.error {
+    color: var(--danger);
+}
+
+/* --- Borders panel (bg-borders.js, TASK-344) --- */
+.bgborders-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+.bgborders-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+}
+
+.bgborders-field select,
+.bgborders-field input[type="number"] {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.bgborders-field input[type="number"] {
+    width: 6rem;
+}
+
+.bgborders-field input[type="color"] {
+    width: 3rem;
+    height: 2.1rem;
+    padding: 0.15rem;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+}
+
+.bgborders-field select:focus,
+.bgborders-field input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.bgborders-field select:disabled,
+.bgborders-field input:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.bgborders-status {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.bgborders-status.error {
     color: var(--danger);
 }
 

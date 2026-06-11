@@ -53,8 +53,10 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="crop">Crop</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="insert">Insert pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="resize">Resize</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="bgborders">Borders</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="info">Info</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="stats">Statistics</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="textextract">Extract text</button>
   </nav>
 
   <div class="tool-panels">
@@ -447,6 +449,42 @@
       <span id="resize-status" class="resize-status" role="status" aria-live="polite">Load a PDF first.</span>
     </section>
 
+    <!-- Borders panel: paint a page background fill and/or stroke a page border (bg-borders.js) -->
+    <section class="tool-panel" role="tabpanel" data-panel="bgborders" aria-label="Page background and border">
+      <div class="bgborders-controls">
+        <span class="bgborders-field">
+          <label for="bgborders-bg">Background</label>
+          <select id="bgborders-bg" aria-label="Page background colour" disabled>
+            <option value="none" selected>None</option>
+            <option value="white">White</option>
+            <option value="cream">Cream</option>
+            <option value="gray">Light gray</option>
+            <option value="blue">Light blue</option>
+            <option value="yellow">Light yellow</option>
+            <option value="green">Light green</option>
+          </select>
+        </span>
+        <span class="bgborders-field">
+          <label for="bgborders-border-color">Border color</label>
+          <input id="bgborders-border-color" type="color" value="#1a1a1a"
+                 aria-label="Border color" disabled>
+        </span>
+        <span class="bgborders-field">
+          <label for="bgborders-border-width">Border width (pt)</label>
+          <input id="bgborders-border-width" type="number" min="0" max="24" step="1" value="2"
+                 inputmode="numeric" aria-label="Border width in points (0 for no border)" disabled>
+        </span>
+        <span class="bgborders-field">
+          <label for="bgborders-border-inset">Border inset (pt)</label>
+          <input id="bgborders-border-inset" type="number" min="0" max="200" step="1" value="18"
+                 inputmode="numeric" aria-label="Border inset from page edge in points" disabled>
+        </span>
+        <button class="btn btn-primary" id="bgborders-apply" data-action="bgborders.apply"
+                type="button" disabled>Apply &amp; download</button>
+      </div>
+      <span id="bgborders-status" class="bgborders-status" role="status" aria-live="polite">Load a PDF first.</span>
+    </section>
+
     <!-- Info panel: document properties / metadata (view + edit) -->
     <section class="tool-panel" role="tabpanel" data-panel="info" aria-label="Document properties">
       <form id="metadata-edit" class="metadata-edit" aria-label="Edit document metadata">
@@ -485,6 +523,20 @@
     <section class="tool-panel" role="tabpanel" data-panel="stats" aria-label="Document statistics">
       <span id="statistics-status" class="statistics-status" role="status" aria-live="polite">Load a PDF first.</span>
       <div id="statistics-list" aria-label="Document statistics"></div>
+    </section>
+
+    <!-- Extract text panel: read-only text export to .txt (text-extract.js, TASK-343) -->
+    <section class="tool-panel" role="tabpanel" data-panel="textextract" aria-label="Extract text">
+      <div class="textextract-actions">
+        <button class="btn btn-primary" id="textextract-extract" data-action="textextract.extract"
+                type="button" disabled aria-disabled="true">Extract &amp; download</button>
+        <span id="textextract-status" class="textextract-status" role="status" aria-live="polite">Load a PDF first.</span>
+      </div>
+      <p id="textextract-summary" class="textextract-summary" aria-live="polite"></p>
+      <label class="visually-hidden" for="textextract-preview">Extracted text preview</label>
+      <textarea id="textextract-preview" class="textextract-preview" readonly
+                aria-label="Extracted text preview"
+                placeholder="Extracted text will appear here after you click Extract."></textarea>
     </section>
   </div>
 
