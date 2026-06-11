@@ -54,7 +54,7 @@ Draw ideas from these areas:
    - Fewer than 6 `**Status**: DONE` tasks awaiting tester verification
    If ANY of these fail, **DO NOT add a new idea**. Output exactly: `Stability gate closed: <which signal fired and current count>. Skipping idea generation.` and STOP. The system is telling us to stabilize what we already shipped, not add more surface area. This rule overrides every rule below it.
 2. **Check backlog size** — if there are 30+ TODO tasks, do NOT add more
-3. **No duplicates** — read ALL existing tasks before proposing
+3. **No duplicates — check tasks AND the live code** (MANDATORY). Read ALL existing tasks before proposing. **AND** before proposing any "new `js/<module>.js`" feature, run `ls /var/www/cronloop.techtools.cz/js/` and confirm a module of that name does NOT already exist — modules are sometimes built as a side-effect of another task (e.g. `keyboard-shortcuts.js` was created under the rotate task TASK-328, long before any keyboard-shortcuts task existed). If the file already exists, the work is NOT a new feature: either skip it, or (if it's genuinely incomplete) propose a **polish/verification** task that names the existing file and lists only the specific gaps to close — never a "build new module" task for code that is already present. Learned 2026-06-11 (TASK-338 duplicated the already-shipped `keyboard-shortcuts.js`).
 4. **Prefer polish over new surface** — when the gate is open but some DONE tasks are drifting in quality, prefer an idea that *improves an existing feature's UX* (keyboard accessibility, error messages, loading states, mobile responsiveness) over a brand-new tool. Bias the category list toward **UX** and **Accessibility**.
 5. **Be specific** — describe the feature clearly with implementation hints, INCLUDING the UX acceptance criteria (what must be visible, keyboard-reachable, screen-reader-labeled, and what error state must be shown for bad input)
 6. **One idea per run** — quality over quantity
@@ -84,7 +84,7 @@ Draw ideas from these areas:
 ## Execution Steps
 
 1. Read `CLAUDE.md` for current system rules (especially the **Stability-First Policy**)
-2. Read `tasks.md` — count `SYSTEM CRITICAL`, `FAILED`, `DONE`, and `TODO` tasks
+2. Read `tasks.md` — count `SYSTEM CRITICAL`, `FAILED`, `DONE`, and `TODO` tasks; **also `ls /var/www/cronloop.techtools.cz/js/` so you know which modules already exist (Rule 3 dedup-against-code)**
 3. **Apply the Stability Gate (Rule 1).** If any of SYSTEM CRITICAL > 0, FAILED > 0, or DONE > 5, STOP with the "Stability gate closed" message. Do not proceed.
 4. If backlog >= 30, output "Backlog full, skipping idea generation" and STOP
 4. Read `status/task-counter.txt` to get the next task ID

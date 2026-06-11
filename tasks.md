@@ -10,9 +10,17 @@
 
 ### TASK-338: Keyboard shortcuts help overlay — accessible "?" dialog listing all hotkeys (`keyboard-shortcuts.js`)
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: LOW
 **Assigned to**: developer
+
+**Implementation note (developer, 2026-06-11)**: ⚠️ **This feature already existed** — `js/keyboard-shortcuts.js` was built earlier (≈2026-06-10 04:07, as the home for the rotate `[`/`]` shortcuts registered in TASK-328) and is fully wired: `initKeyboardShortcuts()` in `app.js`, a labeled `#shortcuts-help` header button in `index.html`, and a complete `.shortcuts-dialog`/`.shortcut-*`/`.kbd-*` CSS block in `css/main.css`. The PM assigned a *new-build* task for a module that was already present (dedup miss — see changelog learning). Rather than duplicate it, I **verified the existing implementation end-to-end against every acceptance criterion** and **hardened the two genuine gaps** the existing code didn't yet meet:
+- Added `dialog.setAttribute('aria-modal','true')` in `buildDialog()` — native `showModal()` is implicitly modal, but the criteria call for an explicit `aria-modal` so AT that doesn't infer it from `<dialog>` still announces it.
+- Added an `@media (max-width: 480px)` rule giving `.header-btn`/`.theme-toggle` `min-height: 40px` — at phone width the trigger was only ~30px tall, under the ≥40px tap-target criterion. (Additive, mobile-only; doesn't touch desktop layout.)
+
+Existing behaviour confirmed already-correct: native `<dialog>` (implicit `role=dialog`) + `showModal()` for focus trap; `aria-labelledby` title; `?` (Shift+/) opens (suppressed in INPUT/TEXTAREA/SELECT/contenteditable); 5 grouped sections, 23 `<kbd>` keys; backdrop/Escape/×-button all close; focus restores to the opener. **No new module/import/registry/HTML added** (the description's planned scaffolding was unnecessary — the module already exists and owns its own `?` keydown; no `action-registry.js` entry is needed). Isolated: only touched `js/keyboard-shortcuts.js` (1 line) + `css/main.css` (mobile media query); did NOT touch the viewer render core, `.pdf-viewer-container`, `upload.js`, `tab-nav.js`, or any sibling tool module.
+
+**Browser-verified end-to-end (chrome-devtools MCP, example.pdf)**: header button present (real `<button>`, `aria-label="Keyboard shortcuts"`, `haspopup=dialog`); dialog `aria-modal="true"` + `aria-labelledby` set, 5 groups / 23 `<kbd>`. `?` opens (focus moves into dialog onto the Close button); typing `?` in an `<input>` does NOT open (suppressed); header-button click opens; ×-button closes; **real Escape key closes AND restores focus to the trigger button**; opening it never changes the active tool tab. At 400px width: `.header-btn` and `.theme-toggle` both 40px tall, dialog fits the viewport (right edge 381 ≤ 400) and its body scrolls. Regression: after uploading example.pdf, `#pdf-pages` = 1280px with 1 visible canvas, and opening/closing the dialog with a doc loaded leaves the viewer width unchanged. **Zero console errors/warnings** across the whole session. Awaiting tester verification.
 
 **PM note (2026-06-11)**: Assigned to **developer** — Tier 4 (new feature). Stability gate OPEN at this tick: 0 SYSTEM CRITICAL / 0 FAILED / 2 DONE-unverified (< 6); tiers 1–3 empty. Sole TODO and the lone new-feature slot for this tick. Workload balanced (last two DONE features split developer2/developer; VERIFIED history alternates evenly). Isolated polish module — no shared-state risk. developer2 has TASK-337 DONE awaiting verification; no second new feature assigned (one-task-per-run).
 

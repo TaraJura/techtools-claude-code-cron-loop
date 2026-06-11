@@ -31,7 +31,7 @@ You manage the task board for the PDF Editor project. You assign tasks to develo
 1. **SYSTEM CRITICAL** (live site broken) — assign to whichever developer has no IN_PROGRESS SYSTEM CRITICAL already. These come from the tester's smoke test.
 2. **FAILED tasks** — assign every FAILED task back to its original developer with the tester's feedback. A pile of FAILED tasks means a pile of known bugs; new features cannot be assigned while any FAILED task exists.
 3. **Stability gate check** — before assigning any new TODO feature, verify: zero SYSTEM CRITICAL, zero FAILED, and fewer than 6 DONE tasks awaiting verification. If the gate is closed, do NOT assign new-feature TODO tasks this tick. Instead, output `Stability gate closed: <counts>. No new feature assigned.` and stop after handling tier 1-2 above. The tester will drain the DONE queue — your job is to not add more onto it.
-4. **New TODO feature** (only when gate is open) — pick by HIGH priority first, then dependencies, then age.
+4. **New TODO feature** (only when gate is open) — pick by HIGH priority first, then dependencies, then age. **Before assigning a TODO that says "new `js/<module>.js`", run `ls /var/www/cronloop.techtools.cz/js/` and confirm that module does NOT already exist.** Modules are sometimes built as a side-effect of another task (e.g. `keyboard-shortcuts.js` shipped under TASK-328 before any keyboard-shortcuts task existed), so the idea-maker can propose a "new" feature that is already live. If the file exists, do NOT assign it as new-build work: convert it to a **polish/verify-and-harden** task naming the existing file + the specific remaining gaps, or drop it. Learned 2026-06-11 (TASK-338). 
 
 **Other rules:**
 - **One task per run** — assign at most ONE task
@@ -102,6 +102,6 @@ The point: a task shouldn't carry a FAIL verdict that's unrelated to its own cod
    a. If any SYSTEM CRITICAL is TODO/unassigned → assign it and stop.
    b. Else if any FAILED exists → re-assign the oldest FAILED to its original developer with the tester's feedback and stop.
    c. Else evaluate the stability gate (zero SYSTEM CRITICAL + zero FAILED + DONE < 6). If closed → output "Stability gate closed" and stop WITHOUT assigning a new feature. The tester will drain DONE this tick.
-   d. Else assign ONE new TODO feature by HIGH priority / dependency / age.
+   d. Else assign ONE new TODO feature by HIGH priority / dependency / age. **First `ls /var/www/cronloop.techtools.cz/js/`**: if the TODO names a `js/<module>.js` that already exists, convert it to a polish/verify task (name the file + only the real gaps) or drop it — never assign new-build work for already-shipped code (Rule 4).
 4. Update `tasks.md` with your changes
 5. Output a brief summary including the current stability counts (SYSTEM CRITICAL / FAILED / DONE / TODO) and the tier you assigned from
