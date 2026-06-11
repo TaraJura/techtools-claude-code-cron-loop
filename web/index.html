@@ -26,6 +26,11 @@
       <span class="header-btn-icon" aria-hidden="true">⌨</span>
       <span class="header-btn-label">Shortcuts</span>
     </button>
+    <button id="night-mode-toggle" class="header-btn" type="button"
+            aria-label="Night mode" aria-pressed="false">
+      <span class="header-btn-icon" aria-hidden="true">☾</span>
+      <span class="header-btn-label">Night</span>
+    </button>
   </header>
 
   <!-- Tool tabs (central container; features register panels here) -->
@@ -42,6 +47,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="watermark">Watermark</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="pagenum">Numbering</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="hf">Header/Footer</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="bates">Bates</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="convert">Export image</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="crop">Crop</button>
@@ -232,6 +238,55 @@
                 type="button" disabled>Apply &amp; download</button>
       </div>
       <span id="pagenum-status" class="pagenum-status" role="status" aria-live="polite">Load a PDF first.</span>
+    </section>
+
+    <!-- Header/Footer panel: stamp custom running-head/foot text in six zones -->
+    <section class="tool-panel" role="tabpanel" data-panel="hf" aria-label="Headers and footers">
+      <div class="hf-grid">
+        <span class="hf-band-label" aria-hidden="true">Header</span>
+        <span class="hf-field">
+          <label for="hf-hl">Header left</label>
+          <input id="hf-hl" type="text" maxlength="120" autocomplete="off"
+                 aria-label="Header left text" placeholder="{title}" disabled>
+        </span>
+        <span class="hf-field">
+          <label for="hf-hc">Header center</label>
+          <input id="hf-hc" type="text" maxlength="120" autocomplete="off"
+                 aria-label="Header center text" placeholder="" disabled>
+        </span>
+        <span class="hf-field">
+          <label for="hf-hr">Header right</label>
+          <input id="hf-hr" type="text" maxlength="120" autocomplete="off"
+                 aria-label="Header right text" placeholder="{date}" disabled>
+        </span>
+        <span class="hf-band-label" aria-hidden="true">Footer</span>
+        <span class="hf-field">
+          <label for="hf-fl">Footer left</label>
+          <input id="hf-fl" type="text" maxlength="120" autocomplete="off"
+                 aria-label="Footer left text" placeholder="" disabled>
+        </span>
+        <span class="hf-field">
+          <label for="hf-fc">Footer center</label>
+          <input id="hf-fc" type="text" maxlength="120" autocomplete="off"
+                 aria-label="Footer center text" placeholder="Page {page} of {pages}" disabled>
+        </span>
+        <span class="hf-field">
+          <label for="hf-fr">Footer right</label>
+          <input id="hf-fr" type="text" maxlength="120" autocomplete="off"
+                 aria-label="Footer right text" placeholder="" disabled>
+        </span>
+      </div>
+      <div class="hf-controls">
+        <span class="hf-field hf-field--size">
+          <label for="hf-size">Font size</label>
+          <input id="hf-size" type="number" min="6" max="36" step="1" value="10"
+                 inputmode="numeric" autocomplete="off" aria-label="Header and footer font size" disabled>
+        </span>
+        <button class="btn btn-primary" id="hf-apply" data-action="hf.apply"
+                type="button" disabled>Apply &amp; download</button>
+      </div>
+      <p class="hf-hint">Tokens: <code>{page}</code> <code>{pages}</code> <code>{date}</code> <code>{title}</code></p>
+      <span id="hf-status" class="hf-status" role="status" aria-live="polite">Load a PDF first.</span>
     </section>
 
     <!-- Bates panel: stamp legal-style sequential identifiers onto every page -->

@@ -20,6 +20,7 @@ import { initPages } from './pages.js';
 import { initMerge } from './merge.js';
 import { initWatermark } from './watermark.js';
 import { initPageNumbers } from './page-numbers.js';
+import { initHeadersFooters } from './headers-footers.js';
 import { initBates } from './bates.js';
 import { initConvert } from './convert.js';
 import { initCrop } from './crop.js';
@@ -27,6 +28,7 @@ import { initInsertPages } from './insert-pages.js';
 import { initPageResize } from './page-resize.js';
 import { initZoomMenu } from './zoom-menu.js';
 import { initStatistics } from './statistics.js';
+import { initNightMode } from './night-mode.js';
 import * as Viewer from './viewer.js';
 
 // --- Register core viewer actions in the central registry ---
@@ -90,6 +92,7 @@ function init() {
     initMerge();
     initWatermark();
     initPageNumbers();
+    initHeadersFooters(); // custom running header/footer text in six zones (TASK-342)
     initBates();
     initConvert();
     initCrop(); // trim a uniform margin off every page (TASK-335)
@@ -97,6 +100,7 @@ function init() {
     initPageResize(); // normalize every page to a standard paper size (TASK-336)
     initZoomMenu(); // zoom preset dropdown on #zoom-level (TASK-332)
     initStatistics(); // read-only document analytics panel (statistics.js)
+    initNightMode(); // view-only invert/night reading mode for the PDF pages (TASK-341)
     initKeyboardShortcuts();
     wireToolbar();
     wireZoomLabel();

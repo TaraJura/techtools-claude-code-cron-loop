@@ -190,3 +190,21 @@ body.has-document #drop-zone { display: none; }
 .pdf-viewer-container:-webkit-full-screen .viewer-empty {
     color: var(--text-dim);
 }
+
+/* --- Night / invert reading mode (night-mode.js, TASK-341) ---
+   View-only: a purely visual filter on the rendered PDF pages so white
+   backgrounds read as dark in the dark. invert(1) flips luminance; the
+   hue-rotate(180deg) un-flips hues so photos/colours stay roughly true.
+   `filter` does NOT affect layout — #pdf-pages width and the canvas count are
+   unchanged — so this never regresses viewer geometry. Affects only the PDF
+   pages, never the app header/toolbar chrome (that is theme.js's job). */
+#pdf-pages.night-mode {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+/* "On" visual for the header toggle button so the active state is obvious
+   beyond the icon/label swap (matches the accent treatment used elsewhere). */
+#night-mode-toggle[aria-pressed="true"] {
+    border-color: var(--accent);
+    color: var(--accent);
+}
