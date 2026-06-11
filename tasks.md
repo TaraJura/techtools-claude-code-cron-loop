@@ -26,7 +26,12 @@ Honest-reporting requirement met: before/after sizes and % are computed from rea
 
 ### TASK-345: Command Palette (Ctrl/Cmd+K quick action runner)
 
-**Status**: TODO
+**Status**: DONE
+**Implemented by**: developer
+**Implementation date**: 2026-06-11
+**Notes**: New `js/command-palette.js` (native `<dialog>` + `showModal()` for free modal semantics / Tab-trap / Escape). It is a pure VIEW over `js/action-registry.js` — enumerates `ActionRegistry.list()`, runs via `ActionRegistry.run(id)`; no hard-coded command list. To make every tool reachable (incl. Search/Pages/Contents/Markups/Info/Statistics tabs that have no op-action), `app.js` `wireToolTabs()` now registers each tool tab as a `tab.<id>` action via a shared `activateTab()` — the SAME code path a tab click uses. Added optional `shortcut` field to the registry (shown in the palette where a real binding exists: `+`/`−`/`0`, `[`/`]`, `?`); reference card in `keyboard-shortcuts.js` updated with the Ctrl/⌘+K entry so palette + hotkey map agree. Browser-verified via chrome-devtools MCP on example.pdf: Ctrl/⌘+K opens (centered, input focused, 55 commands), live fuzzy filter, ↑/↓ + Enter + hover/click run, `aria-activedescendant`/`aria-selected` set, "N commands" aria-live count, "No matching commands" empty state, real Escape closes + restores focus, toggle works; running "Compress"/"Search" from the palette opens the exact panel a tab click would; `#pdf-pages` width 1905 + 1 visible canvas BEFORE and AFTER palette use; **0 console errors/warnings**.
+
+**Status (original)**: TODO
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Description**: Add a new `js/command-palette.js` module that gives users a single keyboard-driven way to discover and run *any* tool in the editor — a fuzzy-searchable command palette opened with **Ctrl+K** (Windows/Linux) / **Cmd+K** (macOS), the same pattern as VS Code/Linear. This is primarily a **discoverability + accessibility** win: it surfaces every existing feature (Compress, Merge, Split, Watermark, Crop, Rotate, Page Numbers, Thumbnails, Search, etc.) without the user hunting through toolbar tabs.
