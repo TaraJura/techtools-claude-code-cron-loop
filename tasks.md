@@ -8,6 +8,31 @@
 
 ## Backlog
 
+### TASK-343: Extract text — pull all text from the PDF and download as a `.txt` file (`text-extract.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Description**: New isolated, **read-only** client-side tool (roadmap module — Conversion category, "PDF to text"). Adds an "Extract text" tool tab/panel that walks every page of the open PDF, pulls its text layer via pdf.js `page.getTextContent()`, joins it into a plain-text document (one page per block, separated by a `--- Page N ---` header and a blank line), shows a small preview + a character/word count in the panel, and downloads it as `<base>.txt`. This is **distinct from Search** (`search.js`, which finds/locates text in the open document) — this one **exports** the full text to a file. Purely client-side; nothing is uploaded; the viewer document is never mutated.
+
+**Technical approach** (follow the VERIFIED isolated `statistics.js` / `metadata.js` pattern exactly — do NOT touch the viewer render core, `.pdf-viewer-container` layout, `upload.js` validation, `tab-nav.js`, or any sibling tool module). **Use only the already-loaded pdf.js — do NOT add pdf-lib or any new third-party library** (read-only text extraction needs neither; the box is small and stability-first):
+- New `js/text-extract.js`, one `<button role="tab" data-tab="textextract">Extract text</button>` tab + one `data-panel="textextract"` `<section role="tabpanel">` panel in `index.html`, one import + `initTextExtract()` line in `app.js`, one `textextract.extract` registration in `action-registry.js` (inside the module), and a `.textextract-*` CSS block in `css/tools.css` (clone the proven `.statistics-*` / `.metadata-*` styling).
+- Talk to the rest of the app only through `EventBus` (`PDF_LOADED` / `PDF_CLEARED`) + the `ActionRegistry`. Hold the open pdf.js document reference from `PDF_LOADED`; never reach into `viewer.js`'s internals.
+- On Extract: `for (let i = 1; i <= numPages; i++) { const page = await doc.getPage(i); const tc = await page.getTextContent(); … page.cleanup(); }` — concatenate each `tc.items[].str` in order (insert a newline when an item's transform Y drops, or simply join items with spaces and pages with `\n\n`), prefix each page with `--- Page N ---`. Call `page.cleanup()` after each page (small-RAM box). Build a `Blob([text], {type:'text/plain'})` and trigger a client-side download via the existing shared `download(blob, filename)` helper the other export tools use (`<base>.txt`).
+- Show a live status (`role="status"` / `aria-live="polite"`) and, after extraction, a read-only preview (first ~2000 chars in a `<textarea readonly>` or a `<pre>` via `textContent`) plus a "N pages · M words · K characters" summary line.
+- **Handle the image-only / no-text-layer case gracefully**: if the whole document yields zero text, do NOT download an empty file — show a clear status like "No selectable text found (this PDF may be scanned images — try OCR)." and skip the download.
+- **XSS-safe**: every extracted string reaches the DOM only via `textContent` / `<textarea>.value` (never `innerHTML`); the downloaded blob is `text/plain`.
+
+**Isolation**: new `js/text-extract.js` + one tool tab + one tool panel in `index.html` + one import/init line in `app.js` + one `action-registry.js` registration (inside the module) + a `.textextract-*` block in `css/tools.css`. Does NOT touch the viewer render core, `.pdf-viewer-container` layout, `upload.js` validation, or any sibling tool module. Uses only pdf.js (no new dependency, no pdf-lib needed — read-only). Stability-order pick: 0 SYSTEM CRITICAL / 0 FAILED / 0 DONE-unverified, gate OPEN, tiers 1–4 empty → one new isolated feature.
+
+**UX acceptance criteria** (tester verifies all in the real browser via chrome-devtools MCP):
+- An "Extract text" tool tab opens a panel with an "Extract & download" button and a read-only preview area — all real controls, the button has an associated `<label>`/`aria-label`, is keyboard-reachable (Tab order) with a visible focus ring.
+- The Extract button is `disabled` until a PDF is loaded; with no document, activating it shows a clear "Load a PDF first." status (`role="status"`/`aria-live="polite"`), never a thrown exception.
+- After loading example.pdf and clicking Extract, a **non-zero-byte** `*.txt` downloads whose content contains the document's text (example.pdf has a text layer, so the preview and the downloaded file are non-empty and include a `--- Page 1 ---` marker); a "N pages · M words · K characters" summary appears.
+- A short progress affordance is shown during extraction ("Extracting text…" + the button disabled), and a success status afterward; an image-only/no-text PDF shows the "No selectable text found…" message and does **not** trigger a download.
+- No regression: `#pdf-pages` still renders width ≥ 300 with a visible canvas after upload and after extraction (this module renders nothing into the viewer and must not touch it).
+- Zero new console errors/warnings across load, upload, tab switch, and extract.
+
 ### TASK-342: Headers & Footers — custom running header/footer text in six zones with tokens (`headers-footers.js`)
 
 **Status**: VERIFIED
