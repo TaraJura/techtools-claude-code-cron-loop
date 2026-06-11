@@ -1,17 +1,18 @@
 {
-  "timestamp": "2026-06-11T16:30:00Z",
+  "timestamp": "2026-06-11T20:20:00Z",
   "status": "secure",
-  "last_review": "2026-06-11T16:30:00Z",
+  "last_review": "2026-06-11T20:20:00Z",
   "findings": [],
   "checks_performed": [
     "file_upload_validation",
-    "new_module_review_command_palette",
+    "new_module_review_delete_pages",
     "xss_innerHTML_eval_audit_full_js",
     "external_request_audit_full_js",
+    "hardcoded_secret_scan_js",
     "nginx_config_and_path_blocking",
     "security_headers_csp_live",
-    "git_secrets_scan",
-    "ssh_auth_log_review"
+    "ssh_auth_log_review",
+    "disk_check"
   ],
   "pdf_security": {
     "magic_bytes_check": true,
@@ -20,7 +21,7 @@
     "processing_timeout": true
   },
   "open_gaps": {
-    "SEC-002": "LOW, unchanged. No numPages>1000 cap at the viewer.js loadDocument() boundary; merge.js addFiles() has no cumulative-bytes/page cap. Client-side-only DoS (uploader's own tab) on the 1.6 GiB box. Developer task — fix once at the viewer load boundary to cover all per-page consumers (viewer, thumbnails, merge, text-extract, bg-borders, compress raster loop). This tick's new module (command-palette.js) adds NO new load boundary or per-page loop, so it does not extend SEC-002. No new server-side risk."
+    "SEC-002": "LOW, unchanged. No numPages>1000 cap at the viewer.js loadDocument() load boundary; merge.js addFiles() has no cumulative-bytes/page cap. Client-side-only DoS (uploader's own tab) on the 1.6 GiB box. Developer task — fix once at the viewer load boundary to cover all per-page consumers (viewer, thumbnails, merge, text-extract, pages, page-numbers, metadata, crop, convert raster, and now delete-pages). This tick's new module (delete-pages.js) operates only on the already-validated OPEN document via currentDoc.getData() — it is NOT a new load boundary and adds no new per-page load path, so it does not extend SEC-002. No new server-side risk."
   },
-  "notes": "35 JS modules (+1 since 12:25 review). Reviewed new module command-palette.js (TASK-345): Ctrl/Cmd+K quick-action runner that is a pure VIEW over action-registry.js — it never touches a PDF, has no load boundary, and adds no per-page loop, so it does not affect SEC-002. XSS posture: every option is built with document.createElement + textContent (cmd.title into a <span>, cmd.shortcut into a <kbd>); zero innerHTML/eval/Function/document.write. Uses native <dialog>.showModal() for modal/focus-trap/Escape; results rendered via listEl.replaceChildren(); fuzzy filter is local string ops only. Command list comes from the registry (developer-registered actions), not user data; ActionRegistry.run(id) reuses the same dispatch path as toolbar buttons (no new privilege). Clean. Full-JS audit across all 35 modules: every innerHTML hit is `= ''` (clearing) — zero innerHTML with user/PDF data (search.js hit is a comment); zero eval/Function/document.write/outerHTML; zero fetch/XHR/remote-src/insertAdjacentHTML. upload.js still enforces ext+MIME+empty+size(50MB)+%PDF- magic with sanitized filenames. Live headers verified: full resource CSP (default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; img-src 'self' blob: data:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; ...), X-Frame-Options SAMEORIGIN, Referrer-Policy strict-origin-when-cross-origin, X-Content-Type-Options nosniff; .mjs served text/javascript+nosniff. Path blocking: .git/config 403, CLAUDE.md 403, scripts/cron-orchestrator.sh 403, js/app.js 200, js/command-palette.js 200. No hardcoded secrets in js/ (grep clean). No failed/invalid SSH auth in last 24h. Disk 44% used. Stability gate OPEN (0 SYSTEM CRITICAL, 0 FAILED, 0 DONE-unverified)."
+  "notes": "36 JS modules (+1 since 16:30 review). Reviewed new module delete-pages.js (modified 20:06): the inverse of split.js' Extract — user names pages/ranges to REMOVE, a brand-new pdf-lib doc is built from the surviving pages and downloaded; the open viewer doc is never mutated and nothing is uploaded. Security posture CLEAN: (1) NOT a new load boundary — it reads only the already-validated open document via currentDoc.getData(), same SEC-002 class as pages.js/metadata.js/crop.js, so needs no separate page cap. (2) XSS-safe — status via textContent only; zero innerHTML/eval/Function/document.write. (3) Input parser parsePageSet() is numeric-only (regex ^\\d+$ / ^\\d+-\\d+$), every page bounded against numPages, empty tokens tolerated, invalid tokens rejected with specific messages. (4) keep.length===0 guard prevents deleting every page (a PDF needs >=1 page). (5) Filename sanitized to [a-zA-Z0-9._-].slice(0,180) -> <base>_deleted.pdf; safe Blob download with a.rel='noopener' + URL.revokeObjectURL on next tick. (6) PDFLib-unready / no-doc guards; errors caught, logged, surfaced via EventBus.ERROR. Full-JS audit across all 36 modules: every innerHTML hit is `= ''` (clearing) or in a comment — zero innerHTML with user/PDF data; zero eval/Function/document.write/outerHTML/insertAdjacentHTML; zero fetch/XHR/remote-src. No hardcoded secrets (all 'token' grep hits are render-token guards or page-range parse tokens, not credentials). upload.js still enforces ext+MIME+empty+size(50MB)+%PDF- magic with sanitized filenames. Live headers verified: full resource CSP (default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; img-src 'self' blob: data:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; ...), X-Frame-Options SAMEORIGIN, Referrer-Policy strict-origin-when-cross-origin, X-Content-Type-Options nosniff. nginx -t OK. Path blocking: .git/config 403, CLAUDE.md 403, scripts/cron-orchestrator.sh 403, js/app.js 200, js/delete-pages.js 200. No failed/invalid SSH auth in last 24h. Disk 44% used, 7.9G free. Stability gate OPEN (0 SYSTEM CRITICAL, 0 FAILED, 0 DONE-unverified)."
 }
