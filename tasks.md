@@ -8,6 +8,23 @@
 
 ## Backlog
 
+### TASK-339: Document Statistics — read-only analytics panel (file size, page-size breakdown, structure) (`statistics.js`)
+
+**Status**: DONE
+**Priority**: LOW
+**Assigned to**: developer2
+
+**Implementation note (developer2, 2026-06-11)**: New self-contained, **read-only** module `js/statistics.js` ("Statistics" tool tab, `data-panel="stats"`). No pre-assigned TODO existed this tick (PM gave the single new-feature slot to developer/TASK-338); stability-order pick — 0 SYSTEM CRITICAL / 0 FAILED / 3 DONE-unverified (< 6), gate OPEN, tiers a–b empty → one new isolated feature. Mirrors the VERIFIED `metadata.js` pattern: talks to the rest of the app only through `EventBus` (PDF_LOADED / PDF_CLEARED); no ActionRegistry action (nothing to invoke — it's observational), no inputs, no download, no document mutation, nothing uploaded. Reads bytes via pdf.js `doc.getData()` for an accurate on-disk size; walks pages once via `getPage(i).getViewport({scale:1})` (with `page.cleanup()` after each, for the small-RAM box) to build a count-sorted page-size breakdown with standard-paper detection (A6–A2 / Letter / Legal / Tabloid / Executive, ±6pt tolerance, orientation-independent), plus largest/smallest page. Structure facts via `getOutline()` (recursive bookmark count), `getAttachments()` (count), `getPermissions()` (restriction flag), `getMetadata().info.PDFFormatVersion`. Deliberately distinct from the Info/metadata panel (which shows editable title/author/dates) — this is quantitative analytics. Every PDF-supplied value inserted via `textContent` (never innerHTML) → XSS-safe. New `.statistics-*` CSS block in `tools.css`; reuses the existing `.metadata-grid` for the term/desc rows. **Rule-8 safe**: nothing inserted into `.pdf-viewer-container`; panel lives in the standard `.tool-panels` region. **Browser-verified end-to-end (chrome-devtools MCP, example.pdf)**: clean console on load; after upload `#pdf-pages` 1905px / 1 visible canvas; clicking Statistics shows Overview (File name example.pdf, File size 26.1 KB, Pages 1, Avg/page 26.1 KB, PDF version 1.4, Bookmarks None, Attachments None, Restrictions None) + Page sizes ("Letter · 216 × 279 mm" → 1 page; 612×792pt correctly detected as US Letter). Viewer geometry unaffected after tab switch (1905px / 1 visible canvas). **Zero console errors/warnings** across load + upload + tab switch. Awaiting tester verification.
+**Description**: New isolated, read-only client-side tool (roadmap module `statistics.js`, Optimization-&-Compliance category, "Document analytics — pages, fonts, sizes"). Adds a "Statistics" tool tab/panel that reports quantitative analytics about the open PDF the Info panel does not cover: on-disk file size + average per page, a per-page-size breakdown with standard-paper-name detection, largest/smallest page, bookmark/attachment counts, permission restrictions, and PDF version. Purely observational — never modifies, downloads, or uploads anything.
+
+**Isolation**: new `js/statistics.js` + one tool tab + one tool panel in `index.html` + one import/init line in `app.js` + a `.statistics-*` block in `css/tools.css`. Does NOT touch the viewer render core, `.pdf-viewer-container` layout, `upload.js` validation, or any sibling tool module. Uses only pdf.js (no new dependency, no pdf-lib needed — read-only).
+
+**UX acceptance criteria** (tester verifies in the real browser via chrome-devtools MCP):
+- A "Statistics" tool tab opens a panel showing "Load a PDF first." before any document is loaded (no thrown exception).
+- After loading example.pdf, the panel shows an Overview section (file name, file size, page count, PDF version, bookmark/attachment/restriction facts) and a Page sizes section with at least one grouped dimension row; example.pdf reports 1 page, ~26 KB, PDF 1.4, and a "Letter" page-size row.
+- No regression: `#pdf-pages` still renders width ≥ 300 with a visible canvas after upload and after switching to the Statistics tab (this module renders nothing into the viewer).
+- Zero new console errors/warnings.
+
 ### TASK-338: Keyboard shortcuts help overlay — accessible "?" dialog listing all hotkeys (`keyboard-shortcuts.js`)
 
 **Status**: DONE
