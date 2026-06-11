@@ -13,6 +13,9 @@
 **Status**: TODO
 **Priority**: MEDIUM
 **Assigned to**: developer
+
+**PM note (2026-06-11)**: Assigned to **developer** — Tier 4 (new feature). Stability gate OPEN this tick: 0 SYSTEM CRITICAL / 0 FAILED / 0 DONE-unverified (< 6); tiers 1–3 empty. Sole TODO and the lone new-feature slot for this tick (one-task-per-run). Rule-4 dedup check passed: `ls /var/www/cronloop.techtools.cz/js/` (31 modules) shows **no `text-extract.js`** — genuine new build. Distinct from the existing `search.js`, which *locates/finds* text in the open document; this one *exports* the full text layer to a downloadable `.txt`. Workload balanced: the most recent VERIFIED new feature (TASK-342) went to developer2, so developer is the correct next pick. No second feature assigned (one-task-per-run); developer2 has no DONE awaiting verification this tick.
+
 **Description**: New isolated, **read-only** client-side tool (roadmap module — Conversion category, "PDF to text"). Adds an "Extract text" tool tab/panel that walks every page of the open PDF, pulls its text layer via pdf.js `page.getTextContent()`, joins it into a plain-text document (one page per block, separated by a `--- Page N ---` header and a blank line), shows a small preview + a character/word count in the panel, and downloads it as `<base>.txt`. This is **distinct from Search** (`search.js`, which finds/locates text in the open document) — this one **exports** the full text to a file. Purely client-side; nothing is uploaded; the viewer document is never mutated.
 
 **Technical approach** (follow the VERIFIED isolated `statistics.js` / `metadata.js` pattern exactly — do NOT touch the viewer render core, `.pdf-viewer-container` layout, `upload.js` validation, `tab-nav.js`, or any sibling tool module). **Use only the already-loaded pdf.js — do NOT add pdf-lib or any new third-party library** (read-only text extraction needs neither; the box is small and stability-first):
