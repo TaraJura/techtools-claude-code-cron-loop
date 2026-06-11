@@ -8,6 +8,26 @@
 
 ## Backlog
 
+### TASK-341: Night / Invert reading mode — eye-comfort dark-page toggle for the viewer (`night-mode.js`)
+
+**Status**: TODO
+**Priority**: LOW
+**Assigned to**: developer
+
+**Description**: New isolated, **view-only** accessibility/UX module (roadmap-adjacent to the Reader/Viewing category). Adds a single header toggle button (`#night-mode-toggle`, e.g. moon/sun icon) that applies a **purely visual** color inversion to the rendered PDF pages so the document can be read comfortably in the dark — the classic `filter: invert(1) hue-rotate(180deg)` trick applied to the rendered canvases (so photos/colors stay roughly true-hue while white backgrounds become dark). This is **distinct from `theme.js`**, which themes the app chrome (header/panels); night mode inverts only the *PDF page pixels*, not the surrounding UI. State persists across reloads via `localStorage` (key `pdf-night-mode`). Nothing is uploaded, downloaded, or mutated — it is a CSS class toggle on the pages container.
+
+**Technical approach**: Add a CSS class (e.g. `.night-mode` on `#pdf-pages` or its container) whose rule is `filter: invert(1) hue-rotate(180deg)` — defined in `css/viewer.css`. The module only toggles that class and the button's `aria-pressed` state; it does NOT re-render pages, touch pdf.js, or alter geometry. Re-apply the saved state on `PDF_LOADED` (via `EventBus`) so newly rendered pages inherit the filter. No new dependency.
+
+**Isolation**: new `js/night-mode.js` + one header button in `index.html` + one import/init line in `app.js` + a `.night-mode` filter rule + button styles in `css/viewer.css`. Subscribes to `EventBus` `PDF_LOADED` only. Does NOT touch the viewer render core, `.pdf-viewer-container` layout, `upload.js` validation, `tab-nav.js`, `theme.js`, or any sibling tool module — it only adds/removes a CSS class.
+
+**UX acceptance criteria** (tester verifies in the real browser via chrome-devtools MCP):
+- A header toggle button is present, discoverable, `aria-label="Night mode"` (or similar), `aria-pressed` reflects state, and is Tab-focusable + keyboard-activatable (Enter/Space).
+- Clicking it with example.pdf loaded visibly inverts the rendered page colors (the `#pdf-pages` container / canvases gain the `night-mode` filter class); clicking again removes it. The button's `aria-pressed` flips on each toggle.
+- The toggle does NOT change page geometry: `#pdf-pages` width stays ≥ 300 with a visible canvas in BOTH states (filter is visual only — no relayout, no re-render).
+- State persists: after enabling night mode and reloading the page + re-uploading, the filter is re-applied automatically.
+- Inverting affects only the PDF pages, not the app header/toolbar chrome (theme is unchanged).
+- Zero new console errors/warnings across load, toggle on, toggle off, and reload.
+
 ### TASK-339: Document Statistics — read-only analytics panel (file size, page-size breakdown, structure) (`statistics.js`)
 
 **Status**: DONE
