@@ -8,6 +8,29 @@
 
 ## Backlog
 
+### TASK-347: Delete Pages — remove arbitrary pages and download the remainder (`delete-pages.js`)
+
+**Status**: DONE
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Implemented by**: developer
+**Implementation date**: 2026-06-11
+**Description**: Add a client-side "Delete pages" tool as `js/delete-pages.js`, wired into the toolbar/action-registry like the other tools. It is the missing inverse of Split/Extract (which *keeps* a contiguous range): the user types the pages/ranges to **remove** (e.g. `1, 3-5, 8`), and the tool builds a brand-new PDF containing every *other* page in original order and downloads it. Entirely in the browser (pdf-lib), no upload; the open viewer document is never mutated.
+
+**Technical approach**:
+- New vanilla ES module `js/delete-pages.js` following the exact split.js pattern: talk to the app only through `EventBus` (PDF_LOADED / PDF_CLEARED) and `ActionRegistry`; read source bytes via pdf.js `doc.getData()`; build the output with `window.PDFLib` (`copyPages` of the complement indices); download via Blob + object URL (revoked next tick).
+- Reuse the split.js comma/range parser semantics for the "pages to remove" input. Validate: empty input, out-of-range pages, and the critical guard that you cannot delete **every** page (a PDF needs ≥1 page) — show a visible inline status message, never a console-only error or a throw.
+- Add a "Delete pages" tab + thin horizontal panel (`data-tab="delpages"` / `data-panel="delpages"`) and register `delpages.run` in the ActionRegistry so the Command Palette surfaces it automatically. Controls labeled, keyboard-operable, disabled until a PDF is open.
+
+**UX acceptance criteria** (tester will verify in the browser):
+- Discoverable: a "Delete pages" toolbar tab exists and is reachable from the Command Palette; clicking it opens the panel on top.
+- Operable by keyboard + mouse: the pages input and the Delete button are focusable, labeled, and reachable via Tab; Enter in the input runs the action.
+- Deleting `1` (or any valid subset) from example.pdf downloads a non-empty `.pdf` with `originalPages − deletedCount` pages; status reports how many were removed.
+- Error states are visible, not console-only: empty input → "Enter pages to delete"; out-of-range page → range message; deleting all pages → "Cannot delete every page — at least one page must remain"; none throw.
+- Operating the tool does not disturb the open viewer (`#pdf-pages` width unchanged, canvases still visible) and produces no new console errors on open/run/close.
+
+**Developer notes (browser-verified via chrome-devtools MCP, 2026-06-11)**: New `js/delete-pages.js` (modeled on split.js — EventBus/ActionRegistry isolation, pdf.js `getData()` source, pdf-lib `copyPages` of the surviving indices, Blob download). Tab `data-tab="delpages"` ("Delete pages") + thin panel added to index.html between Split and Merge; imported + `initDeletePages()` wired in app.js after `initSplit()`; `delpages.run` registered so the Command Palette surfaces it (confirmed: Ctrl+K → "delete" lists "Delete pages"). Verified live at http://localhost/: (1) tab discoverable, click activates tab+panel (active/aria-selected/visible); (2) controls labeled + disabled pre-load, enabled after; (3) error paths all show visible status, no throws — empty→"Enter pages to delete…", out-of-range→"Page 5 is out of range (document has 1 page)", delete-all→"Cannot delete every page — at least one page must remain", invalid token→"\"abc\" is not a valid page or range."; (4) happy path on 6-page multipage.pdf: delete `2`→ valid **5-page** PDF (2132 B); delete `1, 3-4`→ valid **3-page** PDF (1766 B), captured blobs re-parsed with pdf-lib to confirm page counts; (5) viewer intact (`#pdf-pages` width 1905, canvases visible) before+after; (6) **0 console errors/warnings** across the whole session.
+
 ### TASK-346: Image → PDF — build a PDF from one or more JPEG/PNG images (`img2pdf.js`)
 
 **Status**: TODO
