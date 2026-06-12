@@ -45,6 +45,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="pages">Rotate</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="split">Split</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="delpages">Delete pages</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="extract">Extract pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="watermark">Watermark</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="pagenum">Numbering</button>
@@ -52,6 +53,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="bates">Bates</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="compress">Compress</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="convert">Export image</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="img2pdf">Image → PDF</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="crop">Crop</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="insert">Insert pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="resize">Resize</button>
@@ -190,6 +192,20 @@
       <button class="btn btn-primary" id="delpages-delete" data-action="delpages.run"
               type="button" disabled>Delete pages</button>
       <span id="delpages-status" class="split-status" role="status" aria-live="polite">Load a PDF first.</span>
+    </section>
+
+    <!-- Extract pages panel: keep an arbitrary, possibly-reordered set of pages -->
+    <section class="tool-panel" role="tabpanel" data-panel="extract" aria-label="Extract pages">
+      <div class="split-ranges-field">
+        <label for="extract-input">Pages to keep</label>
+        <input id="extract-input" type="text" class="split-ranges-input"
+               placeholder="e.g. 1, 3, 5-7" autocomplete="off"
+               aria-label="Pages or ranges to keep, in output order" disabled>
+        <span class="split-hint">Comma-separated pages and ranges, kept in the order you list them (e.g. "3, 1" puts page 3 first). Duplicates are allowed.</span>
+      </div>
+      <button class="btn btn-primary" id="extract-run" data-action="extract.run"
+              type="button" disabled>Extract pages</button>
+      <span id="extract-status" class="split-status" role="status" aria-live="polite">Load a PDF first.</span>
     </section>
 
     <!-- Merge panel: append additional PDFs to the open document -->
@@ -397,6 +413,30 @@
                 type="button" disabled>Export image</button>
       </div>
       <span id="convert-status" class="convert-status" role="status" aria-live="polite">Load a PDF first.</span>
+    </section>
+
+    <!-- Image → PDF panel: assemble a PDF from JPEG/PNG images (img2pdf.js, TASK-346) -->
+    <section class="tool-panel" role="tabpanel" data-panel="img2pdf" aria-label="Build PDF from images">
+      <div class="img2pdf-controls">
+        <label class="file-label" for="img2pdf-input">Add images</label>
+        <input id="img2pdf-input" class="visually-hidden" type="file"
+               accept="image/png,image/jpeg" multiple aria-label="Add JPEG or PNG images">
+        <span class="img2pdf-field">
+          <label for="img2pdf-pagesize">Page size</label>
+          <select id="img2pdf-pagesize" aria-label="Output page size">
+            <option value="match" selected>Match image size</option>
+            <option value="a4">Fit to A4 (portrait)</option>
+          </select>
+        </span>
+        <button class="btn btn-primary" id="img2pdf-create" data-action="img2pdf.create"
+                type="button" disabled>Create PDF</button>
+      </div>
+      <div id="img2pdf-drop" class="img2pdf-drop" tabindex="0" role="button"
+           aria-label="Drop JPEG or PNG images here, or activate to choose files">
+        Drag &amp; drop JPEG/PNG images here, or use “Add images”.
+      </div>
+      <ul id="img2pdf-list" class="merge-list" aria-label="Images to include, in page order"></ul>
+      <span id="img2pdf-status" class="split-status" role="status" aria-live="polite">Add one or more JPEG/PNG images to build a PDF.</span>
     </section>
 
     <!-- Crop panel: trim a uniform margin off every page's crop box (crop.js, TASK-335) -->

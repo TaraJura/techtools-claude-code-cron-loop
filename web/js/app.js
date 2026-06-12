@@ -17,6 +17,7 @@ import { initAnnotate } from './annotate.js';
 import { initAnnotationSummary } from './annotation-summary.js';
 import { initSplit } from './split.js';
 import { initDeletePages } from './delete-pages.js';
+import { initExtractPages } from './extract-pages.js';
 import { initPages } from './pages.js';
 import { initMerge } from './merge.js';
 import { initWatermark } from './watermark.js';
@@ -24,6 +25,7 @@ import { initPageNumbers } from './page-numbers.js';
 import { initHeadersFooters } from './headers-footers.js';
 import { initBates } from './bates.js';
 import { initConvert } from './convert.js';
+import { initImg2Pdf } from './img2pdf.js';
 import { initCompress } from './compress.js';
 import { initCrop } from './crop.js';
 import { initInsertPages } from './insert-pages.js';
@@ -110,6 +112,7 @@ function init() {
     initAnnotationSummary();
     initSplit();
     initDeletePages(); // remove a set of pages, keep + download the rest (TASK-347)
+    initExtractPages(); // keep an arbitrary, possibly-reordered set of pages (TASK-348)
     initPages();
     initMerge();
     initWatermark();
@@ -117,6 +120,7 @@ function init() {
     initHeadersFooters(); // custom running header/footer text in six zones (TASK-342)
     initBates();
     initConvert();
+    initImg2Pdf(); // assemble a PDF from JPEG/PNG images (TASK-346)
     initCompress(); // shrink the open PDF client-side: re-save + rasterize (TASK-344)
     initCrop(); // trim a uniform margin off every page (TASK-335)
     initInsertPages(); // insert blank pages at a chosen position (TASK-337)

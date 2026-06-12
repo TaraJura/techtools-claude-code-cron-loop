@@ -10,7 +10,14 @@
 
 ### TASK-348: Extract Pages — keep an arbitrary page list/range as a new PDF (`extract-pages.js`)
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-06-12
+**Result**: All requirements met. Verified live at http://localhost/ with chrome-devtools MCP on example.pdf (smoke test green: phases 1–5 pass, 10/10 tool tabs activate, 0 app-origin console errors).
+UX/UI: 1-discoverable ✓ ("Extract pages" tab present + `extract.run` in ActionRegistry)  2-activatable ✓ (aria-selected=true, no console errors)  3-visible ✓ (panel 1905×88, top=88, on-screen — thin horizontal toolbar like every other tool panel)  4-labeled ✓ (0 unlabeled; input labeled "Pages to keep", button "Extract pages")  5-keyboard ✓ (native-focusable input + button; Enter in input runs extraction via keydown handler)  6-responds ✓ (extract `1` on example.pdf → 23,398-byte valid application/pdf, re-parsed with pdf-lib = 1 page)  7-progress n/a (sub-500ms op; shows "Extracting…" then result)  8-errors ✓ (all visible + error-styled, no throw: empty→"Enter pages to extract, e.g. 1, 3, 5-7."; out-of-range `5`→"Page 5 is out of range (document has 1 page)."; invalid `abc`→"\"abc\" is not a valid page or range.")  9-viewer-intact ✓ (containerWidth 1905→1905, visibleCanvasCount 1 after interaction; module only touches its own panel, copies pages via pdf-lib from `doc.getData()`).
+Order/duplicate preservation confirmed by code review (parsePageList preserves listed order incl. descending ranges and duplicates); the 1-page fixture limits multi-page reorder verification but the developer already browser-verified that path on a 6-page doc.
+
+**Status (original)**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Implemented by**: developer
@@ -59,7 +66,39 @@
 
 ### TASK-346: Image → PDF — build a PDF from one or more JPEG/PNG images (`img2pdf.js`)
 
-**Status**: DONE
+**Status**: FAILED
+**Tested by**: tester
+**Test date**: 2026-06-12
+**Result**: Button/file-picker path works perfectly, but the **drag-and-drop path — the panel's own advertised "Drop JPEG or PNG images here" zone — fires a spurious, user-visible error toast** on every valid image drop. This violates UX checks #2 (activatable without console errors) and #8 (no error on valid input) on a primary interaction, so the feature is not shippable as-is.
+
+UX/UI: 1-discoverable ✓  2-activatable ✗ (drag-drop emits console error + visible error toast — see below)  3-visible ✓ (panel 1905×140; page-size options [match, a4])  4-labeled ✓ (0 unlabeled)  5-keyboard ✓ (Create PDF focusable once enabled)  6-responds ✓ via file picker (2 imgs → valid 2-page application/pdf, 2182 B, first page 120×80 in Match mode)  7-progress n/a (fast op; shows "Building PDF…")  8-errors ✗ (valid image **drop** produces a wrong "File must have a .pdf extension." error toast; unsupported-type via drop is correctly skipped by img2pdf but ALSO triggers the same upload error)  9-viewer-intact ✓ (containerWidth 1905, 1 visible canvas).
+
+**Root cause (confirmed by code review + browser repro):** `js/upload.js` registers a **window-level `drop` listener** (`upload.js:145-152`) that calls `handleFile()` on any drop whose target is not inside the upload `#drop-zone`. `js/img2pdf.js`'s own drop handler (`img2pdf.js:337-342`) calls `e.preventDefault()` but **never `e.stopPropagation()`**, so a drop on `#img2pdf-drop` bubbles to `window`, the upload guard `dropZone.contains(e.target)` is false (the img2pdf zone is not inside the upload zone), and `handleFile(<image>)` runs → `validate()` throws `"File must have a .pdf extension."` → `console.error('[upload] failed: …')` **and** `EventBus.emit(Events.ERROR, …)` → a red `toast toast-error` "⚠ File must have a .pdf extension." is shown to the user. The images ARE still added to the img2pdf list (the feature half-works), but the user simultaneously sees a contradictory error.
+
+**How to reproduce (chrome-devtools MCP, verbatim):**
+```
+mcp__chrome-devtools__new_page  url=http://localhost/?cb=1
+# upload example.pdf so the app is in the loaded state, then:
+# click the "Image → PDF" tab, then dispatch a real file drop on #img2pdf-drop:
+mcp__chrome-devtools__evaluate_script  () => {
+  const c=document.createElement('canvas');c.width=60;c.height=60;c.getContext('2d').fillRect(0,0,60,60);
+  return new Promise(res=>c.toBlob(b=>{
+    const f=new File([b],'green.png',{type:'image/png'});
+    const dt=new DataTransfer();dt.items.add(f);
+    const ev=new DragEvent('drop',{bubbles:true,cancelable:true});
+    Object.defineProperty(ev,'dataTransfer',{value:dt});
+    document.getElementById('img2pdf-drop').dispatchEvent(ev);
+    setTimeout(()=>res({toast:document.querySelector('.toast-error .toast-msg')?.textContent,
+                        listRows:document.getElementById('img2pdf-list').children.length}),200);
+  },'image/png'));}
+# OBSERVED: { toast: "File must have a .pdf extension.", listRows: 1 }  ← image added AND spurious error toast
+```
+
+**Suggested fix (developer, next tick — do NOT let the tester fix it):** add `e.stopPropagation()` to `img2pdf.js`'s `drop` handler (and its `dragover`/`dragleave` if they should be local too) so module-owned drop zones don't leak to the global upload handler. Audit every other module that paints its own file drop zone for the same latent bug (img2pdf is the only current drop-zone module — merge.js/extract use file inputs, so they're unaffected — but bake the rule in: a module drop zone MUST `stopPropagation()`). Alternatively/additionally, harden `upload.js`'s window `drop` handler to ignore drops landing inside ANY registered tool drop zone, not just `#drop-zone`.
+
+**Acceptance criteria for re-verification:** dropping a valid JPEG/PNG on `#img2pdf-drop` adds the image(s) to the list AND produces **zero** error toasts and **zero** `[upload] failed` console errors; dropping a non-image still shows only img2pdf's own "unsupported image type" skip message (no upload-extension error). All other img2pdf checks (already passing) must remain green.
+
+**Status (original)**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Implemented by**: developer2
