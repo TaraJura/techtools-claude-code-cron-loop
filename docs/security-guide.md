@@ -113,6 +113,23 @@
 > surfacing the rejection through the existing `setStatus(..., true)` path. Developer
 > task, not security's to implement; fold into the same cap work as the viewer load
 > boundary so all load points are bounded together.
+> **Third ingest boundary (SEC-002, noted 2026-06-12):** `js/img2pdf.js` (TASK-346) is a
+> producer-side load boundary of the same class — it reads **fresh user-picked image files**
+> (not the already-open doc), enforces a per-image 50 MB cap + magic-byte type check
+> (`FF D8 FF` / PNG sig, not the spoofable MIME), but has **no cap on cumulative queued image
+> bytes**: `createPdf()` loops `images[]`, reading each `arrayBuffer()` and embedding into one
+> growing pdf-lib doc, so total memory ≈ Σ(image bytes) + output. Same severity (LOW,
+> client-side-only — uploader's own tab) and same fix family as `merge.js`: bound total queued
+> bytes in `addFiles()` (reject when the running sum would exceed ~150–200 MB). Otherwise CLEAN:
+> filenames sanitized, status via `textContent` (no innerHTML), safe Blob download + revoke,
+> nothing uploaded, viewer doc never touched. `js/extract-pages.js` (same tick) is the
+> delete-pages counterpart and touches ONLY the already-validated open doc via
+> `currentDoc.getData()` — NOT a new load boundary; parser is numeric-only and bounded against
+> `numPages` (duplicates allowed → output can multiply, same LOW self-DoS family, no separate cap
+> needed). NB: TASK-346's FAILED status is a **UX** bug (img2pdf's drop handler omits
+> `e.stopPropagation()`, so `upload.js`'s window-level drop listener also fires a spurious
+> "must be .pdf" toast) — a developer fix, **not** a security defect; both drop paths still
+> validate safely.
 
 ### 3. Cross-Site Scripting (XSS)
 
