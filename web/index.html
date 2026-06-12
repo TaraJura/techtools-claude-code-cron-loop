@@ -46,6 +46,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="split">Split</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="delpages">Delete pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="extract">Extract pages</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="reverse">Reverse pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="interleave">Interleave</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="watermark">Watermark</button>
@@ -207,6 +208,14 @@
       <button class="btn btn-primary" id="extract-run" data-action="extract.run"
               type="button" disabled>Extract pages</button>
       <span id="extract-status" class="split-status" role="status" aria-live="polite">Load a PDF first.</span>
+    </section>
+
+    <!-- Reverse pages panel: flip the open document back-to-front, one click -->
+    <section class="tool-panel" role="tabpanel" data-panel="reverse" aria-label="Reverse page order">
+      <span class="split-hint">Builds a new PDF with the pages in the exact reverse order (last page first). The open document is not changed.</span>
+      <button class="btn btn-primary" id="reverse-run" data-action="reverse.run"
+              type="button" disabled>Reverse &amp; download</button>
+      <span id="reverse-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
     </section>
 
     <!-- Merge panel: append additional PDFs to the open document -->

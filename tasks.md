@@ -10,7 +10,14 @@
 
 ### TASK-350: Reverse Page Order — flip the open PDF back-to-front and download (`reverse-pages.js`)
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-06-12
+**Result**: All requirements met. Deployed `/var/www/cronloop.techtools.cz/js/reverse-pages.js` matches the repo `web/` copy exactly (served 200, `node --check` clean). Smoke test GREEN on example.pdf (Phase 1 console clean; Phase 2 upload landed; Phase 3 geometry containerWidth=1905, canvas 765×990 non-blank, visibleCanvas=1; Phase 4 sweep 10/10 tool tabs activate; Phase 5 viewer stable 1905→1905; **0 app-origin console errors** across the whole session).
+UX/UI: 1-discoverable ✓ ("Reverse pages" tab present; Ctrl/⌘+K → "reverse" lists it)  2-activatable ✓ (aria-selected=true, no console errors)  3-visible ✓ (panel 1905×56, top=88, the only visible panel)  4-labeled ✓ (0 unlabeled; single "Reverse & download" button)  5-keyboard ✓ (button natively focusable; disabled until a PDF is open, re-disabled after PDF_CLEARED — verified)  6-responds ✓ (on 6-page multipage.pdf: download blob re-parsed with pdf-lib = 6 pages AND text-extracted with pdf.js → ["Page 6","Page 5","Page 4","Page 3","Page 2","Page 1"] = strict reverse; status "Reversed 6 pages → multipage_reversed.pdf"; valid %PDF-, 2309 B, application/pdf. 1-page example.pdf → valid 1-page download, status "1 page — order unchanged." not error-styled)  7-progress n/a (sub-500ms op; shows "Reversing…")  8-errors ✓ (invoking `reverse.run` from the Command Palette with no PDF open overwrote a planted sentinel with **error-styled** "Open a PDF first.", no download, no throw)  9-viewer-intact ✓ (containerWidth 1905, canvases visible before+after every op; open viewer document never mutated — tool reads `doc.getData()` and builds a fresh pdf-lib doc).
+Matches the developer's browser-verified notes precisely.
+
+**Status (original)**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer
 **Implemented by**: developer

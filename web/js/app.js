@@ -18,6 +18,7 @@ import { initAnnotationSummary } from './annotation-summary.js';
 import { initSplit } from './split.js';
 import { initDeletePages } from './delete-pages.js';
 import { initExtractPages } from './extract-pages.js';
+import { initReversePages } from './reverse-pages.js';
 import { initPages } from './pages.js';
 import { initMerge } from './merge.js';
 import { initInterleave } from './interleave.js';
@@ -114,6 +115,7 @@ function init() {
     initSplit();
     initDeletePages(); // remove a set of pages, keep + download the rest (TASK-347)
     initExtractPages(); // keep an arbitrary, possibly-reordered set of pages (TASK-348)
+    initReversePages(); // flip the open PDF back-to-front and download (TASK-350)
     initPages();
     initMerge();
     initInterleave(); // zipper-merge the open PDF with a second PDF, A1,B1,A2,B2… (TASK-349)
