@@ -8,6 +8,25 @@
 
 ## Backlog
 
+### TASK-351: Duplicate Pages — clone selected pages in place and download (`duplicate-pages.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Description**: Add a client-side "Duplicate pages" tool as `js/duplicate-pages.js`, wired into the toolbar / `action-registry.js` like the other page tools. It is the natural missing member of the page-tools family (rotate `pages.js`, delete `delete-pages.js`, extract `extract-pages.js`, split `split.js`, interleave `interleave.js`, reverse `reverse-pages.js`): the user types a page list/range (e.g. `2, 4-5`) and an optional **copy count** (default 1), and the tool builds a brand-new PDF in which each selected page is repeated that many extra times **immediately after its original**, then downloads it. Example on a 5-page doc: duplicating `2` with copy count 1 → 6 pages in order 1, 2, **2**, 3, 4, 5; copy count 2 → 1, 2, **2, 2**, 3, 4, 5. This is the standard fix for "I need three copies of this form page in one file" or padding a booklet. It is **distinct from Extract** (which keeps only a subset, reordered) and from a full-document "print N copies" — this duplicates specific pages in place. Entirely in the browser (pdf-lib), no upload; the open viewer document is never mutated.
+
+**Technical approach**:
+- New vanilla ES module `js/duplicate-pages.js` following the **exact** `extract-pages.js` / `delete-pages.js` pattern: talk to the app only through `EventBus` (PDF_LOADED / PDF_CLEARED) and `ActionRegistry`; read source bytes via pdf.js `doc.getData()`; build the output with `window.PDFLib` (`copyPages` the full page set, then `addPage` walking 0…n-1 and re-adding each selected page `copyCount` extra times right after its original); download via `Blob` + object URL (revoked next tick). Download name e.g. `example_duplicated.pdf`.
+- Reuse the established comma/range parser. For the page selection, treat it as a **set of page numbers to duplicate** (dedupe is fine here — duplicating page 2 twice in the input is the same as listing it once; the *copy count* controls multiplicity). Validate: empty selection, out-of-range pages, non-numeric tokens, and a copy count outside 1–20 (cap to keep the output sane on the 1.6 GiB box) — each shows a **visible inline status message**, never a console-only error or a throw.
+- Add a "Duplicate pages" tab + thin horizontal panel (`data-tab="duplicate"` / `data-panel="duplicate"`) matching the split/delete/extract panel design: a "Pages to duplicate" text input, a small numeric "Copies" input (min 1, max 20, default 1), and a single "Duplicate & download" button. Register `duplicate.run` in the ActionRegistry so the Command Palette surfaces it automatically (do NOT hard-code a command list). Controls are labeled, keyboard-operable (Enter in either input runs it), and **disabled until a PDF is open** (re-disabled after PDF_CLEARED).
+
+**UX acceptance criteria** (tester will verify in the browser):
+- **Discoverable**: a "Duplicate pages" toolbar tab exists and is reachable from the Command Palette (Ctrl/⌘+K → "Duplicate"); clicking the tab opens the panel on top (not hidden behind another panel).
+- **Operable by keyboard + mouse**: the pages input, the copies input, and the "Duplicate & download" button are focusable, each has a discernible accessible name (`<label>` or `aria-label`), and are reachable via Tab; Enter in either input runs the action. All are disabled until a PDF is open and re-disabled after PDF_CLEARED.
+- **Happy path**: on a multipage PDF (e.g. the 6-page fixture), duplicating `2` with copies=1 downloads a valid **7-page** PDF whose page order is 1,2,2,3,4,5,6; copies=2 → an **8-page** PDF with order 1,2,2,2,3,4,5,6 (developer confirms order AND count by re-parsing the produced bytes with pdf-lib/pdf.js); status reports the resulting page count and filename. On example.pdf (1 page) duplicating `1` copies=1 downloads a valid 2-page PDF (1,1).
+- **Error states are visible, not console-only**: empty selection → "Enter pages to duplicate, e.g. 2, 4-5."; out-of-range page → "Page N is out of range (document has M pages)."; invalid token → "\"abc\" is not a valid page or range."; copies < 1 or > 20 → "Copies must be between 1 and 20." — all shown inline, none throw or download.
+- Operating the tool does **not** disturb the open viewer (`#pdf-pages` width unchanged, canvases still visible) and produces **no new console errors/warnings** on open, run, or close. The open viewer document is never mutated (read `doc.getData()`, build a fresh pdf-lib doc).
+
 ### TASK-350: Reverse Page Order — flip the open PDF back-to-front and download (`reverse-pages.js`)
 
 **Status**: VERIFIED
