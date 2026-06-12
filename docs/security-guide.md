@@ -144,6 +144,17 @@
 > download + `URL.revokeObjectURL`; PDFLib-unready / no-doc / no-second all guarded; errors
 > caught and surfaced via inline status + `EventBus.ERROR`. The viewer-load page-count cap
 > (the remaining SEC-002 gap) is still the one outstanding developer item.
+> **Bounded output-amplifier (SEC-002, noted 2026-06-12 20:30):** `js/duplicate-pages.js`
+> (TASK-351) is the page-tools counterpart to `extract-pages.js` — it touches ONLY the
+> already-open, already-validated doc via `currentDoc.getData()` and uploads nothing, so it
+> is **NOT a new ingest boundary** and needs no separate ingest cap. It does add a *bounded*
+> client-side output-amplification path: copies are clamped to `MAX_COPIES = 20`, so selecting
+> all pages yields `numPages × 21` output pages. Same LOW self-DoS family as extract-pages
+> (uploader's own tab only, no server impact) and bounded by the same single fix — the
+> viewer-load page-count cap. Otherwise CLEAN: numeric-only page parser bounded against
+> `numPages`, copies parser strict `1..20`, filename sanitized `[^a-zA-Z0-9._-]`→`_` slice(180)
+> → `<base>_duplicated.pdf`, status via `textContent` only, safe Blob download + URL revoke,
+> no-doc / PDFLib-unready guarded, errors → inline status + `EventBus.ERROR`.
 
 ### 3. Cross-Site Scripting (XSS)
 
