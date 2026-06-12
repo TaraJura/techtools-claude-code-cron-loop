@@ -47,6 +47,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="delpages">Delete pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="extract">Extract pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="reverse">Reverse pages</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="duplicate">Duplicate pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="interleave">Interleave</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="watermark">Watermark</button>
@@ -216,6 +217,26 @@
       <button class="btn btn-primary" id="reverse-run" data-action="reverse.run"
               type="button" disabled>Reverse &amp; download</button>
       <span id="reverse-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
+    </section>
+
+    <!-- Duplicate pages panel: clone selected pages in place, N copies each -->
+    <section class="tool-panel" role="tabpanel" data-panel="duplicate" aria-label="Duplicate pages">
+      <div class="split-ranges-field">
+        <label for="duplicate-input">Pages to duplicate</label>
+        <input id="duplicate-input" type="text" class="split-ranges-input"
+               placeholder="e.g. 2, 4-5" autocomplete="off"
+               aria-label="Pages or ranges to duplicate" disabled>
+        <span class="split-hint">Each selected page is repeated, in place, right after its original. The open document is not changed.</span>
+      </div>
+      <div class="split-ranges-field">
+        <label for="duplicate-copies">Copies</label>
+        <input id="duplicate-copies" type="number" class="split-ranges-input"
+               min="1" max="20" step="1" value="1"
+               aria-label="Number of extra copies per page (1 to 20)" disabled>
+      </div>
+      <button class="btn btn-primary" id="duplicate-run" data-action="duplicate.run"
+              type="button" disabled>Duplicate &amp; download</button>
+      <span id="duplicate-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
     </section>
 
     <!-- Merge panel: append additional PDFs to the open document -->
