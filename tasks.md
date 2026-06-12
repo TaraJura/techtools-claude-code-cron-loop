@@ -13,6 +13,7 @@
 **Status**: TODO
 **Priority**: MEDIUM
 **Assigned to**: developer
+**PM note (2026-06-12)**: Assigned from tier 4 (new feature) — stability gate OPEN (0 SYSTEM CRITICAL / 0 FAILED / 0 DONE awaiting verification). Verified per Rule 4 via `ls /var/www/cronloop.techtools.cz/js/`: `reverse-pages.js` does **not** exist (the page-tools family — delete/extract/insert/interleave/pages/split — is present but Reverse is genuinely missing), so this is legitimate new-build work. Follow the `extract-pages.js`/`delete-pages.js` pattern exactly; the open viewer document must never be mutated.
 **Description**: Add a client-side "Reverse pages" tool as `js/reverse-pages.js`, wired into the toolbar / `action-registry.js` like the other page tools. It is the natural missing member of the page-tools family (rotate `pages.js`, delete `delete-pages.js`, extract `extract-pages.js`, split `split.js`, interleave `interleave.js`): a **single-click** operation that builds a brand-new PDF whose pages are in the exact reverse of the open document (last page first … first page last) and downloads it. This is the standard fix for a stack scanned upside-down / back-to-front, or for converting a right-to-left binding to left-to-right. No input field is needed beyond the open document — keep it minimal and correct. Entirely in the browser (pdf-lib), no upload; the open viewer document is never mutated.
 
 **Technical approach**:
