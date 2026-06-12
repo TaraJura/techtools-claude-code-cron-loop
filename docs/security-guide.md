@@ -129,7 +129,21 @@
 > needed). NB: TASK-346's FAILED status is a **UX** bug (img2pdf's drop handler omits
 > `e.stopPropagation()`, so `upload.js`'s window-level drop listener also fires a spurious
 > "must be .pdf" toast) — a developer fix, **not** a security defect; both drop paths still
-> validate safely.
+> validate safely. *(TASK-346 is VERIFIED as of 2026-06-12 — the UX bug was fixed.)*
+> **Fourth ingest boundary (SEC-002, noted 2026-06-12):** `js/interleave.js` (TASK-349,
+> VERIFIED) is a second-file load boundary like `merge.js` — it reads **one fresh user-picked
+> PDF** (the open viewer doc is never mutated; base bytes come from pdf.js `doc.getData()`).
+> It applies the **full upload.js validation set locally** (extension + MIME + non-empty +
+> 50 MB cap + `%PDF-` magic-byte check) before parsing, then `interleaveAndDownload()` loads
+> base + second into pdf-lib and zipper-merges via `copyPages`/`addPage`. **Crucially it is
+> scoped to a SINGLE second file (replace-on-repick, NOT a cumulative queue)** — so unlike
+> `merge.js`/`img2pdf.js` its peak memory is bounded at base + ≤50 MB, which is the mildest
+> member of this family and needs **no separate cumulative-bytes cap**. Otherwise CLEAN:
+> filename sanitized (`[^a-zA-Z0-9._-]`→`_`, slice 180) → `<base>_interleaved.pdf`; status &
+> info line via `textContent` only (never innerHTML with the user filename); safe Blob
+> download + `URL.revokeObjectURL`; PDFLib-unready / no-doc / no-second all guarded; errors
+> caught and surfaced via inline status + `EventBus.ERROR`. The viewer-load page-count cap
+> (the remaining SEC-002 gap) is still the one outstanding developer item.
 
 ### 3. Cross-Site Scripting (XSS)
 
