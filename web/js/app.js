@@ -20,6 +20,7 @@ import { initDeletePages } from './delete-pages.js';
 import { initExtractPages } from './extract-pages.js';
 import { initPages } from './pages.js';
 import { initMerge } from './merge.js';
+import { initInterleave } from './interleave.js';
 import { initWatermark } from './watermark.js';
 import { initPageNumbers } from './page-numbers.js';
 import { initHeadersFooters } from './headers-footers.js';
@@ -115,6 +116,7 @@ function init() {
     initExtractPages(); // keep an arbitrary, possibly-reordered set of pages (TASK-348)
     initPages();
     initMerge();
+    initInterleave(); // zipper-merge the open PDF with a second PDF, A1,B1,A2,B2… (TASK-349)
     initWatermark();
     initPageNumbers();
     initHeadersFooters(); // custom running header/footer text in six zones (TASK-342)

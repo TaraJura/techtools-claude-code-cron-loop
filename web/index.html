@@ -47,6 +47,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="delpages">Delete pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="extract">Extract pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="interleave">Interleave</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="watermark">Watermark</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="pagenum">Numbering</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="hf">Header/Footer</button>
@@ -219,6 +220,23 @@
       </div>
       <ul id="merge-list" class="merge-list" aria-label="PDFs to append"></ul>
       <span id="merge-status" class="merge-status" role="status" aria-live="polite">Load a PDF first.</span>
+    </section>
+
+    <!-- Interleave panel: zipper-merge the open PDF with a second PDF (A1,B1,A2,B2…) -->
+    <section class="tool-panel" role="tabpanel" data-panel="interleave" aria-label="Interleave two PDFs">
+      <div class="interleave-controls">
+        <label class="file-label" for="interleave-add">Choose second PDF</label>
+        <input id="interleave-add" class="visually-hidden" type="file" accept="application/pdf,.pdf"
+               aria-label="Choose the second PDF to interleave" disabled>
+        <label class="interleave-reverse-label">
+          <input id="interleave-reverse" type="checkbox" disabled>
+          Reverse second document (for duplex scans)
+        </label>
+        <button class="btn btn-primary" id="interleave-run" data-action="interleave.run"
+                type="button" disabled>Interleave &amp; download</button>
+      </div>
+      <span id="interleave-info" class="interleave-info"></span>
+      <span id="interleave-status" class="merge-status" role="status" aria-live="polite">Load a PDF first.</span>
     </section>
 
     <!-- Watermark panel: stamp a diagonal text watermark across every page -->
@@ -431,7 +449,7 @@
         <button class="btn btn-primary" id="img2pdf-create" data-action="img2pdf.create"
                 type="button" disabled>Create PDF</button>
       </div>
-      <div id="img2pdf-drop" class="img2pdf-drop" tabindex="0" role="button"
+      <div id="img2pdf-drop" class="img2pdf-drop tool-dropzone" data-tool-dropzone tabindex="0" role="button"
            aria-label="Drop JPEG or PNG images here, or activate to choose files">
         Drag &amp; drop JPEG/PNG images here, or use “Add images”.
       </div>

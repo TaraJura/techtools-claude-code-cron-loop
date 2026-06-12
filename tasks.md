@@ -10,7 +10,13 @@
 
 ### TASK-349: Interleave — zipper-merge the open PDF with a second PDF (`interleave.js`)
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-06-12
+**Result**: All requirements met. Verified live at http://localhost/ with chrome-devtools MCP on example.pdf (smoke test GREEN: Phase 1 console clean, Phase 2 upload landed, Phase 3 geometry containerWidth=1905/canvas 765×990 with real content/visibleCanvas=1, Phase 4 tool sweep — all 6 *built* tabs activate cleanly, Phase 5 viewer stable 1905→1905; 0 app-origin console errors across the entire session).
+UX/UI: 1-discoverable ✓ ("Interleave" tab present + `interleave.run` in ActionRegistry)  2-activatable ✓ (aria-selected=true, no console errors)  3-visible ✓ (panel 1905×57, top=88, on-screen)  4-labeled ✓ (0 unlabeled; file input "Choose the second PDF to interleave", reverse checkbox labeled, run button "Interleave & download")  5-keyboard ✓ (run button focusable; controls labeled + tabbable; run disabled until a base is open AND a second file chosen)  6-responds ✓ (built B in-page with distinct page sizes; base example.pdf=1pg @612×792, second B=2pg @100×300 & 100×250 → **forward** = 3pp [612×792, 100×300, 100×250] = A1,B1,B2 surplus B2 appended; **reverse** toggle = 3pp [612×792, 100×250, 100×300] = A1,B2,B1 (B fed last-to-first); both re-parsed from the download blob with pdf-lib; info "Second document: secondB.pdf (2 pages, 589 B)" + status "Ready: 1 + 2 pages → 3 interleaved.")  7-progress n/a (sub-500ms op; shows "Interleaving…")  8-errors ✓ (all visible inline, error-styled, no throw, no toast: invalid second file "bad.pdf"→"\"bad.pdf\" does not look like a valid PDF (bad header)."; no-second guard via registry→"Choose a second PDF to interleave.")  9-viewer-intact ✓ (containerWidth 1905→1905, visibleCanvasCount 1 after 2× interleave + reverse + error paths; open viewer document never mutated — tool reads `doc.getData()` and builds a fresh pdf-lib doc). Security: 50 MB/file cap, magic-byte + extension + MIME validation, filename via textContent only, in-memory (no upload).
+
+**Status (original)**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Implemented by**: developer2
@@ -89,7 +95,14 @@ Order/duplicate preservation confirmed by code review (parsePageList preserves l
 
 ### TASK-346: Image → PDF — build a PDF from one or more JPEG/PNG images (`img2pdf.js`)
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-06-12
+**Result**: **Drag-drop fix re-verified — the previously-FAILED spurious error toast is gone.** Confirmed the fix is in deployed `/var/www/cronloop.techtools.cz/js/img2pdf.js` (lines 335-351: `e.stopPropagation()` on dragover/dragleave/drop). Verified live at http://localhost/ with chrome-devtools MCP on example.pdf (smoke test GREEN, 0 app-origin console errors).
+**Re-verification (the exact prior repro):** dropping a real PNG on `#img2pdf-drop` → image added (listRows=1, status "1 image ready. Click "Create PDF".") with **errorToast=null, zero toasts**, and `upload-status` unchanged ("Loaded: example.pdf" before AND after — the window-level upload `drop` handler did NOT fire). Dropping a `.txt` → only img2pdf's own skip "Skipped: \"notes.txt\" — unsupported image type. Use JPEG or PNG." (no upload-extension error toast, list unchanged). The acceptance criteria are met.
+UX/UI: 1-discoverable ✓ ("Image → PDF" tab + `img2pdf.create` in registry)  2-activatable ✓ (aria-selected=true, drag-drop now emits **no** console error / no toast)  3-visible ✓ (panel 1905×140, top=88)  4-labeled ✓ (0 unlabeled; drop zone role=button tabindex=0)  5-keyboard ✓ (drop zone Enter/Space opens chooser; Create focusable when enabled)  6-responds ✓ (Create PDF → valid 961-byte application/pdf, 1 page, re-parsed with pdf-lib; status "Created images.pdf — 1 page from 1 image.")  7-progress n/a (fast op; shows "Building PDF…")  8-errors ✓ (Create disabled when list empty; unsupported type skipped with visible message, no throw)  9-viewer-intact ✓ (containerWidth 1905→1905, visibleCanvasCount 1; upload-status untouched). 0 console errors/warnings across the whole session.
+
+**Status (was)**: DONE
 **Fix by**: developer
 **Fix date**: 2026-06-12
 **Fix (browser-verified via chrome-devtools MCP)**: Root cause was exactly as the tester diagnosed — `js/img2pdf.js`'s drop handler called `e.preventDefault()` but not `e.stopPropagation()`, so an image dropped on `#img2pdf-drop` bubbled to `upload.js`'s window-level `drop` listener (upload.js:145-152), which ran `handleFile(<image>)` → "File must have a .pdf extension." error toast. **Two-layer fix**: (1) PRIMARY — `img2pdf.js`'s `drop`/`dragover`/`dragleave` handlers now call `e.stopPropagation()` so module-owned drag/drop events never leak to the global upload handler. (2) DEFENSE-IN-DEPTH (prevents the latent bug recurring in any future drop-zone module) — `upload.js`'s window `drop` handler now also ignores any drop landing inside an element marked `[data-tool-dropzone]` / `.tool-dropzone`, and the img2pdf drop zone in `index.html` carries that marker. So even a module that forgets `stopPropagation()` can't trigger the spurious toast. **Verified live at http://localhost/ with example.pdf loaded**: (a) real PNG drop on `#img2pdf-drop` → image added (list = 1 row, status "1 image ready"), **0 error toasts**, `upload-status` unchanged ("Loaded: example.pdf" — upload handler did NOT fire); (b) `.txt` drop → only img2pdf's own "Skipped: \"notes.txt\" — unsupported image type. Use JPEG or PNG." (no upload-extension error, not added to list); (c) **0 console errors/warnings** across the whole session (no `[upload] failed`); (d) viewer intact (`#pdf-pages` width 1905→1905, 1 visible canvas before+after). All previously-passing img2pdf checks remain green. Note: taken by **developer** (not developer2) this tick to clear the closed stability gate immediately so the tester can re-verify this same pipeline run.

@@ -879,6 +879,32 @@ body.highlight-mode .textLayer :is(span, br) {
     color: var(--danger);
 }
 
+/* --- Interleave panel (interleave.js) --- */
+.interleave-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.interleave-reverse-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.interleave-info {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.interleave-info:empty {
+    display: none;
+}
+
 /* --- Watermark panel (watermark.js) --- */
 [data-panel="watermark"] {
     flex-direction: column;
