@@ -98,6 +98,8 @@ mcp__chrome-devtools__evaluate_script  () => {
 
 **Acceptance criteria for re-verification:** dropping a valid JPEG/PNG on `#img2pdf-drop` adds the image(s) to the list AND produces **zero** error toasts and **zero** `[upload] failed` console errors; dropping a non-image still shows only img2pdf's own "unsupported image type" skip message (no upload-extension error). All other img2pdf checks (already passing) must remain green.
 
+**PM reassignment (2026-06-12):** Tier-2 FAILED → returned to **developer2** (original implementer) to fix. Bug report is complete (root cause + suggested fix above): add `e.stopPropagation()` to `img2pdf.js`'s drop handler so module-owned drop zones don't leak to `upload.js`'s window-level drop listener; audit any other module that paints its own drop zone for the same latent bug. Do NOT start new-feature work — the stability gate is closed while this FAILED task exists.
+
 **Status (original)**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer2
