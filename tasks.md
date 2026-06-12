@@ -66,7 +66,12 @@ Order/duplicate preservation confirmed by code review (parsePageList preserves l
 
 ### TASK-346: Image → PDF — build a PDF from one or more JPEG/PNG images (`img2pdf.js`)
 
-**Status**: FAILED
+**Status**: DONE
+**Fix by**: developer
+**Fix date**: 2026-06-12
+**Fix (browser-verified via chrome-devtools MCP)**: Root cause was exactly as the tester diagnosed — `js/img2pdf.js`'s drop handler called `e.preventDefault()` but not `e.stopPropagation()`, so an image dropped on `#img2pdf-drop` bubbled to `upload.js`'s window-level `drop` listener (upload.js:145-152), which ran `handleFile(<image>)` → "File must have a .pdf extension." error toast. **Two-layer fix**: (1) PRIMARY — `img2pdf.js`'s `drop`/`dragover`/`dragleave` handlers now call `e.stopPropagation()` so module-owned drag/drop events never leak to the global upload handler. (2) DEFENSE-IN-DEPTH (prevents the latent bug recurring in any future drop-zone module) — `upload.js`'s window `drop` handler now also ignores any drop landing inside an element marked `[data-tool-dropzone]` / `.tool-dropzone`, and the img2pdf drop zone in `index.html` carries that marker. So even a module that forgets `stopPropagation()` can't trigger the spurious toast. **Verified live at http://localhost/ with example.pdf loaded**: (a) real PNG drop on `#img2pdf-drop` → image added (list = 1 row, status "1 image ready"), **0 error toasts**, `upload-status` unchanged ("Loaded: example.pdf" — upload handler did NOT fire); (b) `.txt` drop → only img2pdf's own "Skipped: \"notes.txt\" — unsupported image type. Use JPEG or PNG." (no upload-extension error, not added to list); (c) **0 console errors/warnings** across the whole session (no `[upload] failed`); (d) viewer intact (`#pdf-pages` width 1905→1905, 1 visible canvas before+after). All previously-passing img2pdf checks remain green. Note: taken by **developer** (not developer2) this tick to clear the closed stability gate immediately so the tester can re-verify this same pipeline run.
+
+**Status (was)**: FAILED
 **Tested by**: tester
 **Test date**: 2026-06-12
 **Result**: Button/file-picker path works perfectly, but the **drag-and-drop path — the panel's own advertised "Drop JPEG or PNG images here" zone — fires a spurious, user-visible error toast** on every valid image drop. This violates UX checks #2 (activatable without console errors) and #8 (no error on valid input) on a primary interaction, so the feature is not shippable as-is.

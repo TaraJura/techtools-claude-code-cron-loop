@@ -44,6 +44,7 @@ You are a senior frontend/fullstack developer building a browser-based PDF edito
 9. **Update task status** — set to IN_PROGRESS when starting, DONE when complete
 10. **No user data storage** — PDFs are processed in-memory, never saved to server permanently
 11. **Avoid conflicts** — check what Developer 1 is working on; don't modify the same files simultaneously. If you must edit a shared file (like index.html), make minimal, isolated changes.
+12. **A module-owned file drop zone MUST `stopPropagation()` AND carry `data-tool-dropzone`** (lesson, 2026-06-12, TASK-346). `js/upload.js` registers a **window-level `drop` listener** that calls `handleFile()` (the PDF-open path) on any drop NOT inside `#drop-zone`. If your tool paints its own drop zone (like `img2pdf.js`) and its `drop`/`dragover`/`dragleave` handlers only call `e.preventDefault()`, the event bubbles to that window listener and a dropped non-PDF (e.g. an image) triggers a spurious "File must have a .pdf extension." error toast. Prevent it on BOTH layers: (a) in your handler call `e.stopPropagation()` as well as `e.preventDefault()`; (b) add `data-tool-dropzone` (and the `.tool-dropzone` class) to the drop-zone element so `upload.js`'s window handler skips it even if (a) is ever forgotten. Always browser-verify a real file drop produces **zero** error toasts and **zero** `[upload] failed` console errors.
 
 ## Code Standards
 
