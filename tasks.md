@@ -10,7 +10,14 @@
 
 ### TASK-351: Duplicate Pages — clone selected pages in place and download (`duplicate-pages.js`)
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-06-12
+**Result**: All requirements met. Deployed `/var/www/cronloop.techtools.cz/js/duplicate-pages.js` (chmod 644, served 200) matches the developer's browser-verified notes exactly. Smoke test GREEN on example.pdf (Phase 1 console clean; Phase 2 upload landed; Phase 3 geometry containerWidth=1905, canvas 765×990 non-blank, visibleCanvas=1; Phase 4 sweep — all 6 built tool tabs activate cleanly; Phase 5 viewer stable 1905→1905; **0 app-origin console errors** across the whole session).
+UX/UI: 1-discoverable ✓ ("Duplicate pages" tab present; ActionRegistry exposes `duplicate.run` + `tab.duplicate` so Ctrl/⌘+K → "duplicate" surfaces it)  2-activatable ✓ (aria-selected=true, no console errors)  3-visible ✓ (panel 1905×88, top=88, the only visible panel)  4-labeled ✓ (0 unlabeled: pages input "Pages or ranges to duplicate", copies input "Number of extra copies per page (1 to 20)" min1/max20/default1, button "Duplicate & download")  5-keyboard ✓ (button natively focusable; Enter in either input runs; all three controls disabled until a PDF is open and re-disabled after PDF_CLEARED — verified: while-open all enabled, after Close document all disabled + status "Open a PDF first.")  6-responds ✓ (**order+count re-parsed from the download blob with pdf-lib (count) AND pdf.js (per-page text → order)** on 6-page multipage.pdf: `2` copies=1 → **7-page** [Page 1,2,2,3,4,5,6]; `2` copies=2 → **8-page** [1,2,2,2,3,4,5,6]; `4-5` copies=1 → **8-page** [1,2,3,4,4,5,5,6]; 1-page example.pdf `1` copies=1 → valid **2-page** example_duplicated.pdf (%PDF-, 23413 B, application/pdf); status reports count + filename each time)  7-progress n/a (sub-500ms op; shows "Duplicating…")  8-errors ✓ (all visible inline + error-styled, **0 downloads**: empty→"Enter pages to duplicate, e.g. 2, 4-5."; `9`→"Page 9 is out of range (document has 1 page)."; `abc`→"\"abc\" is not a valid page or range."; copies `0`→"Copies must be between 1 and 20."; copies `25`→"Copies must be between 1 and 20.")  9-viewer-intact ✓ (`#pdf-pages` width 1905 / 6 visible canvases before AND after all three duplicate runs; open viewer document never mutated — tool reads `doc.getData()` and builds a fresh pdf-lib doc).
+Matches the developer's browser-verified notes precisely.
+
+**Status (original)**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Implemented by**: developer2
