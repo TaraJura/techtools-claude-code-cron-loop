@@ -8,6 +8,25 @@
 
 ## Backlog
 
+### TASK-348: Extract Pages — keep an arbitrary page list/range as a new PDF (`extract-pages.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Description**: Add a client-side "Extract pages" tool as `js/extract-pages.js`, wired into the toolbar / `action-registry.js` like the other tools. It is the direct counterpart of the just-shipped Delete Pages (`delete-pages.js`): instead of removing pages and keeping the rest, the user types the pages/ranges they want to **keep** (e.g. `1, 3, 5-7`) and the tool builds a brand-new PDF containing **only** those pages, **in the order the user listed them** (so `3, 1` yields a 2-page PDF with the original page 3 first). This is distinct from Split (`split.js`, which keeps a single contiguous range) — Extract handles arbitrary, possibly-reordered selections, the single most-requested "pull out the pages I need" operation. Entirely in the browser (pdf-lib), no upload; the open viewer document is never mutated.
+
+**Technical approach**:
+- New vanilla ES module `js/extract-pages.js` following the **exact** `delete-pages.js` / `split.js` pattern: talk to the app only through `EventBus` (PDF_LOADED / PDF_CLEARED) and `ActionRegistry`; read source bytes via pdf.js `doc.getData()`; build the output with `window.PDFLib` (`copyPages` of the requested indices **in listed order**); download via Blob + object URL (revoked next tick).
+- Reuse the `delete-pages.js`/`split.js` comma/range parser, but preserve **order and duplicates as typed** for the "pages to keep" input (do NOT sort or dedupe — `5-7, 1` must produce pages 5,6,7,1). Validate: empty input, out-of-range pages, and non-numeric tokens — show a visible inline status message, never a console-only error or a throw.
+- Add an "Extract pages" tab + thin horizontal panel (`data-tab="extract"` / `data-panel="extract"`) matching the split/delete-pages panel design, and register `extract.run` in the ActionRegistry so the Command Palette surfaces it automatically (do NOT hard-code a command list). Controls labeled, keyboard-operable, disabled until a PDF is open. Download name e.g. `example_extracted.pdf`.
+
+**UX acceptance criteria** (tester will verify in the browser):
+- **Discoverable**: an "Extract pages" toolbar tab exists and is reachable from the Command Palette (Ctrl/⌘+K → "Extract"); clicking it opens the panel on top (not hidden behind another panel).
+- **Operable by keyboard + mouse**: the pages input and the Extract button are focusable, have discernible accessible names (`<label>` or `aria-label`), and are reachable via Tab; Enter in the input runs the action.
+- **Happy path**: extracting `1` from example.pdf downloads a non-empty 1-page `.pdf`; on a multipage PDF, `5-7, 1` downloads a valid **4-page** PDF whose pages are original 5,6,7,1 **in that order** (developer confirms order/count by re-parsing the produced bytes with pdf-lib); status reports how many pages were extracted.
+- **Error states are visible, not console-only**: empty input → "Enter pages to extract"; out-of-range page → "Page N is out of range (document has M pages)."; invalid token → "\"abc\" is not a valid page or range." — all shown inline, none throw.
+- Operating the tool does **not** disturb the open viewer (`#pdf-pages` width unchanged, canvases still visible) and produces **no new console errors/warnings** on open, run, or close.
+
 ### TASK-347: Delete Pages — remove arbitrary pages and download the remainder (`delete-pages.js`)
 
 **Status**: VERIFIED
