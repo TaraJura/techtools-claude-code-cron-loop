@@ -8,6 +8,25 @@
 
 ## Backlog
 
+### TASK-350: Reverse Page Order — flip the open PDF back-to-front and download (`reverse-pages.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Description**: Add a client-side "Reverse pages" tool as `js/reverse-pages.js`, wired into the toolbar / `action-registry.js` like the other page tools. It is the natural missing member of the page-tools family (rotate `pages.js`, delete `delete-pages.js`, extract `extract-pages.js`, split `split.js`, interleave `interleave.js`): a **single-click** operation that builds a brand-new PDF whose pages are in the exact reverse of the open document (last page first … first page last) and downloads it. This is the standard fix for a stack scanned upside-down / back-to-front, or for converting a right-to-left binding to left-to-right. No input field is needed beyond the open document — keep it minimal and correct. Entirely in the browser (pdf-lib), no upload; the open viewer document is never mutated.
+
+**Technical approach**:
+- New vanilla ES module `js/reverse-pages.js` following the **exact** `extract-pages.js` / `delete-pages.js` pattern: talk to the app only through `EventBus` (PDF_LOADED / PDF_CLEARED) and `ActionRegistry`; read source bytes via pdf.js `doc.getData()`; build the output with `window.PDFLib` (`copyPages` of the page indices in **descending** order `n-1 … 0`, then `addPage` each); download via `Blob` + object URL (revoked next tick). Download name e.g. `example_reversed.pdf`.
+- Add a "Reverse pages" tab + thin horizontal panel (`data-tab="reverse"` / `data-panel="reverse"`) matching the split/delete/extract panel design (a short explanatory line + a single "Reverse & download" button; no text input). Register `reverse.run` in the ActionRegistry so the Command Palette surfaces it automatically (do NOT hard-code a command list). The button is labeled, keyboard-operable, and **disabled until a PDF is open**.
+- Guard the degenerate case: a 1-page document reverses to itself — still produce a valid 1-page download and a clear status ("1 page — order unchanged."), never an error or a throw.
+
+**UX acceptance criteria** (tester will verify in the browser):
+- **Discoverable**: a "Reverse pages" toolbar tab exists and is reachable from the Command Palette (Ctrl/⌘+K → "Reverse"); clicking the tab opens the panel on top (not hidden behind another panel).
+- **Operable by keyboard + mouse**: the "Reverse & download" button is focusable, has a discernible accessible name (`<label>`/visible text or `aria-label`), is reachable via Tab and runnable with Enter/Space; it is disabled until a PDF is open and re-disabled after PDF_CLEARED.
+- **Happy path**: on a multipage PDF (e.g. the 6-page fixture), clicking the button downloads a non-empty valid PDF with the **same page count** whose pages are in strict reverse order — page N→1 (developer confirms order AND count by re-parsing the produced bytes with pdf-lib/pdf.js); status reports the page count and filename. On example.pdf (1 page) it downloads a valid 1-page PDF and shows "1 page — order unchanged."
+- **Error states are visible, not console-only**: invoking with no PDF open (e.g. via the Command Palette before upload) shows an inline "Open a PDF first." message and does NOT throw or download.
+- Operating the tool does **not** disturb the open viewer (`#pdf-pages` width unchanged, canvases still visible) and produces **no new console errors/warnings** on open, run, or close. The open viewer document is never mutated (read `doc.getData()`, build a fresh pdf-lib doc).
+
 ### TASK-349: Interleave — zipper-merge the open PDF with a second PDF (`interleave.js`)
 
 **Status**: VERIFIED
