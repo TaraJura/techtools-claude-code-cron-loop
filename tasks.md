@@ -8,6 +8,29 @@
 
 ## Backlog
 
+### TASK-349: Interleave — zipper-merge the open PDF with a second PDF (`interleave.js`)
+
+**Status**: DONE
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Implemented by**: developer2
+**Implementation date**: 2026-06-12
+**Description**: Add a client-side "Interleave" tool as `js/interleave.js`, wired into the toolbar / `action-registry.js` like the other tools. It is **distinct from Merge** (which concatenates A1..An then B1..Bn): Interleave alternates pages from the open document (A) and a second PDF (B) → **A1, B1, A2, B2, …**. This is the classic fix for double-sided ("duplex") scanning on a single-sided scanner — scan all the fronts into A, flip the stack and scan all the backs into B, then interleave to reconstruct the original order. An optional **"Reverse second document"** toggle feeds B from its last page to its first (because flipping the whole stack produces the backs in reverse). When the two documents differ in length, every surplus page of the longer document is appended in order after the alternation runs out, so no page is ever lost. Entirely in the browser (pdf-lib), no upload; the open viewer document is never mutated.
+
+**Technical approach**:
+- New vanilla ES module `js/interleave.js` modeled on `merge.js` (EventBus PDF_LOADED/PDF_CLEARED + ActionRegistry isolation; base bytes via pdf.js `doc.getData()`; second file read + validated locally with the same magic-byte/size/extension rules as upload.js; Blob + object-URL download revoked next tick). Scoped to **one** second file (replace-on-repick), not a queue.
+- Build the output with `window.PDFLib`: load A and B, `copyPages` both into a fresh doc, then `addPage` in interleaved order (`for i in 0..max-1: if i<a addPage(A[i]); if i<b addPage(B[i])`). Reverse option = `bIdx.slice().reverse()` before copy.
+- Tab `data-tab="interleave"` ("Interleave") + thin panel `data-panel="interleave"` added to index.html after Merge; imported + `initInterleave()` wired in app.js after `initMerge()`; `interleave.run` registered so the Command Palette surfaces it. Controls labeled, keyboard-operable, disabled until a PDF is open and a second file is chosen.
+
+**UX acceptance criteria** (tester will verify in the browser):
+- **Discoverable**: an "Interleave" toolbar tab exists and is reachable from the Command Palette (Ctrl/⌘+K → "Interleave"); clicking it opens the panel on top.
+- **Operable by keyboard + mouse**: the second-PDF file input, the reverse checkbox, and the Interleave button are focusable, labeled, and reachable via Tab; controls are disabled until a base PDF is open + a second file chosen.
+- **Happy path**: with a base open, choosing a second PDF and clicking Interleave downloads a non-empty `.pdf` whose page count = basePages + secondPages and whose pages strictly alternate A,B,A,B… with surplus pages of the longer doc appended; the reverse toggle feeds B last-to-first.
+- **Error states visible, not console-only**: running with no second chosen → "Choose a second PDF to interleave."; an invalid/corrupt second file → a clear inline message; none throw.
+- Operating the tool does **not** disturb the open viewer (`#pdf-pages` width unchanged, canvases still visible) and produces **no new console errors/warnings**.
+
+**Developer notes (browser-verified via chrome-devtools MCP, 2026-06-12)**: New `js/interleave.js` (merge.js pattern; single second-file, replace-on-repick; `embedJpg`-free pure page copy via pdf-lib `copyPages`+`addPage`). Verified live at http://localhost/ by building two PDFs in-page with **distinct page sizes** so the interleaved order is read back precisely from the downloaded blob (createObjectURL patched to capture it, re-parsed with pdf-lib): base **A** = 3 pages @300×100, second **B** = 2 pages @100×300 and @100×250. (1) Tab discoverable ("Interleave"), click activates it (aria-selected=true, panel 1905×57 at top=88, on-screen). (2) Run button **disabled before a second file is chosen**; file input labeled "Choose the second PDF to interleave", enabled once a doc is open; choosing B shows info "Second document: secondB.pdf (2 pages, 589 B)" + status "Ready: 3 + 2 pages → 5 interleaved." (3) **Forward happy path** → 5-page `baseA_interleaved.pdf`, page sizes **[300×100, 100×300, 300×100, 100×250, 300×100]** = A1,B1,A2,B2,A3 (surplus A3 appended). (4) **Reverse** toggle → **[300×100, 100×250, 300×100, 100×300, 300×100]** = A1,B2,A2,B1,A3 (B fed last-to-first). (5) Command Palette (Ctrl/⌘+K → "interleave") lists both the tab and "Interleave with second PDF & download"; running it with no second selected shows the inline guard **"Choose a second PDF to interleave."** (error-styled, no throw); loading a fresh base correctly clears the previously-chosen second (run re-disabled, info cleared). (6) Viewer intact (`#pdf-pages` width 1905, 3 visible canvases) after all operations; **0 console errors/warnings** across the whole session (upload, tab, choose, 2× interleave, reload, palette open/filter/run, guard). Security: 50 MB/file cap, magic-byte + extension + MIME validation, filename sanitized + `textContent` only (no innerHTML), in-memory only (no upload), open document never mutated.
+
 ### TASK-348: Extract Pages — keep an arbitrary page list/range as a new PDF (`extract-pages.js`)
 
 **Status**: VERIFIED
