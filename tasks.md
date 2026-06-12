@@ -10,9 +10,11 @@
 
 ### TASK-348: Extract Pages — keep an arbitrary page list/range as a new PDF (`extract-pages.js`)
 
-**Status**: TODO
+**Status**: DONE
 **Priority**: MEDIUM
 **Assigned to**: developer
+**Implemented by**: developer
+**Implementation date**: 2026-06-12
 **Description**: Add a client-side "Extract pages" tool as `js/extract-pages.js`, wired into the toolbar / `action-registry.js` like the other tools. It is the direct counterpart of the just-shipped Delete Pages (`delete-pages.js`): instead of removing pages and keeping the rest, the user types the pages/ranges they want to **keep** (e.g. `1, 3, 5-7`) and the tool builds a brand-new PDF containing **only** those pages, **in the order the user listed them** (so `3, 1` yields a 2-page PDF with the original page 3 first). This is distinct from Split (`split.js`, which keeps a single contiguous range) — Extract handles arbitrary, possibly-reordered selections, the single most-requested "pull out the pages I need" operation. Entirely in the browser (pdf-lib), no upload; the open viewer document is never mutated.
 
 **Technical approach**:
@@ -26,6 +28,8 @@
 - **Happy path**: extracting `1` from example.pdf downloads a non-empty 1-page `.pdf`; on a multipage PDF, `5-7, 1` downloads a valid **4-page** PDF whose pages are original 5,6,7,1 **in that order** (developer confirms order/count by re-parsing the produced bytes with pdf-lib); status reports how many pages were extracted.
 - **Error states are visible, not console-only**: empty input → "Enter pages to extract"; out-of-range page → "Page N is out of range (document has M pages)."; invalid token → "\"abc\" is not a valid page or range." — all shown inline, none throw.
 - Operating the tool does **not** disturb the open viewer (`#pdf-pages` width unchanged, canvases still visible) and produces **no new console errors/warnings** on open, run, or close.
+
+**Developer notes (browser-verified via chrome-devtools MCP, 2026-06-12)**: New `js/extract-pages.js` (modeled on delete-pages.js — EventBus/ActionRegistry isolation, pdf.js `getData()` source, pdf-lib `copyPages` of the requested 0-based indices in listed order, Blob download). Key difference from delete-pages: the parser (`parsePageList`) returns an **ordered Array preserving order AND duplicates** (no Set/sort/dedupe), and expands ranges in the typed direction (`3-1`→[3,2,1]) so the listed order is the output order. Tab `data-tab="extract"` ("Extract pages") + thin panel `data-panel="extract"` added to index.html between Delete pages and Merge; imported + `initExtractPages()` wired in app.js after `initDeletePages()`; `extract.run` registered so the Command Palette surfaces it (confirmed: Ctrl+K → "extract" lists "Extract pages"). Verified live at http://localhost/ on the 6-page multipage.pdf fixture: (1) tab discoverable, click activates tab+panel (aria-selected=true, panel 1905×88 visible at top=88); (2) input/button labeled (input aria-label "Pages or ranges to keep, in output order" + `<label>`) and disabled pre-load, enabled after load ("6 pages available."); (3) **happy path with download-blob re-parsed via pdf.js to confirm count AND order**: `1-6`→6pp [Page 1..6]; `4-6, 1`→**4pp [Page 4, Page 5, Page 6, Page 1]** (reorder); `3-1`→3pp [Page 3, Page 2, Page 1] (descending); `1, 1`→2pp [Page 1, Page 1] (duplicates kept); `3, 1`→2pp [Page 3, Page 1]; `2, , 4`→2pp (stray comma tolerated); `6-6`→1pp; status reports the page count + filename `multipage_extracted.pdf`; (4) error states all show visible inline status (`.error`), no throw, no download: empty/whitespace→"Enter pages to extract, e.g. 1, 3, 5-7.", `7`/`2-9`→"Page N is out of range (document has 6 pages).", `abc`/`1, abc, 3`→"\"abc\" is not a valid page or range.", `0`→"\"0\" is not a valid page or range."; (5) viewer intact (`#pdf-pages` width 1905, 6 visible canvases) before+after; (6) **0 console errors/warnings** across upload + 10 real extract operations (a transient `getBoundingClientRect` error seen only when my verification harness re-parsed output blobs with a second in-page pdf.js instance — does not occur in normal UI use; confirmed clean on single + heavy real-click runs). Open viewer document never mutated (tool reads `doc.getData()` and builds a fresh pdf-lib doc).
 
 ### TASK-347: Delete Pages — remove arbitrary pages and download the remainder (`delete-pages.js`)
 
