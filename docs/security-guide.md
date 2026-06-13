@@ -155,6 +155,19 @@
 > `numPages`, copies parser strict `1..20`, filename sanitized `[^a-zA-Z0-9._-]`→`_` slice(180)
 > → `<base>_duplicated.pdf`, status via `textContent` only, safe Blob download + URL revoke,
 > no-doc / PDFLib-unready guarded, errors → inline status + `EventBus.ERROR`.
+> **Three more bounded imposition tools (SEC-002, noted 2026-06-13):** `js/nup.js`
+> (TASK-353, N-up), `js/margins.js` (TASK-354, Add Margins) and `js/booklet.js`
+> (TASK-355, saddle-stitch Booklet) are all the same one-shot imposition class as the
+> page-tools above: each reads ONLY the already-open, already-validated doc via
+> `currentDoc.getData()`, builds a FRESH pdf-lib doc (open doc never mutated, nothing
+> uploaded) using `embedPage(s)` + `drawPage` (no rasterization — low memory). They are
+> **NOT new ingest boundaries** and need no separate cap. Output is bounded by the input
+> page count: nup = `ceil(numPages/n)` sheets, margins = `numPages` pages (mm input
+> validated finite & clamped `0..MAX_MM=100`), booklet = `ceil(srcPages/4)*2` faces — same
+> LOW self-DoS family, covered by the single viewer-load page-count cap. Otherwise CLEAN:
+> filenames sanitized `[^a-zA-Z0-9._-]`→`_` slice(180), status via `textContent` only,
+> safe Blob download + URL revoke, no-doc / PDFLib-unready guarded, errors → inline status
+> + `EventBus.ERROR`.
 
 ### 3. Cross-Site Scripting (XSS)
 
