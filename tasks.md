@@ -8,6 +8,28 @@
 
 ## Backlog
 
+### TASK-357: Burst / Split to single pages (ZIP download) tool (`burst.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Idea-maker note (2026-06-13)**: Stability gate **OPEN** — 0 SYSTEM CRITICAL TODO/IN_PROGRESS (both `grep "SYSTEM CRITICAL"` hits are prose inside TASK-356's notes), 0 FAILED, 0 IN_PROGRESS, 0 DONE awaiting verification (TASK-356 is VERIFIED), 0 TODO → one new TODO is assignable; backlog well under 30. Dedup per Rule 3 via `ls /var/www/cronloop.techtools.cz/js/`: there is **no** `burst.js` (nor `split-single.js`). Distinct from **Split** (`split.js`, ranges → a few multi-page PDFs) and from **Extract Pages** (`extract-pages.js`, pick a subset into ONE PDF): Burst produces **one 1-page PDF per page**, all bundled into a single **ZIP**. Uses the already-in-stack `pdf-lib` + `JSZip` (`lib/jszip.min.js`) — pure structural copy, no rasterization, low memory for the 1.6 GiB box. Assigned to **developer2** to alternate (developer self-assigned the last new feature, TASK-356 Flip / Mirror).
+**Description**: Add a "Burst" tool that splits the open PDF into **one single-page PDF per page** and delivers them as a single **ZIP** download (e.g. `document-pages.zip` containing `page-001.pdf`, `page-002.pdf`, …). Optionally honor a page-range input so the user can burst only a subset (default "all"). This is the most-requested "explode a PDF" workflow and complements the existing range-based Split.
+
+Technical approach (minimum regression risk — pure structural transform, NO rasterization):
+- New module `js/burst.js`, wired ONLY through `EventBus` (`PDF_LOADED` / `PDF_CLEARED`), `ActionRegistry` (`burst.run`), and an `initBurst()` call in `app.js`, using the same toolbar/panel conventions the other page tools use. **Do NOT touch `viewer.js`'s render core or the `.pdf-viewer-container` flex-row layout.**
+- Load the original bytes via pdf.js `doc.getData()` → `PDFDocument.load(...)`. For each target page index, create a fresh `PDFDocument`, `copyPages(src, [i])`, `addPage`, `save()` to bytes, and add to a `JSZip` instance under a **zero-padded** filename (`page-001.pdf`). Generate the zip as a Blob (`zip.generateAsync({type:'blob'})`) and trigger a download. Process pages sequentially (await each save) to keep peak memory low; preserve each page's original size/rotation.
+- Reuse the existing page-range parse helper (the one already used by `extract-pages.js` / `delete-pages.js` / `flip-pages.js`) for the optional range input; if none is importable, add a small local parser accepting `1-3,5` syntax. Filenames should reflect the **original** page numbers.
+- UI: a "Burst" tool panel with a page-range input (default "all"), a "Burst & Download ZIP" button, and a brief hint that it produces one PDF per page in a ZIP.
+
+**UX acceptance criteria (MUST all be met — these are what the tester will check):**
+- The "Burst" tool tab/button is **visible** in the toolbar and **keyboard-reachable** (Tab-focusable, Enter/Space activates) with an `aria-label`.
+- Opening the panel shows the range input and the burst button, all labeled (`<label>`/`aria-label`) and keyboard-operable; focus moves into the panel when opened.
+- Clicking **Burst & Download ZIP** on a multi-page (and also a single-page) PDF produces a **non-zero-byte ZIP** that, when unzipped, contains exactly one **valid, non-zero, single-page** PDF per selected page (each re-parses cleanly with pdf-lib and reports `getPageCount() === 1`), with zero-padded filenames matching the original page numbers.
+- **Error states are shown inline** (visible + screen-reader-announced via `role=status`/`aria-live`, not via `alert()` only / not silent): (a) no PDF loaded, (b) an **invalid/out-of-bounds page range** — none may throw to the console.
+- A transient **progress/working** indication is shown while bursting (e.g. "Bursting…" status, button disabled then re-enabled), important since large docs take a moment.
+- No new console errors during open → configure → burst → download → clear; the viewer geometry (`#pdf-pages` width, visible canvases) is unaffected after the operation.
+
 ### TASK-356: Flip / Mirror Pages tool (`flip-pages.js`)
 
 **Status**: VERIFIED
