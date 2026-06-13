@@ -20,6 +20,7 @@ import { initDeletePages } from './delete-pages.js';
 import { initExtractPages } from './extract-pages.js';
 import { initReversePages } from './reverse-pages.js';
 import { initDuplicatePages } from './duplicate-pages.js';
+import { initNup } from './nup.js';
 import { initPrint } from './print.js';
 import { initPages } from './pages.js';
 import { initMerge } from './merge.js';
@@ -119,6 +120,7 @@ function init() {
     initExtractPages(); // keep an arbitrary, possibly-reordered set of pages (TASK-348)
     initReversePages(); // flip the open PDF back-to-front and download (TASK-350)
     initDuplicatePages(); // clone selected pages in place, N copies each (TASK-351)
+    initNup(); // tile 2/4 source pages per output sheet (imposition) (TASK-353)
     initPrint(); // print the original loaded PDF bytes via a hidden iframe (TASK-352)
     initPages();
     initMerge();

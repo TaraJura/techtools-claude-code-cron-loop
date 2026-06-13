@@ -48,6 +48,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="extract">Extract pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="reverse">Reverse pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="duplicate">Duplicate pages</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="nup">N-up</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="interleave">Interleave</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="watermark">Watermark</button>
@@ -246,6 +247,21 @@
       <button class="btn btn-primary" id="duplicate-run" data-action="duplicate.run"
               type="button" disabled>Duplicate &amp; download</button>
       <span id="duplicate-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
+    </section>
+
+    <!-- N-up panel: tile several source pages onto each output sheet (2-up / 4-up) -->
+    <section class="tool-panel" role="tabpanel" data-panel="nup" aria-label="N-up — multiple pages per sheet">
+      <div class="split-ranges-field">
+        <label for="nup-layout">Layout</label>
+        <select id="nup-layout" aria-label="Pages per sheet layout" disabled>
+          <option value="2" selected>2 per sheet (landscape)</option>
+          <option value="4">4 per sheet (2×2 portrait)</option>
+        </select>
+        <span class="split-hint">Tiles several source pages onto each sheet, scaled to fit. The open document is not changed.</span>
+      </div>
+      <button class="btn btn-primary" id="nup-run" data-action="nup.run"
+              type="button" disabled>Combine &amp; download</button>
+      <span id="nup-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
     </section>
 
     <!-- Merge panel: append additional PDFs to the open document -->
