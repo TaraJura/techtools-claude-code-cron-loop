@@ -39,7 +39,7 @@ Highlight / underline / strikethrough · Free draw · Built-in stamps · Custom 
 Merge · Interleave pages from two PDFs · Split by ranges, bookmarks, or file size · Reorder / rotate / delete / duplicate pages · N-up (2/4 pages per sheet) · Booklet (saddle-stitch imposition for print-and-fold) · Add margins (whitespace / binding gutter) · Flip / mirror pages (horizontal / vertical) · Burst into one single-page PDF per page (ZIP download) · Split into fixed-size chunks (every N pages → ZIP) · Resize pages to standard formats · Insert blank or existing pages · Manual & auto crop · Deskew scanned pages · Brightness / contrast / grayscale adjust
 
 ### Forms & Signatures
-Fill interactive PDF forms · Form data import/export (FDF, XFDF, JSON) · Form-field creator · Auto-detect fields on flat PDFs · Draw / type / upload digital signatures · Verify embedded digital signatures
+Fill interactive PDF forms · Form data import/export (FDF, XFDF, JSON) · Form-field creator · Auto-detect fields on flat PDFs · Flatten form fields into static, non-editable page content · Draw / type / upload digital signatures · Verify embedded digital signatures
 
 ### Conversion & Export
 OCR (Tesseract.js) · Extract text to **.txt** · PDF ↔ Image (PNG / JPEG) · Image to PDF · Extract images · Extract tables to CSV / XLSX · Export to **DOCX**, **PPTX**, **HTML**, **Markdown**, **EPUB**, **SVG**

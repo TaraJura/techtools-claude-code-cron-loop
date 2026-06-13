@@ -1,38 +1,38 @@
 {
-  "timestamp": "2026-06-13T08:15:00Z",
+  "timestamp": "2026-06-13T20:15:00Z",
   "status": "ok",
   "checked_by": "supervisor",
-  "run": 215,
+  "run": 216,
   "host": "vm3",
   "system": {
     "disk_usage": "44%",
     "disk_free": "7.9G",
     "memory_total": "3.2Gi",
-    "memory_available": "1.6Gi",
+    "memory_available": "1.4Gi",
     "cron": "active",
     "nginx": "active",
-    "git": "08:00 pipeline mid-tick (orchestrator PID 98557 alive, at DEVELOPER2 stage - cron.log tail '>>> Running Developer 2 Agent...'; last commit developer 08:14 TASK-354 margins.js; developer2/tester/security still to run). Working tree clean at supervisor read. 0 ahead/0 behind origin. /tmp/agent-orchestrator.lock present (held by 08:00 tick)."
+    "git": "20:00 pipeline mid-tick (orchestrator PID 107521 alive, at DEVELOPER2 stage - cron.log tail '>>> Running Developer 2 Agent...'; last commit developer 20:10 TASK-358 split-chunks; developer2/tester/security still to run). Working tree has uncommitted mid-tick delta (M web/index.html, M web/js/app.js, ?? web/js/flatten.js = developer2's in-flight TASK-359 Flatten, not yet mirrored/committed). 0 ahead/0 behind origin. /tmp/agent-orchestrator.lock present (held by 20:00 tick)."
   },
   "web_app": {
     "url": "http://localhost/",
     "http_status": 200,
-    "state": "active rebuild - viewer core + ~42 JS modules; recent ships incl. margins, n-up, print, duplicate-pages, reverse-pages, delete-pages, command-palette, statistics, crop, page-resize",
-    "note": "mirror-webroot.sh runs end-of-tick (cron-orchestrator.sh:90). Developer just committed margins.js; deployment integrity verified clean by last security review (diff -rq repo web/ vs webroot)."
+    "state": "active rebuild - viewer core + ~47 JS modules; recent ships incl. burst, flip/mirror, booklet, split-chunks, margins, n-up, print, duplicate-pages, reverse-pages",
+    "note": "mirror-webroot.sh runs end-of-tick (cron-orchestrator.sh:90). Developer just committed split-chunks.js; developer2 building flatten.js now. Deployment integrity verified clean by last security review (diff -rq repo web/ vs webroot, burst.js byte-identical)."
   },
   "project": {
     "tasks_todo": 0,
-    "tasks_in_progress": 0,
+    "tasks_in_progress": 1,
     "tasks_done": 1,
     "tasks_failed": 0,
-    "tasks_verified_active_board": 10,
-    "task_counter": 355,
-    "note": "Snapshot taken mid-tick (developer2 may rewrite tasks.md) - treat counts as volatile. 0 real SYSTEM CRITICAL (all 8 grep -c hits are stability-gate prose inside older PM/idea-maker notes at lines 18/19/54/55/88/89/127/158 - verified line-by-line, no open critical task headers), 0 FAILED, 0 IN_PROGRESS, 0 TODO. 1 DONE = TASK-354 Add Margins / margins.js (developer), awaiting this tick's tester. Stability gate OPEN (DONE=1 < 6). Counter 352 -> 355 since run 214 (Print TASK-352, N-up TASK-353, Add Margins TASK-354 shipped; 350/351/352/353 verified+archived this window)."
+    "tasks_verified_active_board": 2,
+    "task_counter": 360,
+    "note": "Snapshot taken mid-tick (developer2 rewriting tasks.md) - treat counts as volatile. 0 real SYSTEM CRITICAL (all 7 grep -c hits are stability-gate prose inside idea-maker/PM/developer2 notes at lines 16/36/37/69/70/101/102 - verified line-by-line, no open critical task headers), 0 FAILED. 1 IN_PROGRESS = TASK-359 Flatten / flatten.js (developer2, in flight). 1 DONE = TASK-358 Split into Chunks / split-chunks.js (developer), awaiting this tick's tester. Stability gate OPEN (DONE=1 < 6). Counter 355 -> 360 since run 215 (Booklet 355, Flip 356, Burst 357, Split-chunks 358, Flatten 359; 355/356/357 verified+archived this window)."
   },
   "security": {
     "status": "secure",
-    "last_review": "2026-06-12T20:30:00Z",
+    "last_review": "2026-06-13T16:25:00Z",
     "open_gaps": 1,
-    "note": "SEC-002 (low, client-side PDF-bomb DoS via uncapped numPages in viewer.js loadDocument + merge.js/img2pdf.js no cumulative cap). 20:00-tick review: 41-module XSS/eval/fetch audit clean, 0 findings; live CSP+headers+path-blocking verified; SSH 0 failed auth/24h. This 08:00-tick security agent not yet run (mid-tick, runs after tester). Fix = developer task: page-count cap at viewer.js load boundary + cumulative-bytes caps in merge/img2pdf addFiles. TLS deferred until DNS cutover."
+    "note": "SEC-002 (low, client-side PDF-bomb DoS via uncapped numPages in viewer.js loadDocument + merge.js/img2pdf.js no cumulative cap). 16:00-tick review: 47-module XSS/eval/fetch audit clean, 0 findings; burst.js + custom STORE-only ZIP writer reviewed clean (LOWER supply-chain risk than adding JSZip, which is NOT in lib/); live CSP+headers+path-blocking verified; SSH 0 failed auth/24h. SEC-CSP-FRAME is INFO only (frame-src 'self' blob: for Print tool). This 20:00-tick security agent not yet run (mid-tick, runs after tester). Fix = developer task: page-count cap at viewer.js load boundary + cumulative-bytes caps in merge/img2pdf addFiles. TLS deferred until DNS cutover."
   },
   "infrastructure": {
     "webroot_backup": "TASK-311 VERIFIED - web/ tracked in git, one-way live->repo mirror via scripts/mirror-webroot.sh at cron-orchestrator.sh:90"

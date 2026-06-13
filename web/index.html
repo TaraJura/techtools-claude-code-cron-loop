@@ -71,6 +71,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="stats">Statistics</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="textextract">Extract text</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="print">Print</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="flatten">Flatten</button>
   </nav>
 
   <div class="tool-panels">
@@ -224,6 +225,13 @@
       <button class="btn btn-primary" id="reverse-run" data-action="reverse.run"
               type="button" disabled>Reverse &amp; download</button>
       <span id="reverse-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
+    </section>
+
+    <section class="tool-panel" role="tabpanel" data-panel="flatten" aria-label="Flatten form fields">
+      <span class="split-hint">Bakes interactive form fields (text boxes, checkboxes, dropdowns, signatures) into static, non-editable page content and downloads the result. The open document is not changed.</span>
+      <button class="btn btn-primary" id="flatten-run" data-action="flatten.run"
+              type="button" aria-label="Flatten form fields and download" disabled>Flatten &amp; download</button>
+      <span id="flatten-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
     </section>
 
     <!-- Print panel: send the original loaded PDF bytes to the printer -->
