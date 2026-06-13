@@ -24,6 +24,7 @@ import { initNup } from './nup.js';
 import { initBooklet } from './booklet.js';
 import { initMargins } from './margins.js';
 import { initFlipPages } from './flip-pages.js';
+import { initBurst } from './burst.js';
 import { initPrint } from './print.js';
 import { initPages } from './pages.js';
 import { initMerge } from './merge.js';
@@ -127,6 +128,7 @@ function init() {
     initBooklet(); // saddle-stitch imposition for print-and-fold booklets (TASK-355)
     initMargins(); // enlarge each page with blank whitespace / binding gutter (TASK-354)
     initFlipPages(); // horizontally/vertically mirror chosen pages (TASK-356)
+    initBurst(); // explode the PDF into one single-page PDF per page → ZIP (TASK-357)
     initPrint(); // print the original loaded PDF bytes via a hidden iframe (TASK-352)
     initPages();
     initMerge();

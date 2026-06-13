@@ -52,6 +52,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="booklet">Booklet</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="margins">Add margins</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="flip">Flip / Mirror</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="burst">Burst</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="interleave">Interleave</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="watermark">Watermark</button>
@@ -313,6 +314,19 @@
       <button class="btn btn-primary" id="flip-run" data-action="flip.run"
               type="button" disabled>Flip &amp; download</button>
       <span id="flip-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
+    </section>
+
+    <!-- Burst panel: explode the PDF into one single-page PDF per page (ZIP) -->
+    <section class="tool-panel" role="tabpanel" data-panel="burst" aria-label="Burst — split into one single-page PDF per page, downloaded as a ZIP">
+      <div class="split-ranges-field">
+        <label for="burst-range">Pages</label>
+        <input id="burst-range" type="text" value="all" autocomplete="off" spellcheck="false"
+               aria-label="Pages to burst (all, or a list like 1, 3, 5-7)" placeholder="all or 1, 3, 5-7" disabled>
+        <span class="split-hint">Produces one single-page PDF per selected page (page-001.pdf, page-002.pdf, …) bundled into a single ZIP download. The open document is not changed.</span>
+      </div>
+      <button class="btn btn-primary" id="burst-run" data-action="burst.run"
+              type="button" disabled>Burst &amp; download ZIP</button>
+      <span id="burst-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
     </section>
 
     <!-- Merge panel: append additional PDFs to the open document -->
