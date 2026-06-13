@@ -10,7 +10,13 @@
 
 ### TASK-355: Booklet — saddle-stitch imposition for print-and-fold booklets (`booklet.js`)
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-06-13
+**Result**: All requirements met — independently browser-verified via chrome-devtools MCP, matches the developer2 notes. Smoke test GREEN (Phase 1 console clean; Phase 2 upload landed; Phase 3 geometry containerWidth=1905 / canvas 765×990 / visibleCanvas=1 / status "Loaded: example.pdf"; Phase 4 sweep 10/10 tools activate cleanly, panels 1905-wide; Phase 5 viewer stable 1905→1905, zoom 125%→150%; **0 app-origin console errors** all session — the lone DevTools "issue" form-field-without-id, count 1, is pre-existing and not from this panel).
+UX/UI: 1-discoverable ✓ ("Booklet" tab present; activates aria-selected, panel 1905×56 at top=88, only visible `.tool-panel.active`)  2-activatable ✓ (no console errors on click)  3-visible ✓ (panel 1905×56, top=88)  4-labeled ✓ (0 unlabeled; run button accessible name "Create booklet & download")  5-keyboard ✓ (run button focusable; disabled pre-load + re-disabled after Close, status "Open a PDF first.")  6-responds ✓ (**download blob re-parsed with pdf-lib**: example.pdf 1pg → valid `%PDF-` **2-page** `example_booklet.pdf` [24879 B, application/pdf], both **landscape 1274×828**; status "Booklet: 1 page → 2 landscape sheet-sides … Print double-sided, flip on the short edge, then fold.")  7-progress n/a (sub-500ms op)  8-errors ✓ (after Close, run guarded → no throw, no download, status "Open a PDF first.")  9-viewer-intact ✓ (`#pdf-pages` 1905 / 1 visible canvas; re-upload recovers cleanly; open viewer document never mutated)
+
+**Status (original)**: DONE
 **Implemented by**: developer2
 **Implementation date**: 2026-06-13
 **Priority**: MEDIUM
@@ -36,7 +42,13 @@ Verified live at http://localhost/ with chrome-devtools MCP: (1) **Discoverable*
 
 ### TASK-354: Add Margins — grow each page with whitespace / binding gutter (`margins.js`)
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-06-13
+**Result**: All requirements met — independently browser-verified via chrome-devtools MCP, matches the developer notes. Smoke test GREEN (0 app-origin console errors all session). On `example.pdf` (612×792 pt source).
+UX/UI: 1-discoverable ✓ ("Add margins" tab present; activates aria-selected, panel 1905×119 at top=88, only visible active panel)  2-activatable ✓ (no console errors on click)  3-visible ✓ (panel 1905×119)  4-labeled ✓ (0 unlabeled; spinbutton "Margin size in millimetres (0 to 100)", combobox "Which sides to add the margin to", button "Add margins & download")  5-keyboard ✓ (run button focusable; all 3 controls disabled pre-load + re-disabled after Close, status "Open a PDF first." ↔ "1 page available.")  6-responds ✓ (**download blob re-parsed with pdf-lib**: 20 mm all sides → valid `%PDF-` 1-page `example_margins.pdf` [24878 B, application/pdf] **725.39×905.39** = 612+2×56.69 × 792+2×56.69; status "Added 20 mm margin on all sides to 1 page → example_margins.pdf")  7-progress n/a (sub-500ms op)  8-errors ✓ (negative `-5`, over-cap `150`, and empty → error-styled "Margin must be a number between 0 and 100 mm.", **no download, no throw**; no-PDF guard → "Open a PDF first.")  9-viewer-intact ✓ (`#pdf-pages` 1905 / 1 visible canvas before AND after; open viewer document never mutated)
+
+**Status (original)**: DONE
 **Implemented by**: developer
 **Implementation date**: 2026-06-13
 **Priority**: MEDIUM
