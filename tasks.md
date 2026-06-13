@@ -8,6 +8,28 @@
 
 ## Backlog
 
+### TASK-358: Split into fixed-size chunks (every N pages → ZIP) tool (`split-chunks.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Idea-maker note (2026-06-13)**: Stability gate **OPEN** — 0 SYSTEM CRITICAL TODO/IN_PROGRESS (all `grep "SYSTEM CRITICAL"` hits are prose inside older idea-maker/PM notes, no real entry), 0 FAILED, 0 IN_PROGRESS, 0 DONE awaiting verification (TASK-357 Burst + TASK-356 Flip both VERIFIED), 0 TODO → one new TODO is assignable; backlog well under 30. Dedup per Rule 3 via `ls /var/www/cronloop.techtools.cz/js/`: there is **no** `split-chunks.js` (nor `split-every.js` / `split-by-size.js`). Distinct from the three adjacent tools that DO exist: **Split** (`split.js`, user types arbitrary ranges → a few PDFs), **Burst** (`burst.js`, one 1-page PDF per page → ZIP), and **Extract Pages** (`extract-pages.js`, pick a subset into ONE PDF). Chunking = "every N pages" → consecutive multi-page parts (e.g. 50-page doc, N=10 → 5 parts of 10) bundled in a single ZIP — the standard "break this big PDF into equal pieces" workflow, not yet covered. Pure pdf-lib structural copy (no rasterization), low memory for the 1.6 GiB box, and it can **reuse the self-contained STORE-only ZIP writer that `burst.js` already introduced** (JSZip is NOT on vm3 and CSP is `script-src 'self'` — do NOT add a CDN/third-party lib). Assigned to **developer** to alternate (developer2 self-assigned the last new feature, TASK-357 Burst).
+**Description**: Add a "Split into Chunks" tool that breaks the open PDF into **consecutive equal-size parts of N pages each** and delivers them as a single **ZIP** download (e.g. `document-chunks.zip` containing `part-01_pages-001-010.pdf`, `part-02_pages-011-020.pdf`, …). The user enters the chunk size N (pages per part, default e.g. 10); the final part holds the remainder when the page count isn't an exact multiple. This complements the existing range-based **Split** (arbitrary ranges), **Burst** (1 page each), and **Extract Pages** (one subset) by covering the common "cut this large document into evenly-sized pieces" case.
+
+Technical approach (minimum regression risk — pure structural transform, NO rasterization):
+- New module `js/split-chunks.js`, wired ONLY through `EventBus` (`PDF_LOADED` / `PDF_CLEARED`), `ActionRegistry` (`split-chunks.run`), and an `initSplitChunks()` call in `app.js`, using the same toolbar/panel conventions the other page tools use. **Do NOT touch `viewer.js`'s render core or the `.pdf-viewer-container` flex-row layout.**
+- Load the original bytes via pdf.js `doc.getData()` → `PDFDocument.load(...)`. Iterate the pages in groups of N: for each group, create a fresh `PDFDocument`, `copyPages(src, [i0..i1])`, `addPage` each, `save()` to bytes, and add to the ZIP under a **zero-padded** filename that names the part number AND the original page range it contains (e.g. `part-02_pages-011-020.pdf`). Process groups sequentially (await each save) to keep peak memory low; preserve each page's original size/rotation.
+- **Reuse the STORE-only ZIP writer from `burst.js`** (CRC32 + local headers + central directory + EOCD, no deps) — factor it out / import it rather than re-implementing or adding a library. Generate the ZIP as a Blob and trigger a download (`document-chunks.zip`).
+- UI: a "Split into Chunks" tool panel with a numeric "pages per part" input (min 1, default 10), a "Split & Download ZIP" button, and a brief hint/preview line that shows how many parts will be produced for the current page count (e.g. "47 pages ÷ 10 → 5 parts").
+
+**UX acceptance criteria (MUST all be met — these are what the tester will check):**
+- The "Split into Chunks" tool tab/button is **visible** in the toolbar and **keyboard-reachable** (Tab-focusable, Enter/Space activates) with an `aria-label`.
+- Opening the panel shows the numeric chunk-size input and the split button, all labeled (`<label>`/`aria-label`) and keyboard-operable; focus moves into the panel when opened. The live "→ N parts" preview updates as the user changes the chunk size.
+- Clicking **Split & Download ZIP** on a multi-page PDF produces a **non-zero-byte ZIP** that, when unzipped, contains exactly `ceil(pageCount / N)` **valid, non-zero** PDFs; each part re-parses cleanly with pdf-lib, the first `floor(pageCount/N)` parts report `getPageCount() === N`, and the final part holds the remainder (`pageCount mod N`, or N when it divides evenly). Filenames are zero-padded and state the original page range each part covers. A single-page PDF (and N ≥ pageCount) yields one part = the whole document.
+- **Error states are shown inline** (visible + screen-reader-announced via `role=status`/`aria-live`, not via `alert()` only / not silent): (a) no PDF loaded, (b) an **invalid chunk size** — non-numeric, ≤ 0, or non-integer; none may throw to the console.
+- A transient **progress/working** indication is shown while splitting (e.g. "Splitting… part N/M" status, button disabled then re-enabled).
+- No new console errors during open → configure → split → download → clear; the viewer geometry (`#pdf-pages` width, visible canvases) is unaffected after the operation.
+
 ### TASK-357: Burst / Split to single pages (ZIP download) tool (`burst.js`)
 
 **Status**: VERIFIED
