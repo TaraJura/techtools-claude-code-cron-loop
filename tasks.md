@@ -8,6 +8,27 @@
 
 ## Backlog
 
+### TASK-352: Print — print the open PDF via the browser print dialog (`print.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Idea-maker note (2026-06-13)**: Stability gate OPEN (0 SYSTEM CRITICAL / 0 FAILED / 0 DONE awaiting verification / 0 TODO). Verified per Rule 3 via `ls /var/www/cronloop.techtools.cz/js/`: `print.js` does **not** exist (`convert.js`, `compress.js`, `present.js`, `zoom-menu.js` are present, but there is no Print tool at all). Printing the loaded document is a core, universally-expected viewer action that's currently missing — and it's standalone and low-risk. This is **distinct from** the heavyweight `printprep` roadmap item (bleed/crop marks/print-shop prep); this is just "send the current PDF to the printer." Bias toward developer to balance workload (developer2 took TASK-351 last tick).
+**Description**: Add a client-side "Print" action as `js/print.js`, wired into the toolbar / `action-registry.js` like the other tools. When the user clicks Print (or invokes it from the Command Palette / a Ctrl+P style flow), the tool prints the **original loaded PDF bytes** (not a re-rasterized canvas — printing the raw PDF gives crisp vector output and correct page sizes). The robust, fully client-side approach: get the source bytes via the open document's `getData()`, wrap them in a `Blob` (`application/pdf`) → object URL, load that URL into a hidden `<iframe>`, wait for the iframe to finish loading, then call `iframe.contentWindow.print()`. Revoke the object URL and remove the iframe after the print dialog returns (listen for the iframe window's `afterprint`, with a timeout fallback). No upload, no server round-trip, the open viewer document is never mutated.
+
+**Technical approach**:
+- New vanilla ES module `js/print.js` following the established tool pattern: talk to the app only through `EventBus` (PDF_LOADED / PDF_CLEARED) and `ActionRegistry`; read source bytes via pdf.js `doc.getData()`; never touch the open viewer document.
+- Build the print flow with a **hidden off-screen `<iframe>`** (e.g. `style="position:fixed;width:0;height:0;border:0;visibility:hidden"`) whose `src` is a `Blob` object URL of the PDF bytes. Attach an `onload` handler that calls `iframe.contentWindow.focus()` then `iframe.contentWindow.print()`. Clean up (revoke URL, remove iframe) on the iframe window's `afterprint` event, and ALSO on a safety timeout (e.g. 60 s) in case `afterprint` never fires in headless Chrome — so the iframe/URL never leak.
+- Add a "Print" toolbar tab/button (`data-tab="print"`). Because Print is a one-shot action with no options panel, it can either be a direct toolbar button OR a thin panel with a single "Print this PDF" button — match whichever convention the existing one-shot tools use (check how `compress`/`convert` expose themselves). Register `print.run` in the ActionRegistry so the Command Palette surfaces it automatically (do NOT hard-code a command list). Optionally bind Ctrl/⌘+P through the existing `keyboard-shortcuts.js` registry (only if it can be done without breaking the browser's native print on non-PDF contexts — otherwise skip the hotkey and rely on the button + palette).
+- The control is **disabled until a PDF is open** and re-disabled after PDF_CLEARED. Invoking `print.run` with no PDF open shows a **visible inline status** "Open a PDF first." — never a console-only error or a throw.
+
+**UX acceptance criteria** (tester will verify in the browser):
+- **Discoverable**: a "Print" toolbar control exists and is reachable from the Command Palette (Ctrl/⌘+K → "Print"); if it opens a panel, the panel opens on top (not hidden behind another panel).
+- **Operable by keyboard + mouse**: the Print control is focusable, has a discernible accessible name (`<label>`/`aria-label`/button text "Print"), reachable via Tab, and activatable with Enter/Space. It is disabled until a PDF is open and re-disabled after PDF_CLEARED.
+- **Happy path**: with a PDF open, activating Print creates a hidden iframe loaded with the original PDF bytes and triggers `contentWindow.print()` (in headless test, the developer confirms via console/instrumentation that the iframe is created with a `blob:` PDF URL and `print()` is called — a real print dialog can't be asserted headlessly, so verify the mechanism: iframe present, correct `application/pdf` blob, `print()` invoked, then cleaned up). After printing (or the timeout), the iframe is removed and the object URL revoked — **no leaked iframes/URLs** accumulate across repeated prints.
+- **Error state is visible, not console-only**: invoking Print with no PDF open → inline status "Open a PDF first." (no iframe created, no throw).
+- Operating the tool does **not** disturb the open viewer (`#pdf-pages` width unchanged, canvases still visible) and produces **no new console errors/warnings** on open, run, or close. The open viewer document is never mutated (read `doc.getData()` only).
+
 ### TASK-351: Duplicate Pages — clone selected pages in place and download (`duplicate-pages.js`)
 
 **Status**: VERIFIED
