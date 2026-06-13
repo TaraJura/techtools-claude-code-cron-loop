@@ -53,6 +53,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="margins">Add margins</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="flip">Flip / Mirror</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="burst">Burst</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="split-chunks">Split into Chunks</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="interleave">Interleave</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="watermark">Watermark</button>
@@ -327,6 +328,21 @@
       <button class="btn btn-primary" id="burst-run" data-action="burst.run"
               type="button" disabled>Burst &amp; download ZIP</button>
       <span id="burst-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
+    </section>
+
+    <!-- Split into Chunks panel: break the PDF into consecutive N-page parts (ZIP) -->
+    <section class="tool-panel" role="tabpanel" data-panel="split-chunks" aria-label="Split into Chunks — break the PDF into consecutive equal-size parts, downloaded as a ZIP">
+      <div class="split-ranges-field">
+        <label for="split-chunks-size">Pages per part</label>
+        <input id="split-chunks-size" type="number" min="1" step="1" value="10" inputmode="numeric"
+               autocomplete="off" spellcheck="false"
+               aria-label="Pages per part (a whole number, 1 or more)" placeholder="10" disabled>
+        <span class="split-hint">Breaks the PDF into consecutive parts of this many pages each (part-01_pages-001-010.pdf, …), bundled into a single ZIP download. The last part holds the remainder. The open document is not changed.</span>
+        <span id="split-chunks-preview" class="split-hint" role="status" aria-live="polite"></span>
+      </div>
+      <button class="btn btn-primary" id="split-chunks-run" data-action="split-chunks.run"
+              type="button" disabled>Split &amp; download ZIP</button>
+      <span id="split-chunks-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
     </section>
 
     <!-- Merge panel: append additional PDFs to the open document -->

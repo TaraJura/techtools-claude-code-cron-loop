@@ -25,6 +25,7 @@ import { initBooklet } from './booklet.js';
 import { initMargins } from './margins.js';
 import { initFlipPages } from './flip-pages.js';
 import { initBurst } from './burst.js';
+import { initSplitChunks } from './split-chunks.js';
 import { initPrint } from './print.js';
 import { initPages } from './pages.js';
 import { initMerge } from './merge.js';
@@ -129,6 +130,7 @@ function init() {
     initMargins(); // enlarge each page with blank whitespace / binding gutter (TASK-354)
     initFlipPages(); // horizontally/vertically mirror chosen pages (TASK-356)
     initBurst(); // explode the PDF into one single-page PDF per page → ZIP (TASK-357)
+    initSplitChunks(); // break the PDF into consecutive N-page parts → ZIP (TASK-358)
     initPrint(); // print the original loaded PDF bytes via a hidden iframe (TASK-352)
     initPages();
     initMerge();
