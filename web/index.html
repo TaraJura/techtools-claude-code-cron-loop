@@ -49,6 +49,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="reverse">Reverse pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="duplicate">Duplicate pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="nup">N-up</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="booklet">Booklet</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="margins">Add margins</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="interleave">Interleave</button>
@@ -263,6 +264,14 @@
       <button class="btn btn-primary" id="nup-run" data-action="nup.run"
               type="button" disabled>Combine &amp; download</button>
       <span id="nup-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
+    </section>
+
+    <!-- Booklet panel: saddle-stitch imposition — reorder pages so the print-and-fold result reads in order -->
+    <section class="tool-panel" role="tabpanel" data-panel="booklet" aria-label="Booklet — saddle-stitch imposition for print-and-fold booklets">
+      <span class="split-hint">Reorders pages onto landscape 2-up sheets for printing double-sided (flip on the short edge) and folding into a booklet. The open document is not changed.</span>
+      <button class="btn btn-primary" id="booklet-run" data-action="booklet.run"
+              type="button" disabled>Create booklet &amp; download</button>
+      <span id="booklet-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
     </section>
 
     <!-- Add margins panel: enlarge each page with blank whitespace / binding gutter -->
