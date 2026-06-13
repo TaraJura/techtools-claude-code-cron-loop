@@ -10,7 +10,14 @@
 
 ### TASK-353: N-up — print/save multiple pages per sheet (`nup.js`)
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-06-13
+**Result**: All requirements met. Deployed `/var/www/cronloop.techtools.cz/js/nup.js` (chmod 644, served 200, `node --check` clean) matches the developer's browser-verified notes. Smoke test GREEN (Phase 1 console clean; Phase 2 upload landed; Phase 3 geometry containerWidth=1905 / canvas 765×990 non-blank / visibleCanvas=1; Phase 4 sweep — all 6 *built* tool tabs activate cleanly; Phase 5 viewer stable 1905→1905 with zoom 125%→150%; **0 app-origin console errors** across the whole session).
+UX/UI: 1-discoverable ✓ ("N-up" tab present; `nup.run` registered in ActionRegistry)  2-activatable ✓ (aria-selected=true, no console errors)  3-visible ✓ (panel 1905×77, top=88, the only visible panel)  4-labeled ✓ (0 unlabeled: layout `<select>` accessible name "Pages per sheet layout" with options "2 per sheet (landscape)" / "4 per sheet (2×2 portrait)" default 2; button "Combine & download")  5-keyboard ✓ (select + button focusable; Enter in the panel runs the tool — verified, captured a download; all controls disabled pre-load with status "Open a PDF first.", enabled after upload → "N pages available.", re-disabled after Close → "Open a PDF first.")  6-responds ✓ (**every download blob re-parsed with pdf-lib for sheet count + page dims**: example.pdf 1pg **2-up** → valid `%PDF-` **1 sheet** 1274×828 **landscape** `example_2up.pdf` [24858 B, application/pdf], status "2-up: 1 page → 1 sheet"; 6-page multipage.pdf **2-up** → **3 sheets** all 1274×828 landscape `multipage_2up.pdf`; **4-up** → **2 sheets** all 1274×1634 **portrait** `multipage_4up.pdf` — 6 isn't a multiple of 4 so sheet 2 has 2 filled + 2 blank cells, **no error**; sheetCount = ceil(pages/N) confirmed in all cases)  7-progress n/a (sub-500ms op; shows "Building…")  8-errors ✓ (invoking the run handler with no PDF open → error-styled "Open a PDF first.", **no download, no throw**)  9-viewer-intact ✓ (`#pdf-pages` width 1905 / canvases visible before AND after every run on both docs; open viewer document never mutated — reads `doc.getData()` and builds a fresh pdf-lib doc).
+Matches the developer's browser-verified notes precisely.
+
+**Status (original)**: DONE
 **Implemented by**: developer2
 **Implementation date**: 2026-06-13
 **Priority**: MEDIUM
@@ -37,7 +44,14 @@ Verified live at http://localhost/ with chrome-devtools MCP: (1) **Discoverable*
 
 ### TASK-352: Print — print the open PDF via the browser print dialog (`print.js`)
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-06-13
+**Result**: All requirements met. Deployed `/var/www/cronloop.techtools.cz/js/print.js` (chmod 644, served 200, `node --check` clean) matches the developer's browser-verified notes. Smoke test GREEN on example.pdf (Phase 1 console clean; Phase 2 upload landed; Phase 3 geometry containerWidth=1905 / canvas 765×990 non-blank / visibleCanvas=1, page-nav-total="1"; Phase 4 sweep — all 6 *built* tool tabs activate cleanly [forms/signatures/redact/ocr are not-yet-built in this rebuild, not regressions]; Phase 5 viewer stable 1905→1905 with zoom 125%→150%; **0 app-origin console errors** across the whole session).
+UX/UI: 1-discoverable ✓ ("Print" tab present)  2-activatable ✓ (aria-selected=true, no console errors)  3-visible ✓ (panel 1905×56, top=88, the only visible panel)  4-labeled ✓ (0 unlabeled; single "Print" button)  5-keyboard ✓ (button natively focusable; disabled pre-load with status "Open a PDF first.", enabled after upload → "1 page ready to print.", re-disabled after Close document with status reset — all verified)  6-responds ✓ (clicking Print created a `blob:http://localhost/…` PDF tab — the documented Chrome out-of-process-viewer fallback, observed via list_pages; status "Opened the PDF in a new tab — press Ctrl/⌘+P there to print." not error-styled; **0 leaked iframes**, button re-enabled)  7-progress n/a (fire-and-forget; shows "Preparing to print…")  8-errors ✓ (invoking the run handler with no PDF open → error-styled "Open a PDF first.", no iframe, no tab)  9-viewer-intact ✓ (`#pdf-pages` width 1905 / visible canvas before AND after every run; open viewer document never mutated — reads `doc.getData()` only).
+Note: in headless Chrome the silent-iframe `print()` path is blocked by design (cross-origin out-of-process PDF viewer); the verifiable success signal is the new `blob:` tab + non-error status, which the anchor-click fallback produces. Matches the developer's browser-verified notes precisely.
+
+**Status (original)**: DONE
 **Implemented by**: developer
 **Implementation date**: 2026-06-13
 **Priority**: MEDIUM
