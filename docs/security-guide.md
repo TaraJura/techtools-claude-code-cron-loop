@@ -168,6 +168,25 @@
 > filenames sanitized `[^a-zA-Z0-9._-]`→`_` slice(180), status via `textContent` only,
 > safe Blob download + URL revoke, no-doc / PDFLib-unready guarded, errors → inline status
 > + `EventBus.ERROR`.
+> **Bounded output-amplifier + custom ZIP writer (SEC-002, noted 2026-06-13 16:25):**
+> `js/burst.js` (TASK-357, Burst → one single-page PDF per page bundled into a ZIP) is the
+> same page-tool class: reads ONLY the already-open, already-validated doc via
+> `currentDoc.getData()`, builds fresh per-page pdf-lib docs (open doc never mutated, nothing
+> uploaded), so it is **NOT a new ingest boundary** and needs no separate cap. It amplifies
+> output (each page → a standalone PDF with copied resources; all single-page bytes are
+> buffered in `entries[]` then concatenated into one ZIP `Uint8Array`, so peak ≈ Σ(per-page
+> PDFs) + combined ZIP) — same LOW self-DoS family, bounded by the single viewer-load
+> page-count cap; pages are saved sequentially (`await` each) to keep the work serial.
+> **NOTE:** the TASK-357 notes claimed JSZip was "already-in-stack (`lib/jszip.min.js`)" but
+> JSZip is **NOT present** in `lib/`; the developer correctly wrote a self-contained
+> STORE-only (no-deflate) ZIP writer instead — **lower** supply-chain risk than adding a lib.
+> Reviewed that writer: standard CRC32, all `DataView` writes in-bounds for their allocated
+> buffers, fixed local-header + central-dir + EOCD layout, 32-bit fields with a documented
+> no-ZIP64 rationale, no eval/Function/document.write. ZIP entry names are app-generated ASCII
+> numeric only (`page-NNN.pdf` — no path traversal, no user string). Otherwise CLEAN: filename
+> sanitized `[^a-zA-Z0-9._-]`→`_` slice(180) → `<base>-pages.zip`, status via `textContent`
+> only, safe Blob download + `rel=noopener` + URL revoke, no-doc / PDFLib-unready guarded,
+> `parseRange()` strictly validated, errors → inline status + `EventBus.ERROR`.
 
 ### 3. Cross-Site Scripting (XSS)
 
