@@ -51,6 +51,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="nup">N-up</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="booklet">Booklet</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="margins">Add margins</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="flip">Flip / Mirror</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="interleave">Interleave</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="watermark">Watermark</button>
@@ -291,6 +292,27 @@
       <button class="btn btn-primary" id="margins-run" data-action="margins.run"
               type="button" disabled>Add margins &amp; download</button>
       <span id="margins-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
+    </section>
+
+    <!-- Flip / Mirror panel: horizontally and/or vertically mirror chosen pages -->
+    <section class="tool-panel" role="tabpanel" data-panel="flip" aria-label="Flip / Mirror — horizontally and/or vertically mirror pages">
+      <div class="split-ranges-field">
+        <label class="interleave-reverse-label">
+          <input id="flip-horizontal" type="checkbox" aria-label="Flip horizontal (mirror left to right)" disabled>
+          Flip horizontal (mirror left ↔ right)
+        </label>
+        <label class="interleave-reverse-label">
+          <input id="flip-vertical" type="checkbox" aria-label="Flip vertical (mirror top to bottom)" disabled>
+          Flip vertical (mirror top ↔ bottom)
+        </label>
+        <label for="flip-range">Pages</label>
+        <input id="flip-range" type="text" value="all" autocomplete="off" spellcheck="false"
+               aria-label="Pages to flip (all, or a list like 1, 3, 5-7)" placeholder="all or 1, 3, 5-7" disabled>
+        <span class="split-hint">Mirrors the chosen pages; other pages pass through unchanged. Page size and order are preserved. The open document is not changed.</span>
+      </div>
+      <button class="btn btn-primary" id="flip-run" data-action="flip.run"
+              type="button" disabled>Flip &amp; download</button>
+      <span id="flip-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
     </section>
 
     <!-- Merge panel: append additional PDFs to the open document -->

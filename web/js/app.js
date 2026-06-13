@@ -23,6 +23,7 @@ import { initDuplicatePages } from './duplicate-pages.js';
 import { initNup } from './nup.js';
 import { initBooklet } from './booklet.js';
 import { initMargins } from './margins.js';
+import { initFlipPages } from './flip-pages.js';
 import { initPrint } from './print.js';
 import { initPages } from './pages.js';
 import { initMerge } from './merge.js';
@@ -125,6 +126,7 @@ function init() {
     initNup(); // tile 2/4 source pages per output sheet (imposition) (TASK-353)
     initBooklet(); // saddle-stitch imposition for print-and-fold booklets (TASK-355)
     initMargins(); // enlarge each page with blank whitespace / binding gutter (TASK-354)
+    initFlipPages(); // horizontally/vertically mirror chosen pages (TASK-356)
     initPrint(); // print the original loaded PDF bytes via a hidden iframe (TASK-352)
     initPages();
     initMerge();

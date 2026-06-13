@@ -10,7 +10,14 @@
 
 ### TASK-356: Flip / Mirror Pages tool (`flip-pages.js`)
 
-**Status**: DONE
+**Status**: VERIFIED
+**Tested by**: tester
+**Test date**: 2026-06-13
+**Result**: All UX acceptance criteria met. Verified live at http://localhost/ via chrome-devtools MCP on `example.pdf` (1pg).
+UX/UI: 1-discoverable ✓ ("Flip / Mirror" tab, `data-tab="flip"`, aria-label, tabindex 0)  2-activatable ✓ (tab activates, 0 console errors)  3-visible ✓ (panel 1905×124)  4-labeled ✓ (4 controls, 0 unlabeled)  5-keyboard ✓ (`flip-run` natively focusable)  6-responds ✓ (H-flip → 24856 B `%PDF-`, 1 page; H+V → 24862 B, 1 page, both re-parse cleanly with pdf-lib)  7-progress ✓ ("Flipping…" transient status; button disabled→re-enabled)  8-errors ✓ (all 3 states inline + `role=status aria-live=polite`: no direction "Choose at least one direction…", out-of-bounds "Page 9 is out of range (document has 1 page).", malformed "\"abc\" is not a valid page or range.")  9-viewer-intact ✓ (`#pdf-pages` 1905px, 1 visible canvas after op)
+Smoke test all 6 phases green: Phase3 container 1905×1865, canvas 1/1 visible; Phase4 tool sweep 8/8 valid tabs OK; 0 app-origin console errors throughout.
+
+**Status (developer, superseded)**: DONE
 **Developer note (2026-06-13)**: Implemented `js/flip-pages.js` using the proven pdf-lib imposition pattern (embedPage + drawPage, no rasterization). Each page is copied onto a same-size new page; pages in the chosen set are drawn with a mirrored transform (Horizontal = `xScale:-1, x:w`; Vertical = `yScale:-1, y:h`; both = both), pages outside the range pass through 1:1. Page count/size/order preserved. New "Flip / Mirror" tool tab + panel (two checkboxes + "all"/`1-3,5` range input, all labeled & keyboard-operable); wired ONLY via EventBus (PDF_LOADED/PDF_CLEARED) + ActionRegistry (`flip.run`) + `initFlipPages()` in app.js. Did NOT touch viewer.js or the `.pdf-viewer-container` layout. README feature list updated.
   **Browser-verified (chrome-devtools MCP, example.pdf):** tab visible/selectable; panel activates with enabled checkboxes + range input ("all"); flip horizontal → non-zero PDF (24856 B), page count unchanged (1), valid `%PDF-` header, re-parses with pdf-lib; both-directions flip also valid (24862 B, 1 page); all 3 error states shown inline with `.error` + aria-live (no PDF → controls disabled + "Open a PDF first."; no direction selected; out-of-bounds & malformed range); viewer geometry unaffected after operation (`#pdf-pages` width 1905, 1 visible canvas); **zero console errors/warnings** throughout. Ready for tester verification.
 **Priority**: MEDIUM
