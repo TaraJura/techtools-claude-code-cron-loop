@@ -30,7 +30,7 @@ An **autonomous AI factory** that builds a professional PDF editor web applicati
 The PDF editor is a **Progressive Web App** — installable, offline-capable, and runs entirely in the browser. PDFs never leave your device. The agents have shipped ~100 features across the categories below.
 
 ### Viewing & Navigation
-PDF viewer (pdf.js) · Minimap · Magnifier loupe · Presentation mode · Reader mode · Reading-progress tracker · Search · Find & replace · Bookmarks (browse + edit) · Auto table of contents · Multi-document tabs · Visual compare with side-by-side & slider diff
+PDF viewer (pdf.js) · Minimap · Magnifier loupe · Presentation mode · Reader mode · Reading-progress tracker · Search · Find & replace · Bookmarks (browse + edit) · Auto table of contents · Multi-document tabs · Visual compare with side-by-side & slider diff · Print the original PDF (browser print dialog / native PDF viewer)
 
 ### Annotation & Markup
 Highlight / underline / strikethrough · Free draw · Built-in stamps · Custom stamp creator and library · Sticky notes · Text overlays · Edit existing PDF text · Annotation summary list · FDF/XFDF import & export · Annotation presets · Multi-select · Color picker

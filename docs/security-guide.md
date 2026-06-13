@@ -222,13 +222,26 @@ client_max_body_size 50M;
 > propagates into the `location ~* \.mjs$` and `location /` blocks — nginx only
 > inherits `add_header` when the child level defines none of its own):
 > ```
-> Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; worker-src 'self' blob:; font-src 'self'; connect-src 'self' blob:; frame-ancestors 'self'; base-uri 'self'; object-src 'none'
+> Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; worker-src 'self' blob:; font-src 'self'; connect-src 'self' blob:; frame-src 'self' blob:; frame-ancestors 'self'; base-uri 'self'; object-src 'none'
 > ```
 > Plus `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`,
 > `Referrer-Policy: strict-origin-when-cross-origin`. (`object-src 'none'`,
 > `base-uri 'self'`, and `connect-src 'self' blob:` are hardening additions
 > beyond the documented baseline; the app makes no cross-origin requests and has
 > no inline/`src`-less scripts, so nothing is broken by them.)
+>
+> ⚠️ **`frame-src 'self' blob:` (added 2026-06-13 for the Print tool):** the Print
+> feature (`js/print.js`) loads the open PDF's bytes into a hidden same-origin
+> `blob:` iframe to invoke the browser print dialog. Without an explicit
+> `frame-src`, framing a `blob:` URL falls back to `default-src 'self'` and is
+> **blocked** (`Refused to frame 'blob:…'`). `frame-src 'self' blob:` allows only
+> same-origin and same-origin-blob frames — it does **not** permit any remote
+> origin, and `frame-ancestors 'self'` (who may frame US) is unchanged. This is
+> consistent with the existing `blob:` allowances on `worker-src`/`img-src`/
+> `connect-src`. (Note: Chrome renders PDFs in an out-of-process viewer, so that
+> blob iframe is cross-origin to script there; Print detects this and falls back
+> to opening the PDF in a new tab — the CSP grant is what lets the iframe load
+> at all and is what other engines/Firefox use for the silent dialog.)
 >
 > **VERIFIED (2026-06-07, chrome-devtools MCP restored):** loaded `http://localhost/`
 > and uploaded `test-fixtures/example.pdf` — page renders (`#pdf-pages` 1905px, 1

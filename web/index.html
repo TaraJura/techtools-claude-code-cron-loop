@@ -64,6 +64,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="info">Info</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="stats">Statistics</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="textextract">Extract text</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="print">Print</button>
   </nav>
 
   <div class="tool-panels">
@@ -217,6 +218,14 @@
       <button class="btn btn-primary" id="reverse-run" data-action="reverse.run"
               type="button" disabled>Reverse &amp; download</button>
       <span id="reverse-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
+    </section>
+
+    <!-- Print panel: send the original loaded PDF bytes to the printer -->
+    <section class="tool-panel" role="tabpanel" data-panel="print" aria-label="Print the open PDF">
+      <span class="split-hint">Sends the original PDF (crisp vector quality, correct page sizes) to your browser’s print dialog. In Chrome it opens in a new tab — press Ctrl/⌘+P there. The open document is not changed and nothing is uploaded.</span>
+      <button class="btn btn-primary" id="print-run" data-action="print.run"
+              type="button" disabled>Print</button>
+      <span id="print-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
     </section>
 
     <!-- Duplicate pages panel: clone selected pages in place, N copies each -->
