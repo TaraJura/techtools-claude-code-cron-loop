@@ -36,7 +36,7 @@ PDF viewer (pdf.js) · Minimap · Magnifier loupe · Presentation mode · Reader
 Highlight / underline / strikethrough · Free draw · Built-in stamps · Custom stamp creator and library · Sticky notes · Text overlays · Edit existing PDF text · Annotation summary list · FDF/XFDF import & export · Annotation presets · Multi-select · Color picker
 
 ### Document Manipulation
-Merge · Interleave pages from two PDFs · Split by ranges, bookmarks, or file size · Reorder / rotate / delete / duplicate pages · N-up (2/4 pages per sheet) · Booklet (saddle-stitch imposition for print-and-fold) · Add margins (whitespace / binding gutter) · Flip / mirror pages (horizontal / vertical) · Resize pages to standard formats · Insert blank or existing pages · Manual & auto crop · Deskew scanned pages · Brightness / contrast / grayscale adjust
+Merge · Interleave pages from two PDFs · Split by ranges, bookmarks, or file size · Reorder / rotate / delete / duplicate pages · N-up (2/4 pages per sheet) · Booklet (saddle-stitch imposition for print-and-fold) · Add margins (whitespace / binding gutter) · Flip / mirror pages (horizontal / vertical) · Burst into one single-page PDF per page (ZIP download) · Resize pages to standard formats · Insert blank or existing pages · Manual & auto crop · Deskew scanned pages · Brightness / contrast / grayscale adjust
 
 ### Forms & Signatures
 Fill interactive PDF forms · Form data import/export (FDF, XFDF, JSON) · Form-field creator · Auto-detect fields on flat PDFs · Draw / type / upload digital signatures · Verify embedded digital signatures
