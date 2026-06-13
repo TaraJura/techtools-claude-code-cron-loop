@@ -187,6 +187,24 @@
 > sanitized `[^a-zA-Z0-9._-]`→`_` slice(180) → `<base>-pages.zip`, status via `textContent`
 > only, safe Blob download + `rel=noopener` + URL revoke, no-doc / PDFLib-unready guarded,
 > `parseRange()` strictly validated, errors → inline status + `EventBus.ERROR`.
+> **Shared ZIP writer + two more page-tools (SEC-002, noted 2026-06-13 20:25):** the
+> STORE-only ZIP writer was factored out of `burst.js` into a shared
+> `js/zip-writer.js` (`buildZip`/`crc32`/`downloadBytes`); `burst.js` now imports it and
+> `js/split-chunks.js` (TASK-358, equal-size chunks → ZIP) reuses it. Re-reviewed the
+> writer in its new home: standard CRC32, all `DataView` writes in-bounds for their
+> allocated buffers (30+name local headers, 46+name central records, 22-byte EOCD),
+> fixed header/central-dir/EOCD layout, 32-bit fields w/ documented no-ZIP64 rationale
+> (<4 GB), no eval/Function/document.write; ZIP entry names are app-generated ASCII only
+> (`page-NN.pdf` / `part-NN_pages-FF-TT.pdf` — no path traversal, no user string);
+> `downloadBytes` uses Blob + `rel=noopener` + `URL.revokeObjectURL`. Both `split-chunks.js`
+> and `js/flatten.js` (TASK-359, `getForm().flatten()`) touch ONLY the already-open,
+> already-validated doc via `currentDoc.getData()` (open doc never mutated, nothing
+> uploaded) — **NOT new ingest boundaries**, no separate cap needed. `split-chunks` is a
+> bounded output-amplifier (`ceil(numPages/N)` parts, saved sequentially) of the same LOW
+> self-DoS family covered by the single viewer-load cap; `flatten` is 1:1 pages (no
+> amplification). Otherwise CLEAN: filenames sanitized `[^a-zA-Z0-9._-]`→`_` slice(180)
+> → `<base>-chunks.zip` / `<base>_flattened.pdf`, status via `textContent` only, no-doc /
+> PDFLib-unready guarded, errors → inline status + `EventBus.ERROR`.
 
 ### 3. Cross-Site Scripting (XSS)
 
