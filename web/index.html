@@ -49,6 +49,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="reverse">Reverse pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="duplicate">Duplicate pages</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="nup">N-up</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="margins">Add margins</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="merge">Merge</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="interleave">Interleave</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="watermark">Watermark</button>
@@ -262,6 +263,25 @@
       <button class="btn btn-primary" id="nup-run" data-action="nup.run"
               type="button" disabled>Combine &amp; download</button>
       <span id="nup-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
+    </section>
+
+    <!-- Add margins panel: enlarge each page with blank whitespace / binding gutter -->
+    <section class="tool-panel" role="tabpanel" data-panel="margins" aria-label="Add margins — grow each page with whitespace">
+      <div class="split-ranges-field">
+        <label for="margins-size">Margin (mm)</label>
+        <input id="margins-size" type="number" min="0" max="100" step="1" value="20"
+               inputmode="decimal" aria-label="Margin size in millimetres (0 to 100)" disabled>
+        <label for="margins-sides">Sides</label>
+        <select id="margins-sides" aria-label="Which sides to add the margin to" disabled>
+          <option value="all" selected>All sides</option>
+          <option value="left">Left (binding gutter) only</option>
+          <option value="topbot">Top &amp; bottom only</option>
+        </select>
+        <span class="split-hint">Enlarges each page and keeps the original content un-scaled, adding blank whitespace around it. The open document is not changed.</span>
+      </div>
+      <button class="btn btn-primary" id="margins-run" data-action="margins.run"
+              type="button" disabled>Add margins &amp; download</button>
+      <span id="margins-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
     </section>
 
     <!-- Merge panel: append additional PDFs to the open document -->
