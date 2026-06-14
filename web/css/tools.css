@@ -283,6 +283,82 @@
     margin: 0.35rem 0 0;
 }
 
+/* --- Links inspector panel (links.js, TASK-363) --- */
+#links-list {
+    width: 100%;
+    max-height: 46vh;
+    overflow: auto;
+    font-size: 0.85rem;
+}
+
+.links-status {
+    display: block;
+    margin: 0.4rem 0 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.links-status.error {
+    color: var(--danger, #d23);
+}
+
+.links-empty {
+    margin: 0;
+    color: var(--text-dim);
+}
+
+.link-card {
+    padding: 0.5rem 0.6rem;
+    margin-bottom: 0.45rem;
+    border: 1px solid var(--border, #ddd);
+    border-radius: 6px;
+}
+
+.link-card:last-child {
+    margin-bottom: 0;
+}
+
+.link-card-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    align-items: center;
+}
+
+.link-badge {
+    display: inline-block;
+    padding: 0 0.4rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    line-height: 1.5;
+    border-radius: 999px;
+    background: var(--border, #e4e4e4);
+    color: var(--text-dim);
+    vertical-align: middle;
+}
+
+.link-badge-ext {
+    background: rgba(40, 110, 200, 0.18);
+    color: #1f5fa8;
+}
+
+.link-badge-int {
+    background: rgba(40, 160, 90, 0.18);
+    color: #1f8a4c;
+}
+
+.link-badge-other {
+    background: rgba(120, 120, 120, 0.18);
+    color: var(--text-dim);
+}
+
+.link-card-target {
+    margin-top: 0.35rem;
+    overflow-wrap: anywhere;
+    font-family: var(--mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+    font-size: 0.8rem;
+}
+
 .font-card-grid dt {
     color: var(--text-dim);
     font-weight: 600;

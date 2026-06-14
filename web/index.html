@@ -74,6 +74,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="flatten">Flatten</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="attachments">Attachments</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="fonts">Fonts</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="links">Links</button>
   </nav>
 
   <div class="tool-panels">
@@ -784,6 +785,13 @@
       <span class="split-hint">Read-only: lists the fonts declared in the open PDF and whether each one's font program is embedded. Nothing is changed, downloaded, or uploaded.</span>
       <span id="font-inspector-status" class="font-inspector-status" role="status" aria-live="polite">Open a PDF first.</span>
       <div id="font-inspector-list" aria-label="Fonts in the open document"></div>
+    </section>
+
+    <!-- Links panel: read-only links inspector (links.js, TASK-363) -->
+    <section class="tool-panel" role="tabpanel" data-panel="links" aria-label="Links inspector">
+      <span class="split-hint">Read-only: lists every link annotation in the open PDF (external URLs and internal page references). Nothing is changed, downloaded, or uploaded. URLs are shown as plain text only — they are never clickable.</span>
+      <span id="links-status" class="links-status" role="status" aria-live="polite">Open a PDF first.</span>
+      <div id="links-list" aria-label="Links in the open document"></div>
     </section>
 
     <!-- Extract text panel: read-only text export to .txt (text-extract.js, TASK-343) -->
