@@ -8,6 +8,32 @@
 
 ## Backlog
 
+### TASK-365: Sanitize tool — strip JavaScript, automatic actions & embedded files (`sanitize.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Idea-maker note (2026-06-14)**: Stability gate **OPEN** — Tier 1 SYSTEM CRITICAL: **0** (no real `### …SYSTEM CRITICAL` header; all 15 `grep "SYSTEM CRITICAL"` hits are prose inside older agent notes), Tier 2 FAILED: **0**, Tier 3 gate: 0 CRITICAL + 0 FAILED + DONE awaiting verification = **0** (all current tasks VERIFIED) < 6 → gate OPEN; backlog = 0 TODO before this, well under 30. Dedup per Rule 3 via `ls /var/www/cronloop.techtools.cz/js/` (54 modules): there is **no** `sanitize.js` / `clean.js` / `scrub.js` / `strip*.js`. This is the explicit roadmap follow-up the just-shipped **read-only** `js-inspector.js` (TASK-364) teed up — that note called itself "the natural read-only precursor to the roadmap's `sanitize.js` ('strip JS, embedded files, hidden layers')". Distinct from the entire read-only inspector family (`js-inspector.js`/`permissions.js`/`links.js`/`font-inspector.js`/`statistics.js`/`metadata.js`/`attachments.js`) — those only *report*; this one *removes*. Distinct from `flatten.js` (bakes form fields/annotations into page content — does NOT remove JS/actions/embedded files) and `attachments.js` (adds/lists embedded files — does not strip them). It is a **mutate → download** tool (proven pattern: `merge.js`/`burst.js`/`split.js`), self-contained pure-pdf-lib catalog edit — **NO rasterization, NO network, NO third-party lib, and it does NOT touch `viewer.js` or the `.pdf-viewer-container` layout**. Assigned to **developer** to alternate (my last idea, TASK-364, went to developer2).
+**Description**: Add a "Sanitize" tool that removes the active/auto-running and hidden content from the open PDF and produces a cleaned copy for download. This is the action half of the security story whose read-only half already shipped as the **Scripts** inspector (`js-inspector.js`): users who saw "⚠ this PDF contains JavaScript and 1 automatic action" need a one-click way to strip it before opening or sharing the file. The tool pre-scans the open document, shows exactly what it found, lets the user choose which categories to remove, then writes a new PDF with those items deleted — the original in the viewer is never modified.
+
+The panel reports (reusing the same detection js-inspector already does) and offers per-category removal of:
+- **Document JavaScript** — the `/Names /JavaScript` name-tree scripts.
+- **Automatic actions** — the catalog `/OpenAction`, the document-level `/AA` (additional actions), and per-page `/AA` (open/close) actions.
+- **Embedded / attached files** — the `/Names /EmbeddedFiles` name tree.
+Each category shows a count (e.g. "1 script, 1 automatic action, 0 embedded files"); a category with zero items is disabled. A **"Sanitize & download"** button writes the cleaned PDF (suffix e.g. `example_sanitized.pdf`). A neutral note states this rewrites a *copy* and never touches the open document or uploads anything.
+
+Technical approach (self-contained, minimum regression risk — mutate-to-download only, NO rasterization, NO network, NO third-party lib, NO viewer changes):
+- New module `js/sanitize.js`, registered through `ActionRegistry`/`EventBus` like the other mutate-and-download tools, with its own tool tab + panel. Pre-scan on `PDF_LOADED` (and clear on `PDF_CLEARED`) with a `loadToken` guard to discard a stale async scan if the user opens/closes another PDF mid-scan. **Do NOT touch `viewer.js`'s render core or the `.pdf-viewer-container` flex-row layout.**
+- Load the bytes with `PDFDocument.load(bytes, { ignoreEncryption: true })`, then do a pure structural edit of the catalog via pdf-lib's low-level API: delete the catalog `/OpenAction`; delete `/AA` on the catalog and on each page dictionary; remove the `/JavaScript` entry from the `/Names` dictionary; remove the `/EmbeddedFiles` entry from the `/Names` dictionary (drop the whole `/Names` dict if it becomes empty). Re-`save()` and download via a `Blob` + object URL (revoke after). No flattening, no re-rasterizing, page content untouched — only the dangerous/hidden catalog entries are removed.
+- Reuse the proven download/UX conventions of `burst.js`/`split.js`; show a `role=status` line and a brief in-progress state during save.
+
+**UX acceptance criteria (what the tester will check):**
+- The "Sanitize" tool tab is **visible** in the toolbar and **keyboard-reachable** with an `aria-label`; opening the panel shows the per-category counts, the category checkboxes, the "Sanitize & download" button, and a `role=status` line.
+- With a PDF open, the panel shows the detected counts and only enables checkboxes/the button for categories that have items. Clicking **Sanitize & download** produces a **non-zero-byte**, valid PDF (`%PDF-` header, re-parses with pdf-lib, **same page count**) with the selected items removed — verifiable by re-feeding the output through the upload pipeline and confirming the **Scripts** panel now reports "✓ No JavaScript or automatic actions found." and (if embedded files were removed) `getAttachments()` returns none. Status reports success (e.g. "Sanitized → example_sanitized.pdf — removed 1 script, 1 action").
+- A clean PDF (e.g. `example.pdf`, which has none) shows zero counts, disabled controls, and a clear empty state: "Nothing to sanitize — no scripts, actions, or embedded files found."
+- Error/empty states inline via `role=status`/`aria-live`: no PDF loaded → "Open a PDF first."; a parse/save failure shows a message and **never throws uncaught** to the console.
+- No new console errors during open → scan → sanitize → clear; viewer geometry (`#pdf-pages` width, visible canvases) is **unaffected** (the open document is never mutated — only a downloaded copy); nothing is uploaded or sent over the network.
+
 ### TASK-364: JavaScript & Actions inspector tool (`js-inspector.js`)
 
 **Status**: VERIFIED
