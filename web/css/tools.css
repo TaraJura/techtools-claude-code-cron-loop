@@ -370,6 +370,82 @@
     overflow-wrap: anywhere;
 }
 
+/* --- Image inspector / catalog panel (image-manager.js, TASK-366) --- */
+#image-manager-list {
+    width: 100%;
+    max-height: 46vh;
+    overflow: auto;
+    font-size: 0.85rem;
+}
+
+.image-manager-status {
+    display: block;
+    margin: 0.4rem 0 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.image-manager-status.error {
+    color: var(--danger, #d23);
+}
+
+.image-manager-empty {
+    margin: 0;
+    color: var(--text-dim);
+}
+
+.image-card {
+    padding: 0.5rem 0.6rem;
+    margin-bottom: 0.45rem;
+    border: 1px solid var(--border, #ddd);
+    border-radius: 6px;
+}
+
+.image-card:last-child {
+    margin-bottom: 0;
+}
+
+.image-card-name {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.image-badge {
+    display: inline-block;
+    margin-left: 0.25rem;
+    padding: 0 0.4rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    line-height: 1.5;
+    border-radius: 999px;
+    background: var(--border, #e4e4e4);
+    color: var(--text-dim);
+    vertical-align: middle;
+}
+
+.image-badge-alpha {
+    background: rgba(40, 110, 200, 0.18);
+    color: #1f5fa8;
+}
+
+.image-card-grid {
+    display: grid;
+    grid-template-columns: minmax(5.5rem, max-content) 1fr;
+    gap: 0.15rem 0.7rem;
+    margin: 0.35rem 0 0;
+}
+
+.image-card-grid dt {
+    color: var(--text-dim);
+    font-weight: 600;
+}
+
+.image-card-grid dd {
+    margin: 0;
+    color: var(--text);
+    overflow-wrap: anywhere;
+}
+
 /* --- Security & permissions panel (permissions.js, TASK-362) --- */
 #permissions-report {
     width: 100%;
