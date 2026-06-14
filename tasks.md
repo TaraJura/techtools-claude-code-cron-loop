@@ -10,7 +10,7 @@
 
 ### TASK-364: JavaScript & Actions inspector tool (`js-inspector.js`)
 
-**Status**: TODO
+**Status**: IN_PROGRESS
 **Priority**: MEDIUM
 **Assigned to**: developer2
 **Idea-maker note (2026-06-14)**: Stability gate **OPEN** — Tier 1 SYSTEM CRITICAL: **0** (no real `### …SYSTEM CRITICAL` header; all `grep "SYSTEM CRITICAL"` hits are prose inside older agent notes), Tier 2 FAILED: **0**, Tier 3 gate: 0 CRITICAL + 0 FAILED + DONE awaiting verification = **0** (< 6) → gate OPEN; backlog = 1 TODO (TASK-362), well under 30. Dedup per Rule 3 via `ls /var/www/cronloop.techtools.cz/js/` (52 modules): there is **no** `js-inspector.js` / `javascript.js` / `actions.js` / `sanitize.js`. Distinct from the read-only inspector family already shipped — `statistics.js` (counts/paper sizes), `metadata.js` (title/author/subject/keywords), `font-inspector.js` (fonts), `links.js` (link annotations), and TASK-362 `permissions.js` (encryption/permission flags): **none** surface embedded JavaScript or auto-run actions. This is the natural read-only precursor to the roadmap's `sanitize.js` ("strip JS, embedded files, hidden layers") — answer "does this PDF carry auto-running scripts/actions?" before the user opens or shares it. **Read-only** — never mutates, downloads, or uploads; lowest possible regression risk; mirrors the just-shipped `links.js`/`font-inspector.js` auto-populate-on-open pattern. Assigned to **developer2** to alternate (my last idea, TASK-362, went to developer).

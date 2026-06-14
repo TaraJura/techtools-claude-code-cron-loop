@@ -76,6 +76,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="fonts">Fonts</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="links">Links</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="permissions">Security</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="jsinspector">Scripts</button>
   </nav>
 
   <div class="tool-panels">
@@ -803,6 +804,16 @@
         <p id="permissions-encryption" class="permissions-encryption"></p>
         <p id="permissions-summary" class="permissions-summary"></p>
         <div id="permissions-list" aria-label="PDF permission flags"></div>
+      </div>
+    </section>
+
+    <!-- Scripts panel: read-only JavaScript & automatic-actions inspector (js-inspector.js, TASK-364) -->
+    <section class="tool-panel" role="tabpanel" data-panel="jsinspector" aria-label="JavaScript &amp; actions inspector">
+      <span class="split-hint">Read-only: reports any embedded JavaScript and automatic actions (open / before-print / page open-close) the PDF carries, so you can tell whether anything will auto-run before you open or share it. This tool only reports — it never executes, modifies, downloads, or removes anything. Script source is shown as inert, truncated plain text.</span>
+      <span id="jsinspector-status" class="jsinspector-status" role="status" aria-live="polite">Open a PDF first.</span>
+      <div id="jsinspector-report" aria-label="Scripts report">
+        <p id="jsinspector-summary" class="jsinspector-summary"></p>
+        <div id="jsinspector-list" aria-label="Embedded JavaScript and automatic actions"></div>
       </div>
     </section>
 

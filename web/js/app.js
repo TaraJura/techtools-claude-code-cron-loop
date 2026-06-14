@@ -48,6 +48,7 @@ import { initStatistics } from './statistics.js';
 import { initFontInspector } from './font-inspector.js';
 import { initLinks } from './links.js';
 import { initPermissions } from './permissions.js';
+import { initJsInspector } from './js-inspector.js';
 import { initNightMode } from './night-mode.js';
 import { initTextExtract } from './text-extract.js';
 import { initCommandPalette } from './command-palette.js';
@@ -158,6 +159,7 @@ function init() {
     initFontInspector(); // read-only font inspector — lists fonts + embedded status (TASK-361)
     initLinks(); // read-only links inspector — enumerates link annotations (TASK-363)
     initPermissions(); // read-only security inspector — encryption + permission flags (TASK-362)
+    initJsInspector(); // read-only JavaScript & automatic-actions inspector (TASK-364)
     initNightMode(); // view-only invert/night reading mode for the PDF pages (TASK-341)
     initTextExtract(); // extract all text to a downloadable .txt (text-extract.js, TASK-343)
     initKeyboardShortcuts();
