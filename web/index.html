@@ -75,6 +75,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="attachments">Attachments</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="fonts">Fonts</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="images" aria-label="Images — catalog the embedded images in the open PDF">Images</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="pageboxes" aria-label="Page Boxes — inspect the print/page-box geometry of every page">Page Boxes</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="links">Links</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="permissions">Security</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="jsinspector">Scripts</button>
@@ -796,6 +797,13 @@
       <span class="split-hint">Read-only: catalogs the raster images embedded in the open PDF — dimensions, color space, bit depth, compression (JPEG vs lossless) and transparency. Nothing is changed, decoded, downloaded, or uploaded.</span>
       <span id="image-manager-status" class="image-manager-status" role="status" aria-live="polite">Open a PDF first.</span>
       <div id="image-manager-list" aria-label="Images in the open document"></div>
+    </section>
+
+    <!-- Page Boxes panel: read-only page-box / print-geometry inspector (page-boxes.js, TASK-367) -->
+    <section class="tool-panel" role="tabpanel" data-panel="pageboxes" aria-label="Page boxes inspector">
+      <span class="split-hint">Read-only: reports the page-box geometry (MediaBox / CropBox / BleedBox / TrimBox / ArtBox) and rotation of every page, in points and mm, flagging each box as explicitly declared or inherited — the "is this PDF print-ready?" check. Nothing is changed, rendered, downloaded, or uploaded.</span>
+      <span id="page-boxes-status" class="page-boxes-status" role="status" aria-live="polite">Open a PDF first.</span>
+      <div id="page-boxes-list" aria-label="Page boxes in the open document"></div>
     </section>
 
     <!-- Links panel: read-only links inspector (links.js, TASK-363) -->

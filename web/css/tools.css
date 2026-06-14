@@ -440,6 +440,92 @@
     font-weight: 600;
 }
 
+/* --- Page-box / print-geometry inspector panel (page-boxes.js, TASK-367) --- */
+#page-boxes-list {
+    width: 100%;
+    max-height: 46vh;
+    overflow: auto;
+    font-size: 0.85rem;
+}
+
+.page-boxes-status {
+    display: block;
+    margin: 0.4rem 0 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.page-boxes-status.error {
+    color: var(--danger, #d23);
+}
+
+.page-boxes-empty {
+    margin: 0;
+    color: var(--text-dim);
+}
+
+.page-box-card {
+    padding: 0.5rem 0.6rem;
+    margin-bottom: 0.45rem;
+    border: 1px solid var(--border, #ddd);
+    border-radius: 6px;
+}
+
+.page-box-card:last-child {
+    margin-bottom: 0;
+}
+
+.page-box-card-name {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.page-box-count {
+    display: inline-block;
+    margin-left: 0.25rem;
+    padding: 0 0.4rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    line-height: 1.5;
+    border-radius: 999px;
+    background: var(--border, #e4e4e4);
+    color: var(--text-dim);
+    vertical-align: middle;
+}
+
+.page-box-flag {
+    display: inline-block;
+    margin-left: 0.25rem;
+    padding: 0 0.4rem;
+    font-size: 0.66rem;
+    font-weight: 600;
+    line-height: 1.5;
+    border-radius: 999px;
+    vertical-align: middle;
+}
+
+.page-box-flag-declared {
+    background: rgba(40, 110, 200, 0.18);
+    color: #1f5fa8;
+}
+
+.page-box-flag-inherited {
+    background: var(--border, #e4e4e4);
+    color: var(--text-dim);
+}
+
+.page-box-grid {
+    display: grid;
+    grid-template-columns: minmax(5.5rem, max-content) 1fr;
+    gap: 0.15rem 0.7rem;
+    margin: 0.35rem 0 0;
+}
+
+.page-box-grid dt {
+    color: var(--text-dim);
+    font-weight: 600;
+}
+
 .image-card-grid dd {
     margin: 0;
     color: var(--text);
