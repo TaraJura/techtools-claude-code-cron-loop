@@ -231,6 +231,27 @@
 > clickable `<a href>`**, so a crafted `javascript:`/`data:` URI can neither execute nor be
 > navigated. All three: status/values via `textContent` only, `loadToken`/stale-walk guards, errors
 > → status + `EventBus.ERROR`.
+> **Two more read-only inspectors (SEC-002, noted 2026-06-14):** `js/permissions.js` (TASK-362,
+> encryption + permission flags) and `js/js-inspector.js` (TASK-364, embedded JavaScript &
+> automatic actions). Both touch ONLY the already-validated open doc (pdf.js `getPermissions()` /
+> pdf-lib structural read of `getData()` bytes with `ignoreEncryption:true`), upload/download/mutate
+> **nothing** → NOT ingest boundaries. **`permissions.js` is CLEAN**: every PDF-supplied value (the
+> `/Filter` handler name, V/R) via `textContent` only (`innerHTML` used solely for empty-string
+> clears); permission bits resolved from pdf.js `PermissionFlag` with spec-constant fallbacks; no
+> exec/network sinks. **`js-inspector.js` is the security-sensitive one** — it extracts embedded
+> script source for display — and it is **safe by construction**: script source, names and action
+> targets are inserted via `textContent`/`<pre>.textContent` only (never injected as DOM, never
+> eval'd/run, action targets never followed), truncated to `MAX_SNIPPET=600`; URI/Launch/GoToR
+> targets shown as inert plain text; no `<a href>`. **One new LOW self-DoS sub-surface
+> (SEC-JS-INFLATE):** for FlateDecode `/JS` streams it inflates the **whole** stream into memory via
+> the browser `DecompressionStream` *before* truncating, and `collectNameTree` walks the `/Names`
+> `/JavaScript` tree with **no cap on the number of script entries** (only a depth-50 recursion
+> guard). A crafted decompression-bomb `/JS` stream — or many flate entries — could spike tab memory
+> on the 1.6 GiB box. Self-inflicted (uploader's own already-≤50 MB validated doc, single tab, no
+> server impact) → same LOW self-DoS family as SEC-002; recommended developer hardening: cap inflated
+> bytes (e.g. abort the stream past ~1–2 MB) and cap the script-entry count. Otherwise CLEAN:
+> `loadToken`/stale-walk guards on every async hop, errors → status + `EventBus.ERROR`; both panels
+> render only into their own `#permissions-*` / `#jsinspector-*` elements (never the viewer core).
 
 ### 3. Cross-Site Scripting (XSS)
 
