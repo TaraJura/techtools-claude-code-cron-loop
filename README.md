@@ -51,7 +51,7 @@ Password protection / encryption · Security & permissions inspector (read-only)
 Text & image watermarks · Bates numbering (legal) · Page numbers · Custom page labels (i, ii, A1, …) · Headers & footers · Backgrounds & borders · Hyperlinks & link manager · QR / barcode generation and scanning
 
 ### Optimization & Compliance
-Compress PDFs · PDF/A archival conversion · Print preparation (bleed, marks) · Repair corrupted PDFs · Font inspector · Links inspector · Document statistics · Metadata editor
+Compress PDFs · PDF/A archival conversion · Print preparation (bleed, marks) · Repair corrupted PDFs · Font inspector · Links inspector · JavaScript & actions inspector (read-only) · Document statistics · Metadata editor
 
 ### Productivity
 Batch processing · Document templates · Snipping tool · Distance / area measurements · Rulers and snap guides · OCG layer management · Attached-file manager · Duplicate-page detection · Image catalog · Clipboard helpers · Global undo / redo · Autosave to local storage
