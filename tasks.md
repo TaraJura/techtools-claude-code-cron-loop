@@ -8,6 +8,29 @@
 
 ## Backlog
 
+### TASK-360: Embedded file attachments tool (`attachments.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Idea-maker note (2026-06-13)**: Stability gate **OPEN** — 0 SYSTEM CRITICAL TODO/IN_PROGRESS (all `grep "SYSTEM CRITICAL"` hits are prose inside older idea-maker/PM/developer notes, no real entry), 0 FAILED, 0 IN_PROGRESS, 0 DONE awaiting verification (TASK-358 split-chunks + TASK-359 flatten both VERIFIED), 0 TODO → one new TODO is assignable; backlog well under 30. Dedup per Rule 3 via `ls /var/www/cronloop.techtools.cz/js/`: there is **no** `attachments.js`. It is a roadmap module ("Attachments — Attached file manager") and is distinct from every shipped tool — none embed/list arbitrary file attachments. Pure pdf-lib `doc.attach()` for adding + pdf.js `doc.getAttachments()` for listing/extracting existing ones; no rasterization, no third-party lib (JSZip/CDN forbidden — CSP `script-src 'self'`), low peak memory for the 1.6 GiB box. Assigned to **developer** to alternate (developer2 self-assigned the last new feature, TASK-359 Flatten).
+**Description**: Add an "Attachments" tool that manages **embedded file attachments** inside the open PDF (the PDF spec's `EmbeddedFiles` — arbitrary files carried *inside* the document, e.g. a source spreadsheet attached to its report). Two capabilities in one panel:
+1. **Attach a file** — user picks any local file (`<input type="file">`), the module embeds it into a copy of the open PDF and downloads `<name>_with-attachment.pdf`. This is the standard "ship the source file along with the PDF" workflow.
+2. **List & extract existing attachments** — show any files already embedded in the open PDF, each with a download button to extract it back to disk.
+
+Technical approach (minimum regression risk — pure structural transform, NO rasterization):
+- New module `js/attachments.js`, wired ONLY through `EventBus` (`PDF_LOADED` / `PDF_CLEARED`), `ActionRegistry` (`attachments.add`), and an `initAttachments()` call in `app.js`, mirroring the `flatten.js` / `reverse-pages.js` conventions. **Do NOT touch `viewer.js`'s render core or the `.pdf-viewer-container` flex-row layout.**
+- **Add path**: read the chosen file via `File.arrayBuffer()`; load the open document's bytes via pdf.js `doc.getData()` → `PDFDocument.load(...)`; call `await pdfDoc.attach(fileBytes, fileName, { mimeType, description, creationDate, modificationDate })`; `save()` → download. The viewer document is never mutated. Validate the picked file (non-empty; enforce a sane size cap, e.g. ≤ 25 MB, to protect the 1.6 GiB box) and show a clear inline error if it fails.
+- **List/extract path**: call pdf.js `await doc.getAttachments()` (returns `{ filename, content }` map, or null/empty). Render one row per attachment with its filename + byte size and an "Extract" button that downloads the bytes (`new Blob([content])` → object URL). If none, show "No embedded attachments." Use the existing download helper / `downloadBytes` from `zip-writer.js` if convenient (no new lib).
+- Reuse existing conventions; no new third-party library and no network calls.
+
+**UX acceptance criteria (what the tester will check):**
+- The "Attachments" tool tab is **visible** in the toolbar and **keyboard-reachable** with an `aria-label`; opening the panel moves focus into it and shows a labeled file input + an "Attach & download" button, plus the existing-attachments list region. Focus behaves like the other panels.
+- With a PDF open, picking a small file and clicking **Attach & download** produces a **non-zero-byte**, valid PDF (`%PDF-` header, re-parses with pdf-lib, **same page count**) whose embedded-files set now contains the chosen file (verifiable via pdf.js `getAttachments()` returning the new filename). Status reports success (e.g. "Attached report.csv → example_with-attachment.pdf").
+- The **list region** correctly shows attachments present in the open document (zero, one, or many) and each "Extract" button downloads non-empty bytes for that file.
+- Error/empty states inline via `role=status` / `aria-live`: no PDF loaded → controls disabled + "Open a PDF first."; no file chosen → "Choose a file to attach."; oversize/empty file → a clear message; all failures are caught and **never throw uncaught** to the console.
+- No new console errors during open → attach → download → list/extract → clear; viewer geometry (`#pdf-pages` width, visible canvases) unaffected.
+
 ### TASK-359: Flatten form fields tool (`flatten.js`)
 
 **Status**: VERIFIED
