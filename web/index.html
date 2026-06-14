@@ -72,6 +72,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="textextract">Extract text</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="print">Print</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="flatten">Flatten</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="attachments">Attachments</button>
   </nav>
 
   <div class="tool-panels">
@@ -232,6 +233,20 @@
       <button class="btn btn-primary" id="flatten-run" data-action="flatten.run"
               type="button" aria-label="Flatten form fields and download" disabled>Flatten &amp; download</button>
       <span id="flatten-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
+    </section>
+
+    <!-- Attachments panel: embed / list / extract files carried inside the PDF -->
+    <section class="tool-panel" role="tabpanel" data-panel="attachments" aria-label="Embedded file attachments">
+      <span class="split-hint">Manage files embedded <em>inside</em> the PDF (e.g. ship a source spreadsheet with its report). Attaching produces a downloaded copy; the open document is not changed and nothing is uploaded to a server.</span>
+      <div class="attach-add">
+        <label class="split-range-field" for="attach-file-input">Attach a file (max 25 MB)
+          <input id="attach-file-input" type="file" aria-label="Choose a file to embed in the PDF" disabled>
+        </label>
+        <button class="btn btn-primary" id="attach-run" data-action="attachments.add"
+                type="button" aria-label="Attach the chosen file and download a copy" disabled>Attach &amp; download</button>
+      </div>
+      <span id="attach-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
+      <div id="attach-list" aria-label="Files embedded in the open document"></div>
     </section>
 
     <!-- Print panel: send the original loaded PDF bytes to the printer -->

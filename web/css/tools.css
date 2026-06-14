@@ -720,6 +720,77 @@ body.highlight-mode .textLayer :is(span, br) {
     background: #e53935;
 }
 
+/* Attachments tool (TASK-360) */
+.attach-add {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+.attach-add .split-range-field input[type="file"] {
+    width: auto;
+    max-width: 16rem;
+}
+
+.attach-count {
+    margin: 0.4rem 0 0.2rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+}
+
+.attach-empty {
+    margin: 0.4rem 0 0;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    opacity: 0.85;
+}
+
+.attach-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.attach-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding: 0.4rem 0.5rem;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.attach-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+}
+
+.attach-name {
+    font-size: 0.85rem;
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.attach-size {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    font-variant-numeric: tabular-nums;
+}
+
+.attach-extract {
+    flex-shrink: 0;
+}
+
 /* --- Merge / append panel (merge.js) --- */
 [data-panel="merge"] {
     flex-direction: column;

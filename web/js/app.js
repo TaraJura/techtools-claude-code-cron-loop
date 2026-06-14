@@ -27,6 +27,7 @@ import { initFlipPages } from './flip-pages.js';
 import { initBurst } from './burst.js';
 import { initSplitChunks } from './split-chunks.js';
 import { initFlatten } from './flatten.js';
+import { initAttachments } from './attachments.js';
 import { initPrint } from './print.js';
 import { initPages } from './pages.js';
 import { initMerge } from './merge.js';
@@ -133,6 +134,7 @@ function init() {
     initBurst(); // explode the PDF into one single-page PDF per page → ZIP (TASK-357)
     initSplitChunks(); // break the PDF into consecutive N-page parts → ZIP (TASK-358)
     initFlatten(); // bake interactive form fields into static page content (TASK-359)
+    initAttachments(); // manage embedded file attachments (add / list / extract) (TASK-360)
     initPrint(); // print the original loaded PDF bytes via a hidden iframe (TASK-352)
     initPages();
     initMerge();
