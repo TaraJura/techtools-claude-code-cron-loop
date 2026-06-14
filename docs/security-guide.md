@@ -275,6 +275,26 @@
 > PDF-supplied colorspace/filter name rendered via `textContent`/`addRow` only (`innerHTML` used
 > solely for empty-string list clears). `loadToken` stale-walk guard; errors → status. Both wired
 > in `app.js` (`initSanitize`/`initImageManager` imported + called); webroot matches repo `web/`.
+> **Two more read-only inspectors (SEC-002, noted 2026-06-14 16:30):** `js/page-boxes.js`
+> (TASK-367, page-box / print-geometry inspector) and `js/layers.js` (TASK-368, Optional
+> Content Group / "layers" inspector). Both touch ONLY the already-validated open doc (pdf-lib
+> structural read of `getData()` bytes, `ignoreEncryption:true`, `updateMetadata:false`),
+> download/upload/mutate **nothing** → **NOT new ingest boundaries**; both are SEC-002
+> per-page / per-catalog consumers (dict reads only — no rasterization, no decode, no
+> third-party lib → tiny peak memory), bounded by the single viewer-load page-count cap.
+> **`page-boxes.js` renders NO PDF-supplied strings at all** — only numeric box dimensions
+> (pt/mm via `getMediaBox`/`getCropBox`/`getBleedBox`/`getTrimBox`/`getArtBox`) and rotation
+> degrees, plus app-computed page-range numerics, all via `textContent`/`addRow`; the
+> declared-vs-inherited flag comes from a raw `node.get(PDFName.of(key))` present-check (no
+> string surfaced). **`layers.js` surfaces exactly one PDF-supplied string** — the OCG `/Name`
+> (`decodeStr`) — rendered via `head.textContent` (line 159) → **XSS-safe**; default visibility
+> is derived from `/OCProperties /D` `/ON`/`/OFF`/`/Locked`/`/BaseState`/`/Intent` by
+> indirect-ref string compare, and all state/lock/design badges + titles are app-constant
+> strings. Both: `innerHTML` used **solely** for empty-string list clears; zero
+> eval/Function/document.write/fetch/XHR/`<a href>`; `loadToken` stale-walk guard on every
+> async hop; no-doc / PDFLib-unready guarded; errors → console + EventBus status. Wired in
+> `app.js` (`initPageBoxes` line 169, `initLayers` line 170); webroot matches repo `web/`.
+> Neither adds to SEC-JS-INFLATE (neither inflates any stream).
 
 ### 3. Cross-Site Scripting (XSS)
 
