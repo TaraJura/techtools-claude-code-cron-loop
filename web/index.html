@@ -73,6 +73,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="print">Print</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="flatten">Flatten</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="attachments">Attachments</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="fonts">Fonts</button>
   </nav>
 
   <div class="tool-panels">
@@ -776,6 +777,13 @@
     <section class="tool-panel" role="tabpanel" data-panel="stats" aria-label="Document statistics">
       <span id="statistics-status" class="statistics-status" role="status" aria-live="polite">Load a PDF first.</span>
       <div id="statistics-list" aria-label="Document statistics"></div>
+    </section>
+
+    <!-- Fonts panel: read-only font inspector (font-inspector.js, TASK-361) -->
+    <section class="tool-panel" role="tabpanel" data-panel="fonts" aria-label="Font inspector">
+      <span class="split-hint">Read-only: lists the fonts declared in the open PDF and whether each one's font program is embedded. Nothing is changed, downloaded, or uploaded.</span>
+      <span id="font-inspector-status" class="font-inspector-status" role="status" aria-live="polite">Open a PDF first.</span>
+      <div id="font-inspector-list" aria-label="Fonts in the open document"></div>
     </section>
 
     <!-- Extract text panel: read-only text export to .txt (text-extract.js, TASK-343) -->

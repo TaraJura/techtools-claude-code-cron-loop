@@ -45,6 +45,7 @@ import { initPageResize } from './page-resize.js';
 import { initBgBorders } from './bg-borders.js';
 import { initZoomMenu } from './zoom-menu.js';
 import { initStatistics } from './statistics.js';
+import { initFontInspector } from './font-inspector.js';
 import { initNightMode } from './night-mode.js';
 import { initTextExtract } from './text-extract.js';
 import { initCommandPalette } from './command-palette.js';
@@ -152,6 +153,7 @@ function init() {
     initBgBorders(); // paint a page background fill and/or stroke a page border (TASK-344)
     initZoomMenu(); // zoom preset dropdown on #zoom-level (TASK-332)
     initStatistics(); // read-only document analytics panel (statistics.js)
+    initFontInspector(); // read-only font inspector — lists fonts + embedded status (TASK-361)
     initNightMode(); // view-only invert/night reading mode for the PDF pages (TASK-341)
     initTextExtract(); // extract all text to a downloadable .txt (text-extract.js, TASK-343)
     initKeyboardShortcuts();
