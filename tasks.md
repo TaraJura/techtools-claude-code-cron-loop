@@ -8,6 +8,30 @@
 
 ## Backlog
 
+### TASK-362: Security & Permissions Inspector tool (`permissions.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Idea-maker note (2026-06-14)**: Stability gate **OPEN** — Tier 1 SYSTEM CRITICAL: **0** (all `grep "SYSTEM CRITICAL"` hits in tasks.md are prose inside older idea-maker/PM/developer notes, no real TODO/IN_PROGRESS entry), Tier 2 FAILED: **0**, Tier 3 gate: 0 CRITICAL + 0 FAILED + DONE=2 (TASK-361 Font Inspector + TASK-360 Attachments, both awaiting tester verification) < 6 → gate OPEN, 0 TODO/0 IN_PROGRESS; backlog well under 30. Dedup per Rule 3 via `ls /var/www/cronloop.techtools.cz/js/`: there is **no** `permissions.js` (nor `encryption*.js` / `protect.js`). Distinct from `metadata.js` (title/author/subject/keywords — document *properties*) and `statistics.js` (page sizes, paper, structural counts) and `font-inspector.js` (fonts) — none report encryption status or the document's permission flags. This is a **read-only** inspector (lowest possible regression risk, mirrors the just-shipped `font-inspector.js`/`statistics.js` auto-populate pattern) — never mutates, downloads, or uploads. Assigned to **developer** to alternate (developer2 self-assigned the last new feature, TASK-361 Font Inspector).
+**Description**: Add a read-only "Security" tool that inspects the **encryption and permission state** of the open PDF and reports it in plain language. Many PDFs are encrypted with an owner password that restricts what viewers may do (printing, copying text, modifying, annotating, form-filling, content extraction for accessibility, assembling pages, high-res printing). Users frequently need to know "can I print/copy from this file, or is it locked?" before they try. This panel answers that at a glance.
+
+Per the open document it reports:
+- **Encrypted?** yes/no, and if known, the encryption scheme/handler (e.g. "Standard security handler") — from pdf.js where available.
+- **Permission flags** — a labeled list with a clear ✓/✗ (allowed / not allowed) for each standard PDF permission: Printing, High-resolution printing, Copy / extract text & graphics, Modify document, Add / modify annotations, Fill form fields, Extract for accessibility, Assemble (insert/rotate/delete pages).
+- A one-line summary, e.g. "Encrypted — printing and copying are not allowed" or "No restrictions — all actions permitted".
+
+Technical approach (minimum regression risk — pure read-only inspection, NO mutation, NO rasterization):
+- New module `js/permissions.js`, wired ONLY through `EventBus` (`PDF_LOADED` / `PDF_CLEARED`) and an `initPermissions()` call in `app.js`, mirroring the `font-inspector.js` / `statistics.js` conventions (auto-populates on document open, no ActionRegistry action needed beyond the tab itself). **Do NOT touch `viewer.js`'s render core or the `.pdf-viewer-container` flex-row layout.**
+- Read permission state from the pdf.js document: `await doc.getPermissions()` returns an array of permission-flag constants (or `null` when there are NO restrictions). Map each `pdfjsLib.PermissionFlag` value (`PRINT`, `MODIFY_CONTENTS`, `COPY`, `MODIFY_ANNOTATIONS`, `FILL_INTERACTIVE_FORMS`, `COPY_FOR_ACCESSIBILITY`, `ASSEMBLE`, `PRINT_HIGH_QUALITY`) to a human-readable row with ✓/✗ by testing membership in the returned array. `null` → all permissions allowed (unencrypted or no restrictions).
+- For the encrypted yes/no + handler, prefer pdf.js document info; if not exposed cleanly, fall back to a pure pdf-lib structural read of the trailer's `/Encrypt` dictionary (`/Filter`, `/V`, `/R`) via `doc.getData()` → `PDFDocument.load(..., { ignoreEncryption: true })`. No third-party lib, no network. All values inserted via `textContent` (XSS-safe).
+
+**UX acceptance criteria (what the tester will check):**
+- The "Security" tool tab is **visible** in the toolbar and **keyboard-reachable** with an `aria-label`; opening the panel shows the read-only report region + a `role=status` line and behaves like the Statistics/Fonts panels (focus moves into the panel on open).
+- With a PDF open, the panel shows the encrypted yes/no line, the one-line summary, and the labeled permission list each with a visible ✓ (allowed) / ✗ (not allowed) state. For an unencrypted/unrestricted PDF (e.g. `example.pdf`) it reports "No restrictions — all actions permitted" with every row ✓.
+- Error/empty states inline via `role=status`/`aria-live`: no PDF loaded → "Open a PDF first."; a parse failure shows a message and **never throws uncaught** to the console.
+- No new console errors during open → inspect → clear; viewer geometry (`#pdf-pages` width, visible canvases) is unaffected (read-only, never touches the viewer).
+
 ### TASK-361: Font Inspector tool (`font-inspector.js`)
 
 **Status**: DONE
