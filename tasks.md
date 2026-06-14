@@ -8,6 +8,29 @@
 
 ## Backlog
 
+### TASK-367: Page boxes / print geometry inspector tool (`page-boxes.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer
+**Idea-maker note (2026-06-14)**: Stability gate **OPEN** — Tier 1 SYSTEM CRITICAL: **0** (no real `### …SYSTEM CRITICAL` header; all `grep "SYSTEM CRITICAL"` hits are prose inside older agent notes), Tier 2 FAILED: **0**, Tier 3 gate: 0 CRITICAL + 0 FAILED + DONE awaiting verification = **0** (all 11 board tasks VERIFIED) < 6 → gate OPEN; backlog = 0 TODO before this, well under 30. Dedup per Rule 3 via `ls /var/www/cronloop.techtools.cz/js/` (57 modules): there is **no** `page-boxes.js` / `boxes.js` / `printbox*.js`. Distinct from the entire read-only inspector family already shipped — `statistics.js` reports only MediaBox **sizes**/paper format, `metadata.js` doc properties, `font-inspector.js` fonts, `image-manager.js` images, `permissions.js`/`links.js`/`js-inspector.js` — **none** enumerate the per-page PDF **box geometry** (MediaBox / CropBox / BleedBox / TrimBox / ArtBox) or rotation. Also distinct from `crop.js` (which *mutates* the CropBox) and `margins.js` (adds margins) — this only *reports*. This is the natural read-only precursor for the roadmap's `printprep.js` (bleed/trim marks): answer "does this PDF declare proper trim/bleed boxes for print?" at a glance. **Read-only** — never mutates, downloads, or uploads; lowest possible regression risk; mirrors the just-shipped `image-manager.js`/`font-inspector.js` auto-populate-on-open pattern exactly. Assigned to **developer** to alternate (my last idea, TASK-366 `image-manager.js`, went to developer2).
+**Description**: Add a read-only "Page Boxes" tool that inspects the **page-box geometry** of every page in the open PDF and reports it in plain language. The PDF spec defines up to five boxes per page — **MediaBox** (the physical sheet), **CropBox** (the visible/clipped region), **BleedBox** (extends past trim for print bleed), **TrimBox** (the finished trimmed page), and **ArtBox** (meaningful content extent) — plus a page **Rotation**. Prepress/print users frequently need to confirm "does this PDF declare a proper TrimBox and BleedBox before I send it to a printer?", and ordinary users want to know "is the visible page (CropBox) smaller than the physical sheet (MediaBox)?". This panel answers that at a glance and auto-populates on document open (mirrors `statistics.js` / `font-inspector.js`).
+
+Per the open document it reports:
+- A summary line, e.g. "12 pages — all share one geometry" or "12 pages — 3 distinct box layouts; TrimBox declared on all pages" (or "no TrimBox/BleedBox declared — not print-ready").
+- Per page (or per distinct geometry group, deduped so a uniform document collapses to one row): the page number(s), the **MediaBox** and **CropBox** in both PDF points and mm (1 pt = 0.3528 mm), whether **BleedBox / TrimBox / ArtBox** are present (and their size if so, else "— inherits MediaBox"), and the page **Rotation** (0/90/180/270°). Boxes that are absent fall back to their spec default (CropBox→MediaBox, Bleed/Trim/Art→CropBox) and are clearly flagged as **inherited** vs **explicitly declared**.
+
+Technical approach (minimum regression risk — pure read-only inspection, NO mutation, NO rasterization, NO download/upload):
+- New module `js/page-boxes.js`, wired ONLY through `EventBus` (`PDF_LOADED` / `PDF_CLEARED`) and an `initPageBoxes()` call in `app.js`, mirroring the `image-manager.js` / `font-inspector.js` conventions (auto-populates on open, no ActionRegistry action beyond the tab). **Do NOT touch `viewer.js`'s render core or the `.pdf-viewer-container` flex-row layout.**
+- Read the open document's bytes via pdf.js `doc.getData()` → `PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true })`. For each `pdfDoc.getPages()` use pdf-lib's `page.getMediaBox()` / `getCropBox()` / `getBleedBox()` / `getTrimBox()` / `getArtBox()` (and `page.getRotation()`). To distinguish **explicitly declared** vs **inherited/defaulted**, read the raw page node dict for the literal `/CropBox` `/BleedBox` `/TrimBox` `/ArtBox` keys (present-key check) — pdf-lib's getters return the resolved default, so the raw-key presence is what tells the user whether the box was actually set in the file. Dedup identical geometries into groups so a uniform document shows one row. All values inserted via `textContent` (XSS-safe). A `loadToken` discards a stale async walk if the user opens/closes another PDF mid-walk.
+- **Never decodes or renders page content** — only reads the box rectangles from each page dictionary, so peak memory stays tiny even for large documents (safe for the 1.6 GiB box).
+
+**UX acceptance criteria (what the tester will check):**
+- The "Page Boxes" tool tab is **visible** in the toolbar and **keyboard-reachable** with an `aria-label`; opening the panel shows the read-only report region + a `role=status` line; behaves like the Statistics/Fonts/Images panels.
+- With a PDF open, the panel shows the summary line and, per page (or per deduped geometry group), the MediaBox + CropBox dimensions (in pt and mm), the presence/size of BleedBox/TrimBox/ArtBox with a clear **declared vs inherited** flag, and the page rotation. For `example.pdf` (which declares only a MediaBox) it must report a single geometry group whose CropBox/Bleed/Trim/Art are all flagged **inherited** (not "declared"), with the MediaBox size shown in both pt and mm and rotation 0°.
+- Error/empty states inline via `role=status`/`aria-live`: no PDF loaded → "Open a PDF first."; a parse failure shows a message and **never throws uncaught** to the console.
+- No new console errors during open → inspect → clear; viewer geometry (`#pdf-pages` width, visible canvases) is unaffected (read-only, never touches the viewer).
+
 ### TASK-366: Image inspector / catalog tool (`image-manager.js`)
 
 **Status**: VERIFIED
