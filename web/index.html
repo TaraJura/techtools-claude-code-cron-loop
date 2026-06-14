@@ -75,6 +75,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="attachments">Attachments</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="fonts">Fonts</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="links">Links</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="permissions">Security</button>
   </nav>
 
   <div class="tool-panels">
@@ -792,6 +793,17 @@
       <span class="split-hint">Read-only: lists every link annotation in the open PDF (external URLs and internal page references). Nothing is changed, downloaded, or uploaded. URLs are shown as plain text only — they are never clickable.</span>
       <span id="links-status" class="links-status" role="status" aria-live="polite">Open a PDF first.</span>
       <div id="links-list" aria-label="Links in the open document"></div>
+    </section>
+
+    <!-- Security panel: read-only encryption & permission inspector (permissions.js, TASK-362) -->
+    <section class="tool-panel" role="tabpanel" data-panel="permissions" aria-label="Security &amp; permissions inspector">
+      <span class="split-hint">Read-only: reports whether the open PDF is encrypted and which standard actions (printing, copying, modifying, etc.) it permits. Nothing is changed, downloaded, or uploaded.</span>
+      <span id="permissions-status" class="permissions-status" role="status" aria-live="polite">Open a PDF first.</span>
+      <div id="permissions-report" aria-label="Security report">
+        <p id="permissions-encryption" class="permissions-encryption"></p>
+        <p id="permissions-summary" class="permissions-summary"></p>
+        <div id="permissions-list" aria-label="PDF permission flags"></div>
+      </div>
     </section>
 
     <!-- Extract text panel: read-only text export to .txt (text-extract.js, TASK-343) -->

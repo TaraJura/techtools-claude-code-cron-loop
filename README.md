@@ -45,7 +45,7 @@ Fill interactive PDF forms · Form data import/export (FDF, XFDF, JSON) · Form-
 OCR (Tesseract.js) · Extract text to **.txt** · PDF ↔ Image (PNG / JPEG) · Image to PDF · Extract images · Extract tables to CSV / XLSX · Export to **DOCX**, **PPTX**, **HTML**, **Markdown**, **EPUB**, **SVG**
 
 ### Security & Privacy
-Password protection / encryption · Manual redaction · Smart PII auto-redaction (worker-based) · Sanitize (strip JS, embedded files, hidden layers) · Flatten annotations into pages
+Password protection / encryption · Security & permissions inspector (read-only) · Manual redaction · Smart PII auto-redaction (worker-based) · Sanitize (strip JS, embedded files, hidden layers) · Flatten annotations into pages
 
 ### Document Enhancements
 Text & image watermarks · Bates numbering (legal) · Page numbers · Custom page labels (i, ii, A1, …) · Headers & footers · Backgrounds & borders · Hyperlinks & link manager · QR / barcode generation and scanning
