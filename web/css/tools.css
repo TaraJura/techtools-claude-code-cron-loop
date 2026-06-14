@@ -532,6 +532,79 @@
     overflow-wrap: anywhere;
 }
 
+/* --- Layers / Optional Content Group (OCG) inspector panel (layers.js, TASK-368) --- */
+#layers-list {
+    width: 100%;
+    max-height: 46vh;
+    overflow: auto;
+    font-size: 0.85rem;
+}
+
+.layers-status {
+    display: block;
+    margin: 0.4rem 0 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.layers-status.error {
+    color: var(--danger, #d23);
+}
+
+.layers-empty {
+    margin: 0;
+    color: var(--text-dim);
+}
+
+.layer-card {
+    padding: 0.5rem 0.6rem;
+    margin-bottom: 0.45rem;
+    border: 1px solid var(--border, #ddd);
+    border-radius: 6px;
+}
+
+.layer-card:last-child {
+    margin-bottom: 0;
+}
+
+.layer-card-name {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.layer-badge {
+    display: inline-block;
+    margin-left: 0.25rem;
+    padding: 0 0.4rem;
+    font-size: 0.66rem;
+    font-weight: 600;
+    line-height: 1.5;
+    border-radius: 999px;
+    background: var(--border, #e4e4e4);
+    color: var(--text-dim);
+    vertical-align: middle;
+}
+
+.layer-badge-shown {
+    background: rgba(40, 110, 200, 0.18);
+    color: #1f5fa8;
+}
+
+.layer-badge-hidden {
+    background: var(--border, #e4e4e4);
+    color: var(--text-dim);
+}
+
+.layer-badge-locked {
+    background: rgba(200, 120, 20, 0.18);
+    color: #9a5a00;
+}
+
+.layer-badge-design {
+    background: rgba(120, 80, 200, 0.18);
+    color: #5a3da8;
+}
+
 /* --- Security & permissions panel (permissions.js, TASK-362) --- */
 #permissions-report {
     width: 100%;

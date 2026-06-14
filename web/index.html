@@ -76,6 +76,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="fonts">Fonts</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="images" aria-label="Images — catalog the embedded images in the open PDF">Images</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="pageboxes" aria-label="Page Boxes — inspect the print/page-box geometry of every page">Page Boxes</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="layers" aria-label="Layers — list the optional-content groups (layers) declared in the open PDF">Layers</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="links">Links</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="permissions">Security</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="jsinspector">Scripts</button>
@@ -804,6 +805,13 @@
       <span class="split-hint">Read-only: reports the page-box geometry (MediaBox / CropBox / BleedBox / TrimBox / ArtBox) and rotation of every page, in points and mm, flagging each box as explicitly declared or inherited — the "is this PDF print-ready?" check. Nothing is changed, rendered, downloaded, or uploaded.</span>
       <span id="page-boxes-status" class="page-boxes-status" role="status" aria-live="polite">Open a PDF first.</span>
       <div id="page-boxes-list" aria-label="Page boxes in the open document"></div>
+    </section>
+
+    <!-- Layers panel: read-only Optional Content Group (OCG) inspector (layers.js, TASK-368) -->
+    <section class="tool-panel" role="tabpanel" data-panel="layers" aria-label="Layers inspector">
+      <span class="split-hint">Read-only: lists the optional-content groups (PDF "layers") declared in the open document, with each layer's default visibility (shown / hidden), and locked / design-only flags where applicable. Nothing is changed, rendered, downloaded, or uploaded.</span>
+      <span id="layers-status" class="layers-status" role="status" aria-live="polite">Open a PDF first.</span>
+      <div id="layers-list" aria-label="Layers in the open document"></div>
     </section>
 
     <!-- Links panel: read-only links inspector (links.js, TASK-363) -->

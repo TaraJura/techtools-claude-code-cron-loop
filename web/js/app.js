@@ -52,6 +52,7 @@ import { initJsInspector } from './js-inspector.js';
 import { initSanitize } from './sanitize.js';
 import { initImageManager } from './image-manager.js';
 import { initPageBoxes } from './page-boxes.js';
+import { initLayers } from './layers.js';
 import { initNightMode } from './night-mode.js';
 import { initTextExtract } from './text-extract.js';
 import { initCommandPalette } from './command-palette.js';
@@ -166,6 +167,7 @@ function init() {
     initSanitize(); // strip JS / auto-actions / embedded files → cleaned copy download (TASK-365)
     initImageManager(); // read-only image inspector — catalogs embedded image XObjects (TASK-366)
     initPageBoxes(); // read-only page-box / print-geometry inspector (page-boxes.js, TASK-367)
+    initLayers(); // read-only Optional Content Group (OCG) / layers inspector (layers.js, TASK-368)
     initNightMode(); // view-only invert/night reading mode for the PDF pages (TASK-341)
     initTextExtract(); // extract all text to a downloadable .txt (text-extract.js, TASK-343)
     initKeyboardShortcuts();
