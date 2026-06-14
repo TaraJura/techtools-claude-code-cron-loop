@@ -252,6 +252,29 @@
 > bytes (e.g. abort the stream past ~1–2 MB) and cap the script-entry count. Otherwise CLEAN:
 > `loadToken`/stale-walk guards on every async hop, errors → status + `EventBus.ERROR`; both panels
 > render only into their own `#permissions-*` / `#jsinspector-*` elements (never the viewer core).
+> **Sanitize (mutate→download) + Image Manager (read-only) (SEC-002, noted 2026-06-14 12:30):**
+> `js/sanitize.js` (TASK-365) is the **remediation** half of the js-inspector story — a
+> MUTATE→DOWNLOAD tool (proven `burst.js`/`split.js` class) that strips the catalog `/Names
+> /JavaScript` tree, auto-actions (`/OpenAction` + document & page `/AA`), and `/Names
+> /EmbeddedFiles` from a **fresh pdf-lib copy** of the open doc's `getData()` bytes
+> (`ignoreEncryption:true`, `updateMetadata:false`) and downloads the cleaned PDF. It touches
+> ONLY the already-validated open doc, uploads nothing, and **never mutates the viewer document**
+> → **NOT a new ingest boundary**, no separate cap. Pure structural catalog deletes (no
+> rasterization, no third-party lib, no network). Notably it does **NOT** add to SEC-JS-INFLATE:
+> unlike js-inspector (which inflates FlateDecode `/JS` streams to *display* source), sanitize only
+> *counts* name-tree leaves via `countNameTreeLeaves` (depth-50 guard) and deletes the subtree —
+> it never inflates stream contents, and it is the very fix a user runs to *remove* hostile JS.
+> CLEAN: filename sanitized `[^a-zA-Z0-9._-]`→`_` slice(180) → `<base>_sanitized.pdf`; status &
+> per-category summary via `textContent` only (no innerHTML anywhere); shared `zip-writer.js
+> downloadBytes` (Blob + revoke); `loadToken` stale-scan guard; no-doc / PDFLib-unready guarded;
+> errors → status + `EventBus.ERROR`. `js/image-manager.js` (TASK-366) is a **read-only** image
+> XObject catalog (dims / bit-depth / colorspace / filter / SMask / page-refs) — touches ONLY the
+> open doc (`getData()` + pdf-lib structural read), decodes/renders/downloads/uploads **nothing**
+> (NOT an ingest boundary; SEC-002 per-page consumer family, low memory — dict reads only, Form
+> XObject recursion capped at depth 1 with a `visited` ref-set cycle guard). **XSS-safe**: every
+> PDF-supplied colorspace/filter name rendered via `textContent`/`addRow` only (`innerHTML` used
+> solely for empty-string list clears). `loadToken` stale-walk guard; errors → status. Both wired
+> in `app.js` (`initSanitize`/`initImageManager` imported + called); webroot matches repo `web/`.
 
 ### 3. Cross-Site Scripting (XSS)
 
