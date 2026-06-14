@@ -77,6 +77,7 @@
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="links">Links</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="permissions">Security</button>
     <button class="tool-tab" role="tab" aria-selected="false" data-tab="jsinspector">Scripts</button>
+    <button class="tool-tab" role="tab" aria-selected="false" data-tab="sanitize" aria-label="Sanitize — remove JavaScript, automatic actions and embedded files">Sanitize</button>
   </nav>
 
   <div class="tool-panels">
@@ -815,6 +816,29 @@
         <p id="jsinspector-summary" class="jsinspector-summary"></p>
         <div id="jsinspector-list" aria-label="Embedded JavaScript and automatic actions"></div>
       </div>
+    </section>
+
+    <!-- Sanitize panel: strip JavaScript, automatic actions & embedded files → cleaned copy (sanitize.js, TASK-365) -->
+    <section class="tool-panel" role="tabpanel" data-panel="sanitize" aria-label="Sanitize — remove JavaScript, automatic actions and embedded files, downloaded as a cleaned copy">
+      <span class="split-hint">Removes active and hidden content from the PDF and downloads a cleaned <em>copy</em>. The open document is never changed and nothing is uploaded. Choose what to remove:</span>
+      <p id="sanitize-summary" class="sanitize-summary" aria-live="polite"></p>
+      <div class="sanitize-options">
+        <label class="interleave-reverse-label">
+          <input id="sanitize-scripts" type="checkbox" aria-label="Remove document JavaScript" disabled>
+          Document JavaScript
+        </label>
+        <label class="interleave-reverse-label">
+          <input id="sanitize-actions" type="checkbox" aria-label="Remove automatic actions (open, before-print, page open/close)" disabled>
+          Automatic actions (open / print / page)
+        </label>
+        <label class="interleave-reverse-label">
+          <input id="sanitize-embedded" type="checkbox" aria-label="Remove embedded / attached files" disabled>
+          Embedded / attached files
+        </label>
+      </div>
+      <button class="btn btn-primary" id="sanitize-run" data-action="sanitize.run"
+              type="button" disabled aria-disabled="true">Sanitize &amp; download</button>
+      <span id="sanitize-status" class="split-status" role="status" aria-live="polite">Open a PDF first.</span>
     </section>
 
     <!-- Extract text panel: read-only text export to .txt (text-extract.js, TASK-343) -->

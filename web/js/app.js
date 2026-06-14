@@ -49,6 +49,7 @@ import { initFontInspector } from './font-inspector.js';
 import { initLinks } from './links.js';
 import { initPermissions } from './permissions.js';
 import { initJsInspector } from './js-inspector.js';
+import { initSanitize } from './sanitize.js';
 import { initNightMode } from './night-mode.js';
 import { initTextExtract } from './text-extract.js';
 import { initCommandPalette } from './command-palette.js';
@@ -160,6 +161,7 @@ function init() {
     initLinks(); // read-only links inspector — enumerates link annotations (TASK-363)
     initPermissions(); // read-only security inspector — encryption + permission flags (TASK-362)
     initJsInspector(); // read-only JavaScript & automatic-actions inspector (TASK-364)
+    initSanitize(); // strip JS / auto-actions / embedded files → cleaned copy download (TASK-365)
     initNightMode(); // view-only invert/night reading mode for the PDF pages (TASK-341)
     initTextExtract(); // extract all text to a downloadable .txt (text-extract.js, TASK-343)
     initKeyboardShortcuts();
