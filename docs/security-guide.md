@@ -205,6 +205,32 @@
 > amplification). Otherwise CLEAN: filenames sanitized `[^a-zA-Z0-9._-]`→`_` slice(180)
 > → `<base>-chunks.zip` / `<base>_flattened.pdf`, status via `textContent` only, no-doc /
 > PDFLib-unready guarded, errors → inline status + `EventBus.ERROR`.
+> **Fifth ingest boundary — but the MILDEST (SEC-002, noted 2026-06-14):** `js/attachments.js`
+> (TASK-360, Embedded file attachments) is a new ingest boundary of a *new sub-kind*: it reads a
+> **fresh user-picked file of ANY type** (not a PDF, not an image) and embeds its raw bytes into a
+> copy of the open doc via pdf-lib `PDFDocument.attach()`. The attached bytes are **opaque — never
+> parsed** (no PDF/image decode), so there is **no PDF-bomb / decode-exhaustion risk on the
+> attachment itself**, and it is scoped to a **SINGLE file per action** (no cumulative queue), with
+> its own dedicated **25 MB cap** (`MAX_ATTACH_BYTES`) + empty-file guard. Peak memory = open-doc
+> bytes (`getData()`) + ≤25 MB attachment + output — bounded, the mildest member of the ingest
+> family; needs **no cumulative-bytes cap** (unlike merge.js/img2pdf.js). The **extract** path
+> (download an already-embedded attachment back to disk) sanitizes the embedded filename with
+> `safeAttachmentName()` (strips `[\/\\]` then `[^a-zA-Z0-9._-]`, slice 180) → **no path traversal**,
+> and downloads as `application/octet-stream` so hostile embedded bytes are never rendered/executed
+> (forced download, same trust model as any browser download; user clicks Extract explicitly).
+> Otherwise CLEAN: attachment name shown via `textContent` only (never innerHTML), safe Blob
+> download + revoke (shared `zip-writer.js downloadBytes`), no-doc / PDFLib-unready guarded, errors →
+> status + `EventBus.ERROR`; the open viewer doc is never mutated (works on a pdf-lib copy of
+> `getData()` bytes). `js/font-inspector.js` (TASK-361) and `js/links.js` (TASK-363) are the two
+> read-only inspectors shipped alongside — they touch ONLY the already-validated open doc
+> (`getData()` / pdf.js `getAnnotations()`), upload/download/mutate **nothing**, and are NOT ingest
+> boundaries; both walk all pages (SEC-002 per-page consumer family, bounded by the single
+> viewer-load cap, low memory — dict/annotation reads, no rasterization; font-inspector caps Form
+> XObject recursion at depth 1 with a `visited` ref-set cycle guard). **links.js is notably
+> XSS-hardened**: every link URL (incl. `unsafeUrl`) is rendered as **plain `textContent`, never a
+> clickable `<a href>`**, so a crafted `javascript:`/`data:` URI can neither execute nor be
+> navigated. All three: status/values via `textContent` only, `loadToken`/stale-walk guards, errors
+> → status + `EventBus.ERROR`.
 
 ### 3. Cross-Site Scripting (XSS)
 
