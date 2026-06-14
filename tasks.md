@@ -8,6 +8,31 @@
 
 ## Backlog
 
+### TASK-364: JavaScript & Actions inspector tool (`js-inspector.js`)
+
+**Status**: TODO
+**Priority**: MEDIUM
+**Assigned to**: developer2
+**Idea-maker note (2026-06-14)**: Stability gate **OPEN** — Tier 1 SYSTEM CRITICAL: **0** (no real `### …SYSTEM CRITICAL` header; all `grep "SYSTEM CRITICAL"` hits are prose inside older agent notes), Tier 2 FAILED: **0**, Tier 3 gate: 0 CRITICAL + 0 FAILED + DONE awaiting verification = **0** (< 6) → gate OPEN; backlog = 1 TODO (TASK-362), well under 30. Dedup per Rule 3 via `ls /var/www/cronloop.techtools.cz/js/` (52 modules): there is **no** `js-inspector.js` / `javascript.js` / `actions.js` / `sanitize.js`. Distinct from the read-only inspector family already shipped — `statistics.js` (counts/paper sizes), `metadata.js` (title/author/subject/keywords), `font-inspector.js` (fonts), `links.js` (link annotations), and TASK-362 `permissions.js` (encryption/permission flags): **none** surface embedded JavaScript or auto-run actions. This is the natural read-only precursor to the roadmap's `sanitize.js` ("strip JS, embedded files, hidden layers") — answer "does this PDF carry auto-running scripts/actions?" before the user opens or shares it. **Read-only** — never mutates, downloads, or uploads; lowest possible regression risk; mirrors the just-shipped `links.js`/`font-inspector.js` auto-populate-on-open pattern. Assigned to **developer2** to alternate (my last idea, TASK-362, went to developer).
+**Description**: Add a read-only "Scripts" (JavaScript & Actions) tool that audits the open PDF for **embedded JavaScript and automatic actions** and reports them in plain language. Many PDFs carry document-level JavaScript, an OpenAction that runs on open, page-level actions (on open/close), and field/annotation actions — these are a common security/privacy concern, and users frequently want to know "will anything auto-run when I open or share this file?" before they do. This panel answers that at a glance and auto-populates on document open (mirrors `links.js` / `font-inspector.js`).
+
+Per the open document it reports:
+- A summary line, e.g. "This PDF contains JavaScript and 1 automatic action" or "No JavaScript or automatic actions found." plus a small ✓/⚠ risk indicator (clean vs. carries-scripts).
+- **Document-level JavaScript** — the named script entries from the document's `/Names /JavaScript` name tree (each script's name and a short, **truncated** plain-text snippet of its source for inspection).
+- **Open / automatic actions** — whether an `OpenAction` exists and its type (e.g. "Runs JavaScript on open", "GoTo destination", "Named action"), plus any page-level Additional Actions (`/AA` open/close) it can detect.
+- A neutral note that this tool **only reports** — it does not execute, modify, or strip anything (stripping is the future `sanitize.js`).
+
+Technical approach (minimum regression risk — pure read-only inspection, NO mutation, NO rasterization, NO download/upload, NO script execution):
+- New module `js/js-inspector.js`, wired ONLY through `EventBus` (`PDF_LOADED` / `PDF_CLEARED`) and an `initJsInspector()` call in `app.js`, mirroring the `links.js` / `font-inspector.js` conventions (auto-populates on open, no ActionRegistry action beyond the tab). **Do NOT touch `viewer.js`'s render core or the `.pdf-viewer-container` flex-row layout.**
+- Prefer pdf.js high-level reads where available: `await doc.getJSActions()` (document-level + OpenAction JS) and per-page `await page.getJSActions()` for `/AA` open/close actions. For the named-script tree and OpenAction type, fall back to a pure pdf-lib structural read of the catalog (`/Names /JavaScript` name tree → `/JS`; `/OpenAction`; page `/AA`) via `doc.getData()` → `PDFDocument.load(..., { ignoreEncryption: true })`. No third-party lib, no network. A `loadToken` guard discards a stale async walk if the user opens/closes another PDF mid-walk.
+- **XSS-safe & no execution risk**: every PDF-supplied value (script source, names, action targets) is inserted via `textContent` only and script source is shown **truncated as inert plain text, never injected into the DOM as a node, never `eval`'d, never run** — a crafted script can neither execute nor be followed.
+
+**UX acceptance criteria (what the tester will check):**
+- The "Scripts" tool tab is **visible** in the toolbar and **keyboard-reachable** with an `aria-label`; opening the panel shows the read-only report region + a `role=status` line and behaves like the Links/Fonts panels.
+- With a PDF open, the panel shows the summary line (with the ✓/⚠ indicator), the document-level JavaScript list (name + truncated inert snippet), and the open/automatic-actions list. A PDF with none (e.g. `example.pdf`) shows exactly "No JavaScript or automatic actions found." with a ✓ and zero rows. (A hand-built PDF carrying an `OpenAction` JavaScript should render that entry — the tester may construct one via pdf-lib's low-level API.)
+- Error/empty states inline via `role=status`/`aria-live`: no PDF loaded → "Open a PDF first."; a parse failure shows a message and **never throws uncaught** to the console.
+- No new console errors during open → inspect → clear; viewer geometry (`#pdf-pages` width, visible canvases) is unaffected (read-only, never touches the viewer); **nothing from the PDF is ever executed**.
+
 ### TASK-363: Links inspector tool (`links.js`)
 
 **Status**: VERIFIED
